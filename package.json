@@ -1,0 +1,22 @@
+{
+  "name": "scandela",
+  "version": "1.0.0",
+  "description": "Utilisation database lampadaire",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NassimAlaimi/Scandela.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NassimAlaimi/Scandela/issues"
+  },
+  "homepage": "https://github.com/NassimAlaimi/Scandela#readme",
+  "dependencies": {
+    "node": "^19.2.0"
+  }
+}
