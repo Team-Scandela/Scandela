@@ -1,7 +1,7 @@
 //Création de la carte
 let mapOptions = {
-    center:[47.2, -1.5],
-    zoom:10
+    center:[47.242765, -1.535339],
+    zoom:12
 }
 let map = new L.map('map' , mapOptions);
 
@@ -32,13 +32,25 @@ function parseData(json, map, layerGroupArray, markerArray) {
         let ville = json[i]['fields']['lib_com'];
         map = createMarker(map, lat, lng, ville, layerGroupArray, markerArray);
     }
-    map.addLayer(layerGroupArray["Indre"]);
+    map.addLayer(layerGroupArray["Nantes"]);
     return map;
 }
 
-//Création d'un marker
+//Gestion de l'icone des markers -- A FAIRE
+var myIcon = L.icon({
+    class : "circle",
+    iconSize: [38, 95],
+    iconAnchor: [22, 94],
+    popupAnchor: [-3, -76],
+    // shadowUrl: 'my-icon-shadow.png',
+    shadowSize: [68, 95],
+    shadowAnchor: [22, 94]
+});
+
+//Création des markers
 function createMarker(map, lat, lng, ville, layerGroupArray, markerArray) {
-    let marker = new L.Marker([lat, lng]);
+    let marker = new L.Marker([lat, lng])
+    .bindPopup(ville);
     markerArray.push(marker);
     map = addMarkerToLayerGroup(map, marker, ville, layerGroupArray);
     return map;
@@ -64,3 +76,12 @@ function readData(map) {
 
 map = readData(map);
 // map.addLayer(layerGroupArray["Indre"]);
+
+//Création de clusters de markers
+
+var markers = L.markerClusterGroup();
+for (let i = 0; i < markerArray.length; i++) {
+    markers.addLayer(markerArray[i]);
+}
+map.addLayer(markers);
+console.log(markerArray);
