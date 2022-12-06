@@ -33,14 +33,13 @@ function parseData(json, map, layerGroupArray, markerArray) {
         let ville = json[i]['fields']['lib_com'];
         map = createMarker(map, lat, lng, ville, layerGroupArray, markerArray);
 
-        let compare = json[i]['fields']['type_lampe'].localeCompare('SHP');
-        if (compare === 0) {
-            markers.bindPopup("<h1> LAMPADAIRE À SODIUM </h1>").openPopup();
-        }
-        else {
-            markers.bindPopup("<h1> " + json[i]['fields']['type_lampe'] + "</h1>").openPopup();
-        }
-        let marker = new L.Marker([lat, lng])
+        const compare = String(json[i]['fields']['type_lampe']).localeCompare('SHP');
+        let type = "";
+        if (compare == 0)
+            type = String("<h1> LAMPADAIRE À SODIUM </h1>");
+        else
+            type = String("<h1> " + json[i]['fields']['type_lampe'] + "</h1>");
+        let marker = new L.Marker([lat, lng]).bindPopup(type);
         markers.addLayer(marker);
     }
     map.addLayer(markers);
