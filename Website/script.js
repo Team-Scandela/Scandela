@@ -21,30 +21,46 @@ function onMapClick(e) {
 
 map.on('click', onMapClick);
 
-//Gestion des positions des coordonnées
-function createMarkerArray(json) {
-    let markers = [];
+//Gestion des positions des markers
+let layerGroupArray = [];
+let markerArray = [];
+
+function parseData(json, map, layerGroupArray, markerArray) {
     for (let i = 0; i < 1000; i++) {
-        let marker = L.marker(json[i]['geometry']['coordinates']);
-        markers.push(marker);
+        let lat = json[i]['fields']['geo_point_2d'][0];
+        let lng = json[i]['fields']['geo_point_2d'][1];
+        let ville = json[i]['fields']['lib_com'];
+        map = createMarker(map, lat, lng, ville, layerGroupArray, markerArray);
     }
-    return markers;
+    map.addLayer(layerGroupArray["Indre"]);
+    return map;
 }
 
-function createLayerGroup(markers) {
-    let layerGroup = L.layerGroup(markers);
-    return layerGroup;
+//Création d'un marker
+function createMarker(map, lat, lng, ville, layerGroupArray, markerArray) {
+    let marker = new L.Marker([lat, lng]);
+    markerArray.push(marker);
+    map = addMarkerToLayerGroup(map, marker, ville, layerGroupArray);
+    return map;
 }
 
-function addLayerGroupToMap(layerGroup) {
-    layerGroup.addTo(map);
+//Ajout des markers dans un layerGroup
+function addMarkerToLayerGroup(map, marker, layerGroup, layerGroupArray) {
+    if (layerGroupArray[layerGroup] == undefined) {
+        layerGroupArray[layerGroup] = new L.LayerGroup();
+    }
+    layerGroupArray[layerGroup].addLayer(marker);
+    return map;
 }
 
-function readData() {
+//Read json
+function readData(map) {
     fetch("nantesData.json")
         .then(response => response.json())
-        .then(json => addLayerGroupToMap(createLayerGroup(createMarkerArray(json))))
+        .then(json => map = parseData(json, map, layerGroupArray, markerArray))
         .catch(err => console.log(err));
+    return (map)
 }
 
-readData();
+map = readData(map);
+// map.addLayer(layerGroupArray["Indre"]);
