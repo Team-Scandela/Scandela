@@ -8,8 +8,6 @@ let map = new L.map('map' , mapOptions);
 let layer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
 map.addLayer(layer);
 
-
-// Coordonnées avec clic
 var popup = L.popup();
 
 function onMapClick(e) {
@@ -21,15 +19,29 @@ function onMapClick(e) {
 
 map.on('click', onMapClick);
 
-function addMarket(json) {
-    for (var i = 0; i < json.length; i++) {
-        var marker = L.marker(json[i]['geometry']['coordinates']).addTo(map);
-        marker.bindPopup(json[i].fields.numero);
+function createMarkerArray(json) {
+    let markers = [];
+    for (let i = 0; i < 1000; i++) {
+        let marker = L.marker(json[i]['geometry']['coordinates']);
+        markers.push(marker);
     }
+    return markers;
 }
 
-fetch("nantesData.json")
-  .then(response => response.json())
-  .then(json => addMarket(json))
-  .catch(err => console.log(err));
+function createLayerGroup(markers) {
+    let layerGroup = L.layerGroup(markers);
+    return layerGroup;
+}
 
+function addLayerGroupToMap(layerGroup) {
+    layerGroup.addTo(map);
+}
+
+function readData() {
+    fetch("nantesData.json")
+        .then(response => response.json())
+        .then(json => addLayerGroupToMap(createLayerGroup(createMarkerArray(json))))
+        .catch(err => console.log(err));
+}
+
+readData();
