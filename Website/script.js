@@ -1,6 +1,6 @@
 //Création de la carte
 let mapOptions = {
-    center:[47.242765, -1.535339],
+    center:[47.237054, -1.565895],
     zoom:12
 }
 let map = new L.map('map' , mapOptions);
@@ -26,13 +26,17 @@ let layerGroupArray = [];
 let markerArray = [];
 
 function parseData(json, map, layerGroupArray, markerArray) {
-    for (let i = 0; i < 1000; i++) {
+    var markers = L.markerClusterGroup();
+    for (let i = 0; i < json.length; i++) {
         let lat = json[i]['fields']['geo_point_2d'][0];
         let lng = json[i]['fields']['geo_point_2d'][1];
         let ville = json[i]['fields']['lib_com'];
         map = createMarker(map, lat, lng, ville, layerGroupArray, markerArray);
+
+        let marker = new L.Marker([lat, lng])
+        markers.addLayer(marker);
     }
-    map.addLayer(layerGroupArray["Nantes"]);
+    map.addLayer(markers);
     return map;
 }
 
@@ -75,13 +79,3 @@ function readData(map) {
 }
 
 map = readData(map);
-// map.addLayer(layerGroupArray["Indre"]);
-
-//Création de clusters de markers
-
-var markers = L.markerClusterGroup();
-for (let i = 0; i < markerArray.length; i++) {
-    markers.addLayer(markerArray[i]);
-}
-map.addLayer(markers);
-console.log(markerArray);
