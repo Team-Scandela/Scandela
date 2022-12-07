@@ -27,30 +27,30 @@ let markerArray = [];
 
 function parseData(json, map, layerGroupArray, markerArray) {
     var markers = L.markerClusterGroup();
+    var customOptions =
+    {
+        'maxWidth': '500',
+        'className' : 'custom'
+    }
+
     for (let i = 0; i < json.length; i++) {
         let lat = json[i]['fields']['geo_point_2d'][0];
         let lng = json[i]['fields']['geo_point_2d'][1];
         let ville = json[i]['fields']['lib_com'];
         map = createMarker(map, lat, lng, ville, layerGroupArray, markerArray);
 
-        // const compare = String(json[i]['fields']['type_lampe']).localeCompare('SHP');
-        // let type = "";
-        // if (compare == 0)
-        //     type = String("<h1> LAMPADAIRE À SODIUM </h1>");
-        // else
-            type = String("<h1> LAMPADAIRE " + json[i]['fields']['numero'] + "</h1>" + '\n' +
-                            "<div>" +
-                            "<h2>" + json[i]['fields']['nom_voie'] + "</h2>" + '\n' +
-                            "<h2>Conso: 34 kW/h</h2>" + '\n' +
-                            "<h2>Émission (CO2): 14 gr de CO2</h2>" + '\n' +
-                            "<h3>Type: " + json[i]['fields']['type_foyer'] + "</h3>" + '\n') +
-                            "</div>";
-        var customOptions =
-        {
-            'maxWidth': '500',
-            'className' : 'custom'
-        }
-    
+
+        const compare = String(json[i]['fields']['type_lampe']).localeCompare('SHP');
+
+        let type = String("<h1> Éclairage n° " + json[i]['fields']['numero'] + "</h1>");
+        type += String("<h2> <u>Adresse:</u> <br/>" + json[i]['fields']['nom_voie'] + ", <br/>" + json[i]['fields']['lib_com'] + "</h2> <h2> <u>Type d'éclairage:</u> <br/>");
+        if (compare == 0) type += String("Lampe a Sodium</h2>");
+        else type += String(json[i]['fields']['type_lampe'] + "</h2>");
+        type += String("<h2> <u>État:</u> <br/>" + "Pas encore possible" + "</h2>");
+        type += String("<h2><u>Conso:</u><br/> 34 kW/h</h2>");
+        type += String("<h2><u>Émission (CO2):</u><br/> 14 gr de CO2</h2>");
+
+
         let marker = new L.Marker([lat, lng]).bindPopup(type, customOptions);
         markers.addLayer(marker);
     }
