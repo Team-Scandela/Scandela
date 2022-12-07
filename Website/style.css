@@ -2,3 +2,9 @@
     width: 100%;
     height: 100vh;
 }
+
+.custom .leaflet-popup-tip,
+.custom .leaflet-popup-content-wrapper {
+    background: lightgray;
+    opacity: 0.8;
+}
