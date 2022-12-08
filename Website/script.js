@@ -167,11 +167,7 @@ function replaceToAcronym(str) {
 function generatePopupText(json, i) {
     let type = String("<h1> Éclairage n° " + json[i]['fields']['numero'] + "</h1>");
     type += String("<h2> <u>Adresse:</u> <br/>" + json[i]['fields']['nom_voie'] + ", <br/>" + json[i]['fields']['lib_com'] + "</h2> <h2> <u>Type d'éclairage:</u> <br/>");
-
-    const compare = String(json[i]['fields']['type_lampe']).localeCompare('SHP');
-    if (compare == 0) type += String("Lampe a Sodium</h2>");
-    else type += String(json[i]['fields']['type_lampe'] + "</h2>");
-
+    type += replaceToAcronym(json[i]['fields']['type_lampe']);
     type += String("<h2> <u>État:</u> <br/>" + "Pas encore possible" + "</h2>");
     type += String("<h2><u>Conso:</u><br/> 34 kW/h</h2>");
     type += String("<h2><u>Émission (CO2):</u><br/> 14 gr de CO2</h2>");
