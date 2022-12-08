@@ -148,19 +148,19 @@ function getAndApplyFilter(json) {
 function replaceToAcronym(str) {
     let value;
     switch (str) {
-        case "DIC": value = String("Diodes Infrarouges");               break;
-        case "FC" : value = String("Fluorescentes Compactes");          break;
-        case "HAL": value = String("Halogènes");                        break;
-        case "IC" : value = String("Infrarouges");                      break;
-        case "IM" : value = String("Infrarouges à Mélange");            break;
-        case "IMC": value = String("Infrarouges à Mélange Compactes");  break;
-        case "LED": value = String("Diodes Electroluminescentes");      break;
-        case "MBP": value = String("Mercure Basse Pression");           break;
-        case "SHP": value = String("Sodium Haute Pression");            break;
-        case "SBP": value = String("Sodium Basse Pression");            break;
-        case "TF" : value = String("Tungstène Fluorescentes");          break;
-        case "TL" : value = String("Tungstène à Lames");                break;
-        default   : value = String("Donnée non disponible");            break;
+        case "DIC": value = String("Diodes Infrarouges (DIC)");              break;
+        case "FC" : value = String("Fluorescentes Compactes (FC)");          break;
+        case "HAL": value = String("Halogènes (HAL)");                       break;
+        case "IC" : value = String("Infrarouges (IC)");                      break;
+        case "IM" : value = String("Infrarouges à Mélange (IM)");            break;
+        case "IMC": value = String("Infrarouges à Mélange Compactes (IMC)"); break;
+        case "LED": value = String("Diodes Electroluminescentes (LED)");     break;
+        case "MBP": value = String("Mercure Basse Pression (MBP)");          break;
+        case "SHP": value = String("Sodium Haute Pression (SHP)");           break;
+        case "SBP": value = String("Sodium Basse Pression (SBP)");           break;
+        case "TF" : value = String("Tungstène Fluorescentes (TF)");          break;
+        case "TL" : value = String("Tungstène à Lames (TL)");                break;
+        default   : value = String("Donnée non disponible");                 break;
     }
     return (value);
 }
