@@ -8,3 +8,11 @@
     background: lightgray;
     opacity: 0.8;
 }
+
+#darkMode {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 10px;
+    z-index: 10000;
+}

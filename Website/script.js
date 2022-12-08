@@ -23,6 +23,8 @@ map.addLayer(baseLayer);
 
 
 //Bouton de switch dark/normal mode
+darkScampoule.onclick = onDarkModeClick;
+
 let darkModeElem = document.getElementById('darkMode');
 
 function onDarkModeClick() {
@@ -34,10 +36,10 @@ function onDarkModeClick() {
     } else {
         map.removeLayer(darkLayer);
         map.addLayer(baseLayer);
-        textDarkMode.style.color = "white"
+        textDarkMode.style.color = "black"
     }
+    L.DomEvent.disableClickPropagation(darkModeElem);
 }
-
 
 //Gestion du clic sur la carte
 var popup = L.popup();
