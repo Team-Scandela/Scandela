@@ -13,8 +13,7 @@ let layerOptions = {
 }
 
 //Création de la carte
-let map = new L.map('map' , mapOptions);
-
+var map = new L.map('map' , mapOptions);
 
 //Ajout des couches
 let baseLayer = new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', layerOptions);
@@ -37,7 +36,6 @@ function onDarkModeClick() {
         textDarkMode.style.color = "white"
     }
 }
-
 
 //Gestion du clic sur la carte
 var popup = L.popup();
@@ -90,7 +88,7 @@ function generatePopupText(json, i) {
     return (type);
 }
 
-function parseData(json, map, layerGroupArray, markerArray) {
+function parseData(json, layerGroupArray, markerArray) {
     //Création des clusters et de leurs icones
     let clusters = L.markerClusterGroup({
         //Modifie l'icone des clusters
@@ -113,7 +111,7 @@ function parseData(json, map, layerGroupArray, markerArray) {
         let lat = json[i]['fields']['geo_point_2d'][0];
         let lng = json[i]['fields']['geo_point_2d'][1];
         let ville = json[i]['fields']['lib_com'];
-        map = createMarker(map, lat, lng, ville, layerGroupArray, markerArray);
+        createMarker(map, lat, lng, ville, layerGroupArray, markerArray);
 
         // Information sur les Lampadaires
         type = generatePopupText(json, i);
@@ -124,7 +122,6 @@ function parseData(json, map, layerGroupArray, markerArray) {
     //Ajout des cluster dans la carte
     map.addLayer(clusters);
     filterArray = getAndApplyFilter(json); // a faire ne marche pas encore
-    return map;
 }
 
 //Gestion de l'icone des markers -- A FAIRE
@@ -139,33 +136,30 @@ var myIcon = L.icon({
 });
 
 //Création des markers
-function createMarker(map, lat, lng, ville, layerGroupArray, markerArray) {
+function createMarker(lat, lng, ville, layerGroupArray, markerArray) {
     let marker = new L.Marker([lat, lng])
     .bindPopup(ville);
     markerArray.push(marker);
-    map = addMarkerToLayerGroup(map, marker, ville, layerGroupArray);
-    return map;
+    addMarkerToLayerGroup(marker, ville, layerGroupArray);
 }
 
 //Ajout des markers dans un layerGroup
-function addMarkerToLayerGroup(map, marker, layerGroup, layerGroupArray) {
+function addMarkerToLayerGroup(marker, layerGroup, layerGroupArray) {
     if (layerGroupArray[layerGroup] == undefined) {
         layerGroupArray[layerGroup] = new L.LayerGroup();
     }
     layerGroupArray[layerGroup].addLayer(marker);
-    return map;
 }
 
 //Read json
-function readData(map) {
+function readData() {
     fetch("nantesData.json")
         .then(response => response.json())
-        .then(json => map = parseData(json, map, layerGroupArray, markerArray))
+        .then(json => parseData(json, layerGroupArray, markerArray))
         .catch(err => console.log(err));
-    return (map)
 }
 
-map = readData(map);
+readData();
 
 //Gestion du print du zoom
 // map.on('zoomend', showZoomLevel);
