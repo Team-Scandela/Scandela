@@ -41,7 +41,7 @@ let filterArray = [];
 
 function parseData(json, map, layerGroupArray, markerArray) {
     //Création des clusters et de leurs icones
-    var markers = L.markerClusterGroup({
+    let clusters = L.markerClusterGroup({
         //Modifie l'icone des clusters
         // iconCreateFunction: function(cluster) {
         //     return L.divIcon({ html: '<b>' + cluster.getChildCount() + '</b>' });
@@ -65,21 +65,13 @@ function parseData(json, map, layerGroupArray, markerArray) {
         map = createMarker(map, lat, lng, ville, layerGroupArray, markerArray);
 
         // Information sur les Lampadaires
-        const compare = String(json[i]['fields']['type_lampe']).localeCompare('SHP');
-
-        let type = String("<h1> Éclairage n° " + json[i]['fields']['numero'] + "</h1>");
-        type += String("<h2> <u>Adresse:</u> <br/>" + json[i]['fields']['nom_voie'] + ", <br/>" + json[i]['fields']['lib_com'] + "</h2> <h2> <u>Type d'éclairage:</u> <br/>");
-        if (compare == 0) type += String("Lampe a Sodium</h2>");
-        else type += String(json[i]['fields']['type_lampe'] + "</h2>");
-        type += String("<h2> <u>État:</u> <br/>" + "Pas encore possible" + "</h2>");
-        type += String("<h2><u>Conso:</u><br/> 34 kW/h</h2>");
-        type += String("<h2><u>Émission (CO2):</u><br/> 14 gr de CO2</h2>");
-
+        type = generatePopupText(json, i);
+    
         let marker = new L.Marker([lat, lng]).bindPopup(type, customOptions);
-        markers.addLayer(marker);
+        clusters.addLayer(marker);
     }
     //Ajout des cluster dans la carte
-    map.addLayer(markers);
+    map.addLayer(clusters);
     filterArray = getAndApplyFilter(json); // a faire ne marche pas encore
     return map;
 }
@@ -150,4 +142,18 @@ function getAndApplyFilter(json) {
         check = 0;
     }
     return (filters);
+}
+
+function generatePopupText(json, i) {
+    const compare = String(json[i]['fields']['type_lampe']).localeCompare('SHP');
+
+    let type = String("<h1> Éclairage n° " + json[i]['fields']['numero'] + "</h1>");
+    type += String("<h2> <u>Adresse:</u> <br/>" + json[i]['fields']['nom_voie'] + ", <br/>" + json[i]['fields']['lib_com'] + "</h2> <h2> <u>Type d'éclairage:</u> <br/>");
+    if (compare == 0) type += String("Lampe a Sodium</h2>");
+    else type += String(json[i]['fields']['type_lampe'] + "</h2>");
+    type += String("<h2> <u>État:</u> <br/>" + "Pas encore possible" + "</h2>");
+    type += String("<h2><u>Conso:</u><br/> 34 kW/h</h2>");
+    type += String("<h2><u>Émission (CO2):</u><br/> 14 gr de CO2</h2>");
+
+    return (type);
 }
