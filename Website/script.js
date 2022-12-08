@@ -45,7 +45,7 @@ function parseData(json, map, layerGroupArray, markerArray) {
         //Modifie l'icone des clusters
         // iconCreateFunction: function(cluster) {
         //     return L.divIcon({ html: '<b>' + cluster.getChildCount() + '</b>' });
-        // }
+        // },
         singleMarkerMode: false, //Affiche uniquement des clusters
         spiderfyOnMaxZoom: false, //Désactive le spiderfy --> je sais plus c'est quoi mais c'est cool, vas de paire avec disableClusteringAtZoom donc à laisser
         disableClusteringAtZoom: 20 //Désactive le clustering à partir du zoom
@@ -132,7 +132,6 @@ function showZoomLevel() {
     document.getElementById('zoom').innerHTML = map.getZoom();
 }
 
-
 // TEMPORAIRE / A FAIRE / A FIX
 
 function getAndApplyFilter(json) {
@@ -152,4 +151,3 @@ function getAndApplyFilter(json) {
     }
     return (filters);
 }
-
