@@ -5,8 +5,8 @@
     <meta charset="utf-8">
     <title>Scandela</title>
     <!-- Map leaflet -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"></script>
 
     <!-- Gestion des cluster -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.3.0/dist/MarkerCluster.css" />
@@ -18,13 +18,14 @@
     <!-- Database -->
     <script src="nantesData.json"></script>
 
+
 </head>
 
-<body>
+<body style="background-color: #333333;">
+    <p style="color: white ;">Zoom level: <span id="zoom"></span></p>
 
     <div id="map"></div>
     <script src="script.js"></script>
-
 </body>
 
 </html>
