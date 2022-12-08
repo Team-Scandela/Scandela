@@ -174,23 +174,3 @@ map = readData(map);
 // function showZoomLevel() {
 //     document.getElementById('zoom').innerHTML = map.getZoom();
 // }
-
-// TEMPORAIRE / A FAIRE / A FIX
-
-function getAndApplyFilter(json) {
-    var filters = [];
-    const cmp = [];
-    let j = 0;
-    let check = 0;
-    for (let i = 0; i < json.length; i++) {
-        for (j = 0; j < cmp.length; j++) {
-            if (String(json[i]['fields']['lib_com'].localeCompare(String(cmp[j])) === 0)) {
-                check = 1;
-            }
-        }
-        if (check === 0)
-            filters[i] = json[i]['fields']['lib_com'];
-        check = 0;
-    }
-    return (filters);
-}
