@@ -15,10 +15,29 @@ let layerOptions = {
 //Création de la carte
 let map = new L.map('map' , mapOptions);
 
+
 //Ajout des couches
-// let layer = new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', layerOptions);
-let dark_layer = L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png', layerOptions);
-map.addLayer(dark_layer);
+let baseLayer = new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', layerOptions);
+let darkLayer = L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png', layerOptions);
+map.addLayer(baseLayer);
+
+
+//Bouton de switch dark/normal mode
+let darkModeElem = document.getElementById('darkMode');
+
+function onDarkModeClick() {
+    let textDarkMode = document.getElementById('darkModeText');
+    if (map.hasLayer(baseLayer)) {
+        map.removeLayer(baseLayer);
+        map.addLayer(darkLayer);
+        textDarkMode.style.color = "yellow"
+    } else {
+        map.removeLayer(darkLayer);
+        map.addLayer(baseLayer);
+        textDarkMode.style.color = "white"
+    }
+}
+
 
 //Gestion du clic sur la carte
 var popup = L.popup();
@@ -38,6 +57,38 @@ let markerArray = [];
 
 // A Faire
 let filterArray = [];
+
+//Gestion du texte des popups
+function replaceToAcronym(str) {
+    let value;
+    switch (str) {
+        case "DIC": value = String("Diodes Infrarouges (DIC)");              break;
+        case "FC" : value = String("Fluorescentes Compactes (FC)");          break;
+        case "HAL": value = String("Halogènes (HAL)");                       break;
+        case "IC" : value = String("Infrarouges (IC)");                      break;
+        case "IM" : value = String("Infrarouges à Mélange (IM)");            break;
+        case "IMC": value = String("Infrarouges à Mélange Compactes (IMC)"); break;
+        case "LED": value = String("Diodes Electroluminescentes (LED)");     break;
+        case "MBP": value = String("Mercure Basse Pression (MBP)");          break;
+        case "SHP": value = String("Sodium Haute Pression (SHP)");           break;
+        case "SBP": value = String("Sodium Basse Pression (SBP)");           break;
+        case "TF" : value = String("Tungstène Fluorescentes (TF)");          break;
+        case "TL" : value = String("Tungstène à Lames (TL)");                break;
+        default   : value = String("Donnée non disponible");                 break;
+    }
+    return (value);
+}
+
+function generatePopupText(json, i) {
+    let type = String("<h1> Éclairage n° " + json[i]['fields']['numero'] + "</h1>");
+    type += String("<h2> <u>Adresse:</u> <br/>" + json[i]['fields']['nom_voie'] + ", <br/>" + json[i]['fields']['lib_com'] + "</h2> <h2> <u>Type d'éclairage:</u> <br/>");
+    type += replaceToAcronym(json[i]['fields']['type_lampe']);
+    type += String("<h2> <u>État:</u> <br/>" + "Pas encore possible" + "</h2>");
+    type += String("<h2><u>Conso:</u><br/> 34 kW/h</h2>");
+    type += String("<h2><u>Émission (CO2):</u><br/> 14 gr de CO2</h2>");
+
+    return (type);
+}
 
 function parseData(json, map, layerGroupArray, markerArray) {
     //Création des clusters et de leurs icones
@@ -117,12 +168,12 @@ function readData(map) {
 map = readData(map);
 
 //Gestion du print du zoom
-map.on('zoomend', showZoomLevel);
-showZoomLevel();
+// map.on('zoomend', showZoomLevel);
+// showZoomLevel();
 
-function showZoomLevel() {
-    document.getElementById('zoom').innerHTML = map.getZoom();
-}
+// function showZoomLevel() {
+//     document.getElementById('zoom').innerHTML = map.getZoom();
+// }
 
 // TEMPORAIRE / A FAIRE / A FIX
 
@@ -142,36 +193,4 @@ function getAndApplyFilter(json) {
         check = 0;
     }
     return (filters);
-}
-
-//Gestion du texte des popups
-function replaceToAcronym(str) {
-    let value;
-    switch (str) {
-        case "DIC": value = String("Diodes Infrarouges (DIC)");              break;
-        case "FC" : value = String("Fluorescentes Compactes (FC)");          break;
-        case "HAL": value = String("Halogènes (HAL)");                       break;
-        case "IC" : value = String("Infrarouges (IC)");                      break;
-        case "IM" : value = String("Infrarouges à Mélange (IM)");            break;
-        case "IMC": value = String("Infrarouges à Mélange Compactes (IMC)"); break;
-        case "LED": value = String("Diodes Electroluminescentes (LED)");     break;
-        case "MBP": value = String("Mercure Basse Pression (MBP)");          break;
-        case "SHP": value = String("Sodium Haute Pression (SHP)");           break;
-        case "SBP": value = String("Sodium Basse Pression (SBP)");           break;
-        case "TF" : value = String("Tungstène Fluorescentes (TF)");          break;
-        case "TL" : value = String("Tungstène à Lames (TL)");                break;
-        default   : value = String("Donnée non disponible");                 break;
-    }
-    return (value);
-}
-
-function generatePopupText(json, i) {
-    let type = String("<h1> Éclairage n° " + json[i]['fields']['numero'] + "</h1>");
-    type += String("<h2> <u>Adresse:</u> <br/>" + json[i]['fields']['nom_voie'] + ", <br/>" + json[i]['fields']['lib_com'] + "</h2> <h2> <u>Type d'éclairage:</u> <br/>");
-    type += replaceToAcronym(json[i]['fields']['type_lampe']);
-    type += String("<h2> <u>État:</u> <br/>" + "Pas encore possible" + "</h2>");
-    type += String("<h2><u>Conso:</u><br/> 34 kW/h</h2>");
-    type += String("<h2><u>Émission (CO2):</u><br/> 14 gr de CO2</h2>");
-
-    return (type);
 }
