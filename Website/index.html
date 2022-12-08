@@ -24,7 +24,11 @@
 <body style="background-color: #333333;">
 
     <!-- Affichage du Zoom -->
-    <p style="color: white ;">Zoom level: <span id="zoom"></span></p>
+    <!-- <p style="color: white ;">Zoom level: <span id="zoom"></span></p> -->
+    <div id="darkMode">
+        <span id="darkModeText" style="color:white">Dark Mode </span>
+        <button id="darkScampoule" onclick="onDarkModeClick()">Click</button>
+    </div>
     <!-- Affichage de la map -->
     <div id="map"></div>
     <script src="script.js"></script>

@@ -15,10 +15,29 @@ let layerOptions = {
 //Création de la carte
 let map = new L.map('map' , mapOptions);
 
+
 //Ajout des couches
-// let layer = new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', layerOptions);
-let dark_layer = L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png', layerOptions);
-map.addLayer(dark_layer);
+let baseLayer = new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', layerOptions);
+let darkLayer = L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png', layerOptions);
+map.addLayer(baseLayer);
+
+
+//Bouton de switch dark/normal mode
+let darkModeElem = document.getElementById('darkMode');
+
+function onDarkModeClick() {
+    let textDarkMode = document.getElementById('darkModeText');
+    if (map.hasLayer(baseLayer)) {
+        map.removeLayer(baseLayer);
+        map.addLayer(darkLayer);
+        textDarkMode.style.color = "yellow"
+    } else {
+        map.removeLayer(darkLayer);
+        map.addLayer(baseLayer);
+        textDarkMode.style.color = "white"
+    }
+}
+
 
 //Gestion du clic sur la carte
 var popup = L.popup();
@@ -125,12 +144,12 @@ function readData(map) {
 map = readData(map);
 
 //Gestion du print du zoom
-map.on('zoomend', showZoomLevel);
-showZoomLevel();
+// map.on('zoomend', showZoomLevel);
+// showZoomLevel();
 
-function showZoomLevel() {
-    document.getElementById('zoom').innerHTML = map.getZoom();
-}
+// function showZoomLevel() {
+//     document.getElementById('zoom').innerHTML = map.getZoom();
+// }
 
 // TEMPORAIRE / A FAIRE / A FIX
 
@@ -150,4 +169,9 @@ function getAndApplyFilter(json) {
         check = 0;
     }
     return (filters);
+}
+
+function doSomethingKeonBouton() {
+    let tmpButton;
+    document.getElementById(boutonKeon) = tmpButton
 }
