@@ -16,9 +16,9 @@ let layerOptions = {
 let map = new L.map('map' , mapOptions);
 
 //Ajout des couches
-let layer = new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', layerOptions);
-// let dark_layer = L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png', layerOptions);
-map.addLayer(layer);
+// let layer = new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', layerOptions);
+let dark_layer = L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png', layerOptions);
+map.addLayer(dark_layer);
 
 //Gestion du clic sur la carte
 var popup = L.popup();
@@ -33,9 +33,10 @@ function onMapClick(e) {
 map.on('click', onMapClick);
 
 //Gestion des positions des markers
-
 let layerGroupArray = [];
 let markerArray = [];
+
+// A Faire
 let filterArray = [];
 
 function parseData(json, map, layerGroupArray, markerArray) {
@@ -79,7 +80,7 @@ function parseData(json, map, layerGroupArray, markerArray) {
     }
     //Ajout des cluster dans la carte
     map.addLayer(markers);
-    filterArray = getAndApplyFilter(json);
+    filterArray = getAndApplyFilter(json); // a faire ne marche pas encore
     return map;
 }
 
@@ -112,24 +113,6 @@ function addMarkerToLayerGroup(map, marker, layerGroup, layerGroupArray) {
     return map;
 }
 
-function getAndApplyFilter(json) {
-    var filters = [];
-    const cmp = [];
-    let j = 0;
-    let check = 0;
-    for (let i = 0; i < json.length; i++) {
-        for (j = 0; j < cmp.length; j++) {
-            if (String(json[i]['fields']['lib_com'].localeCompare(String(cmp[j])) === 0)) {
-                check = 1;
-            }
-        }
-        if (check === 0)
-            filters[i] = json[i]['fields']['lib_com'];
-        check = 0;
-    }
-    return (filters);
-}
-
 //Read json
 function readData(map) {
     fetch("nantesData.json")
@@ -148,3 +131,25 @@ showZoomLevel();
 function showZoomLevel() {
     document.getElementById('zoom').innerHTML = map.getZoom();
 }
+
+
+// TEMPORAIRE / A FAIRE / A FIX
+
+function getAndApplyFilter(json) {
+    var filters = [];
+    const cmp = [];
+    let j = 0;
+    let check = 0;
+    for (let i = 0; i < json.length; i++) {
+        for (j = 0; j < cmp.length; j++) {
+            if (String(json[i]['fields']['lib_com'].localeCompare(String(cmp[j])) === 0)) {
+                check = 1;
+            }
+        }
+        if (check === 0)
+            filters[i] = json[i]['fields']['lib_com'];
+        check = 0;
+    }
+    return (filters);
+}
+
