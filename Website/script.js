@@ -66,7 +66,7 @@ function parseData(json, map, layerGroupArray, markerArray) {
 
         // Information sur les Lampadaires
         type = generatePopupText(json, i);
-    
+
         let marker = new L.Marker([lat, lng]).bindPopup(type, customOptions);
         clusters.addLayer(marker);
     }
@@ -144,6 +144,7 @@ function getAndApplyFilter(json) {
     return (filters);
 }
 
+//Gestion du texte des popups
 function replaceToAcronym(str) {
     let value;
     switch (str) {
