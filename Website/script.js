@@ -130,6 +130,11 @@ function parseData(json, map, layerGroupArray, markerArray) {
 }
 
 function getFilters(layerGroupArray, map, clusters) {
+    var customOptions = {
+        'maxWidth': '500',
+        'className' : 'custom'
+    }
+    
     if (x != "") {
         console.log(x)
         map.removeLayer(layerGroupArray[String(x)]);
@@ -141,7 +146,7 @@ function getFilters(layerGroupArray, map, clusters) {
     }
     console.log(x);
     map.removeLayer(clusters);
-    layerGroupArray[String(x)].addTo(map);
+    layerGroupArray[String(x)].addTo(map).bindPopup(type, customOptions);
     map.flyTo([47.19292929509028, -1.582909783597274], 13); // change GeoPos in a better way
     return map;
 }
