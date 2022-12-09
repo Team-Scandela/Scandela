@@ -23,9 +23,9 @@ map.addLayer(baseLayer);
 
 
 //Bouton de switch dark/normal mode
-darkScampoule.onclick = onDarkModeClick;
-
 let darkModeElem = document.getElementById('darkMode');
+
+darkScampoule.onclick = onDarkModeClick;
 
 function onDarkModeClick() {
     let textDarkMode = document.getElementById('darkModeText');
@@ -55,12 +55,8 @@ map.on('click', onMapClick);
 
 //Gestion des positions des markers
 var layerGroupArray = [];
-let markerArray = [];
-let filterArray = [];
+var markerArray = [];
 var markers = L.markerClusterGroup();
-
-// A Faire
-let filterArray = [];
 
 //Gestion du texte des popups
 function replaceToAcronym(str) {
@@ -94,17 +90,18 @@ function generatePopupText(json, i) {
     return (type);
 }
 
+var clusters = L.markerClusterGroup({
+    //Modifie l'icone des clusters
+    // iconCreateFunction: function(cluster) {
+    //     return L.divIcon({ html: '<b>' + cluster.getChildCount() + '</b>' });
+    // },
+    singleMarkerMode: false, //Affiche uniquement des clusters
+    spiderfyOnMaxZoom: false, //Désactive le spiderfy --> je sais plus c'est quoi mais c'est cool, vas de paire avec disableClusteringAtZoom donc à laisser
+    disableClusteringAtZoom: 20 //Désactive le clustering à partir du zoom
+});
+
 function parseData(json, map, layerGroupArray, markerArray) {
     //Création des clusters et de leurs icones
-    let clusters = L.markerClusterGroup({
-        //Modifie l'icone des clusters
-        // iconCreateFunction: function(cluster) {
-        //     return L.divIcon({ html: '<b>' + cluster.getChildCount() + '</b>' });
-        // },
-        singleMarkerMode: false, //Affiche uniquement des clusters
-        spiderfyOnMaxZoom: false, //Désactive le spiderfy --> je sais plus c'est quoi mais c'est cool, vas de paire avec disableClusteringAtZoom donc à laisser
-        disableClusteringAtZoom: 20 //Désactive le clustering à partir du zoom
-    });
 
     //Options css des popups
     var customOptions = {
@@ -123,12 +120,11 @@ function parseData(json, map, layerGroupArray, markerArray) {
         type = generatePopupText(json, i);
 
         let marker = new L.Marker([lat, lng]).bindPopup(type, customOptions);
-        
+
         clusters.addLayer(marker);
     }
     //Ajout des cluster dans la carte
     map.addLayer(clusters);
-    filterArray = getAndApplyFilter(json); // a faire ne marche pas encore
     return map;
 }
 
@@ -142,7 +138,7 @@ function getFilters(layerGroupArray, map, markers) {
     x = document.getElementById('filters').value;
 
     console.log(x);
-    map.removeLayer(markers);
+    map.removeLayer(clusters);
     layerGroupArray[String(x)].addTo(map);
     return map;
 }
