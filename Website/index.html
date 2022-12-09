@@ -23,17 +23,15 @@
 </head>
 
 <body>
-
-    <div id="button">
-        <input type="text" name="Filters" id="filters" />
-        <button onclick="getFilters(layerGroupArray, map, markers)">Filter</button>
-    </div>
-
-<body style="background-color: #333333;">
-    <!-- Affichage du Zoom -->
-    <!-- <p style="color: white ;">Zoom level: <span id="zoom"></span></p> -->
-    <!-- Affichage de la map -->
-    <div id="map">
+    <body style="background-color: #333333;">
+        <!-- Affichage du Zoom -->
+        <!-- <p style="color: white ;">Zoom level: <span id="zoom"></span></p> -->
+        <!-- Affichage de la map -->
+        <div id="map">
+        <div id="button">
+            <input type="text" name="Filters" id="filters" />
+            <button onclick="getFilters(layerGroupArray, map, clusters)">Filter</button>
+        </div>
         <div id="darkMode">
             <span id="darkModeText" style="color:black">Dark Mode </span>
             <button id="darkScampoule">Click</button>

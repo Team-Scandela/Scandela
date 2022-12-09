@@ -23,3 +23,11 @@ body {
     padding: 10px;
     z-index: 10000;
 }
+
+#button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 10px;
+    z-index: 10000;
+}

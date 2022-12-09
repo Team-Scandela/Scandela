@@ -38,7 +38,6 @@ function onDarkModeClick() {
         map.addLayer(baseLayer);
         textDarkMode.style.color = "black"
     }
-    L.DomEvent.disableClickPropagation(darkModeElem);
 }
 
 //Gestion du clic sur la carte
@@ -130,7 +129,7 @@ function parseData(json, map, layerGroupArray, markerArray) {
 
 var x = "";
 
-function getFilters(layerGroupArray, map, markers) {
+function getFilters(layerGroupArray, map, clusters) {
     if (x != "") {
         console.log(x)
         map.removeLayer(layerGroupArray[String(x)]);
@@ -183,6 +182,9 @@ function readData(map) {
 
 map = readData(map);
 
+//Disable click propagation
+L.DomEvent.disableClickPropagation(button);
+L.DomEvent.disableClickPropagation(darkModeElem);
 
 //Gestion du print du zoom
 // map.on('zoomend', showZoomLevel);
