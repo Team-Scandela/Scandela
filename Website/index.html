@@ -4,8 +4,11 @@
 <head>
     <meta charset="utf-8">
     <title>Scandela</title>
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
 
     <!-- Map leaflet -->
+    <script src="http://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 
@@ -14,15 +17,22 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.3.0/dist/MarkerCluster.Default.css" />
     <script src="https://unpkg.com/leaflet.markercluster@1.3.0/dist/leaflet.markercluster.js"></script>
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="style.css">
     <!-- Database -->
     <script src="nantesData.json"></script>
 
 </head>
 
-<body style="background-color: #333333;">
+<body>
 
+    <div id="button">
+        <input type="text" name="Filters" id="filters" />
+        <button onclick="getFilters(layerGroupArray, map, markers)">Filter</button>
+    </div>
+    <div id="map">
+        <script src="script.js"></script>
+    </div>
+
+<body style="background-color: #333333;">
     <!-- Affichage du Zoom -->
     <!-- <p style="color: white ;">Zoom level: <span id="zoom"></span></p> -->
     <!-- Affichage de la map -->

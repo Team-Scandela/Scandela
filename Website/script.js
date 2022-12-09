@@ -15,8 +15,8 @@ let layerOptions = {
 //Création de la carte
 let map = new L.map('map' , mapOptions);
 
-
 //Ajout des couches
+
 let baseLayer = new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', layerOptions);
 let darkLayer = L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png', layerOptions);
 map.addLayer(baseLayer);
@@ -54,8 +54,10 @@ function onMapClick(e) {
 map.on('click', onMapClick);
 
 //Gestion des positions des markers
-let layerGroupArray = [];
+var layerGroupArray = [];
 let markerArray = [];
+let filterArray = [];
+var markers = L.markerClusterGroup();
 
 // A Faire
 let filterArray = [];
@@ -121,11 +123,27 @@ function parseData(json, map, layerGroupArray, markerArray) {
         type = generatePopupText(json, i);
 
         let marker = new L.Marker([lat, lng]).bindPopup(type, customOptions);
+        
         clusters.addLayer(marker);
     }
     //Ajout des cluster dans la carte
     map.addLayer(clusters);
     filterArray = getAndApplyFilter(json); // a faire ne marche pas encore
+    return map;
+}
+
+var x = "";
+
+function getFilters(layerGroupArray, map, markers) {
+    if (x != "") {
+        console.log(x)
+        map.removeLayer(layerGroupArray[String(x)]);
+    }
+    x = document.getElementById('filters').value;
+
+    console.log(x);
+    map.removeLayer(markers);
+    layerGroupArray[String(x)].addTo(map);
     return map;
 }
 
@@ -152,7 +170,7 @@ function createMarker(map, lat, lng, ville, layerGroupArray, markerArray) {
 //Ajout des markers dans un layerGroup
 function addMarkerToLayerGroup(map, marker, layerGroup, layerGroupArray) {
     if (layerGroupArray[layerGroup] == undefined) {
-        layerGroupArray[layerGroup] = new L.LayerGroup();
+        layerGroupArray[layerGroup] = new L.markerClusterGroup();
     }
     layerGroupArray[layerGroup].addLayer(marker);
     return map;
@@ -168,6 +186,7 @@ function readData(map) {
 }
 
 map = readData(map);
+
 
 //Gestion du print du zoom
 // map.on('zoomend', showZoomLevel);
