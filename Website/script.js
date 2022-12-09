@@ -3,7 +3,7 @@ let mapOptions = {
     center:[47.237054, -1.565895],
     zoom:12
 }
-let map = new L.map('map' , mapOptions);
+var map = new L.map('map' , mapOptions);
 
 //Ajout des couches
 let layer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
@@ -25,12 +25,12 @@ function onMapClick(e) {
 map.on('click', onMapClick);
 
 //Gestion des positions des markers
-let layerGroupArray = [];
+var layerGroupArray = [];
 let markerArray = [];
 let filterArray = [];
+var markers = L.markerClusterGroup();
 
 function parseData(json, map, layerGroupArray, markerArray) {
-    var markers = L.markerClusterGroup();
     var customOptions =
     {
         'maxWidth': '500',
@@ -56,10 +56,25 @@ function parseData(json, map, layerGroupArray, markerArray) {
 
 
         let marker = new L.Marker([lat, lng]).bindPopup(type, customOptions);
+        
         markers.addLayer(marker);
     }
     map.addLayer(markers);
-    filterArray = getAndApplyFilter(json);
+    return map;
+}
+
+var x = "";
+
+function getFilters(layerGroupArray, map, markers) {
+    if (x != "") {
+        console.log(x)
+        map.removeLayer(layerGroupArray[String(x)]);
+    }
+    x = document.getElementById('filters').value;
+
+    console.log(x);
+    map.removeLayer(markers);
+    layerGroupArray[String(x)].addTo(map);
     return map;
 }
 
@@ -86,28 +101,10 @@ function createMarker(map, lat, lng, ville, layerGroupArray, markerArray) {
 //Ajout des markers dans un layerGroup
 function addMarkerToLayerGroup(map, marker, layerGroup, layerGroupArray) {
     if (layerGroupArray[layerGroup] == undefined) {
-        layerGroupArray[layerGroup] = new L.LayerGroup();
+        layerGroupArray[layerGroup] = new L.markerClusterGroup();
     }
     layerGroupArray[layerGroup].addLayer(marker);
     return map;
-}
-
-function getAndApplyFilter(json) {
-    var filters = [];
-    const cmp = [];
-    let j = 0;
-    let check = 0;
-    for (let i = 0; i < json.length; i++) {
-        for (j = 0; j < cmp.length; j++) {
-            if (String(json[i]['fields']['lib_com'].localeCompare(String(cmp[j])) === 0)) {
-                check = 1;
-            }
-        }
-        if (check === 0)
-            filters[i] = json[i]['fields']['lib_com'];
-        check = 0;
-    }
-    return (filters);
 }
 
 //Read json
@@ -120,3 +117,4 @@ function readData(map) {
 }
 
 map = readData(map);
+

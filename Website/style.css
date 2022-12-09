@@ -3,6 +3,13 @@
     height: 100vh;
 }
 
+body {
+    position: static !important;
+    background-image: none !important;
+    overflow-y: hidden; /* Hide vertical scrollbar */
+    overflow-x: hidden; /* Hide horizontal scrollbar */
+  }
+
 .custom .leaflet-popup-tip,
 .custom .leaflet-popup-content-wrapper {
     background: lightgray;
