@@ -135,7 +135,10 @@ function getFilters(layerGroupArray, map, clusters) {
         map.removeLayer(layerGroupArray[String(x)]);
     }
     x = document.getElementById('filters').value;
-
+    if (x == "") {
+        map.addLayer(clusters);
+        return map;
+    }
     console.log(x);
     map.removeLayer(clusters);
     layerGroupArray[String(x)].addTo(map);
