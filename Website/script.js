@@ -99,6 +99,8 @@ var clusters = L.markerClusterGroup({
     disableClusteringAtZoom: 20 //Désactive le clustering à partir du zoom
 });
 
+var x = "";
+
 function parseData(json, map, layerGroupArray, markerArray) {
     //Création des clusters et de leurs icones
 
@@ -127,8 +129,6 @@ function parseData(json, map, layerGroupArray, markerArray) {
     return map;
 }
 
-var x = "";
-
 function getFilters(layerGroupArray, map, clusters) {
     if (x != "") {
         console.log(x)
@@ -142,6 +142,7 @@ function getFilters(layerGroupArray, map, clusters) {
     console.log(x);
     map.removeLayer(clusters);
     layerGroupArray[String(x)].addTo(map);
+    map.flyTo([47.19292929509028, -1.582909783597274], 13); // change GeoPos in a better way
     return map;
 }
 
