@@ -19,7 +19,7 @@ let map = new L.map('map' , mapOptions);
 
 let baseLayer = new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', layerOptions);
 let darkLayer = L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png', layerOptions);
-map.addLayer(baseLayer);
+map.addLayer(darkLayer);
 
 
 //Bouton de switch dark/normal mode
@@ -134,7 +134,6 @@ function getFilters(layerGroupArray, map, clusters) {
         'maxWidth': '500',
         'className' : 'custom'
     }
-    
     if (x != "") {
         console.log(x)
         map.removeLayer(layerGroupArray[String(x)]);
