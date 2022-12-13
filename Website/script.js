@@ -1,7 +1,7 @@
 //Option de la carte
 let mapOptions = {
     center:[47.237054, -1.565895],
-    zoom:16,
+    zoom:12,
     zoomControl: false
 }
 
