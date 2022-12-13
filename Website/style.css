@@ -32,3 +32,24 @@
   img {
     max-width: 100%
   }
+body {
+    position: static !important;
+    background-image: none !important;
+    overflow-y: hidden; /* Hide vertical scrollbar */
+    overflow-x: hidden; /* Hide horizontal scrollbar */
+  }
+#darkMode {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 10px;
+    z-index: 10000;
+}
+
+#button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 10px;
+    z-index: 10000;
+}

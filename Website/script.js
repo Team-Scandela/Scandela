@@ -15,15 +15,17 @@ let layerOptions = {
 //Création de la carte
 let map = new L.map('map' , mapOptions);
 
-
 //Ajout des couches
+
 let baseLayer = new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', layerOptions);
 let darkLayer = L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png', layerOptions);
-map.addLayer(baseLayer);
+map.addLayer(darkLayer);
 
 
 //Bouton de switch dark/normal mode
 let darkModeElem = document.getElementById('darkMode');
+
+darkScampoule.onclick = onDarkModeClick;
 
 function onDarkModeClick() {
     let textDarkMode = document.getElementById('darkModeText');
@@ -34,10 +36,9 @@ function onDarkModeClick() {
     } else {
         map.removeLayer(darkLayer);
         map.addLayer(baseLayer);
-        textDarkMode.style.color = "white"
+        textDarkMode.style.color = "black"
     }
 }
-
 
 //Gestion du clic sur la carte
 var popup = L.popup();
@@ -52,29 +53,27 @@ function onMapClick(e) {
 map.on('click', onMapClick);
 
 //Gestion des positions des markers
-let layerGroupArray = [];
-let markerArray = [];
-
-// A Faire
-let filterArray = [];
+var layerGroupArray = [];
+var markerArray = [];
+var markers = L.markerClusterGroup();
 
 //Gestion du texte des popups
 function replaceToAcronym(str) {
     let value;
     switch (str) {
-        case "DIC": value = String("Diodes Infrarouges");               break;
-        case "FC" : value = String("Fluorescentes Compactes");          break;
-        case "HAL": value = String("Halogènes");                        break;
-        case "IC" : value = String("Infrarouges");                      break;
-        case "IM" : value = String("Infrarouges à Mélange");            break;
-        case "IMC": value = String("Infrarouges à Mélange Compactes");  break;
-        case "LED": value = String("Diodes Electroluminescentes");      break;
-        case "MBP": value = String("Mercure Basse Pression");           break;
-        case "SHP": value = String("Sodium Haute Pression");            break;
-        case "SBP": value = String("Sodium Basse Pression");            break;
-        case "TF" : value = String("Tungstène Fluorescentes");          break;
-        case "TL" : value = String("Tungstène à Lames");                break;
-        default   : value = String("Donnée non disponible");            break;
+        case "DIC": value = String("Diodes Infrarouges (DIC)");              break;
+        case "FC" : value = String("Fluorescentes Compactes (FC)");          break;
+        case "HAL": value = String("Halogènes (HAL)");                       break;
+        case "IC" : value = String("Infrarouges (IC)");                      break;
+        case "IM" : value = String("Infrarouges à Mélange (IM)");            break;
+        case "IMC": value = String("Infrarouges à Mélange Compactes (IMC)"); break;
+        case "LED": value = String("Diodes Electroluminescentes (LED)");     break;
+        case "MBP": value = String("Mercure Basse Pression (MBP)");          break;
+        case "SHP": value = String("Sodium Haute Pression (SHP)");           break;
+        case "SBP": value = String("Sodium Basse Pression (SBP)");           break;
+        case "TF" : value = String("Tungstène Fluorescentes (TF)");          break;
+        case "TL" : value = String("Tungstène à Lames (TL)");                break;
+        default   : value = String("Donnée non disponible");                 break;
     }
     return (value);
 }
@@ -95,17 +94,20 @@ function generatePopupText(json, i) {
     return (type);
 }
 
+var clusters = L.markerClusterGroup({
+    //Modifie l'icone des clusters
+    // iconCreateFunction: function(cluster) {
+    //     return L.divIcon({ html: '<b>' + cluster.getChildCount() + '</b>' });
+    // },
+    singleMarkerMode: false, //Affiche uniquement des clusters
+    spiderfyOnMaxZoom: false, //Désactive le spiderfy --> je sais plus c'est quoi mais c'est cool, vas de paire avec disableClusteringAtZoom donc à laisser
+    disableClusteringAtZoom: 20 //Désactive le clustering à partir du zoom
+});
+
+var x = "";
+
 function parseData(json, map, layerGroupArray, markerArray) {
     //Création des clusters et de leurs icones
-    let clusters = L.markerClusterGroup({
-        //Modifie l'icone des clusters
-        // iconCreateFunction: function(cluster) {
-        //     return L.divIcon({ html: '<b>' + cluster.getChildCount() + '</b>' });
-        // },
-        singleMarkerMode: false, //Affiche uniquement des clusters
-        spiderfyOnMaxZoom: false, //Désactive le spiderfy --> je sais plus c'est quoi mais c'est cool, vas de paire avec disableClusteringAtZoom donc à laisser
-        disableClusteringAtZoom: 20 //Désactive le clustering à partir du zoom
-    });
 
     //Options css des popups
     var customOptions = {
@@ -128,7 +130,57 @@ function parseData(json, map, layerGroupArray, markerArray) {
     }
     //Ajout des cluster dans la carte
     map.addLayer(clusters);
-    filterArray = getAndApplyFilter(json); // a faire ne marche pas encore
+    return map;
+}
+
+function getFilters(layerGroupArray, map, clusters) {
+    let ville = ['Nantes', 'Rezé', 'Basse-Goulaine', 'Vertou', 'Thouaré-sur-Loire', 'Ste-Luce-sur-Loire', 'St-Sébastien-sur-Loire',
+            'St-Léger-les-Vignes', 'St-Jean-de-Boiseau', 'St-Herblain', 'St-Aignan-Grandlieu', 'Sautron', 'Orvault', 'Mauves-sur-Loire',
+            'Les Sorinières', 'Le Pellerin', 'La Montagne', 'La Chapelle-sur-Erdre', 'Indre', 'Couëron', 'Carquefou', 'Brains', 'Bouguenais', 'Bouaye'];
+    let check = 0;
+    var customOptions = {
+        'maxWidth': '500',
+        'className' : 'custom'
+    }
+    if (x != "") {
+        console.log(x)
+        map.removeLayer(layerGroupArray[String(x)]);
+    }
+    x = document.getElementById('filters').value;
+    let choosenCity = "";
+    for (i = 0; i < ville.length; i++) {
+        const compareCityAndFilter = String(x).localeCompare(ville[i]);
+        if (compareCityAndFilter === 0) {
+            check = 1;
+        } else {
+            for (i = 0; i < ville.length; i++) {
+                let doesFilterStartWithCityName = ville[i].toLowerCase().startsWith(String(x).toLowerCase());
+                if (doesFilterStartWithCityName == true) {
+                    x.textContent = String(ville[i]);
+                    x = String(ville[i]);
+                    x.value = x.textContent; // test pour faire entrer une "autocomplétion"
+                    choosenCity = ville[i];
+                    console.log(choosenCity);
+                    check = 0;
+                } else {
+                    let alert = "Nom de Ville incorrect!" // utiliser pour changer x.value
+                }
+            }
+        }
+    }
+    if (x == "") {
+        map.addLayer(clusters);
+        return map;
+    }
+    console.log(x);
+    map.removeLayer(clusters);
+
+    for (i = 0; i < ville.length; i++) {
+        const add = String(x).localeCompare(ville[i]);
+        if (check == 0 && add === 0)
+            layerGroupArray[choosenCity].addTo(map).bindPopup(type, customOptions);
+    }
+    map.flyTo([47.179011, -1.548557], 14); // changer les GeoPos pour avoir toute les pos "centrer" des villes
     return map;
 }
 
@@ -155,7 +207,7 @@ function createMarker(map, lat, lng, ville, layerGroupArray, markerArray) {
 //Ajout des markers dans un layerGroup
 function addMarkerToLayerGroup(map, marker, layerGroup, layerGroupArray) {
     if (layerGroupArray[layerGroup] == undefined) {
-        layerGroupArray[layerGroup] = new L.LayerGroup();
+        layerGroupArray[layerGroup] = new L.markerClusterGroup();
     }
     layerGroupArray[layerGroup].addLayer(marker);
     return map;
@@ -172,6 +224,10 @@ function readData(map) {
 
 map = readData(map);
 
+//Disable click propagation
+L.DomEvent.disableClickPropagation(button);
+L.DomEvent.disableClickPropagation(darkModeElem);
+
 //Gestion du print du zoom
 // map.on('zoomend', showZoomLevel);
 // showZoomLevel();
@@ -179,23 +235,3 @@ map = readData(map);
 // function showZoomLevel() {
 //     document.getElementById('zoom').innerHTML = map.getZoom();
 // }
-
-// TEMPORAIRE / A FAIRE / A FIX
-
-function getAndApplyFilter(json) {
-    var filters = [];
-    const cmp = [];
-    let j = 0;
-    let check = 0;
-    for (let i = 0; i < json.length; i++) {
-        for (j = 0; j < cmp.length; j++) {
-            if (String(json[i]['fields']['lib_com'].localeCompare(String(cmp[j])) === 0)) {
-                check = 1;
-            }
-        }
-        if (check === 0)
-            filters[i] = json[i]['fields']['lib_com'];
-        check = 0;
-    }
-    return (filters);
-}
