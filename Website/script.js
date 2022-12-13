@@ -1,7 +1,7 @@
 //Option de la carte
 let mapOptions = {
     center:[47.237054, -1.565895],
-    zoom:12,
+    zoom:16,
     zoomControl: false
 }
 
@@ -80,12 +80,17 @@ function replaceToAcronym(str) {
 }
 
 function generatePopupText(json, i) {
-    let type = String("<h1> Éclairage n° " + json[i]['fields']['numero'] + "</h1>");
-    type += String("<h2> <u>Adresse:</u> <br/>" + json[i]['fields']['nom_voie'] + ", <br/>" + json[i]['fields']['lib_com'] + "</h2> <h2> <u>Type d'éclairage:</u> <br/>");
-    type += replaceToAcronym(json[i]['fields']['type_lampe']);
-    type += String("<h2> <u>État:</u> <br/>" + "Pas encore possible" + "</h2>");
-    type += String("<h2><u>Conso:</u><br/> 34 kW/h</h2>");
-    type += String("<h2><u>Émission (CO2):</u><br/> 14 gr de CO2</h2>");
+    let type = String("<h1 style='text-align:center'> Lampadaire " + json[i]['fields']['numero'] + "</h1>");
+    type += String("<h3 style='text-align:center'> " + json[i]['fields']['nom_voie'] + ", " + json[i]['fields']['lib_com'] + "<br/></h3>");
+    type += String("<h1 style='color: #FAC710;text-align:center'>Consommation<br/></h1>");
+    type += String('<div class="container"><div class="image"><img src="assets/popupLogos/flash.png" height="48px" width="48"></div><div class="text"><h3>50 kW/h</h3></div></div>');
+    type += String('<div class="container"><div class="image"><img src="assets/popupLogos/leaf.png" height="48px" width="48"></div><div class="text"><h3>20 g de CO2/h</h3></div></div>');
+    type += String("<div class='yellowSquareClass';>");
+    type += String("<h1 style='text-align:center;color:#2A2B2A'>Action Possible<br/></h1>");
+    type += String('<div class="container"><div class="image"><img src="assets/popupLogos/power.png" height="48px" width="48"></div><div class="text"><h3>Éteindre de 00h00 à 5h00</h3></div></div>');
+    type += String("<h1 style='text-align:center;color:#2A2B2A'>Conséquences</h1>");
+    type += String('<div class="container"><div class="image"><img src="assets/popupLogos/down-arrow.png" height="48px" width="48"></div><div class="text"><h3>250 kW/j<br/>100 g de CO2/j<br/></h3></div></div>');
+    type += String("</div>");
 
     return (type);
 }
@@ -105,7 +110,7 @@ function parseData(json, map, layerGroupArray, markerArray) {
     //Options css des popups
     var customOptions = {
         'maxWidth': '500',
-        'className' : 'custom'
+        'className' : 'custom',
     }
 
     //Iterate through the JSON array.
@@ -118,7 +123,7 @@ function parseData(json, map, layerGroupArray, markerArray) {
         // Information sur les Lampadaires
         type = generatePopupText(json, i);
 
-        let marker = new L.Marker([lat, lng]).bindPopup(type, customOptions);
+        let marker = new L.Marker([lat, lng], {icon: myIcon}).bindPopup(type, customOptions);
         clusters.addLayer(marker);
     }
     //Ajout des cluster dans la carte
@@ -129,13 +134,13 @@ function parseData(json, map, layerGroupArray, markerArray) {
 
 //Gestion de l'icone des markers -- A FAIRE
 var myIcon = L.icon({
-    class : "circle",
-    iconSize: [38, 95],
-    iconAnchor: [22, 94],
-    popupAnchor: [-3, -76],
-    // shadowUrl: 'my-icon-shadow.png',
-    shadowSize: [68, 95],
-    shadowAnchor: [22, 94]
+    iconUrl: 'assets/LampadAIR.svg',
+    // shadowUrl: 'assets/leaf-shadow.png',
+    iconSize: [20, 20],
+    iconAnchor: [0, 0],
+    popupAnchor: [11, 8],
+    shadowSize: [50, 64],
+    shadowAnchor: [4, 62]
 });
 
 //Création des markers

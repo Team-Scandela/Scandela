@@ -3,8 +3,32 @@
     height: 98.3vh;
 }
 
+/* Popup display outside */
 .custom .leaflet-popup-tip,
 .custom .leaflet-popup-content-wrapper {
-    background: lightgray;
-    opacity: 0.8;
+    background: #2A2B2A;
+    opacity: 1;
+    color: white;
 }
+
+/* Popup display inside */
+.yellowSquareClass {
+    border-radius: 15px;
+    background: #FAC710;
+}
+.image {
+    flex-basis: 22%;
+    margin-left: 8px;
+}
+.text {
+    font-size: 15px;
+    /* padding-left: 20px; */
+}
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: left
+  }
+  img {
+    max-width: 100%
+  }
