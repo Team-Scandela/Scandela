@@ -130,24 +130,54 @@ function parseData(json, map, layerGroupArray, markerArray) {
 }
 
 function getFilters(layerGroupArray, map, clusters) {
+    let ville = ['Nantes', 'Rezé', 'Basse-Goulaine', 'Vertou', 'Thouaré-sur-Loire', 'Ste-Luce-sur-Loire', 'St-Sébastien-sur-Loire',
+            'St-Léger-les-Vignes', 'St-Jean-de-Boiseau', 'St-Herblain', 'St-Aignan-Grandlieu', 'Sautron', 'Orvault', 'Mauves-sur-Loire',
+            'Les Sorinières', 'Le Pellerin', 'La Montagne', 'La Chapelle-sur-Erdre', 'Indre', 'Couëron', 'Carquefou', 'Brains', 'Bouguenais', 'Bouaye'];
+    let check = 0;
     var customOptions = {
         'maxWidth': '500',
         'className' : 'custom'
     }
-    
-    if (x != "") {
-        console.log(x)
-        map.removeLayer(layerGroupArray[String(x)]);
+    for (i = 0; i < ville.length; i++) {
+        const clear = String(x).localeCompare(ville[i]);
+        if (check == 0 && x != "" && clear === 0)
+            map.removeLayer(layerGroupArray[String(x)]);
     }
     x = document.getElementById('filters').value;
+    let choosenCity = "";
+    for (i = 0; i < ville.length; i++) {
+        const compareCityAndFilter = String(x).localeCompare(ville[i]);
+        if (compareCityAndFilter === 0) {
+            check = 1;
+        } else {
+            for (i = 0; i < ville.length; i++) {
+                let doesFilterStartWithCityName = ville[i].toLowerCase().startsWith(String(x).toLowerCase());
+                if (doesFilterStartWithCityName == true) {
+                    x.textContent = String(ville[i]);
+                    x = String(ville[i]);
+                    x.value = x.textContent; // test pour faire entrer une "autocomplétion"
+                    choosenCity = ville[i];
+                    console.log(choosenCity);
+                    check = 0;
+                } else {
+                    let alert = "Nom de Ville incorrect!" // utiliser pour changer x.value
+                }
+            }
+        }
+    }
     if (x == "") {
         map.addLayer(clusters);
         return map;
     }
     console.log(x);
     map.removeLayer(clusters);
-    layerGroupArray[String(x)].addTo(map).bindPopup(type, customOptions);
-    map.flyTo([47.19292929509028, -1.582909783597274], 13); // change GeoPos in a better way
+
+    for (i = 0; i < ville.length; i++) {
+        const add = String(x).localeCompare(ville[i]);
+        if (check == 0 && add === 0)
+            layerGroupArray[choosenCity].addTo(map).bindPopup(type, customOptions);
+    }
+    map.flyTo([47.179011, -1.548557], 14); // changer les GeoPos pour avoir toute les pos "centrer" des villes
     return map;
 }
 
