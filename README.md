@@ -1,6 +1,8 @@
 # Scandela
 
 ![Scampoule](ressources/images/logo-128x128.png)
+![Scampoule](ressources/images/logo-128x128-white.png)
+![Scampoule](ressources/images/logo-128x128-yellow.png)
 ## Epitech Innovative Project 
 
 Scandela is a cartographic analysis and simulation software that allows local authorities to make the right decisions regarding their public lighting in order to reduce their electrical and environmental expenses while ensuring safety.
