@@ -28,4 +28,4 @@ The team is compose of 8 members of Epitech Nantes.
 - Victor Harri-Chall 
 - Enzo Laurent
 - Keon Savic
-- Marvin Verrain
+- Marvin Verain
