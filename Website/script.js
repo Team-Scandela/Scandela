@@ -7,7 +7,7 @@ let mapOptions = {
 
 // Option des layers
 let layerOptions = {
-    attribution: 'Scampoule !',
+    attribution: 'Scandela',
     maxNativeZoom: 18,
     maxZoom: 25
 }
