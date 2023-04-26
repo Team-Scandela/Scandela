@@ -1,6 +1,6 @@
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import PrincipalPage from './pages/PrincipalPage'
+import PrincipalPage from './pages/Scandela'
 
 function App() {
   return (
