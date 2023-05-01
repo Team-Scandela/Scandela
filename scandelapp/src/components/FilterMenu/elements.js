@@ -24,7 +24,7 @@ export const FilterMenuButton = styled.div`
 export const FilterMenuContainer = styled.div`
     display: flex;
     flex-direction: row;
-    gap: 50px;
+    gap: 20px;
     justify-content: center;
     align-items: center;
     width: ${props => props.show ? '300px' : '0px'};

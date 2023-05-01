@@ -1,10 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 import FilterMenu from '../components/FilterMenu'
 
-const main = () => {
+const Main = () => {
+
+  const [filter, setFilter] = useState('none');
+
   return (
-    <FilterMenu />
+    <div>
+      <FilterMenu filter={filter} setFilter={setFilter}/>
+      <h1>{filter}</h1>
+    </div>
   )
 }
 
-export default main
+export default Main
