@@ -1,8 +1,14 @@
 import './App.css';
+import Main from './pages/main';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 function App() {
   return (
-    <div>test</div>
+      <BrowserRouter>
+          <Routes>
+            <Route exact path='/' element={<Main/>}/>
+          </Routes>
+      </BrowserRouter>
   );
 }
 
