@@ -9,7 +9,7 @@ const FilterMenu = ( { filter, setFilter } ) => {
   const [on, setOn] = useState(false);
 
   const handleIconClick = (newFilter) => {
-    if (newFilter == filter) {
+    if (newFilter === filter) {
       newFilter = "none";
     }
     setFilter(newFilter);
@@ -20,7 +20,7 @@ const FilterMenu = ( { filter, setFilter } ) => {
     let style = { cursor: "pointer" };
     console.log(filter);
     console.log(iconFilter)
-    if (filter != iconFilter && filter != "none") {
+    if (filter !== iconFilter && filter !== "none") {
       style.opacity = "0.5";
     } else {
       style.opacity = "1";

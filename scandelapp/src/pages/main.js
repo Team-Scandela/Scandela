@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import FilterMenu from '../components/FilterMenu'
+import Map from '../components/Map'
 
 const Main = () => {
 
@@ -7,8 +8,8 @@ const Main = () => {
 
   return (
     <div>
+      <Map filter={filter}/>
       <FilterMenu filter={filter} setFilter={setFilter}/>
-      <h1>{filter}</h1>
     </div>
   )
 }
