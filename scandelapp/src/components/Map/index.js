@@ -4,7 +4,7 @@ import React, { useRef, useState, useEffect } from 'react'
 mapboxgl.accessToken = "pk.eyJ1IjoidGl0b3VhbnRkIiwiYSI6ImNsaDYyeHUybDAyNTkzcHV5NHlzY3drbHIifQ._eEX5CRcWxVrl9C8z4u3fQ"
 
 
-const Map = () => {
+const Map = ( { isDark } ) => {
 
   const mapContainer = useRef(null);
   const map = useRef(null);
@@ -13,15 +13,20 @@ const Map = () => {
   const [zoom, setZoom] = useState(13);
 
   useEffect(() => {
-    if (map.current) return;
-    map.current = new mapboxgl.Map({
-      container: mapContainer.current,
-      style: "mapbox://styles/mapbox/dark-v11",
-      center: [lng, lat],
-      zoom: zoom,
-      contributonControl : false
-    });
-  });
+    if (map.current) {
+      map.current.setStyle(
+        isDark ? "mapbox://styles/mapbox/dark-v11" : "mapbox://styles/mapbox/light-v11"
+      );
+    } else {
+      map.current = new mapboxgl.Map({
+        container: mapContainer.current,
+        style: isDark ? "mapbox://styles/mapbox/dark-v11" : "mapbox://styles/mapbox/light-v11",
+        center: [lng, lat],
+        zoom: zoom,
+        contributonControl: false
+      });
+    }
+  }, [isDark]);
 
   const styleMap = {
     height: "100vh",

@@ -2,9 +2,7 @@ import React, { useState } from 'react'
 import { LightDarkButton } from './elements'
 import { FiSun, FiMoon } from 'react-icons/fi'
 
-const LightDark = () => {
-
-  const [isDark, setIsDark] = useState(true);
+const LightDark = ( {isDark, setIsDark} ) => {
 
   const handleIconClick = () => {
     setIsDark(!isDark);
@@ -12,7 +10,7 @@ const LightDark = () => {
 
   return (
     <div>
-      <LightDarkButton onClick={handleIconClick}>
+      <LightDarkButton onClick={handleIconClick} isDark={isDark}>
         {isDark ? <FiSun /> : <FiMoon />}
       </LightDarkButton>
     </div>

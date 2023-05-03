@@ -4,7 +4,7 @@ import { MdOutlineFilterNone as FilterIcon } from 'react-icons/md'
 import { MdOutlinePlace, MdDataUsage, MdPlace, MdFilterList, MdDirectionsCar, MdElectricMeter } from 'react-icons/md'
 
 
-const FilterMenu = ( { filter, setFilter } ) => {
+const FilterMenu = ( { filter, setFilter, isDark } ) => {
 
   const [on, setOn] = useState(false);
 
@@ -18,8 +18,6 @@ const FilterMenu = ( { filter, setFilter } ) => {
 
   const chooseStyle = (iconFilter) => {
     let style = { cursor: "pointer" };
-    console.log(filter);
-    console.log(iconFilter)
     if (filter !== iconFilter && filter !== "none") {
       style.opacity = "0.5";
     } else {
@@ -30,10 +28,10 @@ const FilterMenu = ( { filter, setFilter } ) => {
 
   return (
     <div>
-      <FilterMenuButton onClick={() => setOn(!on)}>
+      <FilterMenuButton onClick={() => setOn(!on)} isDark={isDark}>
         <FilterIcon />
       </FilterMenuButton>
-      <FilterMenuContainer show={on}>
+      <FilterMenuContainer show={on} isDark={isDark}>
         <MdOutlinePlace style={chooseStyle("pin")} onClick={() => handleIconClick("pin")} />
         <MdDataUsage style={chooseStyle("zone")} onClick={() => handleIconClick("zone")} />
         <MdPlace style={chooseStyle("pinColor")} onClick={() => handleIconClick("pinColor")} />
