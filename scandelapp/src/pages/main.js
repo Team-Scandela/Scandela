@@ -3,6 +3,7 @@ import FilterMenu from '../components/FilterMenu'
 import Map from '../components/Map'
 import LightDark from '../components/LightDark'
 
+/** Main page of the app */
 const Main = () => {
 
   const [filter, setFilter] = useState('none');
