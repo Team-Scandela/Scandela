@@ -16,7 +16,7 @@ const Map = () => {
     if (map.current) return;
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
-      style: "mapbox://styles/titouantd/clh630c6o00rw01pg7wzahuau",
+      style: "mapbox://styles/mapbox/dark-v11",
       center: [lng, lat],
       zoom: zoom,
       contributonControl : false
@@ -24,13 +24,12 @@ const Map = () => {
   });
 
   const styleMap = {
-    height: "100%",
-    width: "100%",
-
+    height: "100vh",
+    width: "100vw",
   }
 
   return (
-    <div>
+    <div style={{overflow: "hidden"}}>
       <div style={styleMap} ref={mapContainer} className="map-container" />
       <style>
         {`.mapboxgl-ctrl-logo {

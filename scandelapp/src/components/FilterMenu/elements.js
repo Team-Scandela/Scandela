@@ -17,8 +17,8 @@ export const FilterMenuButton = styled.div`
     box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
 
     position: fixed;
-    bottom: 20px;
-    left: 20px;
+    bottom: 30px;
+    left: 30px;
 `;
 
 export const FilterMenuContainer = styled.div`
@@ -39,8 +39,8 @@ export const FilterMenuContainer = styled.div`
     box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
 
     position: fixed;
-    bottom: 20px;
-    left: 80px;
+    bottom: 30px;
+    left: 90px;
 `;
 
 
