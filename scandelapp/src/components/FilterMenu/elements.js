@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 
+/** Button who allows to open the container of filters */
 export const FilterMenuButton = styled.div`
     display: flex;
     justify-content: center;
@@ -21,6 +22,7 @@ export const FilterMenuButton = styled.div`
     left: 30px;
 `;
 
+/** Conatainer of map filters */
 export const FilterMenuContainer = styled.div`
     display: flex;
     flex-direction: row;

@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 
+/** Button who allows to switch between dark and light mode */
 export const LightDarkButton = styled.div`
     display: flex;
     justify-content: center;
