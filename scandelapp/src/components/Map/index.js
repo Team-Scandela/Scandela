@@ -8,48 +8,48 @@ mapboxgl.accessToken = "pk.eyJ1IjoidGl0b3VhbnRkIiwiYSI6ImNsaDYyeHUybDAyNTkzcHV5N
 */
 const Map = ( { isDark } ) => {
 
-  const mapContainer = useRef(null);
-  const map = useRef(null);
-  const [lng, setLng] = useState(-1.553621);
-  const [lat, setLat] = useState(47.21);
-  const [zoom, setZoom] = useState(13);
+    const mapContainer = useRef(null);
+    const map = useRef(null);
+    const [lng, setLng] = useState(-1.553621);
+    const [lat, setLat] = useState(47.21);
+    const [zoom, setZoom] = useState(13);
 
-  /** Setup the map and change the style of the map wether is light or dark mode */
-  useEffect(() => {
-    if (map.current) {
-      map.current.setStyle(
-        isDark ? "mapbox://styles/mapbox/dark-v11" : "mapbox://styles/mapbox/light-v11"
-      );
-    } else {
-      map.current = new mapboxgl.Map({
-        container: mapContainer.current,
-        style: isDark ? "mapbox://styles/mapbox/dark-v11" : "mapbox://styles/mapbox/light-v11",
-        center: [lng, lat],
-        zoom: zoom,
-        contributonControl: false
-      });
-    }
-  }, [isDark]);
-
-  /** Set the map to take the entire screen */
-  const styleMap = {
-    height: "100vh",
-    width: "100vw",
-  }
-
-  return (
-    <div style={{overflow: "hidden"}}>
-      <div style={styleMap} ref={mapContainer} className="map-container" />
-      <style>
-        {`.mapboxgl-ctrl-logo {
-            display: none;
+    /** Setup the map and change the style of the map wether is light or dark mode */
+    useEffect(() => {
+        if (map.current) {
+            map.current.setStyle(
+                isDark ? "mapbox://styles/mapbox/dark-v11" : "mapbox://styles/mapbox/light-v11"
+        );
+        } else {
+            map.current = new mapboxgl.Map({
+                container: mapContainer.current,
+                style: isDark ? "mapbox://styles/mapbox/dark-v11" : "mapbox://styles/mapbox/light-v11",
+                center: [lng, lat],
+                zoom: zoom,
+                contributonControl: false
+            });
         }
-        .mapboxgl-ctrl-attrib-inner {
-          display: none;
-        }`}
-      </style>
-    </div>
-  )
+    }, [isDark]);
+
+    /** Set the map to take the entire screen */
+    const styleMap = {
+        height: "100vh",
+        width: "100vw",
+    }
+
+    return (
+        <div style={{overflow: "hidden"}}>
+            <div style={styleMap} ref={mapContainer} className="map-container" />
+            <style>
+                {`.mapboxgl-ctrl-logo {
+                    display: none;
+                }
+                .mapboxgl-ctrl-attrib-inner {
+                display: none;
+                }`}
+            </style>
+        </div>
+    )
 }
 
 export default Map

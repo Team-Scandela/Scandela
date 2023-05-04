@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { LightDarkButton } from './elements'
 import { FiSun, FiMoon } from 'react-icons/fi'
 
@@ -8,18 +8,18 @@ import { FiSun, FiMoon } from 'react-icons/fi'
 */
 const LightDark = ( {isDark, setIsDark} ) => {
 
-  /** Handle the click on the button and switch to the other mode */
-  const handleIconClick = () => {
-    setIsDark(!isDark);
-  };
+    /** Handle the click on the button and switch to the other mode */
+    const handleIconClick = () => {
+        setIsDark(!isDark);
+    };
 
-  return (
-    <div>
-      <LightDarkButton onClick={handleIconClick} isDark={isDark}>
-        {isDark ? <FiSun /> : <FiMoon />}
-      </LightDarkButton>
-    </div>
-  )
+    return (
+        <div>
+            <LightDarkButton onClick={handleIconClick} isDark={isDark}>
+                {isDark ? <FiSun /> : <FiMoon />}
+            </LightDarkButton>
+        </div>
+    )
 }
 
 export default LightDark
