@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
 export const LoginContainer = styled.div`
-    background-color: #393E46;
     border-radius: 10px;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
     position: relative;
@@ -9,13 +8,11 @@ export const LoginContainer = styled.div`
     width: 678%;
     max-width: 50%;
     min-height: 400px;
-    top : 50%;
     left : 50%;
     transform: translate(-50%, 50%);
 `;
 
 export const SignUpContainer = styled.div`
-    background-color: #fff;
     position: absolute;
     top: 0;
     height: 100%;
@@ -28,7 +25,6 @@ export const SignUpContainer = styled.div`
 `;
 
 export const SignInContainer = styled.div`
-    background-color: #fff;
     position: absolute;
     top: 0;
     height: 100%;
@@ -66,9 +62,9 @@ export const Input = styled.input`
 
 export const Button = styled.button`
     border-radius: 20px;
-    border: 1px solid #01bf71;
-    background-color: #01bf71;
-    color: #ffffff;
+    border : none;
+    background-color: #FAC710;
+    color: #2A2B2A;
     font-size: 12px;
     font-weight: bold;
     padding: 12px 45px;
@@ -80,7 +76,6 @@ export const Button = styled.button`
     &:hover {
         cursor: pointer;
         transform: scale(1.05);
-        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
     }
 
     &:active{
@@ -90,7 +85,6 @@ export const Button = styled.button`
 `;
 
 export const GhostButton = styled(Button)`
-    border-color: #ffffff;
     margin-top: 10px;
 
     &:hover {
@@ -124,8 +118,8 @@ export const OverlayContainer = styled.div`
 `;
 
 export const Overlay = styled.div`
-    background: #01bf71;
-    color: #ffffff;
+    background: #2A2B2A;
+    color: #FAC710;
     position: relative;
     left: -100%;
     height: 100%;
