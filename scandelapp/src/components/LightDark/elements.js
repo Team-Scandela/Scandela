@@ -18,6 +18,6 @@ export const LightDarkButton = styled.div`
     box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
 
     position: fixed;
-    top: 30px;
-    left: 330px;
+    top: 25px;
+    left: 530px;
 `;

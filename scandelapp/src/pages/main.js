@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import FilterMenu from '../components/FilterMenu'
 import Map from '../components/Map'
 import LightDark from '../components/LightDark'
+import SearchBar from '../components/SearchBar'
 
 /** Main page of the app */
 const Main = () => {
@@ -13,6 +14,7 @@ const Main = () => {
         <div>
             <Map filter={filter} isDark={isDark}/>
             <FilterMenu filter={filter} setFilter={setFilter} isDark={isDark}/>
+            <SearchBar> </SearchBar>
             <LightDark isDark={isDark} setIsDark={setIsDark}/>
         </div>
     )
