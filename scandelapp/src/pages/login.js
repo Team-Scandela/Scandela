@@ -5,7 +5,7 @@ import LoginModule from '../components/LoginModule'
 const Login = () => {
 
     return (
-        <div style={{ backgroundColor: '#2A2B2A', height : "100vh"}}>
+        <div style={{ backgroundColor: '#fff', height : "100vh"}}>
             <LoginModule />
         </div>
     )
