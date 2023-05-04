@@ -61,10 +61,10 @@ export const Input = styled.input`
 `;
 
 export const Button = styled.button`
+    border: none;
     border-radius: 20px;
-    border : none;
     background-color: #FAC710;
-    color: #2A2B2A;
+    color: #fff;
     font-size: 12px;
     font-weight: bold;
     padding: 12px 45px;
@@ -85,6 +85,7 @@ export const Button = styled.button`
 `;
 
 export const GhostButton = styled(Button)`
+    border : 1px solid #fff;
     margin-top: 10px;
 
     &:hover {
@@ -118,8 +119,8 @@ export const OverlayContainer = styled.div`
 `;
 
 export const Overlay = styled.div`
-    background: #2A2B2A;
-    color: #FAC710;
+    background: #FAC710;
+    color: #eee;
     position: relative;
     left: -100%;
     height: 100%;
