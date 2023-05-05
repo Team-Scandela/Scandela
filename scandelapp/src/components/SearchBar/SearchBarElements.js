@@ -35,6 +35,10 @@ export const SearchIconContainer = styled.div`
   display: flex;
   align-items: center;
   padding-right: 5px;
+
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 export const InputWrapper =  styled.div`

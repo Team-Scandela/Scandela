@@ -6,17 +6,17 @@ import { YellowScandela } from "../../colors";
 
 const SearchBar = () => {
   return (
-      <SearchBarBg>
-        <LogoContainer>
-          <img src={logo} alt="Logo" />
-        </LogoContainer>
-        <SearchIconContainer>
-          <Icon icon="material-symbols:search" style={{ color: YellowScandela, fontSize: '35px' }} />
-        </SearchIconContainer>
-        <InputWrapper>
-          <input id="input" placeholder="Rechercher dans Scandela" style={{ color: YellowScandela }} ></input>
-        </InputWrapper>
-      </SearchBarBg>
+    <SearchBarBg>
+      <LogoContainer>
+        <img src={logo} alt="Logo" />
+      </LogoContainer>
+      <SearchIconContainer onClick={() => console.log("Search icon clicked")}>
+        <Icon icon="material-symbols:search" style={{ color: YellowScandela, fontSize: '35px' }} />
+      </SearchIconContainer>
+      <InputWrapper>
+        <input id="input" placeholder="Rechercher dans Scandela" style={{ color: YellowScandela }} ></input>
+      </InputWrapper>
+    </SearchBarBg>
   )
 }
 
