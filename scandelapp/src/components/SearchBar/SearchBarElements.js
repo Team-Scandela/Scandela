@@ -1,5 +1,8 @@
 import styled from "styled-components";
+import { YellowScandela } from '../../colors';
 
+
+/** Container for the background of the searchbar **/
 export const SearchBarBg = styled.div`
     position: absolute;
     background-color: rgba(42, 43, 42, 0.8);
@@ -11,6 +14,7 @@ export const SearchBarBg = styled.div`
     left: 25px;
 `;
 
+/** Container that cointain the scandela logo **/
 export const LogoContainer = styled.div`
   width: 10%;
   height: 100%;
@@ -26,6 +30,7 @@ export const LogoContainer = styled.div`
   }
 `;
 
+/** container that contain the search icon **/
 export const SearchIconContainer = styled.div`
   width: 10%;
   height: 100%;
@@ -41,6 +46,7 @@ export const SearchIconContainer = styled.div`
   }
 `;
 
+/**  Container that contain the input in order to write on the searchbar**/
 export const InputWrapper =  styled.div`
   width: 80%;
   height: 70%;
@@ -60,7 +66,7 @@ export const InputWrapper =  styled.div`
     font-size: 16px;
     padding: 0 10px;
     ::placeholder {
-      color: #E6AF2E;
+      color: ${YellowScandela};
     }
   }
 `;

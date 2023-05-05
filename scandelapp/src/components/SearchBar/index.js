@@ -4,6 +4,10 @@ import logo from '../../assets/logo-128x128-yellow.png'
 import { Icon } from '@iconify/react';
 import { YellowScandela } from "../../colors";
 
+/** SearchBar of the main page Scandela 
+ * This SearchBar allow the user to search a precise street or city in the Scandel'App
+ * **/
+
 const SearchBar = () => {
   return (
     <SearchBarBg>
