@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
 import { LoginContainer, SignUpContainer, SignInContainer, Form, Title, Input, Button, Anchor, OverlayContainer, Overlay, LeftOverlayPanel, RightOverlayPanel, Paragraph, GhostButton } from './elements'
 
+/** Login module wh allow to sign in up. You can slide the overlay from left to right (or the opposite) to acess to the side wanted */
 const LoginModule = () => {
+
+    /** if the page is on sign in or sign up */
     const [onSignInPage, setOnSignInPage] = React.useState(true);
 
     const [usernameSignUp, setUsernameSignUp] = useState('');
@@ -12,9 +15,11 @@ const LoginModule = () => {
     const [usernameSignIn, setUsernameSignIn] = useState('');
     const [passwordSignIn, setPasswordSignIn] = useState('');
 
+    /** handle click of the submit sign up button */
     const handleSubmitSignUp = () => {
     };
 
+    /** handle click of the submit sign in button */
     const handleSubmitSignIn = () => {
     };
 

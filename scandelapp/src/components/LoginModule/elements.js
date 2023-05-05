@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 
+/** Login container who contains the signup and signin container */
 export const LoginContainer = styled.div`
     border-radius: 10px;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
@@ -12,6 +13,7 @@ export const LoginContainer = styled.div`
     transform: translate(-50%, 50%);
 `;
 
+/** Sign up container, contains sign up infos */
 export const SignUpContainer = styled.div`
     position: absolute;
     top: 0;
@@ -24,6 +26,7 @@ export const SignUpContainer = styled.div`
     ${props => props.signinIn !== true ? ` transform: translateX(100%); opacity: 1; z-index: 5;` : null}
 `;
 
+/** Sign in container, contains sign in infos */
 export const SignInContainer = styled.div`
     position: absolute;
     top: 0;
@@ -36,6 +39,7 @@ export const SignInContainer = styled.div`
     ${props => props.signinIn !== true ? ` transform: translateX(100%); opacity: 1; z-index: 5;` : null}
 `;
 
+/** Form for SignIn / Sign Out */
 export const Form = styled.form`
     background-color: #fff;
     display: flex;
@@ -47,11 +51,13 @@ export const Form = styled.form`
     text-align: center;
 `;
 
+/** Title of the container */
 export const Title = styled.h1`
     font-weight : bold;
     margin : 0;
 `;
 
+/** Input for username, password ... */
 export const Input = styled.input`
     background-color: #eee;
     border: none;
@@ -60,6 +66,7 @@ export const Input = styled.input`
     width: 100%;
 `;
 
+/** Button complete to validate sign in up */
 export const Button = styled.button`
     border: none;
     border-radius: 20px;
@@ -84,20 +91,13 @@ export const Button = styled.button`
 
 `;
 
+/** Ghost button  for the overlay */
 export const GhostButton = styled(Button)`
     border : 1px solid #fff;
     margin-top: 10px;
-
-    &:hover {
-        cursor: pointer;
-        transform: scale(1.05);
-    }
-
-    &:active{
-        transform: scale(0.95);
-    }
 `;
 
+/** Anchor for forgotten password */
 export const Anchor = styled.a`
     color: #333;
     font-size: 14px;
@@ -106,6 +106,7 @@ export const Anchor = styled.a`
 
 `;
 
+/** Container for the overlay who covers the unused side */
 export const OverlayContainer = styled.div`
     position: absolute;
     top: 0;
@@ -118,6 +119,7 @@ export const OverlayContainer = styled.div`
     ${props =>props.signinIn !== true ? `transform: translateX(-100%);` : null}
 `;
 
+/** Overlay who covers the unused side */
 export const Overlay = styled.div`
     background: #FAC710;
     color: #eee;
@@ -131,6 +133,7 @@ export const Overlay = styled.div`
 `;
 
 
+/** Rules for the texte inside the overlay */
 export const OverlayPanel = styled.div`
     position: absolute;
     display: flex;
@@ -144,18 +147,20 @@ export const OverlayPanel = styled.div`
     transition: transform 0.6s ease-in-out;
 `;
 
-// Move the text for the animation
+/** Move the text during animation to the left */
 export const LeftOverlayPanel = styled(OverlayPanel)`
     transform: translateX(-20%);
     ${props => props.signinIn !== true ? `transform: translateX(0);` : null}
 `;
 
+/** Move the text during animation to the right */
 export const RightOverlayPanel = styled(OverlayPanel)`
     right: 0;
     transform: translateX(0);
     ${props => props.signinIn !== true ? `transform: translateX(20%);` : null}
 `;
 
+/** Rules for the <p> */
 export const Paragraph = styled.p`
     font-size: 14px;
     font-weight: 100;
