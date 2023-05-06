@@ -3,6 +3,7 @@ import FilterMenu from '../components/FilterMenu'
 import Map from '../components/Map'
 import LightDark from '../components/LightDark'
 import SearchBar from '../components/SearchBar'
+import ButtonEditInPdf from '../components/ButtonEditInPdf'
 
 /** Main page of the app */
 const Main = () => {
@@ -16,6 +17,7 @@ const Main = () => {
             <SearchBar isDark={isDark}/>
             <LightDark isDark={isDark} setIsDark={setIsDark}/>
             <FilterMenu filter={filter} setFilter={setFilter} isDark={isDark}/>
+            <ButtonEditInPdf isDark={isDark} />
         </div>
     )
 }
