@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Yellow, Black, White } from '../../colors';
 
 export const LoginContainer = styled.div`
     border-radius: 10px;
@@ -63,7 +64,7 @@ export const Input = styled.input`
 export const Button = styled.button`
     border: none;
     border-radius: 20px;
-    background-color: #FAC710;
+    background-color: ${Yellow};
     color: #fff;
     font-size: 12px;
     font-weight: bold;
@@ -119,7 +120,7 @@ export const OverlayContainer = styled.div`
 `;
 
 export const Overlay = styled.div`
-    background: #FAC710;
+    background: ${Yellow};
     color: #eee;
     position: relative;
     left: -100%;

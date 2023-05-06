@@ -13,9 +13,9 @@ const Main = () => {
     return (
         <div>
             <Map filter={filter} isDark={isDark}/>
-            <FilterMenu filter={filter} setFilter={setFilter} isDark={isDark}/>
-            <SearchBar> </SearchBar>
+            <SearchBar isDark={isDark}/>
             <LightDark isDark={isDark} setIsDark={setIsDark}/>
+            <FilterMenu filter={filter} setFilter={setFilter} isDark={isDark}/>
         </div>
     )
 }
