@@ -1,8 +1,8 @@
-import React from 'react'
+import * as React from 'react'
 import LoginModule from '../components/LoginModule'
 
 /** Login page of the app */
-const Login = () => {
+const Login: React.FC = () => {
 
     return (
         <div style={{ backgroundColor: '#fff', height : "100vh"}}>

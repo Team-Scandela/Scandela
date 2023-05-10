@@ -1,16 +1,16 @@
-import React, { useState } from 'react'
+import * as React from 'react'
 import { LoginContainer, SignUpContainer, SignInContainer, Form, Title, Input, Button, Anchor, OverlayContainer, Overlay, LeftOverlayPanel, RightOverlayPanel, Paragraph, GhostButton } from './elements'
 
-const LoginModule = () => {
+const LoginModule: React.FC = () => {
     const [onSignInPage, setOnSignInPage] = React.useState(true);
 
-    const [usernameSignUp, setUsernameSignUp] = useState('');
-    const [emailSignUp, setEmailSignUp] = useState('');
-    const [passwordSignUp, setPasswordSignUp] = useState('');
-    const [passwordConfirmSignUp, setPasswordConfirmSignUp] = useState('');
+    const [usernameSignUp, setUsernameSignUp] = React.useState('');
+    const [emailSignUp, setEmailSignUp] = React.useState('');
+    const [passwordSignUp, setPasswordSignUp] = React.useState('');
+    const [passwordConfirmSignUp, setPasswordConfirmSignUp] = React.useState('');
 
-    const [usernameSignIn, setUsernameSignIn] = useState('');
-    const [passwordSignIn, setPasswordSignIn] = useState('');
+    const [usernameSignIn, setUsernameSignIn] = React.useState('');
+    const [passwordSignIn, setPasswordSignIn] = React.useState('');
 
     const handleSubmitSignUp = () => {
     };
@@ -27,25 +27,25 @@ const LoginModule = () => {
                         type='text'
                         placeholder='Name'
                         value={usernameSignUp}
-                        onChange={(e) => setUsernameSignUp(e.target.value)}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUsernameSignIn(e.target.value)}
                     />
                     <Input
                         type='email'
                         placeholder='Email'
                         value={emailSignUp}
-                        onChange={(e) => setEmailSignUp(e.target.value)}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmailSignUp(e.target.value)}
                     />
                     <Input
                         type='password'
                         placeholder='Password'
                         value={passwordSignUp}
-                        onChange={(e) => setPasswordSignUp(e.target.value)}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPasswordSignUp(e.target.value)}
                     />
                     <Input
                         type='password'
                         placeholder='Confirm Password'
                         value={passwordConfirmSignUp}
-                        onChange={(e) => setPasswordConfirmSignUp(e.target.value)}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPasswordConfirmSignUp(e.target.value)}
                     />
                     <Button onClick={handleSubmitSignUp}> Sign Up </Button>
                 </Form>
@@ -58,14 +58,14 @@ const LoginModule = () => {
                         type='text'
                         placeholder='Username'
                         value={usernameSignIn}
-                        onChange={(e) => setUsernameSignIn(e.target.value)}
-                    />
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUsernameSignIn(e.target.value)}
+                        />
                     <Input
                         type='password'
                         placeholder='Password'
                         value={passwordSignIn}
-                        onChange={(e) => setPasswordSignIn(e.target.value)}
-                    />
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPasswordSignIn(e.target.value)}
+                        />
                     <Anchor href='#'>Forgot your password?</Anchor>
                     <Button onClick={handleSubmitSignIn}> Sign In </Button>
                 </Form>

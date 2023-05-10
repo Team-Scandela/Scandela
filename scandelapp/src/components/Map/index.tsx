@@ -1,21 +1,27 @@
-import mapboxgl from 'mapbox-gl';
-import React, { useRef, useState, useEffect } from 'react'
+import * as mapboxgl from 'mapbox-gl';
+import * as React from 'react'
 
-mapboxgl.accessToken = "pk.eyJ1IjoidGl0b3VhbnRkIiwiYSI6ImNsaDYyeHUybDAyNTkzcHV5NHlzY3drbHIifQ._eEX5CRcWxVrl9C8z4u3fQ"
+Object.getOwnPropertyDescriptor(mapboxgl, "accessToken").set("pk.eyJ1IjoidGl0b3VhbnRkIiwiYSI6ImNsaDYyeHUybDAyNTkzcHV5NHlzY3drbHIifQ._eEX5CRcWxVrl9C8z4u3fQ");
 
 /** Map of the city
  * @param {boolean} isDark - If the map is in dark mode or not
 */
-const Map = ( { isDark } ) => {
 
-    const mapContainer = useRef(null);
-    const map = useRef(null);
-    const [lng, setLng] = useState(-1.553621);
-    const [lat, setLat] = useState(47.21);
-    const [zoom, setZoom] = useState(13);
+interface MapProps {
+    filter : string,
+    isDark: boolean
+}
+
+const Map: React.FC<MapProps> = ({ filter, isDark }) => {
+
+    const mapContainer = React.useRef(null);
+    const map = React.useRef(null);
+    const [lng, setLng] = React.useState(-1.553621);
+    const [lat, setLat] = React.useState(47.21);
+    const [zoom, setZoom] = React.useState(13);
 
     /** Setup the map and change the style of the map wether is light or dark mode */
-    useEffect(() => {
+    React.useEffect(() => {
         if (map.current) {
             map.current.setStyle(
                 isDark ? "mapbox://styles/mapbox/dark-v11" : "mapbox://styles/mapbox/light-v11"
@@ -26,7 +32,6 @@ const Map = ( { isDark } ) => {
                 style: isDark ? "mapbox://styles/mapbox/dark-v11" : "mapbox://styles/mapbox/light-v11",
                 center: [lng, lat],
                 zoom: zoom,
-                contributonControl: false
             });
         }
     }, [isDark]);

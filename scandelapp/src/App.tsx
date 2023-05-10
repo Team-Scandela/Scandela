@@ -1,15 +1,16 @@
+import * as React from 'react';
 import './App.css';
 import Main from './pages/main';
 import Login from './pages/login';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 /** Route page */
-function App() {
+const App: React.FC = () => {
     return (
         <BrowserRouter>
             <Routes>
-                <Route exact path='/' element={<Main/>}/>
-                <Route exact path='/login' element={<Login/>}/>
+                <Route path='/' element={<Main/>}/>
+                <Route path='/login' element={<Login/>}/>
             </Routes>
         </BrowserRouter>
     );

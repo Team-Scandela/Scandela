@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import { LightDarkButton } from './elements'
 import { FiSun, FiMoon } from 'react-icons/fi'
 
@@ -6,7 +6,13 @@ import { FiSun, FiMoon } from 'react-icons/fi'
  * @param {boolean} isDark - If the mode is dark or not
  * @param {function} setIsDark - Function to set the mode
 */
-const LightDark = ( {isDark, setIsDark} ) => {
+
+interface LightDarkProps {
+    isDark: boolean;
+    setIsDark: (isDark: boolean) => void;
+}
+
+const LightDark: React.FC<LightDarkProps> = ({ isDark, setIsDark }) => {
 
     /** Handle the click on the button and switch to the other mode */
     const handleIconClick = () => {
