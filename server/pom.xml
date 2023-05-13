@@ -16,7 +16,6 @@
 	<description>REST API Scandela</description>
 	<properties>
 		<java.version>17</java.version>
-		<start-class>com.scandela.server.Server</start-class>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -68,7 +67,6 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-					<mainClass>com.scandela.server.Server</mainClass>
 					<excludes>
 						<exclude>
 							<groupId>org.projectlombok</groupId>
