@@ -5,11 +5,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping(value = "/")
 public class ServerController extends AbstractController {
 
 	@GetMapping
 	public String getServerInfo() {
-		return "test";
+		return "";
 	}
+
 }
