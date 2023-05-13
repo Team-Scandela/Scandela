@@ -1,13 +1,12 @@
 {
     "compilerOptions": {
-        "esModuleInterop": true,
-        "jsx": "react-jsx",
-        "lib": ["DOM", "ESNext"],
-        "module": "CommonJS",
-        "moduleResolution": "Node",
-        "resolveJsonModule": true,
-        "skipLibCheck": true,
-        "strict": true,
-        "target": "ESNext"
+        "outDir": "./dist/",
+        "noImplicitAny": true,
+        "module": "es6",
+        "target": "es5",
+        "jsx": "react",
+        "allowJs": true,
+        "moduleResolution": "node",
+        "allowSyntheticDefaultImports": true,
     }
-}  
+}
