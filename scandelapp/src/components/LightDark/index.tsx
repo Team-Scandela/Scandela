@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { LightDarkButton } from './elements'
+import { LightDarkButton } from './elements.js'
 import { FiSun, FiMoon } from 'react-icons/fi'
 
 /** Ligth / Dark mode button
