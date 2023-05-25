@@ -20,9 +20,8 @@ export const SignUpContainer = styled.div`
     width: 50%;
     left: 0;
     transition : all 0.5s ease-in-out;
-    opacity: 0;
+    opacity: 1;
     z-index:1;
-    ${props => props.signinIn !== true ? ` transform: translateX(100%); opacity: 1; z-index: 5;` : null}
 `;
 
 export const SignInContainer = styled.div`
@@ -30,11 +29,10 @@ export const SignInContainer = styled.div`
     top: 0;
     height: 100%;
     width: 50%;
-    left: -50%;
+    left: 50%;
     transition : all 0.5s ease-in-out;
-    opacity: 0;
+    opacity: 1;
     z-index:1;
-    ${props => props.signinIn !== true ? ` transform: translateX(100%); opacity: 1; z-index: 5;` : null}
 `;
 
 export const Form = styled.form`
