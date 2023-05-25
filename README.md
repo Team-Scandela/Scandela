@@ -1,8 +1,6 @@
 # Scandela
 
-![Scampoule](ressources/images/logo-128x128.png)
-![Scampoule](ressources/images/logo-128x128-white.png)
-![Scampoule](ressources/images/logo-128x128-yellow.png)
+![Scampoule](scandelapp/public/logo-256x256.png)
 
 ![ReactJS](https://img.shields.io/badge/ReactJS-%2320232A.svg?style=for-the-badge&logo=react&logoColor=white)
 ![HTML](https://img.shields.io/badge/HTML-%23E44D26.svg?style=for-the-badge&logo=html5&logoColor=white)
@@ -27,7 +25,7 @@ The web project is a cartography of the streetlights of Nantes. We can find all 
 Clone the project
 
 ```bash
-  git clone https://github.com/NassimAlaimi/Scandela
+  git clone https://github.com/Team-Scandela/Scandela.git
 ```
 
 Go to the project directory
@@ -39,6 +37,7 @@ Go to the project directory
 Install all the dependecies and librairies of the project
 
 ```bash
+  cd scandelapp
   npm update
 ```
 
@@ -51,7 +50,7 @@ Install all the dependecies and librairies of the project
 
 ## The website
 
-The website is available at this address : http://scandela.store
+The website is available at this address : https://scandela.store
 
 
 ## The documentation
