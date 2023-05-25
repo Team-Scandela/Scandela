@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { Yellow, Black, White } from '../../colors';
 
 /** Button who allows to open the container of filters */
 export const FilterMenuButton = styled.div`
@@ -13,8 +14,8 @@ export const FilterMenuButton = styled.div`
     overflow: hidden;
     font-size: 25px;
 
-    background-color: ${props => props.isDark ? '#2A2B2A' : '#F9F9F9'};
-    color : ${props => props.isDark ? '#FAC710' : '#2A2B2A'};
+    background-color: ${props => props.isDark ? Black + 'CC' : White + 'CC'};
+    color : ${props => props.isDark ? Yellow : Black};
     box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
 
     position: fixed;
@@ -36,8 +37,8 @@ export const FilterMenuContainer = styled.div`
     overflow: hidden;
     font-size: 25px;
 
-    background-color: ${props => props.isDark ? '#2A2B2A' : '#F9F9F9'};
-    color : ${props => props.isDark ? '#FAC710' : '#2A2B2A'};
+    background-color: ${props => props.isDark ? Black + 'CC' : White + 'CC'};
+    color : ${props => props.isDark ? Yellow : Black};
     box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
 
     position: fixed;

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Yellow, Black, White } from '../../colors';
 
 /** Login container who contains the signup and signin container */
 export const LoginContainer = styled.div`
@@ -21,9 +22,8 @@ export const SignUpContainer = styled.div`
     width: 50%;
     left: 0;
     transition : all 0.5s ease-in-out;
-    opacity: 0;
+    opacity: 1;
     z-index:1;
-    ${props => props.signinIn !== true ? ` transform: translateX(100%); opacity: 1; z-index: 5;` : null}
 `;
 
 /** Sign in container, contains sign in infos */
@@ -32,11 +32,10 @@ export const SignInContainer = styled.div`
     top: 0;
     height: 100%;
     width: 50%;
-    left: -50%;
+    left: 50%;
     transition : all 0.5s ease-in-out;
-    opacity: 0;
+    opacity: 1;
     z-index:1;
-    ${props => props.signinIn !== true ? ` transform: translateX(100%); opacity: 1; z-index: 5;` : null}
 `;
 
 /** Form for SignIn / Sign Out */
@@ -70,7 +69,7 @@ export const Input = styled.input`
 export const Button = styled.button`
     border: none;
     border-radius: 20px;
-    background-color: #FAC710;
+    background-color: ${Yellow};
     color: #fff;
     font-size: 12px;
     font-weight: bold;
@@ -121,7 +120,7 @@ export const OverlayContainer = styled.div`
 
 /** Overlay who covers the unused side */
 export const Overlay = styled.div`
-    background: #FAC710;
+    background: ${Yellow};
     color: #eee;
     position: relative;
     left: -100%;
