@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { DecisionMenuButton, DecisionPannelContainer} from './elements'
+import { DecisionMenuButton, DecisionPanel, DecisionMenuContainer} from './elements'
 import { MdKeyboardDoubleArrowLeft as DecisionIconLeft } from 'react-icons/md'
 import { MdKeyboardDoubleArrowRight as DecisionIconRight } from 'react-icons/md'
 
@@ -16,13 +16,14 @@ const DecisionMenu : React.FC<DecisionMenuProps> = ({ isDark }) => {
 
     return (
         <div>
-            <DecisionMenuButton onClick={() => setOn(!on)} isDark={isDark} isOn={on}>
-                {on ? <DecisionIconRight size={50}/> : <DecisionIconLeft size={50}/>} 
-            </DecisionMenuButton>
-            {on &&
-                <DecisionPannelContainer isDark={isDark}>
+            <DecisionMenuContainer>
+                <DecisionMenuButton onClick={() => setOn(!on)} isDark={isDark} show={on}>
+                    {on ? <DecisionIconRight size={50}/> : <DecisionIconLeft size={50}/>}
+                </DecisionMenuButton>
+                <DecisionPanel isDark={isDark} show={on}>
                     <h1>Scandela</h1>
-                </DecisionPannelContainer>}
+                </DecisionPanel>
+            </DecisionMenuContainer>
         </div>
     )
 }
