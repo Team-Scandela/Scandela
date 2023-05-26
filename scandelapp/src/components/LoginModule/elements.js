@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Yellow, Black, White } from '../../colors';
+import { Yellow } from '../../colors';
 
 export const LoginContainer = styled.div`
     border-radius: 10px;
