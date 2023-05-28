@@ -3,6 +3,7 @@ import FilterMenu from '../components/FilterMenu'
 import Map from '../components/Map'
 import LightDark from '../components/LightDark'
 import SearchBar from '../components/SearchBar'
+import { handleSearchUtils } from '../utils/searchUtils';
 
 /** Main page of the app */
 const Main: React.FC = () => {
@@ -13,23 +14,12 @@ const Main: React.FC = () => {
     const [zoom, setZoom] = React.useState(13);
 
     const handleSearch = (value: string) => {
-        console.log(value);
-        if (value !== "") {
-            if (value == "lamp" /* EPNA035100 */) {
-                setLat(47.19615178966206);
-                setLng(-1.59728986316391);
-                setZoom(17);
-            }
-        } else {
-            setLat(47.21);
-            setLng(-1.553621);
-            setZoom(13);
-        }
-    }
+        handleSearchUtils(value, lat, setLat, lng, setLng, zoom, setZoom);
+    };
 
     return (
         <div>
-            <Map filter={filter} isDark={isDark} lat={lat} lng={lng} zoom={zoom}/>
+            <Map filter={filter} isDark={isDark} lat={lat} lng={lng} zoom={zoom} />
             <SearchBar isDark={isDark} onSubmit={handleSearch} />
             <LightDark isDark={isDark} setIsDark={setIsDark} />
             <FilterMenu filter={filter} setFilter={setFilter} isDark={isDark} />
