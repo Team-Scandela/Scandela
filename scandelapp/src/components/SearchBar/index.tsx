@@ -9,32 +9,38 @@ import logoLight from '../../assets/logo-128x128.png'
 **/
 
 interface SearchBarProps {
-    isDark: boolean
-    onSearch: (value: string) => void;
+    isDark: boolean;
+    onSubmit: (value: string) => void;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ isDark, onSearch }) => {
+
+const SearchBar: React.FC<SearchBarProps> = ({ isDark, onSubmit }) => {
     const [searchValue, setSearchValue] = React.useState<string>("");
-  
+
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value;
-        setSearchValue(value);
-        onSearch(value);
-      };
-  
+        setSearchValue(e.target.value);
+    };
+
+    const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+            onSubmit(searchValue);
+        }
+    };
+
+
     return (
-      <SearchBarContainer isDark={isDark}>
-        <LogoContainer src={isDark ? logoDark : logoLight} />
-        <InputWrapper
-          isDark={isDark}
-          placeholder="Rechercher dans Scandela"
-          value={searchValue}
-          onChange={handleInputChange}
-          onSearch={onSearch}
-        />
-        <SearchIcon isDark={isDark} />
-      </SearchBarContainer>
+        <SearchBarContainer isDark={isDark}>
+            <LogoContainer src={isDark ? logoDark : logoLight} />
+            <InputWrapper
+                isDark={isDark}
+                placeholder="Rechercher dans Scandela"
+                value={searchValue}
+                onChange={handleInputChange}
+                onKeyDown={handleInputKeyDown}
+            />
+            <SearchIcon isDark={isDark} onClick={() => onSubmit(searchValue)} />
+        </SearchBarContainer>
     )
-  }
+}
 
 export default SearchBar

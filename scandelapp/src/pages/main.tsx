@@ -13,7 +13,7 @@ const Main: React.FC = () => {
 
     const handleSearch = (value: string) => {
         console.log(value);
-        if (value != "") {
+        if (value !== "") {
             setLat(-47.21);
             setLng(1.553621);
         }
@@ -22,7 +22,7 @@ const Main: React.FC = () => {
     return (
         <div>
             <Map filter={filter} isDark={isDark} lat={lat} lng={lng} />
-            <SearchBar isDark={isDark} onSearch={handleSearch} />
+            <SearchBar isDark={isDark} onSubmit={handleSearch} />
             <LightDark isDark={isDark} setIsDark={setIsDark} />
             <FilterMenu filter={filter} setFilter={setFilter} isDark={isDark} />
         </div>
