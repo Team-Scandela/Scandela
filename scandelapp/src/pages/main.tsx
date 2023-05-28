@@ -8,13 +8,23 @@ import SearchBar from '../components/SearchBar'
 const Main: React.FC = () => {
     const [isDark, setIsDark] = React.useState<boolean>(true);
     const [filter, setFilter] = React.useState<string>('none');
+    const [lat, setLat] = React.useState<number>(47.21);
+    const [lng, setLng] = React.useState<number>(-1.553621);
+
+    const handleSearch = (value: string) => {
+        console.log(value);
+        if (value != "") {
+            setLat(-47.21);
+            setLng(1.553621);
+        }
+    }
 
     return (
         <div>
-            <Map filter={filter} isDark={isDark}/>
-            <SearchBar isDark={isDark}/>
-            <LightDark isDark={isDark} setIsDark={setIsDark}/>
-            <FilterMenu filter={filter} setFilter={setFilter} isDark={isDark}/>
+            <Map filter={filter} isDark={isDark} lat={lat} lng={lng} />
+            <SearchBar isDark={isDark} onSearch={handleSearch} />
+            <LightDark isDark={isDark} setIsDark={setIsDark} />
+            <FilterMenu filter={filter} setFilter={setFilter} isDark={isDark} />
         </div>
     )
 }

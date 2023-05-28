@@ -9,15 +9,15 @@ Object.getOwnPropertyDescriptor(mapboxgl, "accessToken").set("pk.eyJ1IjoidGl0b3V
 
 interface MapProps {
     filter : string,
-    isDark: boolean
+    isDark: boolean,
+    lat: number,
+    lng: number,
 }
 
-const Map: React.FC<MapProps> = ({ filter, isDark }) => {
+const Map: React.FC<MapProps> = ({ filter, isDark, lat, lng }) => {
 
     const mapContainer = React.useRef(null);
     const map = React.useRef(null);
-    const [lng, setLng] = React.useState(-1.553621);
-    const [lat, setLat] = React.useState(47.21);
     const [zoom, setZoom] = React.useState(13);
 
     /** Setup the map and change the style of the map wether is light or dark mode */
