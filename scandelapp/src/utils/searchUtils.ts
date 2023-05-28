@@ -10,6 +10,7 @@ export const handleSearchUtils = (value: string, lat: number, setLat: React.Disp
       setZoom(17);
     }
   } else {
+    // default coordinate of the city
     setLat(47.21);
     setLng(-1.553621);
     setZoom(13);
