@@ -15,9 +15,11 @@ const Main: React.FC = () => {
     const handleSearch = (value: string) => {
         console.log(value);
         if (value !== "") {
-            setLat(-47.21);
-            setLng(1.553621);
-            setZoom(17);
+            if (value == "lamp" /* EPNA035100 */) {
+                setLat(47.19615178966206);
+                setLng(-1.59728986316391);
+                setZoom(17);
+            }
         } else {
             setLat(47.21);
             setLng(-1.553621);
