@@ -15,9 +15,13 @@ const Main: React.FC = () => {
     const handleSearch = (value: string) => {
         console.log(value);
         if (value !== "") {
+            setLat(-47.21);
+            setLng(1.553621);
+            setZoom(17);
+        } else {
             setLat(47.21);
             setLng(-1.553621);
-            setZoom(17);
+            setZoom(13);
         }
     }
 
