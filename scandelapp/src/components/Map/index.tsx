@@ -23,20 +23,25 @@ const Map: React.FC<MapProps> = ({ filter, isDark, lat, lng, zoom }) => {
     /** Setup the map and change the style of the map wether is light or dark mode */
     React.useEffect(() => {
         if (map.current) {
-            map.current.setStyle(
-                isDark ? "mapbox://styles/mapbox/dark-v11" : "mapbox://styles/mapbox/light-v11"
-            );
-            map.current.setCenter([lng, lat]);
-            map.current.setZoom(zoom);
+          map.current.setStyle(
+            isDark ? "mapbox://styles/mapbox/dark-v11" : "mapbox://styles/mapbox/light-v11"
+          );
+          map.current.flyTo({
+            center: [lng, lat],
+            zoom: zoom,
+            speed: 1.2, // Vitesse de l'animation (optionnel)
+            curve: 1.42, // Facteur de courbure de l'animation (optionnel)
+          });
         } else {
-            map.current = new mapboxgl.Map({
-                container: mapContainer.current,
-                style: isDark ? "mapbox://styles/mapbox/dark-v11" : "mapbox://styles/mapbox/light-v11",
-                center: [lng, lat],
-                zoom: zoom,
-            });
+          map.current = new mapboxgl.Map({
+            container: mapContainer.current,
+            style: isDark ? "mapbox://styles/mapbox/dark-v11" : "mapbox://styles/mapbox/light-v11",
+            center: [lng, lat],
+            zoom: zoom,
+          });
         }
-    }, [isDark, lat, lng, zoom]);
+      }, [isDark, lat, lng, zoom]);
+      
     
 
     /** Set the map to take the entire screen */
