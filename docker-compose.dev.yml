@@ -10,3 +10,22 @@ services:
       - ./scandelapp:/app
     environment:
       - CHOKIDAR_USEPOLLING=true    # For specific OS like Windows and MacOs
+  
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile.dev
+    ports:
+      - 8080:8080
+    volumes:
+      - ./server:/app
+  #   depends_on:
+  #     - db
+
+  # db:
+  #   image: .......
+  #   ports:
+  #     - .......
+  #   environment:
+  #     - DB_ROOT_PASSWORD=your_password
+  #     - DB_DATABASE=your_database
