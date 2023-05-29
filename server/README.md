@@ -226,7 +226,7 @@ Click on 'Launch'.
 	- Click on 'Open'
 
 2. Lombok
-	- Download [Lombok](https://projectlombok.org/downloads/lombok.jar) -> On Windows, you can go directly go to "Click on 'OK'" after the download
+	- Download [Lombok](https://projectlombok.org/downloads/lombok.jar) -> On Windows, you can directly go to "Click on 'OK'" after the download
 	- Right click on the downloaded file
 	- Choose 'Properties'
 	- Go to 'Permissions'
