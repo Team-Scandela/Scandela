@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Yellow, Black, White, Grey } from '../../colors';
+import { Yellow, Black, White } from '../../colors';
 
 /** Container of the decision pannel and the button */
 export const DecisionMenuContainer = styled.div`
@@ -40,8 +40,10 @@ export const DecisionMenuButton = styled.div`
 /** Container of the decision pannel  */
 export const DecisionPanel = styled.div`
     display: flex;
+    justify-content: center;
+    align-items: center;
     width: 500px;
-    height: 650px;
+    height: 625px;
     border-radius: 20px 0px 0px 20px;
     overflow: hidden;
     font-size: 25px;
@@ -57,39 +59,4 @@ export const DecisionPanel = styled.div`
     transition : all 0.5s ease-in-out;
 
     transform: translate(0%, -50%);
-`;
-/** Text for Decision panel title */
-export const DecisionPanelTitle = styled.h1`
-    display: flex;
-    position: absolute;
-    left: 30px;
-    top: 20px;
-    font-size: 40px;
-    font-weight: 700;
-`;
-
-/** Container of the decision panel content */
-export const DecisionPanelContentContainer = styled.div`
-    display: flex;
-    position: absolute;
-    width: 435px;
-    height: 400px;
-    left: 30px;
-    top: 100px;
-    border-radius: 15px;
-    overflow: hidden;
-
-    background-color: ${props => props.isDark ? Grey  : Grey };
-
-`;
-
-/** Container that contain the scandela logo **/
-export const LogoContainer = styled.img`
-    display: flex;
-    position: absolute;
-    height: 60%;
-    left: 20%;
-    top: 20%;
-    user-select: none;
-    opacity: 0.3;
 `;
