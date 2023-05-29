@@ -1,0 +1,12 @@
+version: '3'
+services:
+  scandelapp_dev:
+    build:
+      context: ./scandelapp
+      dockerfile: Dockerfile.dev
+    ports:
+      - 3000:3000
+    volumes:
+      - ./scandelapp:/app
+    environment:
+      - CHOKIDAR_USEPOLLING=true    # For specific OS like Windows and MacOs

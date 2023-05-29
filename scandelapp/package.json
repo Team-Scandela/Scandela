@@ -24,7 +24,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "magic": "webpack"
+    "magic": "webpack",
+    "dev:web": "sudo docker-compose -f ../docker-compose.dev.yml up"
   },
   "eslintConfig": {
     "extends": [
