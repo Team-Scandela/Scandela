@@ -227,7 +227,7 @@ Click on 'Launch'.
 
 2. Lombok
 	- Download [Lombok](https://projectlombok.org/downloads/lombok.jar)
-	- Right click on the downloaded file
+	- (On Windows, you can go directly go to "Click on 'OK'") Right click on the downloaded file
 	- Choose 'Properties'
 	- Go to 'Permissions'
 	- Check 'Authorize this file as a program'
