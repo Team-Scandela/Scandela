@@ -16,9 +16,12 @@ const Map: React.FC<MapProps> = ({ filter, isDark }) => {
 
     const mapContainer = React.useRef(null);
     const map = React.useRef(null);
-    const [lng, setLng] = React.useState(-1.553621);
-    const [lat, setLat] = React.useState(47.21);
-    const [zoom, setZoom] = React.useState(13);
+    // const [lng, setLng] = React.useState(-1.553621);
+    // const [lat, setLat] = React.useState(47.21);
+    // const [zoom, setZoom] = React.useState(13);
+    const lng = -1.553621;
+    const lat = 47.21;
+    const zoom = 13;
 
     /** Setup the map and change the style of the map wether is light or dark mode */
     React.useEffect(() => {
@@ -34,7 +37,7 @@ const Map: React.FC<MapProps> = ({ filter, isDark }) => {
                 zoom: zoom,
             });
         }
-    }, [isDark]);
+    }, [isDark, lng, lat, zoom]);
 
     /** Set the map to take the entire screen */
     const styleMap = {

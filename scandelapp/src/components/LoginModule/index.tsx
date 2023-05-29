@@ -30,7 +30,7 @@ const LoginModule: React.FC = () => {
                         type='text'
                         placeholder='Name'
                         value={usernameSignUp}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUsernameSignIn(e.target.value)}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUsernameSignUp(e.target.value)}
                     />
                     <Input
                         type='email'
