@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+  jenkins:
+    image: jenkins/jenkins:lts
+    ports:
+      - 8080:8080
+      - 50000:50000
+    volumes:
+      - jenkins_home:/var/jenkins_home
+
+  app:
+    build:
+      context: ./scandelapp
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./scandelapp.:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+
+  prod:
+    build:
+      context: ./scandelapp
+      dockerfile: Dockerfile
+    ports:
+      - '80:80'
+    environment:
+      - NODE_ENV=production
+
+volumes:
+  jenkins_home:
