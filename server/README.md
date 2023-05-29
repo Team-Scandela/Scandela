@@ -6,175 +6,306 @@ We'll name the server directory location as {SERVER_LOCATION} for all installati
 
 ## Java
 
-Fedora download:
-```sudo dnf install java-17-openjdk.x86_64```
+### Fedora download
+
+`sudo dnf install java-17-openjdk.x86_64`
 
 We'll name the location {JRE_LOCATION} = /etc/alternatives/jre_17_openjdk
 
-Ubuntu download:
-```apt install openjdk-17-jdk openjdk-17-jre```
+### Ubuntu download
+
+`apt install openjdk-17-jdk openjdk-17-jre`
 
 We'll name the location {JRE_LOCATION} = /usr/share/doc/openjdk-17-jre
 
+### Windows download
+
+Download [Java 17](https://download.java.net/java/GA/jdk17/0d483333a00540d886896bac774ff48b/35/GPL/openjdk-17_windows-x64_bin.zip)
+Extract the downloaded file, we'll name the location {JRE_LOCATION}  for all installations and configurations.
+
+#### Set envionment variable relate to Java
+
+<ul>
+	<li>Open the Windows search bar and search 'Environment variables'</li>
+	<li>Open 'Edit the system environment variables'</li>
+	<li>Click on 'Environment variables...'</li>
+	<li>In the <strong>'System variables'</strong>, select 'Path'</li>
+	<li>Click on 'Edit'</li>
+	<li>(If you have 'C:\Program Files\Common Files\Oracle\Java\javapath', select it and click on 'Delete')</li>
+	<li>Click on 'Browse...'</li>
+	<li>Go to {JRE_LOCATION}/jdk-17 and click on 'OK'</li>
+	<li>Click on 'New'</li>
+	<li>Put '%JAVA_HOME%\bin'</li>
+	<li>Press Enter and click on 'OK'</li>
+	<li>In the <strong>'System variables'</strong>, click on 'New...'</li>
+	<li>Variable name=JAVA_HOME and Variable value={JRE_LOCATION}/jdk-17 (You can copy and paste the path put in 'Path')</li>
+	<li>Click on 'OK'</li>
+	<li>Click on 'OK'</li>
+</ul>
+
 ## Apache Tomcat
 
-1. Download the [tomcat](https://dlcdn.apache.org/tomcat/tomcat-10/v10.1.8/bin/apache-tomcat-10.1.8.tar.gz)
+### Installation
+
+####
+
+1. Download the [Tomcat for Linux](https://dlcdn.apache.org/tomcat/tomcat-10/v10.1.8/bin/apache-tomcat-10.1.8.tar.gz)
+
+   Download the [Tomcat for Windows](https://dlcdn.apache.org/tomcat/tomcat-10/v10.1.8/bin/apache-tomcat-10.1.8-windows-x64.zip)
+
    You can put the downloaded file whereever you want. We'll name it {TOMCAT_LOCATION} for all installations and configurations.
 
-2. Extract the .tar.gz file you've download by right clicking and 'extract it' or by using the following command:
-```tar -zxf apache-tomcat-10.1.8.tar.gz```
+2. Extract the .tar.gz or the .zip file you've download by right clicking and 'extract it'
+**OR**
+by using the following commands:
+
+`tar -zxf apache-tomcat-10.1.8.tar.gz`
+
+`tar -xf apache-tomcat-10.1.8-windows-x64.zip`
+
+### Run
+
+On Linux, run the following command in the {TOMCAT_LOCATION}/bin:
+
+`./catalina.sh run`
+
+On Windows, run the following command in the {TOMCAT_LOCATION}/bin:
+
+`catalina.bat run`
 
 ## Compilation
 
 Notice that if you use the Eclipse IDE you can skip these steps.
 
+### On Linux
+
 1. Install the 'maven' package
 
-2. Open a terminal and run the following command:
-```export JRE_HOME={JRE_LOCATION}```
+2. Open a terminal and run the following command **(Do this step each time you want to compile)**:
 
-3. Open a terminal in the server directory and run the following command:
-```mvn clean install```
+`export JRE_HOME={JRE_LOCATION}`
+
+3. To compile, run the following command in {SERVER_LOCATION}:
+
+`mvn clean install`
+
+### On Windows
+
+1. Download [Apache Maven](https://dlcdn.apache.org/maven/maven-3/3.8.8/binaries/apache-maven-3.8.8-bin.zip)
+
+2. Extract the .zip file you've download by right clicking and 'extract it'
+**OR**
+by using the following command:
+
+`tar -xf apache-maven-3.8.8.zip`
+
+We'll name the location {MAVEN_LOCATION} for all installations and configurations.
+
+4. Environment variables
+	- Open the Windows search bar and search 'Environment variables'
+	- Open 'Edit the system environment variables'
+	- Click on 'Environment variables...'
+	- In the **'System variables'**, select 'Path'
+	- Click on 'Edit'
+	- Click on 'Browse...'
+	- Go to {MAVEN_LOCATION}/bin and click on 'OK'
+	- Click on 'OK'
+	- Click on 'OK'
+
+5. To compile, run the following command in {SERVER_LOCATION}:
+
+`mvn clean install`
 
 ## Manual deployment
 
 Notice that if you use the Eclipse IDE you can skip these steps.
 
-Prerequisites:
+### Prerequisites
 
 - You must have done Apache Tomcat and Compilation steps.
 
-1. Open a terminal in {TOMCAT_LOCATION}/bin and run the following command:
-```./catalina run```
+---
 
-2. Moove manually the {SERVER_LOCATION}/target/server.war in the {TOMCAT_LOCATION}/webapps or run the following command:
-```mv {SERVER_LOCATION}/target/server.war {TOMCAT_LOCATION}/webapps/server.war```
+1. Open a terminal or a Command Prompt in {TOMCAT_LOCATION}/bin and run the following commands:
 
-If you have to reupload a server.war, manually delete the {TOMCAT_LOCATION}/webapps/server and {TOMCAT_LOCATION}/webapps/server.war or run the following commands:
-```rm -rf {TOMCAT_LOCATION}/webapps/server
-rm {TOMCAT_LOCATION}/webapps/server.war```
+For Linux: `./catalina run`
+
+For Windows: `catalina.bat run`
+
+2. Moove manually the {SERVER_LOCATION}/target/server.war in the {TOMCAT_LOCATION}/webapps
+**OR**
+run the following command:
+
+`mv {SERVER_LOCATION}/target/server.war {TOMCAT_LOCATION}/webapps/server.war`
+
+3. (Only on Windows) In the Command Prompt, if there is no change, press Enter one time, wait and repress it another time.
+
+#### Reupload a server.war
+
+Manually delete the {TOMCAT_LOCATION}/webapps/server folder and {TOMCAT_LOCATION}/webapps/server.war file
+**OR**
+run the following commands:
+
+`rm -rf {TOMCAT_LOCATION}/webapps/server`
+
+`rm {TOMCAT_LOCATION}/webapps/server.war`
 
 After this, you can restart Manual deployment steps.
 
 ## VSCode
 
 You can dowload the VSCode Extension named 'Java Extension Pack'.
-To compile and deploy, follow Compilation and Manual deployment steps.
+
+To compile and deploy, follow **Compilation** and **Manual deployment** steps.
 
 ## Eclipse
 
-Installation:
+### Installation
 
-1. Download [Eclipse](https://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/2023-03/R/eclipse-java-2023-03-R-linux-gtk-x86_64.tar.gz&mirror_id=17)
+1. Download [Eclipse for Linux](https://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/2023-03/R/eclipse-java-2023-03-R-linux-gtk-x86_64.tar.gz&mirror_id=17)
 
-2. Extract the .tar.gz file you've download  by right clicking and 'extract it' or by using the following command:
-```tar -zxf eclipse-java-2023-03-R-linux-gtk-x86_64.tar.gz```
+   Download [Eclipse for Windows](https://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/2023-03/R/eclipse-java-2023-03-R-win32-x86_64.zip&mirror_id=1190)
 
-3. (Optional) You can moove manually the extracted directory whereever you want or run the following command:
-```mv [downloaded directory] [path]/[directory name you want]```
+2. Extract the .tar.gz or the .zip file you've download  by right clicking and 'extract it'
+**OR**
+by using the following commands:
+
+`tar -zxf eclipse-java-2023-03-R-linux-gtk-x86_64.tar.gz`
+
+`tar -xf eclipse-java-2023-03-R-win32-x86_64.zip`
+
+3. (Optional) You can moove manually the extracted directory whereever you want
+**OR**
+run the following command:
+
+`mv [downloaded directory] [path]/[directory name you want]`
 
 We'll name the directory location as {ECLIPSE_LOCATION} for all installations and configurations.
 
-Launch Eclipse:
+### Launch Eclipse
 
-Run the following command in the {ECLIPSE_LOCATION}:
-```./eclipse```
+Double click on eclipse.exe in {ECLIPSE_LOCATION} on Windows.
 
-Open the server project:
+Run the following command in {ECLIPSE_LOCATION} on Linux:
 
-- Open the 'File' menu at the top-left on Eclipse
-- Choose 'Open projects from file system'
-- Click on 'Browse'
-- Open {SERVER_LOCATION}
+`./eclipse`
 
-Install Extension:
+Click on 'Launch'.
+
+### Open the server project
+
+<ul>
+	<li>Open the 'File' menu at the top-left on Eclipse</li>
+	<li>Choose 'Open projects from file system'</li>
+	<li>Click on 'Browse'</li>
+	<li>Open {SERVER_LOCATION}</li>
+</ul>
+
+### Install Extensions
 
 1. Java EE
-- Open the 'Help' menu at the top on Eclipse
-- Choose 'Install new software'
-- Open the 'Work with' dropdown list and choose '---All Available Sites---'
-- Check the available software named 'Web, XML, JAVA EE and OSGI'
-- Click on 'Next'
-- Click on 'Next'
-- Click on 'Next'
-- Click on 'Accept'
-- Click on 'Finish'
-- Wait that the loading in the bottom-right finish
-- (If it's not done, select all checkbox on the popup) Trust selected
-- Click on restart
+	- Open the 'Help' menu at the top on Eclipse
+	- Choose 'Install new software'
+	- Open the 'Work with' dropdown list and choose '---All Available Sites---'
+	- Check the available software named 'Web, XML, JAVA EE and OSGI'
+	- Click on 'Next'
+	- Click on 'Next'
+	- Click on 'Next'
+	- Click on 'Accept'
+	- Click on 'Finish'
+	- Wait that the loading in the bottom-right finish
+	- (If it's not done, select all checkbox on the popup) Trust selected
+	- Click on restart
 
-After restart,
-- Open the 'Window' menu at the top of Eclipse
-- Choose 'Perspective'
-- Choose 'Open perspective'
-- Choose 'Other...'
-- Select 'Java EE'
-- Click on 'Open'
+	After restart,
+	- Open the 'Window' menu at the top of Eclipse
+	- Choose 'Perspective'
+	- Choose 'Open perspective'
+	- Choose 'Other...'
+	- Select 'Java EE'
+	- Click on 'Open'
 
 2. Lombok
-- Download [Lombok](https://projectlombok.org/downloads/lombok.jar)
-- Right click on the downloaded file
-- Choose 'Properties'
-- Go to 'Permissions'
-- Check 'Authorize this file as a program'
-- Click on 'Close'
-- Run the following command:
-```java -jar lombok.jar```
-- Click on 'OK'
-- Choose 'Specify location'
-- Put {ECLIPSE_LOCATION}/eclipse (The executable)
-- Click on 'Install/Update'
-- Click on 'Quit installer'
+	- Download [Lombok](https://projectlombok.org/downloads/lombok.jar)
+	- Right click on the downloaded file
+	- Choose 'Properties'
+	- Go to 'Permissions'
+	- Check 'Authorize this file as a program'
+	- Click on 'Close'
+	- Run the following command:
+	`java -jar lombok.jar`
+	- Click on 'OK'
+	- Choose 'Specify location'
+	- Put {ECLIPSE_LOCATION}/eclipse (The executable)
+	- Click on 'Install/Update'
+	- Click on 'Quit installer'
 
-Change Java version:
+### Change Java version
 
-- Open the 'Window' menu at the top of Eclipse
-- Choose 'Preferences'
-- Click on the arrow on the left of 'Java'
-- Select 'Installed JREs'
-- Click on 'Add'
-- Select 'Standard VM'
-- Click on 'Next'
-- JRE home: {JRE_LOCATION}
-(You can use 'Directory...' to navigate in your directories)
-- Check the JRE System Library who appeared
-- Click on 'Apply and close'
+<ul>
+	<li>Open the 'Window' menu at the top of Eclipse</li>
+	<li>Choose 'Preferences'</li>
+	<li>Click on the arrow on the left of 'Java'</li>
+	<li>Select 'Installed JREs'</li>
+	<li>Click on 'Add'</li>
+	<li>Select 'Standard VM'</li>
+	<li>Click on 'Next'</li>
+	<li>JRE home: {JRE_LOCATION}</li>
+	(You can use 'Directory...' to navigate in your directories)
+	<li>Check the JRE System Library who appeared</li>
+	<li>Click on 'Apply and close'</li>
+</ul>
 
-Compilation:
+### Compilation
 
-- Open the 'Run' menu at the top of Eclipse
-- Choose 'Run configurations...'
-- Right click on 'Maven Build'
-- Choose 'New configuration'
-- On 'Base directory', click on 'Workspace...'
-- Choose 'server' (Not 'Servers')
-- Click on 'OK'
-- In 'Goals:', set to 'clean install'
-- Click on 'Run'
+<ul>
+	<li>Open the 'Run' menu at the top of Eclipse</li>
+	<li>Choose 'Run configurations...'</li>
+	<li>Right click on 'Maven Build'</li>
+	<li>Choose 'New configuration'</li>
+	<li>On 'Base directory', click on 'Workspace...'</li>
+	<li>Choose 'server' (Not 'Servers')</li>
+	<li>Click on 'OK'</li>
+	<li>In 'Goals:', set to 'clean install'</li>
+	<li>Click on 'Run'</li>
+</ul>
 
-Apache Tomcat:
+### Apache Tomcat
 
-- At the bottom of Eclipse, go to the 'Servers' perspective
-- Click on 'No server available, click this link to create a new'
-- Click on the arrow on the left of 'Apache'
-- Choose 'Tomcat 10.1'
-- Click on 'Next'
-- Click on 'Browse'
-- Go to {SERVER_LOCATION}
-- Click on 'Finish'
+<ul>
+	<li>At the bottom of Eclipse, go to the 'Servers' perspective</li>
+	<li>Click on 'No server available, click this link to create a new'</li>
+	<li>Click on the arrow on the left of 'Apache'</li>
+	<li>Choose 'Tomcat 10.1'</li>
+	<li>Click on 'Next'</li>
+	<li>Click on 'Browse'</li>
+	<li>Go to {TOMCAT_LOCATION}</li>
+	<li>Click on 'Finish'</li>
+</ul>
 
-- Right click on the Tomcat server who appeared
-- Choose 'Add and remove'
-- In 'Available' table, select 'server'
-- Click on 'Add'
-- Click on 'Finish'
+<ul>
+	<li>Right click on the Tomcat server who appeared</li>
+	<li>Choose 'Add and remove'</li>
+	<li>In 'Available' table, select 'server'</li>
+	<li>Click on 'Add'</li>
+	<li>Click on 'Finish'</li>
+</ul>
 
-- Right click on the Tomcat server
-- Choose 'Properties'
-- Click on 'General'
-- Click on 'Switch location' (the location have to start with '/Servers')
-- Click on 'Apply and close'
+<ul>
+	<li>Right click on the Tomcat server</li>
+	<li>Choose 'Properties'</li>
+	<li>Click on 'General'</li>
+	<li>Click on 'Switch location' (the location have to start with '/Servers')</li>
+	<li>Click on 'Apply and close'</li>
+</ul>
 
-- Double click on the Tomcat server
-- Click on 'Use tomcat location' (If you can't, right click on the Tomcat server, choose 'Publish' and retry)
-- Save by Using Ctrl + S
+<ul>
+	<li>Double click on the Tomcat server</li>
+	<li>Click on 'Use tomcat location' (If you can't, right click on the Tomcat server, choose 'Publish' and retry)</li>
+	<li>Save by Using Ctrl + S</li>
+</ul>
+
+### Run the Tomcat
+
+Right click on the Tomcat server and choose start.
+(If it crashed, retry ONE time)
