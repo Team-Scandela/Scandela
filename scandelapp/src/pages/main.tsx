@@ -4,6 +4,8 @@ import Map from '../components/Map'
 import LightDark from '../components/LightDark'
 import SearchBar from '../components/SearchBar'
 import DecisionMenu from '../components/DecisionMenu'
+import EditInPdfPannel from '../components/EditInPdfPannel'
+
 
 /** Main page of the app */
 const Main: React.FC = () => {
@@ -17,6 +19,7 @@ const Main: React.FC = () => {
             <LightDark isDark={isDark} setIsDark={setIsDark}/>
             <FilterMenu filter={filter} setFilter={setFilter} isDark={isDark}/>
             <DecisionMenu isDark={isDark}/>
+            <EditInPdfPannel isDark={isDark}/>
         </div>
     )
 }
