@@ -1,8 +1,7 @@
 module.exports = {
-  preset: 'ts-jest',
-  testEnvironment: 'jest-environment-jsdom',
-  moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/src/$1',
+  transform: {
+    '^.+\\.(js|jsx|ts|tsx)$': 'babel-jest',
   },
-  setupFilesAfterEnv: ['@testing-library/jest-dom/extend-expect'],
+  testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$',
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
 };
