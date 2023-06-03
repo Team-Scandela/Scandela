@@ -60,3 +60,14 @@ export const DecisionPanel = styled.div`
 
     transform: translate(0%, -50%);
 `;
+
+export const ScandelaText = styled.div`
+  position: fixed;
+  top: 25px;
+  left: 40px;
+  font-size: 45px;
+  user-select: none;
+  color : ${props => props.isDark ? Yellow : Black};
+  font-weight: 500;
+
+`;
