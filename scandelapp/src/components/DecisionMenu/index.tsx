@@ -2,6 +2,7 @@ import * as React from 'react'
 import { DecisionMenuButton, DecisionPanel, DecisionMenuContainer} from './elements'
 import { MdKeyboardDoubleArrowLeft as DecisionIconLeft } from 'react-icons/md'
 import { MdKeyboardDoubleArrowRight as DecisionIconRight } from 'react-icons/md'
+import ButtonEditInPdf from '../ButtonEditInPdf'
 
 /** Menu of the decision pannel
  * @param {boolean} isDark - If the map is in dark mode or not
@@ -22,6 +23,7 @@ const DecisionMenu : React.FC<DecisionMenuProps> = ({ isDark }) => {
                 </DecisionMenuButton>
                 <DecisionPanel isDark={isDark} show={on}>
                     <h1>Scandela</h1>
+                    <ButtonEditInPdf isDark={isDark} />
                 </DecisionPanel>
             </DecisionMenuContainer>
         </div>
