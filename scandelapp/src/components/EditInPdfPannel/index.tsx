@@ -7,23 +7,36 @@ interface EditInPdfPannellProps {
 }
 
 const EditInPdfPannel: React.FC<EditInPdfPannellProps> = ({ isDark }) => {
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
+
   const handleButtonClick = async () => {
-    const pdfDoc = await PDFDocument.create();
-    const pdfBytes = await pdfDoc.save();
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
 
-    const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-    const url = URL.createObjectURL(blob);
+  const handleFileSelection = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const pdfDoc = await PDFDocument.create();
+      // Ajoutez ici le contenu au document PDF
 
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'optimisation_scandela.pdf';
+      const pdfBytes = await pdfDoc.save();
 
-    link.style.display = 'none';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+      const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+      const url = URL.createObjectURL(blob);
 
-    URL.revokeObjectURL(url);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'optimisation_scandela.pdf';
+
+      link.style.display = 'none';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      URL.revokeObjectURL(url);
+    }
   };
 
   return (
@@ -31,10 +44,16 @@ const EditInPdfPannel: React.FC<EditInPdfPannellProps> = ({ isDark }) => {
       <PannelContainer isDark={isDark}>
         <PannelText isDark={isDark}>Exporter les actions Sélectionnées</PannelText>
         <ExportButton isDark={isDark}>
-          <ExportText isDark={isDark}>Télécharger le fichier PDF</ExportText>
+          <ExportText isDark={isDark}>Ouvrir le gestionnaire de fichiers</ExportText>
           <ExportIcon isDark={isDark} onClick={handleButtonClick} />
         </ExportButton>
       </PannelContainer>
+      <input
+        ref={fileInputRef}
+        type="file"
+        style={{ display: 'none' }}
+        onChange={handleFileSelection}
+      />
     </div>
   );
 };
