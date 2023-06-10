@@ -14,9 +14,8 @@ export const PannelContainer = styled.div`
     left: 10%;
     background-color: ${props => props.isDark ? White + 'CC' : Black + 'CC'};
     border-radius: 10px;
-
     opacity: ${props => props.isButtonEditInPdfClicked ? 1 : 0};
-    transition: opacity 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
 `;
 
 export const PannelText = styled.div`
