@@ -13,13 +13,19 @@ interface ButtonEditInPdfProps {
 }
 
 const ButtonEditInPdf: React.FC<ButtonEditInPdfProps> = ({ isDark }) => {
+    const [isClicked, setIsClicked] = React.useState(false);
+
+    const handleClick = () => {
+      setIsClicked(prevState => !prevState);
+    };
+
     return (
         <div>
-            <ButtonEditContainer isDark={isDark}>
-                <ExportIcon isDark={isDark} />
-            </ButtonEditContainer>
+          <ButtonEditContainer isDark={isDark} onClick={handleClick} isClicked={isClicked}>
+            <ExportIcon isDark={isDark} isClicked={isClicked}/>
+          </ButtonEditContainer>
         </div>
-    )
+      );
 }
 
 export default ButtonEditInPdf
