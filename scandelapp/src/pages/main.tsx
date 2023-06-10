@@ -4,6 +4,7 @@ import Map from '../components/Map'
 import LightDark from '../components/LightDark'
 import SearchBar from '../components/SearchBar'
 import { handleSearchUtils } from '../utils/searchUtils';
+import DecisionMenu from '../components/DecisionMenu'
 
 /** Main page of the app */
 const Main: React.FC = () => {
@@ -19,10 +20,11 @@ const Main: React.FC = () => {
 
     return (
         <div>
-            <Map filter={filter} isDark={isDark} lat={lat} lng={lng} zoom={zoom} />
-            <SearchBar isDark={isDark} onSubmit={handleSearch} />
-            <LightDark isDark={isDark} setIsDark={setIsDark} />
-            <FilterMenu filter={filter} setFilter={setFilter} isDark={isDark} />
+            <Map filter={filter} isDark={isDark}/>
+            <SearchBar isDark={isDark}/>
+            <LightDark isDark={isDark} setIsDark={setIsDark}/>
+            <FilterMenu filter={filter} setFilter={setFilter} isDark={isDark}/>
+            <DecisionMenu isDark={isDark}/>
         </div>
     )
 }
