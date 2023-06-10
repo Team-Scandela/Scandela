@@ -4,9 +4,10 @@ import { PDFDocument } from 'pdf-lib';
 
 interface EditInPdfPannellProps {
   isDark: boolean;
+  isButtonEditInPdfClicked: boolean;
 }
 
-const EditInPdfPannel: React.FC<EditInPdfPannellProps> = ({ isDark }) => {
+const EditInPdfPannel: React.FC<EditInPdfPannellProps> = ({ isDark, isButtonEditInPdfClicked}) => {
   const fileInputRef = React.useRef<HTMLInputElement>(null);
 
   const handleButtonClick = async () => {
@@ -41,7 +42,7 @@ const EditInPdfPannel: React.FC<EditInPdfPannellProps> = ({ isDark }) => {
 
   return (
     <div>
-      <PannelContainer isDark={isDark}>
+      <PannelContainer isDark={isDark} isButtonEditInPdfClicked={isButtonEditInPdfClicked}>
         <PannelText isDark={isDark}>Exporter les actions Sélectionnées</PannelText>
         <ExportButton isDark={isDark}>
           <ExportText isDark={isDark}>Ouvrir le gestionnaire de fichiers</ExportText>

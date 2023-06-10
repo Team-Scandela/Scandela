@@ -12,8 +12,11 @@ export const PannelContainer = styled.div`
     height: 180px;
     top: 75%;
     left: 10%;
-    background-color: ${props => props.isDark ? White + 'CC': Black + 'CC' };
+    background-color: ${props => props.isDark ? White + 'CC' : Black + 'CC'};
     border-radius: 10px;
+
+    opacity: ${props => props.isButtonEditInPdfClicked ? 1 : 0};
+    transition: opacity 0.3s ease-in-out;
 `;
 
 export const PannelText = styled.div`
@@ -34,7 +37,7 @@ export const ExportButton = styled.div`
     top: 100px;
     left: 30px;
     right: 30px;
-    background-color: ${props => props.isDark ? White + 'FF': Black + 'FF' };
+    background-color: ${props => props.isDark ? White + 'FF' : Black + 'FF'};
     border-radius: 5px;
     box-shadow: 1px 5px 5px rgba(0, 0, 0, 0.4);
 `;

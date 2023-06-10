@@ -23,7 +23,12 @@ const Main: React.FC = () => {
       <LightDark isDark={isDark} setIsDark={setIsDark} />
       <FilterMenu filter={filter} setFilter={setFilter} isDark={isDark} />
       <DecisionMenu isDark={isDark} handleButtonEditInPdfClick={handleButtonEditInPdfClick} isButtonEditInPdfClicked={isButtonEditInPdfClicked}/>
-      {isButtonEditInPdfClicked && <EditInPdfPannel isDark={isDark} />}
+      {isButtonEditInPdfClicked && (
+        <EditInPdfPannel
+          isDark={isDark}
+          isButtonEditInPdfClicked={isButtonEditInPdfClicked}
+        />
+      )}
     </div>
   );
 };
