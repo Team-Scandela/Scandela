@@ -19,9 +19,6 @@ const Map: React.FC<MapProps> = ({ filter, isDark, lat, lng, zoom }) => {
 
     const mapContainer = React.useRef(null);
     const map = React.useRef(null);
-     lng = -1.553621;
-     lat = 47.21;
-     zoom = 13;
 
     /** Setup the map and change the style of the map wether is light or dark mode */
     React.useEffect(() => {

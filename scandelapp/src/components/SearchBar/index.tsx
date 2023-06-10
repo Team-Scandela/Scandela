@@ -13,7 +13,6 @@ interface SearchBarProps {
     onSubmit: (value: string) => void;
 }
 
-
 const SearchBar: React.FC<SearchBarProps> = ({ isDark, onSubmit }) => {
     const [searchValue, setSearchValue] = React.useState<string>("");
 

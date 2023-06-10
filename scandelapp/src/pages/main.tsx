@@ -20,8 +20,8 @@ const Main: React.FC = () => {
 
     return (
         <div>
-            <Map filter={filter} isDark={isDark}/>
-            <SearchBar isDark={isDark}/>
+            <Map filter={filter} isDark={isDark} lat={lat} lng={lng} zoom={zoom}/>
+            <SearchBar isDark={isDark} onSubmit={handleSearch}/>
             <LightDark isDark={isDark} setIsDark={setIsDark}/>
             <FilterMenu filter={filter} setFilter={setFilter} isDark={isDark}/>
             <DecisionMenu isDark={isDark}/>
