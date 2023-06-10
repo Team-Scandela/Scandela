@@ -13,7 +13,7 @@ const EditInPdfPannel: React.FC<EditInPdfPannellProps> = ({ isDark, isButtonEdit
     try {
       const pdfBytes = await generatePDFDocument();
       const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-      saveAs(blob, 'optimisation_scandela.pdf');
+      saveAs(blob, 'rapport_scandela.pdf');
     } catch (error) {
       console.error('Error generating PDF:', error);
     }
