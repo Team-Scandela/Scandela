@@ -14,7 +14,7 @@ import com.scandela.server.service.IServerService;
 public class ServerController extends AbstractController {
 
 	@Autowired
-	IServerService serverService;
+	private IServerService serverService;
 
 	@GetMapping
 	public ResponseEntity<ServerDto> getServerInfo() {
