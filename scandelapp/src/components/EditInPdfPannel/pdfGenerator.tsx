@@ -6,7 +6,7 @@ export async function generatePDFDocument(): Promise<Uint8Array> {
 
   // Add content to the page (e.g., text, images, etc.)
   // Example:
-  const text = 'Voici la synthèse de ce que vous préconise Scandela: ';
+  const text = 'Voici un résumé de ce que vous préconise Scandela: ';
   const fontSize = 12; // Adjust the font size as needed
   const lineHeight = fontSize * 1.2; // Adjust the line height as needed
 
