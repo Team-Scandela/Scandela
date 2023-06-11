@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Yellow, Black, White } from '../../colors';
+import { Yellow, Black, White, Grey } from '../../colors';
 import { CiExport } from 'react-icons/ci';
 
 /** Container for the background of the searchbar **/
@@ -12,12 +12,12 @@ export const ButtonEditContainer = styled.div`
     height: 55px;
     top: 25px;
     left: 65%;
-    background-color: ${props => props.isDark ? White + 'FF': Black + 'FF' };
+    background-color: ${props => props.isDark ? Grey + 'FF': Grey + 'FF' };
     border-radius: 10px;
 
     &:hover {
       cursor: pointer;
-      background-color: ${props => props.isDark ? White + 'CC': Black + 'CC' };
+      background-color: ${props => props.isDark ? Grey + 'CC': Grey + 'CC' };
     }
 `;
 
