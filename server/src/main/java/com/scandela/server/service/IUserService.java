@@ -7,8 +7,8 @@ import com.scandela.server.entity.dto.UserDto;
 public interface IUserService {
 	
 	public List<UserDto> getUsers();
-	public UserDto getUser(String email);
-	public UserDto createUser(UserDto user);
+	public UserDto getUser(int id);
+	public UserDto createUser(UserDto newUser);
 	public void deleteUser(int id);
 
 }
