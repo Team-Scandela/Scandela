@@ -1,18 +1,58 @@
-/*  Il faudra ici faire les appels a la base de données pour chercher tel
-  lampadaire ou telle rue */
+import * as React from 'react';
 
-export const handleSearchUtils = (value: string, lat: number, setLat: React.Dispatch<React.SetStateAction<number>>, lng: number, setLng: React.Dispatch<React.SetStateAction<number>>, zoom: number, setZoom: React.Dispatch<React.SetStateAction<number>>): void => {
-  console.log(value);
+export const handleSearchUtils = async (value: string, lat: number, setLat: React.Dispatch<React.SetStateAction<number>>, lng: number, setLng: React.Dispatch<React.SetStateAction<number>>, zoom: number, setZoom: React.Dispatch<React.SetStateAction<number>>): Promise<void> => {
   if (value !== "") {
-    if (value === "lamp" /* EPNA035100 */) {
-      setLat(47.19615178966206);
-      setLng(-1.59728986316391);
-      setZoom(17);
+    try {
+      // request to get coordinate from the search
+      const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(value)}&key=AIzaSyCejPfg_hXdhMmI5K8QQU8k3RHwM8YELJc`);
+      const data = await response.json();
+      
+      //  check if coordinate found for the current value
+      if (data.status === "OK") {
+        const result = data.results[0];
+        const { lat, lng } = result.geometry.location;
+        // set new let lng
+        setLat(lat);
+        setLng(lng);
+        
+        // set new zoom compare to the right level of zoom
+        console.log("type = " + result.types[0]);
+        if (result.types[0] === "street_adress" || result.types[0] === "route" || result.types[0] === "premise") {
+          // zoom for precise address
+          setZoom(17);
+        } else if (result.types[0] === "country") {
+          //  zoom for a country
+          setZoom(5);
+        } else if (result.types[0] === "locality") {
+          //  zoom for a city
+          setZoom(12);
+        } else if (result.types[0] === "neighborhood") {
+          //  zoom for a nightborhood
+          setZoom(14);
+        } else {
+          setZoom(16);
+        }
+      } else {
+        // Handle error case
+        console.error("Geocoding API error:", data.status);
+      }
+    } catch (error) {
+      // Handle fetch error
+      console.error("Geocoding API request failed:", error);
     }
   } else {
     // default coordinate of the city
-    setLat(47.21);
-    setLng(-1.553621);
-    setZoom(13);
+    value = "Paris" // principal city enter on the Scandel'user account
+    const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(value)}&key=AIzaSyCejPfg_hXdhMmI5K8QQU8k3RHwM8YELJc`);
+    const data = await response.json();
+    
+    if (data.status === "OK") {
+      //  set base coordinate to the principal city of the user
+      const result = data.results[0];
+      const { lat, lng } = result.geometry.location;
+      setLat(lat);
+      setLng(lng);
+      setZoom(12);
+    }
   }
 };
