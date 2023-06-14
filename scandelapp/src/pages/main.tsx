@@ -10,9 +10,9 @@ import DecisionMenu from '../components/DecisionMenu'
 const Main: React.FC = () => {
     const [isDark, setIsDark] = React.useState<boolean>(true);
     const [filter, setFilter] = React.useState<string>('none');
-    const [lat, setLat] = React.useState<number>(47.21);
+    const [lat, setLat] = React.useState<number>(47.218371);
     const [lng, setLng] = React.useState<number>(-1.553621);
-    const [zoom, setZoom] = React.useState(13);
+    const [zoom, setZoom] = React.useState(12);
 
     const handleSearch = (value: string) => {
         handleSearchUtils(value, lat, setLat, lng, setLng, zoom, setZoom);

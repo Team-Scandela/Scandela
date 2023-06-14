@@ -4,7 +4,8 @@ export const handleSearchUtils = async (value: string, lat: number, setLat: Reac
   if (value !== "") {
     try {
       // request to get coordinate from the search
-      const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(value)}&key=AIzaSyCejPfg_hXdhMmI5K8QQU8k3RHwM8YELJc`);
+      const key = process.env.REACT_APP_APIKEY;
+      const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(value)}&key=${key}`);
       const data = await response.json();
       
       //  check if coordinate found for the current value
@@ -14,7 +15,7 @@ export const handleSearchUtils = async (value: string, lat: number, setLat: Reac
         // set new let lng
         setLat(lat);
         setLng(lng);
-        
+
         // set new zoom compare to the right level of zoom
         console.log("type = " + result.types[0]);
         if (result.types[0] === "street_adress" || result.types[0] === "route" || result.types[0] === "premise") {
@@ -42,8 +43,9 @@ export const handleSearchUtils = async (value: string, lat: number, setLat: Reac
     }
   } else {
     // default coordinate of the city
-    value = "Paris" // principal city enter on the Scandel'user account
-    const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(value)}&key=AIzaSyCejPfg_hXdhMmI5K8QQU8k3RHwM8YELJc`);
+    value = "Nantes" // principal city enter on the Scandel'user account
+    const key = process.env.REACT_APP_APIKEY;
+    const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(value)}&key=${key}`);
     const data = await response.json();
     
     if (data.status === "OK") {
