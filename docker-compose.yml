@@ -1,11 +1,11 @@
 version: '3'
 services:
-  dev.scandela:
+  app.scandela:
     build:
       context: ./scandelapp
       dockerfile: Dockerfile.dev
     ports:
-      - 3000:3000
+      - 2000:2000
     volumes:
       - ./scandelapp:/app
     environment:

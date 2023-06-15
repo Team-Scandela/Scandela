@@ -1,9 +1,15 @@
-FROM node:14
+FROM node:18
+
+COPY . /app
 
 WORKDIR /app
 
-COPY package.json .
-COPY package-lock.json .
-RUN npm install
+RUN npm install 
 
-CMD ["npm", "start"]
+RUN npm run build
+
+RUN npm install -g serve
+
+EXPOSE 2000 
+
+CMD ["serve", "-s", "build", "-l", "2000"]
