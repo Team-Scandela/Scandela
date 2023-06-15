@@ -1,0 +1,34 @@
+# Utilisation de l'image de base contenant Java 17
+FROM openjdk:17
+
+# Installation de Apache Tomcat
+RUN apt-get update && apt-get install -y wget && \
+    wget https://downloads.apache.org/tomcat/tomcat-10/v10.1.8/bin/apache-tomcat-10.1.8.tar.gz && \
+    tar -zxf apache-tomcat-10.1.8.tar.gz && \
+    rm apache-tomcat-10.1.8.tar.gz
+
+# Installation de Maven
+RUN apt-get install -y maven
+
+# Configuration des variables d'environnement pour Java
+ENV JRE_LOCATION /usr/lib/jvm/java-17-openjdk-amd64
+
+# Configuration des variables d'environnement pour Maven
+ENV MAVEN_LOCATION /usr/share/apache-maven-3.8.8
+
+# Configuration des variables d'environnement pour Tomcat
+ENV TOMCAT_LOCATION /apache-tomcat-10.1.8
+
+# Compilation du serveur
+COPY . /app
+WORKDIR /app
+RUN mvn clean install
+
+# Copie du fichier war dans Tomcat
+RUN cp target/server.war $TOMCAT_LOCATION/webapps/
+
+# Exposition du port 8080 utilisé par Tomcat
+EXPOSE 8080
+
+# Démarrage de Tomcat
+CMD ["sh", "-c", "$TOMCAT_LOCATION/bin/catalina.sh run"]
