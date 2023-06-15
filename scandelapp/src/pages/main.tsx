@@ -5,6 +5,7 @@ import LightDark from '../components/LightDark'
 import SearchBar from '../components/SearchBar'
 import { handleSearchUtils } from '../utils/searchUtils';
 import DecisionMenu from '../components/DecisionMenu'
+import EditInPdfPannel from '../components/EditInPdfPannel';
 
 /** Main page of the app */
 const Main: React.FC = () => {
@@ -13,9 +14,14 @@ const Main: React.FC = () => {
     const [lat, setLat] = React.useState<number>(47.218371);
     const [lng, setLng] = React.useState<number>(-1.553621);
     const [zoom, setZoom] = React.useState(12);
+    const [isButtonEditInPdfClicked, setIsButtonEditInPdfClicked] = React.useState<boolean>(false);
+
 
     const handleSearch = (value: string) => {
         handleSearchUtils(value, lat, setLat, lng, setLng, zoom, setZoom);
+    };
+    const handleButtonEditInPdfClick = () => {
+      setIsButtonEditInPdfClicked(prevState => !prevState);
     };
 
     return (
@@ -24,9 +30,10 @@ const Main: React.FC = () => {
             <SearchBar isDark={isDark} onSubmit={handleSearch}/>
             <LightDark isDark={isDark} setIsDark={setIsDark}/>
             <FilterMenu filter={filter} setFilter={setFilter} isDark={isDark}/>
-            <DecisionMenu isDark={isDark}/>
+            <DecisionMenu isDark={isDark} handleButtonEditInPdfClick={handleButtonEditInPdfClick} isButtonEditInPdfClicked={isButtonEditInPdfClicked}/>
+            <EditInPdfPannel isDark={isDark} isButtonEditInPdfClicked={isButtonEditInPdfClicked} />
         </div>
     )
 }
 
-export default Main
+export default Main;
