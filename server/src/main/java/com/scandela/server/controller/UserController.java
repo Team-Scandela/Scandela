@@ -20,9 +20,13 @@ import com.scandela.server.service.IUserService;
 @RequestMapping(value = "/users")
 public class UserController extends AbstractController {
 
+	// Attributes \\
+		// Private \\
 	@Autowired
 	private IUserService userService;
 
+	// Methods \\
+		// Public \\
 	@GetMapping
 	public ResponseEntity<List<UserDto>> getUsers() {
 		return ResponseEntity.ok(userService.getUsers());
@@ -34,8 +38,8 @@ public class UserController extends AbstractController {
 	}
 
 	@PostMapping("/create")
-	public ResponseEntity<UserDto> createUser(@RequestBody UserDto user) {
-		return ResponseEntity.ok(userService.createUser(user));
+	public ResponseEntity<UserDto> createUser() {
+		return ResponseEntity.ok(userService.createUser("", "", ""));
 	}
 
 	@DeleteMapping("/delete")//@DeleteMapping("/{id}/delete")

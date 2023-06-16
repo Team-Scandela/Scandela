@@ -9,9 +9,13 @@ import lombok.Data;
 @Data
 public class UserCriteria {
 
+	// Attributes \\
+		// Private \\
 	private String email;
 	private String username;
 
+	// Methods \\
+		// Public \\
 	public Optional<String> getEmail() {
 		return Optional.ofNullable(email);
 	}

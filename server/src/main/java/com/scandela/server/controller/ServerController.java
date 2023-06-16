@@ -13,9 +13,13 @@ import com.scandela.server.service.IServerService;
 @RequestMapping(value = "/")
 public class ServerController extends AbstractController {
 
+	// Attributes \\
+		// Private \\
 	@Autowired
 	private IServerService serverService;
 
+	// Methods \\
+		// Public \\
 	@GetMapping
 	public ResponseEntity<ServerDto> getServerInfo() {
 		ServerDto serverDto = serverService.getServerInformations();

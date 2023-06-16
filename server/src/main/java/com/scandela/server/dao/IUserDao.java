@@ -8,6 +8,8 @@ import com.scandela.server.entity.User;
 
 public interface IUserDao {
 
+	// Methods \\
+		// Public \\
 	public List<User> getAll();
 
 	public Optional<User> get(int id);
@@ -16,6 +18,6 @@ public interface IUserDao {
 	
 	public User save(User user);
 
-	public void delete(int id);
+	public void delete(User user);
 
 }

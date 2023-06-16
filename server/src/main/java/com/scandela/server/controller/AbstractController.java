@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 public abstract class AbstractController {
 
+	// Attributes \\
+		// Protected \\
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 
 }
