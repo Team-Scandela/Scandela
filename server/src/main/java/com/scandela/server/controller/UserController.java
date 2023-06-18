@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.scandela.server.dao.implementation.UserDao;
+import com.scandela.server.entity.User;
 import com.scandela.server.entity.dto.UserDto;
 import com.scandela.server.service.IUserService;
 
@@ -27,24 +27,46 @@ public class UserController extends AbstractController {
 
 	// Methods \\
 		// Public \\
+	/**
+	 * Get all users
+	 * 
+	 * @return allUsers
+	 */
 	@GetMapping
 	public ResponseEntity<List<UserDto>> getUsers() {
 		return ResponseEntity.ok(userService.getUsers());
 	}
 
+	/**
+	 * Get user by id
+	 * 
+	 * @param id
+	 * @return user
+	 */
 	@GetMapping("/{id}")
 	public ResponseEntity<UserDto> getUser(@PathVariable int id) {
 		return ResponseEntity.ok(userService.getUser(id));
 	}
 
+	/**
+	 * Create new user
+	 * 
+	 * @param newUser
+	 * @return newUser
+	 */
 	@PostMapping("/create")
-	public ResponseEntity<UserDto> createUser() {
-		return ResponseEntity.ok(userService.createUser("", "", ""));
+	public ResponseEntity<UserDto> createUser(@RequestBody User newUser) {
+		return ResponseEntity.ok(userService.createUser(newUser));
 	}
 
-	@DeleteMapping("/delete")//@DeleteMapping("/{id}/delete")
-	public void deleteUser(@RequestBody int id) {
-		userService.deleteUser(id);
+	/**
+	 * Delete user
+	 * 
+	 * @param user
+	 */
+	@DeleteMapping("/delete")
+	public void deleteUser(@RequestBody User user) {
+		userService.deleteUser(user);
 	}
 
 }

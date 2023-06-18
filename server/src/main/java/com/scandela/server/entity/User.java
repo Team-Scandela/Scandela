@@ -30,25 +30,25 @@ public class User implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name = "ID", updatable = false, nullable = false)
+	@Column(name = "id", updatable = false, nullable = false)
 	private int id;
 	
 //	@OneToOne TODO enlever le commentaire quand la classe aura été implémentée
 //	@JoinColumn(name = "id_town", nullable = false)
 //	private Town town;
 	
-	@Column(name = "EMAIL", nullable = false)
+	@Column(name = "email", nullable = false)
 	private String email;
 	
 	//rights
 	
-	@Column(name = "USERNAME", nullable = false)
+	@Column(name = "username", nullable = false)
 	private String username;
 	
-	@Column(name = "PASSWORD", nullable = false)
+	@Column(name = "password", nullable = false)
 	private String password;
 	
-	@Column(name = "LASTCONNEXION", nullable = false)
+	@Column(name = "lastconnexion", nullable = false)
 	private LocalDate lastConnexion;
 
 }

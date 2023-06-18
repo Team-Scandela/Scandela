@@ -1,5 +1,6 @@
 package com.scandela.server.service.implementation;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -26,6 +27,11 @@ public class UserService extends AbstractService implements IUserService {
 
 	@Autowired
 	private IUserDao userDao;
+	
+	// Constructors \\
+//	public UserService(IUserDao userDao) {
+//		this.userDao = userDao;
+//	}
 
 	// Methods \\
 		// Public \\
@@ -56,32 +62,28 @@ public class UserService extends AbstractService implements IUserService {
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-	public UserDto createUser(String email, String username, String password) {
-		if (userDao.getByCriteria(UserCriteria.builder().email(email).build()).isPresent()) {
+	public UserDto createUser(User newUser) {
+		if (newUser.getEmail() == null || newUser.getUsername() == null || newUser.getPassword() == null) {
 			return null;// throw pour différencier
 		}
-		if (userDao.getByCriteria(UserCriteria.builder().username(username).build()).isPresent()) {
+		
+		if (userDao.getByCriteria(UserCriteria.builder().email(newUser.getEmail()).build()).isPresent()) {
 			return null;// throw pour différencier
 		}
-		User newUser = User.builder()
-				.email(email)
-				.username(username)
-				.password(passwordEncoder.encode("scan" + password + "dela"))
-				.build();
+		if (userDao.getByCriteria(UserCriteria.builder().username(newUser.getUsername()).build()).isPresent()) {
+			return null;// throw pour différencier
+		}
+
+		newUser.setPassword(passwordEncoder.encode("scan" + newUser.getPassword() + "dela"));
+		newUser.setLastConnexion(LocalDate.now());
 
 		return UserDto.from(userDao.save(newUser));
 	}
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-	public void deleteUser(int id) {
-		Optional<User> user = userDao.get(id);
-		
-		if (user.isEmpty()) {
-			return;
-		}
-		
-		userDao.delete(user.get());
+	public void deleteUser(User user) {
+		userDao.delete(user);
 	}
 
 }

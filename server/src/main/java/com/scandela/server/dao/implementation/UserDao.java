@@ -23,19 +23,32 @@ public class UserDao extends AbstractDao<User> implements IUserDao {
 		// Public \\
 	@Override
 	public Optional<User> getByCriteria(UserCriteria criteria) {
-		String req = "SELECT * FROM User as user";
+		Optional<User> user = Optional.empty();
+		String req = "SELECT u FROM User u";
+
 		if (criteria.getEmail().isPresent()) {
 			req += req.contains("WHERE") ? " AND " : " WHERE ";
-			req += "EMAIL = " + criteria.getEmail().get();
+			req += "u.email = :email";
 		}
 		if (criteria.getUsername().isPresent()) {
 			req += req.contains("WHERE") ? " AND " : " WHERE ";
-			req += "USERNAME = " + criteria.getUsername().get();
+			req += "u.username = :username";
 		}
 		
 		TypedQuery<User> query = entityManager.createQuery(req, User.class);
-		
-		return Optional.ofNullable(query.getSingleResult());
+
+		if (criteria.getEmail().isPresent()) {
+			query.setParameter("email", criteria.getEmail().get());
+		}
+		if (criteria.getUsername().isPresent()) {
+			query.setParameter("username", criteria.getUsername().get());
+		}
+
+		try {
+			user = Optional.ofNullable(query.getSingleResult());
+		} catch (Exception e) {}
+
+		return user;
 	}
 
 }

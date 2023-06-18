@@ -4,12 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import javax.sql.DataSource;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -26,19 +22,12 @@ public abstract class AbstractDao<T> {
 	@PersistenceContext
 	protected EntityManager entityManager;
 
-	protected JdbcTemplate jdbcTemplate;
-
 		// Private \\
 	private Class<T> clazz;
 
 	// Constructors \\
 	protected AbstractDao(Class<T> clazz) {
 		this.clazz = clazz;
-	}
-
-	@Autowired
-	public void setDataSource(DataSource source) {
-		this.jdbcTemplate = new JdbcTemplate(source);
 	}
 
 	// Methods \\
@@ -63,7 +52,7 @@ public abstract class AbstractDao<T> {
 	}
 
 	public void delete(T entity) {
-		entityManager.remove(entity);
+		entityManager.remove(entityManager.contains(entity) ? entity : entityManager.merge(entity));
 	}
 
 }
