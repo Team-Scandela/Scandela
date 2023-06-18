@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Yellow, Black, White } from '../../colors';
+import { Yellow, Black, White, Grey } from '../../colors';
 import { AiOutlineDownload } from 'react-icons/ai';
 
 /** Container for the background of the searchbar **/
@@ -13,14 +13,14 @@ export const ButtonEditContainer = styled.div`
   top: 25px;
   left: 65%;
   background-color: ${props =>
-    props.isClicked ? (props.isDark ? Yellow + 'FF' : White + 'FF') : props.isDark ? White + 'FF' : Black + 'FF'};
+    props.isClicked ? (props.isDark ? Yellow + 'FF' : Grey + 'FF') : props.isDark ? Grey + 'FF' : Grey + 'FF'};
   border-radius: 10px;
   transition: opacity 0.1s;
 
   &:hover {
     cursor: pointer;
     background-color: ${props =>
-    props.isClicked ? (props.isDark ? Yellow + 'CC' : White + 'CC') : props.isDark ? White + 'CC' : Black + 'CC'};
+    props.isClicked ? (props.isDark ? Yellow + 'CC' : Grey + 'CC') : props.isDark ? White + 'CC' : Black + 'CC'};
   }
 `;
 
@@ -31,5 +31,5 @@ export const ExportIcon = styled(AiOutlineDownload)`
   font-size: 40px;
   /* color: ${props => props.isDark ? Black : Yellow}; */
   color: ${props =>
-    props.isClicked ? (props.isDark ? White : Black) : props.isDark ? Black : Yellow};
+    props.isClicked ? (props.isDark ? White : Yellow) : props.isDark ? Black : Yellow};
 `;
