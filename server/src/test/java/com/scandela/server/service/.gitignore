@@ -1,0 +1,2 @@
+# Sauf exception, seul les services ont besoin d'être testés.
+# Utiliser des mocks pour les dao afin de simuler une db

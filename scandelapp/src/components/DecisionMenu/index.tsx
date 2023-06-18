@@ -15,9 +15,11 @@ import logoDark from '../../assets/logo-128x128-yellow.png'
 */
 interface DecisionMenuProps {
     isDark: boolean;
+    isButtonEditInPdfClicked: boolean;
+    handleButtonEditInPdfClick: () => void;
 }
 
-const DecisionMenu : React.FC<DecisionMenuProps> = ({ isDark }) => {
+const DecisionMenu: React.FC<DecisionMenuProps> = ({ isDark, handleButtonEditInPdfClick, isButtonEditInPdfClicked }) => {
     /** If the decision pannel is open or closed */
     const [decisionPanelExtended, setDecisionPanelExtended] = React.useState(false);
     const [dropdownExpended, setDropdownExpended] = React.useState(false);
@@ -48,7 +50,7 @@ const DecisionMenu : React.FC<DecisionMenuProps> = ({ isDark }) => {
                 </DecisionMenuButton>
                 <DecisionPanel isDark={isDark} show={decisionPanelExtended}>
                     <ScandelaText isDark={isDark}> Scandela </ScandelaText>
-                    <ButtonEditInPdf isDark={isDark} />
+                    <ButtonEditInPdf isDark={isDark} handleClick={handleButtonEditInPdfClick} isClicked={isButtonEditInPdfClicked}/>
                     <ButtonSelectAll isDark={isDark} />
                     <DecisionPanelContentContainer>
                         <DropdownContainer isDark={isDark} onClick={handleToggleDropdownExpend}>

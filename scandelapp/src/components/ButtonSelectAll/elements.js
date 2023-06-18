@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Yellow, Black, White, Grey } from '../../colors';
-import { MdOutlineChecklist } from 'react-icons/md';
+import { BsListCheck } from 'react-icons/bs';
 
 /** Container for the background of the searchbar **/
 export const ButtonEditContainer = styled.div`
@@ -14,6 +14,7 @@ export const ButtonEditContainer = styled.div`
     right: 40px;
     background-color: ${props => props.isDark ? Grey + 'FF': Grey + 'FF' };
     border-radius: 10px;
+    transition: opacity 0.1s;
 
     &:hover {
       cursor: pointer;
@@ -23,7 +24,7 @@ export const ButtonEditContainer = styled.div`
 
 
 /**  Export Icon**/
-export const SelectIcon = styled(MdOutlineChecklist)`
+export const SelectIcon = styled(BsListCheck)`
     position: absolute;
     align-items: center;
     right: 10px;
