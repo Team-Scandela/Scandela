@@ -13,6 +13,8 @@ import com.scandela.server.service.IServerService;
 @Service
 public class ServerService extends AbstractService implements IServerService {
 
+	// Methods \\
+		// Public \\
 	@Override
 	public ServerDto getServerInformations() {
 		List<String> team = new ArrayList<>();
