@@ -27,11 +27,10 @@ public class UserDao extends AbstractDao<User> implements IUserDao {
 		String req = "SELECT u FROM User u";
 
 		if (criteria.getEmail().isPresent()) {
-			req += req.contains("WHERE") ? " AND " : " WHERE ";
-			req += "u.email = :email";
+			req += " WHERE u.email = :email";
 		}
 		if (criteria.getUsername().isPresent()) {
-			req += req.contains("WHERE") ? " AND " : " WHERE ";
+			req += req.contains("WHERE") ? " OR " : " WHERE ";
 			req += "u.username = :username";
 		}
 		

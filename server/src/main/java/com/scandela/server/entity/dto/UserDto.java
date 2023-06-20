@@ -1,6 +1,7 @@
 package com.scandela.server.entity.dto;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 
 import com.scandela.server.entity.User;
 
@@ -13,12 +14,15 @@ public class UserDto {
 
 	// Attributes \\
 		// Private \\
-	private int id;
+	private Integer id;
 //	private TownDto town;
 	private String email;
 	private String username;
 	private String password;
-	private LocalDate lastConnexion;
+	private String role;
+	private List<String> moreInfo;
+	private boolean darkmode;
+	private LocalDateTime lastConnexion;
 
 	// Methods \\
 		// Public \\
@@ -29,6 +33,9 @@ public class UserDto {
 				.email(user.getEmail())
 				.username(user.getUsername())
 				.password(user.getPassword())
+				.role(user.getRole())
+				.moreInfo(user.getMoreInfo())
+				.darkmode(user.isDarkmode())
 				.lastConnexion(user.getLastConnexion())
 				.build();
 
