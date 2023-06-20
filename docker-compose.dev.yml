@@ -1,6 +1,6 @@
 version: '3'
 services:
-  scandelapp_dev:
+  dev.scandela:
     build:
       context: ./scandelapp
       dockerfile: Dockerfile.dev

@@ -1,0 +1,3 @@
+# Un dto va servir à afficher une entity via le controller, il ne contient pas forcément toutes les données de l'entity mais seulement les nécessaires
+# Chaque entity n'a pas son propre dto tout dépend de si il est nécessaire ou non
+# Un dto peut aussi être une entité qui n'est pas en base de donnée

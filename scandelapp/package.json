@@ -8,6 +8,8 @@
     "@testing-library/user-event": "^13.5.0",
     "@types/react": "^18.2.5",
     "@types/react-dom": "^18.2.4",
+    "file-saver": "^2.0.5",
+    "pdf-lib": "^1.17.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.8.0",
@@ -24,8 +26,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "magic": "webpack",
-    "dev:web": "sudo docker-compose -f ../docker-compose.dev.yml up"
+    "magic": "webpack"
   },
   "eslintConfig": {
     "extends": [
@@ -46,6 +47,7 @@
     ]
   },
   "devDependencies": {
+    "@types/file-saver": "^2.0.5",
     "@types/mapbox-gl": "^2.7.11",
     "mapbox-gl": "^2.14.1"
   }
