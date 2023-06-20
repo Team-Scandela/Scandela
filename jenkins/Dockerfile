@@ -1,23 +1,28 @@
-# Utilisez l'image de base Jenkins LTS
-FROM jenkins/jenkins:lts
+FROM jsurf/rpi-raspbian:latest
 
-# Installer les plugins Jenkins recommandés
-RUN /usr/local/bin/install-plugins.sh \
-  pipeline-model-definition \
-  git \
-  docker \
-  aws-java-sdk \
-  credentials
+# Jenkins version
+ENV JENKINS_VERSION 2.51
 
-# Copier les fichiers de configuration personnalisés dans le conteneur
-COPY jenkins/jenkins.yaml /var/jenkins_home/
+# Other env variables
+ENV JENKINS_HOME /var/jenkins_home
+ENV JENKINS_SLAVE_AGENT_PORT 9001
 
-# Définir les autorisations pour le répertoire de travail de Jenkins
-USER root
-RUN chown -R jenkins:jenkins /var/jenkins_home/
+# Install dependencies
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends curl openjdk-8-jdk \
+  && rm -rf /var/lib/apt/lists/*
 
-# Exposer le port 8080 pour accéder à l'interface web de Jenkins
-EXPOSE 8080
+# Get Jenkins
+RUN curl -fL -o /opt/jenkins.war https://repo.jenkins-ci.org/public/org/jenkins-ci/main/jenkins-war/{$JENKINS_VERSION}/jenkins-war-{$JENKINS_VERSION}.war
 
-# Exécuter Jenkins
-CMD ["/sbin/tini", "--", "/usr/local/bin/jenkins.sh"]
+# Expose volume
+VOLUME ${JENKINS_HOME}
+
+# Working dir
+WORKDIR ${JENKINS_HOME}
+
+# Expose ports
+EXPOSE 9000 ${JENKINS_SLAVE_AGENT_PORT}
+
+# Start Jenkins
+CMD ["sh", "-c", "java -jar /opt/jenkins.war"]
