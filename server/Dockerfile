@@ -28,7 +28,7 @@ RUN mvn clean install
 RUN cp target/server.war $TOMCAT_LOCATION/webapps/
 
 # Exposition du port 8080 utilisé par Tomcat
-EXPOSE 8080
+EXPOSE 8081
 
 # Démarrage de Tomcat
 CMD ["sh", "-c", "$TOMCAT_LOCATION/bin/catalina.sh run"]
