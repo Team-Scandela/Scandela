@@ -7,15 +7,4 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - ./scandelapp:/dev_env
-    environment:
-      - CHOKIDAR_USEPOLLING=true    # For specific OS like Windows and MacOs
-  
-  server_dev:
-    build:
-      context: ./server
-      dockerfile: Dockerfile.dev
-    ports:
-      - 8080:8080
-    volumes:
-      - ./server:/dev_env
+      - ./scandelapp:/dev_scandelapp

@@ -1,34 +1,36 @@
-# Utilisation de l'image de base contenant Java 17
-FROM openjdk:17
+# Utilisez l'image de base Linux avec Java 17
+FROM openjdk:17-jdk-slim
 
-# Installation de Apache Tomcat
-RUN apt-get update && apt-get install -y wget && \
-    wget https://downloads.apache.org/tomcat/tomcat-10/v10.1.8/bin/apache-tomcat-10.1.8.tar.gz && \
-    tar -zxf apache-tomcat-10.1.8.tar.gz && \
-    rm apache-tomcat-10.1.8.tar.gz
+# Définir la variable d'environnement JAVA_HOME
+ENV JAVA_HOME=/usr/local/openjdk-17
 
-# Installation de Maven
-RUN apt-get install -y maven
+# Définir la variable d'environnement PATH pour inclure JAVA_HOME/bin
+ENV PATH=$PATH:$JAVA_HOME/bin
 
-# Configuration des variables d'environnement pour Java
-ENV JRE_LOCATION /usr/lib/jvm/java-17-openjdk-amd64
+# Télécharger et extraire Apache Tomcat
+ENV TOMCAT_VERSION=10.1.8
+ENV TOMCAT_LOCATION=/opt/tomcat
 
-# Configuration des variables d'environnement pour Maven
-ENV MAVEN_LOCATION /usr/share/apache-maven-3.8.8
+RUN apt-get update && apt-get install -y wget tar && \
+    wget https://dlcdn.apache.org/tomcat/tomcat-10/v${TOMCAT_VERSION}/bin/apache-tomcat-${TOMCAT_VERSION}.tar.gz && \
+    mkdir -p ${TOMCAT_LOCATION} && \
+    tar -zxf apache-tomcat-${TOMCAT_VERSION}.tar.gz -C ${TOMCAT_LOCATION} --strip-components=1 && \
+    rm apache-tomcat-${TOMCAT_VERSION}.tar.gz
 
-# Configuration des variables d'environnement pour Tomcat
-ENV TOMCAT_LOCATION /apache-tomcat-10.1.8
+# Installer Apache Maven
+ENV MAVEN_VERSION=3.8.8
+ENV MAVEN_LOCATION=/opt/maven
 
-# Compilation du serveur
-COPY . /app
-WORKDIR /app
-RUN mvn clean install
+RUN wget https://dlcdn.apache.org/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz && \
+    mkdir -p ${MAVEN_LOCATION} && \
+    tar -zxf apache-maven-${MAVEN_VERSION}-bin.tar.gz -C ${MAVEN_LOCATION} --strip-components=1 && \
+    rm apache-maven-${MAVEN_VERSION}-bin.tar.gz
 
-# Copie du fichier war dans Tomcat
-RUN cp target/server.war $TOMCAT_LOCATION/webapps/
+# Définir la variable d'environnement PATH pour inclure MAVEN_LOCATION/bin
+ENV PATH=$PATH:${MAVEN_LOCATION}/bin
 
-# Exposition du port 8080 utilisé par Tomcat
-EXPOSE 8081
+# Copier les fichiers de configuration
+COPY . ${TOMCAT_LOCATION}/webapps/server/
 
-# Démarrage de Tomcat
-CMD ["sh", "-c", "$TOMCAT_LOCATION/bin/catalina.sh run"]
+# Exécuter Apache Tomcat
+CMD ${TOMCAT_LOCATION}/bin/catalina.sh run

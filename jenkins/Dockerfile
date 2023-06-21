@@ -1,28 +1,26 @@
-FROM jsurf/rpi-raspbian:latest
+FROM jenkins/jenkins:lts-jdk11
 
-# Jenkins version
-ENV JENKINS_VERSION 2.51
-
-# Other env variables
+# Définition des variables d'environnement pour Jenkins
 ENV JENKINS_HOME /var/jenkins_home
-ENV JENKINS_SLAVE_AGENT_PORT 9001
+ENV JENKINS_USER admin
+ENV JENKINS_PASS admin
 
-# Install dependencies
-RUN apt-get update \
-  && apt-get install -y --no-install-recommends curl openjdk-8-jdk \
-  && rm -rf /var/lib/apt/lists/*
+# Exposer le port 8080
+EXPOSE 8080
 
-# Get Jenkins
-RUN curl -fL -o /opt/jenkins.war https://repo.jenkins-ci.org/public/org/jenkins-ci/main/jenkins-war/{$JENKINS_VERSION}/jenkins-war-{$JENKINS_VERSION}.war
+# Répertoire de travail pour Jenkins
+WORKDIR $JENKINS_HOME
 
-# Expose volume
-VOLUME ${JENKINS_HOME}
+# Configuration par défaut de Jenkins
+COPY init.groovy.d/* /usr/share/jenkins/ref/init.groovy.d/
 
-# Working dir
-WORKDIR ${JENKINS_HOME}
+# Passer en mode utilisateur jenkins
+USER jenkins
 
-# Expose ports
-EXPOSE 9000 ${JENKINS_SLAVE_AGENT_PORT}
+# Lancer Jenkins en mode permanent
+ENTRYPOINT ["jenkins", "--httpPort=8080"]
 
-# Start Jenkins
-CMD ["sh", "-c", "java -jar /opt/jenkins.war"]
+# Volume pour sauvegarder les données de Jenkins
+VOLUME $JENKINS_HOME
+
+
