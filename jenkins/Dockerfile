@@ -11,9 +11,6 @@ EXPOSE 8080
 # Répertoire de travail pour Jenkins
 WORKDIR $JENKINS_HOME
 
-# Configuration par défaut de Jenkins
-COPY init.groovy.d/* /usr/share/jenkins/ref/init.groovy.d/
-
 # Passer en mode utilisateur jenkins
 USER jenkins
 
