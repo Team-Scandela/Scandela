@@ -24,12 +24,12 @@ ENVIRONMENT=$1
 # Vérifier l'environnement et effectuer les actions appropriées
 if [ "$ENVIRONMENT" = "dev" ]; then
     REPO_URL="https://github.com/Team-Scandela/Scandela.git"
-    CLONE_DIR="dev_env"
-    COMPOSE_DIR="dev_env/Scandela"
+    CLONE_DIR="dev"
+    COMPOSE_DIR="dev/Scandela"
 elif [ "$ENVIRONMENT" = "prod" ]; then
     REPO_URL="https://github.com/Team-Scandela/Scandela.git"
-    CLONE_DIR="app"
-    COMPOSE_DIR="app/Scandela"
+    CLONE_DIR="prod"
+    COMPOSE_DIR="prod/Scandela"
 else
     echo "Environnement non valide. Utilisation : $0 [dev|prod]"
     exit 1

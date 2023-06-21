@@ -7,24 +7,13 @@ services:
     ports:
       - 2000:2000
     volumes:
-      - ./scandelapp:/app
-    environment:
-      - CHOKIDAR_USEPOLLING=true    # For specific OS like Windows and MacOs
-  
-  server:
-    build:
-      context: ./server
-      dockerfile: Dockerfile
-    ports:
-      - 8081:8081
-    volumes:
-      - ./server:/app
+      - ./scandelapp:/prod_scandelapp
 
   jenkins:
     build:
       context: .
       dockerfile: jenkins/Dockerfile
     ports:
-      - 9000:9000
+      - 8080:8080
     volumes:
       - ./jenkins:/var/jenkins_home
