@@ -43,36 +43,6 @@ Extract the downloaded file, we'll name the location {JRE_LOCATION}  for all ins
 	<li>Click on 'OK'</li>
 </ul>
 
-## Apache Tomcat
-
-### Installation
-
-####
-
-1. Download the [Tomcat for Linux](https://dlcdn.apache.org/tomcat/tomcat-10/v10.1.8/bin/apache-tomcat-10.1.8.tar.gz)
-
-   Download the [Tomcat for Windows](https://dlcdn.apache.org/tomcat/tomcat-10/v10.1.8/bin/apache-tomcat-10.1.8-windows-x64.zip)
-
-   You can put the downloaded file whereever you want. We'll name it {TOMCAT_LOCATION} for all installations and configurations.
-
-2. Extract the .tar.gz or the .zip file you've download by right clicking and 'extract it'
-**OR**
-by using the following commands:
-
-`tar -zxf apache-tomcat-10.1.8.tar.gz`
-
-`tar -xf apache-tomcat-10.1.8-windows-x64.zip`
-
-### Run
-
-On Linux, run the following command in the {TOMCAT_LOCATION}/bin:
-
-`./catalina.sh run`
-
-On Windows, run the following command in the {TOMCAT_LOCATION}/bin:
-
-`catalina.bat run`
-
 ## Compilation
 
 Notice that if you use the Eclipse IDE you can skip these steps.
@@ -116,47 +86,16 @@ We'll name the location {MAVEN_LOCATION} for all installations and configuration
 
 `mvn clean install`
 
-## Manual deployment
+## Run the application
 
-Notice that if you use the Eclipse IDE you can skip these steps.
-
-### Prerequisites
-
-- You must have done Apache Tomcat and Compilation steps.
-
----
-
-1. Open a terminal or a Command Prompt in {TOMCAT_LOCATION}/bin and run the following commands:
-
-For Linux: `./catalina run`
-
-For Windows: `catalina.bat run`
-
-2. Moove manually the {SERVER_LOCATION}/target/server.war in the {TOMCAT_LOCATION}/webapps
-**OR**
-run the following command:
-
-`mv {SERVER_LOCATION}/target/server.war {TOMCAT_LOCATION}/webapps/server.war`
-
-3. (Only on Windows) In the Command Prompt, if there is no change, press Enter one time, wait and repress it another time.
-
-#### Reupload a server.war
-
-Manually delete the {TOMCAT_LOCATION}/webapps/server folder and {TOMCAT_LOCATION}/webapps/server.war file
-**OR**
-run the following commands:
-
-`rm -rf {TOMCAT_LOCATION}/webapps/server`
-
-`rm {TOMCAT_LOCATION}/webapps/server.war`
-
-After this, you can restart Manual deployment steps.
+`java -jar {SERVER_LOCATION}/target/server.war`
+If it doesn't work, try to update your java version 17 and check if the postgresql database is started.
 
 ## VSCode
 
 You can dowload the VSCode Extension named 'Java Extension Pack'.
 
-To compile and deploy, follow **Compilation** and **Manual deployment** steps.
+To compile and deploy, follow **Compilation** and **Run the application** steps.
 
 ## Eclipse
 
@@ -305,7 +244,6 @@ Click on 'Launch'.
 	<li>Save by Using Ctrl + S</li>
 </ul>
 
-### Run the Tomcat
+### Run the application
 
-Right click on the Tomcat server and choose start.
-(If it crashed, retry ONE time)
+On the left, right click on the 'server' project, then select 'Run as' and choose 'Java Application'. Select 'ServerApplication' and click on 'OK'.
