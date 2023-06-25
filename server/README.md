@@ -89,6 +89,7 @@ We'll name the location {MAVEN_LOCATION} for all installations and configuration
 ## Run the application
 
 `java -jar {SERVER_LOCATION}/target/server.war`
+
 If it doesn't work, try to update your java version 17 and check if the postgresql database is started.
 
 ## VSCode
