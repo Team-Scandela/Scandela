@@ -210,41 +210,6 @@ Click on 'Launch'.
 	<li>Click on 'Run'</li>
 </ul>
 
-### Apache Tomcat
-
-<ul>
-	<li>At the bottom of Eclipse, go to the 'Servers' perspective</li>
-	<li>Click on 'No server available, click this link to create a new'</li>
-	<li>Click on the arrow on the left of 'Apache'</li>
-	<li>Choose 'Tomcat 10.1'</li>
-	<li>Click on 'Next'</li>
-	<li>Click on 'Browse'</li>
-	<li>Go to {TOMCAT_LOCATION}</li>
-	<li>Click on 'Finish'</li>
-</ul>
-
-<ul>
-	<li>Right click on the Tomcat server who appeared</li>
-	<li>Choose 'Add and remove'</li>
-	<li>In 'Available' table, select 'server'</li>
-	<li>Click on 'Add'</li>
-	<li>Click on 'Finish'</li>
-</ul>
-
-<ul>
-	<li>Right click on the Tomcat server</li>
-	<li>Choose 'Properties'</li>
-	<li>Click on 'General'</li>
-	<li>Click on 'Switch location' (the location have to start with '/Servers')</li>
-	<li>Click on 'Apply and close'</li>
-</ul>
-
-<ul>
-	<li>Double click on the Tomcat server</li>
-	<li>Click on 'Use tomcat location' (If you can't, right click on the Tomcat server, choose 'Publish' and retry)</li>
-	<li>Save by Using Ctrl + S</li>
-</ul>
-
 ### Run the application
 
 On the left, right click on the 'server' project, then select 'Run as' and choose 'Java Application'. Select 'ServerApplication' and click on 'OK'.
