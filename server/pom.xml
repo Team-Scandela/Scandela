@@ -11,7 +11,7 @@
 	<groupId>com.scandela</groupId>
 	<artifactId>server</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>server</name>
 	<description>REST API Scandela</description>
 	<properties>
