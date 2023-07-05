@@ -1,26 +1,9 @@
 name: Deployement Workflow
 
 on:
-  workflow_dispatch:
-      inputs:
-        environment:
-          type: choice
-          options:
-            - dev
-            - prod
-          description: Where to deploy?
-          required: true
-          default: dev
-        ref:
-          type: string
-          description: What to deploy? git ref. Default to `master`.
-          default: master
-          required: false
-
-  concurrency: ${{ github.workflow }}-${{ github.event.inputs.environment || 'dev' }
-  # push:
-  #   branches:
-  #     - master
+  push:
+    branches:
+      - master
 
 jobs:
   deploy:
