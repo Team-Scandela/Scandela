@@ -1,0 +1,34 @@
+name: Deployement Workflow
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.1
+        with:
+          ssh-private-key: ${{ secret.SSH_PRIVATE_KEY }}
+      
+      - name: Copy code to  Rasberry Pi
+        run: scp -r ./ ismael@scandela.store:/var/www/dev/
+
+      - name: SSH into Rasberry Pi and deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: scandela.store
+          username: ismael
+          key: ${{ secret.SHH_PRIVATE_KEY }}
+          script: |
+            cd /var/www/dev/Scandela/
+            docker compose -f docker-compose.dev.yaml -d
+
+
