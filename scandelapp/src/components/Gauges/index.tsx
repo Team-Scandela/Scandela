@@ -1,11 +1,6 @@
 import * as React from 'react'
 import { GaugeContainerLeft, GaugeContainerMiddle, GaugeContainerRight, GaugeBackground, GaugeLogo, GaugeLevelLeft, GaugeLevelMiddle, GaugeLevelRight } from './elements'
-import left from '../../assets/gauges/left.png'
-import middle from '../../assets/gauges/middle.png'
-import right from '../../assets/gauges/right.png'
-import elec from '../../assets/gauges/elec.png'
-import bio from '../../assets/gauges/bio.png'
-import lumi from '../../assets/gauges/lumi.png'
+import * as images from './gaugesImports'
 
 interface GaugesProps {
     isDark: boolean;
@@ -21,21 +16,21 @@ const Gauges: React.FC<GaugesProps> = ({ isDark }) => {
     return (
         <div>
             <GaugeContainerLeft>
-                <GaugeBackground src={left} />
+                <GaugeBackground src={isDark ? images.left : images.leftLight} />
                 <GaugeLevelLeft level={levelElec} />
-                <GaugeLogo src={elec} />
+                <GaugeLogo src={isDark ? images.elec : images.elecLight} />
             </GaugeContainerLeft>
 
             <GaugeContainerMiddle>
-                <GaugeBackground src={middle} />
+                <GaugeBackground src={isDark ? images.middle : images.middleLight} />
                 <GaugeLevelMiddle level={levelBio} />
-                <GaugeLogo src={bio} />
+                <GaugeLogo src={isDark ? images.bio : images.bioLight} />
             </GaugeContainerMiddle>
 
             <GaugeContainerRight>
-                <GaugeBackground src={right} />
+                <GaugeBackground src={isDark ? images.right : images.rightLight} />
                 <GaugeLevelRight level={levelLumi} />
-                <GaugeLogo src={lumi} />
+                <GaugeLogo src={isDark ? images.lumi : images.lumiLight} />
             </GaugeContainerRight>
         </div>
     )
