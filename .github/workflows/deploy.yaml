@@ -16,7 +16,7 @@ jobs:
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.5.1
         with:
-          ssh-private-key: ${{ secret.SSH_PRIVATE_KEY }}
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
       
       - name: Copy code to  Rasberry Pi
         run: scp -r ./ ismael@scandela.store:/var/www/dev/
@@ -26,7 +26,7 @@ jobs:
         with:
           host: scandela.store
           username: ismael
-          key: ${{ secret.SHH_PRIVATE_KEY }}
+          key: ${{ secrets.SHH_PRIVATE_KEY }}
           script: |
             cd /var/www/dev/Scandela/
             docker compose -f docker-compose.dev.yaml -d
