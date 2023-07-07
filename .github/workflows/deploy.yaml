@@ -18,9 +18,8 @@ jobs:
           password: ${{ secrets.PASSWORD_RASPBERRY_PI }}
           port: 22
           script: |
-            cd /var/www/dev/
-            cp -r $GITHUB_WORKSPACE/* ./
-            cd Scandela/
-            docker compose -f docker-compose.dev.yaml -d
+            cd /var/www/dev/Scandela/
+            git pull
+            docker compose -f docker-compose.dev.yml -d
 
 
