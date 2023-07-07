@@ -10,25 +10,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Set up SSH
-        uses: webfactory/ssh-agent@v0.5.1
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-      
-      - name: Copy code to  Rasberry Pi
-        run: scp -r ./ ismael@scandela.store:/var/www/dev/
-
-      - name: SSH into Rasberry Pi and deploy
+      - name: Copy code to Raspberry Pi
         uses: appleboy/ssh-action@master
         with:
           host: scandela.store
-          username: ismael
-          key: ${{ secrets.SHH_PRIVATE_KEY }}
+          username: ${{ secrets.USERNAME_RASPBERRY_PI }}
+          password: ${{ secrets.PASSWORD_RASPBERRY_PI }}
+          port: 22
           script: |
-            cd /var/www/dev/Scandela/
+            cd /var/www/dev/
+            cp -r $GITHUB_WORKSPACE/* ./
+            cd Scandela/
             docker compose -f docker-compose.dev.yaml -d
 
 
