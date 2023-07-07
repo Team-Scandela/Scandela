@@ -6,6 +6,7 @@ import SearchBar from '../components/SearchBar'
 import { handleSearchUtils } from '../utils/searchUtils';
 import DecisionMenu from '../components/DecisionMenu'
 import EditInPdfPannel from '../components/EditInPdfPannel';
+import Gauges from '../components/Gauges';
 
 /** Main page of the app */
 const Main: React.FC = () => {
@@ -21,7 +22,7 @@ const Main: React.FC = () => {
         handleSearchUtils(value, lat, setLat, lng, setLng, zoom, setZoom);
     };
     const handleButtonEditInPdfClick = () => {
-      setIsButtonEditInPdfClicked(prevState => !prevState);
+        setIsButtonEditInPdfClicked(prevState => !prevState);
     };
 
     return (
@@ -32,6 +33,7 @@ const Main: React.FC = () => {
             <FilterMenu filter={filter} setFilter={setFilter} isDark={isDark}/>
             <DecisionMenu isDark={isDark} handleButtonEditInPdfClick={handleButtonEditInPdfClick} isButtonEditInPdfClicked={isButtonEditInPdfClicked}/>
             <EditInPdfPannel isDark={isDark} isButtonEditInPdfClicked={isButtonEditInPdfClicked} />
+            <Gauges isDark={isDark}/>
         </div>
     )
 }
