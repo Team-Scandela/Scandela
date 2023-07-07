@@ -20,6 +20,6 @@ jobs:
           script: |
             cd /var/www/dev/Scandela/
             git pull
-            docker compose -f docker-compose.dev.yml -d
+            docker compose -f docker-compose.dev.yml up -d
 
 
