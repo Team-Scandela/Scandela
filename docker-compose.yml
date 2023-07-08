@@ -1,0 +1,19 @@
+version: '3'
+services:
+  scandelapp:
+    build:
+      context: ./scandelapp
+      dockerfile: Dockerfile
+    ports:
+      - 2000:2000
+    volumes:
+      - ./scandelapp:/prod_scandelapp
+
+  jenkins:
+    build:
+      context: .
+      dockerfile: jenkins/Dockerfile
+    ports:
+      - 8080:8080
+    volumes:
+      - ./jenkins:/var/jenkins_home
