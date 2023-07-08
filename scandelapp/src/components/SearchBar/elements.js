@@ -11,7 +11,7 @@ export const SearchBarContainer = styled.div`
     height: 40px;
     top: 25px;
     left: 30px;
-    background-color: ${props => props.isDark ? Black + 'CC' : White + 'CC'};
+    background-color: ${props => props.isdark ? Black + 'CC' : White + 'CC'};
     box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
     border-radius: 10px;
 `;
@@ -34,7 +34,7 @@ export const InputWrapper =  styled.input`
     font-size: 13px;
     user-select: none;
 
-    color : ${props => props.isDark ? Yellow : Black};
+    color : ${props => props.isdark ? Yellow : Black};
     background-color: transparent;
 
     &:focus {
@@ -48,7 +48,7 @@ export const SearchIcon = styled(MdSearch)`
     right : 10px;
     font-size : 28px;
 
-    color : ${props => props.isDark ? Yellow : Black};
+    color : ${props => props.isdark ? Yellow : Black};
 
     &:hover {
         cursor: pointer;

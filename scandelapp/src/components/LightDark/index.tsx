@@ -21,7 +21,7 @@ const LightDark: React.FC<LightDarkProps> = ({ isDark, setIsDark }) => {
 
     return (
         <div>
-            <LightDarkButton onClick={handleIconClick} isDark={isDark}>
+            <LightDarkButton id="lightdark-button" onClick={handleIconClick} isDark={isDark}>
                 {isDark ? <FiSun /> : <FiMoon />}
             </LightDarkButton>
         </div>
