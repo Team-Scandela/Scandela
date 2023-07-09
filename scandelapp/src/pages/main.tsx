@@ -7,6 +7,7 @@ import { handleSearchUtils } from '../utils/searchUtils';
 import DecisionMenu from '../components/DecisionMenu'
 import EditInPdfPannel from '../components/EditInPdfPannel';
 import Gauges from '../components/Gauges';
+import DuringYourAbsencePannel from '../components/DuringYourAbsencePannel';
 
 /** Main page of the app */
 const Main: React.FC = () => {
@@ -34,6 +35,7 @@ const Main: React.FC = () => {
             <DecisionMenu isDark={isDark} handleButtonEditInPdfClick={handleButtonEditInPdfClick} isButtonEditInPdfClicked={isButtonEditInPdfClicked}/>
             <EditInPdfPannel isDark={isDark} isButtonEditInPdfClicked={isButtonEditInPdfClicked} />
             <Gauges isDark={isDark}/>
+            <DuringYourAbsencePannel isDark={isDark} />
         </div>
     )
 }
