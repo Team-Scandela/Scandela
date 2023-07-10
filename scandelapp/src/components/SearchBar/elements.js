@@ -32,6 +32,7 @@ export const InputWrapper =  styled.input`
     top: 15%;
     border: none;
     font-size: 13px;
+    user-select: none;
 
     color : ${props => props.isDark ? Yellow : Black};
     background-color: transparent;

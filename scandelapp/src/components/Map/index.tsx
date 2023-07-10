@@ -46,7 +46,6 @@ const Map: React.FC<MapProps> = ({ filter, isDark, lat, lng, zoom }) => {
     },[]);
 
 
-
     /** Setup the map and change the style of the map wether is light or dark mode */
     React.useEffect(() => {
         if (map.current) {
@@ -82,14 +81,12 @@ const Map: React.FC<MapProps> = ({ filter, isDark, lat, lng, zoom }) => {
 
         } else {
             map.current = new mapboxgl.Map({
-            container: mapContainer.current,
-            style: isDark ? "mapbox://styles/mapbox/dark-v11" : "mapbox://styles/mapbox/light-v11",
-            center: [lng, lat],
-            zoom: zoom,
+                container: mapContainer.current,
+                style: isDark ? "mapbox://styles/mapbox/dark-v11" : "mapbox://styles/mapbox/light-v11",
+                center: [lng, lat],
+                zoom: zoom,
             });
         }
-
-
     }, [isDark, lng, lat, zoom]);
 
     /** Set the map to take the entire screen */
