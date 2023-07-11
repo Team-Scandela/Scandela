@@ -8,16 +8,19 @@ export const PannelContainer = styled.div`
     position: absolute;
     align-items: center;
     justify-content: center;
-    width: 950px;
-    height: 550px;
+    width: ${(props) => (props.show ? "950px" : "0px")};
+    height: ${(props) => (props.show ? "550px" : "0px")};
     top: 25%;
     left: 25%;
     background-color: ${props => props.isDark ? Black + 'FF' : White + 'FF'};
     border-radius: 30px;
-    /* border: 2px solid Grey; */
-    transition: all 0.3s ease-in-out;
+    transition: transform 0.2s ease-in-out, width 0.5s ease-in-out, height 1s ease-in-out;
     box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+    transform-origin: center;
+    transform: scaleX(${(props) => (props.show ? 1 : 0)}) scaleY(${(props) => (props.show ? 1 : 0)});
+    overflow: hidden;
 `;
+
 
 export const PannelText = styled.div`
   position: absolute;
