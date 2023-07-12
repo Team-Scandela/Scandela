@@ -2,6 +2,7 @@ const Pool = require('pg').Pool
 require('dotenv').config();
 import { v4 as uuidv4 } from 'uuid';
 import { Request, Response } from 'express';
+import { isUuid } from 'uuidv4';
 
 const pool = new Pool({
     user: process.env.DB_USER,
@@ -12,7 +13,7 @@ const pool = new Pool({
 })
 
 const getLamp = (request : Request, response : Response) => {
-    pool.query('SELECT * FROM \"Lamp\"', (error : any, results : any) => {
+    pool.query('SELECT * FROM lamp', (error : any, results : any) => {
         if (error) {
             throw error;
         }
@@ -21,18 +22,29 @@ const getLamp = (request : Request, response : Response) => {
 }
 
 const createLamp = (request : Request, response : Response) => {
-    const {lat, lng} = request.body;
-    pool.query('INSERT INTO \"Lamp\" (\"UUID\", lat, lng) VALUES ($1, $2, $3) RETURNING *', [uuidv4(), lat, lng], (error : any, results : any) => {
+    const { lat, lng, lighton, lightoff, height, moreinfo } = request.body;
+
+    if (lat == null || lng == null)
+        throw new Error('lat and lng must be defined');
+
+    const query = 'INSERT INTO lamp (uuid, lat, lng, lighton, lightoff, height, moreinfo) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *';
+    const values = [uuidv4(), lat, lng, lighton, lightoff, height, moreinfo];
+
+
+    pool.query(query, values, (error : any, results : any) => {
         if (error) {
             throw error;
         }
-        response.status(201).send(`Lamp added with ID: ${results.rows[0].UUID}`);
+        response.status(201).send(`Lamp added with ID: ${results.rows[0].uuid}`);
     });
 }
 
 const deleteLamp = (request : Request, response : Response) => {
     const uuid = request.params.uuid;
-    pool.query('DELETE FROM \"Lamp\" WHERE UUID = $1', [uuid], (error : any, results : any) => {
+    if (isUuid(uuid) == false)
+        throw new Error('uuid is not valid');
+
+    pool.query('DELETE FROM lamp WHERE uuid = CAST($1 AS uuid)', [uuid], (error : any, results : any) => {
         if (error) {
             throw error;
         }
@@ -43,8 +55,12 @@ const deleteLamp = (request : Request, response : Response) => {
 
 const updateLamp = (request : Request, response : Response) => {
     const uuid = request.params.uuid;
-    const {lat, lng} = request.body;
-    pool.query('UPDATE \"Lamp\" SET lat = $1, lng = $2 WHERE UUID = $3', [lat, lng, uuid], (error : any, results : any) =>{
+    const {lat, lng, lighton, lightoff, height, moreinfo} = request.body;
+
+    const query = 'UPDATE lamp SET lat = $1, lng = $2, lighton = $3, lightoff = $4, height = $5, moreinfo = $6 WHERE uuid = $7';
+    const values = [lat, lng, lighton, lightoff, height, moreinfo, uuid];
+
+    pool.query(query, values, (error : any, results : any) => {
         if (error) {
             throw error;
         }

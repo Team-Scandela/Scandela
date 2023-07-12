@@ -38,7 +38,7 @@ const Test: React.FC = () => {
 
     function deleteLamp() {
         let uuid = prompt('Enter uuid');
-        fetch('http://localhost:3001/lamp/:${uuid}', {
+        fetch(`http://localhost:3001/lamp/${uuid}`, {
             method: 'DELETE'
         })
             .then(response => response.text())
