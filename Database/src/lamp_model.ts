@@ -22,13 +22,13 @@ const getLamp = (request : Request, response : Response) => {
 }
 
 const createLamp = (request : Request, response : Response) => {
-    const { lat, lng, lighton, lightoff, height, moreinfo } = request.body;
+    const { lat, lng, lighton, lightoff, height, moreinfo, name } = request.body;
 
     if (lat == null || lng == null)
         throw new Error('lat and lng must be defined');
 
-    const query = 'INSERT INTO lamp (uuid, lat, lng, lighton, lightoff, height, moreinfo) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *';
-    const values = [uuidv4(), lat, lng, lighton, lightoff, height, moreinfo];
+    const query = 'INSERT INTO lamp (uuid, lat, lng, lighton, lightoff, height, moreinfo, name) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *';
+    const values = [uuidv4(), lat, lng, lighton, lightoff, height, moreinfo, name];
 
 
     pool.query(query, values, (error : any, results : any) => {
@@ -55,10 +55,10 @@ const deleteLamp = (request : Request, response : Response) => {
 
 const updateLamp = (request : Request, response : Response) => {
     const uuid = request.params.uuid;
-    const {lat, lng, lighton, lightoff, height, moreinfo} = request.body;
+    const {lat, lng, lighton, lightoff, height, moreinfo, name} = request.body;
 
-    const query = 'UPDATE lamp SET lat = $1, lng = $2, lighton = $3, lightoff = $4, height = $5, moreinfo = $6 WHERE uuid = $7';
-    const values = [lat, lng, lighton, lightoff, height, moreinfo, uuid];
+    const query = 'UPDATE lamp SET lat = $1, lng = $2, lighton = $3, lightoff = $4, height = $5, moreinfo = $6 , name = $7 WHERE uuid = CAST($8 AS uuid)';
+    const values = [lat, lng, lighton, lightoff, height, moreinfo, name, uuid];
 
     pool.query(query, values, (error : any, results : any) => {
         if (error) {
