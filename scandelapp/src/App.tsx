@@ -2,6 +2,7 @@ import * as React from 'react';
 import './App.css';
 import Main from './pages/main';
 import Login from './pages/login';
+import Test from './pages/test';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 /** Route page */
@@ -11,6 +12,7 @@ const App: React.FC = () => {
             <Routes>
                 <Route path='/' element={<Main/>}/>
                 <Route path='/login' element={<Login/>}/>
+                <Route path='/test' element={<Test/>}/>
             </Routes>
         </BrowserRouter>
     );
