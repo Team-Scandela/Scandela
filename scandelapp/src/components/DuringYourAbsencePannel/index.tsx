@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { PannelContainer, PannelText, CloseIcon, ListDetailContainer, WarningIcon, EventContainer, ArrowIcon, EventText, EventTextContainer} from './elements';
+import { PannelContainer, PannelText, CloseIcon, ListDetailContainer, WarningIcon, EventContainer, ArrowIcon, EventText, EventTextContainer, IndicatorsImage} from './elements';
+import indicators from '../../assets/Indicators.png';
 
 interface DuringYourAbsencePannelProps {
   isDark: boolean;
@@ -41,6 +42,7 @@ const DuringYourAbsencePannel: React.FC<DuringYourAbsencePannelProps> = ({ isDar
             <ArrowIcon isDark={isDark} />
           </EventContainer>
         </ListDetailContainer>
+        <IndicatorsImage src={indicators} alt="Indicators" />
       </PannelContainer>
     </div>
   );

@@ -8,8 +8,8 @@ export const PannelContainer = styled.div`
     position: absolute;
     align-items: center;
     justify-content: center;
-    width: ${(props) => (props.show ? "950px" : "0px")};
-    height: ${(props) => (props.show ? "550px" : "0px")};
+    width: ${(props) => (props.show ? "900px" : "0px")};
+    height: ${(props) => (props.show ? "500px" : "0px")};
     top: 25%;
     left: 25%;
     background-color: ${props => props.isDark ? Black + 'FF' : White + 'FF'};
@@ -54,8 +54,8 @@ export const ListDetailContainer = styled.div`
     align-items: center;
     justify-content: center;
     left: 30px;
-    width: 700px;
-    height: 400px;
+    width: 680px;
+    height: 380px;
     top: 20%;
     background-color: ${props => props.isDark ? Yellow + 'FF' : Black + 'FF'};
     border-radius: 30px;
@@ -114,4 +114,12 @@ export const EventText = styled.div`
   user-select: none;
   color : ${props => props.isDark ? Black : White};
   font-weight: 550;
+`;
+
+export const IndicatorsImage = styled.img`
+  position: absolute;
+  right: 50px;
+  top: 125px;
+  width: 100px;
+  height: auto;
 `;
