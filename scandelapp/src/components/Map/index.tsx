@@ -50,7 +50,7 @@ const Map: React.FC<MapProps> = ({ filter, isDark, lat, lng, zoom }) => {
     React.useEffect(() => {
         if (map.current) {
             map.current.setStyle(
-                isDark ? "mapbox://styles/mapbox/dark-v11" : "mapbox://styles/mapbox/light-v11"
+                isDark ? "mapbox://styles/titouantd/cljwv2coy025k01pk785839a1" : "mapbox://styles/titouantd/cljwui6ss00ij01pj1oin6oa5"
             );
             map.current.flyTo({
                 center: [lng, lat],
@@ -82,10 +82,11 @@ const Map: React.FC<MapProps> = ({ filter, isDark, lat, lng, zoom }) => {
         } else {
             map.current = new mapboxgl.Map({
                 container: mapContainer.current,
-                style: isDark ? "mapbox://styles/mapbox/dark-v11" : "mapbox://styles/mapbox/light-v11",
+                style: isDark ? "mapbox://styles/titouantd/cljwv2coy025k01pk785839a1" : "mapbox://styles/titouantd/cljwui6ss00ij01pj1oin6oa5",
                 center: [lng, lat],
                 zoom: zoom,
             });
+
         }
     }, [isDark, lng, lat, zoom]);
 
