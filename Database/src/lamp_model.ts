@@ -54,7 +54,7 @@ const deleteLamp = (request : Request, response : Response) => {
 }
 
 const deleteAllLamp = (request : Request, response : Response) => {
-    pool.query('DELETE * FROM lamp)', (error : any, results : any) => {
+    pool.query('DELETE FROM lamp)', (error : any, results : any) => {
         if (error) {
             throw error;
         }
