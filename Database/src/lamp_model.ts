@@ -22,14 +22,13 @@ const getLamp = (request : Request, response : Response) => {
 }
 
 const createLamp = (request : Request, response : Response) => {
-    const { lat, lng, lighton, lightoff, height, moreinfo, name } = request.body;
+    const { lat, lng, lighton, lightoff, height, moreinfo, name, address, lamp_type, foyer_type } = request.body;
 
     if (lat == null || lng == null)
         throw new Error('lat and lng must be defined');
 
-    const query = 'INSERT INTO lamp (uuid, lat, lng, lighton, lightoff, height, moreinfo, name) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *';
-    const values = [uuidv4(), lat, lng, lighton, lightoff, height, moreinfo, name];
-
+    const query = 'INSERT INTO lamp (uuid, lat, lng, lighton, lightoff, height, moreinfo, name, address, lamp_type, foyer_type) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *';
+    const values = [uuidv4(), lat, lng, lighton, lightoff, height, moreinfo, name, address, lamp_type, foyer_type];
 
     pool.query(query, values, (error : any, results : any) => {
         if (error) {
@@ -63,23 +62,23 @@ const deleteAllLamp = (request: Request, response: Response) => {
 }
 
 
-// const launchScript = (request : Request, response : Response) => {
+const launchScript = (request : Request, response : Response) => {
    
-//     pool.query('DELETE FROM lamp WHERE uuid = CAST($1 AS uuid)', [uuid], (error : any, results : any) => {
-//         if (error) {
-//             throw error;
-//         }
-//         response.status(200).send(`Lamp deleted with ID:}`);
-//     });
+    pool.query('DELETE FROM lamp', (error : any, results : any) => {
+        if (error) {
+            throw error;
+        }
+        response.status(200).send(`All lamps have been loaded from the json file}`);
+    });
 
-// }
+}
 
 const updateLamp = (request : Request, response : Response) => {
     const uuid = request.params.uuid;
-    const {lat, lng, lighton, lightoff, height, moreinfo, name} = request.body;
+    const {lat, lng, lighton, lightoff, height, moreinfo, name, address, lamp_type, foyer_type} = request.body;
 
-    const query = 'UPDATE lamp SET lat = $1, lng = $2, lighton = $3, lightoff = $4, height = $5, moreinfo = $6 , name = $7 WHERE uuid = CAST($8 AS uuid)';
-    const values = [lat, lng, lighton, lightoff, height, moreinfo, name, uuid];
+    const query = 'UPDATE lamp SET lat = $1, lng = $2, lighton = $3, lightoff = $4, height = $5, moreinfo = $6 , name = $7 , address = $8, lamp_type = $9 , foyer_type = $10,  WHERE uuid = CAST($11 AS uuid)';
+    const values = [lat, lng, lighton, lightoff, height, moreinfo, name, address, lamp_type, foyer_type, uuid];
 
     pool.query(query, values, (error : any, results : any) => {
         if (error) {
@@ -94,6 +93,6 @@ module.exports = {
     createLamp,
     deleteLamp,
     deleteAllLamp,
-    // launchScript,
+    launchScript,
     updateLamp,
 }
