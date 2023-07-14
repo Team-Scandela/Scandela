@@ -53,6 +53,26 @@ const deleteLamp = (request : Request, response : Response) => {
 
 }
 
+const deleteAllLamp = (request : Request, response : Response) => {
+    pool.query('DELETE * FROM lamp)', (error : any, results : any) => {
+        if (error) {
+            throw error;
+        }
+        response.status(200).send(`All Lamps have been deleted`);
+    });
+}
+
+const launchScript = (request : Request, response : Response) => {
+   
+    // pool.query('DELETE FROM lamp WHERE uuid = CAST($1 AS uuid)', [uuid], (error : any, results : any) => {
+    //     if (error) {
+    //         throw error;
+    //     }
+    //     response.status(200).send(`Lamp deleted with ID:}`);
+    // });
+
+}
+
 const updateLamp = (request : Request, response : Response) => {
     const uuid = request.params.uuid;
     const {lat, lng, lighton, lightoff, height, moreinfo, name} = request.body;
@@ -72,5 +92,7 @@ module.exports = {
     getLamp,
     createLamp,
     deleteLamp,
+    deleteAllLamp,
+    launchScript,
     updateLamp,
 }
