@@ -18,7 +18,7 @@ app.get('/lamp', (request : Request, response : Response) => {
     lamp_model.getLamp(request, response)
 });
 
-app.get('/script', (request : Request, response : Response) => {
+app.post('/script', (request : Request, response : Response) => {
     lamp_model.launchScript(request, response)
 });
 

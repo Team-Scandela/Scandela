@@ -21,13 +21,14 @@ const Test: React.FC = () => {
     
     function launchScript() {
         fetch(`http://localhost:3001/script`, {
-            method: 'GET'
+          method: 'POST'
         })
-            .then(response => response.text())
-            .then(data => {
-                setLamp(data);
-            })
-    }
+          .then(response => response.text())
+          .then(data => {
+            setLamp(data);
+          });
+      }
+      
 
     function createLamp() {
         let lat = prompt('Enter latitude');
