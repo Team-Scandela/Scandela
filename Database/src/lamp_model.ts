@@ -22,13 +22,13 @@ const getLamp = (request : Request, response : Response) => {
 }
 
 const createLamp = (request : Request, response : Response) => {
-    const { lat, lng, lighton, lightoff, height, moreinfo, name, address, lamp_type, foyer_type } = request.body;
+    const { lat, lng, lighton, lightoff, height, moreinfo, name, address, lamptype, foyertype } = request.body;
 
     if (lat == null || lng == null)
         throw new Error('lat and lng must be defined');
 
-    const query = 'INSERT INTO lamp (uuid, lat, lng, lighton, lightoff, height, moreinfo, name, address, lamp_type, foyer_type) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *';
-    const values = [uuidv4(), lat, lng, lighton, lightoff, height, moreinfo, name, address, lamp_type, foyer_type];
+    const query = 'INSERT INTO lamp (uuid, lat, lng, lighton, lightoff, height, moreinfo, name, address, lamptype, foyertype) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *';
+    const values = [uuidv4(), lat, lng, lighton, lightoff, height, moreinfo, name, address, lamptype, foyertype];
 
     pool.query(query, values, (error : any, results : any) => {
         if (error) {
@@ -75,10 +75,10 @@ const launchScript = (request : Request, response : Response) => {
 
 const updateLamp = (request : Request, response : Response) => {
     const uuid = request.params.uuid;
-    const {lat, lng, lighton, lightoff, height, moreinfo, name, address, lamp_type, foyer_type} = request.body;
+    const {lat, lng, lighton, lightoff, height, moreinfo, name, address, lamptype, foyertype} = request.body;
 
-    const query = 'UPDATE lamp SET lat = $1, lng = $2, lighton = $3, lightoff = $4, height = $5, moreinfo = $6 , name = $7 , address = $8, lamp_type = $9 , foyer_type = $10,  WHERE uuid = CAST($11 AS uuid)';
-    const values = [lat, lng, lighton, lightoff, height, moreinfo, name, address, lamp_type, foyer_type, uuid];
+    const query = 'UPDATE lamp SET lat = $1, lng = $2, lighton = $3, lightoff = $4, height = $5, moreinfo = $6 , name = $7 , address = $8, lamptype = $9 , foyertype = $10,  WHERE uuid = CAST($11 AS uuid)';
+    const values = [lat, lng, lighton, lightoff, height, moreinfo, name, address, lamptype, foyertype, uuid];
 
     pool.query(query, values, (error : any, results : any) => {
         if (error) {
