@@ -19,15 +19,15 @@ const Test: React.FC = () => {
             })
     }
     
-    function launchScript() {
-        fetch(`http://localhost:3001/lamp/`, {
-            method: 'GET'
-        })
-            .then(response => response.text())
-            .then(data => {
-                setLamp(data);
-            })
-    }
+    // function launchScript() {
+    //     fetch(`http://localhost:3001/lamp`, {
+    //         method: 'GET'
+    //     })
+    //         .then(response => response.text())
+    //         .then(data => {
+    //             setLamp(data);
+    //         })
+    // }
 
     function createLamp() {
         let lat = prompt('Enter latitude');
@@ -58,7 +58,7 @@ const Test: React.FC = () => {
     }
 
     function deleteAllLamp() {
-        fetch(`http://localhost:3001/lamp`, {
+        fetch(`http://localhost:3001/lamps`, {
             method: 'DELETE'
         })
             .then(response => response.text())
@@ -73,7 +73,7 @@ const Test: React.FC = () => {
             <button onClick={createLamp}>Add Lamp</button>
             <button onClick={deleteLamp}>Delete Lamp</button>
             <button onClick={deleteAllLamp}>Delete All</button>
-            <button onClick={launchScript}>Launch Script</button>
+            {/* <button onClick={launchScript}>Launch Script</button> */}
         </div>
     )
 }

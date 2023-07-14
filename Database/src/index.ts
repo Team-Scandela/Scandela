@@ -18,9 +18,9 @@ app.get('/lamp', (request : Request, response : Response) => {
     lamp_model.getLamp(request, response)
 });
 
-app.get('/lamp', (request : Request, response : Response) => {
-    lamp_model.launchScript(request, response)
-});
+// app.get('/lamp', (request : Request, response : Response) => {
+//     lamp_model.launchScript(request, response)
+// });
 
 app.post('/lamp', (request : Request, response : Response) => {
     lamp_model.createLamp(request, response)
@@ -30,7 +30,7 @@ app.delete('/lamp/:uuid', (request : Request, response : Response) => {
     lamp_model.deleteLamp(request, response)
 });
 
-app.delete('/lamp', (request : Request, response : Response) => {
+app.delete('/lamps', (request : Request, response : Response) => {
     lamp_model.deleteAllLamp(request, response)
 });
 
