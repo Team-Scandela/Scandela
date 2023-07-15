@@ -76,7 +76,7 @@ export const DecisionPanelContentContainer = styled.div`
   display: flex;
   position: absolute;
   width: 435px;
-  height: 420px;
+  height: 450px;
   left: 30px;
   top: 100px;
   border-radius: 15px;
@@ -108,7 +108,6 @@ export const DropdownContainer = styled.div`
   padding: 0 10px;
   background-color: ${props => props.isDark ? White : White};
   color: ${props => props.isDark ? Black : Black};
-  cursor: pointer;
   transition: all 0.3s ease-in-out;
   border-radius: 5px;
   font-size: 17px;
@@ -142,7 +141,7 @@ export const DropdownMenu = styled.div`
   left: 4%;
   top: 13%;
   width: 400px;
-  height: calc(100% - 80px);
+  height: calc(100% - 65px);
   background-color: ${props => props.isDark ? White : White};
   color: ${props => props.isDark ? Black : Black};
   padding: 10px;
@@ -172,5 +171,43 @@ export const DropdownItem = styled.div`
   &:hover {
     background-color: ${props => props.isDark ? Yellow : Yellow};
     color: ${props => props.isDark ? White : White};
+  }
+`;
+
+export const ScrollableOptimisationsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  left: 4%;
+  top: 13%;
+  width: 400px;
+  height: 340px;
+  overflow-y: scroll;
+  border-radius: 5px;
+  background-color: ${props => props.isDark ? Black + 'FF' : Yellow + 'FF'};
+`;
+
+
+export const AddToActionsListButton = styled.div`
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  left: 4%;
+  bottom: 2%;
+  height: 30px;
+  width: 400px;
+  padding: 0 10px;
+  background-color: ${props => props.isDark ? Black : Black};
+  color: ${props => props.isDark ? Yellow : Yellow};
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  border-radius: 5px;
+  font-size: 16px;
+  box-shadow: 0px 4px 4px -3px rgba(0,0,0,0.75);
+
+  &:hover {
+    background-color: ${props => props.isDark ? Yellow : Yellow};
+    color: ${props => props.isDark ? Black : Black};
   }
 `;

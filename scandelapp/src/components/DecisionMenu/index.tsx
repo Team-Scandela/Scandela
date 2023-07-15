@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { DecisionMenuContainer, DecisionMenuButton, DecisionPanel, DecisionPanelContentContainer,
-LogoContainer, ScandelaText, DropdownContainer, DropdownRoundButton, DropdownMenu, DropdownItem } from './elements'
+LogoContainer, ScandelaText, DropdownContainer, DropdownRoundButton, DropdownMenu, DropdownItem,
+ScrollableOptimisationsContainer, AddToActionsListButton } from './elements'
 import { MdKeyboardDoubleArrowLeft as DecisionIconLeft } from 'react-icons/md'
 import { MdKeyboardDoubleArrowRight as DecisionIconRight } from 'react-icons/md'
 import { MdKeyboardArrowDown as DropdownButtonIconOpen } from 'react-icons/md'
@@ -8,6 +9,7 @@ import { MdKeyboardArrowUp as DropdownButtonIconClose } from 'react-icons/md'
 import ButtonEditInPdf from '../ButtonEditInPdf'
 import ButtonSelectAll from '../ButtonSelectAll'
 import logoDark from '../../assets/logo-128x128-yellow.png'
+import OptimisationTemplate from '../OptimisationTemplate'
 
 
 /** Menu of the decision pannel
@@ -24,7 +26,7 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({ isDark, handleButtonEditInP
     const [decisionPanelExtended, setDecisionPanelExtended] = React.useState(false);
     const [dropdownExpended, setDropdownExpended] = React.useState(false);
     const [currentSelected, setCurrentSelected] = React.useState('Choisissez une action');
-    const [items, setItems] = React.useState(["Éteindre lampadaire", "Allumer lampadaire", "Augmenter intensité lampadaire",
+    const [items, setItems] = React.useState(["Toutes les optimisations", "Éteindre lampadaire", "Allumer lampadaire", "Augmenter intensité lampadaire",
     "Réduire intensité lampadaire", "Changer ampoule lampadaire", "Ajouter lampadaire", "Retirer lampadaire", "Lampadaire intelligent"]);
 
     const handleToggleDecisionPanelExpend = () => {
@@ -53,7 +55,7 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({ isDark, handleButtonEditInP
                     <ButtonEditInPdf isDark={isDark} handleClick={handleButtonEditInPdfClick} isClicked={isButtonEditInPdfClicked}/>
                     <ButtonSelectAll isDark={isDark} />
                     <DecisionPanelContentContainer>
-                        <DropdownContainer isDark={isDark} onClick={handleToggleDropdownExpend}>
+                        <DropdownContainer isDark={isDark}>
                             {currentSelected}
                             <DropdownRoundButton onClick={() => handleToggleDropdownExpend()} isDark={isDark}>
                                 {dropdownExpended ? <DropdownButtonIconClose size={40}/> : <DropdownButtonIconOpen size={40}/>}
@@ -67,6 +69,14 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({ isDark, handleButtonEditInP
                             </DropdownMenu>
                         )}
                         <LogoContainer src={logoDark} />
+                        {currentSelected !== "Choisissez une action" && (
+                            <ScrollableOptimisationsContainer isDark={isDark}>
+                                {Array.from(Array(10).keys()).map((i) => (
+                                    <OptimisationTemplate key={i} isDark={isDark} y={90*i}/>
+                                ))}
+                            </ScrollableOptimisationsContainer>
+                        )}
+                        <AddToActionsListButton isDark={isDark}>Ajouter à la liste d'actions</AddToActionsListButton>
                     </DecisionPanelContentContainer>
                 </DecisionPanel>
             </DecisionMenuContainer>
