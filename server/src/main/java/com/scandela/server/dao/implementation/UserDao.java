@@ -18,7 +18,7 @@ public class UserDao extends AbstractDao<User> implements IUserDao {
 	protected UserDao() {
 		super(User.class);
 	}
-
+	
 	// Methods \\
 		// Public \\
 	@Override

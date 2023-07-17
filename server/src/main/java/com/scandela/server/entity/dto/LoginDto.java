@@ -1,17 +1,15 @@
 package com.scandela.server.entity.dto;
 
-import java.util.List;
-
 import lombok.Builder;
 import lombok.Data;
 
 @Builder
 @Data
-public class ServerDto {
+public class LoginDto {
 
 	// Attributes \\
 	// Private \\
-	private String name;
-	private List<String> team;
+	private String email;
+    private String password;
 
 }
