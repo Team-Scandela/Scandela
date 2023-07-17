@@ -8,6 +8,7 @@ Object.getOwnPropertyDescriptor(mapboxgl, "accessToken").set("pk.eyJ1IjoidGl0b3V
 */
 
 interface MapProps {
+    id : string,
     filter : string,
     isDark: boolean,
     lat: number,
@@ -15,7 +16,7 @@ interface MapProps {
     zoom: number,
 }
 
-const Map: React.FC<MapProps> = ({ filter, isDark, lat, lng, zoom }) => {
+const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
 
     const mapContainer = React.useRef(null);
     const map = React.useRef(null);
@@ -49,7 +50,7 @@ const Map: React.FC<MapProps> = ({ filter, isDark, lat, lng, zoom }) => {
     }
 
     return (
-        <div style={{overflow: "hidden"}}>
+        <div id={id} style={{overflow: "hidden"}}>
             <div style={styleMap} ref={mapContainer} className="map-container" />
             <style>
                 {`.mapboxgl-ctrl-logo {

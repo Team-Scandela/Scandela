@@ -27,13 +27,13 @@ const Main: React.FC = () => {
 
     return (
         <div>
-            <Map filter={filter} isDark={isDark} lat={lat} lng={lng} zoom={zoom}/>
-            <SearchBar isDark={isDark} onSubmit={handleSearch}/>
-            <LightDark isDark={isDark} setIsDark={setIsDark}/>
-            <FilterMenu filter={filter} setFilter={setFilter} isDark={isDark}/>
-            <DecisionMenu isDark={isDark} handleButtonEditInPdfClick={handleButtonEditInPdfClick} isButtonEditInPdfClicked={isButtonEditInPdfClicked}/>
-            <EditInPdfPannel isDark={isDark} isButtonEditInPdfClicked={isButtonEditInPdfClicked} />
-            <Gauges isDark={isDark}/>
+            <Map id={"mapComponentId"} filter={filter} isDark={isDark} lat={lat} lng={lng} zoom={zoom} />
+            <SearchBar id={"searchBarComponentId"} isDark={isDark} onSubmit={handleSearch} />
+            <LightDark id={"lightDarkComponentId"} isDark={isDark} setIsDark={setIsDark} />
+            <FilterMenu id={"filterMenuComponentId"} filter={filter} setFilter={setFilter} isDark={isDark} />
+            <DecisionMenu id={"decisionMenuComponentId"} isDark={isDark} handleButtonEditInPdfClick={handleButtonEditInPdfClick} isButtonEditInPdfClicked={isButtonEditInPdfClicked} />
+            <EditInPdfPannel id={"editinPdfPannelComponentId"} isDark={isDark} isButtonEditInPdfClicked={isButtonEditInPdfClicked} />
+            <Gauges id={"gaugesComponentId"} isDark={isDark} />
         </div>
     )
 }

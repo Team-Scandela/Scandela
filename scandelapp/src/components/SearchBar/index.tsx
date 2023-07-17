@@ -9,11 +9,12 @@ import logoLight from '../../assets/logo-128x128.png';
 **/
 
 interface SearchBarProps {
+    id: string,
     isDark: boolean;
     onSubmit: (value: string) => void;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ isDark, onSubmit }) => {
+const SearchBar: React.FC<SearchBarProps> = ({ id, isDark, onSubmit }) => {
     const [searchValue, setSearchValue] = React.useState<string>("");
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,7 +29,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ isDark, onSubmit }) => {
 
 
     return (
-        <div>
+        <div id={id}>
             <SearchBarContainer id="searchbar-container" isdark={isDark}>
                 <LogoContainer src={isDark ? logoDark : logoLight} />
                 <InputWrapper
