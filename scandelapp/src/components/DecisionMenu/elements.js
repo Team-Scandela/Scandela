@@ -41,7 +41,7 @@ export const DecisionMenuButton = styled.div`
 export const DecisionPanel = styled.div`
     display: flex;
     width: 500px;
-    height: 650px;
+    height: 700px;
     border-radius: 20px 0px 0px 20px;
     overflow: hidden;
     font-size: 25px;

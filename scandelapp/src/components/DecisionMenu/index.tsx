@@ -26,8 +26,17 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({ isDark, handleButtonEditInP
     const [decisionPanelExtended, setDecisionPanelExtended] = React.useState(false);
     const [dropdownExpended, setDropdownExpended] = React.useState(false);
     const [currentSelected, setCurrentSelected] = React.useState('Choisissez une action');
-    const [items, setItems] = React.useState(["Toutes les optimisations", "Éteindre lampadaire", "Allumer lampadaire", "Augmenter intensité lampadaire",
+    const [items] = React.useState(["Toutes les optimisations", "Éteindre lampadaire", "Allumer lampadaire", "Augmenter intensité lampadaire",
     "Réduire intensité lampadaire", "Changer ampoule lampadaire", "Ajouter lampadaire", "Retirer lampadaire", "Lampadaire intelligent"]);
+    const [childStates, setChildStates] = React.useState([false, false, false, false, false, false, false, false, false, false]);
+
+
+    const handleChildCheckboxChange = (index: number, isChecked: boolean) => {
+        const updatedStates = [...childStates];
+        updatedStates[index] = isChecked;
+        setChildStates(updatedStates);
+        console.log(childStates)
+    };
 
     const handleToggleDecisionPanelExpend = () => {
         setDecisionPanelExtended(!decisionPanelExtended);
@@ -71,8 +80,9 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({ isDark, handleButtonEditInP
                         <LogoContainer src={logoDark} />
                         {currentSelected !== "Choisissez une action" && (
                             <ScrollableOptimisationsContainer isDark={isDark}>
-                                {Array.from(Array(10).keys()).map((i) => (
-                                    <OptimisationTemplate key={i} isDark={isDark} y={90*i}/>
+                                {Array.from(Array(childStates.length).keys()).map((i) => (
+                                    <OptimisationTemplate key={i} isDark={isDark} y={90*i}
+                                    onCheckboxChange={(isChecked) => handleChildCheckboxChange(i, isChecked)}/>
                                 ))}
                             </ScrollableOptimisationsContainer>
                         )}
