@@ -7,6 +7,7 @@ import { handleSearchUtils } from '../utils/searchUtils';
 import DecisionMenu from '../components/DecisionMenu'
 import EditInPdfPannel from '../components/EditInPdfPannel';
 import Gauges from '../components/Gauges';
+import ActionsList from '../components/ActionsList'
 
 /** Main page of the app */
 const Main: React.FC = () => {
@@ -30,6 +31,7 @@ const Main: React.FC = () => {
             <Map filter={filter} isDark={isDark} lat={lat} lng={lng} zoom={zoom}/>
             <SearchBar isDark={isDark} onSubmit={handleSearch}/>
             <LightDark isDark={isDark} setIsDark={setIsDark}/>
+            <ActionsList isDark={isDark}/>
             <FilterMenu filter={filter} setFilter={setFilter} isDark={isDark}/>
             <DecisionMenu isDark={isDark} handleButtonEditInPdfClick={handleButtonEditInPdfClick} isButtonEditInPdfClicked={isButtonEditInPdfClicked}/>
             <EditInPdfPannel isDark={isDark} isButtonEditInPdfClicked={isButtonEditInPdfClicked} />
