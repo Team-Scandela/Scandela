@@ -33,6 +33,8 @@ const createLamp = (request: Request, response: Response) => {
     address,
     lamptype,
     foyertype,
+    uuidbulb,
+    uuidlampshade
   } = request.body;
 
   if (lat == null || lng == null) {
@@ -40,7 +42,7 @@ const createLamp = (request: Request, response: Response) => {
   }
 
   const query =
-    "INSERT INTO lamp (uuid, lat, lng, lighton, lightoff, height, moreinfo, name, address, lamptype, foyertype) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *";
+    "INSERT INTO lamp (uuid, lat, lng, lighton, lightoff, height, moreinfo, name, address, lamptype, foyertype, uuidbulb, uuidlampshade) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING *";
   const values = [
     uuidv4(),
     lat,
@@ -53,6 +55,7 @@ const createLamp = (request: Request, response: Response) => {
     address,
     lamptype,
     foyertype,
+    uuidbulb, uuidlampshade,
   ];
 
   pool.query(query, values, (error: any, results: any) => {
@@ -107,9 +110,11 @@ const launchScript = (request: Request, response: Response) => {
     const address = fields.nom_voie;
     const lamptype = fields.type_lampe;
     const foyertype = fields.type_foyer;
+    const uuidbulb = null;
+    const uuidlampshade = null;
 
     const query =
-      "INSERT INTO lamp (uuid, lat, lng, lighton, lightoff, height, moreinfo, name, address, lamptype, foyertype) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *";
+      "INSERT INTO lamp (uuid, lat, lng, lighton, lightoff, height, moreinfo, name, address, lamptype, foyertype, uuidbulb, uuidlampshade) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING *";
     const values = [
       uuidv4(),
       lat,
@@ -122,6 +127,8 @@ const launchScript = (request: Request, response: Response) => {
       address,
       lamptype,
       foyertype,
+      uuidbulb,
+      uuidlampshade,
     ];
 
     pool.query(query, values, (error: any, results: any) => {
