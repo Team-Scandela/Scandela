@@ -14,6 +14,7 @@ describe('SearchBar', () => {
     if (tmp) {
       // Assert that the component is rendered
       expect(searchBarContainer).toBeInTheDocument();
+      expect(searchBarContainer).toHaveAttribute('id', 'searchbar-container');
     }
   });
 });
