@@ -8,3 +8,10 @@ services:
       - 3000:3000
     volumes:
       - ./scandelapp:/dev_scandelapp
+  
+  dev.server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile.dev
+    ports:
+      - 7000:7000
