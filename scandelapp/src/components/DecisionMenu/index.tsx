@@ -11,31 +11,38 @@ import ButtonSelectAll from '../ButtonSelectAll'
 import logoDark from '../../assets/logo-128x128-yellow.png'
 import OptimisationTemplate from '../OptimisationTemplate'
 
-
 /** Menu of the decision pannel
  * @param {boolean} isDark - If the map is in dark mode or not
+ * @param {function} handleButtonEditInPdfClick - Callback function
+ * @param {boolean} isButtonEditInPdfClicked - Boolean to check if the pdf button is clicked
+ * @param {function} handleOptimisationTemplateDataChange - Callback function
+ * @param {any} optimisationTemplateData - List of list about optimsiations template datas
+ * @param {function} handleButtonSelectAllClick - Callback function
+ * @param {string} currentSelected - Current selected optimisation type
+ * @param {function} handleCurrentSelectedChange - Callback function
 */
 interface DecisionMenuProps {
     isDark: boolean;
-    isButtonEditInPdfClicked: boolean;
     handleButtonEditInPdfClick: () => void;
+    isButtonEditInPdfClicked: boolean;
+    handleOptimisationTemplateDataChange: (data: any) => void;
+    optimisationTemplateData: any;
+    handleButtonSelectAllClick: () => void;
+    currentSelected: string;
+    handleCurrentSelectedChange: (data: string) => void;
 }
 
-const DecisionMenu: React.FC<DecisionMenuProps> = ({ isDark, handleButtonEditInPdfClick, isButtonEditInPdfClicked }) => {
+const DecisionMenu: React.FC<DecisionMenuProps> = ({ isDark, handleButtonEditInPdfClick, isButtonEditInPdfClicked,  handleOptimisationTemplateDataChange, 
+    optimisationTemplateData, handleButtonSelectAllClick, currentSelected, handleCurrentSelectedChange}) => {
     /** If the decision pannel is open or closed */
     const [decisionPanelExtended, setDecisionPanelExtended] = React.useState(false);
     const [dropdownExpended, setDropdownExpended] = React.useState(false);
-    const [currentSelected, setCurrentSelected] = React.useState('Choisissez une action');
-    const [items] = React.useState(["Toutes les optimisations", "Éteindre lampadaire", "Allumer lampadaire", "Augmenter intensité lampadaire",
-    "Réduire intensité lampadaire", "Changer ampoule lampadaire", "Ajouter lampadaire", "Retirer lampadaire", "Lampadaire intelligent"]);
-    const [childStates, setChildStates] = React.useState([false, false, false, false, false, false, false, false, false, false]);
-
-
-    const handleChildCheckboxChange = (index: number, isChecked: boolean) => {
-        const updatedStates = [...childStates];
-        updatedStates[index] = isChecked;
-        setChildStates(updatedStates);
-        console.log(childStates)
+    const [items, setItems] = React.useState([]);
+    
+    const handleChildCheckboxChange = (i: number, isChecked: boolean) => {
+        const updatedData = [...optimisationTemplateData];
+        updatedData[i].selected = isChecked;
+        handleOptimisationTemplateDataChange(updatedData);
     };
 
     const handleToggleDecisionPanelExpend = () => {
@@ -44,13 +51,32 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({ isDark, handleButtonEditInP
             handleToggleDropdownExpend();
     };
 
+    // Fill the items array with one of each types from the optimisationTemplateData
     const handleToggleDropdownExpend = () => {
+        const uniqueTypes = optimisationTemplateData.reduce((types: any, item: any) => {
+            if (!types.has(item.type)) {
+              types.add(item.type);
+            }
+            return types;
+          }, new Set());
+        const uniqueArray = Array.from(uniqueTypes);
+        uniqueArray.unshift("Toutes les optimisations");
+        setItems(uniqueArray);
         setDropdownExpended(!dropdownExpended);
     };
 
     const handleItemClick = (item: string) => {
-        setCurrentSelected(item);
+        handleCurrentSelectedChange(item);
         handleToggleDropdownExpend();
+    };
+
+    const handleActionsListButtonClick = () => {
+        const updatedData = [...optimisationTemplateData];
+        updatedData.forEach((item: any) => {
+            if (item.selected)
+                item.saved = true;
+        });
+        handleOptimisationTemplateDataChange(updatedData);
     };
 
     return (
@@ -62,7 +88,7 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({ isDark, handleButtonEditInP
                 <DecisionPanel isDark={isDark} show={decisionPanelExtended}>
                     <ScandelaText isDark={isDark}> Scandela </ScandelaText>
                     <ButtonEditInPdf isDark={isDark} handleClick={handleButtonEditInPdfClick} isClicked={isButtonEditInPdfClicked}/>
-                    <ButtonSelectAll isDark={isDark} />
+                    <ButtonSelectAll isDark={isDark} handleButtonSelectAllClick={handleButtonSelectAllClick}/>
                     <DecisionPanelContentContainer>
                         <DropdownContainer isDark={isDark}>
                             {currentSelected}
@@ -72,7 +98,7 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({ isDark, handleButtonEditInP
                         </DropdownContainer>
                         {dropdownExpended && (
                             <DropdownMenu isDark={isDark}>
-                                {items.map((item) => (
+                                {items.map((item: any) => (
                                     <DropdownItem key={item} isDark={isDark} onClick={() => handleItemClick(item) }>{item}</DropdownItem>
                                 ))}
                             </DropdownMenu>
@@ -80,13 +106,34 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({ isDark, handleButtonEditInP
                         <LogoContainer src={logoDark} />
                         {currentSelected !== "Choisissez une action" && (
                             <ScrollableOptimisationsContainer isDark={isDark}>
-                                {Array.from(Array(childStates.length).keys()).map((i) => (
-                                    <OptimisationTemplate key={i} isDark={isDark} y={90*i}
-                                    onCheckboxChange={(isChecked) => handleChildCheckboxChange(i, isChecked)}/>
-                                ))}
+                                {currentSelected === "Toutes les optimisations"
+                                ? optimisationTemplateData.map((item: string, i: number) => (
+                                    <OptimisationTemplate
+                                        key={i}
+                                        isDark={isDark}
+                                        y={100 * i}
+                                        optimisationTemplateData={item}
+                                        onCheckboxChange={isChecked =>
+                                        handleChildCheckboxChange(i, isChecked)
+                                        }
+                                    />
+                                    ))
+                                : optimisationTemplateData
+                                    .filter((item: any) => item.type === currentSelected)
+                                    .map((item: string, i: number) => (
+                                        <OptimisationTemplate
+                                        key={i}
+                                        isDark={isDark}
+                                        y={100 * i}
+                                        optimisationTemplateData={item}
+                                        onCheckboxChange={isChecked =>
+                                            handleChildCheckboxChange(i, isChecked)
+                                        }
+                                        />
+                                    ))}
                             </ScrollableOptimisationsContainer>
-                        )}
-                        <AddToActionsListButton isDark={isDark}>Ajouter à la liste d'actions</AddToActionsListButton>
+                            )}
+                        <AddToActionsListButton isDark={isDark} onClick={() => handleActionsListButtonClick()}>Ajouter à la liste d'actions</AddToActionsListButton>
                     </DecisionPanelContentContainer>
                 </DecisionPanel>
             </DecisionMenuContainer>

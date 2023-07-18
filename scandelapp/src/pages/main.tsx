@@ -17,7 +17,20 @@ const Main: React.FC = () => {
     const [lng, setLng] = React.useState<number>(-1.553621);
     const [zoom, setZoom] = React.useState(12);
     const [isButtonEditInPdfClicked, setIsButtonEditInPdfClicked] = React.useState<boolean>(false);
-
+    const [currentSelected, setCurrentSelected] = React.useState('Choisissez une action');
+    const [optimisationTemplateData, setOptimisationTemplateData] = React.useState([{id: 1, saved: false, selected: false, type: "Éteindre lampadaire"}, 
+                                                                                    {id: 2, saved: false, selected: false, type: "Allumer lampadaire"},
+                                                                                    {id: 3, saved: false, selected: false, type: "Augmenter intensité lampadaire"},
+                                                                                    {id: 4, saved: false, selected: false, type: "Réduire intensité lampadaire"},
+                                                                                    {id: 5, saved: false, selected: false, type: "Changer ampoule lampadaire"},
+                                                                                    {id: 6, saved: false, selected: false, type: "Ajouter lampadaire"},
+                                                                                    {id: 7, saved: false, selected: false, type: "Retirer lampadaire"},
+                                                                                    {id: 8, saved: false, selected: false, type: "Lampadaire intelligent"},
+                                                                                    {id: 9, saved: false, selected: false, type: "Réduire intensité lampadaire"},
+                                                                                    {id: 10, saved: false, selected: false, type: "Éteindre lampadaire"},
+                                                                                    {id: 11, saved: false, selected: false, type: "Allumer lampadaire"},
+                                                                                    {id: 12, saved: false, selected: false, type: "Lampadaire intelligent"},
+                                                                                    {id: 13, saved: false, selected: false, type: "Éteindre lampadaire"}]);
 
     const handleSearch = (value: string) => {
         handleSearchUtils(value, lat, setLat, lng, setLng, zoom, setZoom);
@@ -26,14 +39,33 @@ const Main: React.FC = () => {
         setIsButtonEditInPdfClicked(prevState => !prevState);
     };
 
+    const handleOptimisationTemplateDataChange = (data: any) => {
+        setOptimisationTemplateData(data);
+    };
+
+    const handleButtonSelectAllClick = () => {
+        const updatedData = [...optimisationTemplateData];
+        updatedData.forEach((item: any) => {
+            if (item.type == currentSelected || currentSelected == "Toutes les optimisations")
+                item.selected = !item.selected;
+        });
+        setOptimisationTemplateData(updatedData);
+    };
+
+    const handleCurrentSelectedChange = (data: string) => {
+        setCurrentSelected(data);
+    };
+
     return (
         <div>
             <Map filter={filter} isDark={isDark} lat={lat} lng={lng} zoom={zoom}/>
             <SearchBar isDark={isDark} onSubmit={handleSearch}/>
             <LightDark isDark={isDark} setIsDark={setIsDark}/>
-            <ActionsList isDark={isDark}/>
+            <ActionsList isDark={isDark} optimisationTemplateData={optimisationTemplateData}/>
             <FilterMenu filter={filter} setFilter={setFilter} isDark={isDark}/>
-            <DecisionMenu isDark={isDark} handleButtonEditInPdfClick={handleButtonEditInPdfClick} isButtonEditInPdfClicked={isButtonEditInPdfClicked}/>
+            <DecisionMenu isDark={isDark} handleButtonEditInPdfClick={handleButtonEditInPdfClick} isButtonEditInPdfClicked={isButtonEditInPdfClicked} 
+            handleOptimisationTemplateDataChange={handleOptimisationTemplateDataChange} optimisationTemplateData={optimisationTemplateData} handleButtonSelectAllClick={handleButtonSelectAllClick}
+            currentSelected={currentSelected} handleCurrentSelectedChange={handleCurrentSelectedChange}/>
             <EditInPdfPannel isDark={isDark} isButtonEditInPdfClicked={isButtonEditInPdfClicked} />
             <Gauges isDark={isDark}/>
         </div>

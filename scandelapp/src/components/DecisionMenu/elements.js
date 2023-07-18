@@ -41,7 +41,7 @@ export const DecisionMenuButton = styled.div`
 export const DecisionPanel = styled.div`
     display: flex;
     width: 500px;
-    height: 700px;
+    height: 810px;
     border-radius: 20px 0px 0px 20px;
     overflow: hidden;
     font-size: 25px;
@@ -68,7 +68,6 @@ export const ScandelaText = styled.div`
   user-select: none;
   color : ${props => props.isDark ? Yellow : Black};
   font-weight: 500;
-
 `;
 
 /** Container of the decision panel content */
@@ -76,7 +75,7 @@ export const DecisionPanelContentContainer = styled.div`
   display: flex;
   position: absolute;
   width: 435px;
-  height: 450px;
+  height: 530px;
   left: 30px;
   top: 100px;
   border-radius: 15px;
@@ -141,14 +140,15 @@ export const DropdownMenu = styled.div`
   left: 4%;
   top: 13%;
   width: 400px;
-  height: calc(100% - 65px);
+  max-height: 400px;
   background-color: ${props => props.isDark ? White : White};
   color: ${props => props.isDark ? Black : Black};
   padding: 10px;
   transition: all 0.3s ease-in-out;
   z-index: 1;
   border-radius: 5px;
-  box-shadow: 0px 4px 4px -3px rgba(0,0,0,0.75);
+  box-shadow: 0px 4px 4px -3px rgba(0, 0, 0, 0.75);
+  overflow-y: auto;
 
   ${DropdownContainer}:first-child {
     border-top: 2px solid ${props => props.isDark ? Grey : Black};
@@ -158,7 +158,7 @@ export const DropdownMenu = styled.div`
 export const DropdownItem = styled.div`
   display: flex;
   align-items: center;
-  height: 35px;
+  min-height: 35px;
   padding: 0 10px;
   margin-bottom: 5px;
   cursor: pointer;
@@ -174,6 +174,7 @@ export const DropdownItem = styled.div`
   }
 `;
 
+
 export const ScrollableOptimisationsContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -181,8 +182,8 @@ export const ScrollableOptimisationsContainer = styled.div`
   left: 4%;
   top: 13%;
   width: 400px;
-  height: 340px;
-  overflow-y: scroll;
+  height: 400px;
+  overflow-y: auto;
   border-radius: 5px;
   background-color: ${props => props.isDark ? Black + 'FF' : Yellow + 'FF'};
 `;

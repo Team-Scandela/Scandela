@@ -13,12 +13,11 @@ export const ActionsListButton = styled.div`
     width: 300px;
     height: 40px;
     top: 25px;
-    left: 1000px;
+    left: 1010px;
     background-color: ${props => props.isDark ? Black + 'CC' : White + 'CC'};
     color: ${props => props.isDark ? Yellow : Black};
     box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
     border-radius: 10px;
-    font-weight: 600;
     cursor: pointer;
 
     &:hover {
