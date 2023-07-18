@@ -1,4 +1,0 @@
-FROM jenkins/jenkins:latest
-
-# Démarrage de Jenkins
-CMD ["--httpPort=8080"]
