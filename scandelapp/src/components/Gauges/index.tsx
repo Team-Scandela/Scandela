@@ -3,18 +3,19 @@ import { GaugeContainerLeft, GaugeContainerMiddle, GaugeContainerRight, GaugeBac
 import * as images from './gaugesImports'
 
 interface GaugesProps {
+    id : string,
     isDark: boolean;
 }
 
 //* Gauges component */
-const Gauges: React.FC<GaugesProps> = ({ isDark }) => {
+const Gauges: React.FC<GaugesProps> = ({ id, isDark }) => {
 
     const [levelElec, setLevelElec] = React.useState<number>(50);
     const [levelBio, setLevelBio] = React.useState<number>(25);
     const [levelLumi, setLevelLumi] = React.useState<number>(75);
 
     return (
-        <div>
+        <div id={id}>
             <GaugeContainerLeft>
                 <GaugeBackground src={isDark ? images.left : images.leftLight} />
                 <GaugeLevelLeft level={levelElec} />

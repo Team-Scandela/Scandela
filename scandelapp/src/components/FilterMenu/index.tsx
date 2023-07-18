@@ -9,12 +9,13 @@ import { MdOutlinePlace, MdDataUsage, MdPlace, MdFilterList, MdDirectionsCar, Md
  * @param {boolean} isDark - If the map is in dark mode or not
 */
 interface FilterMenuProps {
+    id : string,
     filter: string;
     setFilter: (filter: string) => void;
     isDark: boolean;
 }
 
-const FilterMenu : React.FC<FilterMenuProps> = ({ filter, setFilter, isDark }) => {
+const FilterMenu : React.FC<FilterMenuProps> = ({ id, filter, setFilter, isDark }) => {
     /** If the map filter container is on or out */
     const [on, setOn] = React.useState(false);
 
@@ -42,7 +43,7 @@ const FilterMenu : React.FC<FilterMenuProps> = ({ filter, setFilter, isDark }) =
     }
 
     return (
-        <div>
+        <div id={id}>
         <FilterMenuButton onClick={() => setOn(!on)} isDark={isDark}>
             <FilterIcon />
         </FilterMenuButton>
