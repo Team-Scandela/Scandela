@@ -5,10 +5,20 @@ import LightDark from '../components/LightDark'
 import SearchBar from '../components/SearchBar'
 import DecisionMenu from '../components/DecisionMenu'
 
+export enum Filters {
+    pin = "pin",
+    zone = "zone",
+    pinColor = "pinColor",
+    filter = "filter",
+    traffic = "traffic",
+    cabinet = "cabinet",
+    none = "none"
+}
+
 /** Main page of the app */
 const Main: React.FC = () => {
     const [isDark, setIsDark] = React.useState<boolean>(true);
-    const [filter, setFilter] = React.useState<string>('none');
+    const [filter, setFilter] = React.useState<Filters>(Filters.none);
 
     return (
         <div>
