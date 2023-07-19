@@ -5,7 +5,7 @@ import LoginModule from '../components/LoginModule'
 const Login: React.FC = () => {
 
     return (
-        <div style={{ backgroundColor: '#fff', height : "100vh"}}>
+        <div id={"loginPage"} style={{ backgroundColor: '#fff', height : "100vh"}}>
             <LoginModule />
         </div>
     )

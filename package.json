@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "file-saver": "^2.0.5",
+    "pdf-lib": "^1.17.1"
+  },
+  "devDependencies": {
+    "@types/file-saver": "^2.0.5"
+  }
+}

@@ -3,7 +3,7 @@ import { LoginContainer, SignUpContainer, SignInContainer, Form, Title, Input, B
 
 /** Login module who allow to sign in up. You can slide the overlay from left to right (or the opposite) to acess to the side wanted */
 const LoginModule: React.FC = () => {
-    const [onSignInPage, setOnSignInPage] = React.useState(true);
+    const [signInPage, setSignInPage] = React.useState(true);
 
     const [usernameSignUp, setUsernameSignUp] = React.useState('');
     const [emailSignUp, setEmailSignUp] = React.useState('');
@@ -23,22 +23,25 @@ const LoginModule: React.FC = () => {
 
     return (
         <LoginContainer>
-            <SignUpContainer onSignInPage={onSignInPage}>
-                <Form>
+            <SignUpContainer signInPage={signInPage}>
+                <Form id='signInForm'>
                     <Title>Create Account</Title>
                     <Input
+                        id='nameInputBox'
                         type='text'
                         placeholder='Name'
                         value={usernameSignUp}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUsernameSignUp(e.target.value)}
                     />
                     <Input
+                        id='emailInputBox'
                         type='email'
                         placeholder='Email'
                         value={emailSignUp}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmailSignUp(e.target.value)}
                     />
                     <Input
+                        id='passwordInputBox'
                         type='password'
                         placeholder='Password'
                         value={passwordSignUp}
@@ -50,11 +53,11 @@ const LoginModule: React.FC = () => {
                         value={passwordConfirmSignUp}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPasswordConfirmSignUp(e.target.value)}
                     />
-                    <Button onClick={handleSubmitSignUp}> Sign Up </Button>
+                    <Button id={"signUpButton"} onClick={handleSubmitSignUp}> Sign Up </Button>
                 </Form>
             </SignUpContainer>
 
-            <SignInContainer onSignInPage={onSignInPage}>
+            <SignInContainer signInPage={signInPage}>
                 <Form>
                     <Title>Sign In</Title>
                     <Input
@@ -74,19 +77,19 @@ const LoginModule: React.FC = () => {
                 </Form>
             </SignInContainer>
 
-            <OverlayContainer signinIn={onSignInPage}>
-                <Overlay signinIn={onSignInPage}>
+            <OverlayContainer signinIn={signInPage}>
+                <Overlay signinIn={signInPage}>
 
-                    <LeftOverlayPanel signinIn={onSignInPage}>
+                    <LeftOverlayPanel signinIn={signInPage}>
                         <Title>Welcome Back!</Title>
                         <Paragraph> To keep connected with us please login</Paragraph>
-                        <GhostButton onClick={() => setOnSignInPage(true)}>Sign In</GhostButton>
+                        <GhostButton onClick={() => setSignInPage(true)}>Sign In</GhostButton>
                     </LeftOverlayPanel>
 
-                    <RightOverlayPanel signinIn={onSignInPage}>
+                    <RightOverlayPanel signinIn={signInPage}>
                         <Title>Hello !</Title>
                         <Paragraph>Enter Your personal details and start the Scandelaventure</Paragraph>
-                        <GhostButton onClick={() => setOnSignInPage(false)}>Sigin Up</GhostButton>
+                        <GhostButton onClick={() => setSignInPage(false)}>Sigin Up</GhostButton>
                     </RightOverlayPanel>
 
                 </Overlay>

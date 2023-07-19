@@ -1,0 +1,17 @@
+version: '3'
+services:
+  scandelapp:
+    build:
+      context: ./scandelapp
+      dockerfile: Dockerfile
+    ports:
+      - 2000:2000
+    volumes:
+      - ./scandelapp:/prod_scandelapp
+
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - 6000:6000
