@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import com.scandela.server.entity.Town;
 import com.scandela.server.entity.User;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -18,8 +19,18 @@ public class UserDtoTest {
 		// Public \\
 	@Test
 	public void testFrom() {
+		Town town = Town.builder()
+				.id(1)
+				.name("Test")
+				.electricityPrice(17)
+				.indiceElectricity(0.17f)
+				.indiceEcology(0.45f)
+				.indiceQuality(0.78f)
+				.build();
+		
 		User user = User.builder()
 				.id(1)
+				.town(town)
 				.email("test@test.test")
 				.username("tester")
 				.password("test")

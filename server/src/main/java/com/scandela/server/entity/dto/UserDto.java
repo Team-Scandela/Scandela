@@ -14,8 +14,8 @@ public class UserDto {
 
 	// Attributes \\
 		// Private \\
-	private Integer id;
-//	private TownDto town;
+	private int id;
+	private TownDto town;
 	private String email;
 	private String username;
 	private String password;
@@ -29,7 +29,7 @@ public class UserDto {
 	public static UserDto from(User user) {
 		UserDto userDto = UserDto.builder()
 				.id(user.getId())
-//				.town(user.getTown())
+				.town(TownDto.from(user.getTown()))
 				.email(user.getEmail())
 				.username(user.getUsername())
 				.password(user.getPassword())

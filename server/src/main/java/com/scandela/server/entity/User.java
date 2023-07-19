@@ -9,6 +9,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,10 +36,9 @@ public class User implements Serializable {
 	@Column(name = "id", updatable = false, nullable = false)
 	private Integer id;
 
-//  TODO enlever le commentaire quand la table et la classe aura été implémentée
-//	@OneToOne
-//	@JoinColumn(name = "id_town", nullable = false)
-//	private Town town;
+	@OneToOne
+	@JoinColumn(name = "id_town", nullable = false)
+	private Town town;
 	
 	@Column(name = "email", nullable = false)
 	private String email;

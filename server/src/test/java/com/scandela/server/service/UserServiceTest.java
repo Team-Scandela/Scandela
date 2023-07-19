@@ -20,6 +20,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import com.scandela.server.dao.criteria.UserCriteria;
 import com.scandela.server.dao.implementation.UserDao;
+import com.scandela.server.entity.Town;
 import com.scandela.server.entity.User;
 import com.scandela.server.entity.dto.UserDto;
 import com.scandela.server.service.implementation.UserService;
@@ -35,23 +36,41 @@ public class UserServiceTest {
 	@Mock
 	private UserDao userDaoMock;
 	
+	private final int id = 1;
+	private final String email = "test@test.test";
+	private final String username = "tester";
+	private final String password = "test";
+	private final String role = "role";
+	private final Town town = Town.builder()
+			.id(id)
+			.name("Test")
+			.electricityPrice(17)
+			.indiceElectricity(0.17f)
+			.indiceEcology(0.45f)
+			.indiceQuality(0.78f)
+			.build();
+	private final User user = User.builder()
+			.id(id)
+			.town(town)
+			.email(email)
+			.username(username)
+			.password(password)
+			.role(role)
+			.moreInfo(new ArrayList<>())
+			.darkmode(true)
+			.lastConnexion(LocalDateTime.now())
+			.build();
+	private final UserCriteria criteriaEmail = UserCriteria.builder()
+			.email(email)
+			.build();
+	private final UserCriteria criteriaUsername = UserCriteria.builder()
+			.username(username)
+			.build();
+	
 	// Methods \\
 		// Public \\
 	@Test
 	public void testGetUsers() {
-		int id = 1;
-		
-		User user = User.builder()
-				.id(id)
-				.email("test@test.test")
-				.username("tester")
-				.password("test")
-				.role("role")
-				.moreInfo(new ArrayList<>())
-				.darkmode(true)
-				.lastConnexion(LocalDateTime.now())
-				.build();
-		
 		when(userDaoMock.getAll()).thenReturn(Arrays.asList(user));
 		
 		List<UserDto> result = testedObject.getUsers();
@@ -60,6 +79,7 @@ public class UserServiceTest {
 		assertThat(result).hasSize(1);
 		UserDto userDto = result.get(0);
 		assertThat(userDto.getId()).isEqualTo(user.getId());
+		assertThat(userDto.getTown().getName()).isEqualTo(user.getTown().getName());
 		assertThat(userDto.getEmail()).isEqualTo(user.getEmail());
 		assertThat(userDto.getUsername()).isEqualTo(user.getUsername());
 		assertThat(userDto.getPassword()).isEqualTo(user.getPassword());
@@ -71,19 +91,18 @@ public class UserServiceTest {
 	
 	@Test
 	public void testGetUsers_whenManyUsers_thenReturnManyDtos() {
-		int id1 = 1;
-		int id2 = 2;
-		
-		User user1 = User.builder()
-				.id(id1)
-				.email("test1@test1.test1")
-				.username("tester1")
-				.password("test1")
-				.role("role1")
-				.lastConnexion(LocalDateTime.now())
+		Town town2 = Town.builder()
+				.id(2)
+				.name("Test2")
+				.electricityPrice(32)
+				.indiceElectricity(0.45f)
+				.indiceEcology(0.78f)
+				.indiceQuality(0.17f)
 				.build();
+		
 		User user2 = User.builder()
-				.id(id2)
+				.id(2)
+				.town(town2)
 				.email("test2@test2.test2")
 				.username("tester2")
 				.password("test2")
@@ -91,7 +110,7 @@ public class UserServiceTest {
 				.lastConnexion(LocalDateTime.now())
 				.build();
 		
-		when(userDaoMock.getAll()).thenReturn(Arrays.asList(user1, user2));
+		when(userDaoMock.getAll()).thenReturn(Arrays.asList(user, user2));
 		
 		List<UserDto> result = testedObject.getUsers();
 		
@@ -111,19 +130,6 @@ public class UserServiceTest {
 
 	@Test
 	public void testGetUser() {
-		int id = 1;
-		
-		User user = User.builder()
-				.id(id)
-				.email("test@test.test")
-				.username("tester")
-				.password("test")
-				.role("role")
-				.moreInfo(new ArrayList<>())
-				.darkmode(true)
-				.lastConnexion(LocalDateTime.now())
-				.build();
-		
 		when(userDaoMock.get(id)).thenReturn(Optional.of(user));
 		
 		UserDto result = testedObject.getUser(id);
@@ -141,8 +147,6 @@ public class UserServiceTest {
 	
 	@Test
 	public void testGetUser_whenIdNonExistant_thenReturnNull() {
-		int id = 1;
-		
 		when(userDaoMock.get(id)).thenReturn(Optional.empty());
 		
 		UserDto result = testedObject.getUser(id);
@@ -153,56 +157,27 @@ public class UserServiceTest {
 	
 	@Test
 	public void testCreateUser() {
-		int id = 1;
-		String email = "test@test.test";
-		String username = "tester";
-		String password = "test";
-		String role = "role";
-
-		User user = User.builder()
-				.id(id)
-				.email(email)
-				.username(username)
-				.password(password)
-				.role(role)
-				.build();
-
-		User userWithId = User.builder()
-				.id(id)
-				.email(email)
-				.username(username)
-				.password(password)
-				.role(role)
-				.build();
-		
-		UserCriteria criteriaEmail = UserCriteria.builder()
-				.email(email)
-				.build();
-		UserCriteria criteriaUsername = UserCriteria.builder()
-				.username(username)
-				.build();
-		
 		when(userDaoMock.getByCriteria(criteriaEmail)).thenReturn(Optional.empty());
 		when(userDaoMock.getByCriteria(criteriaUsername)).thenReturn(Optional.empty());
-		when(userDaoMock.save(Mockito.any(User.class))).thenReturn(userWithId);
+		when(userDaoMock.save(Mockito.any(User.class))).thenReturn(user);
 		
 		UserDto result = testedObject.createUser(user);
 
 		verify(userDaoMock, times(1)).getByCriteria(criteriaEmail);
 		verify(userDaoMock, times(1)).getByCriteria(criteriaUsername);
 		verify(userDaoMock, times(1)).save(Mockito.any(User.class));
-		assertThat(result.getId()).isEqualTo(userWithId.getId());
-		assertThat(result.getEmail()).isEqualTo(userWithId.getEmail());
-		assertThat(result.getUsername()).isEqualTo(userWithId.getUsername());
-		assertThat(result.getPassword()).isEqualTo(userWithId.getPassword());
+		assertThat(result.getId()).isEqualTo(user.getId());
+		assertThat(result.getEmail()).isEqualTo(user.getEmail());
+		assertThat(result.getUsername()).isEqualTo(user.getUsername());
+		assertThat(result.getPassword()).isEqualTo(user.getPassword());
+		assertThat(result.getRole()).isEqualTo(user.getRole());
+		assertThat(result.getMoreInfo()).isEqualTo(user.getMoreInfo());
+		assertThat(result.isDarkmode()).isEqualTo(user.isDarkmode());
+		assertThat(result.getLastConnexion().toString()).isEqualTo(user.getLastConnexion().toString());
 	}
 	
 	@Test
 	public void testCreateUser_whenEmailIsNull_thenReturnNull() {
-		String username = "tester";
-		String password = "test";
-		String role = "role";
-
 		User user = User.builder()
 				.username(username)
 				.password(password)
@@ -217,10 +192,6 @@ public class UserServiceTest {
 	
 	@Test
 	public void testCreateUser_whenUsernameIsNull_thenReturnNull() {
-		String email = "test@test.test";
-		String password = "test";
-		String role = "role";
-
 		User user = User.builder()
 				.email(email)
 				.password(password)
@@ -235,10 +206,6 @@ public class UserServiceTest {
 	
 	@Test
 	public void testCreateUser_whenPasswordIsNull_thenReturnNull() {
-		String email = "test@test.test";
-		String username = "tester";
-		String role = "role";
-
 		User user = User.builder()
 				.email(email)
 				.username(username)
@@ -253,25 +220,6 @@ public class UserServiceTest {
 	
 	@Test
 	public void testCreateUser_whenEmailCriteriaCorrespond_thenReturnNull() {
-		String email = "test@test.test";
-		String username = "tester";
-		String password = "test";
-		String role = "role";
-
-		User user = User.builder()
-				.email(email)
-				.username(username)
-				.password(password)
-				.role(role)
-				.build();
-		
-		UserCriteria criteriaEmail = UserCriteria.builder()
-				.email(email)
-				.build();
-		UserCriteria criteriaUsername = UserCriteria.builder()
-				.username(username)
-				.build();
-
 		when(userDaoMock.getByCriteria(criteriaEmail)).thenReturn(Optional.of(user));
 		
 		UserDto result = testedObject.createUser(user);
@@ -283,26 +231,7 @@ public class UserServiceTest {
 	}
 	
 	@Test
-	public void testCreateUser_whenUsernameCriteriaCorrespond_thenReturnNull() {
-		String email = "test@test.test";
-		String username = "tester";
-		String password = "test";
-		String role = "role";
-
-		User user = User.builder()
-				.email(email)
-				.username(username)
-				.password(password)
-				.role(role)
-				.build();
-		
-		UserCriteria criteriaEmail = UserCriteria.builder()
-				.email(email)
-				.build();
-		UserCriteria criteriaUsername = UserCriteria.builder()
-				.username(username)
-				.build();
-
+	public void testCreateUser_whenUsernameCriteriaCorrespond_thenReturnNull() {		
 		when(userDaoMock.getByCriteria(criteriaEmail)).thenReturn(Optional.empty());
 		when(userDaoMock.getByCriteria(criteriaUsername)).thenReturn(Optional.of(user));
 		
@@ -316,17 +245,6 @@ public class UserServiceTest {
 	
 	@Test
 	public void testDeleteUser() {
-		int id = 1;
-		
-		User user = User.builder()
-				.id(id)
-				.email("test@test.test")
-				.username("tester")
-				.password("test")
-				.role("role")
-				.lastConnexion(LocalDateTime.now())
-				.build();
-		
 		testedObject.deleteUser(user);
 
 		verify(userDaoMock, times(1)).delete(user);
