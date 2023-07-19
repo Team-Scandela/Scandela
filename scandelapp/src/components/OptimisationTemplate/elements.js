@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Black, Grey, Yellow } from '../../colors';
+import { Black, Grey, Yellow, Green } from '../../colors';
 
 /** Container of the optimisation template */
 export const OptimisationTemplateContainer = styled.div`
@@ -11,25 +11,20 @@ export const OptimisationTemplateContainer = styled.div`
   top: ${props => props.y}px;
   border-radius: 5px;
   overflow: hidden;
-  background-color: ${props => props.isDark ? Grey + 'FF': Grey + 'FF'};
+  background-color: ${props => props.isDark && props.checked ?  Green + 'FF' : props.isDark && !props.checked ? Grey + 'FF' : !props.isDark && props.checked ? Green + 'FF' : Grey + 'FF'};
   margin: 6px;
   border: 2px solid ${Black};
+  cursor: pointer;
 
-`;
-
-export const Checkbox = styled.input`
-    display: flex;
-    position: absolute;
-    transform: scale(1.5);
-    left: 10px;
-    top: 10px;
-    background-color: ${Yellow};
+  &:hover {
+    background-color: ${props => props.isDark ? Yellow : Black};
+  }
 `;
 
 export const TypeText = styled.p`
   position: relative;
   top: 8px;
-  left: 35px;
+  left: 10px;
   font-size: 18px;
   user-select: none;
   color : ${props => props.isDark ? Black : Black};

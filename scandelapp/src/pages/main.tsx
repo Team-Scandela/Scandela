@@ -18,7 +18,8 @@ const Main: React.FC = () => {
     const [zoom, setZoom] = React.useState(12);
     const [isButtonEditInPdfClicked, setIsButtonEditInPdfClicked] = React.useState<boolean>(false);
     const [currentSelected, setCurrentSelected] = React.useState('Choisissez une action');
-    const [optimisationTemplateData, setOptimisationTemplateData] = React.useState([{id: 1, saved: false, selected: false, type: "Éteindre lampadaire"}, 
+    const [optimisationTemplateData, setOptimisationTemplateData] = React.useState([{id: 0, saved: false, selected: false, type: "Éteindre lampadaire"},
+                                                                                    {id: 1, saved: false, selected: false, type: "Éteindre lampadaire"},
                                                                                     {id: 2, saved: false, selected: false, type: "Allumer lampadaire"},
                                                                                     {id: 3, saved: false, selected: false, type: "Augmenter intensité lampadaire"},
                                                                                     {id: 4, saved: false, selected: false, type: "Réduire intensité lampadaire"},
@@ -41,6 +42,7 @@ const Main: React.FC = () => {
 
     const handleOptimisationTemplateDataChange = (data: any) => {
         setOptimisationTemplateData(data);
+        console.log(optimisationTemplateData);
     };
 
     const handleButtonSelectAllClick = () => {

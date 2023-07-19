@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { ActionsListContainer, ActionsListButton, ActionsListPanel } from './elements';
+import { ActionsListContainer, ActionsListButton, ActionsListPanel, ScrollableOptimisationsContainer, OptimisationTemplateContainer, TypeText } from './elements';
 
 /** Menu of the decision pannel
  * @param {boolean} isDark - If the map is in dark mode or not
@@ -23,10 +23,19 @@ const ActionsList: React.FC<ActionsListProps> = ({ isDark, optimisationTemplateD
         Liste des actions
       </ActionsListButton>
       <ActionsListPanel isDark={isDark} show={actionsListExtended}>
-        {optimisationTemplateData.map((item: any) => (
-          item.saved &&
-          (<div>{item.type}</div>)
-        ))}
+        <ScrollableOptimisationsContainer isDark={isDark}>
+        {optimisationTemplateData
+          .filter((item: any) => item.saved)
+          .map((item: any, i: number) => (
+            <OptimisationTemplateContainer
+                key={i}
+                isDark={isDark}
+                y={100 * i}
+            >
+              <TypeText isDark={isDark}>{item.type}</TypeText>
+            </OptimisationTemplateContainer>
+          ))}
+        </ScrollableOptimisationsContainer>
       </ActionsListPanel>
     </ActionsListContainer>
   )
