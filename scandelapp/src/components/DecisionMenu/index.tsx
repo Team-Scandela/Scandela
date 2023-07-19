@@ -14,12 +14,13 @@ import logoDark from '../../assets/logo-128x128-yellow.png'
  * @param {boolean} isDark - If the map is in dark mode or not
 */
 interface DecisionMenuProps {
+    id : string,
     isDark: boolean;
     isButtonEditInPdfClicked: boolean;
     handleButtonEditInPdfClick: () => void;
 }
 
-const DecisionMenu: React.FC<DecisionMenuProps> = ({ isDark, handleButtonEditInPdfClick, isButtonEditInPdfClicked }) => {
+const DecisionMenu: React.FC<DecisionMenuProps> = ({ id, isDark, handleButtonEditInPdfClick, isButtonEditInPdfClicked }) => {
     /** If the decision pannel is open or closed */
     const [decisionPanelExtended, setDecisionPanelExtended] = React.useState(false);
     const [dropdownExpended, setDropdownExpended] = React.useState(false);
@@ -43,7 +44,7 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({ isDark, handleButtonEditInP
     };
 
     return (
-        <div>
+        <div id={id}>
             <DecisionMenuContainer>
                 <DecisionMenuButton onClick={() => handleToggleDecisionPanelExpend()} isDark={isDark} show={decisionPanelExtended}>
                     {decisionPanelExtended ? <DecisionIconRight size={50}/> : <DecisionIconLeft size={50}/>}

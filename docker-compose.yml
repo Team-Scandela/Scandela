@@ -9,11 +9,9 @@ services:
     volumes:
       - ./scandelapp:/prod_scandelapp
 
-  jenkins:
+  server:
     build:
-      context: .
-      dockerfile: jenkins/Dockerfile
+      context: ./server
+      dockerfile: Dockerfile
     ports:
-      - 8080:8080
-    volumes:
-      - ./jenkins:/var/jenkins_home
+      - 6000:6000

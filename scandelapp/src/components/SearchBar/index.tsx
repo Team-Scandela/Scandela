@@ -1,7 +1,7 @@
-import * as React from 'react'
-import { SearchBarContainer, InputWrapper, LogoContainer, SearchIcon } from './elements'
-import logoDark from '../../assets/logo-128x128-yellow.png'
-import logoLight from '../../assets/logo-128x128.png'
+import * as React from 'react';
+import { SearchBarContainer, InputWrapper, LogoContainer, SearchIcon } from './elements';
+import logoDark from '../../assets/logo-128x128-yellow.png';
+import logoLight from '../../assets/logo-128x128.png';
 
 /** SearchBar of the main page Scandela
  * This SearchBar allow the user to search a precise street or city in the Scandel'App
@@ -9,11 +9,12 @@ import logoLight from '../../assets/logo-128x128.png'
 **/
 
 interface SearchBarProps {
+    id: string,
     isDark: boolean;
     onSubmit: (value: string) => void;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ isDark, onSubmit }) => {
+const SearchBar: React.FC<SearchBarProps> = ({ id, isDark, onSubmit }) => {
     const [searchValue, setSearchValue] = React.useState<string>("");
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,17 +29,19 @@ const SearchBar: React.FC<SearchBarProps> = ({ isDark, onSubmit }) => {
 
 
     return (
-        <SearchBarContainer isDark={isDark}>
-            <LogoContainer src={isDark ? logoDark : logoLight} />
-            <InputWrapper
-                isDark={isDark}
-                placeholder="Rechercher dans Scandela"
-                value={searchValue}
-                onChange={handleInputChange}
-                onKeyDown={handleInputKeyDown}
-            />
-            <SearchIcon isDark={isDark} onClick={() => onSubmit(searchValue)} />
-        </SearchBarContainer>
+        <div id={id}>
+            <SearchBarContainer id="searchbar-container" isdark={isDark}>
+                <LogoContainer src={isDark ? logoDark : logoLight} />
+                <InputWrapper
+                    isdark={isDark}
+                    placeholder="Rechercher dans Scandela"
+                    value={searchValue}
+                    onChange={handleInputChange}
+                    onKeyDown={handleInputKeyDown}
+                />
+                <SearchIcon isdark={isDark} onClick={() => onSubmit(searchValue)} />
+            </SearchBarContainer>
+        </div>
     )
 }
 
