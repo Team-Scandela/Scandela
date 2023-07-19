@@ -3,8 +3,6 @@ import * as React from 'react'
 import { Filters } from '../../pages/main'
 import loadMap from './loadMap';
 
-let data = require('../../assets/nantesData.json');
-
 let nantesData = require('../../assets/nantesData.json');
 
 Object.getOwnPropertyDescriptor(mapboxgl, "accessToken").set("pk.eyJ1IjoidGl0b3VhbnRkIiwiYSI6ImNsaDYyeHUybDAyNTkzcHV5NHlzY3drbHIifQ._eEX5CRcWxVrl9C8z4u3fQ");
@@ -90,7 +88,7 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
             });
 
         }
-    },[])
+    },[isDark, lng, lat, zoom, geojsonData]);
 
   // Fonction qui permet de filtrer les données en fonction du type de filtre
     React.useEffect(() => {
