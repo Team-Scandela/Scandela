@@ -90,42 +90,41 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
             });
 
         }
-      };
-
-      geoJSON.features.push(feature);
-    });
-    return geoJSON;
-  },[])
+    },[])
 
   // Fonction qui permet de filtrer les données en fonction du type de filtre
-  React.useEffect(() => {
-    if (map.current) {
-      map.current.setStyle(
-        isDark ? "mapbox://styles/mapbox/dark-v11" : "mapbox://styles/mapbox/light-v11"
-      );
+    React.useEffect(() => {
+        if (map.current) {
+        map.current.setStyle(
+            isDark ? "mapbox://styles/mapbox/dark-v11" : "mapbox://styles/mapbox/light-v11"
+        );
     } else {
-      map.current = new mapboxgl.Map({
-        container: mapContainer.current,
-        style: isDark ? "mapbox://styles/mapbox/dark-v11" : "mapbox://styles/mapbox/light-v11",
-        center: [lng, lat],
-        zoom: zoom,
-      });
-      loadMap(map.current);
+        map.current = new mapboxgl.Map({
+            container: mapContainer.current,
+            style: isDark ? "mapbox://styles/mapbox/dark-v11" : "mapbox://styles/mapbox/light-v11",
+            center: [lng, lat],
+            zoom: zoom,
+        });
+        loadMap(map.current);
     }
-  }, [isDark, lng, lat, zoom, geojsonData]);
+    }, [isDark, lng, lat, zoom, geojsonData]);
 
-  React.useEffect(() => {
-    for (const value in Filters) {
-      if (map.current.getLayer(value)) {
-        map.current.setLayoutProperty(value, 'visibility', 'none');
-      }
+    React.useEffect(() => {
+        for (const value in Filters) {
+            if (map.current.getLayer(value)) {
+                map.current.setLayoutProperty(value, 'visibility', 'none');
+        }
     }
-    if (map.current.getLayer(filter)) {
-      map.current.setLayoutProperty(filter, 'visibility', 'visible');
+        if (map.current.getLayer(filter)) {
+            map.current.setLayoutProperty(filter, 'visibility', 'visible');
     }
     console.log(filter);
-  }, [filter]);
+    }, [filter]);
 
+    const styleMap = {
+        height: "100vh",
+        width: "100vw",
+    }
 
     return (
         <div id={id} style={{overflow: "hidden"}}>
@@ -142,4 +141,4 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
     )
 }
 
-export default Map       
+export default Map
