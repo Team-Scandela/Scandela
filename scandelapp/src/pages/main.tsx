@@ -7,6 +7,7 @@ import { handleSearchUtils } from '../utils/searchUtils';
 import DecisionMenu from '../components/DecisionMenu'
 import EditInPdfPannel from '../components/EditInPdfPannel';
 import Gauges from '../components/Gauges';
+import LampInfosPopup from '../components/LampInfosPopup';
 
 /** Main page of the app */
 const Main: React.FC = () => {
@@ -34,6 +35,7 @@ const Main: React.FC = () => {
             <DecisionMenu id={"decisionMenuComponentId"} isDark={isDark} handleButtonEditInPdfClick={handleButtonEditInPdfClick} isButtonEditInPdfClicked={isButtonEditInPdfClicked} />
             <EditInPdfPannel id={"editinPdfPannelComponentId"} isDark={isDark} isButtonEditInPdfClicked={isButtonEditInPdfClicked} />
             <Gauges id={"gaugesComponentId"} isDark={isDark} />
+            <LampInfosPopup id={"LampInfosPopupComponentId"} isDark={isDark} />
         </div>
     )
 }

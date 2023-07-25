@@ -89,7 +89,7 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
             });
 
         }
-    }, [isDark, lng, lat, zoom]);
+    }, [isDark, lng, lat, zoom, geojsonData]);
 
     /** Set the map to take the entire screen */
     const styleMap = {
