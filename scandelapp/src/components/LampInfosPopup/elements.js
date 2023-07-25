@@ -9,7 +9,7 @@ export const PannelContainer = styled.div`
     align-items: center;
     justify-content: center;
     width: 400px;
-    height: 700px;
+    height: 670px;
     top: 25%;
     left: 40%;
     background-color: ${props => props.isDark ? Black + 'FF' : White + 'FF'};
@@ -27,7 +27,7 @@ export const PopupTextLampName = styled.div`
   font-size: 25px;
   user-select: none;
   color : ${props => props.isDark ? Black : White};
-  font-weight: 600;
+  font-weight: 750;
 `;
 
 export const PopupTextInfoTitle = styled.div`
@@ -38,7 +38,7 @@ export const PopupTextInfoTitle = styled.div`
   font-size: 25px;
   user-select: none;
   color : ${props => props.isDark ? Black : Yellow};
-  font-weight: 600;
+  font-weight: 750;
   text-align: center;
 `;
 
@@ -50,7 +50,7 @@ export const PopupTextActionsTitle = styled.div`
   font-size: 25px;
   user-select: none;
   color : ${props => props.isDark ? Black : Black};
-  font-weight: 600;
+  font-weight: 750;
   text-align: center;
 `;
 
@@ -77,7 +77,15 @@ export const PopupText = styled.div`
   font-weight: 400;
 `;
 
-
+export const PopupTextActions = styled.div`
+  position: absolute;
+  top: ${props => props.top};
+  left: 80px;
+  font-size: 17px;
+  user-select: none;
+  color: ${props => (props.isDark ? 'White' : 'white')};
+  font-weight: 400;
+`;
 
 export const CloseIcon = styled(AiFillCloseCircle)`
     position: absolute;
@@ -102,7 +110,7 @@ export const ListDetailContainer = styled.div`
     justify-content: center;
     left: 10px;
     width: 380px;
-    height: 250px;
+    height: 220px;
     bottom: 10px;
     background-color: ${props => props.isDark ? Yellow + 'FF' : Black + 'FF'};
     border-radius: 30px;
