@@ -2,6 +2,8 @@ import * as React from 'react';
 import { SearchBarContainer, InputWrapper, LogoContainer, SearchIcon } from './elements';
 import logoDark from '../../assets/logo-128x128-yellow.png';
 import logoLight from '../../assets/logo-128x128.png';
+import { useTranslation } from 'react-i18next';
+import LanguageSelector from '../../translation/languageSelector';
 
 /** SearchBar of the main page Scandela
  * This SearchBar allow the user to search a precise street or city in the Scandel'App
@@ -16,6 +18,7 @@ interface SearchBarProps {
 
 const SearchBar: React.FC<SearchBarProps> = ({ id, isDark, onSubmit }) => {
     const [searchValue, setSearchValue] = React.useState<string>("");
+    const { t } = useTranslation();
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchValue(e.target.value);
@@ -34,12 +37,13 @@ const SearchBar: React.FC<SearchBarProps> = ({ id, isDark, onSubmit }) => {
                 <LogoContainer src={isDark ? logoDark : logoLight} />
                 <InputWrapper
                     isdark={isDark}
-                    placeholder="Rechercher dans Scandela"
+                    placeholder={t('searchBarMessage')}//"Rechercher dans Scandela"
                     value={searchValue}
                     onChange={handleInputChange}
                     onKeyDown={handleInputKeyDown}
                 />
                 <SearchIcon isdark={isDark} onClick={() => onSubmit(searchValue)} />
+                <LanguageSelector />
             </SearchBarContainer>
         </div>
     )
