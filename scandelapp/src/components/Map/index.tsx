@@ -1,17 +1,15 @@
 import * as mapboxgl from 'mapbox-gl';
 import * as React from 'react'
+import { Filters } from '../../pages/main'
+import loadMap from './loadMap';
 
 let nantesData = require('../../assets/nantesData.json');
 
 Object.getOwnPropertyDescriptor(mapboxgl, "accessToken").set("pk.eyJ1IjoidGl0b3VhbnRkIiwiYSI6ImNsaDYyeHUybDAyNTkzcHV5NHlzY3drbHIifQ._eEX5CRcWxVrl9C8z4u3fQ");
 
-/** Map of the city
- * @param {boolean} isDark - If the map is in dark mode or not
-*/
-
 interface MapProps {
     id : string,
-    filter : string,
+    filter : Filters,
     isDark: boolean,
     lat: number,
     lng: number,
@@ -45,6 +43,7 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
         });
         return geoJSON;
     },[]);
+
 
 
     /** Setup the map and change the style of the map wether is light or dark mode */
@@ -89,9 +88,37 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
             });
 
         }
-    }, [isDark, lng, lat, zoom]);
+    },[isDark, lng, lat, zoom, geojsonData]);
 
-    /** Set the map to take the entire screen */
+  // Fonction qui permet de filtrer les données en fonction du type de filtre
+    React.useEffect(() => {
+        if (map.current) {
+        map.current.setStyle(
+            isDark ? "mapbox://styles/mapbox/dark-v11" : "mapbox://styles/mapbox/light-v11"
+        );
+    } else {
+        map.current = new mapboxgl.Map({
+            container: mapContainer.current,
+            style: isDark ? "mapbox://styles/mapbox/dark-v11" : "mapbox://styles/mapbox/light-v11",
+            center: [lng, lat],
+            zoom: zoom,
+        });
+        loadMap(map.current);
+    }
+    }, [isDark, lng, lat, zoom, geojsonData]);
+
+    React.useEffect(() => {
+        for (const value in Filters) {
+            if (map.current.getLayer(value)) {
+                map.current.setLayoutProperty(value, 'visibility', 'none');
+        }
+    }
+        if (map.current.getLayer(filter)) {
+            map.current.setLayoutProperty(filter, 'visibility', 'visible');
+    }
+    console.log(filter);
+    }, [filter]);
+
     const styleMap = {
         height: "100vh",
         width: "100vw",
