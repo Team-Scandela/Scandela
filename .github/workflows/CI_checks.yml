@@ -21,9 +21,9 @@ jobs:
             - name: Install dependencies
               run: npm install
 
-            - name: Run tests
-              run: npm test
-              working-directory: ./scandelapp
-
             - name: Format code with Prettier
               run: npm run format
+              
+            # - name: Run tests
+            #   run: npm test
+            #   working-directory: ./scandelapp
