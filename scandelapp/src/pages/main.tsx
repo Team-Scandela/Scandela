@@ -8,6 +8,8 @@ import DecisionMenu from '../components/DecisionMenu'
 import EditInPdfPannel from '../components/EditInPdfPannel';
 import Gauges from '../components/Gauges';
 import ActionsList from '../components/ActionsList'
+import Toastr from '../components/Toastr';
+
 
 /** Main page of the app */
 const Main: React.FC = () => {
@@ -76,6 +78,7 @@ const Main: React.FC = () => {
             currentSelected={currentSelected} handleCurrentSelectedChange={handleCurrentSelectedChange}/>
             <EditInPdfPannel isDark={isDark} isButtonEditInPdfClicked={isButtonEditInPdfClicked} />
             <Gauges isDark={isDark}/>
+            <Toastr isDark={isDark}/>
         </div>
     )
 }
