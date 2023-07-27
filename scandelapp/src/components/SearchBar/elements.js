@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { Yellow, Black, White } from '../../colors';
-import { MdSearch } from 'react-icons/md';
+import { Yellow, Black, White } from "../../colors";
+import { MdSearch } from "react-icons/md";
 
 /** Container for the background of the searchbar **/
 export const SearchBarContainer = styled.div`
@@ -11,22 +11,23 @@ export const SearchBarContainer = styled.div`
     height: 40px;
     top: 25px;
     left: 30px;
-    background-color: ${props => props.isdark ? Black + 'CC' : White + 'CC'};
-    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+    background-color: ${(props) =>
+        props.isdark ? Black + "CC" : White + "CC"};
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
     border-radius: 10px;
 `;
 
 /** Container that cointain the scandela logo **/
 export const LogoContainer = styled.img`
     height: 100%;
-    padding : 5px;
+    padding: 5px;
     user-select: none;
 `;
 
 /**  Container that contain the input in order to write on the searchbar**/
-export const InputWrapper =  styled.input`
+export const InputWrapper = styled.input`
     position: absolute;
-    width : 70%;
+    width: 70%;
     height: 75%;
     left: 50px;
     top: 15%;
@@ -34,7 +35,7 @@ export const InputWrapper =  styled.input`
     font-size: 13px;
     user-select: none;
 
-    color : ${props => props.isdark ? Yellow : Black};
+    color: ${(props) => (props.isdark ? Yellow : Black)};
     background-color: transparent;
 
     &:focus {
@@ -45,10 +46,10 @@ export const InputWrapper =  styled.input`
 /** Search icon **/
 export const SearchIcon = styled(MdSearch)`
     position: absolute;
-    right : 10px;
-    font-size : 28px;
+    right: 10px;
+    font-size: 28px;
 
-    color : ${props => props.isdark ? Yellow : Black};
+    color: ${(props) => (props.isdark ? Yellow : Black)};
 
     &:hover {
         cursor: pointer;

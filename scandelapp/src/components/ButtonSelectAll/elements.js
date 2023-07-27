@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { Yellow, Black, White, Grey } from '../../colors';
-import { BsListCheck } from 'react-icons/bs';
+import { Yellow, Black, White, Grey } from "../../colors";
+import { BsListCheck } from "react-icons/bs";
 
 /** Container for the background of the searchbar **/
 export const ButtonEditContainer = styled.div`
@@ -12,16 +12,16 @@ export const ButtonEditContainer = styled.div`
     height: 55px;
     top: 25px;
     right: 40px;
-    background-color: ${props => props.isDark ? Grey + 'FF': Grey + 'FF' };
+    background-color: ${(props) => (props.isDark ? Grey + "FF" : Grey + "FF")};
     border-radius: 10px;
     transition: opacity 0.1s;
 
     &:hover {
-      cursor: pointer;
-      background-color: ${props => props.isDark ? Grey + 'CC': Grey + 'CC' };
+        cursor: pointer;
+        background-color: ${(props) =>
+            props.isDark ? Grey + "CC" : Grey + "CC"};
     }
 `;
-
 
 /**  Export Icon**/
 export const SelectIcon = styled(BsListCheck)`
@@ -29,5 +29,5 @@ export const SelectIcon = styled(BsListCheck)`
     align-items: center;
     right: 10px;
     font-size: 40px;
-    color: ${props => props.isDark ? Black : Yellow};
+    color: ${(props) => (props.isDark ? Black : Yellow)};
 `;

@@ -23,7 +23,7 @@ jobs:
 
             - name: Format code with Prettier
               run: npm run format
-              
+
             # - name: Run tests
             #   run: npm test
             #   working-directory: ./scandelapp

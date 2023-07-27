@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { Yellow } from '../../colors';
+import styled from "styled-components";
+import { Yellow } from "../../colors";
 
 /** Login container who contains the signup and signin container */
 export const LoginContainer = styled.div`
@@ -10,7 +10,7 @@ export const LoginContainer = styled.div`
     width: 678%;
     max-width: 50%;
     min-height: 400px;
-    left : 50%;
+    left: 50%;
     transform: translate(-50%, 50%);
 `;
 
@@ -21,9 +21,9 @@ export const SignUpContainer = styled.div`
     height: 100%;
     width: 50%;
     left: 0;
-    transition : all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
     opacity: 1;
-    z-index:1;
+    z-index: 1;
 `;
 
 /** Sign in container, contains sign in infos */
@@ -33,9 +33,9 @@ export const SignInContainer = styled.div`
     height: 100%;
     width: 50%;
     left: 50%;
-    transition : all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
     opacity: 1;
-    z-index:1;
+    z-index: 1;
 `;
 
 /** Form for SignIn / Sign Out */
@@ -52,8 +52,8 @@ export const Form = styled.form`
 
 /** Title of the container */
 export const Title = styled.h1`
-    font-weight : bold;
-    margin : 0;
+    font-weight: bold;
+    margin: 0;
 `;
 
 /** Input for username, password ... */
@@ -84,15 +84,14 @@ export const Button = styled.button`
         transform: scale(1.05);
     }
 
-    &:active{
+    &:active {
         transform: scale(0.95);
     }
-
 `;
 
 /** Ghost button  for the overlay */
 export const GhostButton = styled(Button)`
-    border : 1px solid #fff;
+    border: 1px solid #fff;
     margin-top: 10px;
 `;
 
@@ -102,7 +101,6 @@ export const Anchor = styled.a`
     font-size: 14px;
     text-decoration: underline;
     margin: 15px 0;
-
 `;
 
 /** Container for the overlay who covers the unused side */
@@ -115,7 +113,8 @@ export const OverlayContainer = styled.div`
     overflow: hidden;
     transition: transform 0.6s ease-in-out;
     z-index: 999;
-    ${props =>props.signinIn !== true ? `transform: translateX(-100%);` : null}
+    ${(props) =>
+        props.signinIn !== true ? `transform: translateX(-100%);` : null}
 `;
 
 /** Overlay who covers the unused side */
@@ -128,9 +127,9 @@ export const Overlay = styled.div`
     width: 200%;
     transform: translateX(0);
     transition: transform 0.6s ease-in-out;
-    ${props => (props.signinIn !== true ? `transform: translateX(50%);` : null)}
+    ${(props) =>
+        props.signinIn !== true ? `transform: translateX(50%);` : null}
 `;
-
 
 /** Rules for the texte inside the overlay */
 export const OverlayPanel = styled.div`
@@ -149,14 +148,15 @@ export const OverlayPanel = styled.div`
 /** Move the text during animation to the left */
 export const LeftOverlayPanel = styled(OverlayPanel)`
     transform: translateX(-20%);
-    ${props => props.signinIn !== true ? `transform: translateX(0);` : null}
+    ${(props) => (props.signinIn !== true ? `transform: translateX(0);` : null)}
 `;
 
 /** Move the text during animation to the right */
 export const RightOverlayPanel = styled(OverlayPanel)`
     right: 0;
     transform: translateX(0);
-    ${props => props.signinIn !== true ? `transform: translateX(20%);` : null}
+    ${(props) =>
+        props.signinIn !== true ? `transform: translateX(20%);` : null}
 `;
 
 /** Rules for the <p> */
@@ -165,5 +165,5 @@ export const Paragraph = styled.p`
     font-weight: 100;
     line-height: 20px;
     letter-spacing: 0.5px;
-    margin: 20px 0 30px
+    margin: 20px 0 30px;
 `;

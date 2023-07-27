@@ -1,11 +1,11 @@
-import styled from 'styled-components'
-import { Yellow } from '../../colors';
+import styled from "styled-components";
+import { Yellow } from "../../colors";
 
 export const GaugeContainer = styled.div`
     display: flex;
     position: fixed;
     height: 100px;
-    width: ${(450 / 6.5)}px;
+    width: ${450 / 6.5}px;
     bottom: 30px;
 `;
 
@@ -34,8 +34,8 @@ export const GaugeLevel = styled.div`
     position: absolute;
     bottom: 4px;
 
-    height: calc((100% - 8px) * ${props => props.level / 100});
-    left : 4px;
+    height: calc((100% - 8px) * ${(props) => props.level / 100});
+    left: 4px;
     width: calc(100% - 8px);
 `;
 
@@ -57,4 +57,3 @@ export const GaugeLogo = styled.img`
     position: fixed;
     height: 100px;
 `;
-

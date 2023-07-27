@@ -1,25 +1,23 @@
 name: Deployement Workflow
 
 on:
-  push:
-    branches:
-      - master
+    push:
+        branches:
+            - master
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
+    deploy:
+        runs-on: ubuntu-latest
 
-    steps:
-      - name: Copy code to Raspberry Pi
-        uses: appleboy/ssh-action@master
-        with:
-          host: scandela.store
-          username: ${{ secrets.USERNAME_RASPBERRY_PI }}
-          password: ${{ secrets.PASSWORD_RASPBERRY_PI }}
-          port: 22
-          script: |
-            cd /var/www/dev/Scandela/
-            git pull
-            docker compose -f docker-compose.dev.yml up -d
-
-
+        steps:
+            - name: Copy code to Raspberry Pi
+              uses: appleboy/ssh-action@master
+              with:
+                  host: scandela.store
+                  username: ${{ secrets.USERNAME_RASPBERRY_PI }}
+                  password: ${{ secrets.PASSWORD_RASPBERRY_PI }}
+                  port: 22
+                  script: |
+                      cd /var/www/dev/Scandela/
+                      git pull
+                      docker compose -f docker-compose.dev.yml up -d
