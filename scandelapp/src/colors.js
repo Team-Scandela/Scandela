@@ -4,6 +4,7 @@ export const Black = "#2A2B2A"
 export const White = "#F9F9F9"
 export const Yellow = "#FAC710"
 export const Grey = "#D9D9D9"
+export const Green = 	"#32CD32"
 
 /* for the opacity: 
   100%: add + 'FF'

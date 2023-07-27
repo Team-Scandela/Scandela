@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useEffect } from 'react';
-import { Checkbox, OptimisationTemplateContainer, TypeText } from './elements';
+import { OptimisationTemplateContainer, TypeText } from './elements';
 
 /** Menu of the decision pannel
  * @param {boolean} isDark - If the map is in dark mode or not
@@ -12,14 +12,14 @@ interface OptimisationTemplateProps {
   isDark: boolean;
   y: number;
   optimisationTemplateData: any,
-  onCheckboxChange: (isChecked: boolean) => void;
+  onTemplateClick: (isChecked: boolean) => void;
 }
 
 const OptimisationTemplate: React.FC<OptimisationTemplateProps> = ({
   isDark,
   y,
   optimisationTemplateData,
-  onCheckboxChange,
+  onTemplateClick,
 }) => {
   const [isChecked, setIsChecked] = React.useState(false);
 
@@ -27,15 +27,14 @@ const OptimisationTemplate: React.FC<OptimisationTemplateProps> = ({
     setIsChecked(optimisationTemplateData.selected);
   }, [optimisationTemplateData.selected]);
 
-  const handleCheckboxChange = () => {
+  const handleTemplateClick = () => {
     const newCheckedValue = !isChecked;
     setIsChecked(newCheckedValue);
-    onCheckboxChange(newCheckedValue);
+    onTemplateClick(newCheckedValue);
   };
 
   return (
-    <OptimisationTemplateContainer isDark={isDark} y={y}>
-      <Checkbox type="checkbox" checked={isChecked} onChange={handleCheckboxChange} />
+    <OptimisationTemplateContainer isDark={isDark} y={y} onClick={() => handleTemplateClick()} checked={isChecked}>
       <TypeText isDark={isDark}>{optimisationTemplateData.type}</TypeText>
     </OptimisationTemplateContainer>
   );

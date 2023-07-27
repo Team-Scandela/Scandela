@@ -15,6 +15,8 @@ import OptimisationTemplate from '../OptimisationTemplate'
  * @param {boolean} isDark - If the map is in dark mode or not
  * @param {function} handleButtonEditInPdfClick - Callback function
  * @param {boolean} isButtonEditInPdfClicked - Boolean to check if the pdf button is clicked
+ * @param {function} handleToggleDecisionPanelExtend - Callback function
+ * @param {function} decisionPanelExtended - Boolean to check if the decision panel is extended or not
  * @param {function} handleOptimisationTemplateDataChange - Callback function
  * @param {any} optimisationTemplateData - List of list about optimsiations template datas
  * @param {function} handleButtonSelectAllClick - Callback function
@@ -25,6 +27,8 @@ interface DecisionMenuProps {
     isDark: boolean;
     handleButtonEditInPdfClick: () => void;
     isButtonEditInPdfClicked: boolean;
+    handleToggleDecisionPanelExtend: () => void;
+    decisionPanelExtended: any;
     handleOptimisationTemplateDataChange: (data: any) => void;
     optimisationTemplateData: any;
     handleButtonSelectAllClick: () => void;
@@ -32,21 +36,23 @@ interface DecisionMenuProps {
     handleCurrentSelectedChange: (data: string) => void;
 }
 
-const DecisionMenu: React.FC<DecisionMenuProps> = ({ isDark, handleButtonEditInPdfClick, isButtonEditInPdfClicked,  handleOptimisationTemplateDataChange, 
-    optimisationTemplateData, handleButtonSelectAllClick, currentSelected, handleCurrentSelectedChange}) => {
-    /** If the decision pannel is open or closed */
-    const [decisionPanelExtended, setDecisionPanelExtended] = React.useState(false);
+const DecisionMenu: React.FC<DecisionMenuProps> = ({ isDark, handleButtonEditInPdfClick, isButtonEditInPdfClicked, 
+                                                             handleToggleDecisionPanelExtend, decisionPanelExtended,
+                                                             handleOptimisationTemplateDataChange, optimisationTemplateData, 
+                                                             handleButtonSelectAllClick, 
+                                                             handleCurrentSelectedChange, currentSelected }) => {
     const [dropdownExpended, setDropdownExpended] = React.useState(false);
     const [items, setItems] = React.useState([]);
-    
-    const handleChildCheckboxChange = (i: number, isChecked: boolean) => {
+
+    const handleChildCheckboxChange = (id: number, isChecked: boolean) => {
+        console.log(id);
         const updatedData = [...optimisationTemplateData];
-        updatedData[i].selected = isChecked;
+        updatedData[id].selected = isChecked;
         handleOptimisationTemplateDataChange(updatedData);
     };
 
-    const handleToggleDecisionPanelExpend = () => {
-        setDecisionPanelExtended(!decisionPanelExtended);
+    const handleDecisionPanelButtonClick = () => {
+        handleToggleDecisionPanelExtend();
         if (dropdownExpended)
             handleToggleDropdownExpend();
     };
@@ -82,7 +88,7 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({ isDark, handleButtonEditInP
     return (
         <div>
             <DecisionMenuContainer>
-                <DecisionMenuButton onClick={() => handleToggleDecisionPanelExpend()} isDark={isDark} show={decisionPanelExtended}>
+                <DecisionMenuButton onClick={() => handleDecisionPanelButtonClick()} isDark={isDark} show={decisionPanelExtended}>
                     {decisionPanelExtended ? <DecisionIconRight size={50}/> : <DecisionIconLeft size={50}/>}
                 </DecisionMenuButton>
                 <DecisionPanel isDark={isDark} show={decisionPanelExtended}>
@@ -107,27 +113,27 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({ isDark, handleButtonEditInP
                         {currentSelected !== "Choisissez une action" && (
                             <ScrollableOptimisationsContainer isDark={isDark}>
                                 {currentSelected === "Toutes les optimisations"
-                                ? optimisationTemplateData.map((item: string, i: number) => (
+                                ? optimisationTemplateData.map((item: any, i: number) => (
                                     <OptimisationTemplate
                                         key={i}
                                         isDark={isDark}
                                         y={100 * i}
                                         optimisationTemplateData={item}
-                                        onCheckboxChange={isChecked =>
-                                        handleChildCheckboxChange(i, isChecked)
+                                        onTemplateClick={isChecked =>
+                                        handleChildCheckboxChange(item.id, isChecked)
                                         }
                                     />
                                     ))
                                 : optimisationTemplateData
                                     .filter((item: any) => item.type === currentSelected)
-                                    .map((item: string, i: number) => (
+                                    .map((item: any, i: number) => (
                                         <OptimisationTemplate
                                         key={i}
                                         isDark={isDark}
                                         y={100 * i}
                                         optimisationTemplateData={item}
-                                        onCheckboxChange={isChecked =>
-                                            handleChildCheckboxChange(i, isChecked)
+                                        onTemplateClick={isChecked =>
+                                            handleChildCheckboxChange(item.id, isChecked)
                                         }
                                         />
                                     ))}
