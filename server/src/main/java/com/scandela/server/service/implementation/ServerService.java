@@ -6,17 +6,16 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.scandela.server.entity.dto.ServerDto;
-import com.scandela.server.service.AbstractService;
+import com.scandela.server.entity.Server;
 import com.scandela.server.service.IServerService;
 
 @Service
-public class ServerService extends AbstractService implements IServerService {
+public class ServerService implements IServerService {
 
 	// Methods \\
 		// Public \\
 	@Override
-	public ServerDto getServerInformations() {
+	public Server getServerInformations() {
 		List<String> team = new ArrayList<>();
 		team.add("DESCHANELS Titouan");
 		team.add("BONATO Enzo");
@@ -28,9 +27,9 @@ public class ServerService extends AbstractService implements IServerService {
 		team.add("HARRI-CHAL Victor");
 		team.sort(Comparator.naturalOrder());
 
-		ServerDto serverDto = ServerDto.builder().name("API Scandela").team(team).build();
+		Server server = Server.builder().name("API Scandela").team(team).build();
 
-		return serverDto;
+		return server;
 	}
 
 }

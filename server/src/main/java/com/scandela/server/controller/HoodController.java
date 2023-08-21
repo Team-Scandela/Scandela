@@ -11,62 +11,62 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.scandela.server.entity.User;
-import com.scandela.server.exception.UserException;
-import com.scandela.server.service.IUserService;
+import com.scandela.server.entity.Hood;
+import com.scandela.server.exception.HoodException;
+import com.scandela.server.service.IHoodService;
 
 @RestController
-@RequestMapping(value = "/users")
-public class UserController extends AbstractController {
+@RequestMapping(value = "/hoods")
+public class HoodController extends AbstractController {
 
 	// Attributes \\
 		// Private \\
 	@Autowired
-	private IUserService userService;
+	private IHoodService hoodService;
 
 	// Methods \\
 		// Public \\
 	/**
-	 * Get all users
+	 * Get all hoods
 	 * 
-	 * @return allUsers
+	 * @return allHoods
 	 */
 	@GetMapping
-	public List<User> getUsers() {
-		return userService.getAll();
+	public List<Hood> getHoods() {
+		return hoodService.getAll();
 	}
 
 	/**
-	 * Get user by id
+	 * Get hood by id
 	 * 
 	 * @param id
-	 * @return user
+	 * @return hood
 	 */
 	@GetMapping("/{id}")
-	public User getUser(@PathVariable long id) {
-		return userService.get(id);
+	public Hood getHood(@PathVariable long id) {
+		return hoodService.get(id);
 	}
 
 	/**
-	 * Create new user
+	 * Create new hood
 	 * 
-	 * @param newUser
-	 * @return newUser
-	 * @throws UserException 
+	 * @param newHood
+	 * @return newHood
+	 * @throws HoodException
 	 */
 	@PostMapping("/create")
-	public User createUser(@RequestBody User newUser) throws Exception {
-		return userService.create(newUser);
+	public Hood createHood(@RequestBody Hood newHood) throws Exception {
+		return hoodService.create(newHood);
 	}
 
 	/**
-	 * Delete user
+	 * Delete hood
 	 * 
-	 * @param user
+	 * @param hood
 	 */
 	@DeleteMapping("/delete")
-	public void deleteUser(@RequestBody User user) {
-		userService.delete(user);
+	public void deleteHood(@RequestBody Hood hood) {
+		hoodService.delete(hood);
 	}
 
 }
