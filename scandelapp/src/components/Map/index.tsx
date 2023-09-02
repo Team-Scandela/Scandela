@@ -95,15 +95,15 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
                   clusterMaxZoom: 17,
                 });
 
-                 // Define les couleurs en format RGBA avec une opacité de 0.7
-                const greenRGBA = 'rgba(0, 128, 0, 0.7)';
-                const yellowRGBA = 'rgba(255, 255, 0, 0.7)';
-                const orangeRGBA = 'rgba(255, 165, 0, 0.7)';
+                 // Define les couleurs en format RGBA avec une opacité de 0.6
+                const greenRGBA = 'rgba(0, 128, 0, 0.6)';
+                const yellowRGBA = 'rgba(255, 255, 0, 0.6)';
+                const orangeRGBA = 'rgba(255, 165, 0, 0.6)';
 
-                 // Define les couleurs de la bordure en format RGBA avec une opacité de 0.4
-                const greenBorderRGBA = 'rgba(0, 128, 0, 0.4)';
-                const yellowBorderRGBA = 'rgba(255, 255, 0, 0.4)';
-                const orangeBorderRGBA = 'rgba(255, 165, 0, 0.4)';
+                 // Define les couleurs de la bordure en format RGBA avec une opacité de 0.3
+                const greenBorderRGBA = 'rgba(0, 128, 0, 0.3)';
+                const yellowBorderRGBA = 'rgba(255, 255, 0, 0.3)';
+                const orangeBorderRGBA = 'rgba(255, 165, 0, 0.3)';
               
                 map.current.addLayer({
                     'id': 'clusters',
