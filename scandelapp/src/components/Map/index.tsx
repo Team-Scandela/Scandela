@@ -94,26 +94,52 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
                   clusterRadius: 100,
                   clusterMaxZoom: 17,
                 });
+
+                 // Define les couleurs en format RGBA avec une opacité de 0.7
+                const greenRGBA = 'rgba(0, 128, 0, 0.7)';
+                const yellowRGBA = 'rgba(255, 255, 0, 0.7)';
+                const orangeRGBA = 'rgba(255, 165, 0, 0.7)';
+
+                 // Define les couleurs de la bordure en format RGBA avec une opacité de 0.4
+                const greenBorderRGBA = 'rgba(0, 128, 0, 0.4)';
+                const yellowBorderRGBA = 'rgba(255, 255, 0, 0.4)';
+                const orangeBorderRGBA = 'rgba(255, 165, 0, 0.4)';
               
                 map.current.addLayer({
-                  'id': 'clusters',
-                  'type': 'circle',
-                  'source': 'points',
-                  'filter': ['has', 'point_count'],
-                  'paint': {
-                    'circle-radius': 19,
-                    'circle-color': 'rgba(250, 199, 16, 0.7)',
-                  },
-                });
+                    'id': 'clusters',
+                    'type': 'circle',
+                    'source': 'points',
+                    'filter': ['has', 'point_count'],
+                    'paint': {
+                      'circle-radius': 19,
+                      'circle-color': [
+                        'step',
+                        ['get', 'point_count'],
+                        greenRGBA, // Couleur verte
+                        19,
+                        yellowRGBA, // Couleur jaune
+                        100,
+                        orangeRGBA, // Couleur orange
+                      ],
+                    },
+                  });
 
-                map.current.addLayer({
+                  map.current.addLayer({
                     'id': 'cluster-border',
                     'type': 'circle',
                     'source': 'points',
                     'filter': ['has', 'point_count'],
                     'paint': {
-                      'circle-radius': 24,  // Légèrement plus grand que la couche principale
-                      'circle-color': 'rgba(250, 199, 16, 0.4)', // Jaune avec opacité réduite
+                      'circle-radius': 24,
+                      'circle-color': [
+                        'step',
+                        ['get', 'point_count'],
+                        greenBorderRGBA, // Couleur de bordure verte
+                        19,
+                        yellowBorderRGBA, // Couleur de bordure jaune
+                        100,
+                        orangeBorderRGBA, // Couleur de bordure orange
+                      ],
                     },
                   });
               
