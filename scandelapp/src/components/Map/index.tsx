@@ -74,7 +74,7 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
             });
         } else if (!cluster.current) {
             cluster.current = new Supercluster({
-                radius: 40,
+                radius: 80,
                 maxZoom: 15,
             });
             cluster.current.load(geojsonData.features);
@@ -91,7 +91,7 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
                   type: 'geojson',
                   data: geojsonData as GeoJSON.FeatureCollection,
                   cluster: true,
-                  clusterRadius: 40,
+                  clusterRadius: 80,
                   clusterMaxZoom: 15,
                 });
               
