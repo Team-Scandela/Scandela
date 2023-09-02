@@ -50,8 +50,8 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
             map.current.flyTo({
                 center: [lng, lat],
                 zoom: zoom,
-                speed: 1.2,
-                curve: 1.42,
+                speed: 5,
+                curve: 10,
             });
 
             map.current.on('load', () => {
@@ -74,8 +74,8 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
             });
         } else if (!cluster.current) {
             cluster.current = new Supercluster({
-                radius: 80,
-                maxZoom: 15,
+                radius: 100,
+                maxZoom: 17,
             });
             cluster.current.load(geojsonData.features);
 
@@ -91,8 +91,8 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
                   type: 'geojson',
                   data: geojsonData as GeoJSON.FeatureCollection,
                   cluster: true,
-                  clusterRadius: 80,
-                  clusterMaxZoom: 15,
+                  clusterRadius: 100,
+                  clusterMaxZoom: 17,
                 });
               
                 map.current.addLayer({
