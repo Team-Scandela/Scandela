@@ -102,7 +102,7 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
                   'filter': ['has', 'point_count'],
                   'paint': {
                     'circle-radius': 19,
-                    'circle-color': '#FAC710',
+                    'circle-color': 'rgba(250, 199, 16, 0.7)',
                   },
                 });
 
