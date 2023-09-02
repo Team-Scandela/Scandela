@@ -88,45 +88,37 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
 
             map.current.on('load', () => {
                 map.current.addSource('points', {
-                    type: 'geojson',
-                    data: geojsonData as GeoJSON.FeatureCollection,
-                    cluster: true,
-                    clusterRadius: 40,
-                    clusterMaxZoom: 15,
+                  type: 'geojson',
+                  data: geojsonData as GeoJSON.FeatureCollection,
+                  cluster: true,
+                  clusterRadius: 40,
+                  clusterMaxZoom: 15,
                 });
-
+              
                 map.current.addLayer({
-                    'id': 'clusters',
-                    'type': 'circle',
-                    'source': 'points',
-                    'filter': ['has', 'point_count'],
-                    'paint': {
-                        'circle-radius': [
-                            'step',
-                            ['get', 'point_count'],
-                            20,
-                            100,
-                            30,
-                            750,
-                            40,
-                        ],
-                        'circle-color': '#FAC710',
-                    },
+                  'id': 'clusters',
+                  'type': 'circle',
+                  'source': 'points',
+                  'filter': ['has', 'point_count'],
+                  'paint': {
+                    'circle-radius': 20, // Taille de rayon du cluster
+                    'circle-color': '#FAC710',
+                  },
                 });
-
+              
                 map.current.addLayer({
-                    'id': 'cluster-markers',
-                    'type': 'circle',
-                    'source': 'points',
-                    'filter': ['!', ['has', 'point_count']],
-                    'paint': {
-                        'circle-radius': 6,
-                        'circle-color': '#FAC710',
-                        'circle-stroke-color': "#F9F9F9",
-                        'circle-stroke-width': 2,
-                    },
+                  'id': 'cluster-markers',
+                  'type': 'circle',
+                  'source': 'points',
+                  'filter': ['!', ['has', 'point_count']],
+                  'paint': {
+                    'circle-radius': 6,
+                    'circle-color': '#FAC710',
+                    'circle-stroke-color': "#F9F9F9",
+                    'circle-stroke-width': 2,
+                  },
                 });
-            });
+              });              
         }
     };
 
