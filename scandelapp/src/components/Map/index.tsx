@@ -118,6 +118,21 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
                     'circle-stroke-width': 2,
                   },
                 });
+
+                map.current.addLayer({
+                    'id': 'cluster-text',
+                    'type': 'symbol',
+                    'source': 'points',
+                    'filter': ['has', 'point_count'],
+                    'layout': {
+                      'text-field': '{point_count}', // Le texte affiché sera le nombre de lampadaires
+                      'text-font': ['Open Sans Semibold'],
+                      'text-size': 14,
+                    },
+                    'paint': {
+                      'text-color': '#000000', // Couleur du texte (noir)
+                    },
+                  });
               });              
         }
     };
