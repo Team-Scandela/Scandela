@@ -101,10 +101,21 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
                   'source': 'points',
                   'filter': ['has', 'point_count'],
                   'paint': {
-                    'circle-radius': 20, // Taille de rayon du cluster
+                    'circle-radius': 19,
                     'circle-color': '#FAC710',
                   },
                 });
+
+                map.current.addLayer({
+                    'id': 'cluster-border',
+                    'type': 'circle',
+                    'source': 'points',
+                    'filter': ['has', 'point_count'],
+                    'paint': {
+                      'circle-radius': 24,  // Légèrement plus grand que la couche principale
+                      'circle-color': 'rgba(250, 199, 16, 0.4)', // Jaune avec opacité réduite
+                    },
+                  });
               
                 map.current.addLayer({
                   'id': 'cluster-markers',
@@ -125,14 +136,15 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
                     'source': 'points',
                     'filter': ['has', 'point_count'],
                     'layout': {
-                      'text-field': '{point_count}', // Le texte affiché sera le nombre de lampadaires
-                      'text-font': ['Open Sans Semibold'],
-                      'text-size': 14,
+                      'text-field': '{point_count}',
+                      'text-font': ['Open Sans Regular'],
+                      'text-size': 13,
                     },
                     'paint': {
-                      'text-color': '#000000', // Couleur du texte (noir)
+                      'text-color': '#000000',
                     },
                   });
+                
               });              
         }
     };
