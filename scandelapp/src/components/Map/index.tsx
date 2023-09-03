@@ -2,10 +2,13 @@ import * as mapboxgl from 'mapbox-gl';
 import Supercluster from 'supercluster';
 import * as React from 'react';
 
+// Charge les données géographiques de Nantes depuis un fichier JSON local
 let nantesData = require('../../assets/nantesData.json');
 
+// Définit la clé d'accès Mapbox
 Object.getOwnPropertyDescriptor(mapboxgl, "accessToken").set("pk.eyJ1IjoidGl0b3VhbnRkIiwiYSI6ImNsaDYyeHUybDAyNTkzcHV5NHlzY3drbHIifQ._eEX5CRcWxVrl9C8z4u3fQ");
 
+// Interface pour les propriétés de la carte
 interface MapProps {
     id: string,
     filter: string,
@@ -15,11 +18,18 @@ interface MapProps {
     zoom: number,
 }
 
+// Composant de la carte
 const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
+    // Référence à l'élément de conteneur de la carte
     const mapContainer = React.useRef<HTMLDivElement | null>(null);
+    
+    // Référence à l'objet carte Mapbox
     const map = React.useRef<mapboxgl.Map | null>(null);
+    
+    // Référence à l'objet Supercluster
     const cluster = React.useRef<Supercluster | null>(null);
 
+    // Crée les données géoJSON à partir des données de Nantes
     const geojsonData = React.useMemo(() => {
         let geoJSON = {
             "type": "FeatureCollection",
@@ -42,6 +52,7 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
         return geoJSON;
     }, []);
 
+    // Initialise la carte
     const initializeMap = () => {
         if (!map.current) {
             cluster.current = new Supercluster({
@@ -67,12 +78,12 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
                         clusterMaxZoom: 17,
                     });
 
-                    // Define les couleurs en format RGBA avec une opacité de 0.6
+                    // Définit les couleurs en format RGBA avec une opacité de 0.6
                     const greenRGBA = 'rgba(0, 128, 0, 0.6)';
                     const yellowRGBA = 'rgba(255, 255, 0, 0.6)';
                     const orangeRGBA = 'rgba(255, 165, 0, 0.6)';
 
-                    // Define les couleurs de la bordure en format RGBA avec une opacité de 0.3
+                    // Définit les couleurs de la bordure en format RGBA avec une opacité de 0.3
                     const greenBorderRGBA = 'rgba(0, 128, 0, 0.3)';
                     const yellowBorderRGBA = 'rgba(255, 255, 0, 0.3)';
                     const orangeBorderRGBA = 'rgba(255, 165, 0, 0.3)';
@@ -147,15 +158,18 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
         }
     };
 
+    // Initialise la carte lors de la première rendu
     React.useEffect(() => {
         initializeMap();
     }, [isDark, lng, lat, zoom]);
 
+    // Style de la carte
     const styleMap = {
         height: "100vh",
         width: "100vw",
     };
 
+    // Rendu du composant de la carte
     return (
         <div id={id} style={{ overflow: "hidden" }}>
             <div style={styleMap} ref={mapContainer} className="map-container" />
@@ -171,4 +185,5 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
     );
 };
 
+// Exporte le composant de la carte par défaut
 export default Map;
