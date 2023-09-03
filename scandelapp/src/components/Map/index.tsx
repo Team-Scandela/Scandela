@@ -87,13 +87,15 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
             });
 
             map.current.on('load', () => {
-                map.current.addSource('points', {
-                  type: 'geojson',
-                  data: geojsonData as GeoJSON.FeatureCollection,
-                  cluster: true,
-                  clusterRadius: 100,
-                  clusterMaxZoom: 17,
-                });
+                if (!map.current?.getSource('points')) {
+                    map.current.addSource('points', {
+                        type: 'geojson',
+                        data: geojsonData as GeoJSON.FeatureCollection,
+                        cluster: true,
+                        clusterRadius: 100,
+                        clusterMaxZoom: 17,
+                    });
+                }
 
                  // Define les couleurs en format RGBA avec une opacité de 0.6
                 const greenRGBA = 'rgba(0, 128, 0, 0.6)';
@@ -104,7 +106,7 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
                 const greenBorderRGBA = 'rgba(0, 128, 0, 0.3)';
                 const yellowBorderRGBA = 'rgba(255, 255, 0, 0.3)';
                 const orangeBorderRGBA = 'rgba(255, 165, 0, 0.3)';
-              
+                       
                 map.current.addLayer({
                     'id': 'clusters',
                     'type': 'circle',
