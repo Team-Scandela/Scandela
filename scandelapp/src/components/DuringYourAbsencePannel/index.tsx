@@ -1,6 +1,7 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import { PannelContainer, PannelText, CloseIcon, ListDetailContainer, WarningIcon, EventContainer, ArrowIcon, EventText, EventTextContainer, IndicatorsImage} from './elements';
 import indicators from '../../assets/Indicators.png';
+import ToggleBButtonAbscencePannelButton from '../ButtonAbscencePannel';
 
 interface DuringYourAbsencePannelProps {
   id: string;
@@ -9,15 +10,20 @@ interface DuringYourAbsencePannelProps {
 
 const DuringYourAbsencePannel: React.FC<DuringYourAbsencePannelProps> = ({id, isDark }) => {
 
-  const [on, setOn] = React.useState(true);
+  const [isPanelOpen, setPanelOpen] = useState(false);
 
   const closePanel = () => {
-    setOn(false);
+    setPanelOpen(false);
   };
-  
+
+  const togglePanel = () => {
+    setPanelOpen(!isPanelOpen);
+  };
+
   return (
     <div>
-      <PannelContainer show={on} isDark={isDark} >
+      <ToggleBButtonAbscencePannelButton onClick={togglePanel} /> {/* Utilisez le composant de bouton correct */}
+      <PannelContainer show={isPanelOpen} isDark={isDark} >
         <PannelText isDark={isDark}>Pendant votre absence</PannelText>
         <CloseIcon onClick={closePanel} isDark={isDark} />
         <ListDetailContainer isDark={isDark} >
