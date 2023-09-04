@@ -3,10 +3,11 @@ import { PannelContainer, PannelText, CloseIcon, ListDetailContainer, WarningIco
 import indicators from '../../assets/Indicators.png';
 
 interface DuringYourAbsencePannelProps {
+  id: string;
   isDark: boolean;
 }
 
-const DuringYourAbsencePannel: React.FC<DuringYourAbsencePannelProps> = ({ isDark }) => {
+const DuringYourAbsencePannel: React.FC<DuringYourAbsencePannelProps> = ({id, isDark }) => {
 
   const [on, setOn] = React.useState(true);
 
