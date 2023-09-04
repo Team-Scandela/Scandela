@@ -8,10 +8,20 @@ import DecisionMenu from '../components/DecisionMenu'
 import EditInPdfPannel from '../components/EditInPdfPannel';
 import Gauges from '../components/Gauges';
 
+export enum Filters {
+    pin = "pin",
+    zone = "zone",
+    pinColor = "pinColor",
+    filter = "filter",
+    traffic = "traffic",
+    cabinet = "cabinet",
+    none = "none"
+}
+
 /** Main page of the app */
 const Main: React.FC = () => {
     const [isDark, setIsDark] = React.useState<boolean>(true);
-    const [filter, setFilter] = React.useState<string>('none');
+    const [filter, setFilter] = React.useState<Filters>(Filters.none);
     const [lat, setLat] = React.useState<number>(47.218371);
     const [lng, setLng] = React.useState<number>(-1.553621);
     const [zoom, setZoom] = React.useState(12);
