@@ -10,7 +10,7 @@ const LanguageSelector: React.FC = () => {
 
   return (
     <div>
-      <button onClick={() => changeLanguage("en")}>EN</button>
+      {/* <button onClick={() => changeLanguage("en")}>EN</button> */}
     </div>
   );
 };
