@@ -7,8 +7,6 @@ export const ButtonTemp = styled.div`
   align-items: center;
   width: 100px;
   height: 50px;
-  cursor: pointer;
-  overflow: hidden;
   font-size: 50px;
 
   background-color:  White + 'CC';
