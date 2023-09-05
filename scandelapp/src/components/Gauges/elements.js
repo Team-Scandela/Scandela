@@ -6,19 +6,26 @@ export const GaugeContainer = styled.div`
     position: fixed;
     height: 100px;
     width: ${(450 / 6.5)}px;
-    bottom: 30px;
 `;
 
 export const GaugeContainerLeft = styled(GaugeContainer)`
+    bottom: 30px;
     right: 175px;
 `;
 
 export const GaugeContainerMiddle = styled(GaugeContainer)`
+    bottom: 30px;
     right: 100px;
 `;
 
 export const GaugeContainerRight = styled(GaugeContainer)`
+    bottom: 30px;
     right: 25px;
+`;
+
+export const GaugeContainerPersonnalized = styled(GaugeContainer)`
+    top: ${props => props.top}px;
+    right: ${props => props.right}px;
 `;
 
 export const GaugeBackground = styled.img`
