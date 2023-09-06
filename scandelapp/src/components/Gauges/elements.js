@@ -58,6 +58,19 @@ export const GaugeLevelRight = styled(GaugeLevel)`
     border-bottom-right-radius: 5px;
 `;
 
+export const GaugeOldLevel = styled.div`
+    background-color: ${props => props.color};
+
+    position: absolute;
+
+    bottom: ${props => (props.diffLevel >= 0 ? `calc((100% - 8px) * ${props.level / 100 })` : `calc((100% - 8px) * ${(props.level / 100) - (-props.diffLevel / 100)} + 4px)`)};
+
+    height: calc((100% - 8px) * ${props => props.diffLevel >= 0 ? props.diffLevel / 100  : -props.diffLevel / 100});
+
+    left : 4px;
+    width: calc(100% - 9px);
+`;
+
 export const GaugeLogo = styled.img`
     display: flex;
     user-select: none;

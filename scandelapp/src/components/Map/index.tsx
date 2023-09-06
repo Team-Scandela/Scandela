@@ -90,22 +90,6 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
         }
     },[isDark, lng, lat, zoom, geojsonData]);
 
-  // Fonction qui permet de filtrer les données en fonction du type de filtre
-    React.useEffect(() => {
-        if (map.current) {
-        map.current.setStyle(
-            isDark ? "mapbox://styles/mapbox/dark-v11" : "mapbox://styles/mapbox/light-v11"
-        );
-    } else {
-        map.current = new mapboxgl.Map({
-            container: mapContainer.current,
-            style: isDark ? "mapbox://styles/mapbox/dark-v11" : "mapbox://styles/mapbox/light-v11",
-            center: [lng, lat],
-            zoom: zoom,
-        });
-        loadMap(map.current);
-    }
-    }, [isDark, lng, lat, zoom, geojsonData]);
 
     React.useEffect(() => {
         for (const value in Filters) {
