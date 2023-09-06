@@ -6,7 +6,7 @@ import SearchBar from '../components/SearchBar'
 import { handleSearchUtils } from '../utils/searchUtils';
 import DecisionMenu from '../components/DecisionMenu'
 import EditInPdfPannel from '../components/EditInPdfPannel';
-import Gauges from '../components/Gauges';
+import {Gauges, PersonnalizedGauge} from '../components/Gauges';
 
 export enum Filters {
     pin = "pin",

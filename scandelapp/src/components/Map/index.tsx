@@ -164,19 +164,6 @@ const initializeMap = () => {
         initializeMap();
     }, [isDark, lng, lat, zoom]);
 
-    React.useEffect(() => {
-        for (const value in Filters) {
-            if (map.current.getLayer(value)) {
-                map.current.setLayoutProperty(value, 'visibility', 'none');
-        }
-    }
-        if (map.current.getLayer(filter)) {
-            map.current.setLayoutProperty(filter, 'visibility', 'visible');
-    }
-    console.log(filter);
-    }, [filter]);
-
-
   // Fonction qui permet de filtrer les données en fonction du type de filtre
     React.useEffect(() => {
         if (map.current) {
