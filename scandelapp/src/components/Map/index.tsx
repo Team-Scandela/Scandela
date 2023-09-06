@@ -183,6 +183,12 @@ const initializeMap = () => {
         map.current.setStyle(
             isDark ? "mapbox://styles/mapbox/dark-v11" : "mapbox://styles/mapbox/light-v11"
         );
+        map.current.flyTo({
+            center: [lng, lat],
+            zoom: zoom,
+            speed: 1.2, // Speed of the animation
+            curve: 1.42, // How the zooming is animated (curve factor)
+        });
     } else {
         map.current = new mapboxgl.Map({
             container: mapContainer.current,
