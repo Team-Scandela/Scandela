@@ -23,10 +23,10 @@ interface MapProps {
 const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
     // Référence à l'élément de conteneur de la carte
     const mapContainer = React.useRef<HTMLDivElement | null>(null);
-    
+
     // Référence à l'objet carte Mapbox
     const map = React.useRef<mapboxgl.Map | null>(null);
-    
+
     // Référence à l'objet Supercluster
     const cluster = React.useRef<Supercluster | null>(null);
 
@@ -164,18 +164,25 @@ const initializeMap = () => {
         initializeMap();
     }, [isDark, lng, lat, zoom]);
 
-    // Fonction qui permet de filtrer les données en fonction du type de filtre
+    React.useEffect(() => {
+        for (const value in Filters) {
+            if (map.current.getLayer(value)) {
+                map.current.setLayoutProperty(value, 'visibility', 'none');
+        }
+    }
+        if (map.current.getLayer(filter)) {
+            map.current.setLayoutProperty(filter, 'visibility', 'visible');
+    }
+    console.log(filter);
+    }, [filter]);
+
+
+  // Fonction qui permet de filtrer les données en fonction du type de filtre
     React.useEffect(() => {
         if (map.current) {
         map.current.setStyle(
             isDark ? "mapbox://styles/mapbox/dark-v11" : "mapbox://styles/mapbox/light-v11"
         );
-        map.current.flyTo({
-            center: [lng, lat],
-            zoom: zoom,
-            speed: 1.2, // Speed of the animation
-            curve: 1.42, // How the zooming is animated (curve factor)
-        });
     } else {
         map.current = new mapboxgl.Map({
             container: mapContainer.current,
