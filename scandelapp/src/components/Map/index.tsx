@@ -70,6 +70,18 @@ const initializeMap = () => {
         });
 
         map.current.on('load', () => {
+            map.current.on('mouseenter', 'lamp', () => {
+            if (map.current) {
+                map.current.getCanvas().style.cursor = 'pointer';
+            }
+            });
+            
+            map.current.on('mouseleave', 'lamp', () => {
+            if (map.current) {
+                map.current.getCanvas().style.cursor = '';
+            }
+            });
+
             if (!map.current?.getSource('points')) {
                 map.current.addSource('points', {
                     type: 'geojson',
@@ -128,7 +140,7 @@ const initializeMap = () => {
                 });
 
                 map.current.addLayer({
-                    'id': 'cluster-markers',
+                    'id': 'lamp',
                     'type': 'circle',
                     'source': 'points',
                     'filter': ['!', ['has', 'point_count']],
