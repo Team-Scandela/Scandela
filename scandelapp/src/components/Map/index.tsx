@@ -35,6 +35,9 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
     // Pour suivre l'ID du lampadaire sélectionné
     const [selectedLampId, setSelectedLampId] = React.useState<string | null>(null);
 
+    const [selectedLampFeature, setSelectedLampFeature] = React.useState<mapboxgl.MapboxGeoJSONFeature | null>(null);
+
+
     // Crée les données géoJSON à partir des données de Nantes
     const geojsonData = React.useMemo(() => {
         let geoJSON = {
@@ -82,8 +85,25 @@ const initializeMap = () => {
             if (features && features.length > 0) {
                 const selectedFeature = features[0];
                 setSelectedLampId(selectedFeature.properties.id);
+        
+                // Mettre à jour la couleur du lampadaire sélectionné en utilisant un filtre
+                map.current?.setPaintProperty('lamp', 'circle-color', [
+                    'case',
+                    ['==', ['get', 'id'], selectedFeature.properties.id],
+                    '#000000',
+                    '#FAC710',
+                ]);
+                map.current?.setPaintProperty('lamp', 'circle-stroke-color', [
+                    'case',
+                    ['==', ['get', 'id'], selectedFeature.properties.id],
+                    '#FAC710',
+                    '#F9F9F9',
+                ]);
+        
+                // Conserver une référence au lampadaire sélectionné
+                setSelectedLampFeature(selectedFeature);
             }
-        });                
+        });                       
 
         map.current.on('load', () => {
             map.current.on('mouseenter', 'lamp', () => {
@@ -249,8 +269,17 @@ const initializeMap = () => {
                 id={"LampInfosPopupComponentId"}
                 isDark={isDark}
                 selectedLampId={selectedLampId}
-                onClosePopup={() => setSelectedLampId(null)}
-
+                onClosePopup={() => {
+                    setSelectedLampId(null);
+                    
+                    // Rétablir la couleur du lampadaire précédemment sélectionné
+                    if (selectedLampFeature) {
+                        map.current?.setPaintProperty('lamp', 'circle-color', '#FAC710');
+                        map.current?.setPaintProperty('lamp', 'circle-stroke-color', '#F9F9F9');
+                        setSelectedLampFeature(null);
+                    }
+                }}
+                selectedLampFeature={selectedLampFeature} // Passer l'état du lampadaire sélectionné
               />
             )}
         </div>

@@ -7,10 +7,11 @@ interface LampInfosPopupProps {
   id : string,
   selectedLampId: string | null;
   onClosePopup: () => void;
+  selectedLampFeature: mapboxgl.MapboxGeoJSONFeature | null;
 
 }
 
-const LampInfosPopup: React.FC<LampInfosPopupProps> = ({ id, isDark, selectedLampId, onClosePopup }) => {
+const LampInfosPopup: React.FC<LampInfosPopupProps> = ({ id, isDark, selectedLampId, onClosePopup, selectedLampFeature }) => {
 
   // Fonction pour fermer le popup
   const closePopup = () => {
