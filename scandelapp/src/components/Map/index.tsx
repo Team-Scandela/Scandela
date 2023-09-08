@@ -3,6 +3,8 @@ import Supercluster from 'supercluster';
 import * as React from 'react';
 import { Filters } from '../../pages/main'
 import loadMap from './loadMap';
+import LampInfosPopup from '../LampInfosPopup';
+
 
 // Charge les données géographiques de Nantes depuis un fichier JSON local
 let nantesData = require('../../assets/nantesData.json');
@@ -29,6 +31,9 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
 
     // Référence à l'objet Supercluster
     const cluster = React.useRef<Supercluster | null>(null);
+
+    // Pour suivre l'ID du lampadaire sélectionné
+    const [selectedLampId, setSelectedLampId] = React.useState<string | null>(null);
 
     // Crée les données géoJSON à partir des données de Nantes
     const geojsonData = React.useMemo(() => {
@@ -68,6 +73,17 @@ const initializeMap = () => {
             center: [lng, lat],
             zoom: zoom,
         });
+
+        map.current.on('click', 'lamp', (e) => {
+            const features = map.current?.queryRenderedFeatures(e.point, {
+                layers: ['lamp'],
+            });
+        
+            if (features && features.length > 0) {
+                const selectedFeature = features[0];
+                setSelectedLampId(selectedFeature.properties.id);
+            }
+        });                
 
         map.current.on('load', () => {
             map.current.on('mouseenter', 'lamp', () => {
@@ -228,6 +244,15 @@ const initializeMap = () => {
                 display: none;
                 }`}
             </style>
+            {selectedLampId && (
+                <LampInfosPopup
+                id={"LampInfosPopupComponentId"}
+                isDark={isDark}
+                selectedLampId={selectedLampId}
+                onClosePopup={() => setSelectedLampId(null)}
+
+              />
+            )}
         </div>
     );
 };

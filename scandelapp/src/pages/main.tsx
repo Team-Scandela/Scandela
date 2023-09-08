@@ -6,7 +6,6 @@ import SearchBar from '../components/SearchBar'
 import { handleSearchUtils } from '../utils/searchUtils';
 import DecisionMenu from '../components/DecisionMenu'
 import EditInPdfPannel from '../components/EditInPdfPannel';
-import LampInfosPopup from '../components/LampInfosPopup';
 import {Gauges, PersonnalizedGauge} from '../components/Gauges';
 
 export enum Filters {
@@ -28,7 +27,6 @@ const Main: React.FC = () => {
     const [zoom, setZoom] = React.useState(12);
     const [isButtonEditInPdfClicked, setIsButtonEditInPdfClicked] = React.useState<boolean>(false);
 
-
     const handleSearch = (value: string) => {
         handleSearchUtils(value, lat, setLat, lng, setLng, zoom, setZoom);
     };
@@ -45,7 +43,6 @@ const Main: React.FC = () => {
             <DecisionMenu id={"decisionMenuComponentId"} isDark={isDark} handleButtonEditInPdfClick={handleButtonEditInPdfClick} isButtonEditInPdfClicked={isButtonEditInPdfClicked} />
             <EditInPdfPannel id={"editinPdfPannelComponentId"} isDark={isDark} isButtonEditInPdfClicked={isButtonEditInPdfClicked} />
             <Gauges id={"gaugesComponentId"} isDark={isDark} />
-            <LampInfosPopup id={"LampInfosPopupComponentId"} isDark={isDark} />
         </div>
     )
 }

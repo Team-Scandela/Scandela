@@ -5,28 +5,25 @@ import { PannelContainer, PopupText, PopupTextActions, PopupSubTextLampName, Pop
 interface LampInfosPopupProps {
   isDark: boolean;
   id : string,
+  selectedLampId: string | null;
+  onClosePopup: () => void;
+
 }
 
-const LampInfosPopup: React.FC<LampInfosPopupProps> = ({ id, isDark }) => {
-  const [isOpen, setIsOpen] = useState(true);
-  // Fonction pour ouvrir le popup
-  const openPopup = () => {
-    setIsOpen(true);
-  };
+const LampInfosPopup: React.FC<LampInfosPopupProps> = ({ id, isDark, selectedLampId, onClosePopup }) => {
 
   // Fonction pour fermer le popup
   const closePopup = () => {
-    setIsOpen(false);
+    onClosePopup();
   };
 
-  // Si le popup est fermé, n'affichez rien
-  if (!isOpen) {
+   // Si selectedLampId n'est pas défini, n'affichez rien
+   if (!selectedLampId) {
     return null;
   }
 
   return (
     <div id={id}>
-      {isOpen && (
         <PannelContainer isDark={isDark}>
           <CloseIcon isDark={isDark} onClick={closePopup}>X</CloseIcon>
           <PopupTextLampName isdark={isDark}> Lampadaire EPNA342002</PopupTextLampName>
@@ -56,7 +53,6 @@ const LampInfosPopup: React.FC<LampInfosPopupProps> = ({ id, isDark }) => {
             <PopupTextActions isDark={isDark} top="180px"> 100g de CO2/j </PopupTextActions>
           </ListDetailContainer>
         </PannelContainer>
-      )}
     </div>
   )
 }
