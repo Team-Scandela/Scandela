@@ -89,12 +89,13 @@ export const PopupTitle = styled.div`
 export const PopupTextActions = styled.div`
   position: absolute;
   top: ${props => props.top};
-  left: 80px;
+  left: 120px;
   font-size: 17px;
   user-select: none;
   color: ${props => (props.isDark ? 'White' : 'white')};
   font-weight: 400;
 `;
+
 
 export const CloseIcon = styled(AiFillCloseCircle)`
     position: absolute;
@@ -124,4 +125,3 @@ export const ListDetailContainer = styled.div`
     background-color: ${props => props.isDark ? Yellow + 'FF' : Black + 'FF'};
     border-radius: 30px;
 `;
-
