@@ -26,7 +26,7 @@ const EditInPdfPannel: React.FC<EditInPdfPannellProps> = ({ id, isDark, isButton
         <PannelText isDark={isDark}>Exporter les actions Sélectionnées</PannelText>
         <ExportButton isDark={isDark}>
           <ExportText isDark={isDark}>Télécharger le fichier PDF</ExportText>
-          <ExportIcon isDark={isDark} onClick={handleButtonClick} />
+          {isButtonEditInPdfClicked && <ExportIcon isDark={isDark} onClick={handleButtonClick} />}
         </ExportButton>
       </PannelContainer>
     </div>
