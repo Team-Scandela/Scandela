@@ -67,7 +67,7 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({ id, isDark, handleButtonEdi
                                 ))}
                             </DropdownMenu>
                         )}
-                        <LogoContainer src={logoDark} />
+                        <LogoContainer draggable="false" src={logoDark} />
                     </DecisionPanelContentContainer>
                 </DecisionPanel>
             </DecisionMenuContainer>

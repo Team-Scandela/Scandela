@@ -40,17 +40,17 @@ const LampInfosPopup: React.FC<LampInfosPopupProps> = ({ id, isDark, selectedLam
           <PopupText isDark={isDark} top="250px"> 3,7m </PopupText>
   
           <PopupTextInfoTitle isdark={isDark} top="300px"> Consommation</PopupTextInfoTitle>
-          <img src={images.flash} alt="Flash" style={{ position: 'absolute', top: '340px', left: '50px', width: '20px' }} />
+          <img src={images.flash} alt="Flash" draggable="false" style={{ position: 'absolute', top: '340px', left: '50px', width: '20px', userSelect: 'none' }} />
           <PopupText isDark={isDark} top="350px"> 50 kW/h </PopupText>
-          <img src={images.leaf} alt="Flash" style={{ position: 'absolute', top: '390px', left: '50px', width: '20px' }} />
+          <img src={images.leaf} alt="Flash" draggable="false" style={{ position: 'absolute', top: '390px', left: '50px', width: '20px', userSelect: 'none' }} />
           <PopupText isDark={isDark} top="390px"> 20g de CO/h </PopupText>
           <ListDetailContainer isDark={isDark}>
             <PopupTextActionsTitle isdark={isDark} top="10px"> Action possible</PopupTextActionsTitle>
             <PopupTextActions isDark={isDark} top="60px"> Eteindre de 0h00 à 5h00 </PopupTextActions>
-            <img src={images.switch_off} alt="Flash" style={{ position: 'absolute', top: '50px', left: '32px', width: '40px' }} />
+            <img src={images.switch_off} alt="Flash" draggable="false" style={{ position: 'absolute', top: '50px', left: '32px', width: '40px', userSelect: 'none' }} />
   
             <PopupTextActionsTitle isdark={isDark} top="110px"> Conséquences</PopupTextActionsTitle>
-            <img src={images.descending_icon} alt="Flash" style={{ position: 'absolute', top: '150px', left: '30px', width: '50px' }} />
+            <img src={images.descending_icon} alt="Flash" draggable="false" style={{ position: 'absolute', top: '150px', left: '30px', width: '50px', userSelect: 'none' }} />
             <PopupTextActions isDark={isDark} top="160px"> 250 kW/j </PopupTextActions>
             <PopupTextActions isDark={isDark} top="180px"> 100g de CO2/j </PopupTextActions>
           </ListDetailContainer>

@@ -100,6 +100,7 @@ export const DropdownContainer = styled.div`
   position: absolute;
   display: flex;
   align-items: center;
+  user-select: none;
   justify-content: space-between;
   left: 4%;
   top: 3%;

@@ -29,21 +29,21 @@ export const Gauges: React.FC<GaugesProps> = ({ id, isDark }) => {
                 <GaugeBackground src={isDark ? images.left : images.leftLight} />
                 <GaugeLevelLeft level={levelElec} />
                 <GaugeOldLevel color={diffLevelElec > 0 ? Red : Green} level={levelElec} diffLevel={diffLevelElec} />
-                <GaugeLogo src={isDark ? images.elec : images.elecLight} />
+                <GaugeLogo draggable="false" src={isDark ? images.elec : images.elecLight} />
             </GaugeContainerLeft>
 
             <GaugeContainerMiddle>
                 <GaugeBackground src={isDark ? images.middle : images.middleLight} />
                 <GaugeLevelMiddle level={levelBio} />
                 <GaugeOldLevel color={diffLevelBio > 0 ? Red : Green} level={levelBio} diffLevel={diffLevelBio} />
-                <GaugeLogo src={isDark ? images.bio : images.bioLight} />
+                <GaugeLogo draggable="false" src={isDark ? images.bio : images.bioLight} />
             </GaugeContainerMiddle>
 
             <GaugeContainerRight>
                 <GaugeBackground src={isDark ? images.right : images.rightLight} />
                 <GaugeLevelRight level={levelLumi} />
                 <GaugeOldLevel color={diffLevelLumi > 0 ? Red : Green} level={levelLumi} diffLevel={diffLevelLumi} />
-                <GaugeLogo src={isDark ? images.lumi : images.lumiLight} />
+                <GaugeLogo draggable="false" src={isDark ? images.lumi : images.lumiLight} />
             </GaugeContainerRight>
         </div>
     )
