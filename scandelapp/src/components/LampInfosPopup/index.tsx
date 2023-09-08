@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { PannelContainer, PopupText, PopupTextActions, PopupSubTextLampName, PopupTextActionsTitle, PopupTextInfoTitle, PopupTextLampName, CloseIcon, ListDetailContainer} from './elements';
+import { PannelContainer, PopupText, PopupTitle, PopupTextActions, PopupSubTextLampName, PopupTextActionsTitle, PopupTextInfoTitle, PopupTextLampName, CloseIcon, ListDetailContainer} from './elements';
 
 interface LampInfosPopupProps {
   isDark: boolean;
@@ -31,11 +31,11 @@ const LampInfosPopup: React.FC<LampInfosPopupProps> = ({ id, isDark, selectedLam
           <PopupSubTextLampName isdark={isDark} top="70px"> Chemin de la Censive du Tertre</PopupSubTextLampName>
           
           <PopupTextInfoTitle isdark={isDark} top="120px"> Informations</PopupTextInfoTitle>
-          {/* logo bulbe/designation */}
+          <PopupTitle isDark={isDark} top="170px"> Type Lampe </PopupTitle>
           <PopupText isDark={isDark} top="170px"> SHP T 70 E27 2000 220 - </PopupText>
-          {/* logo foyer */}
+          <PopupTitle isDark={isDark} top="210px"> Type Foyer </PopupTitle>
           <PopupText isDark={isDark} top="210px"> ALURA DIRECT </PopupText>
-          {/* logo hauteur */}
+          <PopupTitle isDark={isDark} top="250px"> Hauteur </PopupTitle>
           <PopupText isDark={isDark} top="250px"> 3,7m </PopupText>
   
           <PopupTextInfoTitle isdark={isDark} top="300px"> Consommation</PopupTextInfoTitle>

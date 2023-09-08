@@ -66,11 +66,20 @@ export const PopupSubTextLampName = styled.div`
   text-align: center;
 `;
 
-
 export const PopupText = styled.div`
   position: absolute;
   top: ${props => props.top};
-  left: 100px;
+  left: 160px;
+  font-size: 17px;
+  user-select: none;
+  color: ${props => (props.isDark ? 'White' : 'white')};
+  font-weight: 400;
+`;
+
+export const PopupTitle = styled.div`
+  position: absolute;
+  top: ${props => props.top};
+  left: 30px;
   font-size: 17px;
   user-select: none;
   color: ${props => (props.isDark ? 'White' : 'white')};
