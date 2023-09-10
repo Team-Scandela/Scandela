@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { PannelContainer, PannelText, CloseIcon, ListDetailContainer, WarningIcon, EventContainer, ArrowIcon, EventText, EventTextContainer, IndicatorsImage} from './elements';
 import ToggleBButtonAbscencePannelButton from '../ButtonAbscencePannel';
+import { PersonnalizedGauge } from '../Gauges';
 
 interface AbsencePannelProps {
   id: string;
@@ -48,6 +49,10 @@ const AbsencePannel: React.FC<AbsencePannelProps> = ({id, isDark }) => {
             <ArrowIcon isDark={isDark} />
           </EventContainer>
         </ListDetailContainer>
+        <PersonnalizedGauge id={"ElecGaugesComponentId"} isDark={isDark} isElec={true} isBio={false} isLumi={false} level={70} oldLevel={50} top={130} left={770} />
+        <PersonnalizedGauge id={"BioGaugesComponentId"} isDark={isDark} isElec={false} isBio={true} isLumi={false} level={75} oldLevel={85} top={240} left={770} />
+        <PersonnalizedGauge id={"LumiGaugesComponentId"} isDark={isDark} isElec={false} isBio={false} isLumi={true} level={30} oldLevel={20} top={350} left={770} />
+
       </PannelContainer>
     </div>
   );

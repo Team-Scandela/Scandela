@@ -25,7 +25,7 @@ export const GaugeContainerRight = styled(GaugeContainer)`
 
 export const GaugeContainerPersonnalized = styled(GaugeContainer)`
     top: ${props => props.top}px;
-    right: ${props => props.right}px;
+    left: ${props => props.left}px;
 `;
 
 export const GaugeBackground = styled.img`
