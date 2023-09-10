@@ -6,7 +6,7 @@ import SearchBar from '../components/SearchBar'
 import { handleSearchUtils } from '../utils/searchUtils';
 import DecisionMenu from '../components/DecisionMenu'
 import EditInPdfPannel from '../components/EditInPdfPannel';
-import DuringYourAbsencePannel from '../components/DuringYourAbsencePannel';
+import AbsencePannel from '../components/AbsencePannel';
 import {Gauges, PersonnalizedGauge} from '../components/Gauges';
 
 export enum Filters {
@@ -45,7 +45,7 @@ const Main: React.FC = () => {
             <DecisionMenu id={"decisionMenuComponentId"} isDark={isDark} handleButtonEditInPdfClick={handleButtonEditInPdfClick} isButtonEditInPdfClicked={isButtonEditInPdfClicked} />
             <EditInPdfPannel id={"editinPdfPannelComponentId"} isDark={isDark} isButtonEditInPdfClicked={isButtonEditInPdfClicked} />
             <Gauges id={"gaugesComponentId"} isDark={isDark} />
-            <DuringYourAbsencePannel id={"DuringPannelComponentId"} isDark={isDark} />
+            <AbsencePannel id={"DuringPannelComponentId"} isDark={isDark} />
         </div>
     )
 }

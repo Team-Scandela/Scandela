@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import { PannelContainer, PannelText, CloseIcon, ListDetailContainer, WarningIcon, EventContainer, ArrowIcon, EventText, EventTextContainer, IndicatorsImage} from './elements';
-import indicators from '../../assets/Indicators.png';
 import ToggleBButtonAbscencePannelButton from '../ButtonAbscencePannel';
 
-interface DuringYourAbsencePannelProps {
+interface AbsencePannelProps {
   id: string;
   isDark: boolean;
 }
 
-const DuringYourAbsencePannel: React.FC<DuringYourAbsencePannelProps> = ({id, isDark }) => {
+const AbsencePannel: React.FC<AbsencePannelProps> = ({id, isDark }) => {
 
   const [isPanelOpen, setPanelOpen] = useState(false);
 
@@ -49,10 +48,9 @@ const DuringYourAbsencePannel: React.FC<DuringYourAbsencePannelProps> = ({id, is
             <ArrowIcon isDark={isDark} />
           </EventContainer>
         </ListDetailContainer>
-        <IndicatorsImage src={indicators} alt="Indicators" />
       </PannelContainer>
     </div>
   );
 };
 
-export default DuringYourAbsencePannel;
+export default AbsencePannel;
