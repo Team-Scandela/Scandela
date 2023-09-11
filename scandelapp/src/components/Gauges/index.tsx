@@ -84,7 +84,7 @@ export const PersonnalizedGauge: React.FC<PersonnalizedGaugeProps> = ({ id, isDa
                 <GaugeBackground src={isDark ? images.middle : images.middleLight} />
                 <GaugeLevelMiddle level={level} />
                 <GaugeOldLevel color={diffLevel > 0 ? Red : Green} level={level} diffLevel={diffLevel} />
-                <GaugeLogo src={logo} />
+                <GaugeLogo draggable="false" src={logo} />
             </GaugeContainerPersonnalized>
         </div>
     )
