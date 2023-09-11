@@ -35,7 +35,7 @@ public class Town implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "id", updatable = false, nullable = false)
 	private Long id;
-	//TODO eviter la boucle
+
 	@OneToMany(mappedBy = "town", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	private List<Hood> hoods;
 

@@ -3,6 +3,7 @@ package com.scandela.server.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +16,7 @@ import com.scandela.server.entity.Town;
 import com.scandela.server.exception.TownException;
 import com.scandela.server.service.ITownService;
 
+@CrossOrigin//TODO a changer dans le future en mettant un access token
 @RestController
 @RequestMapping(value = "/towns")
 public class TownController extends AbstractController {

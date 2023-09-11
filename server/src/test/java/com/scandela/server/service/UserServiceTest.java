@@ -20,6 +20,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.dao.DataIntegrityViolationException;
 
+import com.scandela.server.dao.TownDao;
 import com.scandela.server.dao.UserDao;
 import com.scandela.server.entity.Town;
 import com.scandela.server.entity.User;
@@ -36,6 +37,9 @@ public class UserServiceTest {
 	
 	@Mock
 	private UserDao userDaoMock;
+	
+	@Mock
+	private TownDao townDaoMock;
 	
 	private final long id = 1;
 	private final String email = "test@test.test";
@@ -158,10 +162,12 @@ public class UserServiceTest {
 	@Test
 	public void testCreate() throws UserException {
 		when(userDaoMock.save(Mockito.any(User.class))).thenReturn(user);
+		when(townDaoMock.findById(Mockito.anyLong())).thenReturn(Optional.ofNullable(town));
 		
 		User result = testedObject.create(user);
 
 		verify(userDaoMock, times(1)).save(Mockito.any(User.class));
+		verify(townDaoMock, times(1)).findById(Mockito.anyLong());
 		assertThat(result.getId()).isEqualTo(user.getId());
 		assertThat(result.getTown()).isEqualTo(user.getTown());
 		assertThat(result.getEmail()).isEqualTo(user.getEmail());
@@ -177,11 +183,10 @@ public class UserServiceTest {
 	public void testCreate_whenTownIsNull_thenThrowUserException() {
 		user.setTown(null);
 
-		when(userDaoMock.save(Mockito.any(User.class))).thenThrow(DataIntegrityViolationException.class);
-		
 		UserException result = assertThrows(UserException.class, () -> testedObject.create(user));
 
-		verify(userDaoMock, times(1)).save(Mockito.any(User.class));
+		verify(userDaoMock, times(0)).save(Mockito.any(User.class));
+		verify(townDaoMock, times(0)).findById(Mockito.anyLong());
 		assertThat(result.getMessage()).isEqualTo(UserException.INCOMPLETE_INFORMATIONS);
 	}
 	
@@ -190,10 +195,12 @@ public class UserServiceTest {
 		user.setEmail(null);
 
 		when(userDaoMock.save(Mockito.any(User.class))).thenThrow(DataIntegrityViolationException.class);
+		when(townDaoMock.findById(Mockito.anyLong())).thenReturn(Optional.ofNullable(town));
 		
 		UserException result = assertThrows(UserException.class, () -> testedObject.create(user));
 
 		verify(userDaoMock, times(1)).save(Mockito.any(User.class));
+		verify(townDaoMock, times(1)).findById(Mockito.anyLong());
 		assertThat(result.getMessage()).isEqualTo(UserException.INCOMPLETE_INFORMATIONS);
 	}
 	
@@ -202,20 +209,25 @@ public class UserServiceTest {
 		user.setUsername(null);
 
 		when(userDaoMock.save(Mockito.any(User.class))).thenThrow(DataIntegrityViolationException.class);
+		when(townDaoMock.findById(Mockito.anyLong())).thenReturn(Optional.ofNullable(town));
 		
 		UserException result = assertThrows(UserException.class, () -> testedObject.create(user));
 
 		verify(userDaoMock, times(1)).save(Mockito.any(User.class));
+		verify(townDaoMock, times(1)).findById(Mockito.anyLong());
 		assertThat(result.getMessage()).isEqualTo(UserException.INCOMPLETE_INFORMATIONS);
 	}
 	
 	@Test
 	public void testCreate_whenPasswordIsNull_thenThrowUserException() {
 		user.setPassword(null);
+		
+		when(townDaoMock.findById(Mockito.anyLong())).thenReturn(Optional.ofNullable(town));
 
 		UserException result = assertThrows(UserException.class, () -> testedObject.create(user));
 
 		verify(userDaoMock, times(0)).save(Mockito.any(User.class));
+		verify(townDaoMock, times(1)).findById(Mockito.anyLong());
 		assertThat(result.getMessage()).isEqualTo(UserException.INCOMPLETE_INFORMATIONS);
 	}
 	
@@ -224,11 +236,24 @@ public class UserServiceTest {
 		user.setRole(null);
 
 		when(userDaoMock.save(Mockito.any(User.class))).thenThrow(DataIntegrityViolationException.class);
+		when(townDaoMock.findById(Mockito.anyLong())).thenReturn(Optional.ofNullable(town));
 		
 		UserException result = assertThrows(UserException.class, () -> testedObject.create(user));
 
 		verify(userDaoMock, times(1)).save(Mockito.any(User.class));
+		verify(townDaoMock, times(1)).findById(Mockito.anyLong());
 		assertThat(result.getMessage()).isEqualTo(UserException.INCOMPLETE_INFORMATIONS);
+	}
+	
+	@Test
+	public void testCreate_whenTownNotFound_thenThrowUserException() throws UserException {
+		when(townDaoMock.findById(Mockito.anyLong())).thenReturn(Optional.empty());
+		
+		UserException result = assertThrows(UserException.class, () -> testedObject.create(user));
+
+		verify(userDaoMock, times(0)).save(Mockito.any(User.class));
+		verify(townDaoMock, times(1)).findById(Mockito.anyLong());
+		assertThat(result.getMessage()).isEqualTo(UserException.TOWN_LOADING);
 	}
 	
 	@Test

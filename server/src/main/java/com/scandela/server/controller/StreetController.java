@@ -12,63 +12,63 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.scandela.server.entity.Hood;
-import com.scandela.server.exception.HoodException;
-import com.scandela.server.service.IHoodService;
+import com.scandela.server.entity.Street;
+import com.scandela.server.exception.StreetException;
+import com.scandela.server.service.IStreetService;
 
 @CrossOrigin//TODO a changer dans le future en mettant un access token
 @RestController
-@RequestMapping(value = "/hoods")
-public class HoodController extends AbstractController {
+@RequestMapping(value = "/streets")
+public class StreetController extends AbstractController {
 
 	// Attributes \\
 		// Private \\
 	@Autowired
-	private IHoodService hoodService;
+	private IStreetService streetService;
 
 	// Methods \\
 		// Public \\
 	/**
-	 * Get all hoods
+	 * Get all streets
 	 * 
-	 * @return allHoods
+	 * @return allStreets
 	 */
 	@GetMapping
-	public List<Hood> getHoods() {
-		return hoodService.getAll();
+	public List<Street> getStreets() {
+		return streetService.getAll();
 	}
 
 	/**
-	 * Get hood by id
+	 * Get street by id
 	 * 
 	 * @param id
-	 * @return hood
+	 * @return street
 	 */
 	@GetMapping("/{id}")
-	public Hood getHood(@PathVariable long id) {
-		return hoodService.get(id);
+	public Street getStreet(@PathVariable long id) {
+		return streetService.get(id);
 	}
 
 	/**
-	 * Create new hood
+	 * Create new street
 	 * 
-	 * @param newHood
-	 * @return newHood
-	 * @throws HoodException
+	 * @param newStreet
+	 * @return newStreet
+	 * @throws StreetException
 	 */
 	@PostMapping("/create")
-	public Hood createHood(@RequestBody Hood newHood) throws Exception {
-		return hoodService.create(newHood);
+	public Street createStreet(@RequestBody Street newStreet) throws Exception {
+		return streetService.create(newStreet);
 	}
 
 	/**
-	 * Delete hood
+	 * Delete street
 	 * 
-	 * @param hood
+	 * @param street
 	 */
 	@DeleteMapping("/delete")
-	public void deleteHood(@RequestBody Hood hood) {
-		hoodService.delete(hood);
+	public void deleteStreet(@RequestBody Street street) {
+		streetService.delete(street);
 	}
 
 }
