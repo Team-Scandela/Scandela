@@ -57,7 +57,7 @@ public class TownServiceTest {
 	// Methods \\
 		// Public \\
 	@Test
-	public void testGetTowns() {
+	public void testGetAll() {
 		when(townDaoMock.findAll()).thenReturn(Arrays.asList(town));
 		
 		List<Town> result = testedObject.getAll();
@@ -75,7 +75,7 @@ public class TownServiceTest {
 	}
 	
 	@Test
-	public void testGetTowns_whenManyTowns_thenReturnManyDtos() {
+	public void testGetAll_whenManyTowns_thenReturnManyTowns() {
 		Town town2 = Town.builder()
 				.id(Long.valueOf(2))
 				.name("Test2")
@@ -97,7 +97,7 @@ public class TownServiceTest {
 	}
 	
 	@Test
-	public void testGetTowns_whenNoTown_thenReturnEmptyList() {
+	public void testGetAll_whenNoTown_thenReturnEmptyList() {
 		when(townDaoMock.findAll()).thenReturn(Arrays.asList());
 		
 		List<Town> result = testedObject.getAll();
@@ -107,7 +107,7 @@ public class TownServiceTest {
 	}
 
 	@Test
-	public void testGetTown() {
+	public void testGet() {
 		when(townDaoMock.findById(id)).thenReturn(Optional.of(town));
 		
 		Town result = testedObject.get(id);
@@ -123,7 +123,7 @@ public class TownServiceTest {
 	}
 	
 	@Test
-	public void testGetTown_whenIdNonExistant_thenReturnNull() {
+	public void testGet_whenIdNonExistant_thenReturnNull() {
 		when(townDaoMock.findById(id)).thenReturn(Optional.empty());
 		
 		Town result = testedObject.get(id);
@@ -133,7 +133,7 @@ public class TownServiceTest {
 	}
 	
 	@Test
-	public void testCreateTown() throws TownException {
+	public void testCreate() throws TownException {
 		when(townDaoMock.save(Mockito.any(Town.class))).thenReturn(town);
 		
 		Town result = testedObject.create(town);
@@ -149,7 +149,7 @@ public class TownServiceTest {
 	}
 	
 	@Test
-	public void testCreateTown_whenNameIsNull_thenReturnThrowTownException() {
+	public void testCreate_whenNameIsNull_thenReturnThrowTownException() {
 		town.setName(null);
 
 		when(townDaoMock.save(Mockito.any(Town.class))).thenThrow(DataIntegrityViolationException.class);
@@ -161,7 +161,7 @@ public class TownServiceTest {
 	}
 	
 	@Test
-	public void testCreateTown_whenLatitudeIsNull_thenReturnThrowTownException() {
+	public void testCreate_whenLatitudeIsNull_thenReturnThrowTownException() {
 		town.setLatitude(null);
 
 		when(townDaoMock.save(Mockito.any(Town.class))).thenThrow(DataIntegrityViolationException.class);
@@ -173,7 +173,7 @@ public class TownServiceTest {
 	}
 	
 	@Test
-	public void testCreateTown_whenLongitudeIsNull_thenReturnThrowTownException() {
+	public void testCreate_whenLongitudeIsNull_thenReturnThrowTownException() {
 		town.setLongitude(null);
 
 		when(townDaoMock.save(Mockito.any(Town.class))).thenThrow(DataIntegrityViolationException.class);
@@ -185,7 +185,7 @@ public class TownServiceTest {
 	}
 	
 	@Test
-	public void testCreateTown_whenElectricityPriceIsNull_thenReturnThrowTownException() {
+	public void testCreate_whenElectricityPriceIsNull_thenReturnThrowTownException() {
 		town.setElectricityPrice(null);
 
 		when(townDaoMock.save(Mockito.any(Town.class))).thenThrow(DataIntegrityViolationException.class);
@@ -197,7 +197,7 @@ public class TownServiceTest {
 	}
 	
 	@Test
-	public void testCreateTown_whenIndiceElectricityIsNull_thenReturnThrowTownException() {
+	public void testCreate_whenIndiceElectricityIsNull_thenReturnThrowTownException() {
 		town.setIndiceElectricity(null);
 
 		when(townDaoMock.save(Mockito.any(Town.class))).thenThrow(DataIntegrityViolationException.class);
@@ -209,7 +209,7 @@ public class TownServiceTest {
 	}
 	
 	@Test
-	public void testCreateTown_whenIndiceEcologyIsNull_thenReturnThrowTownException() {
+	public void testCreate_whenIndiceEcologyIsNull_thenReturnThrowTownException() {
 		town.setIndiceEcology(null);
 
 		when(townDaoMock.save(Mockito.any(Town.class))).thenThrow(DataIntegrityViolationException.class);
@@ -221,7 +221,7 @@ public class TownServiceTest {
 	}
 	
 	@Test
-	public void testCreateTown_whenIndiceQualityIsNull_thenReturnThrowTownException() {
+	public void testCreate_whenIndiceQualityIsNull_thenReturnThrowTownException() {
 		town.setIndiceQuality(null);
 
 		when(townDaoMock.save(Mockito.any(Town.class))).thenThrow(DataIntegrityViolationException.class);
@@ -233,7 +233,7 @@ public class TownServiceTest {
 	}
 
 	@Test
-	public void testDeleteTown() {
+	public void testDelete() {
 		testedObject.delete(town);
 
 		verify(townDaoMock, times(1)).delete(town);

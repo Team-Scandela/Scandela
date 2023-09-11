@@ -67,7 +67,7 @@ public class UserServiceTest {
 	// Methods \\
 		// Public \\
 	@Test
-	public void testGetUsers() {
+	public void testGetAll() {
 		when(userDaoMock.findAll()).thenReturn(Arrays.asList(user));
 		
 		List<User> result = testedObject.getAll();
@@ -87,7 +87,7 @@ public class UserServiceTest {
 	}
 	
 	@Test
-	public void testGetUsers_whenManyUsers_thenReturnManyDtos() {
+	public void testGetAll_whenManyUsers_thenReturnManyUsers() {
 		Town town2 = Town.builder()
 				.id(Long.valueOf(2))
 				.name("Test2")
@@ -118,7 +118,7 @@ public class UserServiceTest {
 	}
 	
 	@Test
-	public void testGetUsers_whenNoUser_thenReturnEmptyList() {
+	public void testGetAll_whenNoUser_thenReturnEmptyList() {
 		when(userDaoMock.findAll()).thenReturn(Arrays.asList());
 		
 		List<User> result = testedObject.getAll();
@@ -128,7 +128,7 @@ public class UserServiceTest {
 	}
 
 	@Test
-	public void testGetUser() {
+	public void testGet() {
 		when(userDaoMock.findById(id)).thenReturn(Optional.of(user));
 		
 		User result = testedObject.get(id);
@@ -146,7 +146,7 @@ public class UserServiceTest {
 	}
 	
 	@Test
-	public void testGetUser_whenIdNonExistant_thenReturnNull() {
+	public void testGet_whenIdNonExistant_thenReturnNull() {
 		when(userDaoMock.findById(id)).thenReturn(Optional.empty());
 		
 		User result = testedObject.get(id);
@@ -156,7 +156,7 @@ public class UserServiceTest {
 	}
 	
 	@Test
-	public void testCreateUser() throws UserException {
+	public void testCreate() throws UserException {
 		when(userDaoMock.save(Mockito.any(User.class))).thenReturn(user);
 		
 		User result = testedObject.create(user);
@@ -232,7 +232,7 @@ public class UserServiceTest {
 	}
 	
 	@Test
-	public void testDeleteUser() {
+	public void testDelete() {
 		testedObject.delete(user);
 
 		verify(userDaoMock, times(1)).delete(user);
