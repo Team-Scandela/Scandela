@@ -40,7 +40,6 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({ isDark, handleButtonEditInP
     const [items, setItems] = React.useState([]);
 
     const handleChildCheckboxChange = (id: number, isChecked: boolean) => {
-        console.log(id);
         const updatedData = [...optimisationTemplateData];
         updatedData[id].selected = isChecked;
         handleOptimisationTemplateDataChange(updatedData);

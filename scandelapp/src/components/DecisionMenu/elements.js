@@ -75,7 +75,7 @@ export const DecisionPanelContentContainer = styled.div`
   display: flex;
   position: absolute;
   width: 435px;
-  height: 530px;
+  height: 450px;
   left: 30px;
   top: 100px;
   border-radius: 15px;
@@ -89,7 +89,7 @@ export const LogoContainer = styled.img`
   display: flex;
   position: absolute;
   height: 60%;
-  left: 20%;
+  left: 12%;
   top: 20%;
   user-select: none;
   opacity: 0.3;
@@ -140,7 +140,7 @@ export const DropdownMenu = styled.div`
   left: 4%;
   top: 13%;
   width: 400px;
-  max-height: 400px;
+  max-height: 85%;
   background-color: ${props => props.isDark ? White : White};
   color: ${props => props.isDark ? Black : Black};
   padding: 10px;
@@ -182,7 +182,7 @@ export const ScrollableOptimisationsContainer = styled.div`
   left: 4%;
   top: 13%;
   width: 400px;
-  height: 400px;
+  height: 77%;
   overflow-y: auto;
   border-radius: 5px;
   background-color: ${props => props.isDark ? Black + 'FF' : Yellow + 'FF'};

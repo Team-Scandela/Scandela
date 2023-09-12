@@ -25,13 +25,7 @@ const Main: React.FC = () => {
                                                                                     {id: 4, saved: false, selected: false, type: "Réduire intensité lampadaire"},
                                                                                     {id: 5, saved: false, selected: false, type: "Changer ampoule lampadaire"},
                                                                                     {id: 6, saved: false, selected: false, type: "Ajouter lampadaire"},
-                                                                                    {id: 7, saved: false, selected: false, type: "Retirer lampadaire"},
-                                                                                    {id: 8, saved: false, selected: false, type: "Lampadaire intelligent"},
-                                                                                    {id: 9, saved: false, selected: false, type: "Réduire intensité lampadaire"},
-                                                                                    {id: 10, saved: false, selected: false, type: "Éteindre lampadaire"},
-                                                                                    {id: 11, saved: false, selected: false, type: "Allumer lampadaire"},
-                                                                                    {id: 12, saved: false, selected: false, type: "Lampadaire intelligent"},
-                                                                                    {id: 13, saved: false, selected: false, type: "Éteindre lampadaire"}]);
+                                                                                    {id: 7, saved: false, selected: false, type: "Retirer lampadaire"}]);
 
     const handleSearch = (value: string) => {
         handleSearchUtils(value, lat, setLat, lng, setLng, zoom, setZoom);
@@ -42,7 +36,6 @@ const Main: React.FC = () => {
 
     const handleOptimisationTemplateDataChange = (data: any) => {
         setOptimisationTemplateData(data);
-        console.log(optimisationTemplateData);
     };
 
     const handleButtonSelectAllClick = () => {
