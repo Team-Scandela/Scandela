@@ -6,7 +6,8 @@ import SearchBar from '../components/SearchBar'
 import { handleSearchUtils } from '../utils/searchUtils';
 import DecisionMenu from '../components/DecisionMenu'
 import EditInPdfPannel from '../components/EditInPdfPannel';
-import Gauges from '../components/Gauges';
+import AbsencePannel from '../components/AbsencePannel';
+import { Gauges } from '../components/Gauges';
 
 export enum Filters {
     pin = "pin",
@@ -44,6 +45,7 @@ const Main: React.FC = () => {
             <DecisionMenu id={"decisionMenuComponentId"} isDark={isDark} handleButtonEditInPdfClick={handleButtonEditInPdfClick} isButtonEditInPdfClicked={isButtonEditInPdfClicked} />
             <EditInPdfPannel id={"editinPdfPannelComponentId"} isDark={isDark} isButtonEditInPdfClicked={isButtonEditInPdfClicked} />
             <Gauges id={"gaugesComponentId"} isDark={isDark} />
+            <AbsencePannel id={"DuringPannelComponentId"} isDark={isDark} />
         </div>
     )
 }
