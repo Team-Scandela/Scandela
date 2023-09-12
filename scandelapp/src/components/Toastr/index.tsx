@@ -6,13 +6,14 @@ import 'react-toastify/dist/ReactToastify.css';
  * @param {boolean} isDark - If the map is in dark mode or not
  */
 interface ToastrProps {
+  id : string;
   isDark: boolean;
 }
 
-const Toastr: React.FC<ToastrProps> = ({ isDark}) => {
+const Toastr: React.FC<ToastrProps> = ({ id, isDark}) => {
   return (
     <div>
-      <ToastContainer limit="1"/>
+      <ToastContainer limit={2} />
     </div>
   );
 };

@@ -8,12 +8,13 @@ import { ActionsListContainer, ActionsListButton, ActionsListPanel, ScrollableOp
  * @param {any} optimisationTemplateData - List of list about optimsiations template datas
 */
 interface ActionsListProps {
+    id : string;
     isDark: boolean;
     decisionPanelExtended: boolean;
     optimisationTemplateData: any;
 }
 
-const ActionsList: React.FC<ActionsListProps> = ({ isDark, decisionPanelExtended, optimisationTemplateData }) => {
+const ActionsList: React.FC<ActionsListProps> = ({ id, isDark, decisionPanelExtended, optimisationTemplateData }) => {
   const [actionsListExtended, setActionsListExtended] = React.useState(false);
 
   useEffect(() => {

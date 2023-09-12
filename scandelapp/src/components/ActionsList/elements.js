@@ -55,7 +55,7 @@ export const ScrollableOptimisationsContainer = styled.div`
   top: 2%;
   width: 400px;
   height: 430px;
-  overflow-y: auto;
+  overflow-y: scroll;
   border-radius: 5px;
   background-color: ${props => props.isDark ? Black + 'FF' : Yellow + 'FF'};
 `;

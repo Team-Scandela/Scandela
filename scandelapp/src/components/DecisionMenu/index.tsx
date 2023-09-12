@@ -25,6 +25,7 @@ import { showToast } from '../Toastr';
  * @param {string} currentSelected - Current selected optimisation type
 */
 interface DecisionMenuProps {
+    id : string,
     isDark: boolean;
     handleButtonEditInPdfClick: () => void;
     isButtonEditInPdfClicked: boolean;
@@ -37,7 +38,7 @@ interface DecisionMenuProps {
     currentSelected: string;
 }
 
-const DecisionMenu: React.FC<DecisionMenuProps> = ({ isDark, handleButtonEditInPdfClick, isButtonEditInPdfClicked, 
+const DecisionMenu: React.FC<DecisionMenuProps> = ({ id, isDark, handleButtonEditInPdfClick, isButtonEditInPdfClicked, 
                                                              handleToggleDecisionPanelExtend, decisionPanelExtended,
                                                              handleOptimisationTemplateDataChange, optimisationTemplateData, 
                                                              handleButtonSelectAllClick, 
@@ -99,7 +100,7 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({ isDark, handleButtonEditInP
     };
 
     return (
-        <div>
+        <div id={id}>
             <DecisionMenuContainer>
                 <DecisionMenuButton onClick={() => handleDecisionPanelButtonClick()} isDark={isDark} show={decisionPanelExtended}>
                     {decisionPanelExtended ? <DecisionIconRight size={50}/> : <DecisionIconLeft size={50}/>}

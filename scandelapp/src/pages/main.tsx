@@ -6,15 +6,25 @@ import SearchBar from '../components/SearchBar'
 import { handleSearchUtils } from '../utils/searchUtils';
 import DecisionMenu from '../components/DecisionMenu'
 import EditInPdfPannel from '../components/EditInPdfPannel';
-import Gauges from '../components/Gauges';
 import ActionsList from '../components/ActionsList'
 import Toastr from '../components/Toastr';
+import AbsencePannel from '../components/AbsencePannel';
+import { Gauges } from '../components/Gauges';
 
+export enum Filters {
+    pin = "pin",
+    zone = "zone",
+    pinColor = "pinColor",
+    filter = "filter",
+    traffic = "traffic",
+    cabinet = "cabinet",
+    none = "none"
+}
 
 /** Main page of the app */
 const Main: React.FC = () => {
     const [isDark, setIsDark] = React.useState<boolean>(true);
-    const [filter, setFilter] = React.useState<string>('none');
+    const [filter, setFilter] = React.useState<Filters>(Filters.none);
     const [lat, setLat] = React.useState<number>(47.218371);
     const [lng, setLng] = React.useState<number>(-1.553621);
     const [zoom, setZoom] = React.useState(12);
@@ -63,18 +73,19 @@ const Main: React.FC = () => {
 
     return (
         <div>
-            <Map filter={filter} isDark={isDark} lat={lat} lng={lng} zoom={zoom}/>
-            <SearchBar isDark={isDark} onSubmit={handleSearch}/>
-            <LightDark isDark={isDark} setIsDark={setIsDark}/>
-            <ActionsList isDark={isDark} decisionPanelExtended={decisionPanelExtended} optimisationTemplateData={optimisationTemplateData}/>
-            <FilterMenu filter={filter} setFilter={setFilter} isDark={isDark}/>
-            <DecisionMenu isDark={isDark} handleButtonEditInPdfClick={handleButtonEditInPdfClick} isButtonEditInPdfClicked={isButtonEditInPdfClicked}
+            <Map id={"mapComponentId"} filter={filter} isDark={isDark} lat={lat} lng={lng} zoom={zoom} />
+            <SearchBar id={"searchBarComponentId"} isDark={isDark} onSubmit={handleSearch} />
+            <LightDark id={"lightDarkComponentId"} isDark={isDark} setIsDark={setIsDark} />
+            <ActionsList id={"actionsListComponentId"} isDark={isDark} decisionPanelExtended={decisionPanelExtended} optimisationTemplateData={optimisationTemplateData}/>
+            <FilterMenu id={"filterMenuComponentId"} filter={filter} setFilter={setFilter} isDark={isDark} />
+            <DecisionMenu id={"decisionMenuComponentId"} isDark={isDark} handleButtonEditInPdfClick={handleButtonEditInPdfClick} isButtonEditInPdfClicked={isButtonEditInPdfClicked}
             handleToggleDecisionPanelExtend={handleToggleDecisionPanelExtend} decisionPanelExtended={decisionPanelExtended}
             handleOptimisationTemplateDataChange={handleOptimisationTemplateDataChange} optimisationTemplateData={optimisationTemplateData} handleButtonSelectAllClick={handleButtonSelectAllClick}
             currentSelected={currentSelected} handleCurrentSelectedChange={handleCurrentSelectedChange}/>
-            <EditInPdfPannel isDark={isDark} isButtonEditInPdfClicked={isButtonEditInPdfClicked} />
-            <Gauges isDark={isDark}/>
-            <Toastr isDark={isDark}/>
+            <EditInPdfPannel id={"editinPdfPannelComponentId"} isDark={isDark} isButtonEditInPdfClicked={isButtonEditInPdfClicked} />
+            <Gauges id={"gaugesComponentId"} isDark={isDark} />
+            <AbsencePannel id={"DuringPannelComponentId"} isDark={isDark} />
+            <Toastr id={"toastrComponentId"} isDark={isDark}/>
         </div>
     )
 }
