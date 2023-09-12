@@ -49,8 +49,10 @@ const Main: React.FC = () => {
     const handleButtonSelectAllClick = () => {
         const updatedData = [...optimisationTemplateData];
         updatedData.forEach((item: any) => {
-            if (item.type === currentSelected || currentSelected === "Toutes les optimisations")
-                item.selected = !item.selected;
+            if (item.type === currentSelected || currentSelected === "Toutes les optimisations") {
+                if (!item.selected)
+                    item.selected = !item.selected;
+            }
         });
         setOptimisationTemplateData(updatedData);
     };
