@@ -18,25 +18,6 @@ interface MapProps {
     lng: number,
     zoom: number,
 }
-// Fonction qui convertit une chaîne de caractères en valeur de l'enum Filters
-const convertStringToFilter = (str: string): Filters => {
-    switch (str) {
-        case "pin":
-            return Filters.pin;
-        case "zone":
-            return Filters.zone;
-        case "pinColor":
-            return Filters.pinColor;
-        case "filter":
-            return Filters.filter;
-        case "traffic":
-            return Filters.traffic;
-        case "cabinet":
-            return Filters.cabinet;
-        default:
-            return Filters.none;
-    }
-};
 
 // Composant de la carte
 const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
@@ -48,9 +29,6 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
 
     // Référence à l'objet Supercluster
     const cluster = React.useRef<Supercluster | null>(null);
-
-    // Référence à l'objet filter
-    const [currentFilter, setCurrentFilter] = useState<Filters>(Filters.none);
 
     // Crée les données géoJSON à partir des données de Nantes
     const geojsonData = React.useMemo(() => {
@@ -191,8 +169,8 @@ const initializeMap = () => {
         initializeMap();
     }, [isDark, lng, lat, zoom]);
 
-    useEffect(() => {
-        setCurrentFilter(filter);
+    React.useEffect(() => {
+        console.log("filter = " + filter);
     }, [filter]);
 
   // Fonction qui permet de filtrer les données en fonction du type de filtre
@@ -207,27 +185,6 @@ const initializeMap = () => {
             speed: 1.2,
             curve: 1.42,
         });
-
-        const convertedFilter = convertStringToFilter(filter); // Convertit la chaîne en valeur d'enum
-
-        if (convertedFilter === Filters.pin) {
-            // Montrez les couches de lampadaires et de clusters lorsque Filters.pin est sélectionné
-            if (map.current.getLayer('clusters')) {
-                map.current.setLayoutProperty('clusters', 'visibility', 'visible');
-            }
-            if (map.current.getLayer('cluster-markers')) {
-                map.current.setLayoutProperty('cluster-markers', 'visibility', 'visible');
-            }
-        } else {
-            // Masquez les couches de lampadaires et de clusters pour d'autres filtres
-            if (map.current.getLayer('clusters')) {
-                map.current.setLayoutProperty('clusters', 'visibility', 'none');
-            }
-            if (map.current.getLayer('cluster-markers')) {
-                map.current.setLayoutProperty('cluster-markers', 'visibility', 'none');
-            }
-        }
-        setCurrentFilter(convertedFilter); // Met à jour le filtre actuel avec la valeur convertie
     } else {
         map.current = new mapboxgl.Map({
             container: mapContainer.current,
@@ -238,18 +195,6 @@ const initializeMap = () => {
         loadMap(map.current);
     }
     }, [isDark, lng, lat, zoom, geojsonData, filter]);
-
-    React.useEffect(() => {
-        for (const value in Filters) {
-            if (map.current.getLayer(value)) {
-                map.current.setLayoutProperty(value, 'visibility', 'none');
-            }
-        }
-        if (map.current.getLayer(filter)) {
-            map.current.setLayoutProperty(filter, 'visibility', 'visible');
-        }
-        console.log(filter);
-    }, [filter]);
 
     const styleMap = {
         height: "100vh",
@@ -272,5 +217,4 @@ const initializeMap = () => {
     );
 };
 
-// Exporte le composant de la carte par défaut
 export default Map;
