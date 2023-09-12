@@ -2,7 +2,7 @@ import * as React from 'react'
 import { useEffect } from 'react';
 import { OptimisationTemplateContainer, TypeText } from './elements';
 
-/** Menu of the decision pannel
+/** Props of the optimisation template
  * @param {boolean} isDark - If the map is in dark mode or not
  * @param {number} y - The y position of the template
  * @param {any} optimisationTemplateData - Data of the current child template

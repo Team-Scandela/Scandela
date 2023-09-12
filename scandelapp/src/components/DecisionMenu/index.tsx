@@ -10,34 +10,41 @@ import ButtonEditInPdf from '../ButtonEditInPdf'
 import ButtonSelectAll from '../ButtonSelectAll'
 import logoDark from '../../assets/logo-128x128-yellow.png'
 import OptimisationTemplate from '../OptimisationTemplate'
+import { showToast } from '../Toastr';
 
-/** Menu of the decision pannel
+/** Props of the decision pannel
  * @param {boolean} isDark - If the map is in dark mode or not
  * @param {function} handleButtonEditInPdfClick - Callback function
  * @param {boolean} isButtonEditInPdfClicked - Boolean to check if the pdf button is clicked
+ * @param {function} handleToggleDecisionPanelExtend - Callback function
+ * @param {boolean} decisionPanelExtended - Boolean to check if the decision panel is extended or not
  * @param {function} handleOptimisationTemplateDataChange - Callback function
  * @param {any} optimisationTemplateData - List of list about optimsiations template datas
  * @param {function} handleButtonSelectAllClick - Callback function
- * @param {string} currentSelected - Current selected optimisation type
  * @param {function} handleCurrentSelectedChange - Callback function
+ * @param {string} currentSelected - Current selected optimisation type
 */
 interface DecisionMenuProps {
     isDark: boolean;
     handleButtonEditInPdfClick: () => void;
     isButtonEditInPdfClicked: boolean;
+    handleToggleDecisionPanelExtend: () => void;
+    decisionPanelExtended: any;
     handleOptimisationTemplateDataChange: (data: any) => void;
     optimisationTemplateData: any;
     handleButtonSelectAllClick: () => void;
-    currentSelected: string;
     handleCurrentSelectedChange: (data: string) => void;
+    currentSelected: string;
 }
 
-const DecisionMenu: React.FC<DecisionMenuProps> = ({ isDark, handleButtonEditInPdfClick, isButtonEditInPdfClicked,  handleOptimisationTemplateDataChange, 
-    optimisationTemplateData, handleButtonSelectAllClick, currentSelected, handleCurrentSelectedChange}) => {
-    /** If the decision pannel is open or closed */
-    const [decisionPanelExtended, setDecisionPanelExtended] = React.useState(false);
+const DecisionMenu: React.FC<DecisionMenuProps> = ({ isDark, handleButtonEditInPdfClick, isButtonEditInPdfClicked, 
+                                                             handleToggleDecisionPanelExtend, decisionPanelExtended,
+                                                             handleOptimisationTemplateDataChange, optimisationTemplateData, 
+                                                             handleButtonSelectAllClick, 
+                                                             handleCurrentSelectedChange, currentSelected }) => {
     const [dropdownExpended, setDropdownExpended] = React.useState(false);
     const [items, setItems] = React.useState([]);
+    const [isOnCooldown, setIsOnCooldown] = React.useState(false);
 
     const handleChildCheckboxChange = (id: number, isChecked: boolean) => {
         const updatedData = [...optimisationTemplateData];
@@ -45,8 +52,8 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({ isDark, handleButtonEditInP
         handleOptimisationTemplateDataChange(updatedData);
     };
 
-    const handleToggleDecisionPanelExpend = () => {
-        setDecisionPanelExtended(!decisionPanelExtended);
+    const handleDecisionPanelButtonClick = () => {
+        handleToggleDecisionPanelExtend();
         if (dropdownExpended)
             handleToggleDropdownExpend();
     };
@@ -71,18 +78,30 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({ isDark, handleButtonEditInP
     };
 
     const handleActionsListButtonClick = () => {
+        let itemsUpdated = 0;
+        if (isOnCooldown)
+            return;
         const updatedData = [...optimisationTemplateData];
         updatedData.forEach((item: any) => {
-            if (item.selected)
+            if (item.selected) {
+                if (!item.saved)
+                    itemsUpdated++;
                 item.saved = true;
+            }
         });
         handleOptimisationTemplateDataChange(updatedData);
+        if (itemsUpdated === 0)
+            showToast("error", "Il n'y a rien à ajouter dans la liste d'action", "top-left", 5000, false, true, false, true);
+        else if (itemsUpdated > 0)
+            showToast("success", "La liste des actions a bien été mise à jour", "top-left", 5000, false, true, false, true);
+        setIsOnCooldown(true);
+        setTimeout(() => { setIsOnCooldown(false); }, 5000);
     };
 
     return (
         <div>
             <DecisionMenuContainer>
-                <DecisionMenuButton onClick={() => handleToggleDecisionPanelExpend()} isDark={isDark} show={decisionPanelExtended}>
+                <DecisionMenuButton onClick={() => handleDecisionPanelButtonClick()} isDark={isDark} show={decisionPanelExtended}>
                     {decisionPanelExtended ? <DecisionIconRight size={50}/> : <DecisionIconLeft size={50}/>}
                 </DecisionMenuButton>
                 <DecisionPanel isDark={isDark} show={decisionPanelExtended}>
@@ -133,7 +152,7 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({ isDark, handleButtonEditInP
                                     ))}
                             </ScrollableOptimisationsContainer>
                             )}
-                        <AddToActionsListButton isDark={isDark} onClick={() => handleActionsListButtonClick()}>Ajouter à la liste d'actions</AddToActionsListButton>
+                        <AddToActionsListButton isDark={isDark} onClick={() => handleActionsListButtonClick()} disabled={isOnCooldown}>Ajouter à la liste d'actions</AddToActionsListButton>
                     </DecisionPanelContentContainer>
                 </DecisionPanel>
             </DecisionMenuContainer>

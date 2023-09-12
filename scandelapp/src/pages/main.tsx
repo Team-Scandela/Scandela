@@ -8,6 +8,8 @@ import DecisionMenu from '../components/DecisionMenu'
 import EditInPdfPannel from '../components/EditInPdfPannel';
 import Gauges from '../components/Gauges';
 import ActionsList from '../components/ActionsList'
+import Toastr from '../components/Toastr';
+
 
 /** Main page of the app */
 const Main: React.FC = () => {
@@ -17,6 +19,8 @@ const Main: React.FC = () => {
     const [lng, setLng] = React.useState<number>(-1.553621);
     const [zoom, setZoom] = React.useState(12);
     const [isButtonEditInPdfClicked, setIsButtonEditInPdfClicked] = React.useState<boolean>(false);
+    /** If the decision pannel is open or closed */
+    const [decisionPanelExtended, setDecisionPanelExtended] = React.useState<boolean>(false);
     const [currentSelected, setCurrentSelected] = React.useState('Choisissez une action');
     const [optimisationTemplateData, setOptimisationTemplateData] = React.useState([{id: 0, saved: false, selected: false, type: "Éteindre lampadaire"},
                                                                                     {id: 1, saved: false, selected: false, type: "Éteindre lampadaire"},
@@ -34,6 +38,10 @@ const Main: React.FC = () => {
         setIsButtonEditInPdfClicked(prevState => !prevState);
     };
 
+    const handleToggleDecisionPanelExtend = () => {
+        setDecisionPanelExtended(prevState => !prevState);
+    };
+
     const handleOptimisationTemplateDataChange = (data: any) => {
         setOptimisationTemplateData(data);
     };
@@ -41,7 +49,7 @@ const Main: React.FC = () => {
     const handleButtonSelectAllClick = () => {
         const updatedData = [...optimisationTemplateData];
         updatedData.forEach((item: any) => {
-            if (item.type == currentSelected || currentSelected == "Toutes les optimisations")
+            if (item.type === currentSelected || currentSelected === "Toutes les optimisations")
                 item.selected = !item.selected;
         });
         setOptimisationTemplateData(updatedData);
@@ -56,13 +64,15 @@ const Main: React.FC = () => {
             <Map filter={filter} isDark={isDark} lat={lat} lng={lng} zoom={zoom}/>
             <SearchBar isDark={isDark} onSubmit={handleSearch}/>
             <LightDark isDark={isDark} setIsDark={setIsDark}/>
-            <ActionsList isDark={isDark} optimisationTemplateData={optimisationTemplateData}/>
+            <ActionsList isDark={isDark} decisionPanelExtended={decisionPanelExtended} optimisationTemplateData={optimisationTemplateData}/>
             <FilterMenu filter={filter} setFilter={setFilter} isDark={isDark}/>
-            <DecisionMenu isDark={isDark} handleButtonEditInPdfClick={handleButtonEditInPdfClick} isButtonEditInPdfClicked={isButtonEditInPdfClicked} 
+            <DecisionMenu isDark={isDark} handleButtonEditInPdfClick={handleButtonEditInPdfClick} isButtonEditInPdfClicked={isButtonEditInPdfClicked}
+            handleToggleDecisionPanelExtend={handleToggleDecisionPanelExtend} decisionPanelExtended={decisionPanelExtended}
             handleOptimisationTemplateDataChange={handleOptimisationTemplateDataChange} optimisationTemplateData={optimisationTemplateData} handleButtonSelectAllClick={handleButtonSelectAllClick}
             currentSelected={currentSelected} handleCurrentSelectedChange={handleCurrentSelectedChange}/>
             <EditInPdfPannel isDark={isDark} isButtonEditInPdfClicked={isButtonEditInPdfClicked} />
             <Gauges isDark={isDark}/>
+            <Toastr isDark={isDark}/>
         </div>
     )
 }

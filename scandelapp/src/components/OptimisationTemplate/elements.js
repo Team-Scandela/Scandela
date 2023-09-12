@@ -30,3 +30,4 @@ export const TypeText = styled.p`
   color : ${props => props.isDark ? Black : Black};
   font-weight: 500;
 `;
+
