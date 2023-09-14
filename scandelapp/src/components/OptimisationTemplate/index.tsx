@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useEffect } from 'react';
-import { OptimisationTemplateContainer, TypeText } from './elements';
+import { OptimisationTemplateContainer, TypeText, LocationText, DescriptionText, SolutionTextContainer, SolutionText } from './elements';
 
 /** Props of the optimisation template
  * @param {boolean} isDark - If the map is in dark mode or not
@@ -36,6 +36,11 @@ const OptimisationTemplate: React.FC<OptimisationTemplateProps> = ({
   return (
     <OptimisationTemplateContainer isDark={isDark} y={y} onClick={() => handleTemplateClick()} checked={isChecked}>
       <TypeText isDark={isDark}>{optimisationTemplateData.type}</TypeText>
+      <LocationText isDark={isDark}>{optimisationTemplateData.location}</LocationText>
+      <DescriptionText isDark={isDark}>{optimisationTemplateData.description}</DescriptionText>
+      <SolutionTextContainer isDark={isDark}>
+        <SolutionText isDark={isDark}>{optimisationTemplateData.solution}</SolutionText>
+      </SolutionTextContainer>
     </OptimisationTemplateContainer>
   );
 };

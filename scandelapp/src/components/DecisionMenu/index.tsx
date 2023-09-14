@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { DecisionMenuContainer, DecisionMenuButton, DecisionPanel, DecisionPanelContentContainer,
+import { DecisionMenuContainer, DecisionMenuButton, DecisionPanel, DecisionPanelContentContainer, DecisionPanelContentArrow,
 LogoContainer, ScandelaText, DropdownContainer, DropdownRoundButton, DropdownMenu, DropdownItem,
 ScrollableOptimisationsContainer, AddToActionsListButton } from './elements'
 import { MdKeyboardDoubleArrowLeft as DecisionIconLeft } from 'react-icons/md'
@@ -109,6 +109,7 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({ id, isDark, handleButtonEdi
                     <ScandelaText isDark={isDark}> Scandela </ScandelaText>
                     <ButtonEditInPdf isDark={isDark} handleClick={handleButtonEditInPdfClick} isClicked={isButtonEditInPdfClicked}/>
                     <ButtonSelectAll isDark={isDark} handleButtonSelectAllClick={handleButtonSelectAllClick}/>
+                    <DecisionPanelContentArrow isDark={isDark}/>
                     <DecisionPanelContentContainer>
                         <DropdownContainer isDark={isDark}>
                             {currentSelected}

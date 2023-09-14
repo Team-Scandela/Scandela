@@ -1,5 +1,8 @@
 import styled from "styled-components";
 import { Yellow, Black, White, Grey } from '../../colors';
+import { BsFillTrash3Fill } from 'react-icons/bs'
+import { GiSandsOfTime } from 'react-icons/gi'
+import { AiOutlineSend } from 'react-icons/ai'
 
 /** Container of the decision pannel and the button */
 export const ActionsListContainer = styled.div``;
@@ -47,6 +50,7 @@ export const ActionsListPanel = styled.div`
     transform: translate(0%, -50%);
 `;
 
+/** Container of the scrollable optimisation container */
 export const ScrollableOptimisationsContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -75,6 +79,7 @@ export const OptimisationTemplateContainer = styled.div`
   border: 2px solid ${Black};
 `;
 
+/** Style of the optimisation type text */
 export const TypeText = styled.p`
   position: relative;
   top: 8px;
@@ -83,4 +88,79 @@ export const TypeText = styled.p`
   user-select: none;
   color : ${props => props.isDark ? Black : Black};
   font-weight: 500;
+`;
+
+/**  Trash Icon**/
+export const TrashIcon = styled(BsFillTrash3Fill)`
+    display: flex;
+    position: absolute;
+    right: 10px;
+    top: 6px;
+    color: ${props => props.isDark ? Black : Yellow};
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.7;
+    }
+`;
+
+/**  GoTo Icon**/
+export const GoToIcon = styled(AiOutlineSend)`
+    display: flex;
+    position: absolute;
+    right: 10px;
+    top: 50px;
+    color: ${props => props.isDark ? Black : Yellow};
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.7;
+    }
+`;
+
+/**  Time Icon**/
+export const TimeIcon = styled(GiSandsOfTime)`
+    display: flex;
+    position: relative;
+    align-items: center;
+    left: 30%;
+    top: 30%;
+    color: ${props => props.isDark ? Yellow : Yellow};
+`;
+
+/** Container of the total container */
+export const TotalContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  left: 425px;
+  top: 2%;
+  width: 350px;
+  height: 260px;
+  border-radius: 5px;
+  background-color: ${props => props.isDark ? Black + 'FF' : Black + 'FF'};
+`;
+
+/** Style of the total title text */
+export const TotalTitleText = styled.p`
+  position: relative;
+  top: 10px;
+  left: 20%;
+  font-size: 21px;
+  user-select: none;
+  color : ${props => props.isDark ? Yellow : Black};
+  font-weight: bold;
+`;
+
+/** Container of the gauges container */
+export const GaugesContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  left: 425px;
+  top: 290px;
+  width: 350px;
+  height: 150px;
+  border-radius: 5px;
+  background-color: ${props => props.isDark ? Black + 'FF' : Black + 'FF'};
 `;

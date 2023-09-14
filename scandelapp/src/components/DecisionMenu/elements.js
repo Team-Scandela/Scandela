@@ -84,6 +84,17 @@ export const DecisionPanelContentContainer = styled.div`
   border-bottom: 6px solid ${Yellow};
 `;
 
+export const DecisionPanelContentArrow = styled.div`
+  display: flex;
+  position: absolute;
+  top: 530px;
+  left: 230px;
+  width: 30px;
+  height: 30px;
+  transform: rotate(45deg);
+  background-color: ${props => props.isDark ? Yellow  : Yellow };
+`;
+
 /** Container that contain the scandela logo **/
 export const LogoContainer = styled.img`
   display: flex;
