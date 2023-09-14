@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Yellow, Black, White, Grey } from '../../colors';
+import { Yellow, Black, White } from '../../colors';
 import { AiFillCloseCircle, AiOutlineWarning, AiOutlineSend } from 'react-icons/ai';
 
 /** Container for the background of the DuringYourAbsence **/

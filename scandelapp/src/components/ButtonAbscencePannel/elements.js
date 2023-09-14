@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { Yellow, Black, White } from '../../colors';
 
 export const ButtonTemp = styled.div`
   display: flex;

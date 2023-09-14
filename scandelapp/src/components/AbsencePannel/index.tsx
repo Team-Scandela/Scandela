@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { PannelContainer, PannelText, CloseIcon, ListDetailContainer, WarningIcon, EventContainer, ArrowIcon, EventText, EventTextContainer, IndicatorsImage } from './elements';
+import { PannelContainer, PannelText, CloseIcon, ListDetailContainer, WarningIcon, EventContainer, ArrowIcon, EventText, EventTextContainer } from './elements';
 import ToggleBButtonAbscencePannelButton from '../ButtonAbscencePannel';
 import { PersonnalizedGauge } from '../Gauges';
 

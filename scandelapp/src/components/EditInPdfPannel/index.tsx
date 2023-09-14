@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { PannelContainer, ExportButton, PannelText, ExportText, ExportIcon } from './elements';
-import { saveAs } from 'file-saver';
 import { generatePDFDocument } from './pdfGenerator';
 
 interface EditInPdfPannellProps {

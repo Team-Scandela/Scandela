@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { ButtonTemp } from './elements'; // Importez ButtonTemp avec la première lettre en majuscule
 
 interface ButtonAbscencePannelProps {

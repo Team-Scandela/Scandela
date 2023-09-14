@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Yellow, Black, White, Grey } from '../../colors';
+import { Yellow, Black, Grey } from '../../colors';
 import { BsListCheck } from 'react-icons/bs';
 
 /** Container for the background of the searchbar **/

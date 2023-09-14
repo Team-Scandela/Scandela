@@ -1,6 +1,6 @@
 import * as mapboxgl from 'mapbox-gl';
 import Supercluster from 'supercluster';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Filters } from '../../pages/main'
 import loadMap from './loadMap';
 
