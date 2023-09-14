@@ -9,12 +9,13 @@ import { ButtonEditContainer, SelectIcon } from './elements'
 
 interface ButtonSelectAllProps {
     isDark: boolean;
+    handleButtonSelectAllClick: () => void;
 }
 
-const ButtonSelectAll: React.FC<ButtonSelectAllProps> = ({ isDark }) => {
+const ButtonSelectAll: React.FC<ButtonSelectAllProps> = ({ isDark, handleButtonSelectAllClick }) => {
     return (
         <div>
-            <ButtonEditContainer isDark={isDark}>
+            <ButtonEditContainer isDark={isDark} onClick={() => handleButtonSelectAllClick()}>
                 <SelectIcon isDark={isDark} />
             </ButtonEditContainer>
         </div>
