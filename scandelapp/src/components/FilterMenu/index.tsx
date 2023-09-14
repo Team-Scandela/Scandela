@@ -2,6 +2,7 @@ import * as React from 'react'
 import { FilterMenuButton, FilterMenuContainer } from './elements'
 import { MdOutlineFilterNone as FilterIcon } from 'react-icons/md'
 import { MdOutlinePlace, MdDataUsage, MdPlace, MdFilterList, MdDirectionsCar, MdElectricMeter } from 'react-icons/md'
+import { Filters } from '../../pages/main'
 
 /** Menu of the map filter
  * @param {string} filter - The current filter
@@ -9,21 +10,22 @@ import { MdOutlinePlace, MdDataUsage, MdPlace, MdFilterList, MdDirectionsCar, Md
  * @param {boolean} isDark - If the map is in dark mode or not
 */
 interface FilterMenuProps {
+    id : string,
     filter: string;
-    setFilter: (filter: string) => void;
+    setFilter: (filter: Filters) => void;
     isDark: boolean;
 }
 
-const FilterMenu : React.FC<FilterMenuProps> = ({ filter, setFilter, isDark }) => {
+const FilterMenu : React.FC<FilterMenuProps> = ({ id, filter, setFilter, isDark }) => {
     /** If the map filter container is on or out */
     const [on, setOn] = React.useState(false);
 
     /** Handle the click on a filter icon. Switch to the new icon and if the icon is already selected set the filter to none 
      * @param {string} newFilter - The filter selected
      */
-    const handleIconClick = (newFilter : string ) => {
+    const handleIconClick = (newFilter : Filters ) => {
         if (newFilter === filter) {
-        newFilter = "none";
+        newFilter = Filters.none;
         }
         setFilter(newFilter);
     };
@@ -42,17 +44,17 @@ const FilterMenu : React.FC<FilterMenuProps> = ({ filter, setFilter, isDark }) =
     }
 
     return (
-        <div>
+        <div id={id}>
         <FilterMenuButton onClick={() => setOn(!on)} isDark={isDark}>
             <FilterIcon />
         </FilterMenuButton>
         <FilterMenuContainer show={on} isDark={isDark}>
-            <MdOutlinePlace style={chooseStyle("pin")} onClick={() => handleIconClick("pin")} />
-            <MdDataUsage style={chooseStyle("zone")} onClick={() => handleIconClick("zone")} />
-            <MdPlace style={chooseStyle("pinColor")} onClick={() => handleIconClick("pinColor")} />
-            <MdFilterList style={chooseStyle("filter")} onClick={() => handleIconClick("filter")} />
-            <MdDirectionsCar style={chooseStyle("traffic")} onClick={() => handleIconClick("traffic")} />
-            <MdElectricMeter style={chooseStyle("cabinet")} onClick={() => handleIconClick("cabinet")} />
+            <MdOutlinePlace style={chooseStyle(Filters.pin)} onClick={() => handleIconClick(Filters.pin)} />
+            <MdDataUsage style={chooseStyle(Filters.zone)} onClick={() => handleIconClick(Filters.zone)} />
+            <MdPlace style={chooseStyle(Filters.pinColor)} onClick={() => handleIconClick(Filters.pinColor)} />
+            <MdFilterList style={chooseStyle(Filters.filter)} onClick={() => handleIconClick(Filters.filter)} />
+            <MdDirectionsCar style={chooseStyle(Filters.traffic)} onClick={() => handleIconClick(Filters.traffic)} />
+            <MdElectricMeter style={chooseStyle(Filters.cabinet)} onClick={() => handleIconClick(Filters.cabinet)} />
         </FilterMenuContainer>
         </div>
     )

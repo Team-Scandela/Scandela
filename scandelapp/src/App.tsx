@@ -1,4 +1,5 @@
 import * as React from 'react';
+import './translation/translation';
 import './App.css';
 import Main from './pages/main';
 import Login from './pages/login';
