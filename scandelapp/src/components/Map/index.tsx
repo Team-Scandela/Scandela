@@ -1,8 +1,9 @@
 import * as mapboxgl from 'mapbox-gl';
 import Supercluster from 'supercluster';
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Filters } from '../../pages/main'
 import loadMap from './loadMap';
+import { Yellow } from '../../colors';
 
 // Load geographical data of Nantes from a local JSON file
 let nantesData = require('../../assets/nantesData.json');
@@ -52,6 +53,33 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
         });
         return geoJSON;
     }, []);
+
+    const [circleRadius, setCircleRadius] = useState<number>(280);
+
+    const updateCircleRadius = () => {
+        if (map.current) {
+            let newRadius;
+
+            switch (map.current.getZoom()) {
+                case 17:
+                    newRadius = 2;
+                    break;
+                case 14:
+                    newRadius = 150;
+                    break;
+                case 12:
+                    newRadius = 280;
+                    break;
+                case 5:
+                    newRadius = 280;
+                    break;
+                default:
+                    newRadius = 0;
+            }
+    
+            setCircleRadius(newRadius);
+        }
+    };
 
     // Function to handle filter changes
     const handleFilterChange = () => {
@@ -178,6 +206,8 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
                     map.current.setLayoutProperty('cluster-markers', 'visibility', 'none');
                     map.current.setLayoutProperty('cluster-text', 'visibility', 'none');
                     map.current.setLayoutProperty('cluster-border', 'visibility', 'none');
+
+                    map.current?.on('zoom', updateCircleRadius);
                 }
             });
         }
@@ -190,7 +220,6 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
 
     // Effect to monitor filter changes
     React.useEffect(() => {
-        console.log("filter = " + filter);
         if (map.current.isStyleLoaded()) {
             handleFilterChange(); // Call the function to handle layer visibility
         } else {
@@ -240,6 +269,23 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
                 display: none;
                 }`}
             </style>
+            {lat && lng && (
+            <div
+                className="red-circle"
+                style={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    width: circleRadius * 2,
+                    height: circleRadius * 2,
+                    borderRadius: '50%',
+                    border: `1px dashed ${Yellow}`,
+                    pointerEvents: 'none',
+                    zIndex: 1,
+                }}
+            />
+        )}
         </div>
     );
 };
