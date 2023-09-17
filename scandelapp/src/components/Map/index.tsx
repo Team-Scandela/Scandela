@@ -30,27 +30,63 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
     // Reference to the Supercluster object
     const cluster = React.useRef<Supercluster | null>(null);
 
-    // Create GeoJSON data from Nantes data
-    const geojsonData = React.useMemo(() => {
-        let geoJSON = {
-            "type": "FeatureCollection",
-            "features": [] as any[]
-        };
-        nantesData.forEach((obj: any) => {
-            const feature = {
-                "type": "Feature",
-                "geometry": {
-                    "type": obj.geometry.type,
-                    "coordinates": [obj.geometry.coordinates[0], obj.geometry.coordinates[1]]
-                },
-                "properties": {
-                    "id": obj.fields.numero,
-                    "name": obj.fields.type_foyer,
+
+    const [geojsonData, setGeojsonData] = React.useState<any>(null);
+    const [fetchAsked, setFetchAsked] = React.useState<boolean>(false);
+
+    const getLightsData = async () => {
+        try {
+            console.log("getLightsData")
+            const response = await fetch('http://localhost:3001/lamp', {
+                method: 'GET',
+            });
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error('Fetch error:', error);
+            throw error;
+        }
+    };
+
+    React.useEffect(() => {
+        if (!fetchAsked) {
+            console.log("GEOJSON DATA")
+            const fetchData = async () => {
+                try {
+                    let geoJSON = {
+                        "type": "FeatureCollection",
+                        "features": [] as any[]
+                    };
+                    const jsonData = await getLightsData();
+                    console.log(jsonData);
+                    jsonData.forEach((obj: any) => {
+                        const feature = {
+                            "type": "Feature",
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [obj.lat, obj.lng]
+                            },
+                            "properties": {
+                                "id": obj.name,
+                                "name": obj.foyertype,
+                            }
+                        };
+                        geoJSON.features.push(feature);
+                    });
+                    setGeojsonData(geoJSON);
+                    console.log("GEOJSON DATA SET")
+                    console.log(geojsonData)
+                    loadPointsCluster();
+                } catch (error) {
+                    console.error('Error:', error);
                 }
             };
-            geoJSON.features.push(feature);
-        });
-        return geoJSON;
+            fetchData();
+        }
+        setFetchAsked(true);
     }, []);
 
     // Function to handle filter changes
@@ -72,24 +108,19 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
         }
     };
 
-    // Initialize the map
-    const initializeMap = () => {
-        if (!map.current) {
-            cluster.current = new Supercluster({
-                radius: 100,
-                maxZoom: 17,
-            });
-            cluster.current.load(geojsonData.features);
+    const loadPointsCluster = () => {
+        if (map.current) {
+            // console.log("CLUSTER")
+            // cluster.current = new Supercluster({
+            //     radius: 100,
+            //     maxZoom: 17,
+            // });
+            // cluster.current.load(geojsonData.features);
 
-            map.current = new mapboxgl.Map({
-                container: mapContainer.current,
-                style: isDark ? "mapbox://styles/titouantd/cljwv2coy025k01pk785839a1" : "mapbox://styles/titouantd/cljwui6ss00ij01pj1oin6oa5",
-                center: [lng, lat],
-                zoom: zoom,
-            });
+            console.log(map.current)
+            console.log(geojsonData)
 
-            map.current.on('load', () => {
-                if (!map.current?.getSource('points')) {
+                console.log("POINTS LOAD")
                     map.current.addSource('points', {
                         type: 'geojson',
                         data: geojsonData as GeoJSON.FeatureCollection,
@@ -179,6 +210,17 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
                     map.current.setLayoutProperty('cluster-text', 'visibility', 'none');
                     map.current.setLayoutProperty('cluster-border', 'visibility', 'none');
                 }
+            console.log("POINTS LOADED")
+    }
+
+    // Initialize the map
+    const initializeMap = () => {
+        if (!map.current) {
+            map.current = new mapboxgl.Map({
+                container: mapContainer.current,
+                style: isDark ? "mapbox://styles/titouantd/cljwv2coy025k01pk785839a1" : "mapbox://styles/titouantd/cljwui6ss00ij01pj1oin6oa5",
+                center: [lng, lat],
+                zoom: zoom,
             });
         }
     };
