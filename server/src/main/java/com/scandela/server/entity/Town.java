@@ -48,19 +48,21 @@ public class Town implements Serializable {
 	@Column(name = "lng", nullable = false)
 	private Double longitude;
 
-	@Column(name = "electricityprice", nullable = false)
+	@Column(name = "electricity_price", nullable = false)
 	private Integer electricityPrice;
 
 	@Builder.Default
-	@Column(name = "indiceelec", nullable = false)
+	@Column(name = "indice_elec", nullable = false)
 	private Float indiceElectricity = 0.0f;
 
 	@Builder.Default
-	@Column(name = "indiceeco", nullable = false)
+	@Column(name = "indice_eco", nullable = false)
 	private Float indiceEcology = 0.0f;
 
 	@Builder.Default
-	@Column(name = "indicequali", nullable = false)
+	@Column(name = "indice_quali", nullable = false)
 	private Float indiceQuality = 0.0f;
-	
+
+	@OneToMany(mappedBy = "town", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+	private List<Incident> incidents;
 }

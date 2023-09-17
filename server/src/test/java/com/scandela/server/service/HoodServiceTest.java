@@ -190,7 +190,7 @@ public class HoodServiceTest {
 	}
 	
 	@Test
-	public void testCreate_whenTownNotFound_thenThrowUserException() throws HoodException {
+	public void testCreate_whenTownNotFound_thenThrowHoodException() throws HoodException {
 		when(townDaoMock.findById(Mockito.anyLong())).thenReturn(Optional.empty());
 		
 		HoodException result = assertThrows(HoodException.class, () -> testedObject.create(hood));
