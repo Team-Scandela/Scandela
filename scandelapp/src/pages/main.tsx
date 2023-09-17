@@ -30,8 +30,8 @@ const Main: React.FC = () => {
         <div>
             <Map filter={filter} isDark={isDark} lat={lat} lng={lng} zoom={zoom}/>
             <SearchBar isDark={isDark} onSubmit={handleSearch}/>
-            <SettingsButton isDark={isDark} />
-            <LightDark isDark={isDark} setIsDark={setIsDark}/>
+            <SettingsButton isDark={isDark} setIsDark={setIsDark}/>
+            {/* <LightDark isDark={isDark} setIsDark={setIsDark}/> */}
             <FilterMenu filter={filter} setFilter={setFilter} isDark={isDark}/>
             <DecisionMenu isDark={isDark} handleButtonEditInPdfClick={handleButtonEditInPdfClick} isButtonEditInPdfClicked={isButtonEditInPdfClicked}/>
             <EditInPdfPannel isDark={isDark} isButtonEditInPdfClicked={isButtonEditInPdfClicked} />
