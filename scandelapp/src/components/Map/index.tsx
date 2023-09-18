@@ -69,12 +69,14 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
                 map.current.setLayoutProperty('clusters', 'visibility', 'visible');
                 map.current.setLayoutProperty('cluster-markers', 'visibility', 'visible');
                 map.current.setLayoutProperty('cluster-border', 'visibility', 'visible');
+                map.current.setLayoutProperty('lamp', 'visibility', 'visible');
             } else {
                 // Hide layers when the filter is not "pin"
                 map.current.setLayoutProperty('cluster-text', 'visibility', 'none');
                 map.current.setLayoutProperty('clusters', 'visibility', 'none');
                 map.current.setLayoutProperty('cluster-markers', 'visibility', 'none');
                 map.current.setLayoutProperty('cluster-border', 'visibility', 'none');
+                map.current.setLayoutProperty('lamp', 'visibility', 'none');
             }
         }
     };
@@ -226,6 +228,7 @@ const initializeMap = () => {
                 map.current.setLayoutProperty('cluster-markers', 'visibility', 'none');
                 map.current.setLayoutProperty('cluster-text', 'visibility', 'none');
                 map.current.setLayoutProperty('cluster-border', 'visibility', 'none');
+                map.current.setLayoutProperty('lamp', 'visibility', 'none');
             }
         });
     }

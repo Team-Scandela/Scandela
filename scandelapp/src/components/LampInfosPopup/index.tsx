@@ -53,10 +53,10 @@ const LampInfosPopup: React.FC<LampInfosPopupProps> = ({ id, isDark, selectedLam
             <img src={images.descending_icon} alt="Flash" draggable="false" style={{ position: 'absolute', top: '150px', left: '30px', width: '50px', userSelect: 'none' }} />
             <PopupTextActions isDark={isDark} top="160px"> 250 kW/j </PopupTextActions>
             <PopupTextActions isDark={isDark} top="180px"> 100g de CO2/j </PopupTextActions>
+
             <ButtonOptimise isDark={isDark}>
               <img src={images.list} alt="List" draggable="false" style={{ width: '60%', height: '60%', userSelect: 'none' }} />
             </ButtonOptimise>
-
           </ListDetailContainer>
         </PannelContainer>
     </div>

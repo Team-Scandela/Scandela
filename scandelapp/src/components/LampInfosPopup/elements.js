@@ -137,8 +137,10 @@ export const ButtonOptimise = styled.div`
     left: 300px;
     background-color: ${props => props.isDark ? Black + 'FF' : White + 'FF'};
     border-radius: 15px;
+    opacity: 1;
+    transition: opacity 0.1s;
 
-    &.hover{
+    &:hover{
       cursor: pointer;
       opacity: 0.7;
     }
