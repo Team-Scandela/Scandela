@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.scandela.server.entity.User;
 import com.scandela.server.entity.dto.UserDto;
+import com.scandela.server.service.IEmailService;
 import com.scandela.server.service.IUserService;
 
 @RestController
@@ -21,12 +22,15 @@ import com.scandela.server.service.IUserService;
 public class UserController extends AbstractController {
 
 	// Attributes \\
-		// Private \\
+	// Private \\
 	@Autowired
 	private IUserService userService;
 
+	@Autowired
+	private IEmailService emailService;
+
 	// Methods \\
-		// Public \\
+	// Public \\
 	/**
 	 * Get all users
 	 * 
@@ -56,6 +60,7 @@ public class UserController extends AbstractController {
 	 */
 	@PostMapping("/create")
 	public ResponseEntity<UserDto> createUser(@RequestBody User newUser) {
+		emailService.sendSimpleEmail(newUser.getEmail(), "Welcome to Scandela!", "test Message");
 		return ResponseEntity.ok(userService.createUser(newUser));
 	}
 
