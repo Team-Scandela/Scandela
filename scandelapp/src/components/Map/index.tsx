@@ -1,22 +1,24 @@
 import * as mapboxgl from 'mapbox-gl';
 import Supercluster from 'supercluster';
 import React, { useState, useEffect } from 'react';
-import { Filters } from '../../pages/main'
+import { Filters } from '../../pages/main';
 import loadMap from './loadMap';
 
 // Load geographical data of Nantes from a local JSON file
 let nantesData = require('../../assets/nantesData.json');
 
 // Set Mapbox access token
-Object.getOwnPropertyDescriptor(mapboxgl, "accessToken").set("pk.eyJ1IjoidGl0b3VhbnRkIiwiYSI6ImNsaDYyeHUybDAyNTkzcHV5NHlzY3drbHIifQ._eEX5CRcWxVrl9C8z4u3fQ");
+Object.getOwnPropertyDescriptor(mapboxgl, 'accessToken').set(
+    'pk.eyJ1IjoidGl0b3VhbnRkIiwiYSI6ImNsaDYyeHUybDAyNTkzcHV5NHlzY3drbHIifQ._eEX5CRcWxVrl9C8z4u3fQ'
+);
 
 interface MapProps {
-    id : string,
-    filter : Filters,
-    isDark: boolean,
-    lat: number,
-    lng: number,
-    zoom: number,
+    id: string;
+    filter: Filters;
+    isDark: boolean;
+    lat: number;
+    lng: number;
+    zoom: number;
 }
 
 // Map component
@@ -33,20 +35,23 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
     // Create GeoJSON data from Nantes data
     const geojsonData = React.useMemo(() => {
         let geoJSON = {
-            "type": "FeatureCollection",
-            "features": [] as any[]
+            type: 'FeatureCollection',
+            features: [] as any[],
         };
         nantesData.forEach((obj: any) => {
             const feature = {
-                "type": "Feature",
-                "geometry": {
-                    "type": obj.geometry.type,
-                    "coordinates": [obj.geometry.coordinates[0], obj.geometry.coordinates[1]]
+                type: 'Feature',
+                geometry: {
+                    type: obj.geometry.type,
+                    coordinates: [
+                        obj.geometry.coordinates[0],
+                        obj.geometry.coordinates[1],
+                    ],
                 },
-                "properties": {
-                    "id": obj.fields.numero,
-                    "name": obj.fields.type_foyer,
-                }
+                properties: {
+                    id: obj.fields.numero,
+                    name: obj.fields.type_foyer,
+                },
             };
             geoJSON.features.push(feature);
         });
@@ -58,16 +63,44 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
         if (map.current) {
             if (filter === 'pin') {
                 // Show layers when the filter is "pin"
-                map.current.setLayoutProperty('cluster-text', 'visibility', 'visible');
-                map.current.setLayoutProperty('clusters', 'visibility', 'visible');
-                map.current.setLayoutProperty('cluster-markers', 'visibility', 'visible');
-                map.current.setLayoutProperty('cluster-border', 'visibility', 'visible');
+                map.current.setLayoutProperty(
+                    'cluster-text',
+                    'visibility',
+                    'visible'
+                );
+                map.current.setLayoutProperty(
+                    'clusters',
+                    'visibility',
+                    'visible'
+                );
+                map.current.setLayoutProperty(
+                    'cluster-markers',
+                    'visibility',
+                    'visible'
+                );
+                map.current.setLayoutProperty(
+                    'cluster-border',
+                    'visibility',
+                    'visible'
+                );
             } else {
                 // Hide layers when the filter is not "pin"
-                map.current.setLayoutProperty('cluster-text', 'visibility', 'none');
+                map.current.setLayoutProperty(
+                    'cluster-text',
+                    'visibility',
+                    'none'
+                );
                 map.current.setLayoutProperty('clusters', 'visibility', 'none');
-                map.current.setLayoutProperty('cluster-markers', 'visibility', 'none');
-                map.current.setLayoutProperty('cluster-border', 'visibility', 'none');
+                map.current.setLayoutProperty(
+                    'cluster-markers',
+                    'visibility',
+                    'none'
+                );
+                map.current.setLayoutProperty(
+                    'cluster-border',
+                    'visibility',
+                    'none'
+                );
             }
         }
     };
@@ -83,7 +116,9 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
 
             map.current = new mapboxgl.Map({
                 container: mapContainer.current,
-                style: isDark ? "mapbox://styles/titouantd/cljwv2coy025k01pk785839a1" : "mapbox://styles/titouantd/cljwui6ss00ij01pj1oin6oa5",
+                style: isDark
+                    ? 'mapbox://styles/titouantd/cljwv2coy025k01pk785839a1'
+                    : 'mapbox://styles/titouantd/cljwui6ss00ij01pj1oin6oa5',
                 center: [lng, lat],
                 zoom: zoom,
             });
@@ -109,11 +144,11 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
                     const orangeBorderRGBA = 'rgba(255, 165, 0, 0.3)';
 
                     map.current.addLayer({
-                        'id': 'clusters',
-                        'type': 'circle',
-                        'source': 'points',
-                        'filter': ['has', 'point_count'],
-                        'paint': {
+                        id: 'clusters',
+                        type: 'circle',
+                        source: 'points',
+                        filter: ['has', 'point_count'],
+                        paint: {
                             'circle-radius': 19,
                             'circle-color': [
                                 'step',
@@ -128,11 +163,11 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
                     });
 
                     map.current.addLayer({
-                        'id': 'cluster-border',
-                        'type': 'circle',
-                        'source': 'points',
-                        'filter': ['has', 'point_count'],
-                        'paint': {
+                        id: 'cluster-border',
+                        type: 'circle',
+                        source: 'points',
+                        filter: ['has', 'point_count'],
+                        paint: {
                             'circle-radius': 24,
                             'circle-color': [
                                 'step',
@@ -147,37 +182,53 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
                     });
 
                     map.current.addLayer({
-                        'id': 'cluster-markers',
-                        'type': 'circle',
-                        'source': 'points',
-                        'filter': ['!', ['has', 'point_count']],
-                        'paint': {
+                        id: 'cluster-markers',
+                        type: 'circle',
+                        source: 'points',
+                        filter: ['!', ['has', 'point_count']],
+                        paint: {
                             'circle-radius': 6,
                             'circle-color': '#FAC710',
-                            'circle-stroke-color': "#F9F9F9",
+                            'circle-stroke-color': '#F9F9F9',
                             'circle-stroke-width': 2,
                         },
                     });
 
                     map.current.addLayer({
-                        'id': 'cluster-text',
-                        'type': 'symbol',
-                        'source': 'points',
-                        'filter': ['has', 'point_count'],
-                        'layout': {
+                        id: 'cluster-text',
+                        type: 'symbol',
+                        source: 'points',
+                        filter: ['has', 'point_count'],
+                        layout: {
                             'text-field': '{point_count}',
                             'text-font': ['Open Sans Regular'],
                             'text-size': 13,
                         },
-                        'paint': {
+                        paint: {
                             'text-color': '#000000',
                         },
                     });
 
-                    map.current.setLayoutProperty('clusters', 'visibility', 'none');
-                    map.current.setLayoutProperty('cluster-markers', 'visibility', 'none');
-                    map.current.setLayoutProperty('cluster-text', 'visibility', 'none');
-                    map.current.setLayoutProperty('cluster-border', 'visibility', 'none');
+                    map.current.setLayoutProperty(
+                        'clusters',
+                        'visibility',
+                        'none'
+                    );
+                    map.current.setLayoutProperty(
+                        'cluster-markers',
+                        'visibility',
+                        'none'
+                    );
+                    map.current.setLayoutProperty(
+                        'cluster-text',
+                        'visibility',
+                        'none'
+                    );
+                    map.current.setLayoutProperty(
+                        'cluster-border',
+                        'visibility',
+                        'none'
+                    );
                 }
             });
         }
@@ -190,7 +241,7 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
 
     // Effect to monitor filter changes
     React.useEffect(() => {
-        console.log("filter = " + filter);
+        console.log('filter = ' + filter);
         if (map.current.isStyleLoaded()) {
             handleFilterChange(); // Call the function to handle layer visibility
         } else {
@@ -204,7 +255,9 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
     useEffect(() => {
         if (map.current) {
             map.current.setStyle(
-                isDark ? "mapbox://styles/mapbox/dark-v11" : "mapbox://styles/mapbox/light-v11"
+                isDark
+                    ? 'mapbox://styles/mapbox/dark-v11'
+                    : 'mapbox://styles/mapbox/light-v11'
             );
             map.current.flyTo({
                 center: [lng, lat],
@@ -215,7 +268,9 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
         } else {
             map.current = new mapboxgl.Map({
                 container: mapContainer.current,
-                style: isDark ? "mapbox://styles/mapbox/dark-v11" : "mapbox://styles/mapbox/light-v11",
+                style: isDark
+                    ? 'mapbox://styles/mapbox/dark-v11'
+                    : 'mapbox://styles/mapbox/light-v11',
                 center: [lng, lat],
                 zoom: zoom,
             });
@@ -224,14 +279,18 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
     }, [isDark, lng, lat, zoom, geojsonData]);
 
     const styleMap = {
-        height: "100vh",
-        width: "100vw",
+        height: '100vh',
+        width: '100vw',
     };
 
     // Render the map component
     return (
-        <div id={id} style={{ overflow: "hidden" }}>
-            <div style={styleMap} ref={mapContainer} className="map-container" />
+        <div id={id} style={{ overflow: 'hidden' }}>
+            <div
+                style={styleMap}
+                ref={mapContainer}
+                className="map-container"
+            />
             <style>
                 {`.mapboxgl-ctrl-logo {
                     display: none;
