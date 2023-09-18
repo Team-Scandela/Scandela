@@ -7,12 +7,16 @@ interface LampInfosPopupProps {
   isDark: boolean;
   id : string,
   selectedLampId: string | null;
+  address: string;
+  typeLampe: string;
+  typeFoyer: string;
+  hauteur: string;
   onClosePopup: () => void;
   selectedLampFeature: mapboxgl.MapboxGeoJSONFeature | null;
 
 }
 
-const LampInfosPopup: React.FC<LampInfosPopupProps> = ({ id, isDark, selectedLampId, onClosePopup, selectedLampFeature }) => {
+const LampInfosPopup: React.FC<LampInfosPopupProps> = ({ id, isDark, selectedLampId, address, typeFoyer, typeLampe, hauteur, onClosePopup, selectedLampFeature }) => {
 
   // Fonction pour fermer le popup
   const closePopup = () => {
@@ -28,16 +32,16 @@ const LampInfosPopup: React.FC<LampInfosPopupProps> = ({ id, isDark, selectedLam
     <div id={id}>
         <PannelContainer isDark={isDark}>
           <CloseIcon isDark={isDark} onClick={closePopup}></CloseIcon>
-          <PopupTextLampName isdark={isDark}> Lampadaire EPNA342002</PopupTextLampName>
-          <PopupSubTextLampName isdark={isDark} top="70px"> Chemin de la Censive du Tertre</PopupSubTextLampName>
+          <PopupTextLampName isdark={isDark}>Lampadaire {selectedLampId}</PopupTextLampName>
+          <PopupSubTextLampName isdark={isDark} top="70px"> {address}</PopupSubTextLampName>
           
           <PopupTextInfoTitle isdark={isDark} top="120px"> Informations</PopupTextInfoTitle>
           <PopupTitle isDark={isDark} top="170px"> Type Lampe </PopupTitle>
-          <PopupText isDark={isDark} top="170px"> SHP T 70 E27 2000 220 - </PopupText>
+          <PopupText isDark={isDark} top="170px">{typeLampe}</PopupText>
           <PopupTitle isDark={isDark} top="210px"> Type Foyer </PopupTitle>
-          <PopupText isDark={isDark} top="210px"> ALURA DIRECT </PopupText>
+          <PopupText isDark={isDark} top="210px">{typeFoyer}</PopupText>
           <PopupTitle isDark={isDark} top="250px"> Hauteur </PopupTitle>
-          <PopupText isDark={isDark} top="250px"> 3,7m </PopupText>
+          <PopupText isDark={isDark} top="250px">{hauteur} m</PopupText>
   
           <PopupTextInfoTitle isdark={isDark} top="300px"> Consommation</PopupTextInfoTitle>
           <img src={images.flash} alt="Flash" draggable="false" style={{ position: 'absolute', top: '340px', left: '50px', width: '20px', userSelect: 'none' }} />

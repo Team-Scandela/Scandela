@@ -279,6 +279,16 @@ const initializeMap = () => {
         width: "100vw",
     };
 
+
+    // Trouver l'objet correspondant au selectedLampId dans nantesData
+    const selectedLampData = nantesData.find((lamp: any) => lamp.fields.numero === selectedLampId);
+
+    // Extraire les informations à afficher
+    const address = selectedLampData ? selectedLampData.fields.nom_voie : '';
+    const typeLampe = selectedLampData ? selectedLampData.fields.designation : '';
+    const typeFoyer = selectedLampData ? selectedLampData.fields.type_foyer : '';
+    const hauteur = selectedLampData ? selectedLampData.fields.hauteur_support : '';
+  
     // Render the map component
     return (
         <div id={id} style={{ overflow: "hidden" }}>
@@ -296,6 +306,10 @@ const initializeMap = () => {
                 id={"LampInfosPopupComponentId"}
                 isDark={isDark}
                 selectedLampId={selectedLampId}
+                address={address}
+                typeLampe={typeLampe}
+                typeFoyer={typeFoyer}
+                hauteur={hauteur}
                 onClosePopup={() => {
                     setSelectedLampId(null);
                     
