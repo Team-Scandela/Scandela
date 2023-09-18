@@ -125,3 +125,21 @@ export const ListDetailContainer = styled.div`
     background-color: ${props => props.isDark ? Yellow + 'FF' : Black + 'FF'};
     border-radius: 30px;
 `;
+
+export const ButtonOptimise = styled.div`
+    display: flex;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    top: 145px;
+    left: 300px;
+    background-color: ${props => props.isDark ? Black + 'FF' : White + 'FF'};
+    border-radius: 15px;
+
+    &.hover{
+      cursor: pointer;
+      opacity: 0.7;
+    }
+`;
