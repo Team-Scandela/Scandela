@@ -1,11 +1,20 @@
 package com.scandela.server.entity;
 
+import java.io.Serializable;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.Data;
 
+@Entity
 @Data
-public class Login {
+@Table(name = "user")
+public class Login implements Serializable {
 
-    protected String email;
+    @Column(name = "email", nullable = false)
+	protected String email;
 
-    protected String password;
+	@Column(name = "password", nullable = false)
+	protected String password;
 }

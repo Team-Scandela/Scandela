@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.scandela.server.entity.Login;
-import com.scandela.server.entity.dto.LoginDto;
+import com.scandela.server.entity.dto.UserDto;
 import com.scandela.server.service.ILoginService;
 
 @RestController
 @RequestMapping(value = "/login")
-public class LoginController {
+public class LoginController extends AbstractController {
 
     // Attributes \\
 		// Private \\
@@ -23,7 +23,7 @@ public class LoginController {
     // Methods \\
 		// Public \\
 	@PostMapping
-	public ResponseEntity<LoginDto> loginAsUser(@RequestBody Login loginDetails) {
+	public ResponseEntity<UserDto> loginAsUser(@RequestBody Login loginDetails) {
 		return ResponseEntity.ok(this.loginService.checkLoginDetails(loginDetails));
 	}
 }
