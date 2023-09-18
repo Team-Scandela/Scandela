@@ -5,7 +5,6 @@ import LightDark from '../src/components/LightDark/index';
 //exemple test sur Composant (ici pour un attribut)
 describe('LightDark', () => {
     test('Enables darkmode on click', () => {
-
         let isDark = false;
 
         //simulate function to check if it was properly called onClick
