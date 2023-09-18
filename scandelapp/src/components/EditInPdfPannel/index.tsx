@@ -12,9 +12,7 @@ interface EditInPdfPannellProps {
 const EditInPdfPannel: React.FC<EditInPdfPannellProps> = ({ id, isDark, isButtonEditInPdfClicked }) => {
   const handleButtonClick = async () => {
     try {
-      const pdfBytes = await generatePDFDocument();
-      const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-      saveAs(blob, 'rapport_scandela.pdf');
+      generatePDFDocument();
     } catch (error) {
       console.error('Error generating PDF:', error);
     }

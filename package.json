@@ -5,6 +5,10 @@
     "supercluster": "^8.0.1"
   },
   "devDependencies": {
-    "@types/file-saver": "^2.0.5"
+    "@types/file-saver": "^2.0.5",
+    "prettier": "^3.0.3"
+  },
+  "scripts": {
+    "format": "prettier --check ."
   }
 }

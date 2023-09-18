@@ -9,23 +9,26 @@ export const GaugeContainer = styled.div`
 `;
 
 export const GaugeContainerLeft = styled(GaugeContainer)`
-    bottom: 30px;
-    right: 175px;
+    bottom: ${props => props.decisionPanelExtended ? 55 : 30}px;
+    right: ${props => props.decisionPanelExtended ? 325 : 175}px;
+    transition : all 0.5s ease-in-out;
 `;
 
 export const GaugeContainerMiddle = styled(GaugeContainer)`
-    bottom: 30px;
-    right: 100px;
+    bottom: ${props => props.decisionPanelExtended ? 55 : 30}px;
+    right: ${props => props.decisionPanelExtended ? 220 : 100}px;
+    transition : all 0.5s ease-in-out;
 `;
 
 export const GaugeContainerRight = styled(GaugeContainer)`
-    bottom: 30px;
-    right: 25px;
+    bottom: ${props => props.decisionPanelExtended ? 55 : 30}px;
+    right: ${props => props.decisionPanelExtended ? 115 : 25}px;
+    transition : all 0.5s ease-in-out;
 `;
 
 export const GaugeContainerPersonnalized = styled(GaugeContainer)`
     top: ${props => props.top}px;
-    right: ${props => props.right}px;
+    left: ${props => props.left}px;
 `;
 
 export const GaugeBackground = styled.img`

@@ -1,15 +1,15 @@
 import * as mapboxgl from 'mapbox-gl';
 import Supercluster from 'supercluster';
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Filters } from '../../pages/main'
 import loadMap from './loadMap';
 import LampInfosPopup from '../LampInfosPopup';
 
 
-// Charge les données géographiques de Nantes depuis un fichier JSON local
+// Load geographical data of Nantes from a local JSON file
 let nantesData = require('../../assets/nantesData.json');
 
-// Définit la clé d'accès Mapbox
+// Set Mapbox access token
 Object.getOwnPropertyDescriptor(mapboxgl, "accessToken").set("pk.eyJ1IjoidGl0b3VhbnRkIiwiYSI6ImNsaDYyeHUybDAyNTkzcHV5NHlzY3drbHIifQ._eEX5CRcWxVrl9C8z4u3fQ");
 
 interface MapProps {
@@ -21,22 +21,21 @@ interface MapProps {
     zoom: number,
 }
 
-// Composant de la carte
+// Map component
 const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
-    // Référence à l'élément de conteneur de la carte
+    // Reference to the map container element
     const mapContainer = React.useRef<HTMLDivElement | null>(null);
 
-    // Référence à l'objet carte Mapbox
+    // Reference to the Mapbox map object
     const map = React.useRef<mapboxgl.Map | null>(null);
 
-    // Référence à l'objet Supercluster
+    // Reference to the Supercluster object
     const cluster = React.useRef<Supercluster | null>(null);
 
     // Pour suivre l'ID du lampadaire sélectionné
     const [selectedLampId, setSelectedLampId] = React.useState<string | null>(null);
 
     const [selectedLampFeature, setSelectedLampFeature] = React.useState<mapboxgl.MapboxGeoJSONFeature | null>(null);
-
 
     // Crée les données géoJSON à partir des données de Nantes
     const geojsonData = React.useMemo(() => {
@@ -60,6 +59,26 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
         });
         return geoJSON;
     }, []);
+
+    // Function to handle filter changes
+    const handleFilterChange = () => {
+        if (map.current) {
+            if (filter === 'pin') {
+                // Show layers when the filter is "pin"
+                map.current.setLayoutProperty('cluster-text', 'visibility', 'visible');
+                map.current.setLayoutProperty('clusters', 'visibility', 'visible');
+                map.current.setLayoutProperty('cluster-markers', 'visibility', 'visible');
+                map.current.setLayoutProperty('cluster-border', 'visibility', 'visible');
+            } else {
+                // Hide layers when the filter is not "pin"
+                map.current.setLayoutProperty('cluster-text', 'visibility', 'none');
+                map.current.setLayoutProperty('clusters', 'visibility', 'none');
+                map.current.setLayoutProperty('cluster-markers', 'visibility', 'none');
+                map.current.setLayoutProperty('cluster-border', 'visibility', 'none');
+            }
+        }
+    };
+
 
 // Initialise la carte
 const initializeMap = () => {
@@ -202,57 +221,62 @@ const initializeMap = () => {
                         'text-color': '#000000',
                     },
                 });
+
+                map.current.setLayoutProperty('clusters', 'visibility', 'none');
+                map.current.setLayoutProperty('cluster-markers', 'visibility', 'none');
+                map.current.setLayoutProperty('cluster-text', 'visibility', 'none');
+                map.current.setLayoutProperty('cluster-border', 'visibility', 'none');
             }
         });
     }
 };
-
-    // Initialise la carte lors de la première rendu
+    
+    // Initialize the map on the first render
     React.useEffect(() => {
         initializeMap();
     }, [isDark, lng, lat, zoom]);
 
-  // Fonction qui permet de filtrer les données en fonction du type de filtre
+    // Effect to monitor filter changes
     React.useEffect(() => {
-        if (map.current) {
-        map.current.setStyle(
-            isDark ? "mapbox://styles/mapbox/dark-v11" : "mapbox://styles/mapbox/light-v11"
-        );
-        map.current.flyTo({
-            center: [lng, lat],
-            zoom: zoom,
-            speed: 1.2, // Speed of the animation
-            curve: 1.42, // How the zooming is animated (curve factor)
-        });
-    } else {
-        map.current = new mapboxgl.Map({
-            container: mapContainer.current,
-            style: isDark ? "mapbox://styles/mapbox/dark-v11" : "mapbox://styles/mapbox/light-v11",
-            center: [lng, lat],
-            zoom: zoom,
-        });
-        loadMap(map.current);
-    }
-    }, [isDark, lng, lat, zoom, geojsonData]);
-
-    React.useEffect(() => {
-        for (const value in Filters) {
-            if (map.current.getLayer(value)) {
-                map.current.setLayoutProperty(value, 'visibility', 'none');
+        console.log("filter = " + filter);
+        if (map.current.isStyleLoaded()) {
+            handleFilterChange(); // Call the function to handle layer visibility
+        } else {
+            map.current.on('style.load', () => {
+                handleFilterChange(); // Call the function once the style is loaded
+            });
         }
-    }
-        if (map.current.getLayer(filter)) {
-            map.current.setLayoutProperty(filter, 'visibility', 'visible');
-    }
-    console.log(filter);
     }, [filter]);
+
+    // Function to filter data based on the filter type
+    useEffect(() => {
+        if (map.current) {
+            map.current.setStyle(
+                isDark ? "mapbox://styles/mapbox/dark-v11" : "mapbox://styles/mapbox/light-v11"
+            );
+            map.current.flyTo({
+                center: [lng, lat],
+                zoom: zoom,
+                speed: 1.2,
+                curve: 1.42,
+            });
+        } else {
+            map.current = new mapboxgl.Map({
+                container: mapContainer.current,
+                style: isDark ? "mapbox://styles/mapbox/dark-v11" : "mapbox://styles/mapbox/light-v11",
+                center: [lng, lat],
+                zoom: zoom,
+            });
+            loadMap(map.current);
+        }
+    }, [isDark, lng, lat, zoom, geojsonData]);
 
     const styleMap = {
         height: "100vh",
         width: "100vw",
     };
 
-    // Rendu du composant de la carte
+    // Render the map component
     return (
         <div id={id} style={{ overflow: "hidden" }}>
             <div style={styleMap} ref={mapContainer} className="map-container" />
@@ -286,5 +310,4 @@ const initializeMap = () => {
     );
 };
 
-// Exporte le composant de la carte par défaut
 export default Map;

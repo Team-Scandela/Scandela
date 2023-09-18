@@ -1,0 +1,8 @@
+forward/
+scandelapp/src/assets/
+node_modules/
+README.md
+.github/
+*.yml
+.prettierrc
+*.html

@@ -3,13 +3,21 @@ import { GaugeContainerLeft, GaugeContainerMiddle, GaugeContainerRight, GaugeBac
 import * as images from './gaugesImports'
 import { Green, Red } from '../../colors';
 
+/** Props of the gauges
+ * @param {boolean} isDark - If the map is in dark mode or not
+ * @param {boolean} decisionPanelExtended - Boolean to check if the decision panel is extended or not
+ * @param {boolean} actionsListExtended -  Boolean to check if the actions list is extended or not
+ *
+ */
 interface GaugesProps {
     id : string,
     isDark: boolean;
+    decisionPanelExtended: boolean;
+    actionsListExtended: boolean;
 }
 
 //* Gauges component */
-export const Gauges: React.FC<GaugesProps> = ({ id, isDark }) => {
+export const Gauges: React.FC<GaugesProps> = ({ id, isDark, decisionPanelExtended, actionsListExtended }) => {
 
     const [levelElec, setLevelElec] = React.useState<number>(50);
     const [levelBio, setLevelBio] = React.useState<number>(25);
@@ -25,26 +33,30 @@ export const Gauges: React.FC<GaugesProps> = ({ id, isDark }) => {
 
     return (
         <div id={id}>
-            <GaugeContainerLeft>
-                <GaugeBackground src={isDark ? images.left : images.leftLight} />
-                <GaugeLevelLeft level={levelElec} />
-                <GaugeOldLevel color={diffLevelElec > 0 ? Red : Green} level={levelElec} diffLevel={diffLevelElec} />
-                <GaugeLogo draggable="false" src={isDark ? images.elec : images.elecLight} />
-            </GaugeContainerLeft>
+            {!actionsListExtended && (
+                <div>
+                    <GaugeContainerLeft decisionPanelExtended={decisionPanelExtended}>
+                        <GaugeBackground src={isDark ? images.left : images.leftLight} />
+                        <GaugeLevelLeft level={levelElec} />
+                        <GaugeOldLevel color={diffLevelElec > 0 ? Red : Green} level={levelElec} diffLevel={diffLevelElec} />
+                        <GaugeLogo src={isDark ? images.elec : images.elecLight} />
+                    </GaugeContainerLeft>
 
-            <GaugeContainerMiddle>
-                <GaugeBackground src={isDark ? images.middle : images.middleLight} />
-                <GaugeLevelMiddle level={levelBio} />
-                <GaugeOldLevel color={diffLevelBio > 0 ? Red : Green} level={levelBio} diffLevel={diffLevelBio} />
-                <GaugeLogo draggable="false" src={isDark ? images.bio : images.bioLight} />
-            </GaugeContainerMiddle>
+                    <GaugeContainerMiddle decisionPanelExtended={decisionPanelExtended}>
+                        <GaugeBackground src={isDark ? images.middle : images.middleLight} />
+                        <GaugeLevelMiddle level={levelBio} />
+                        <GaugeOldLevel color={diffLevelBio > 0 ? Red : Green} level={levelBio} diffLevel={diffLevelBio} />
+                        <GaugeLogo src={isDark ? images.bio : images.bioLight} />
+                    </GaugeContainerMiddle>
 
-            <GaugeContainerRight>
-                <GaugeBackground src={isDark ? images.right : images.rightLight} />
-                <GaugeLevelRight level={levelLumi} />
-                <GaugeOldLevel color={diffLevelLumi > 0 ? Red : Green} level={levelLumi} diffLevel={diffLevelLumi} />
-                <GaugeLogo draggable="false" src={isDark ? images.lumi : images.lumiLight} />
-            </GaugeContainerRight>
+                    <GaugeContainerRight decisionPanelExtended={decisionPanelExtended}>
+                        <GaugeBackground src={isDark ? images.right : images.rightLight} />
+                        <GaugeLevelRight level={levelLumi} />
+                        <GaugeOldLevel color={diffLevelLumi > 0 ? Red : Green} level={levelLumi} diffLevel={diffLevelLumi} />
+                        <GaugeLogo src={isDark ? images.lumi : images.lumiLight} />
+                    </GaugeContainerRight>
+                </div>
+            )}
         </div>
     )
 }
@@ -84,7 +96,7 @@ export const PersonnalizedGauge: React.FC<PersonnalizedGaugeProps> = ({ id, isDa
                 <GaugeBackground src={isDark ? images.middle : images.middleLight} />
                 <GaugeLevelMiddle level={level} />
                 <GaugeOldLevel color={diffLevel > 0 ? Red : Green} level={level} diffLevel={diffLevel} />
-                <GaugeLogo src={logo} />
+                <GaugeLogo draggable="false" src={logo} />
             </GaugeContainerPersonnalized>
         </div>
     )
