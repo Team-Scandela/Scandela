@@ -1,7 +1,8 @@
 {
   "dependencies": {
     "file-saver": "^2.0.5",
-    "pdf-lib": "^1.17.1"
+    "pdf-lib": "^1.17.1",
+    "supercluster": "^8.0.1"
   },
   "devDependencies": {
     "@types/file-saver": "^2.0.5"
