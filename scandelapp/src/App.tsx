@@ -4,16 +4,18 @@ import './App.css';
 import Main from './pages/main';
 import Login from './pages/login';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import * as Sentry from "@sentry/browser";
+import * as Sentry from '@sentry/browser';
 
 /** Route page */
 const App: React.FC = () => {
-
     Sentry.init({
-        dsn: "https://b7ba74511176b52c96d1d58dc76d7ab7@o4505907192725504.ingest.sentry.io/4505907207012352",
+        dsn: 'https://b7ba74511176b52c96d1d58dc76d7ab7@o4505907192725504.ingest.sentry.io/4505907207012352',
         integrations: [
             new Sentry.BrowserTracing({
-                tracePropagationTargets: ["localhost", /^https:\/\/app.scandela.fr/],
+                tracePropagationTargets: [
+                    'localhost',
+                    /^https:\/\/app.scandela.fr/,
+                ],
             }),
         ],
         tracesSampleRate: 1.0,
@@ -21,7 +23,7 @@ const App: React.FC = () => {
         replaysSessionSampleRate: 0.1,
         replaysOnErrorSampleRate: 1.0,
     });
-    
+
     return (
         <BrowserRouter>
             <Routes>
