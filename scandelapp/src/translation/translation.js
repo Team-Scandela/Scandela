@@ -4,13 +4,13 @@ import { initReactI18next } from 'react-i18next';
 const resources = {
     en: {
         translation: {
-            searchBarMessage: "Search in Scandela",
+            searchBarMessage: 'Search in Scandela',
         },
     },
 
     fr: {
         translation: {
-            searchBarMessage: "Rechercher dans Scandela",
+            searchBarMessage: 'Rechercher dans Scandela',
         },
     },
 };

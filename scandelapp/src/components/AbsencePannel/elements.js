@@ -1,6 +1,10 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 import { Yellow, Black, White, Grey } from '../../colors';
-import { AiFillCloseCircle, AiOutlineWarning, AiOutlineSend } from 'react-icons/ai';
+import {
+    AiFillCloseCircle,
+    AiOutlineWarning,
+    AiOutlineSend,
+} from 'react-icons/ai';
 
 /** Container for the background of the DuringYourAbsence **/
 export const PannelContainer = styled.div`
@@ -8,28 +12,32 @@ export const PannelContainer = styled.div`
     position: absolute;
     align-items: center;
     justify-content: center;
-    width: ${(props) => (props.show ? "900px" : "0px")};
-    height: ${(props) => (props.show ? "500px" : "0px")};
+    width: ${(props) => (props.show ? '900px' : '0px')};
+    height: ${(props) => (props.show ? '500px' : '0px')};
     top: 25%;
     left: 25%;
-    background-color: ${props => props.isDark ? Black + 'FF' : White + 'FF'};
+    background-color: ${(props) =>
+        props.isDark ? Black + 'FF' : White + 'FF'};
     border-radius: 30px;
-    transition: transform 0.2s ease-in-out, width 0.5s ease-in-out, height 1s ease-in-out;
-    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+    transition:
+        transform 0.2s ease-in-out,
+        width 0.5s ease-in-out,
+        height 1s ease-in-out;
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
     transform-origin: center;
-    transform: scaleX(${(props) => (props.show ? 1 : 0)}) scaleY(${(props) => (props.show ? 1 : 0)});
+    transform: scaleX(${(props) => (props.show ? 1 : 0)})
+        scaleY(${(props) => (props.show ? 1 : 0)});
     overflow: hidden;
 `;
 
-
 export const PannelText = styled.div`
-  position: absolute;
-  top: 30px;
-  left: 30px;
-  font-size: 50px;
-  user-select: none;
-  color : ${props => props.isDark ? Yellow : Black};
-  font-weight: 550;
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    font-size: 50px;
+    user-select: none;
+    color: ${(props) => (props.isDark ? Yellow : Black)};
+    font-weight: 550;
 `;
 
 export const CloseIcon = styled(AiFillCloseCircle)`
@@ -37,14 +45,14 @@ export const CloseIcon = styled(AiFillCloseCircle)`
     right: 30px;
     top: 40px;
     font-size: 40px;
-    color: ${props => props.isDark ? Yellow : Black};
+    color: ${(props) => (props.isDark ? Yellow : Black)};
     opacity: 1;
     transition: opacity 0.1s;
     overflow: hidden;
-    
+
     &:hover {
-      cursor: pointer;
-      opacity: 0.5;
+        cursor: pointer;
+        opacity: 0.5;
     }
 `;
 
@@ -57,7 +65,8 @@ export const ListDetailContainer = styled.div`
     width: 680px;
     height: 380px;
     top: 20%;
-    background-color: ${props => props.isDark ? Yellow + 'FF' : Black + 'FF'};
+    background-color: ${(props) =>
+        props.isDark ? Yellow + 'FF' : Black + 'FF'};
     border-radius: 30px;
 `;
 
@@ -69,9 +78,9 @@ export const EventContainer = styled.div`
     left: 5%;
     width: 90%;
     height: 100px;
-    top: ${props => props.top};
+    top: ${(props) => props.top};
 `;
-  
+
 export const WarningIcon = styled(AiOutlineWarning)`
     position: absolute;
     left: 0px;
@@ -85,13 +94,13 @@ export const ArrowIcon = styled(AiOutlineSend)`
     right: 0px;
     top: 15px;
     font-size: 60px;
-    color: ${props => props.isDark ? Black : White};
+    color: ${(props) => (props.isDark ? Black : White)};
     opacity: 1;
     transition: opacity 0.1s;
 
     &:hover {
-      cursor: pointer;
-      opacity: 0.5;
+        cursor: pointer;
+        opacity: 0.5;
     }
 `;
 
@@ -107,19 +116,19 @@ export const EventTextContainer = styled.div`
 `;
 
 export const EventText = styled.div`
-  position: absolute;
-  top: 5px;
-  left: 0px;
-  font-size: 30px;
-  user-select: none;
-  color : ${props => props.isDark ? Black : White};
-  font-weight: 550;
+    position: absolute;
+    top: 5px;
+    left: 0px;
+    font-size: 30px;
+    user-select: none;
+    color: ${(props) => (props.isDark ? Black : White)};
+    font-weight: 550;
 `;
 
 export const IndicatorsImage = styled.img`
-  position: absolute;
-  right: 50px;
-  top: 125px;
-  width: 100px;
-  height: auto;
+    position: absolute;
+    right: 50px;
+    top: 125px;
+    width: 100px;
+    height: auto;
 `;
