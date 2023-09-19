@@ -63,7 +63,7 @@ public class UserServiceTest {
 			.username(username)
 			.password(password)
 			.role(role)
-			.moreInfo(new ArrayList<>())
+			.moreInformations(new ArrayList<>())
 			.darkmode(true)
 			.lastConnexion(LocalDateTime.now())
 			.build();
@@ -85,7 +85,7 @@ public class UserServiceTest {
 		assertThat(resultedUser.getUsername()).isEqualTo(user.getUsername());
 		assertThat(resultedUser.getPassword()).isEqualTo(user.getPassword());
 		assertThat(resultedUser.getRole()).isEqualTo(user.getRole());
-		assertThat(resultedUser.getMoreInfo()).isEqualTo(user.getMoreInfo());
+		assertThat(resultedUser.getMoreInformations()).isEqualTo(user.getMoreInformations());
 		assertThat(resultedUser.isDarkmode()).isEqualTo(user.isDarkmode());
 		assertThat(resultedUser.getLastConnexion().toString()).isEqualTo(user.getLastConnexion().toString());
 	}
@@ -144,7 +144,7 @@ public class UserServiceTest {
 		assertThat(result.getUsername()).isEqualTo(user.getUsername());
 		assertThat(result.getPassword()).isEqualTo(user.getPassword());
 		assertThat(result.getRole()).isEqualTo(user.getRole());
-		assertThat(result.getMoreInfo()).isEqualTo(user.getMoreInfo());
+		assertThat(result.getMoreInformations()).isEqualTo(user.getMoreInformations());
 		assertThat(result.isDarkmode()).isEqualTo(user.isDarkmode());
 		assertThat(result.getLastConnexion().toString()).isEqualTo(user.getLastConnexion().toString());
 	}
@@ -174,7 +174,7 @@ public class UserServiceTest {
 		assertThat(result.getUsername()).isEqualTo(user.getUsername());
 		assertThat(result.getPassword()).isEqualTo(user.getPassword());
 		assertThat(result.getRole()).isEqualTo(user.getRole());
-		assertThat(result.getMoreInfo()).isEqualTo(user.getMoreInfo());
+		assertThat(result.getMoreInformations()).isEqualTo(user.getMoreInformations());
 		assertThat(result.isDarkmode()).isEqualTo(user.isDarkmode());
 		assertThat(result.getLastConnexion().toString()).isEqualTo(user.getLastConnexion().toString());
 	}
