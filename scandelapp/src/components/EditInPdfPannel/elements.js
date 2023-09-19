@@ -7,7 +7,7 @@ export const PannelContainer = styled.div`
     display: flex;
     position: absolute;
     align-items: center;
-    justify-content: center; /* Ajout de cette ligne */
+    justify-content: center;
     width: 700px;
     height: 180px;
     top: 75%;
@@ -32,7 +32,7 @@ export const PannelText = styled.div`
 export const ExportButton = styled.div`
     position: absolute;
     align-items: center;
-    justify-content: center; /* Ajout de cette ligne */
+    justify-content: center;
     height: 50px;
     top: 100px;
     left: 30px;

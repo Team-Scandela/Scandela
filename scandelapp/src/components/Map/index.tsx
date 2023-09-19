@@ -3,6 +3,7 @@ import Supercluster from 'supercluster';
 import React, { useState, useEffect } from 'react';
 import { Filters } from '../../pages/main';
 import loadMap from './loadMap';
+import LampInfosPopup from '../LampInfosPopup';
 
 // Load geographical data of Nantes from a local JSON file
 let nantesData = require('../../assets/nantesData.json');
@@ -32,7 +33,15 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
     // Reference to the Supercluster object
     const cluster = React.useRef<Supercluster | null>(null);
 
-    // Create GeoJSON data from Nantes data
+    // Pour suivre l'ID du lampadaire sélectionné
+    const [selectedLampId, setSelectedLampId] = React.useState<string | null>(
+        null
+    );
+
+    const [selectedLampFeature, setSelectedLampFeature] =
+        React.useState<mapboxgl.MapboxGeoJSONFeature | null>(null);
+
+    // Crée les données géoJSON à partir des données de Nantes
     const geojsonData = React.useMemo(() => {
         let geoJSON = {
             type: 'FeatureCollection',
@@ -83,6 +92,7 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
                     'visibility',
                     'visible'
                 );
+                map.current.setLayoutProperty('lamp', 'visibility', 'visible');
             } else {
                 // Hide layers when the filter is not "pin"
                 map.current.setLayoutProperty(
@@ -101,11 +111,12 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
                     'visibility',
                     'none'
                 );
+                map.current.setLayoutProperty('lamp', 'visibility', 'none');
             }
         }
     };
 
-    // Initialize the map
+    // Initialise la carte
     const initializeMap = () => {
         if (!map.current) {
             cluster.current = new Supercluster({
@@ -123,7 +134,55 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
                 zoom: zoom,
             });
 
+            map.current.on('click', 'lamp', (e) => {
+                const features = map.current?.queryRenderedFeatures(e.point, {
+                    layers: ['lamp'],
+                });
+
+                if (features && features.length > 0) {
+                    const selectedFeature = features[0];
+                    setSelectedLampId(selectedFeature.properties.id);
+
+                    // Mettre à jour la couleur du lampadaire sélectionné en utilisant un filtre
+                    map.current?.setPaintProperty('lamp', 'circle-color', [
+                        'case',
+                        ['==', ['get', 'id'], selectedFeature.properties.id],
+                        '#000000',
+                        '#FAC710',
+                    ]);
+                    map.current?.setPaintProperty(
+                        'lamp',
+                        'circle-stroke-color',
+                        [
+                            'case',
+                            [
+                                '==',
+                                ['get', 'id'],
+                                selectedFeature.properties.id,
+                            ],
+                            '#FAC710',
+                            '#F9F9F9',
+                        ]
+                    );
+
+                    // Conserver une référence au lampadaire sélectionné
+                    setSelectedLampFeature(selectedFeature);
+                }
+            });
+
             map.current.on('load', () => {
+                map.current.on('mouseenter', 'lamp', () => {
+                    if (map.current) {
+                        map.current.getCanvas().style.cursor = 'pointer';
+                    }
+                });
+
+                map.current.on('mouseleave', 'lamp', () => {
+                    if (map.current) {
+                        map.current.getCanvas().style.cursor = '';
+                    }
+                });
+
                 if (!map.current?.getSource('points')) {
                     map.current.addSource('points', {
                         type: 'geojson',
@@ -133,12 +192,12 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
                         clusterMaxZoom: 17,
                     });
 
-                    // Define colors in RGBA format with 0.6 opacity
+                    // Définit les couleurs en format RGBA avec une opacité de 0.6
                     const greenRGBA = 'rgba(0, 128, 0, 0.6)';
                     const yellowRGBA = 'rgba(255, 255, 0, 0.6)';
                     const orangeRGBA = 'rgba(255, 165, 0, 0.6)';
 
-                    // Define border colors in RGBA format with 0.3 opacity
+                    // Définit les couleurs de la bordure en format RGBA avec une opacité de 0.3
                     const greenBorderRGBA = 'rgba(0, 128, 0, 0.3)';
                     const yellowBorderRGBA = 'rgba(255, 255, 0, 0.3)';
                     const orangeBorderRGBA = 'rgba(255, 165, 0, 0.3)';
@@ -153,11 +212,11 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
                             'circle-color': [
                                 'step',
                                 ['get', 'point_count'],
-                                greenRGBA, // Green color
+                                greenRGBA, // Couleur verte
                                 19,
-                                yellowRGBA, // Yellow color
+                                yellowRGBA, // Couleur jaune
                                 100,
-                                orangeRGBA, // Orange color
+                                orangeRGBA, // Couleur orange
                             ],
                         },
                     });
@@ -172,17 +231,17 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
                             'circle-color': [
                                 'step',
                                 ['get', 'point_count'],
-                                greenBorderRGBA, // Green border color
+                                greenBorderRGBA, // Couleur de bordure verte
                                 19,
-                                yellowBorderRGBA, // Yellow border color
+                                yellowBorderRGBA, // Couleur de bordure jaune
                                 100,
-                                orangeBorderRGBA, // Orange border color
+                                orangeBorderRGBA, // Couleur de bordure orange
                             ],
                         },
                     });
 
                     map.current.addLayer({
-                        id: 'cluster-markers',
+                        id: 'lamp',
                         type: 'circle',
                         source: 'points',
                         filter: ['!', ['has', 'point_count']],
@@ -229,6 +288,7 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
                         'visibility',
                         'none'
                     );
+                    map.current.setLayoutProperty('lamp', 'visibility', 'none');
                 }
             });
         }
@@ -283,6 +343,23 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
         width: '100vw',
     };
 
+    // Trouver l'objet correspondant au selectedLampId dans nantesData
+    const selectedLampData = nantesData.find(
+        (lamp: any) => lamp.fields.numero === selectedLampId
+    );
+
+    // Extraire les informations à afficher
+    const address = selectedLampData ? selectedLampData.fields.nom_voie : '';
+    const typeLampe = selectedLampData
+        ? selectedLampData.fields.designation
+        : '';
+    const typeFoyer = selectedLampData
+        ? selectedLampData.fields.type_foyer
+        : '';
+    const hauteur = selectedLampData
+        ? selectedLampData.fields.hauteur_support
+        : '';
+
     // Render the map component
     return (
         <div id={id} style={{ overflow: 'hidden' }}>
@@ -299,6 +376,36 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
                 display: none;
                 }`}
             </style>
+            {selectedLampId && (
+                <LampInfosPopup
+                    id={'LampInfosPopupComponentId'}
+                    isDark={isDark}
+                    selectedLampId={selectedLampId}
+                    address={address}
+                    typeLampe={typeLampe}
+                    typeFoyer={typeFoyer}
+                    hauteur={hauteur}
+                    onClosePopup={() => {
+                        setSelectedLampId(null);
+
+                        // Rétablir la couleur du lampadaire précédemment sélectionné
+                        if (selectedLampFeature) {
+                            map.current?.setPaintProperty(
+                                'lamp',
+                                'circle-color',
+                                '#FAC710'
+                            );
+                            map.current?.setPaintProperty(
+                                'lamp',
+                                'circle-stroke-color',
+                                '#F9F9F9'
+                            );
+                            setSelectedLampFeature(null);
+                        }
+                    }}
+                    selectedLampFeature={selectedLampFeature} // Passer l'état du lampadaire sélectionné
+                />
+            )}
         </div>
     );
 };
