@@ -10,6 +10,11 @@ const cabinet_model = require('./cabinet_model.ts');
 const user_model = require('./user_model.ts');
 const town_model = require('./town_model.ts');
 const decision_model = require('./decision_model.ts');
+const decisiontype_model = require('./decisiontype_model.ts');
+const hood_model = require('./hood_model.ts');
+const incident_model = require('./incident_model.ts');
+const lampdecision_model = require('./lampdecision_model.ts');
+const street_model = require('./street_model.ts');
 
 app.use(express.json());
 
@@ -134,4 +139,84 @@ app.delete('/decision/:uuid', (request : Request, response : Response) => {
 
 app.patch('/decision/:uuid', (request : Request, response : Response) => {
     decision_model.updateDecision(request, response)
+});
+
+app.get('/decisiontype', (request : Request, response : Response) => {
+    decisiontype_model.getDecisiontype(request, response)
+});
+
+app.post('/decisiontype', (request : Request, response : Response) => {
+    decisiontype_model.createDecisiontype(request, response)
+});
+
+app.delete('/decisiontype/:uuid', (request : Request, response : Response) => {
+    decisiontype_model.deleteDecisiontype(request, response)
+});
+
+app.patch('/decisiontype/:uuid', (request : Request, response : Response) => {
+    decisiontype_model.updateDecisiontype(request, response)
+});
+
+app.get('/hood', (request : Request, response : Response) => {
+    hood_model.getHood(request, response)
+});
+
+app.post('/hood', (request : Request, response : Response) => {
+    hood_model.createHood(request, response)
+});
+
+app.delete('/hood/:uuid', (request : Request, response : Response) => {
+    hood_model.deleteHood(request, response)
+});
+
+app.patch('/hood/:uuid', (request : Request, response : Response) => {
+    hood_model.updateHood(request, response)
+});
+
+app.get('/incident', (request : Request, response : Response) => {
+    incident_model.getIncident(request, response)
+});
+
+app.post('/incident', (request : Request, response : Response) => {
+    incident_model.createIncident(request, response)
+});
+
+app.delete('/incident/:uuid', (request : Request, response : Response) => {
+    incident_model.deleteIncident(request, response)
+});
+
+app.patch('/incident/:uuid', (request : Request, response : Response) => {
+    incident_model.updateIncident(request, response)
+});
+
+app.get('/lampdecision', (request : Request, response : Response) => {
+    lampdecision_model.getLampdecision(request, response)
+});
+
+app.post('/lampdecision', (request : Request, response : Response) => {
+    lampdecision_model.createLampdecision(request, response)
+});
+
+app.delete('/lampdecision/:uuid', (request : Request, response : Response) => {
+    lampdecision_model.deleteLampdecision(request, response)
+});
+
+app.patch('/lampdecision/:uuid', (request : Request, response : Response) => {
+    lampdecision_model.updateLampdecision(request, response)
+});
+
+app.get('/street', (request : Request, response : Response) => {
+    street_model.getStreet(request, response)
+});
+
+app.post('/street', (request : Request, response : Response) => {
+    street_model.createStreet(request, response)
+});
+
+app.delete('/street/:uuid', (request : Request, response : Response) => {
+    street_model.deleteStreet(request, response)
+});
+
+app.patch('/street/:uuid', (request : Request, response : Response) => {
+    street_model.updateStreet(request, response)
 });
