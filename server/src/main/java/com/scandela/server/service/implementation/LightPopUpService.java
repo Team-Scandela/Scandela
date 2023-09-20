@@ -25,6 +25,8 @@ public class LightPopUpService extends AbstractService implements ILightPopUpSer
             return null;
         }
 
+        computeOptimisations(LightPointDto.from(lightPoint.get()));
+
         return LightPointDto.from(lightPoint.get());
     }
 
