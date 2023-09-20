@@ -231,11 +231,11 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
                             'circle-color': [
                                 'step',
                                 ['get', 'point_count'],
-                                greenBorderRGBA, // Couleur de bordure verte
+                                greenBorderRGBA, // Green border color
                                 19,
-                                yellowBorderRGBA, // Couleur de bordure jaune
+                                yellowBorderRGBA, // Yellow border color
                                 100,
-                                orangeBorderRGBA, // Couleur de bordure orange
+                                orangeBorderRGBA, // Orange border color
                             ],
                         },
                     });
