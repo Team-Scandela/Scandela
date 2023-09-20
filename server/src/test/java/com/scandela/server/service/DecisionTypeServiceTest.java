@@ -131,9 +131,9 @@ public class DecisionTypeServiceTest {
 
 	@Test
 	public void testDelete() {
-		testedObject.delete(decisionType);
+		testedObject.delete(id);
 
-		verify(decisionTypeDaoMock, times(1)).delete(decisionType);
+		verify(decisionTypeDaoMock, times(1)).deleteById(id);
 	}
 	
 }

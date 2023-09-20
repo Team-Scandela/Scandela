@@ -63,11 +63,11 @@ public class IncidentController extends AbstractController {
 	/**
 	 * Delete incident
 	 * 
-	 * @param incident
+	 * @param id
 	 */
-	@DeleteMapping("/delete")
-	public void deleteIncident(@RequestBody Incident incident) {
-		incidentService.delete(incident);
+	@DeleteMapping("/delete/{id}")
+	public void deleteIncident(@PathVariable long id) {
+		incidentService.delete(id);
 	}
 
 }

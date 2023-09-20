@@ -9,5 +9,5 @@ public interface IService<T> {
 	public List<T> getAll();
 	public T get(long id);
 	public T create(T entity) throws Exception;
-	public void delete(T entity);
+	public void delete(long id);
 }

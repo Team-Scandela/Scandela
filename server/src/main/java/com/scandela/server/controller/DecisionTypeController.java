@@ -64,11 +64,11 @@ public class DecisionTypeController extends AbstractController {
 	/**
 	 * Delete decisionType
 	 * 
-	 * @param decisionType
+	 * @param id
 	 */
-	@DeleteMapping("/delete")
-	public void deleteDecisionType(@RequestBody DecisionType decisionType) {
-		decisionTypeService.delete(decisionType);
+	@DeleteMapping("/delete/{id}")
+	public void deleteDecisionType(@PathVariable long id) {
+		decisionTypeService.delete(id);
 	}
 
 }

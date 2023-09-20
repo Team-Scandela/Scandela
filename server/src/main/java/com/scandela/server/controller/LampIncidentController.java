@@ -17,7 +17,7 @@ import com.scandela.server.service.ILampIncidentService;
 
 @CrossOrigin//TODO a changer dans le future en mettant un access token
 @RestController
-@RequestMapping(value = "/incidents")
+@RequestMapping(value = "/lampIncidents")
 public class LampIncidentController extends AbstractController {
 
 	// Attributes \\
@@ -63,11 +63,11 @@ public class LampIncidentController extends AbstractController {
 	/**
 	 * Delete lampIncident
 	 * 
-	 * @param lampIncident
+	 * @param id
 	 */
-	@DeleteMapping("/delete")
-	public void deleteLampIncident(@RequestBody LampIncident lampIncident) {
-		lampIncidentService.delete(lampIncident);
+	@DeleteMapping("/delete/{id}")
+	public void deleteLampIncident(@PathVariable long id) {
+		lampIncidentService.delete(id);
 	}
 
 }

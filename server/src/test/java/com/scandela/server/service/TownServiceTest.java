@@ -234,9 +234,9 @@ public class TownServiceTest {
 
 	@Test
 	public void testDelete() {
-		testedObject.delete(town);
+		testedObject.delete(id);
 
-		verify(townDaoMock, times(1)).delete(town);
+		verify(townDaoMock, times(1)).deleteById(id);
 	}
 	
 }

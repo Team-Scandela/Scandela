@@ -64,11 +64,11 @@ public class TownController extends AbstractController {
 	/**
 	 * Delete town
 	 * 
-	 * @param town
+	 * @param id
 	 */
-	@DeleteMapping("/delete")
-	public void deleteTown(@RequestBody Town town) {
-		townService.delete(town);
+	@DeleteMapping("/delete/{id}")
+	public void deleteTown(@PathVariable long id) {
+		townService.delete(id);
 	}
 
 }

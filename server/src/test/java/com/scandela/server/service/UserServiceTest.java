@@ -258,9 +258,9 @@ public class UserServiceTest {
 	
 	@Test
 	public void testDelete() {
-		testedObject.delete(user);
+		testedObject.delete(id);
 
-		verify(userDaoMock, times(1)).delete(user);
+		verify(userDaoMock, times(1)).deleteById(id);
 	}
 	
 }
