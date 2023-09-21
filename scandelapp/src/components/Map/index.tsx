@@ -189,7 +189,7 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
                         data: geojsonData as GeoJSON.FeatureCollection,
                         cluster: true,
                         clusterRadius: 100,
-                        clusterMaxZoom: 17,
+                        clusterMaxZoom: 16,
                     });
 
                     // Définit les couleurs en format RGBA avec une opacité de 0.6
