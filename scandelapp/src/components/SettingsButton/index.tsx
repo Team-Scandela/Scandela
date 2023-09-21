@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { SettingsButtonContainer, NameOfCity, OptionsMenuContainer, LogoutButton, ProfileButton, LanguageButton} from './element'
 import LightDark from '../LightDark'
+import { useTranslation } from 'react-i18next';
 
 
 /** SettingsButton of the main page Scandela
@@ -19,6 +20,12 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({ id, isDark, setIsDark }
     /** If the option menu is open or closed */
     const [on, setOn] = React.useState(false);
 
+    const { i18n } = useTranslation();
+
+    const changeLanguage = (lng: string) => {
+        i18n.changeLanguage(lng);
+    };
+
     return (
         <div>
             <SettingsButtonContainer isDark={isDark} onClick={() => setOn(!on)}>
@@ -27,7 +34,7 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({ id, isDark, setIsDark }
             <OptionsMenuContainer show={on} isDark={isDark}>
                 <ProfileButton></ProfileButton>
                 <LightDark id={'lightDarkComponentId'} isDark={isDark} setIsDark={setIsDark}></LightDark>
-                <LanguageButton></LanguageButton>
+                <LanguageButton onClick={() => changeLanguage('en')}></LanguageButton>
                 <LogoutButton></LogoutButton>
             </OptionsMenuContainer>
         </div>

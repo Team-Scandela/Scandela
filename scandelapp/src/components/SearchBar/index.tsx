@@ -8,7 +8,6 @@ import {
 import logoDark from '../../assets/logo-128x128-yellow.png';
 import logoLight from '../../assets/logo-128x128.png';
 import { useTranslation } from 'react-i18next';
-import LanguageSelector from '../../translation/languageSelector';
 
 /** SearchBar of the main page Scandela
  * This SearchBar allow the user to search a precise street or city in the Scandel'App
@@ -50,7 +49,6 @@ const SearchBar: React.FC<SearchBarProps> = ({ id, isDark, onSubmit }) => {
                     isdark={isDark}
                     onClick={() => onSubmit(searchValue)}
                 />
-                <LanguageSelector />
             </SearchBarContainer>
         </div>
     );
