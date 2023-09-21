@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 import { Yellow, Black, White } from '../../colors';
 import { FiSun, FiMoon } from 'react-icons/fi'
 

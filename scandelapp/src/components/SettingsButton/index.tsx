@@ -10,11 +10,12 @@ import LightDark from '../LightDark'
 **/
 
 interface SettingsButtonProps {
+    id: string;
     isDark: boolean;
     setIsDark: (isDark: boolean) => void;
 }
 
-const SettingsButton: React.FC<SettingsButtonProps> = ({ isDark, setIsDark }) => {
+const SettingsButton: React.FC<SettingsButtonProps> = ({ id, isDark, setIsDark }) => {
     /** If the option menu is open or closed */
     const [on, setOn] = React.useState(false);
 
@@ -25,7 +26,7 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({ isDark, setIsDark }) =>
             </SettingsButtonContainer>
             <OptionsMenuContainer show={on} isDark={isDark}>
                 <ProfileButton></ProfileButton>
-                <LightDark isDark={isDark} setIsDark={setIsDark}></LightDark>
+                <LightDark id={'lightDarkComponentId'} isDark={isDark} setIsDark={setIsDark}></LightDark>
                 <LanguageButton></LanguageButton>
                 <LogoutButton></LogoutButton>
             </OptionsMenuContainer>
