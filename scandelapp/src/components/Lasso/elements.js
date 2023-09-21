@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { Yellow, Black, White } from '../../colors';
 
-/** Button who allows to open the container of filters */
 export const LassoButton = styled.div`
     display: flex;
     justify-content: center;
@@ -15,9 +14,9 @@ export const LassoButton = styled.div`
     user-select: none;
     font-size: 25px;
 
-    background-color: ${(props) =>
-        props.isDark ? Black + 'CC' : White + 'CC'};
-    color: ${(props) => (props.isDark ? Yellow : Black)};
+    /* Définissez les couleurs en fonction des props isDark et isOn */
+    background-color: ${(props) => (props.isOn ? (props.isDark ? Yellow : Black) : (props.isDark ? Black + 'CC' : White + 'CC'))};
+    color: ${(props) => (props.isOn ? (props.isDark ? Black : White) : (props.isDark ? Yellow : Black))};
     box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
 
     position: fixed;

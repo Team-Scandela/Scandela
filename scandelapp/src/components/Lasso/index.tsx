@@ -11,12 +11,16 @@ const Lasso: React.FC<LassoButtonProps> = ({
     id,
     isDark,
 }) => {
-    const [on, setOn] = React.useState(false);
+    const [isOn, setIsOn] = React.useState(false);
+
+    const toggleButton = () => {
+        setIsOn(!isOn);
+    };
 
     return (
         <div id={id}>
-            <LassoButton onClick={() => setOn(!on)} isDark={isDark}>
-                <TbLassoPolygon size={30}/>
+            <LassoButton onClick={toggleButton} isDark={isDark} isOn={isOn}>
+                <TbLassoPolygon size={30} />
             </LassoButton>
         </div>
     );
