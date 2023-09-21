@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Yellow, Black, White } from '../../colors';
-import { FiSun, FiMoon } from 'react-icons/fi'
+import { FiSun, FiMoon } from 'react-icons/fi';
 
 export const SunButton = styled(FiSun)`
     position: relative;
@@ -9,7 +9,7 @@ export const SunButton = styled(FiSun)`
 
     &:hover {
         top: 2px;
-  }
+    }
 `;
 
 export const MoonButton = styled(FiMoon)`
@@ -19,5 +19,5 @@ export const MoonButton = styled(FiMoon)`
 
     &:hover {
         top: 2px;
-  }
+    }
 `;

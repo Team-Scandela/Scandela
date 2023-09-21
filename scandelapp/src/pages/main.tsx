@@ -157,10 +157,11 @@ const Main: React.FC = () => {
                 lng={lng}
                 zoom={zoom}
             />
-            <SettingsButton 
+            <SettingsButton
                 id={'settingsButtonId'}
-                isDark={isDark} 
-                setIsDark={setIsDark}/>
+                isDark={isDark}
+                setIsDark={setIsDark}
+            />
             <SearchBar
                 id={'searchBarComponentId'}
                 isDark={isDark}

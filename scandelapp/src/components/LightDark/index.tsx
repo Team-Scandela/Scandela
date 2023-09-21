@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 import { SunButton, MoonButton } from './elements';
 
 /** Ligth / Dark mode button
@@ -20,7 +20,11 @@ const LightDark: React.FC<LightDarkProps> = ({ id, isDark, setIsDark }) => {
 
     return (
         <div>
-            {isDark ? <SunButton onClick={handleIconClick}/> : <MoonButton onClick={handleIconClick}/>}
+            {isDark ? (
+                <SunButton onClick={handleIconClick} />
+            ) : (
+                <MoonButton onClick={handleIconClick} />
+            )}
         </div>
     );
 };
