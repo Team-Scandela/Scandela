@@ -10,6 +10,7 @@ import ActionsList from '../components/ActionsList';
 import Toastr from '../components/Toastr';
 import AbsencePannel from '../components/AbsencePannel';
 import { Gauges } from '../components/Gauges';
+import Lasso from '../components/Lasso';
 
 export enum Filters {
     pin = 'pin',
@@ -179,6 +180,10 @@ const Main: React.FC = () => {
                 id={'filterMenuComponentId'}
                 filter={filter}
                 setFilter={setFilter}
+                isDark={isDark}
+            />
+            <Lasso
+                id={'LassoComponentId'}
                 isDark={isDark}
             />
             <DecisionMenu
