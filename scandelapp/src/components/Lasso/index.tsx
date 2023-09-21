@@ -5,18 +5,22 @@ import { TbLassoPolygon } from 'react-icons/tb';
 interface LassoButtonProps {
     id: string;
     isDark: boolean;
+    onLassoActivation: (isActive: boolean) => void;
 }
 
 const Lasso: React.FC<LassoButtonProps> = ({
     id,
     isDark,
+    onLassoActivation
 }) => {
     const [isOn, setIsOn] = React.useState(false);
 
     const toggleButton = () => {
-        setIsOn(!isOn);
+        const isActive = !isOn;
+        setIsOn(isActive);
+        onLassoActivation(isActive);
     };
-
+    
     return (
         <div id={id}>
             <LassoButton onClick={toggleButton} isDark={isDark} isOn={isOn}>

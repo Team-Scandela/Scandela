@@ -20,10 +20,11 @@ interface MapProps {
     lat: number;
     lng: number;
     zoom: number;
+    isLassoActive: boolean;
 }
 
 // Map component
-const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
+const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom, isLassoActive }) => {
     // Reference to the map container element
     const mapContainer = React.useRef<HTMLDivElement | null>(null);
 
@@ -298,6 +299,20 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
     React.useEffect(() => {
         initializeMap();
     }, [isDark, lng, lat, zoom]);
+
+    React.useEffect(() => {
+        if (map.current) {
+            if (isLassoActive) {
+                // Bloquer le zoom et le déplacement
+                map.current.scrollZoom.disable();
+                map.current.dragPan.disable();
+            } else {
+                // Activer le zoom et le déplacement
+                map.current.scrollZoom.enable();
+                map.current.dragPan.enable();
+            }
+        }
+    }, [isLassoActive]);
 
     // Effect to monitor filter changes
     React.useEffect(() => {

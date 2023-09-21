@@ -147,6 +147,12 @@ const Main: React.FC = () => {
         setCurrentSelected(data);
     };
 
+    const [isLassoActive, setIsLassoActive] = React.useState(false);
+
+    const handleLassoActivation = (isActive: boolean) => {
+        setIsLassoActive(isActive);
+    };
+
     return (
         <div>
             <Map
@@ -156,6 +162,7 @@ const Main: React.FC = () => {
                 lat={lat}
                 lng={lng}
                 zoom={zoom}
+                isLassoActive={isLassoActive}
             />
             <SearchBar
                 id={'searchBarComponentId'}
@@ -185,6 +192,7 @@ const Main: React.FC = () => {
             <Lasso
                 id={'LassoComponentId'}
                 isDark={isDark}
+                onLassoActivation={handleLassoActivation}
             />
             <DecisionMenu
                 id={'decisionMenuComponentId'}
