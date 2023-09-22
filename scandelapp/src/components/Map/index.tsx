@@ -321,7 +321,6 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom, isLassoAc
     
                     if (isInsideMap) {
                         // Ajouter le point aux coordonnées cliquées
-                        // Ajouter le point aux coordonnées cliquées
                         setClickedPoints((prevPoints) => [...prevPoints, e.lngLat]);
 
                         // Ajouter le point à la carte
