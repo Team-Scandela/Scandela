@@ -42,6 +42,9 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom, isLassoAc
 
     const [cursorStyle, setCursorStyle] = useState('auto');
 
+    const [clickedPoints, setClickedPoints] = useState<mapboxgl.LngLat[]>([]);
+
+
     const [selectedLampFeature, setSelectedLampFeature] =
         React.useState<mapboxgl.MapboxGeoJSONFeature | null>(null);
 
@@ -310,14 +313,64 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom, isLassoAc
                 map.current.scrollZoom.disable();
                 map.current.dragPan.disable();
                 setCursorStyle('crosshair');
+    
+                // Ajouter un gestionnaire de clic sur la carte
+                map.current.on('click', (e) => {
+                    // Vérifier si le point est à l'intérieur de la carte
+                    const isInsideMap = map.current.getBounds().contains(e.lngLat);
+    
+                    if (isInsideMap) {
+                        // Ajouter le point aux coordonnées cliquées
+                        // Ajouter le point aux coordonnées cliquées
+                        setClickedPoints((prevPoints) => [...prevPoints, e.lngLat]);
+
+                        // Ajouter le point à la carte
+                        map.current.addSource('clickedPoints', {
+                            type: 'geojson',
+                            data: {
+                                type: 'FeatureCollection',
+                                features: [
+                                    {
+                                        type: 'Feature',
+                                        geometry: {
+                                            type: 'Point',
+                                            coordinates: [e.lngLat.lng, e.lngLat.lat],
+                                        },
+                                        properties: {}, // Ajoutez une propriété vide pour satisfaire TypeScript
+                                    },
+                                ],
+                            },
+                        });
+
+                        map.current.addLayer({
+                            id: 'clickedPointsLayer',
+                            type: 'circle',
+                            source: 'clickedPoints',
+                            paint: {
+                                'circle-radius': 6,
+                                'circle-color': '#8CC63F',
+                                'circle-stroke-color': '#F9F9F9',
+                                'circle-stroke-width': 2,
+                            },
+                        });
+                    }
+                });
             } else {
                 // Activer le zoom et le déplacement
                 map.current.scrollZoom.enable();
                 map.current.dragPan.enable();
                 setCursorStyle('auto');
+    
+                // Effacer les points et le calque quand le lasso n'est pas actif
+                if (map.current.getSource('clickedPoints')) {
+                    map.current.removeLayer('clickedPointsLayer');
+                    map.current.removeSource('clickedPoints');
+                    setClickedPoints([]);
+                }
             }
         }
     }, [isLassoActive]);
+    
 
     // Effect to monitor filter changes
     React.useEffect(() => {
