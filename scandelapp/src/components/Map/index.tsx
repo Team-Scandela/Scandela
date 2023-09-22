@@ -40,6 +40,8 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom, isLassoAc
         null
     );
 
+    const [cursorStyle, setCursorStyle] = useState('auto');
+
     const [selectedLampFeature, setSelectedLampFeature] =
         React.useState<mapboxgl.MapboxGeoJSONFeature | null>(null);
 
@@ -307,10 +309,12 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom, isLassoAc
                 // Bloquer le zoom et le déplacement
                 map.current.scrollZoom.disable();
                 map.current.dragPan.disable();
+                setCursorStyle('crosshair');
             } else {
                 // Activer le zoom et le déplacement
                 map.current.scrollZoom.enable();
                 map.current.dragPan.enable();
+                setCursorStyle('auto');
             }
         }
     }, [isLassoActive]);
@@ -381,7 +385,7 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom, isLassoAc
         <div id={id} style={{ overflow: 'hidden' }}>
             <LassoOverlay isLassoActive={isLassoActive} />
             <div
-                style={styleMap}
+                style={{ ...styleMap, cursor: cursorStyle}}
                 ref={mapContainer}
                 className="map-container"
             />

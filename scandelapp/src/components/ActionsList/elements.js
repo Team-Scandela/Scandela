@@ -17,6 +17,7 @@ export const ActionsListButton = styled.div`
     height: 40px;
     top: 25px;
     left: 1040px;
+    user-select: none;
     background-color: ${(props) =>
         props.isDark ? Black + 'CC' : White + 'CC'};
     color: ${(props) => (props.isDark ? Yellow : Black)};
