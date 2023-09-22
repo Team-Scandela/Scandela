@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Filters } from '../../pages/main';
 import loadMap from './loadMap';
 import LampInfosPopup from '../LampInfosPopup';
+import { LassoOverlay } from './elements';
 
 // Load geographical data of Nantes from a local JSON file
 let nantesData = require('../../assets/nantesData.json');
@@ -378,6 +379,7 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom, isLassoAc
     // Render the map component
     return (
         <div id={id} style={{ overflow: 'hidden' }}>
+            <LassoOverlay isLassoActive={isLassoActive} />
             <div
                 style={styleMap}
                 ref={mapContainer}
@@ -402,7 +404,7 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom, isLassoAc
                     hauteur={hauteur}
                     onClosePopup={() => {
                         setSelectedLampId(null);
-
+    
                         // Rétablir la couleur du lampadaire précédemment sélectionné
                         if (selectedLampFeature) {
                             map.current?.setPaintProperty(
