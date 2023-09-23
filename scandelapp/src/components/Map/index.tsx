@@ -373,8 +373,6 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom, isLassoAc
             }
         }
     }, [isLassoActive]);
-    
-    
 
     // Effect to monitor filter changes
     React.useEffect(() => {
