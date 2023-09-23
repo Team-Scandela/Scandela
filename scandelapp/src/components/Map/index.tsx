@@ -322,36 +322,40 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom, isLassoAc
                     if (isInsideMap) {
                         // Ajouter le point aux coordonnées cliquées
                         setClickedPoints((prevPoints) => [...prevPoints, e.lngLat]);
-
+    
                         // Ajouter le point à la carte
-                        map.current.addSource('clickedPoints', {
-                            type: 'geojson',
-                            data: {
-                                type: 'FeatureCollection',
-                                features: [
-                                    {
-                                        type: 'Feature',
-                                        geometry: {
-                                            type: 'Point',
-                                            coordinates: [e.lngLat.lng, e.lngLat.lat],
+                        if (!map.current.getSource('clickedPoints')) {
+                            map.current.addSource('clickedPoints', {
+                                type: 'geojson',
+                                data: {
+                                    type: 'FeatureCollection',
+                                    features: [
+                                        {
+                                            type: 'Feature',
+                                            geometry: {
+                                                type: 'Point',
+                                                coordinates: [e.lngLat.lng, e.lngLat.lat],
+                                            },
+                                            properties: {}, // Ajoutez une propriété vide pour satisfaire TypeScript
                                         },
-                                        properties: {}, // Ajoutez une propriété vide pour satisfaire TypeScript
-                                    },
-                                ],
-                            },
-                        });
-
-                        map.current.addLayer({
-                            id: 'clickedPointsLayer',
-                            type: 'circle',
-                            source: 'clickedPoints',
-                            paint: {
-                                'circle-radius': 6,
-                                'circle-color': '#8CC63F',
-                                'circle-stroke-color': '#F9F9F9',
-                                'circle-stroke-width': 2,
-                            },
-                        });
+                                    ],
+                                },
+                            });
+                        }
+    
+                        if (!map.current.getLayer('clickedPointsLayer')) {
+                            map.current.addLayer({
+                                id: 'clickedPointsLayer',
+                                type: 'circle',
+                                source: 'clickedPoints',
+                                paint: {
+                                    'circle-radius': 6,
+                                    'circle-color': '#8CC63F',
+                                    'circle-stroke-color': '#F9F9F9',
+                                    'circle-stroke-width': 2,
+                                },
+                            });
+                        }
                     }
                 });
             } else {
@@ -369,6 +373,7 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom, isLassoAc
             }
         }
     }, [isLassoActive]);
+    
     
 
     // Effect to monitor filter changes
