@@ -90,7 +90,7 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
                 default:
                     newRadius = 0;
             }
-    
+
             setCircleRadius(newRadius);
         }
     };
@@ -405,22 +405,22 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
                 }`}
             </style>
             {lat && lng && (
-            <div
-                className="red-circle"
-                style={{
-                    position: 'absolute',
-                    top: '50%',
-                    left: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    width: circleRadius * 2,
-                    height: circleRadius * 2,
-                    borderRadius: '50%',
-                    border: `1px dashed ${Yellow}`,
-                    pointerEvents: 'none',
-                    zIndex: 1,
-                }}
-            />
-        )}
+                <div
+                    className="red-circle"
+                    style={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        width: circleRadius * 2,
+                        height: circleRadius * 2,
+                        borderRadius: '50%',
+                        border: `1px dashed ${Yellow}`,
+                        pointerEvents: 'none',
+                        zIndex: 1,
+                    }}
+                />
+            )}
             {selectedLampId && (
                 <LampInfosPopup
                     id={'LampInfosPopupComponentId'}
