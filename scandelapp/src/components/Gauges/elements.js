@@ -1,34 +1,34 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 import { Yellow } from '../../colors';
 
 export const GaugeContainer = styled.div`
     display: flex;
     position: fixed;
     height: 100px;
-    width: ${(450 / 6.5)}px;
+    width: ${450 / 6.5}px;
 `;
 
 export const GaugeContainerLeft = styled(GaugeContainer)`
-    bottom: ${props => props.decisionPanelExtended ? 55 : 30}px;
-    right: ${props => props.decisionPanelExtended ? 325 : 175}px;
-    transition : all 0.5s ease-in-out;
+    bottom: ${(props) => (props.decisionPanelExtended ? 55 : 30)}px;
+    right: ${(props) => (props.decisionPanelExtended ? 325 : 175)}px;
+    transition: all 0.5s ease-in-out;
 `;
 
 export const GaugeContainerMiddle = styled(GaugeContainer)`
-    bottom: ${props => props.decisionPanelExtended ? 55 : 30}px;
-    right: ${props => props.decisionPanelExtended ? 220 : 100}px;
-    transition : all 0.5s ease-in-out;
+    bottom: ${(props) => (props.decisionPanelExtended ? 55 : 30)}px;
+    right: ${(props) => (props.decisionPanelExtended ? 220 : 100)}px;
+    transition: all 0.5s ease-in-out;
 `;
 
 export const GaugeContainerRight = styled(GaugeContainer)`
-    bottom: ${props => props.decisionPanelExtended ? 55 : 30}px;
-    right: ${props => props.decisionPanelExtended ? 115 : 25}px;
-    transition : all 0.5s ease-in-out;
+    bottom: ${(props) => (props.decisionPanelExtended ? 55 : 30)}px;
+    right: ${(props) => (props.decisionPanelExtended ? 115 : 25)}px;
+    transition: all 0.5s ease-in-out;
 `;
 
 export const GaugeContainerPersonnalized = styled(GaugeContainer)`
-    top: ${props => props.top}px;
-    left: ${props => props.left}px;
+    top: ${(props) => props.top}px;
+    left: ${(props) => props.left}px;
 `;
 
 export const GaugeBackground = styled.img`
@@ -44,8 +44,8 @@ export const GaugeLevel = styled.div`
     position: absolute;
     bottom: 4px;
 
-    height: calc((100% - 8px) * ${props => props.level / 100});
-    left : 4px;
+    height: calc((100% - 8px) * ${(props) => props.level / 100});
+    left: 4px;
     width: calc(100% - 8px);
 `;
 
@@ -62,15 +62,26 @@ export const GaugeLevelRight = styled(GaugeLevel)`
 `;
 
 export const GaugeOldLevel = styled.div`
-    background-color: ${props => props.color};
+    background-color: ${(props) => props.color};
 
     position: absolute;
 
-    bottom: ${props => (props.diffLevel >= 0 ? `calc((100% - 8px) * ${props.level / 100 })` : `calc((100% - 8px) * ${(props.level / 100) - (-props.diffLevel / 100)} + 4px)`)};
+    bottom: ${(props) =>
+        props.diffLevel >= 0
+            ? `calc((100% - 8px) * ${props.level / 100})`
+            : `calc((100% - 8px) * ${
+                  props.level / 100 - -props.diffLevel / 100
+              } + 4px)`};
 
-    height: calc((100% - 8px) * ${props => props.diffLevel >= 0 ? props.diffLevel / 100  : -props.diffLevel / 100});
+    height: calc(
+        (100% - 8px) *
+            ${(props) =>
+                props.diffLevel >= 0
+                    ? props.diffLevel / 100
+                    : -props.diffLevel / 100}
+    );
 
-    left : 4px;
+    left: 4px;
     width: calc(100% - 9px);
 `;
 
@@ -80,4 +91,3 @@ export const GaugeLogo = styled.img`
     position: fixed;
     height: 100px;
 `;
-
