@@ -74,7 +74,7 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
     const updateCircleRadius = () => {
         if (map.current) {
             let newRadius;
-            if (map.current.getZoom() != 12) {
+            if (map.current.getZoom() !== 12) {
                 switch (map.current.getZoom()) {
                     case 18: // address
                         newRadius = 1;
@@ -365,6 +365,7 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
                 speed: 1.2,
                 curve: 1.42,
             });
+            setCircleLayerVisible(true);
         } else {
             map.current = new mapboxgl.Map({
                 container: mapContainer.current,
@@ -416,7 +417,7 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
                 display: none;
                 }`}
             </style>
-            {circleLayerVisible &&(
+            {circleLayerVisible  && circleRadius > 0 &&(
                 <div
                     className="red-circle"
                     style={{
