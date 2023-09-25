@@ -41,7 +41,6 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
 
     const [circleRadius, setCircleRadius] = useState<number>(0);
     const [circleLayerVisible, setCircleLayerVisible] = useState<boolean>(false);
-    const [searchedLocation, setSearchedLocation] = useState<boolean>(false);
     
     const [selectedLampFeature, setSelectedLampFeature] =
         React.useState<mapboxgl.MapboxGeoJSONFeature | null>(null);
@@ -72,28 +71,23 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
         return geoJSON;
     }, []);
 
-    const handleSearch = () => {    
-        setSearchedLocation(true);
-    }
-
     const updateCircleRadius = () => {
         if (map.current) {
             let newRadius;
-            if (map.current.getZoom() != 12 && searchedLocation) {
+            if (map.current.getZoom() != 12) {
                 switch (map.current.getZoom()) {
-                    case 17:
+                    case 18: // address
                         newRadius = 1;
                         break;
-                    case 14:
-                        newRadius = 150;
+                    case 17: // route
+                        newRadius = 5;
                         break;
-                    case 5:
-                        newRadius = 280;
+                    case 14: // nightborhood
+                        newRadius = 200;
                         break;
                     default:
                         newRadius = 0;
                 }
-
                 setCircleRadius(newRadius);
                 setCircleLayerVisible(true);
             } else {
@@ -173,7 +167,6 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
 
             map.current.on('move', () => {
                 setCircleLayerVisible(false);
-                setSearchedLocation(false);
             });
 
             map.current.on('moveend', () => {
@@ -423,7 +416,7 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
                 display: none;
                 }`}
             </style>
-            {circleLayerVisible && searchedLocation &&(
+            {circleLayerVisible &&(
                 <div
                     className="red-circle"
                     style={{
