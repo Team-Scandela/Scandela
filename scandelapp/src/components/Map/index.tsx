@@ -39,6 +39,10 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
         null
     );
 
+    const [circleRadius, setCircleRadius] = useState<number>(0);
+    const [circleLayerVisible, setCircleLayerVisible] = useState<boolean>(false);
+    const [searchedLocation, setSearchedLocation] = useState<boolean>(false);
+    
     const [selectedLampFeature, setSelectedLampFeature] =
         React.useState<mapboxgl.MapboxGeoJSONFeature | null>(null);
 
@@ -68,30 +72,33 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
         return geoJSON;
     }, []);
 
-    const [circleRadius, setCircleRadius] = useState<number>(280);
+    const handleSearch = () => {    
+        setSearchedLocation(true);
+    }
 
     const updateCircleRadius = () => {
         if (map.current) {
             let newRadius;
+            if (map.current.getZoom() != 12 && searchedLocation) {
+                switch (map.current.getZoom()) {
+                    case 17:
+                        newRadius = 1;
+                        break;
+                    case 14:
+                        newRadius = 150;
+                        break;
+                    case 5:
+                        newRadius = 280;
+                        break;
+                    default:
+                        newRadius = 0;
+                }
 
-            switch (map.current.getZoom()) {
-                case 17:
-                    newRadius = 2;
-                    break;
-                case 14:
-                    newRadius = 150;
-                    break;
-                case 12:
-                    newRadius = 280;
-                    break;
-                case 5:
-                    newRadius = 280;
-                    break;
-                default:
-                    newRadius = 0;
+                setCircleRadius(newRadius);
+                setCircleLayerVisible(true);
+            } else {
+                setCircleLayerVisible(false);
             }
-
-            setCircleRadius(newRadius);
         }
     };
 
@@ -153,6 +160,8 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
             });
             cluster.current.load(geojsonData.features);
 
+            setCircleLayerVisible(false);
+
             map.current = new mapboxgl.Map({
                 container: mapContainer.current,
                 style: isDark
@@ -161,6 +170,16 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
                 center: [lng, lat],
                 zoom: zoom,
             });
+
+            map.current.on('move', () => {
+                setCircleLayerVisible(false);
+                setSearchedLocation(false);
+            });
+
+            map.current.on('moveend', () => {
+                setCircleLayerVisible(true);
+            });
+            
 
             map.current.on('click', 'lamp', (e) => {
                 const features = map.current?.queryRenderedFeatures(e.point, {
@@ -404,7 +423,7 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
                 display: none;
                 }`}
             </style>
-            {lat && lng && (
+            {circleLayerVisible && searchedLocation &&(
                 <div
                     className="red-circle"
                     style={{
