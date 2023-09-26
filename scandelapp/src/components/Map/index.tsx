@@ -80,10 +80,10 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
                         newRadius = 1;
                         break;
                     case 17: // route
-                        newRadius = 5;
+                        newRadius = 250;
                         break;
                     case 14: // nightborhood
-                        newRadius = 200;
+                        newRadius = 250;
                         break;
                     default:
                         newRadius = 0;
