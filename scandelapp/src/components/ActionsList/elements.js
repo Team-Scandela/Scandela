@@ -13,6 +13,7 @@ export const ActionsListButton = styled.div`
     position: absolute;
     align-items: center;
     justify-content: center;
+    user-select: none;
     width: 300px;
     height: 40px;
     top: 25px;

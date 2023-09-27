@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { LightDarkButton } from './elements.js';
-import { FiSun, FiMoon } from 'react-icons/fi';
+import { SunButton, MoonButton } from './elements';
 
 /** Ligth / Dark mode button
  * @param {boolean} isDark - If the mode is dark or not
@@ -20,14 +19,12 @@ const LightDark: React.FC<LightDarkProps> = ({ id, isDark, setIsDark }) => {
     };
 
     return (
-        <div id={id}>
-            <LightDarkButton
-                id="lightdark-button"
-                onClick={handleIconClick}
-                isDark={isDark}
-            >
-                {isDark ? <FiSun /> : <FiMoon />}
-            </LightDarkButton>
+        <div>
+            {isDark ? (
+                <SunButton onClick={handleIconClick} />
+            ) : (
+                <MoonButton onClick={handleIconClick} />
+            )}
         </div>
     );
 };
