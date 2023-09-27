@@ -41,9 +41,6 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
 
     const [circleRadius, setCircleRadius] = useState<number>(0);
     const [circleLayerVisible, setCircleLayerVisible] = useState<boolean>(false);
-    const [circleCoordinates, setCircleCoordinates] = useState<[number, number] | null>(
-        [lat, lng] // Initialisez circleCoordinates avec les valeurs initiales de lat et lng
-    );
     
     const [selectedLampFeature, setSelectedLampFeature] =
         React.useState<mapboxgl.MapboxGeoJSONFeature | null>(null);
@@ -77,7 +74,6 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
     const updateCircleRadius = () => {
         if (map.current) {
             let newRadius;
-            setCircleCoordinates([lat, lng]);
             if (map.current.getZoom() !== 12) {
                 switch (map.current.getZoom()) {
                     case 18: // address
@@ -171,7 +167,6 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
 
             map.current.on('move', () => {
                 setCircleLayerVisible(false);
-                console.log("coordinate = ", circleCoordinates[0], circleCoordinates[1]);
             });
 
             map.current.on('moveend', () => {
@@ -422,13 +417,14 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
                 display: none;
                 }`}
             </style>
-            {circleLayerVisible && circleRadius > 0 && (
+            {circleLayerVisible  && circleRadius > 0 &&(
                 <div
                     className="red-circle"
                     style={{
                         position: 'absolute',
-                        top: `${50 - (circleCoordinates[1] * 100)}%`, // Utilisez 100% pour la latitude
-                        left: `${50 + (circleCoordinates[0] * 100)}%`, // Utilisez 100% pour la longitude
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
                         width: circleRadius * 2,
                         height: circleRadius * 2,
                         borderRadius: '50%',
