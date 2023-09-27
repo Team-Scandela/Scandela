@@ -40,8 +40,9 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
     );
 
     const [circleRadius, setCircleRadius] = useState<number>(0);
-    const [circleLayerVisible, setCircleLayerVisible] = useState<boolean>(false);
-    
+    const [circleLayerVisible, setCircleLayerVisible] =
+        useState<boolean>(false);
+
     const [selectedLampFeature, setSelectedLampFeature] =
         React.useState<mapboxgl.MapboxGeoJSONFeature | null>(null);
 
@@ -172,7 +173,6 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
             map.current.on('moveend', () => {
                 setCircleLayerVisible(true);
             });
-            
 
             map.current.on('click', 'lamp', (e) => {
                 const features = map.current?.queryRenderedFeatures(e.point, {
@@ -417,7 +417,7 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
                 display: none;
                 }`}
             </style>
-            {circleLayerVisible  && circleRadius > 0 &&(
+            {circleLayerVisible && circleRadius > 0 && (
                 <div
                     className="red-circle"
                     style={{

@@ -30,8 +30,10 @@ export const handleSearchUtils = async (
 
                 // set new zoom compare to the right level of zoom
                 console.log('type = ' + result.types[0]);
-                if ( result.types[0] === 'street_adress'  ||
-                    result.types[0] === 'premise') {
+                if (
+                    result.types[0] === 'street_adress' ||
+                    result.types[0] === 'premise'
+                ) {
                     // zoom for precise address
                     setZoom(18);
                 } else if (result.types[0] === 'route') {

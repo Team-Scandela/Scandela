@@ -30,7 +30,7 @@ export const PopupTextLampName = styled.div`
     left: 30px;
     font-size: 25px;
     user-select: none;
-    color: ${(props) => (props.isDark ? White : Black )};
+    color: ${(props) => (props.isDark ? White : Black)};
     font-weight: 750;
 `;
 
