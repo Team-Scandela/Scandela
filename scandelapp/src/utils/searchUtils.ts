@@ -32,10 +32,12 @@ export const handleSearchUtils = async (
                 console.log('type = ' + result.types[0]);
                 if (
                     result.types[0] === 'street_adress' ||
-                    result.types[0] === 'route' ||
                     result.types[0] === 'premise'
                 ) {
                     // zoom for precise address
+                    setZoom(18);
+                } else if (result.types[0] === 'route') {
+                    //  zoom for a country
                     setZoom(17);
                 } else if (result.types[0] === 'country') {
                     //  zoom for a country

@@ -52,15 +52,15 @@ const LampInfosPopup: React.FC<LampInfosPopupProps> = ({
         <div id={id}>
             <PannelContainer isDark={isDark}>
                 <CloseIcon isDark={isDark} onClick={closePopup}></CloseIcon>
-                <PopupTextLampName isdark={isDark}>
+                <PopupTextLampName isDark={isDark}>
                     Lampadaire {selectedLampId}
                 </PopupTextLampName>
-                <PopupSubTextLampName isdark={isDark} top="70px">
+                <PopupSubTextLampName isDark={isDark} top="70px">
                     {' '}
                     {address}
                 </PopupSubTextLampName>
 
-                <PopupTextInfoTitle isdark={isDark} top="120px">
+                <PopupTextInfoTitle isDark={isDark} top="120px">
                     {' '}
                     Informations
                 </PopupTextInfoTitle>
@@ -86,7 +86,7 @@ const LampInfosPopup: React.FC<LampInfosPopupProps> = ({
                     {hauteur} m
                 </PopupText>
 
-                <PopupTextInfoTitle isdark={isDark} top="300px">
+                <PopupTextInfoTitle isDark={isDark} top="300px">
                     {' '}
                     Consommation
                 </PopupTextInfoTitle>
@@ -123,7 +123,7 @@ const LampInfosPopup: React.FC<LampInfosPopupProps> = ({
                     20g de CO/h{' '}
                 </PopupText>
                 <ListDetailContainer isDark={isDark}>
-                    <PopupTextActionsTitle isdark={isDark} top="10px">
+                    <PopupTextActionsTitle isDark={isDark} top="10px">
                         {' '}
                         Action possible
                     </PopupTextActionsTitle>
@@ -144,7 +144,7 @@ const LampInfosPopup: React.FC<LampInfosPopupProps> = ({
                         }}
                     />
 
-                    <PopupTextActionsTitle isdark={isDark} top="110px">
+                    <PopupTextActionsTitle isDark={isDark} top="110px">
                         {' '}
                         Conséquences
                     </PopupTextActionsTitle>

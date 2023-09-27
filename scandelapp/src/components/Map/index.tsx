@@ -3,6 +3,7 @@ import Supercluster from 'supercluster';
 import React, { useState, useEffect } from 'react';
 import { Filters } from '../../pages/main';
 import loadMap from './loadMap';
+import { Yellow } from '../../colors';
 import LampInfosPopup from '../LampInfosPopup';
 
 // Load geographical data of Nantes from a local JSON file
@@ -38,6 +39,10 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
         null
     );
 
+    const [circleRadius, setCircleRadius] = useState<number>(0);
+    const [circleLayerVisible, setCircleLayerVisible] =
+        useState<boolean>(false);
+
     const [selectedLampFeature, setSelectedLampFeature] =
         React.useState<mapboxgl.MapboxGeoJSONFeature | null>(null);
 
@@ -66,6 +71,31 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
         });
         return geoJSON;
     }, []);
+
+    const updateCircleRadius = () => {
+        if (map.current) {
+            let newRadius;
+            if (map.current.getZoom() !== 12) {
+                switch (map.current.getZoom()) {
+                    case 18: // address
+                        newRadius = 1;
+                        break;
+                    case 17: // route
+                        newRadius = 250;
+                        break;
+                    case 14: // nightborhood
+                        newRadius = 250;
+                        break;
+                    default:
+                        newRadius = 0;
+                }
+                setCircleRadius(newRadius);
+                setCircleLayerVisible(true);
+            } else {
+                setCircleLayerVisible(false);
+            }
+        }
+    };
 
     // Function to handle filter changes
     const handleFilterChange = () => {
@@ -125,6 +155,8 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
             });
             cluster.current.load(geojsonData.features);
 
+            setCircleLayerVisible(false);
+
             map.current = new mapboxgl.Map({
                 container: mapContainer.current,
                 style: isDark
@@ -132,6 +164,14 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
                     : 'mapbox://styles/titouantd/cljwui6ss00ij01pj1oin6oa5',
                 center: [lng, lat],
                 zoom: zoom,
+            });
+
+            map.current.on('move', () => {
+                setCircleLayerVisible(false);
+            });
+
+            map.current.on('moveend', () => {
+                setCircleLayerVisible(true);
             });
 
             map.current.on('click', 'lamp', (e) => {
@@ -289,6 +329,7 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
                         'none'
                     );
                     map.current.setLayoutProperty('lamp', 'visibility', 'none');
+                    map.current?.on('zoom', updateCircleRadius);
                 }
             });
         }
@@ -301,7 +342,6 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
 
     // Effect to monitor filter changes
     React.useEffect(() => {
-        console.log('filter = ' + filter);
         if (map.current.isStyleLoaded()) {
             handleFilterChange(); // Call the function to handle layer visibility
         } else {
@@ -325,6 +365,7 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
                 speed: 1.2,
                 curve: 1.42,
             });
+            setCircleLayerVisible(true);
         } else {
             map.current = new mapboxgl.Map({
                 container: mapContainer.current,
@@ -376,6 +417,23 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
                 display: none;
                 }`}
             </style>
+            {circleLayerVisible && circleRadius > 0 && (
+                <div
+                    className="red-circle"
+                    style={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        width: circleRadius * 2,
+                        height: circleRadius * 2,
+                        borderRadius: '50%',
+                        border: `1px dashed ${Yellow}`,
+                        pointerEvents: 'none',
+                        zIndex: 1,
+                    }}
+                />
+            )}
             {selectedLampId && (
                 <LampInfosPopup
                     id={'LampInfosPopupComponentId'}
