@@ -30,7 +30,7 @@ export const PopupTextLampName = styled.div`
     left: 30px;
     font-size: 25px;
     user-select: none;
-    color: ${(props) => (props.isDark ? Black : White)};
+    color: ${(props) => (props.isDark ? White : Black )};
     font-weight: 750;
 `;
 
@@ -41,7 +41,7 @@ export const PopupTextInfoTitle = styled.div`
     right: 0;
     font-size: 25px;
     user-select: none;
-    color: ${(props) => (props.isDark ? Black : Yellow)};
+    color: ${(props) => (props.isDark ? Yellow : Yellow)};
     font-weight: 750;
     text-align: center;
 `;
@@ -53,7 +53,7 @@ export const PopupTextActionsTitle = styled.div`
     right: 0;
     font-size: 25px;
     user-select: none;
-    color: ${(props) => (props.isDark ? Black : Black)};
+    color: ${(props) => (props.isDark ? Black : White)};
     font-weight: 750;
     text-align: center;
 `;
@@ -65,7 +65,7 @@ export const PopupSubTextLampName = styled.div`
     right: 0;
     font-size: 17px;
     user-select: none;
-    color: ${(props) => (props.isDark ? 'Black' : 'white')};
+    color: ${(props) => (props.isDark ? White : Black)};
     font-weight: 400;
     text-align: center;
 `;
@@ -76,7 +76,7 @@ export const PopupText = styled.div`
     left: 160px;
     font-size: 17px;
     user-select: none;
-    color: ${(props) => (props.isDark ? 'White' : 'white')};
+    color: ${(props) => (props.isDark ? White : Black)};
     font-weight: 400;
 `;
 
@@ -86,7 +86,7 @@ export const PopupTitle = styled.div`
     left: 30px;
     font-size: 17px;
     user-select: none;
-    color: ${(props) => (props.isDark ? 'White' : 'white')};
+    color: ${(props) => (props.isDark ? White : Black)};
     font-weight: 400;
 `;
 
@@ -96,7 +96,7 @@ export const PopupTextActions = styled.div`
     left: 120px;
     font-size: 17px;
     user-select: none;
-    color: ${(props) => (props.isDark ? 'White' : 'white')};
+    color: ${(props) => (props.isDark ? White : White)};
     font-weight: 400;
 `;
 
