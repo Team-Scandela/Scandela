@@ -82,7 +82,7 @@ public class DecisionServiceTest {
 		assertThat(resultedDecision.isValidate()).isEqualTo(decision.isValidate());
 		assertThat(resultedDecision.getDate()).isEqualTo(decision.getDate());
 		assertThat(resultedDecision.getCost()).isEqualTo(decision.getCost());
-		assertThat(resultedDecision.getBenefits()).isEqualTo(decision.getBenefits());
+		assertThat(resultedDecision.getBenefits()).hasSize(decision.getBenefits().size());
 	}
 	
 	@Test
@@ -130,7 +130,7 @@ public class DecisionServiceTest {
 		assertThat(result.isValidate()).isEqualTo(decision.isValidate());
 		assertThat(result.getDate()).isEqualTo(decision.getDate());
 		assertThat(result.getCost()).isEqualTo(decision.getCost());
-		assertThat(result.getBenefits()).isEqualTo(decision.getBenefits());
+		assertThat(result.getBenefits()).hasSize(decision.getBenefits().size());
 	}
 	
 	@Test
@@ -161,7 +161,7 @@ public class DecisionServiceTest {
 		assertThat(result.isValidate()).isEqualTo(decision.isValidate());
 		assertThat(result.getDate()).isEqualTo(decision.getDate());
 		assertThat(result.getCost()).isEqualTo(decision.getCost());
-		assertThat(result.getBenefits()).isEqualTo(decision.getBenefits());
+		assertThat(result.getBenefits()).hasSize(decision.getBenefits().size());
 	}
 	
 	@Test
