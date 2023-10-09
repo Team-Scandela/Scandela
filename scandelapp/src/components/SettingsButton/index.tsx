@@ -9,6 +9,8 @@ import {
 } from './element';
 import LightDark from '../LightDark';
 import { useTranslation } from 'react-i18next';
+import Login from '../../pages/login';
+import { useNavigate } from 'react-router-dom';
 
 /** SettingsButton of the main page Scandela
  * This SettingsButton allow the user to disconnect from his account and to switch le lightmod
@@ -28,12 +30,17 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({
     setIsDark,
 }) => {
     /** If the option menu is open or closed */
+    const navigate = useNavigate();
     const [on, setOn] = React.useState(false);
 
     const { i18n } = useTranslation();
 
     const changeLanguage = (lng: string) => {
         i18n.changeLanguage(lng);
+    };
+
+    const handleLogout = () => {
+        navigate('/login');
     };
 
     return (
@@ -51,7 +58,7 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({
                 <LanguageButton
                     onClick={() => changeLanguage('en')}
                 ></LanguageButton>
-                <LogoutButton></LogoutButton>
+                <LogoutButton onClick={handleLogout}></LogoutButton>
             </OptionsMenuContainer>
         </div>
     );
