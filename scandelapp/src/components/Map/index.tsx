@@ -313,49 +313,15 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom, isLassoAc
                 map.current.scrollZoom.disable();
                 map.current.dragPan.disable();
                 setCursorStyle('crosshair');
-    
+
                 // Ajouter un gestionnaire de clic sur la carte
                 map.current.on('click', (e) => {
                     // Vérifier si le point est à l'intérieur de la carte
                     const isInsideMap = map.current.getBounds().contains(e.lngLat);
-    
+
                     if (isInsideMap) {
                         // Ajouter le point aux coordonnées cliquées
                         setClickedPoints((prevPoints) => [...prevPoints, e.lngLat]);
-    
-                        // Ajouter le point à la carte
-                        if (!map.current.getSource('clickedPoints')) {
-                            map.current.addSource('clickedPoints', {
-                                type: 'geojson',
-                                data: {
-                                    type: 'FeatureCollection',
-                                    features: [
-                                        {
-                                            type: 'Feature',
-                                            geometry: {
-                                                type: 'Point',
-                                                coordinates: [e.lngLat.lng, e.lngLat.lat],
-                                            },
-                                            properties: {}, // Ajoutez une propriété vide pour satisfaire TypeScript
-                                        },
-                                    ],
-                                },
-                            });
-                        }
-    
-                        if (!map.current.getLayer('clickedPointsLayer')) {
-                            map.current.addLayer({
-                                id: 'clickedPointsLayer',
-                                type: 'circle',
-                                source: 'clickedPoints',
-                                paint: {
-                                    'circle-radius': 6,
-                                    'circle-color': '#8CC63F',
-                                    'circle-stroke-color': '#F9F9F9',
-                                    'circle-stroke-width': 2,
-                                },
-                            });
-                        }
                     }
                 });
             } else {
@@ -363,16 +329,96 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom, isLassoAc
                 map.current.scrollZoom.enable();
                 map.current.dragPan.enable();
                 setCursorStyle('auto');
-    
+
                 // Effacer les points et le calque quand le lasso n'est pas actif
                 if (map.current.getSource('clickedPoints')) {
                     map.current.removeLayer('clickedPointsLayer');
+                    if (map.current.getLayer('clickedPolygonLayer'))
+                        map.current.removeLayer('clickedPolygonLayer');
+                    map.current.removeSource('clickedPolygon');
                     map.current.removeSource('clickedPoints');
                     setClickedPoints([]);
                 }
             }
         }
     }, [isLassoActive]);
+
+
+    useEffect(() => {
+        if (map.current) {
+            if (isLassoActive) {
+                // Supprime les sources et layers si ils existent
+                if (map.current.getLayer('clickedPointsLayer'))
+                    map.current.removeLayer('clickedPointsLayer');
+                if (map.current.getLayer('clickedPolygonLayer'))
+                    map.current.removeLayer('clickedPolygonLayer');
+                if (map.current.getSource('clickedPolygon'))
+                    map.current.removeSource('clickedPolygon');
+                if (map.current.getSource('clickedPoints'))
+                    map.current.removeSource('clickedPoints');
+
+                // Ajouter le point à la carte
+                map.current.addSource('clickedPoints', {
+                    type: 'geojson',
+                    data: {
+                        type: 'FeatureCollection',
+                        features: clickedPoints.map((point) => ({
+                            type: 'Feature',
+                            properties: {},
+                            geometry: {
+                                type: 'Point',
+                                coordinates: [point.lng, point.lat],
+                            },
+                        })),
+                    },
+                });
+
+                // Créer un polygone à partir des points
+                const coordinates = clickedPoints.map((point) => [point.lng, point.lat]);
+
+                map.current.addSource('clickedPolygon', {
+                    type: 'geojson',
+                    data: {
+                        type: 'FeatureCollection',
+                        features: [
+                            {
+                                type: 'Feature',
+                                properties: {},
+                                geometry: {
+                                    type: 'Polygon',
+                                    coordinates: [coordinates],
+                                },
+                            },
+                        ]
+                    },
+                });
+                if (clickedPoints.length >= 3) {
+                    map.current.addLayer({
+                        id: 'clickedPolygonLayer',
+                        type: 'fill',
+                        source: 'clickedPolygon',
+                        paint: {
+                            'fill-color': '#334dcd',
+                            'fill-opacity': 0.3,
+                        },
+                    });
+                }
+
+                map.current.addLayer({
+                    id: 'clickedPointsLayer',
+                    type: 'circle',
+                    source: 'clickedPoints',
+                    paint: {
+                        'circle-radius': 6,
+                        'circle-color': '#8CC63F',
+                        'circle-stroke-color': '#F9F9F9',
+                        'circle-stroke-width': 2,
+                    },
+                });
+            }
+        }
+    }, [clickedPoints, isLassoActive]);
+
 
     // Effect to monitor filter changes
     React.useEffect(() => {
