@@ -26,7 +26,15 @@ interface MapProps {
 }
 
 // Map component
-const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom, isLassoActive }) => {
+const Map: React.FC<MapProps> = ({
+    id,
+    filter,
+    isDark,
+    lat,
+    lng,
+    zoom,
+    isLassoActive,
+}) => {
     // Reference to the map container element
     const mapContainer = React.useRef<HTMLDivElement | null>(null);
 
@@ -357,11 +365,16 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom, isLassoAc
                 // Ajouter un gestionnaire de clic sur la carte
                 map.current.on('click', (e) => {
                     // Vérifier si le point est à l'intérieur de la carte
-                    const isInsideMap = map.current.getBounds().contains(e.lngLat);
+                    const isInsideMap = map.current
+                        .getBounds()
+                        .contains(e.lngLat);
 
                     if (isInsideMap) {
                         // Ajouter le point aux coordonnées cliquées
-                        setClickedPoints((prevPoints) => [...prevPoints, e.lngLat]);
+                        setClickedPoints((prevPoints) => [
+                            ...prevPoints,
+                            e.lngLat,
+                        ]);
                     }
                 });
             } else {
@@ -382,7 +395,6 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom, isLassoAc
             }
         }
     }, [isLassoActive]);
-
 
     useEffect(() => {
         if (map.current) {
@@ -414,7 +426,10 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom, isLassoAc
                 });
 
                 // Créer un polygone à partir des points
-                const coordinates = clickedPoints.map((point) => [point.lng, point.lat]);
+                const coordinates = clickedPoints.map((point) => [
+                    point.lng,
+                    point.lat,
+                ]);
 
                 map.current.addSource('clickedPolygon', {
                     type: 'geojson',
@@ -429,7 +444,7 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom, isLassoAc
                                     coordinates: [coordinates],
                                 },
                             },
-                        ]
+                        ],
                     },
                 });
                 if (clickedPoints.length >= 3) {
@@ -458,7 +473,6 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom, isLassoAc
             }
         }
     }, [clickedPoints, isLassoActive]);
-
 
     // Effect to monitor filter changes
     React.useEffect(() => {
@@ -526,7 +540,7 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom, isLassoAc
         <div id={id} style={{ overflow: 'hidden' }}>
             <LassoOverlay isLassoActive={isLassoActive} />
             <div
-                style={{ ...styleMap, cursor: cursorStyle}}
+                style={{ ...styleMap, cursor: cursorStyle }}
                 ref={mapContainer}
                 className="map-container"
             />

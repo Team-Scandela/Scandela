@@ -11,7 +11,7 @@ interface LassoButtonProps {
 const Lasso: React.FC<LassoButtonProps> = ({
     id,
     isDark,
-    onLassoActivation
+    onLassoActivation,
 }) => {
     const [isOn, setIsOn] = React.useState(false);
 
@@ -20,7 +20,7 @@ const Lasso: React.FC<LassoButtonProps> = ({
         setIsOn(isActive);
         onLassoActivation(isActive);
     };
-    
+
     return (
         <div id={id}>
             <LassoButton onClick={toggleButton} isDark={isDark} isOn={isOn}>
