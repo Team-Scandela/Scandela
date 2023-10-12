@@ -11,6 +11,7 @@ import Toastr from '../components/Toastr';
 import AbsencePannel from '../components/AbsencePannel';
 import { Gauges } from '../components/Gauges';
 import Lasso from '../components/Lasso';
+import SettingsButton from '../components/SettingsButton';
 
 export enum Filters {
     pin = 'pin',
@@ -164,15 +165,15 @@ const Main: React.FC = () => {
                 zoom={zoom}
                 isLassoActive={isLassoActive}
             />
+            <SettingsButton
+                id={'settingsButtonId'}
+                isDark={isDark}
+                setIsDark={setIsDark}
+            />
             <SearchBar
                 id={'searchBarComponentId'}
                 isDark={isDark}
                 onSubmit={handleSearch}
-            />
-            <LightDark
-                id={'lightDarkComponentId'}
-                isDark={isDark}
-                setIsDark={setIsDark}
             />
             <ActionsList
                 id={'actionsListComponentId'}
