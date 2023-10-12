@@ -12,8 +12,12 @@ normalement ça prends pas trop de temps incha'Allah*/
     width: 600px;
     height: 450px;
     opacity: 0; /* L'image est initialement invisible */
-    transform: translateY(20px); /* L'image est initialement décalée vers le bas */
-    transition: opacity 0.6s, transform 0.8s;
+    transform: translateY(
+        20px
+    ); /* L'image est initialement décalée vers le bas */
+    transition:
+        opacity 0.6s,
+        transform 0.8s;
 }
 
 .image-container img:nth-child(1) {
@@ -21,13 +25,16 @@ normalement ça prends pas trop de temps incha'Allah*/
 }
 
 .image-container img:nth-child(2) {
-    transform: translateY(200px); /* Décalage de 100 pixels pour la deuxième image */
+    transform: translateY(
+        200px
+    ); /* Décalage de 100 pixels pour la deuxième image */
 }
 
 .image-container img:nth-child(3) {
-    transform: translateY(200px); /* Décalage de 200 pixels pour la troisième image */
+    transform: translateY(
+        200px
+    ); /* Décalage de 200 pixels pour la troisième image */
 }
-
 
 .image-container img.visible {
     opacity: 1;
@@ -43,7 +50,7 @@ normalement ça prends pas trop de temps incha'Allah*/
 
 .card-container {
     padding: 20px;
-    background-color: #2A2B2A;
+    background-color: #2a2b2a;
     border-radius: 8px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 3);
     width: 400px; /* Largeur de la card */
@@ -56,7 +63,7 @@ normalement ça prends pas trop de temps incha'Allah*/
 .card-content {
     text-align: center;
     flex: 1; /* Occupe tout l'espace disponible */
-    color: #E6AF2E;
+    color: #e6af2e;
 }
 
 /* Style pour l
@@ -67,7 +74,7 @@ normalement ça prends pas trop de temps incha'Allah*/
 
 /* Styles de base pour la navbar */
 .navbar {
-    font-family: "Scandefont";
+    font-family: 'Scandefont';
     font-size: 18px;
     top: 0;
     z-index: 30;
@@ -82,7 +89,7 @@ normalement ça prends pas trop de temps incha'Allah*/
 /* Styles pour les pseudo-éléments ::before et ::after */
 .navbar::before,
 .navbar::after {
-    content: "";
+    content: '';
     position: absolute;
     top: 0;
     left: 0;
@@ -96,7 +103,7 @@ normalement ça prends pas trop de temps incha'Allah*/
 /* Styles des liens de la navbar */
 .navbar a {
     text-decoration: none;
-    color: #2A2B2A;
+    color: #2a2b2a;
     margin: 0;
     padding: 10px 15px;
     z-index: 1;
@@ -104,17 +111,17 @@ normalement ça prends pas trop de temps incha'Allah*/
 
 /* Style pour le soulignement au survol de la souris */
 .navbar a:hover {
-    color: #E6AF2E;
+    color: #e6af2e;
 }
 
 .navbar:hover a {
-    color: #E6AF2E;
+    color: #e6af2e;
 }
 
 /* Style pour le survol de la souris */
 .navbar:hover::before,
 .navbar:hover::after {
-    background-color: #2A2B2A;
+    background-color: #2a2b2a;
 }
 
 .navbar .logo img {
@@ -127,7 +134,9 @@ normalement ça prends pas trop de temps incha'Allah*/
 .navbar:hover .logo img {
     /* Changer la source de l'image au survol */
     content: url('../assets/images/logo-128x128-yellow.png');
-    transform: scale(1.2); /* Par exemple, agrandir légèrement le logo au survol */
+    transform: scale(
+        1.2
+    ); /* Par exemple, agrandir légèrement le logo au survol */
 }
 
 /* Styles pour le wrapper du contenu */
@@ -138,7 +147,7 @@ normalement ça prends pas trop de temps incha'Allah*/
 
 /* Styles pour le footer */
 .footer {
-    background-color: #2A2B2A;
+    background-color: #2a2b2a;
     color: #fff;
     text-align: center;
     padding: 20px;
@@ -174,7 +183,7 @@ normalement ça prends pas trop de temps incha'Allah*/
 /* Positionnement du footer au bas de la page */
 
 body {
-    background-color: #E6AF2E;
+    background-color: #e6af2e;
     display: flex;
     flex-direction: column;
 }
@@ -193,7 +202,7 @@ body {
 
 .page1 {
     height: 100dvh;
-    background-image: url("../assets/images/intro-vitrine.jpg");
+    background-image: url('../assets/images/intro-vitrine.jpg');
     background-repeat: no-repeat;
     background-size: cover;
     position: relative;
@@ -207,14 +216,14 @@ body {
 }
 
 @font-face {
-    font-family: "Scandefont";
-    src: url("../assets/font/Merriweather/Merriweather-Black.ttf");
+    font-family: 'Scandefont';
+    src: url('../assets/font/Merriweather/Merriweather-Black.ttf');
 }
 
 .splide__slide {
-    font-family: "Scandefont";
+    font-family: 'Scandefont';
     font-size: 32px;
-    color: #2A2B2A;
+    color: #2a2b2a;
 }
 
 .splide__slide img {
@@ -226,9 +235,9 @@ body {
     top: 30%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-family: "Scandefont";
+    font-family: 'Scandefont';
     font-size: 128px;
-    color: #E6AF2E;
+    color: #e6af2e;
 }
 
 .intro {
@@ -237,18 +246,18 @@ body {
 
 .name {
     font-size: 36px;
-    color: #E6AF2E;;
-    text-shadow: 0 0 10px #E6AF2E;
+    color: #e6af2e;
+    text-shadow: 0 0 10px #e6af2e;
     animation: glow 2s infinite alternate;
 }
 
 @keyframes glow {
     0% {
-        text-shadow: 0 0 20px #E6AF2E;
+        text-shadow: 0 0 20px #e6af2e;
         font-size: 128px;
     }
     100% {
-        text-shadow: 0 0 10px #E6AF2E;
+        text-shadow: 0 0 10px #e6af2e;
         font-size: 118px;
     }
 }
