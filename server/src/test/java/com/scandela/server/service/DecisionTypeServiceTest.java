@@ -19,6 +19,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.dao.DataIntegrityViolationException;
 
 import com.scandela.server.dao.DecisionTypeDao;
+import com.scandela.server.entity.Decision;
 import com.scandela.server.entity.DecisionType;
 import com.scandela.server.exception.DecisionTypeException;
 import com.scandela.server.service.implementation.DecisionTypeService;
@@ -36,10 +37,12 @@ public class DecisionTypeServiceTest {
 	
 	private final long id = 1;
 	private final String title = "Test";
+	private final List<Decision> decisions = Arrays.asList(Decision.builder().id(id).build());
 	private final DecisionType decisionType = DecisionType.builder()
 			.id(id)
 			.title(title)
 			.moreInformations(Arrays.asList(title))
+			.decisions(decisions)
 			.build();
 	
 	// Methods \\
@@ -56,6 +59,7 @@ public class DecisionTypeServiceTest {
 		assertThat(resultedDecisionType.getId()).isEqualTo(decisionType.getId());
 		assertThat(resultedDecisionType.getTitle()).isEqualTo(decisionType.getTitle());
 		assertThat(resultedDecisionType.getMoreInformations()).hasSize(decisionType.getMoreInformations().size());
+		assertThat(resultedDecisionType.getDecisions()).hasSize(decisionType.getDecisions().size());
 	}
 	
 	@Test
@@ -93,6 +97,7 @@ public class DecisionTypeServiceTest {
 		assertThat(result.getId()).isEqualTo(decisionType.getId());
 		assertThat(result.getTitle()).isEqualTo(decisionType.getTitle());
 		assertThat(result.getMoreInformations()).hasSize(decisionType.getMoreInformations().size());
+		assertThat(result.getDecisions()).hasSize(decisionType.getDecisions().size());
 	}
 	
 	@Test
@@ -115,6 +120,7 @@ public class DecisionTypeServiceTest {
 		assertThat(result.getId()).isEqualTo(decisionType.getId());
 		assertThat(result.getTitle()).isEqualTo(decisionType.getTitle());
 		assertThat(result.getMoreInformations()).hasSize(decisionType.getMoreInformations().size());
+		assertThat(result.getDecisions()).hasSize(decisionType.getDecisions().size());
 	}
 	
 	@Test
