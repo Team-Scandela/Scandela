@@ -12,62 +12,62 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.scandela.server.entity.Incident;
-import com.scandela.server.service.IIncidentService;
+import com.scandela.server.entity.Decision;
+import com.scandela.server.service.IDecisionService;
 
 @CrossOrigin//TODO a changer dans le future en mettant un access token
 @RestController
-@RequestMapping(value = "/incidents")
-public class IncidentController extends AbstractController {
+@RequestMapping(value = "/decisions")
+public class DecisionController extends AbstractController {
 
 	// Attributes \\
 		// Private \\
 	@Autowired
-	private IIncidentService incidentService;
+	private IDecisionService decisionService;
 
 	// Methods \\
 		// Public \\
 	/**
-	 * Get all incidents
+	 * Get all decisions
 	 * 
-	 * @return allIncidents
+	 * @return allDecisions
 	 */
 	@GetMapping
-	public List<Incident> getIncidents() {
-		return incidentService.getAll();
+	public List<Decision> getDecisions() {
+		return decisionService.getAll();
 	}
 
 	/**
-	 * Get incident by id
+	 * Get decision by id
 	 * 
 	 * @param id
-	 * @return incident
+	 * @return decision
 	 */
 	@GetMapping("/{id}")
-	public Incident getIncident(@PathVariable long id) {
-		return incidentService.get(id);
+	public Decision getDecision(@PathVariable long id) {
+		return decisionService.get(id);
 	}
 
 	/**
-	 * Create new incident
+	 * Create new decision
 	 * 
-	 * @param newIncident
-	 * @return newIncident
-	 * @throws IncidentException
+	 * @param newDecision
+	 * @return newDecision
+	 * @throws DecisionException
 	 */
 	@PostMapping("/create")
-	public Incident createIncident(@RequestBody Incident newIncident) throws Exception {
-		return incidentService.create(newIncident);
+	public Decision createDecision(@RequestBody Decision newDecision) throws Exception {
+		return decisionService.create(newDecision);
 	}
 
 	/**
-	 * Delete incident
+	 * Delete decision
 	 * 
 	 * @param id
 	 */
 	@DeleteMapping("/delete/{id}")
-	public void deleteIncident(@PathVariable long id) {
-		incidentService.delete(id);
+	public void deleteDecision(@PathVariable long id) {
+		decisionService.delete(id);
 	}
 
 }

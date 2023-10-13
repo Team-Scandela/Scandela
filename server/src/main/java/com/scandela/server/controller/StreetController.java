@@ -64,11 +64,11 @@ public class StreetController extends AbstractController {
 	/**
 	 * Delete street
 	 * 
-	 * @param street
+	 * @param id
 	 */
 	@DeleteMapping("/delete")
-	public void deleteStreet(@RequestBody Street street) {
-		streetService.delete(street);
+	public void deleteStreet(@PathVariable long id) {
+		streetService.delete(id);
 	}
 
 }

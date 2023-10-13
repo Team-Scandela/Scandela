@@ -21,6 +21,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import com.scandela.server.dao.IncidentDao;
 import com.scandela.server.dao.TownDao;
 import com.scandela.server.entity.Incident;
+import com.scandela.server.entity.LampIncident;
 import com.scandela.server.entity.Town;
 import com.scandela.server.exception.IncidentException;
 import com.scandela.server.service.implementation.IncidentService;
@@ -46,6 +47,7 @@ public class IncidentServiceTest {
 	private final float impactElectricity = 0.17f;
 	private final float impactEcology = 0.45f;
 	private final float impactQuality = 0.78f;
+	private final List<LampIncident> lampIncidents = Arrays.asList(LampIncident.builder().id(id).build());
 	private final Incident incident = Incident.builder()
 			.id(id)
 			.town(town)
@@ -54,6 +56,7 @@ public class IncidentServiceTest {
 			.impactElectricity(impactElectricity)
 			.impactEcology(impactEcology)
 			.impactQuality(impactQuality)
+			.lampIncidents(lampIncidents)
 			.build();
 	
 	// Methods \\
@@ -74,6 +77,7 @@ public class IncidentServiceTest {
 		assertThat(resultedIncident.getImpactElectricity()).isEqualTo(incident.getImpactElectricity());
 		assertThat(resultedIncident.getImpactEcology()).isEqualTo(incident.getImpactEcology());
 		assertThat(resultedIncident.getImpactQuality()).isEqualTo(incident.getImpactQuality());
+		assertThat(resultedIncident.getLampIncidents()).hasSize(incident.getLampIncidents().size());
 	}
 	
 	@Test
@@ -86,6 +90,7 @@ public class IncidentServiceTest {
 				.impactElectricity(impactElectricity)
 				.impactEcology(impactEcology)
 				.impactQuality(impactQuality)
+				.lampIncidents(lampIncidents)
 				.build();
 		
 		when(incidentDaoMock.findAll()).thenReturn(Arrays.asList(incident, incident2));
@@ -120,6 +125,7 @@ public class IncidentServiceTest {
 		assertThat(result.getImpactElectricity()).isEqualTo(incident.getImpactElectricity());
 		assertThat(result.getImpactEcology()).isEqualTo(incident.getImpactEcology());
 		assertThat(result.getImpactQuality()).isEqualTo(incident.getImpactQuality());
+		assertThat(result.getLampIncidents()).hasSize(incident.getLampIncidents().size());
 	}
 	
 	@Test
@@ -148,6 +154,7 @@ public class IncidentServiceTest {
 		assertThat(result.getImpactElectricity()).isEqualTo(incident.getImpactElectricity());
 		assertThat(result.getImpactEcology()).isEqualTo(incident.getImpactEcology());
 		assertThat(result.getImpactQuality()).isEqualTo(incident.getImpactQuality());
+		assertThat(result.getLampIncidents()).hasSize(incident.getLampIncidents().size());
 	}
 	
 	@Test
@@ -202,9 +209,9 @@ public class IncidentServiceTest {
 
 	@Test
 	public void testDelete() {
-		testedObject.delete(incident);
+		testedObject.delete(id);
 
-		verify(incidentDaoMock, times(1)).delete(incident);
+		verify(incidentDaoMock, times(1)).deleteById(id);
 	}
 	
 }

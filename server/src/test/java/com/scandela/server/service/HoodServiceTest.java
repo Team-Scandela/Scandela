@@ -202,9 +202,9 @@ public class HoodServiceTest {
 
 	@Test
 	public void testDelete() {
-		testedObject.delete(hood);
+		testedObject.delete(id);
 
-		verify(hoodDaoMock, times(1)).delete(hood);
+		verify(hoodDaoMock, times(1)).deleteById(id);
 	}
 	
 }

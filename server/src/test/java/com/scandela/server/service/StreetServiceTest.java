@@ -164,9 +164,9 @@ public class StreetServiceTest {
 
 	@Test
 	public void testDelete() {
-		testedObject.delete(street);
+		testedObject.delete(id);
 
-		verify(streetDaoMock, times(1)).delete(street);
+		verify(streetDaoMock, times(1)).deleteById(id);
 	}
 	
 }

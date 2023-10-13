@@ -12,8 +12,6 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -28,8 +26,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-@Table(name = "incident")
-public class Incident implements Serializable {
+@Table(name = "decisiontype")
+public class DecisionType implements Serializable {
 
 	// Attributes \\
 		// Private \\
@@ -40,31 +38,14 @@ public class Incident implements Serializable {
 	@Column(name = "id", updatable = false, nullable = false)
 	private Long id;
 
-	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-	@ManyToOne
-	@JoinColumn(name = "id_town", nullable = false)
-	private Town town;
-
 	@Column(name = "title", nullable = false)
 	private String title;
-
-	@Column(name = "description", nullable = false)
-	private String description;
-
-	@Builder.Default
-	@Column(name = "impac_elec", nullable = false)
-	private Float impactElectricity = 0.0f;
-
-	@Builder.Default
-	@Column(name = "impac_eco", nullable = false)
-	private Float impactEcology = 0.0f;
-
-	@Builder.Default
-	@Column(name = "impac_quali", nullable = false)
-	private Float impactQuality = 0.0f;
+	
+	@Column(name = "more_info", nullable = true)
+	private List<String> moreInformations;
 
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-	@OneToMany(mappedBy = "incident", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-	private List<LampIncident> lampIncidents;
+	@OneToMany(mappedBy = "type", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+	private List<Decision> decisions;
 	
 }

@@ -42,8 +42,8 @@ public abstract class AbstractService<T> implements IService<T> {
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-	public void delete(T entity) {
-		dao.delete(entity);
+	public void delete(long id) {
+		dao.deleteById(id);
 	}
 
 }
