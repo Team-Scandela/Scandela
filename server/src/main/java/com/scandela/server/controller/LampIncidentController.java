@@ -12,63 +12,62 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.scandela.server.entity.User;
-import com.scandela.server.exception.UserException;
-import com.scandela.server.service.IUserService;
+import com.scandela.server.entity.LampIncident;
+import com.scandela.server.service.ILampIncidentService;
 
 @CrossOrigin//TODO a changer dans le future en mettant un access token
 @RestController
-@RequestMapping(value = "/users")
-public class UserController extends AbstractController {
+@RequestMapping(value = "/lampIncidents")
+public class LampIncidentController extends AbstractController {
 
 	// Attributes \\
 		// Private \\
 	@Autowired
-	private IUserService userService;
+	private ILampIncidentService lampIncidentService;
 
 	// Methods \\
 		// Public \\
 	/**
-	 * Get all users
+	 * Get all lampIncidents
 	 * 
-	 * @return allUsers
+	 * @return allLampIncidents
 	 */
 	@GetMapping
-	public List<User> getUsers() {
-		return userService.getAll();
+	public List<LampIncident> getLampIncidents() {
+		return lampIncidentService.getAll();
 	}
 
 	/**
-	 * Get user by id
+	 * Get lampIncident by id
 	 * 
 	 * @param id
-	 * @return user
+	 * @return lampIncident
 	 */
 	@GetMapping("/{id}")
-	public User getUser(@PathVariable long id) {
-		return userService.get(id);
+	public LampIncident getLampIncident(@PathVariable long id) {
+		return lampIncidentService.get(id);
 	}
 
 	/**
-	 * Create new user
+	 * Create new lampIncident
 	 * 
-	 * @param newUser
-	 * @return newUser
-	 * @throws UserException 
+	 * @param newLampIncident
+	 * @return newLampIncident
+	 * @throws LampIncidentException
 	 */
 	@PostMapping("/create")
-	public User createUser(@RequestBody User newUser) throws Exception {
-		return userService.create(newUser);
+	public LampIncident createLampIncident(@RequestBody LampIncident newLampIncident) throws Exception {
+		return lampIncidentService.create(newLampIncident);
 	}
 
 	/**
-	 * Delete user
+	 * Delete lampIncident
 	 * 
 	 * @param id
 	 */
 	@DeleteMapping("/delete/{id}")
-	public void deleteUser(@PathVariable long id) {
-		userService.delete(id);
+	public void deleteLampIncident(@PathVariable long id) {
+		lampIncidentService.delete(id);
 	}
 
 }

@@ -3,7 +3,7 @@ package com.scandela.server.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,9 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.scandela.server.entity.Town;
-import com.scandela.server.entity.dto.TownDto;
+import com.scandela.server.exception.TownException;
 import com.scandela.server.service.ITownService;
 
+@CrossOrigin//TODO a changer dans le future en mettant un access token
 @RestController
 @RequestMapping(value = "/towns")
 public class TownController extends AbstractController {
@@ -33,8 +34,8 @@ public class TownController extends AbstractController {
 	 * @return allTowns
 	 */
 	@GetMapping
-	public ResponseEntity<List<TownDto>> getTowns() {
-		return ResponseEntity.ok(townService.getTowns());
+	public List<Town> getTowns() {
+		return townService.getAll();
 	}
 
 	/**
@@ -44,8 +45,8 @@ public class TownController extends AbstractController {
 	 * @return town
 	 */
 	@GetMapping("/{id}")
-	public ResponseEntity<TownDto> getTown(@PathVariable int id) {
-		return ResponseEntity.ok(townService.getTown(id));
+	public Town getTown(@PathVariable long id) {
+		return townService.get(id);
 	}
 
 	/**
@@ -53,20 +54,21 @@ public class TownController extends AbstractController {
 	 * 
 	 * @param newTown
 	 * @return newTown
+	 * @throws TownException
 	 */
 	@PostMapping("/create")
-	public ResponseEntity<TownDto> createTown(@RequestBody Town newTown) {
-		return ResponseEntity.ok(townService.createTown(newTown));
+	public Town createTown(@RequestBody Town newTown) throws Exception {
+		return townService.create(newTown);
 	}
 
 	/**
 	 * Delete town
 	 * 
-	 * @param town
+	 * @param id
 	 */
-	@DeleteMapping("/delete")
-	public void deleteTown(@RequestBody Town town) {
-		townService.deleteTown(town);
+	@DeleteMapping("/delete/{id}")
+	public void deleteTown(@PathVariable long id) {
+		townService.delete(id);
 	}
 
 }

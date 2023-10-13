@@ -12,63 +12,63 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.scandela.server.entity.User;
-import com.scandela.server.exception.UserException;
-import com.scandela.server.service.IUserService;
+import com.scandela.server.entity.Street;
+import com.scandela.server.exception.StreetException;
+import com.scandela.server.service.IStreetService;
 
 @CrossOrigin//TODO a changer dans le future en mettant un access token
 @RestController
-@RequestMapping(value = "/users")
-public class UserController extends AbstractController {
+@RequestMapping(value = "/streets")
+public class StreetController extends AbstractController {
 
 	// Attributes \\
 		// Private \\
 	@Autowired
-	private IUserService userService;
+	private IStreetService streetService;
 
 	// Methods \\
 		// Public \\
 	/**
-	 * Get all users
+	 * Get all streets
 	 * 
-	 * @return allUsers
+	 * @return allStreets
 	 */
 	@GetMapping
-	public List<User> getUsers() {
-		return userService.getAll();
+	public List<Street> getStreets() {
+		return streetService.getAll();
 	}
 
 	/**
-	 * Get user by id
+	 * Get street by id
 	 * 
 	 * @param id
-	 * @return user
+	 * @return street
 	 */
 	@GetMapping("/{id}")
-	public User getUser(@PathVariable long id) {
-		return userService.get(id);
+	public Street getStreet(@PathVariable long id) {
+		return streetService.get(id);
 	}
 
 	/**
-	 * Create new user
+	 * Create new street
 	 * 
-	 * @param newUser
-	 * @return newUser
-	 * @throws UserException 
+	 * @param newStreet
+	 * @return newStreet
+	 * @throws StreetException
 	 */
 	@PostMapping("/create")
-	public User createUser(@RequestBody User newUser) throws Exception {
-		return userService.create(newUser);
+	public Street createStreet(@RequestBody Street newStreet) throws Exception {
+		return streetService.create(newStreet);
 	}
 
 	/**
-	 * Delete user
+	 * Delete street
 	 * 
 	 * @param id
 	 */
-	@DeleteMapping("/delete/{id}")
-	public void deleteUser(@PathVariable long id) {
-		userService.delete(id);
+	@DeleteMapping("/delete")
+	public void deleteStreet(@PathVariable long id) {
+		streetService.delete(id);
 	}
 
 }

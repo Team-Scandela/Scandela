@@ -12,63 +12,62 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.scandela.server.entity.User;
-import com.scandela.server.exception.UserException;
-import com.scandela.server.service.IUserService;
+import com.scandela.server.entity.Decision;
+import com.scandela.server.service.IDecisionService;
 
 @CrossOrigin//TODO a changer dans le future en mettant un access token
 @RestController
-@RequestMapping(value = "/users")
-public class UserController extends AbstractController {
+@RequestMapping(value = "/decisions")
+public class DecisionController extends AbstractController {
 
 	// Attributes \\
 		// Private \\
 	@Autowired
-	private IUserService userService;
+	private IDecisionService decisionService;
 
 	// Methods \\
 		// Public \\
 	/**
-	 * Get all users
+	 * Get all decisions
 	 * 
-	 * @return allUsers
+	 * @return allDecisions
 	 */
 	@GetMapping
-	public List<User> getUsers() {
-		return userService.getAll();
+	public List<Decision> getDecisions() {
+		return decisionService.getAll();
 	}
 
 	/**
-	 * Get user by id
+	 * Get decision by id
 	 * 
 	 * @param id
-	 * @return user
+	 * @return decision
 	 */
 	@GetMapping("/{id}")
-	public User getUser(@PathVariable long id) {
-		return userService.get(id);
+	public Decision getDecision(@PathVariable long id) {
+		return decisionService.get(id);
 	}
 
 	/**
-	 * Create new user
+	 * Create new decision
 	 * 
-	 * @param newUser
-	 * @return newUser
-	 * @throws UserException 
+	 * @param newDecision
+	 * @return newDecision
+	 * @throws DecisionException
 	 */
 	@PostMapping("/create")
-	public User createUser(@RequestBody User newUser) throws Exception {
-		return userService.create(newUser);
+	public Decision createDecision(@RequestBody Decision newDecision) throws Exception {
+		return decisionService.create(newDecision);
 	}
 
 	/**
-	 * Delete user
+	 * Delete decision
 	 * 
 	 * @param id
 	 */
 	@DeleteMapping("/delete/{id}")
-	public void deleteUser(@PathVariable long id) {
-		userService.delete(id);
+	public void deleteDecision(@PathVariable long id) {
+		decisionService.delete(id);
 	}
 
 }
