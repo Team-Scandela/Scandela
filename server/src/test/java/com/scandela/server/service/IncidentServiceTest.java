@@ -209,9 +209,9 @@ public class IncidentServiceTest {
 
 	@Test
 	public void testDelete() {
-		testedObject.delete(incident);
+		testedObject.delete(id);
 
-		verify(incidentDaoMock, times(1)).delete(incident);
+		verify(incidentDaoMock, times(1)).deleteById(id);
 	}
 	
 }

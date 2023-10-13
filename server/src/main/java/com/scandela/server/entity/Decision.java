@@ -1,6 +1,10 @@
 package com.scandela.server.entity;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -22,8 +26,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-@Table(name = "lampincident")
-public class LampIncident implements Serializable {
+@Table(name = "hood")
+public class Decision implements Serializable {
 
 	// Attributes \\
 		// Private \\
@@ -34,13 +38,29 @@ public class LampIncident implements Serializable {
 	@Column(name = "id", updatable = false, nullable = false)
 	private Long id;
 
-//	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)TODO quand ce sera implémenté
-//	@ManyToOne
-//	@JoinColumn(name = "id_lamp", nullable = false)
-//	private Lamp lamp;
-
 	@ManyToOne
-	@JoinColumn(name = "id_incident", nullable = false)
-	private Incident incident;
+	@JoinColumn(name = "id_decisiontype", nullable = false)
+	private DecisionType type;
+
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+	@ManyToOne
+	@JoinColumn(name = "id_user", nullable = false)
+	private User user;
+
+	@Column(name = "description", nullable = false)
+	private String description;
+
+	@Builder.Default
+	@Column(name = "validate", nullable = false)
+	private boolean validate = false;
+
+	@Column(name = "date", nullable = false)
+	private LocalDate date;
+
+	@Column(name = "cost", nullable = false)
+	private Long cost;
+
+	@Column(name = "benefits", nullable = true)
+	private List<Long> benefits;
 	
 }

@@ -143,9 +143,9 @@ public class LampIncidentServiceTest {
 
 	@Test
 	public void testDelete() {
-		testedObject.delete(lampIncident);
+		testedObject.delete(id);
 
-		verify(lampIncidentDaoMock, times(1)).delete(lampIncident);
+		verify(lampIncidentDaoMock, times(1)).deleteById(id);
 	}
 	
 }

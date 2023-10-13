@@ -23,7 +23,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @EqualsAndHashCode
 @Table(name = "lampincident")
-public class LampIncident implements Serializable {
+public class LampDecision implements Serializable {
 
 	// Attributes \\
 		// Private \\
@@ -40,7 +40,7 @@ public class LampIncident implements Serializable {
 //	private Lamp lamp;
 
 	@ManyToOne
-	@JoinColumn(name = "id_incident", nullable = false)
-	private Incident incident;
+	@JoinColumn(name = "id_decision", nullable = false)
+	private Decision decision;
 	
 }

@@ -64,11 +64,11 @@ public class UserController extends AbstractController {
 	/**
 	 * Delete user
 	 * 
-	 * @param user
+	 * @param id
 	 */
-	@DeleteMapping("/delete")
-	public void deleteUser(@RequestBody User user) {
-		userService.delete(user);
+	@DeleteMapping("/delete/{id}")
+	public void deleteUser(@PathVariable long id) {
+		userService.delete(id);
 	}
 
 }

@@ -64,11 +64,11 @@ public class HoodController extends AbstractController {
 	/**
 	 * Delete hood
 	 * 
-	 * @param hood
+	 * @param id
 	 */
-	@DeleteMapping("/delete")
-	public void deleteHood(@RequestBody Hood hood) {
-		hoodService.delete(hood);
+	@DeleteMapping("/delete/{id}")
+	public void deleteHood(@PathVariable long id) {
+		hoodService.delete(id);
 	}
 
 }

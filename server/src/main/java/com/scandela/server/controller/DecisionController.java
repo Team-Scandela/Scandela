@@ -12,62 +12,62 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.scandela.server.entity.LampIncident;
-import com.scandela.server.service.ILampIncidentService;
+import com.scandela.server.entity.Decision;
+import com.scandela.server.service.IDecisionService;
 
 @CrossOrigin//TODO a changer dans le future en mettant un access token
 @RestController
-@RequestMapping(value = "/lampIncidents")
-public class LampIncidentController extends AbstractController {
+@RequestMapping(value = "/decisions")
+public class DecisionController extends AbstractController {
 
 	// Attributes \\
 		// Private \\
 	@Autowired
-	private ILampIncidentService lampIncidentService;
+	private IDecisionService decisionService;
 
 	// Methods \\
 		// Public \\
 	/**
-	 * Get all lampIncidents
+	 * Get all decisions
 	 * 
-	 * @return allLampIncidents
+	 * @return allDecisions
 	 */
 	@GetMapping
-	public List<LampIncident> getLampIncidents() {
-		return lampIncidentService.getAll();
+	public List<Decision> getDecisions() {
+		return decisionService.getAll();
 	}
 
 	/**
-	 * Get lampIncident by id
+	 * Get decision by id
 	 * 
 	 * @param id
-	 * @return lampIncident
+	 * @return decision
 	 */
 	@GetMapping("/{id}")
-	public LampIncident getLampIncident(@PathVariable long id) {
-		return lampIncidentService.get(id);
+	public Decision getDecision(@PathVariable long id) {
+		return decisionService.get(id);
 	}
 
 	/**
-	 * Create new lampIncident
+	 * Create new decision
 	 * 
-	 * @param newLampIncident
-	 * @return newLampIncident
-	 * @throws LampIncidentException
+	 * @param newDecision
+	 * @return newDecision
+	 * @throws DecisionException
 	 */
 	@PostMapping("/create")
-	public LampIncident createLampIncident(@RequestBody LampIncident newLampIncident) throws Exception {
-		return lampIncidentService.create(newLampIncident);
+	public Decision createDecision(@RequestBody Decision newDecision) throws Exception {
+		return decisionService.create(newDecision);
 	}
 
 	/**
-	 * Delete lampIncident
+	 * Delete decision
 	 * 
 	 * @param id
 	 */
 	@DeleteMapping("/delete/{id}")
-	public void deleteLampIncident(@PathVariable long id) {
-		lampIncidentService.delete(id);
+	public void deleteDecision(@PathVariable long id) {
+		decisionService.delete(id);
 	}
 
 }
