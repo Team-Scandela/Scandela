@@ -3,6 +3,7 @@ package com.scandela.server.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +16,7 @@ import com.scandela.server.entity.Hood;
 import com.scandela.server.exception.HoodException;
 import com.scandela.server.service.IHoodService;
 
+@CrossOrigin//TODO a changer dans le future en mettant un access token
 @RestController
 @RequestMapping(value = "/hoods")
 public class HoodController extends AbstractController {
@@ -62,11 +64,11 @@ public class HoodController extends AbstractController {
 	/**
 	 * Delete hood
 	 * 
-	 * @param hood
+	 * @param id
 	 */
-	@DeleteMapping("/delete")
-	public void deleteHood(@RequestBody Hood hood) {
-		hoodService.delete(hood);
+	@DeleteMapping("/delete/{id}")
+	public void deleteHood(@PathVariable long id) {
+		hoodService.delete(id);
 	}
 
 }

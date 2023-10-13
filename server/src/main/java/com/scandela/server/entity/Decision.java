@@ -1,20 +1,18 @@
 package com.scandela.server.entity;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,7 +27,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @EqualsAndHashCode
 @Table(name = "hood")
-public class Hood implements Serializable {
+public class Decision implements Serializable {
 
 	// Attributes \\
 		// Private \\
@@ -40,21 +38,29 @@ public class Hood implements Serializable {
 	@Column(name = "id", updatable = false, nullable = false)
 	private Long id;
 
+	@ManyToOne
+	@JoinColumn(name = "id_decisiontype", nullable = false)
+	private DecisionType type;
+
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@ManyToOne
-	@JoinColumn(name = "id_town", nullable = false)
-	private Town town;
+	@JoinColumn(name = "id_user", nullable = false)
+	private User user;
 
-	@OneToMany(mappedBy = "hood", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-	private List<Street> streets;
+	@Column(name = "description", nullable = false)
+	private String description;
 
-	@Column(name = "name", nullable = false)
-	private String name;
+	@Builder.Default
+	@Column(name = "validate", nullable = false)
+	private boolean validate = false;
 
-	@Column(name = "lat", nullable = false)
-	private Double latitude;
+	@Column(name = "date", nullable = false)
+	private LocalDate date;
 
-	@Column(name = "lng", nullable = false)
-	private Double longitude;
+	@Column(name = "cost", nullable = false)
+	private Long cost;
+
+	@Column(name = "benefits", nullable = true)
+	private List<Long> benefits;
 	
 }

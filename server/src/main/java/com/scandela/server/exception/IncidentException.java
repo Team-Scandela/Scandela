@@ -1,6 +1,6 @@
 package com.scandela.server.exception;
 
-public class HoodException extends Exception {
+public class IncidentException extends Exception {
 
 	// Attributes \\
 		// Public \\
@@ -11,7 +11,7 @@ public class HoodException extends Exception {
 	private static final long serialVersionUID = 1L;
 	
 	// Constructors \\
-	public HoodException(String message) {
+	public IncidentException(String message) {
 		super(message);
 	}
 

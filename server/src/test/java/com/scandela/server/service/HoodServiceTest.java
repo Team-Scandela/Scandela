@@ -19,6 +19,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.dao.DataIntegrityViolationException;
 
 import com.scandela.server.dao.HoodDao;
+import com.scandela.server.dao.TownDao;
 import com.scandela.server.entity.Hood;
 import com.scandela.server.entity.Town;
 import com.scandela.server.exception.HoodException;
@@ -34,6 +35,9 @@ public class HoodServiceTest {
 	
 	@Mock
 	private HoodDao hoodDaoMock;
+	
+	@Mock
+	private TownDao townDaoMock;
 	
 	private final long id = 1;
 	private final String name = "Test";
@@ -119,10 +123,12 @@ public class HoodServiceTest {
 	@Test
 	public void testCreate() throws HoodException {
 		when(hoodDaoMock.save(Mockito.any(Hood.class))).thenReturn(hood);
+		when(townDaoMock.findById(Mockito.anyLong())).thenReturn(Optional.ofNullable(town));
 		
 		Hood result = testedObject.create(hood);
 
 		verify(hoodDaoMock, times(1)).save(Mockito.any(Hood.class));
+		verify(townDaoMock, times(1)).findById(Mockito.anyLong());
 		assertThat(result.getId()).isEqualTo(hood.getId());
 		assertThat(result.getTown()).isEqualTo(hood.getTown());
 		assertThat(result.getName()).isEqualTo(hood.getName());
@@ -135,10 +141,12 @@ public class HoodServiceTest {
 		hood.setName(null);
 
 		when(hoodDaoMock.save(Mockito.any(Hood.class))).thenThrow(DataIntegrityViolationException.class);
+		when(townDaoMock.findById(Mockito.anyLong())).thenReturn(Optional.ofNullable(town));
 		
 		HoodException result = assertThrows(HoodException.class, () -> testedObject.create(hood));
 
 		verify(hoodDaoMock, times(1)).save(Mockito.any(Hood.class));
+		verify(townDaoMock, times(1)).findById(Mockito.anyLong());
 		assertThat(result.getMessage()).isEqualTo(HoodException.INCOMPLETE_INFORMATIONS);
 	}
 	
@@ -146,11 +154,10 @@ public class HoodServiceTest {
 	public void testCreate_whenTownIsNull_thenReturnThrowHoodException() {
 		hood.setTown(null);
 		
-		when(hoodDaoMock.save(Mockito.any(Hood.class))).thenThrow(DataIntegrityViolationException.class);
-		
 		HoodException result = assertThrows(HoodException.class, () -> testedObject.create(hood));
 		
-		verify(hoodDaoMock, times(1)).save(Mockito.any(Hood.class));
+		verify(hoodDaoMock, times(0)).save(Mockito.any(Hood.class));
+		verify(townDaoMock, times(0)).findById(Mockito.anyLong());
 		assertThat(result.getMessage()).isEqualTo(HoodException.INCOMPLETE_INFORMATIONS);
 	}
 	
@@ -159,10 +166,12 @@ public class HoodServiceTest {
 		hood.setLatitude(null);
 
 		when(hoodDaoMock.save(Mockito.any(Hood.class))).thenThrow(DataIntegrityViolationException.class);
+		when(townDaoMock.findById(Mockito.anyLong())).thenReturn(Optional.ofNullable(town));
 		
 		HoodException result = assertThrows(HoodException.class, () -> testedObject.create(hood));
 
 		verify(hoodDaoMock, times(1)).save(Mockito.any(Hood.class));
+		verify(townDaoMock, times(1)).findById(Mockito.anyLong());
 		assertThat(result.getMessage()).isEqualTo(HoodException.INCOMPLETE_INFORMATIONS);
 	}
 	
@@ -171,18 +180,31 @@ public class HoodServiceTest {
 		hood.setLongitude(null);
 
 		when(hoodDaoMock.save(Mockito.any(Hood.class))).thenThrow(DataIntegrityViolationException.class);
+		when(townDaoMock.findById(Mockito.anyLong())).thenReturn(Optional.ofNullable(town));
 		
 		HoodException result = assertThrows(HoodException.class, () -> testedObject.create(hood));
 
 		verify(hoodDaoMock, times(1)).save(Mockito.any(Hood.class));
+		verify(townDaoMock, times(1)).findById(Mockito.anyLong());
 		assertThat(result.getMessage()).isEqualTo(HoodException.INCOMPLETE_INFORMATIONS);
+	}
+	
+	@Test
+	public void testCreate_whenTownNotFound_thenThrowHoodException() throws HoodException {
+		when(townDaoMock.findById(Mockito.anyLong())).thenReturn(Optional.empty());
+		
+		HoodException result = assertThrows(HoodException.class, () -> testedObject.create(hood));
+
+		verify(hoodDaoMock, times(0)).save(Mockito.any(Hood.class));
+		verify(townDaoMock, times(1)).findById(Mockito.anyLong());
+		assertThat(result.getMessage()).isEqualTo(HoodException.TOWN_LOADING);
 	}
 
 	@Test
 	public void testDelete() {
-		testedObject.delete(hood);
+		testedObject.delete(id);
 
-		verify(hoodDaoMock, times(1)).delete(hood);
+		verify(hoodDaoMock, times(1)).deleteById(id);
 	}
 	
 }
