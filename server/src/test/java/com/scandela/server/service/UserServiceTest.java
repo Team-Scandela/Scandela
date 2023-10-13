@@ -22,6 +22,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 
 import com.scandela.server.dao.TownDao;
 import com.scandela.server.dao.UserDao;
+import com.scandela.server.entity.Decision;
 import com.scandela.server.entity.Town;
 import com.scandela.server.entity.User;
 import com.scandela.server.exception.UserException;
@@ -46,16 +47,8 @@ public class UserServiceTest {
 	private final String username = "tester";
 	private final String password = "test";
 	private final String role = "role";
-	private final Town town = Town.builder()
-			.id(id)
-			.name("Test")
-			.latitude(3.4543)
-			.longitude(89.0913)
-			.electricityPrice(17)
-			.indiceElectricity(0.17f)
-			.indiceEcology(0.45f)
-			.indiceQuality(0.78f)
-			.build();
+	private final Town town = Town.builder().id(id).build();
+	private final List<Decision> decisions = Arrays.asList(Decision.builder().id(id).build());
 	private final User user = User.builder()
 			.id(id)
 			.town(town)
@@ -63,9 +56,10 @@ public class UserServiceTest {
 			.username(username)
 			.password(password)
 			.role(role)
-			.moreInfo(new ArrayList<>())
+			.moreInformations(new ArrayList<>())
 			.darkmode(true)
 			.lastConnexion(LocalDateTime.now())
+			.decisions(decisions)
 			.build();
 	
 	// Methods \\
@@ -85,9 +79,10 @@ public class UserServiceTest {
 		assertThat(resultedUser.getUsername()).isEqualTo(user.getUsername());
 		assertThat(resultedUser.getPassword()).isEqualTo(user.getPassword());
 		assertThat(resultedUser.getRole()).isEqualTo(user.getRole());
-		assertThat(resultedUser.getMoreInfo()).isEqualTo(user.getMoreInfo());
+		assertThat(resultedUser.getMoreInformations()).isEqualTo(user.getMoreInformations());
 		assertThat(resultedUser.isDarkmode()).isEqualTo(user.isDarkmode());
 		assertThat(resultedUser.getLastConnexion().toString()).isEqualTo(user.getLastConnexion().toString());
+		assertThat(resultedUser.getDecisions()).hasSize(user.getDecisions().size());
 	}
 	
 	@Test
@@ -144,9 +139,10 @@ public class UserServiceTest {
 		assertThat(result.getUsername()).isEqualTo(user.getUsername());
 		assertThat(result.getPassword()).isEqualTo(user.getPassword());
 		assertThat(result.getRole()).isEqualTo(user.getRole());
-		assertThat(result.getMoreInfo()).isEqualTo(user.getMoreInfo());
+		assertThat(result.getMoreInformations()).isEqualTo(user.getMoreInformations());
 		assertThat(result.isDarkmode()).isEqualTo(user.isDarkmode());
 		assertThat(result.getLastConnexion().toString()).isEqualTo(user.getLastConnexion().toString());
+		assertThat(result.getDecisions()).hasSize(user.getDecisions().size());
 	}
 	
 	@Test
@@ -174,9 +170,10 @@ public class UserServiceTest {
 		assertThat(result.getUsername()).isEqualTo(user.getUsername());
 		assertThat(result.getPassword()).isEqualTo(user.getPassword());
 		assertThat(result.getRole()).isEqualTo(user.getRole());
-		assertThat(result.getMoreInfo()).isEqualTo(user.getMoreInfo());
+		assertThat(result.getMoreInformations()).isEqualTo(user.getMoreInformations());
 		assertThat(result.isDarkmode()).isEqualTo(user.isDarkmode());
 		assertThat(result.getLastConnexion().toString()).isEqualTo(user.getLastConnexion().toString());
+		assertThat(result.getDecisions()).hasSize(user.getDecisions().size());
 	}
 	
 	@Test
@@ -258,9 +255,9 @@ public class UserServiceTest {
 	
 	@Test
 	public void testDelete() {
-		testedObject.delete(user);
+		testedObject.delete(id);
 
-		verify(userDaoMock, times(1)).delete(user);
+		verify(userDaoMock, times(1)).deleteById(id);
 	}
 	
 }

@@ -190,7 +190,7 @@ public class HoodServiceTest {
 	}
 	
 	@Test
-	public void testCreate_whenTownNotFound_thenThrowUserException() throws HoodException {
+	public void testCreate_whenTownNotFound_thenThrowHoodException() throws HoodException {
 		when(townDaoMock.findById(Mockito.anyLong())).thenReturn(Optional.empty());
 		
 		HoodException result = assertThrows(HoodException.class, () -> testedObject.create(hood));
@@ -202,9 +202,9 @@ public class HoodServiceTest {
 
 	@Test
 	public void testDelete() {
-		testedObject.delete(hood);
+		testedObject.delete(id);
 
-		verify(hoodDaoMock, times(1)).delete(hood);
+		verify(hoodDaoMock, times(1)).deleteById(id);
 	}
 	
 }
