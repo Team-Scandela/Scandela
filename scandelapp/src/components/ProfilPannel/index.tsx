@@ -23,7 +23,6 @@ const ProfilPannel: React.FC<ProfilPannelProps> = ({
     return (
         <div>
             <ProfilMenuContainer isDark={isDark}>
-                {/* Contenu de votre ProfilMenuContainer */}
             </ProfilMenuContainer>
         </div>
     );
