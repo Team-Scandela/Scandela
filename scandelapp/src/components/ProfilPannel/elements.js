@@ -16,6 +16,7 @@ export const ProfilMenuContainer = styled.div`
     border-radius: 10px;
     transition: all 0.2s ease-in-out;
     overflow: hidden;
+    z-index: 2;
 `;
 
 export const Title = styled.h1`
@@ -25,6 +26,7 @@ export const Title = styled.h1`
     margin-bottom: 30px;
     line-height: 1.5;
     text-align: center;
+    user-select: none;
 `;
 
 export const ProfileField = styled.div`
@@ -35,6 +37,7 @@ export const ProfileField = styled.div`
     margin-left: 5px;
     margin-bottom: 10px;
     margin-right: 5px;
+    user-select: none;
 `;
 
 
@@ -45,6 +48,7 @@ export const EditButton = styled.button`
     border-radius: 5px;
     padding: 5px 10px;
     margin-left: auto;
-    cursor: pointer; /* Définir le curseur comme un pointeur */
+    cursor: pointer;
     transition: background-color 0.2s ease-in-out;
+    user-select: none;
 `;

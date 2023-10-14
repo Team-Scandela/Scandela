@@ -11,6 +11,7 @@ export const DecisionMenuContainer = styled.div`
     width: 1000px;
     height: 625px;
     overflow: visible; /* To allow the button to overflow because of the overflow : hidden rules in App.css */
+    z-index: 1;
 `;
 
 /** Button who allows to open the decision pannel */
