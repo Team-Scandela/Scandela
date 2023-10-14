@@ -46,30 +46,60 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
     const [selectedLampFeature, setSelectedLampFeature] =
         React.useState<mapboxgl.MapboxGeoJSONFeature | null>(null);
 
-    // Crée les données géoJSON à partir des données de Nantes
-    const geojsonData = React.useMemo(() => {
-        let geoJSON = {
-            type: 'FeatureCollection',
-            features: [] as any[],
-        };
-        nantesData.forEach((obj: any) => {
-            const feature = {
-                type: 'Feature',
-                geometry: {
-                    type: obj.geometry.type,
-                    coordinates: [
-                        obj.geometry.coordinates[0],
-                        obj.geometry.coordinates[1],
-                    ],
-                },
-                properties: {
-                    id: obj.fields.numero,
-                    name: obj.fields.type_foyer,
-                },
+    const [fetchAsked, setFetchAsked] = React.useState<boolean>(false);
+
+    const [dataLoaded, setDataLoaded] = React.useState<boolean>(false);
+
+    const getLightsData = async () => {
+        console.log("asked")
+        try {
+            const response = await fetch('http://localhost:3001/lamp', {
+                method: 'GET',
+            });
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            console.log(data);
+            return data;
+        } catch (error) {
+            console.error('Fetch error:', error);
+            throw error;
+        }
+    };
+
+    React.useEffect(() => {
+        if (!fetchAsked) {
+            const fetchData = async () => {
+                try {
+                    let geoJSON = {
+                        "type": "FeatureCollection",
+                        "features": [] as any[]
+                    };
+                    const jsonData = await getLightsData();
+                    console.log(jsonData);
+                    jsonData.forEach((obj: any) => {
+                        const feature = {
+                            "type": "Feature",
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [obj.lat, obj.lng]
+                            },
+                            "properties": {
+                                "id": obj.name,
+                                "name": obj.foyertype,
+                            }
+                        };
+                        geoJSON.features.push(feature);
+                    });
+                    initializeMap(geoJSON);
+                } catch (error) {
+                    console.error('Error:', error);
+                }
             };
+            setFetchAsked(true);
             fetchData();
         }
-        setFetchAsked(true);
     }, []);
 
     const updateCircleRadius = () => {
@@ -147,13 +177,14 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
     };
 
     // Initialise la carte
-    const initializeMap = () => {
+    const initializeMap = (geoJSON : any) => {
+        console.log("Tiem to work")
         if (!map.current) {
             cluster.current = new Supercluster({
                 radius: 100,
                 maxZoom: 17,
             });
-            cluster.current.load(geojsonData.features);
+            cluster.current.load(geoJSON.features);
 
             setCircleLayerVisible(false);
 
@@ -226,7 +257,7 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
                 if (!map.current?.getSource('points')) {
                     map.current.addSource('points', {
                         type: 'geojson',
-                        data: geojsonData as GeoJSON.FeatureCollection,
+                        data: geoJSON as GeoJSON.FeatureCollection,
                         cluster: true,
                         clusterRadius: 100,
                         clusterMaxZoom: 17,
@@ -331,64 +362,53 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
                     map.current.setLayoutProperty('lamp', 'visibility', 'none');
                     map.current?.on('zoom', updateCircleRadius);
                 }
-            console.log("POINTS LOADED")
-    }
-
-    // Initialize the map
-    const initializeMap = () => {
-        if (!map.current) {
-            map.current = new mapboxgl.Map({
-                container: mapContainer.current,
-                style: isDark ? "mapbox://styles/titouantd/cljwv2coy025k01pk785839a1" : "mapbox://styles/titouantd/cljwui6ss00ij01pj1oin6oa5",
-                center: [lng, lat],
-                zoom: zoom,
             });
+            setDataLoaded(true);
         }
     };
 
-    // Initialize the map on the first render
-    React.useEffect(() => {
-        initializeMap();
-    }, [isDark, lng, lat, zoom]);
-
     // Effect to monitor filter changes
     React.useEffect(() => {
-        if (map.current.isStyleLoaded()) {
-            handleFilterChange(); // Call the function to handle layer visibility
-        } else {
-            map.current.on('style.load', () => {
-                handleFilterChange(); // Call the function once the style is loaded
-            });
+        if (dataLoaded) {
+            if (map.current.isStyleLoaded()) {
+                handleFilterChange(); // Call the function to handle layer visibility
+            } else {
+                map.current.on('style.load', () => {
+                    handleFilterChange(); // Call the function once the style is loaded
+                });
+            }
         }
     }, [filter]);
 
     // Function to filter data based on the filter type
     useEffect(() => {
-        if (map.current) {
-            map.current.setStyle(
-                isDark
-                    ? 'mapbox://styles/mapbox/dark-v11'
-                    : 'mapbox://styles/mapbox/light-v11'
-            );
-            map.current.flyTo({
-                center: [lng, lat],
-                zoom: zoom,
-                speed: 1.2,
-                curve: 1.42,
-            });
-            setCircleLayerVisible(true);
-        } else {
-            map.current = new mapboxgl.Map({
-                container: mapContainer.current,
-                style: isDark
-                    ? 'mapbox://styles/mapbox/dark-v11'
-                    : 'mapbox://styles/mapbox/light-v11',
-                center: [lng, lat],
-                zoom: zoom,
-            });
-            loadMap(map.current);
+        if (dataLoaded) {
+            if (map.current) {
+                map.current.setStyle(
+                    isDark
+                        ? 'mapbox://styles/mapbox/dark-v11'
+                        : 'mapbox://styles/mapbox/light-v11'
+                );
+                map.current.flyTo({
+                    center: [lng, lat],
+                    zoom: zoom,
+                    speed: 1.2,
+                    curve: 1.42,
+                });
+                setCircleLayerVisible(true);
+            } else {
+                map.current = new mapboxgl.Map({
+                    container: mapContainer.current,
+                    style: isDark
+                        ? 'mapbox://styles/mapbox/dark-v11'
+                        : 'mapbox://styles/mapbox/light-v11',
+                    center: [lng, lat],
+                    zoom: zoom,
+                });
+                loadMap(map.current);
+            }
         }
-    }, [isDark, lng, lat, zoom, geojsonData]);
+    }, [isDark, lng, lat, zoom]);
 
     const styleMap = {
         height: '100vh',
