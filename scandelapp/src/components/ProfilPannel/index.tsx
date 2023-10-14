@@ -40,7 +40,7 @@ const ProfilPannel: React.FC<ProfilPannelProps> = ({
                     <EditButton isDark={isDark}>Modifier</EditButton>
                 </ProfileField>
                 <ProfileField isDark={isDark}>
-                    kw/h de la ville: {kwH}
+                    Kw/h de la ville: {kwH}
                     <EditButton isDark={isDark}>Modifier</EditButton>
                 </ProfileField>
             </ProfilMenuContainer>

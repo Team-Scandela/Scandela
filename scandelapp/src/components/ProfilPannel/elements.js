@@ -37,6 +37,7 @@ export const ProfileField = styled.div`
     margin-right: 5px;
 `;
 
+
 export const EditButton = styled.button`
     background-color: ${(props) => (props.isDark ? White : Yellow)};
     color: Black;
@@ -44,10 +45,6 @@ export const EditButton = styled.button`
     border-radius: 5px;
     padding: 5px 10px;
     margin-left: auto;
-    cursor: default;
+    cursor: pointer; /* Définir le curseur comme un pointeur */
     transition: background-color 0.2s ease-in-out;
-    
-    &:hover {
-      cursor: pointer;
-    }
 `;
