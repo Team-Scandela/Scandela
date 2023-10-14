@@ -5,6 +5,7 @@ import { Filters } from '../../pages/main';
 import loadMap from './loadMap';
 import { Yellow } from '../../colors';
 import LampInfosPopup from '../LampInfosPopup';
+import { LassoOverlay } from './elements';
 
 // Load geographical data of Nantes from a local JSON file
 let nantesData = require('../../assets/nantesData.json');
@@ -21,10 +22,19 @@ interface MapProps {
     lat: number;
     lng: number;
     zoom: number;
+    isLassoActive: boolean;
 }
 
 // Map component
-const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
+const Map: React.FC<MapProps> = ({
+    id,
+    filter,
+    isDark,
+    lat,
+    lng,
+    zoom,
+    isLassoActive,
+}) => {
     // Reference to the map container element
     const mapContainer = React.useRef<HTMLDivElement | null>(null);
 
@@ -38,6 +48,10 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
     const [selectedLampId, setSelectedLampId] = React.useState<string | null>(
         null
     );
+
+    const [cursorStyle, setCursorStyle] = useState('auto');
+
+    const [clickedPoints, setClickedPoints] = useState<mapboxgl.LngLat[]>([]);
 
     const [circleRadius, setCircleRadius] = useState<number>(0);
     const [circleLayerVisible, setCircleLayerVisible] =
@@ -229,7 +243,7 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
                         data: geojsonData as GeoJSON.FeatureCollection,
                         cluster: true,
                         clusterRadius: 100,
-                        clusterMaxZoom: 17,
+                        clusterMaxZoom: 16,
                     });
 
                     // Définit les couleurs en format RGBA avec une opacité de 0.6
@@ -340,6 +354,126 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
         initializeMap();
     }, [isDark, lng, lat, zoom]);
 
+    React.useEffect(() => {
+        if (map.current) {
+            if (isLassoActive) {
+                // Bloquer le zoom et le déplacement
+                map.current.scrollZoom.disable();
+                map.current.dragPan.disable();
+                setCursorStyle('crosshair');
+
+                // Ajouter un gestionnaire de clic sur la carte
+                map.current.on('click', (e) => {
+                    // Vérifier si le point est à l'intérieur de la carte
+                    const isInsideMap = map.current
+                        .getBounds()
+                        .contains(e.lngLat);
+
+                    if (isInsideMap) {
+                        // Ajouter le point aux coordonnées cliquées
+                        setClickedPoints((prevPoints) => [
+                            ...prevPoints,
+                            e.lngLat,
+                        ]);
+                    }
+                });
+            } else {
+                // Activer le zoom et le déplacement
+                map.current.scrollZoom.enable();
+                map.current.dragPan.enable();
+                setCursorStyle('auto');
+
+                // Effacer les points et le calque quand le lasso n'est pas actif
+                if (map.current.getSource('clickedPoints')) {
+                    map.current.removeLayer('clickedPointsLayer');
+                    if (map.current.getLayer('clickedPolygonLayer'))
+                        map.current.removeLayer('clickedPolygonLayer');
+                    map.current.removeSource('clickedPolygon');
+                    map.current.removeSource('clickedPoints');
+                    setClickedPoints([]);
+                }
+            }
+        }
+    }, [isLassoActive]);
+
+    useEffect(() => {
+        if (map.current) {
+            if (isLassoActive) {
+                // Supprime les sources et layers si ils existent
+                if (map.current.getLayer('clickedPointsLayer'))
+                    map.current.removeLayer('clickedPointsLayer');
+                if (map.current.getLayer('clickedPolygonLayer'))
+                    map.current.removeLayer('clickedPolygonLayer');
+                if (map.current.getSource('clickedPolygon'))
+                    map.current.removeSource('clickedPolygon');
+                if (map.current.getSource('clickedPoints'))
+                    map.current.removeSource('clickedPoints');
+
+                // Ajouter le point à la carte
+                map.current.addSource('clickedPoints', {
+                    type: 'geojson',
+                    data: {
+                        type: 'FeatureCollection',
+                        features: clickedPoints.map((point) => ({
+                            type: 'Feature',
+                            properties: {},
+                            geometry: {
+                                type: 'Point',
+                                coordinates: [point.lng, point.lat],
+                            },
+                        })),
+                    },
+                });
+
+                // Créer un polygone à partir des points
+                const coordinates = clickedPoints.map((point) => [
+                    point.lng,
+                    point.lat,
+                ]);
+
+                map.current.addSource('clickedPolygon', {
+                    type: 'geojson',
+                    data: {
+                        type: 'FeatureCollection',
+                        features: [
+                            {
+                                type: 'Feature',
+                                properties: {},
+                                geometry: {
+                                    type: 'Polygon',
+                                    coordinates: [coordinates],
+                                },
+                            },
+                        ],
+                    },
+                });
+                if (clickedPoints.length >= 3) {
+                    map.current.addLayer({
+                        id: 'clickedPolygonLayer',
+                        type: 'fill',
+                        source: 'clickedPolygon',
+                        paint: {
+                            'fill-color': '#334dcd',
+                            'fill-opacity': 0.3,
+                        },
+                    });
+                }
+
+                map.current.addLayer({
+                    id: 'clickedPointsLayer',
+                    type: 'circle',
+                    source: 'clickedPoints',
+                    paint: {
+                        'circle-radius': 6,
+                        'circle-color': '#8CC63F',
+                        'circle-stroke-color': '#F9F9F9',
+                        'circle-stroke-width': 2,
+                    },
+                });
+            }
+        }
+    }, [clickedPoints, isLassoActive]);
+
     // Effect to monitor filter changes
     React.useEffect(() => {
         if (map.current.isStyleLoaded()) {
@@ -404,8 +538,9 @@ const Map: React.FC<MapProps> = ({ id, filter, isDark, lat, lng, zoom }) => {
     // Render the map component
     return (
         <div id={id} style={{ overflow: 'hidden' }}>
+            <LassoOverlay isLassoActive={isLassoActive} />
             <div
-                style={styleMap}
+                style={{ ...styleMap, cursor: cursorStyle }}
                 ref={mapContainer}
                 className="map-container"
             />

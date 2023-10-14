@@ -6,6 +6,7 @@ import {
     LogoutButton,
     ProfileButton,
     LanguageButton,
+    DownloadButton,
 } from './element';
 import LightDark from '../LightDark';
 import { useTranslation } from 'react-i18next';
@@ -33,14 +34,41 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({
     const navigate = useNavigate();
     const [on, setOn] = React.useState(false);
 
+    const fileInputRef = React.useRef<HTMLInputElement | null>(null);
+
     const { i18n } = useTranslation();
 
     const changeLanguage = (lng: string) => {
         i18n.changeLanguage(lng);
     };
 
-    const handleLogout = () => {
-        navigate('/login');
+    function launchScript(argument: string) {
+        fetch(`http://localhost:3001/script`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ argument }),
+        }).then((response) => response.text());
+    }
+
+    const downloadData = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files.length > 0) {
+            const reader = new FileReader();
+            reader.readAsText(e.target.files[0], 'UTF-8');
+            reader.onload = (evt) => {
+                if (evt.target) {
+                    const fileContent = evt.target.result;
+                    launchScript(fileContent as string);
+                }
+            };
+        }
+    };
+
+    const openFilePicker = () => {
+        if (fileInputRef.current) {
+            fileInputRef.current.click();
+        }
     };
 
     return (
@@ -58,7 +86,16 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({
                 <LanguageButton
                     onClick={() => changeLanguage('en')}
                 ></LanguageButton>
-                <LogoutButton onClick={handleLogout}></LogoutButton>
+                <DownloadButton
+                    onClick={() => openFilePicker()}
+                ></DownloadButton>
+                <input
+                    type="file"
+                    ref={fileInputRef}
+                    style={{ display: 'none' }}
+                    onChange={downloadData}
+                />
+                <LogoutButton></LogoutButton>
             </OptionsMenuContainer>
         </div>
     );

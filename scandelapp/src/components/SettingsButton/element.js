@@ -3,6 +3,7 @@ import { Yellow, Black, White } from '../../colors';
 import { TbLogout } from 'react-icons/tb';
 import { CgProfile } from 'react-icons/cg';
 import { MdOutlineLanguage } from 'react-icons/md';
+import { MdDownload } from 'react-icons/md';
 
 /** Container for the background of the searchbar **/
 export const SettingsButtonContainer = styled.div`
@@ -41,7 +42,7 @@ export const NameOfCity = styled.div`
 export const OptionsMenuContainer = styled.div`
     display: flex;
     flex-direction: row;
-    gap: 20px;
+    gap: 16px;
     justify-content: center;
     align-items: center;
     width: ${(props) => (props.show ? '200px' : '0px')};
@@ -80,6 +81,15 @@ export const ProfileButton = styled(CgProfile)`
 `;
 
 export const LanguageButton = styled(MdOutlineLanguage)`
+    cursor: pointer;
+    position: relative;
+
+    &:hover {
+        top: -1px;
+    }
+`;
+
+export const DownloadButton = styled(MdDownload)`
     cursor: pointer;
     position: relative;
 
