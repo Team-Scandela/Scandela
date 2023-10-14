@@ -17,6 +17,7 @@ export const ProfilMenuContainer = styled.div`
     transition: all 0.2s ease-in-out;
     overflow: hidden;
     z-index: 2;
+    margin: 10px; /* Ajoutez une marge de 10px autour du conteneur */
 `;
 
 export const Title = styled.h1`
@@ -40,10 +41,9 @@ export const ProfileField = styled.div`
     user-select: none;
 `;
 
-
 export const EditButton = styled.button`
-    background-color: ${(props) => (props.isDark ? White : Yellow)};
-    color: Black;
+    background-color: ${(props) => (props.isDark ? White : Black)};
+    color: ${(props) => (props.isDark ? Black : White)};
     border: none;
     border-radius: 5px;
     padding: 5px 10px;
@@ -51,4 +51,5 @@ export const EditButton = styled.button`
     cursor: pointer;
     transition: background-color 0.2s ease-in-out;
     user-select: none;
+    margin-top: 10px; /* Ajoutez une marge de 10px en haut du bouton */
 `;
