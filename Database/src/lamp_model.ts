@@ -94,9 +94,7 @@ const deleteAllLamp = (request: Request, response: Response) => {
 };
 
 const launchScript = (request: Request, response: Response) => {
-  console.log(request.body.argument);
-  const filePath = "../nantesData.json";
-  const jsonData = require(filePath);
+  const jsonData = JSON.stringify(request.body.argument) as any;
 
   for (const item of jsonData) {
     const { fields } = item;
@@ -131,6 +129,12 @@ const launchScript = (request: Request, response: Response) => {
       uuidbulb,
       uuidlampshade,
     ];
+
+    // UNCOMMENT WHEN THE DEV PHASE IS OVER
+    // UNCOMMENT WHEN THE DEV PHASE IS OVER
+    // UNCOMMENT WHEN THE DEV PHASE IS OVER
+    // UNCOMMENT WHEN THE DEV PHASE IS OVER
+
 
     // pool.query(query, values, (error: any, results: any) => {
     //   if (error) {

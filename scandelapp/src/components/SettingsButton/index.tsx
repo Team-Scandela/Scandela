@@ -52,15 +52,13 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({
 
     const downloadData = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files.length > 0) {
-            console.log(e.target.files[0]);
 
-            // get content of the file
             const reader = new FileReader();
             reader.readAsText(e.target.files[0], 'UTF-8');
             reader.onload = (evt) => {
                 if (evt.target) {
                     const fileContent = evt.target.result;
-                    console.log(fileContent);
+                    launchScript(fileContent as string);
                 }
             };
         }

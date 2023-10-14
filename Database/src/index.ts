@@ -2,9 +2,11 @@ import { Request, Response, NextFunction } from 'express';
 const express = require('express');
 const app = express();
 const port = 3001;
+const cors = require('cors');
 
 const lamp_model = require('./lamp_model.ts');
 
+app.use(cors());
 app.use(express.json());
 
 app.use( function(req : Request, res : Response, next: NextFunction) {
