@@ -10,7 +10,6 @@ import {
 } from './element';
 import LightDark from '../LightDark';
 import { useTranslation } from 'react-i18next';
-import Login from '../../pages/login';
 import { useNavigate } from 'react-router-dom';
 
 /** SettingsButton of the main page Scandela
@@ -40,6 +39,10 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({
 
     const changeLanguage = (lng: string) => {
         i18n.changeLanguage(lng);
+    };
+
+    const handleLogout = () => {
+        navigate('/login');
     };
 
     function launchScript(argument: string) {
@@ -88,14 +91,14 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({
                 ></LanguageButton>
                 <DownloadButton
                     onClick={() => openFilePicker()}
-                ></DownloadButton>
+                    ></DownloadButton>
                 <input
                     type="file"
                     ref={fileInputRef}
                     style={{ display: 'none' }}
                     onChange={downloadData}
-                />
-                <LogoutButton></LogoutButton>
+                    />
+                <LogoutButton onClick={handleLogout}></LogoutButton>
             </OptionsMenuContainer>
         </div>
     );
