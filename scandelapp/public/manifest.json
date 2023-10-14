@@ -1,20 +1,20 @@
 {
-  "short_name": "Scandela",
-  "name": "Scandela application",
-  "icons": [
-    {
-      "src": "favicon.ico",
-      "sizes": "32x32",
-      "type": "image/x-icon"
-    },
-    {
-      "src": "logo-256x256.png",
-      "type": "image/png",
-      "sizes": "256x256"
-    }
-  ],
-  "start_url": ".",
-  "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+    "short_name": "Scandela",
+    "name": "Scandela application",
+    "icons": [
+        {
+            "src": "favicon.ico",
+            "sizes": "32x32",
+            "type": "image/x-icon"
+        },
+        {
+            "src": "logo-256x256.png",
+            "type": "image/png",
+            "sizes": "256x256"
+        }
+    ],
+    "start_url": ".",
+    "display": "standalone",
+    "theme_color": "#000000",
+    "background_color": "#ffffff"
 }
