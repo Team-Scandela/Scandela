@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { ProfilMenuContainer } from './elements';
+import { ProfilMenuContainer, ProfileField, EditButton, Title } from './elements';
 
 /** ProfilPannel of the main page Scandela
- * This ProfilPannel allow the user to see all his information about the city and the user
+ * This ProfilPannel allows the user to see all their information about the city and the user
  * @param {boolean} isDark - If the mode is dark or not
  * @param {function} setIsDark - Function to set the mode
  **/
@@ -18,11 +18,26 @@ const ProfilPannel: React.FC<ProfilPannelProps> = ({
     isDark,
     setIsDark,
 }) => {
-    /** If the profil menu is open or closed */
-
     return (
         <div>
             <ProfilMenuContainer isDark={isDark}>
+              <Title>Responsable de la ville de : Nantes</Title>
+              <ProfileField isDark={isDark}>
+                  <span>Nom:</span>
+                  <EditButton isDark={isDark}>Modifier</EditButton>
+              </ProfileField>
+              <ProfileField isDark={isDark}>
+                  <span>Email:</span>
+                  <EditButton isDark={isDark}>Modifier</EditButton>
+              </ProfileField>
+              <ProfileField isDark={isDark}>
+                  <span>Password:</span>
+                  <EditButton isDark={isDark}>Modifier</EditButton>
+              </ProfileField>
+              <ProfileField isDark={isDark}>
+                  <span>kw/h de la ville:</span>
+                  <EditButton isDark={isDark}>Modifier</EditButton>
+              </ProfileField>
             </ProfilMenuContainer>
         </div>
     );
