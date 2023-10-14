@@ -9,6 +9,7 @@ import {
     DownloadButton,
 } from './element';
 import LightDark from '../LightDark';
+import ProfilPannel from '../ProfilPannel';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
@@ -31,6 +32,7 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({
 }) => {
     /** If the option menu is open or closed */
     const navigate = useNavigate();
+    const [isProfileOpen, setIsProfileOpen] = React.useState(false);
     const [on, setOn] = React.useState(false);
 
     const fileInputRef = React.useRef<HTMLInputElement | null>(null);
@@ -72,15 +74,25 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({
         if (fileInputRef.current) {
             fileInputRef.current.click();
         }
+    }
+
+    const handleSettingsMenu = () => {
+        setOn(!on)
+        if (on === true)
+            setIsProfileOpen(false);
+    };
+
+    const handleProfileButtonClick = () => {
+        setIsProfileOpen(!isProfileOpen);
     };
 
     return (
         <div>
-            <SettingsButtonContainer isDark={isDark} onClick={() => setOn(!on)}>
+            <SettingsButtonContainer isDark={isDark} onClick={handleSettingsMenu}>
                 <NameOfCity isDark={isDark}> Nantes </NameOfCity>
             </SettingsButtonContainer>
             <OptionsMenuContainer show={on} isDark={isDark}>
-                <ProfileButton></ProfileButton>
+                <ProfileButton onClick={handleProfileButtonClick}></ProfileButton>
                 <LightDark
                     id={'lightDarkComponentId'}
                     isDark={isDark}
@@ -100,6 +112,8 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({
                     />
                 <LogoutButton onClick={handleLogout}></LogoutButton>
             </OptionsMenuContainer>
+            {isProfileOpen && <ProfilPannel id={'yourId'} isDark={isDark} setIsDark={setIsDark} />}
+
         </div>
     );
 };
