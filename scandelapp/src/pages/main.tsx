@@ -10,6 +10,7 @@ import ActionsList from '../components/ActionsList';
 import Toastr from '../components/Toastr';
 import AbsencePannel from '../components/AbsencePannel';
 import { Gauges } from '../components/Gauges';
+import Lasso from '../components/Lasso';
 import SettingsButton from '../components/SettingsButton';
 
 export enum Filters {
@@ -147,6 +148,12 @@ const Main: React.FC = () => {
         setCurrentSelected(data);
     };
 
+    const [isLassoActive, setIsLassoActive] = React.useState(false);
+
+    const handleLassoActivation = (isActive: boolean) => {
+        setIsLassoActive(isActive);
+    };
+
     return (
         <div>
             <Map
@@ -156,6 +163,7 @@ const Main: React.FC = () => {
                 lat={lat}
                 lng={lng}
                 zoom={zoom}
+                isLassoActive={isLassoActive}
             />
             <SettingsButton
                 id={'settingsButtonId'}
@@ -181,6 +189,11 @@ const Main: React.FC = () => {
                 filter={filter}
                 setFilter={setFilter}
                 isDark={isDark}
+            />
+            <Lasso
+                id={'LassoComponentId'}
+                isDark={isDark}
+                onLassoActivation={handleLassoActivation}
             />
             <DecisionMenu
                 id={'decisionMenuComponentId'}
