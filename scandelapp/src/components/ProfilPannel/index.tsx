@@ -31,7 +31,7 @@ const ProfilPannel: React.FC<ProfilPannelProps> = ({
                   <EditButton isDark={isDark}>Modifier</EditButton>
               </ProfileField>
               <ProfileField isDark={isDark}>
-                  <span>Password:</span>
+                  <span>Mot de passe:</span>
                   <EditButton isDark={isDark}>Modifier</EditButton>
               </ProfileField>
               <ProfileField isDark={isDark}>

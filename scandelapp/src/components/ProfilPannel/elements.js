@@ -6,7 +6,7 @@ export const ProfilMenuContainer = styled.div`
     flex-direction: column;
     align-items: center;
     width: 300px;
-    height: 400px;
+    height: 350px;
     background-color: ${(props) => (props.isDark ? Black + 'CC' : White + 'CC')};
     position: fixed;
     color: ${(props) => (props.isDark ? Yellow : Black)};
@@ -22,7 +22,7 @@ export const Title = styled.h1`
     font-size: 20px;
     font-weight: bold;
     margin-top: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     line-height: 1.5;
     text-align: center;
 `;
@@ -31,9 +31,11 @@ export const ProfileField = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
+    width: 95%;
     padding: 10px;
     margin-left: 10px;
+    font-weight: bold;
+    margin-bottom: 10px;
 `;
 
 export const EditButton = styled.button`
