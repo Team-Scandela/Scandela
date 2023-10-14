@@ -94,6 +94,7 @@ const deleteAllLamp = (request: Request, response: Response) => {
 };
 
 const launchScript = (request: Request, response: Response) => {
+  console.log(request.body.argument);
   const filePath = "../nantesData.json";
   const jsonData = require(filePath);
 
@@ -131,12 +132,12 @@ const launchScript = (request: Request, response: Response) => {
       uuidlampshade,
     ];
 
-    pool.query(query, values, (error: any, results: any) => {
-      if (error) {
-        throw error;
-      }
-    //   console.log(`Lamp added with ID: ${results.rows[0].uuid}`);
-    });
+    // pool.query(query, values, (error: any, results: any) => {
+    //   if (error) {
+    //     throw error;
+    //   }
+    // //   console.log(`Lamp added with ID: ${results.rows[0].uuid}`);
+    // });
   }
 
   response.status(200).send("Script executed successfully.");
