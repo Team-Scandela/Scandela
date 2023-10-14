@@ -1,34 +1,32 @@
-import * as React from 'react'
+import * as React from 'react';
 
 /** Test page of the app */
 const Test: React.FC = () => {
-
     const [lamp, setLamp] = React.useState<string>(null);
 
     React.useEffect(() => {
         getLamp();
-    }, [])
+    }, []);
 
     function getLamp() {
         fetch('http://localhost:3001/lamp', {
-            method: 'GET'
+            method: 'GET',
         })
-            .then(response => response.text())
-            .then(data => {
+            .then((response) => response.text())
+            .then((data) => {
                 setLamp(data);
-            })
+            });
     }
-    
+
     function launchScript() {
         fetch(`http://localhost:3001/script`, {
-          method: 'POST'
+            method: 'POST',
         })
-          .then(response => response.text())
-          .then(data => {
-            setLamp(data);
-          });
-      }
-      
+            .then((response) => response.text())
+            .then((data) => {
+                setLamp(data);
+            });
+    }
 
     function createLamp() {
         let lat = prompt('Enter latitude');
@@ -37,35 +35,35 @@ const Test: React.FC = () => {
         fetch('http://localhost:3001/lamp', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ lat: lat, lng: lng })
+            body: JSON.stringify({ lat: lat, lng: lng }),
         })
-            .then(response => response.text())
-            .then(data => {
+            .then((response) => response.text())
+            .then((data) => {
                 setLamp(data);
-            })
+            });
     }
 
     function deleteLamp() {
         let uuid = prompt('Enter uuid');
         fetch(`http://localhost:3001/lamp/${uuid}`, {
-            method: 'DELETE'
+            method: 'DELETE',
         })
-            .then(response => response.text())
-            .then(data => {
+            .then((response) => response.text())
+            .then((data) => {
                 setLamp(data);
-            })
+            });
     }
 
     function deleteAllLamp() {
         fetch(`http://localhost:3001/lamps`, {
-            method: 'DELETE'
+            method: 'DELETE',
         })
-            .then(response => response.text())
-            .then(data => {
+            .then((response) => response.text())
+            .then((data) => {
                 setLamp(data);
-            })
+            });
     }
 
     return (
@@ -76,7 +74,7 @@ const Test: React.FC = () => {
             <button onClick={deleteAllLamp}>Delete All</button>
             <button onClick={launchScript}>Launch Script</button>
         </div>
-    )
-}
+    );
+};
 
-export default Test
+export default Test;
