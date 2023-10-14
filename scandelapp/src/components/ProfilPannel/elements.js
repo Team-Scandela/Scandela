@@ -29,24 +29,25 @@ export const Title = styled.h1`
 
 export const ProfileField = styled.div`
     display: flex;
-    justify-content: space-between;
     align-items: center;
     width: 95%;
-    padding: 10px;
-    margin-left: 10px;
-    font-weight: bold;
+    padding: 10px 0;
+    margin-left: 5px;
     margin-bottom: 10px;
+    margin-right: 5px;
 `;
 
 export const EditButton = styled.button`
-    background-color: ${(props) => (props.isDark ? Black : Yellow)};
-    color: ${(props) => (props.isDark ? Yellow : Black)};
+    background-color: ${(props) => (props.isDark ? White : Yellow)};
+    color: Black;
     border: none;
     border-radius: 5px;
     padding: 5px 10px;
+    margin-left: auto;
+    cursor: default;
     transition: background-color 0.2s ease-in-out;
     
-    &:hover{
+    &:hover {
       cursor: pointer;
     }
 `;

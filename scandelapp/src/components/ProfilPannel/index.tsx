@@ -18,26 +18,31 @@ const ProfilPannel: React.FC<ProfilPannelProps> = ({
     isDark,
     setIsDark,
 }) => {
+    const name = "Victor Harri-Chal";
+    const email = "victor.harrichal@epitech.eu";
+    const password = "scandevloppeur";
+    const kwH = "600 kwh";
+
     return (
         <div>
             <ProfilMenuContainer isDark={isDark}>
-              <Title>Responsable de la ville de : Nantes</Title>
-              <ProfileField isDark={isDark}>
-                  <span>Nom:</span>
-                  <EditButton isDark={isDark}>Modifier</EditButton>
-              </ProfileField>
-              <ProfileField isDark={isDark}>
-                  <span>Email:</span>
-                  <EditButton isDark={isDark}>Modifier</EditButton>
-              </ProfileField>
-              <ProfileField isDark={isDark}>
-                  <span>Mot de passe:</span>
-                  <EditButton isDark={isDark}>Modifier</EditButton>
-              </ProfileField>
-              <ProfileField isDark={isDark}>
-                  <span>kw/h de la ville:</span>
-                  <EditButton isDark={isDark}>Modifier</EditButton>
-              </ProfileField>
+                <Title>Responsable de la ville de : Nantes</Title>
+                <ProfileField isDark={isDark}>
+                    Nom: {name}
+                    <EditButton isDark={isDark}>Modifier</EditButton>
+                </ProfileField>
+                <ProfileField isDark={isDark}>
+                    Email: {email}
+                    <EditButton isDark={isDark}>Modifier</EditButton>
+                </ProfileField>
+                <ProfileField isDark={isDark}>
+                    Mot de passe: {password}
+                    <EditButton isDark={isDark}>Modifier</EditButton>
+                </ProfileField>
+                <ProfileField isDark={isDark}>
+                    kw/h de la ville: {kwH}
+                    <EditButton isDark={isDark}>Modifier</EditButton>
+                </ProfileField>
             </ProfilMenuContainer>
         </div>
     );
