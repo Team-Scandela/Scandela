@@ -1,4 +1,4 @@
-package com.scandela.server.entity.dto;
+package com.scandela.server.entity;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Builder
 @Data
-public class ServerDto {
+public class Server {
 
 	// Attributes \\
 		// Private \\

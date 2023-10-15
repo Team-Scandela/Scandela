@@ -12,63 +12,63 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.scandela.server.entity.User;
-import com.scandela.server.exception.UserException;
-import com.scandela.server.service.IUserService;
+import com.scandela.server.entity.Town;
+import com.scandela.server.exception.TownException;
+import com.scandela.server.service.ITownService;
 
 @CrossOrigin//TODO a changer dans le future en mettant un access token
 @RestController
-@RequestMapping(value = "/users")
-public class UserController extends AbstractController {
+@RequestMapping(value = "/towns")
+public class TownController extends AbstractController {
 
 	// Attributes \\
 		// Private \\
 	@Autowired
-	private IUserService userService;
+	private ITownService townService;
 
 	// Methods \\
 		// Public \\
 	/**
-	 * Get all users
+	 * Get all towns
 	 * 
-	 * @return allUsers
+	 * @return allTowns
 	 */
 	@GetMapping
-	public List<User> getUsers() {
-		return userService.getAll();
+	public List<Town> getTowns() {
+		return townService.getAll();
 	}
 
 	/**
-	 * Get user by id
+	 * Get town by id
 	 * 
 	 * @param id
-	 * @return user
+	 * @return town
 	 */
 	@GetMapping("/{id}")
-	public User getUser(@PathVariable long id) {
-		return userService.get(id);
+	public Town getTown(@PathVariable long id) {
+		return townService.get(id);
 	}
 
 	/**
-	 * Create new user
+	 * Create new town
 	 * 
-	 * @param newUser
-	 * @return newUser
-	 * @throws UserException 
+	 * @param newTown
+	 * @return newTown
+	 * @throws TownException
 	 */
 	@PostMapping("/create")
-	public User createUser(@RequestBody User newUser) throws Exception {
-		return userService.create(newUser);
+	public Town createTown(@RequestBody Town newTown) throws Exception {
+		return townService.create(newTown);
 	}
 
 	/**
-	 * Delete user
+	 * Delete town
 	 * 
 	 * @param id
 	 */
 	@DeleteMapping("/delete/{id}")
-	public void deleteUser(@PathVariable long id) {
-		userService.delete(id);
+	public void deleteTown(@PathVariable long id) {
+		townService.delete(id);
 	}
 
 }
