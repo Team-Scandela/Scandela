@@ -9,9 +9,18 @@ services:
     volumes:
       - ./scandelapp:/prod_scandelapp
 
-  server:
+  # server:
+  #   build:
+  #     context: ./server
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - 6000:6000
+  
+  database:
     build:
-      context: ./server
+      context: ./database
       dockerfile: Dockerfile
     ports:
-      - 6000:6000
+      - 4000:4000
+    volumes:
+      - ./database:/prod_scandelapp
