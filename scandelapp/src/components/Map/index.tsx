@@ -2,7 +2,6 @@ import * as mapboxgl from 'mapbox-gl';
 import Supercluster from 'supercluster';
 import React, { useState, useEffect } from 'react';
 import { Filters } from '../../pages/main';
-import loadMap from './loadMap';
 import { Yellow } from '../../colors';
 import LampInfosPopup from '../LampInfosPopup';
 import { LassoOverlay } from './elements';
@@ -62,7 +61,13 @@ const Map: React.FC<MapProps> = ({
 
     const [fetchAsked, setFetchAsked] = React.useState<boolean>(false);
 
+    const [geojsonData, setGeojsonData] = React.useState<GeoJSON.FeatureCollection>({
+        "type": "FeatureCollection",
+        "features": [] as GeoJSON.Feature[]
+    });
+
     const [dataLoaded, setDataLoaded] = React.useState<boolean>(false);
+
 
     const getLightsData = async () => {
         console.log("asked")
@@ -86,14 +91,15 @@ const Map: React.FC<MapProps> = ({
         if (!fetchAsked) {
             const fetchData = async () => {
                 try {
-                    let geoJSON = {
+                    let geoJSON : GeoJSON.FeatureCollection = {
                         "type": "FeatureCollection",
-                        "features": [] as any[]
+                        "features": [] as GeoJSON.Feature[]
                     };
                     const jsonData = await getLightsData();
+                    console.log("data collect by the fetch ")
                     console.log(jsonData);
                     jsonData.forEach((obj: any) => {
-                        const feature = {
+                        const feature : GeoJSON.Feature = {
                             "type": "Feature",
                             "geometry": {
                                 "type": "Point",
@@ -106,7 +112,11 @@ const Map: React.FC<MapProps> = ({
                         };
                         geoJSON.features.push(feature);
                     });
-                    initializeMap(geoJSON);
+                    console.log("let geojson ");
+                    console.log(geoJSON);
+                    setGeojsonData(geoJSON);
+                    console.log("geojsondata ")
+                    console.log(geojsonData);
                 } catch (error) {
                     console.error('Error:', error);
                 }
@@ -115,6 +125,14 @@ const Map: React.FC<MapProps> = ({
             fetchData();
         }
     }, []);
+
+    React.useEffect(() => {
+        console.log("geojsondata updated:", geojsonData);
+        if (geojsonData.features.length > 0) {
+            setDataLoaded(true);
+            initializeMap();
+        }
+    }, [geojsonData]);
 
     const updateCircleRadius = () => {
         if (map.current) {
@@ -191,14 +209,24 @@ const Map: React.FC<MapProps> = ({
     };
 
     // Initialise la carte
-    const initializeMap = (geoJSON : any) => {
-        console.log("Tiem to work")
+    const initializeMap = () => {
+        console.log("init")
+        console.log(geojsonData)
         if (!map.current) {
             cluster.current = new Supercluster({
                 radius: 100,
                 maxZoom: 17,
             });
-            cluster.current.load(geoJSON.features);
+            cluster.current.load(
+                geojsonData.features.map((feature) => ({
+                    type: 'Feature',
+                    properties: feature.properties,
+                    geometry: {
+                        type: 'Point',
+                        coordinates: (feature.geometry as any).coordinates,
+                    },
+                }))
+            );
 
             setCircleLayerVisible(false);
 
@@ -271,7 +299,7 @@ const Map: React.FC<MapProps> = ({
                 if (!map.current?.getSource('points')) {
                     map.current.addSource('points', {
                         type: 'geojson',
-                        data: geoJSON as GeoJSON.FeatureCollection,
+                        data: geojsonData as GeoJSON.FeatureCollection,
                         cluster: true,
                         clusterRadius: 100,
                         clusterMaxZoom: 16,
@@ -377,15 +405,15 @@ const Map: React.FC<MapProps> = ({
                     map.current?.on('zoom', updateCircleRadius);
                 }
             });
-            setDataLoaded(true);
         }
     };
 
     // Initialize the map on the first render
     React.useEffect(() => {
-        initializeMap();
+        //initializeMap();
     }, [isDark, lng, lat, zoom]);
 
+     // Use effect for the lasso
     React.useEffect(() => {
         if (map.current) {
             if (isLassoActive) {
@@ -428,7 +456,8 @@ const Map: React.FC<MapProps> = ({
         }
     }, [isLassoActive]);
 
-    useEffect(() => {
+    // Use effect for the lasso
+    React.useEffect(() => {
         if (map.current) {
             if (isLassoActive) {
                 // Supprime les sources et layers si ils existent
@@ -506,9 +535,10 @@ const Map: React.FC<MapProps> = ({
         }
     }, [clickedPoints, isLassoActive]);
 
-    // Effect to monitor filter changes
+    // Use effect to monitor filter changes
     React.useEffect(() => {
-        if (dataLoaded) {
+        console.log("update for filter")
+        if (map.current) {
             if (map.current.isStyleLoaded()) {
                 handleFilterChange(); // Call the function to handle layer visibility
             } else {
@@ -519,35 +549,33 @@ const Map: React.FC<MapProps> = ({
         }
     }, [filter]);
 
-    // Function to filter data based on the filter type
-    useEffect(() => {
-        if (dataLoaded) {
-            if (map.current) {
-                map.current.setStyle(
-                    isDark
-                        ? 'mapbox://styles/mapbox/dark-v11'
-                        : 'mapbox://styles/mapbox/light-v11'
-                );
-                map.current.flyTo({
-                    center: [lng, lat],
-                    zoom: zoom,
-                    speed: 1.2,
-                    curve: 1.42,
-                });
-                setCircleLayerVisible(true);
-            } else {
-                map.current = new mapboxgl.Map({
-                    container: mapContainer.current,
-                    style: isDark
-                        ? 'mapbox://styles/mapbox/dark-v11'
-                        : 'mapbox://styles/mapbox/light-v11',
-                    center: [lng, lat],
-                    zoom: zoom,
-                });
-                loadMap(map.current);
-            }
-        }
-    }, [isDark, lng, lat, zoom]);
+    // Use effect for black mode and search
+    React.useEffect(() => {
+        if (map.current) {
+            console.log("update for black and search")
+            map.current.setStyle(
+                isDark
+                    ? 'mapbox://styles/titouantd/cljwv2coy025k01pk785839a1'
+                    : 'mapbox://styles/titouantd/cljwui6ss00ij01pj1oin6oa5'
+            );
+            map.current.flyTo({
+                center: [lng, lat],
+                zoom: zoom,
+                speed: 1.2,
+                curve: 1.42,
+            });
+            setCircleLayerVisible(true);
+        }// } else {
+        //     map.current = new mapboxgl.Map({
+        //         container: mapContainer.current,
+        //         style: isDark
+        //             ? 'mapbox://styles/titouantd/cljwv2coy025k01pk785839a1'
+        //             : 'mapbox://styles/titouantd/cljwui6ss00ij01pj1oin6oa5',
+        //         center: [lng, lat],
+        //         zoom: zoom,
+        //     });
+        // }
+    }, [isDark, lng, lat, zoom, geojsonData]);
 
     const styleMap = {
         height: '100vh',
