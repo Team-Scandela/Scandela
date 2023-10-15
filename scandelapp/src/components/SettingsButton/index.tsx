@@ -7,7 +7,7 @@ import {
     ProfileButton,
     LanguageButton,
     DownloadButton,
-} from './element';
+} from './elements';
 import LightDark from '../LightDark';
 import ProfilPannel from '../ProfilPannel';
 import { useTranslation } from 'react-i18next';
