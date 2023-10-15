@@ -3,6 +3,7 @@ import './translation/translation';
 import './App.css';
 import Main from './pages/main';
 import Login from './pages/login';
+import Test from './pages/test';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import * as Sentry from '@sentry/browser';
 
