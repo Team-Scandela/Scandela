@@ -3,21 +3,22 @@ import { Yellow, Black, White, Grey } from '../../colors';
 import { BsFillTrash3Fill } from 'react-icons/bs';
 import { GiSandsOfTime } from 'react-icons/gi';
 import { AiOutlineSend } from 'react-icons/ai';
+import { TiShoppingCart } from 'react-icons/ti';
 
 /** Container of the decision pannel and the button */
 export const ActionsListContainer = styled.div``;
 
 /** Container for the background of the searchbar **/
-export const ActionsListButton = styled.div`
+export const ActionsListButton = styled(TiShoppingCart)`
     display: flex;
     position: absolute;
     align-items: center;
     justify-content: center;
     user-select: none;
-    width: 300px;
+    width: 50px;
     height: 40px;
     top: 25px;
-    left: 1040px;
+    left: 1100px;
     user-select: none;
     background-color: ${(props) =>
         props.isDark ? Black + 'CC' : White + 'CC'};

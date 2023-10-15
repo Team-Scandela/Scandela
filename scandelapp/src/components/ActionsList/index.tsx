@@ -66,7 +66,6 @@ const ActionsList: React.FC<ActionsListProps> = ({
                 isDark={isDark}
                 onClick={() => handleToggleActionsListExpend()}
             >
-                Liste des actions
             </ActionsListButton>
             <ActionsListPanel isDark={isDark} show={actionsListExtended}>
                 <ScrollableOptimisationsContainer isDark={isDark}>
