@@ -7,6 +7,7 @@ import {
     PopupSubTextLampName,
     PopupTextLampName,
     CloseIcon,
+    TempButton,
 } from './elements';
 
 interface SmallLampInfosPopupProps {
@@ -30,20 +31,18 @@ const SmallLampInfosPopup: React.FC<SmallLampInfosPopupProps> = ({
     // typeLampe,
     // hauteur,
     // onClosePopup,
-    // selectedLampFeature,
 }) => {
-
-    // State to track whether the panel is open or closed
-    const [isPanelOpen, setPanelOpen] = useState(false);
+    // State to track whether the popup is open or closed
+    const [isPopupOpen, setPopupOpen] = useState(false);
 
     // Function to close the panel
-    const closePanel = () => {
-        setPanelOpen(false);
+    const closePopup = () => {
+        setPopupOpen(false);
     };
 
     // Function to toggle the panel's visibility
     const togglePanel = () => {
-        setPanelOpen(!isPanelOpen);
+        setPopupOpen(!isPopupOpen);
     };
     // Fonction pour fermer le popup
     // const closePopup = () => {
@@ -57,10 +56,14 @@ const SmallLampInfosPopup: React.FC<SmallLampInfosPopupProps> = ({
 
     return (
         <div>
-            <PannelContainer isDark={isDark}>
-                <CloseIcon isDark={isDark} ></CloseIcon>
+            <TempButton onClick={togglePanel}>
+                Temp : Small lamp info
+            </TempButton>
+
+            <PannelContainer show={isPopupOpen} isDark={isDark}>
+                <CloseIcon isDark={isDark} onClick={closePopup}></CloseIcon>
                 <PopupTextLampName isDark={isDark}>
-                    Lampadaire J23
+                    Lampadaire J23 - 8392
                 </PopupTextLampName>
                 <PopupSubTextLampName isDark={isDark} top="80px">
                     {' '}
@@ -69,21 +72,21 @@ const SmallLampInfosPopup: React.FC<SmallLampInfosPopupProps> = ({
 
                 <PopupTitle isDark={isDark} top="130px">
                     {' '}
-                    Type Lampe{' '} : SHP
+                    Type Lampe : SHP
                 </PopupTitle>
                 {/* <PopupText isDark={isDark} top="170px">
                     {typeLampe}
                 </PopupText> */}
-                <PopupTitle isDark={isDark} top="180px">
+                <PopupTitle isDark={isDark} top="170px">
                     {' '}
-                    Type Foyer{' '} : ALURA
+                    Type Foyer : ALURA
                 </PopupTitle>
                 {/* <PopupText isDark={isDark} top="210px">
                     {typeFoyer}
                 </PopupText> */}
-                <PopupTitle isDark={isDark} top="220px">
+                <PopupTitle isDark={isDark} top="210px">
                     {' '}
-                    Hauteur{' '} : 3.7 m
+                    Hauteur : 3.7 m
                 </PopupTitle>
                 {/* <PopupText isDark={isDark} top="250px">
                     {hauteur} m
