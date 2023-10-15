@@ -14,7 +14,7 @@ services:
   #     context: ./server
   #     dockerfile: Dockerfile
   #   ports:
-  #     - 6000:6000
+  #     - 2001:2001
   
   database:
     build:
