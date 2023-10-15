@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { useState } from 'react';
 import {
-    PremiumButtonStyle
+    PremiumButtonStyle,
+    VersionText
 } from './elements';
 import {FaCrown} from 'react-icons/fa'
 
@@ -23,6 +24,7 @@ const PremiumButton: React.FC<PremiumButtonProps> = ({
 }) => {
     return (
         <div>
+            <VersionText isDark={isDark} isPremiumActivated={isPremiumActivated}>{isPremiumActivated ? "Version premium" : "Version démo"}</VersionText>
             <PremiumButtonStyle isDark={isDark} onClick={() => handleToggleIsPremiumActivated()}>
                 <FaCrown size={32}/>
             </PremiumButtonStyle >

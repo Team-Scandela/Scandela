@@ -3,13 +3,13 @@ import { Yellow, Black, White, Grey } from '../../colors';
 import { BsFillTrash3Fill } from 'react-icons/bs';
 import { GiSandsOfTime } from 'react-icons/gi';
 import { AiOutlineSend } from 'react-icons/ai';
-import { TiShoppingCart } from 'react-icons/ti';
+import { PiListChecksDuotone } from 'react-icons/pi';
 
 /** Container of the decision pannel and the button */
 export const ActionsListContainer = styled.div``;
 
 /** Container for the background of the searchbar **/
-export const ActionsListButton = styled(TiShoppingCart)`
+export const ActionsListButton = styled(PiListChecksDuotone)`
     display: flex;
     position: absolute;
     width: 50px;
