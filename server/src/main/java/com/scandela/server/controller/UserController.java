@@ -3,7 +3,7 @@ package com.scandela.server.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,9 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.scandela.server.entity.User;
-import com.scandela.server.entity.dto.UserDto;
+import com.scandela.server.exception.UserException;
 import com.scandela.server.service.IUserService;
 
+@CrossOrigin//TODO a changer dans le future en mettant un access token
 @RestController
 @RequestMapping(value = "/users")
 public class UserController extends AbstractController {
@@ -33,8 +34,8 @@ public class UserController extends AbstractController {
 	 * @return allUsers
 	 */
 	@GetMapping
-	public ResponseEntity<List<UserDto>> getUsers() {
-		return ResponseEntity.ok(userService.getUsers());
+	public List<User> getUsers() {
+		return userService.getAll();
 	}
 
 	/**
@@ -44,8 +45,8 @@ public class UserController extends AbstractController {
 	 * @return user
 	 */
 	@GetMapping("/{id}")
-	public ResponseEntity<UserDto> getUser(@PathVariable int id) {
-		return ResponseEntity.ok(userService.getUser(id));
+	public User getUser(@PathVariable long id) {
+		return userService.get(id);
 	}
 
 	/**
@@ -53,20 +54,21 @@ public class UserController extends AbstractController {
 	 * 
 	 * @param newUser
 	 * @return newUser
+	 * @throws UserException 
 	 */
 	@PostMapping("/create")
-	public ResponseEntity<UserDto> createUser(@RequestBody User newUser) {
-		return ResponseEntity.ok(userService.createUser(newUser));
+	public User createUser(@RequestBody User newUser) throws Exception {
+		return userService.create(newUser);
 	}
 
 	/**
 	 * Delete user
 	 * 
-	 * @param user
+	 * @param id
 	 */
-	@DeleteMapping("/delete")
-	public void deleteUser(@RequestBody User user) {
-		userService.deleteUser(user);
+	@DeleteMapping("/delete/{id}")
+	public void deleteUser(@PathVariable long id) {
+		userService.delete(id);
 	}
 
 }

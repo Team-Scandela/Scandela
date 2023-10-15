@@ -92,7 +92,7 @@ const ActionsList: React.FC<ActionsListProps> = ({
                 </ScrollableOptimisationsContainer>
                 <TotalContainer isDark={isDark}>
                     <TotalTitleText isDark={isDark}>
-                        Impact Économique
+                        Impact économique
                     </TotalTitleText>
                 </TotalContainer>
                 {/* Render personalized gauge components */}

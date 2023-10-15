@@ -13,6 +13,7 @@ import { Gauges } from '../components/Gauges';
 import Lasso from '../components/Lasso';
 import SettingsButton from '../components/SettingsButton';
 import PremiumButton from '../components/PremiumButton';
+import SmallLampInfosPopup from '../components/SmallLampInfosPopup';
 
 export enum Filters {
     pin = 'pin',
@@ -49,7 +50,7 @@ const Main: React.FC = () => {
                 id: 0,
                 saved: false,
                 selected: false,
-                type: 'Éteindre lampadaire ',
+                type: 'Éteindre lampadaire',
                 location: '13 Rue Pierrick Guyard',
                 description: 'Passage peu fréquent',
                 solution: 'Off: 18h-10h',
@@ -237,9 +238,10 @@ const Main: React.FC = () => {
                         actionsListExtended={actionsListExtended}
                     />
                     <AbsencePannel id={'DuringPannelComponentId'} isDark={isDark} />
+                    <SmallLampInfosPopup isDark={isDark} />
                     <Toastr id={'toastrComponentId'} isDark={isDark} />
                 </>
-            )}
+            )} 
         </div>
     );
 };
