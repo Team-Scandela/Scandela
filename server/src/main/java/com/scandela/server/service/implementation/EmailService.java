@@ -29,7 +29,11 @@ public class EmailService extends AbstractService implements IEmailService {
         mail.setSubject(subject);
         mail.setText(message);
 
+        mail.setText("To confirm your account, please click here : "
+            +"http://localhost:8080/confirm-account?token=");
+
         emailSender.send(mail);
+
     }
 
     public JavaMailSender getJavaMailSender() {

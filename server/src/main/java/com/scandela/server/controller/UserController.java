@@ -60,7 +60,8 @@ public class UserController extends AbstractController {
 	 */
 	@PostMapping("/create")
 	public ResponseEntity<UserDto> createUser(@RequestBody User newUser) {
-		emailService.sendSimpleEmail(newUser.getEmail(), "Welcome to Scandela!", "test Message");
+		emailService.sendSimpleEmail(newUser.getEmail(), "Welcome to Scandela!",
+				"Thank you for being a new member of Scandela !\n\nScandela Team");
 		return ResponseEntity.ok(userService.createUser(newUser));
 	}
 

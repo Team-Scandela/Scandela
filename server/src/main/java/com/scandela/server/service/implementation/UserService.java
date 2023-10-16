@@ -71,7 +71,7 @@ public class UserService extends AbstractService implements IUserService {
 
 		newUser.setPassword(passwordEncoder.encode("scan" + newUser.getPassword() + "dela"));
 		newUser.setLastConnexion(LocalDateTime.now());
-		
+
 		return UserDto.from(userDao.save(newUser));
 	}
 
