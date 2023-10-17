@@ -3,6 +3,7 @@ import './translation/translation';
 import './App.css';
 import Main from './pages/main';
 import Login from './pages/login';
+import Redirect from './pages/redirect';
 import Test from './pages/test';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import * as Sentry from '@sentry/browser';
@@ -30,6 +31,7 @@ const App: React.FC = () => {
             <Routes>
                 <Route path="/" element={<Main />} />
                 <Route path="/login" element={<Login />} />
+                <Route path="/redirect" element={<Redirect />} />
             </Routes>
         </BrowserRouter>
     );

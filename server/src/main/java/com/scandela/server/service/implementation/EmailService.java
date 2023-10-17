@@ -23,13 +23,13 @@ public class EmailService implements IEmailService {
 
     public void sendSimpleEmail(String receiver, String subject, String message) {
         SimpleMailMessage mail = new SimpleMailMessage();
-        mail.setFrom("noreply@baeldung.com");
+        mail.setFrom("noreply@scandela.fr");
         mail.setTo(receiver);
         mail.setSubject(subject);
         mail.setText(message);
 
         mail.setText("To confirm your account, please click here : "
-            +"http://localhost:8080/confirm-account?token=");
+                + "http://localhost:3000/redirect?email=" + receiver);
 
         emailSender.send(mail);
 

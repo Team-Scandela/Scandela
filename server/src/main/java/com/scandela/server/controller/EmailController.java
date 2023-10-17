@@ -34,7 +34,7 @@ public class EmailController extends AbstractController {
 	 * @return newUser
 	 */
 	@PostMapping
-    public void confirmEmailActivation() {
+    public void confirmEmailActivation(@RequestBody String email) {
 		;
 	}
 }
