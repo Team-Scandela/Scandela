@@ -11,13 +11,12 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
-import com.scandela.server.service.AbstractService;
 import com.scandela.server.service.IEmailService;
 
 import jakarta.mail.internet.MimeMessage;
 
 @Component
-public class EmailService extends AbstractService implements IEmailService {
+public class EmailService implements IEmailService {
 
     @Autowired
     private JavaMailSender emailSender;
