@@ -9,26 +9,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.scandela.server.dao.IUserDao;
+import com.scandela.server.dao.TownDao;
+import com.scandela.server.dao.UserDao;
 import com.scandela.server.entity.Login;
 import com.scandela.server.entity.User;
-import com.scandela.server.entity.dto.UserDto;
 import com.scandela.server.service.AbstractService;
 import com.scandela.server.service.ILoginService;
 import com.scandela.server.entity.JwtGenerator;
 
 @Service
-public class LoginService extends AbstractService implements ILoginService {
+public class LoginService extends AbstractService<User> implements ILoginService {
 
 
-    @Autowired
-	private IUserDao userDao;
+    protected LoginService(UserDao userDao) {
+		super(userDao);
+	}
 
 
     @Override
 	@Transactional(readOnly = true)
-	public UserDto checkLoginDetails(Login loginDetails) {
-		List<User> users = userDao.getAll();
+	public User checkLoginDetails(User loginDetails) {
+		List<User> users = this.getAll();
 
 		for (User user : users) {
             if ((user.getEmail() == loginDetails.getEmail()) && (user.getPassword() == loginDetails.getPassword())) {
@@ -50,8 +51,7 @@ public class LoginService extends AbstractService implements ILoginService {
                 }
 
 
-                UserDto.from(user).setMoreInfo(null);
-                return UserDto.from(user);
+                return user;
             }
 		}
 

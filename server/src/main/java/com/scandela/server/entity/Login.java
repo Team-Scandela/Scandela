@@ -9,12 +9,12 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name = "user")
+// @Table(name = "user")
 public class Login implements Serializable {
 
-    @Column(name = "email", nullable = false)
+    // @Column(name = "email", nullable = false)
 	protected String email;
 
-	@Column(name = "password", nullable = false)
+	// @Column(name = "password", nullable = false)
 	protected String password;
 }

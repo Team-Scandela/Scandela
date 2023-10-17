@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.scandela.server.entity.Login;
-import com.scandela.server.entity.dto.UserDto;
+import com.scandela.server.entity.User;
 import com.scandela.server.service.ILoginService;
 
 @RestController
@@ -23,7 +23,7 @@ public class LoginController extends AbstractController {
     // Methods \\
 		// Public \\
 	@PostMapping
-	public ResponseEntity<UserDto> loginAsUser(@RequestBody Login loginDetails) {
+	public ResponseEntity<User> loginAsUser(@RequestBody User loginDetails) {
 		return ResponseEntity.ok(this.loginService.checkLoginDetails(loginDetails));
 	}
 }

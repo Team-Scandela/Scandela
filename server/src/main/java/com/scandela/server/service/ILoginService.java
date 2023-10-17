@@ -1,10 +1,9 @@
 package com.scandela.server.service;
 
-import com.scandela.server.entity.Login;
-import com.scandela.server.entity.dto.UserDto;
+import com.scandela.server.entity.User;
 
-public interface ILoginService {
+public interface ILoginService extends IService<User> {
     // Methods \\
 		// Public \\
-    public UserDto checkLoginDetails(Login loginDetails);
+    public User checkLoginDetails(User loginDetails);
 }
