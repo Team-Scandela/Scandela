@@ -1,37 +1,18 @@
 package com.scandela.server.service.implementation;
 
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.scandela.server.dao.ILightPointDao;
+import com.scandela.server.dao.implementation.LightPointDao;
 import com.scandela.server.entity.LightPoint;
-import com.scandela.server.entity.dto.LightPointDto;
 import com.scandela.server.service.AbstractService;
 import com.scandela.server.service.ILightPopUpService;
 
-public class LightPopUpService extends AbstractService implements ILightPopUpService {
+public class LightPopUpService extends AbstractService<LightPoint> implements ILightPopUpService {
 
-    @Autowired
-    private ILightPointDao lightPointDao;
-
-    @Override
-    @Transactional(readOnly = true)
-    public LightPointDto getLightPopUpInfos(int id) {
-        Optional<LightPoint> lightPoint = lightPointDao.get(id);
-
-        if (lightPoint.isEmpty()) {
-            return null;
-        }
-
-        computeOptimisations(LightPointDto.from(lightPoint.get()));
-
-        return LightPointDto.from(lightPoint.get());
+    protected LightPopUpService(LightPointDao lightPointDao) {
+        super(lightPointDao);
     }
 
     @Override
-    public LightPointDto computeOptimisations(LightPointDto lightPointDto) {
+    public LightPoint computeOptimisations(LightPoint lightPoint) {
 
         // Puissance(Watts) = Tension(Volts) * Courant(Ampères)
 
@@ -41,6 +22,6 @@ public class LightPopUpService extends AbstractService implements ILightPopUpSer
         // Plage Horaire -> Conso totale journalière * (CO2 / kWh) = Indice empreinte
         // carbone journalière
 
-        return lightPointDto;
+        return lightPoint;
     }
 }

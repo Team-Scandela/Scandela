@@ -1,9 +1,7 @@
 package com.scandela.server.service;
 
-import com.scandela.server.entity.dto.LightPointDto;
+import com.scandela.server.entity.LightPoint;
 
-public interface ILightPopUpService {
-    public LightPointDto getLightPopUpInfos(int id);
-
-    public LightPointDto computeOptimisations(LightPointDto lightPointDto);
+public interface ILightPopUpService extends IService<LightPoint> {
+    public LightPoint computeOptimisations(LightPoint lightPoint);
 }

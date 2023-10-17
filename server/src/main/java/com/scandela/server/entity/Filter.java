@@ -8,7 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.Builder;
+// import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode
-// @Table(name = "filters")
+@Table(name = "filters")
 public class Filter implements Serializable {
 
     @Id
@@ -28,4 +28,7 @@ public class Filter implements Serializable {
 
     @Column(name = "isActive", updatable = false)
     private Boolean isActive;
+
+    @Column(name = "title", updatable = false)
+    private String title;
 }
