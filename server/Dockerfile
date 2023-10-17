@@ -17,7 +17,7 @@ ENV JRE_HOME=/usr/share/doc/openjdk-17-jre
 
 RUN mvn clean install
 
-EXPOSE 6000
+EXPOSE 20001
 
 CMD java -jar target/server.jar
 
