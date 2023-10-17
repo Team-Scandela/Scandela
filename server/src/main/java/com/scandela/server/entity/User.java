@@ -4,11 +4,16 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,17 +37,16 @@ public class User implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "id", updatable = false, nullable = false)
-	private Integer id;
-
-//  TODO enlever le commentaire quand la table et la classe aura été implémentée
-//	@OneToOne
-//	@JoinColumn(name = "id_town", nullable = false)
-//	private Town town;
+	private Long id;
 	
-	@Column(name = "email", nullable = false)
+	@OneToOne
+	@JoinColumn(name = "id_town", nullable = false)
+	private Town town;
+	
+	@Column(name = "email", nullable = false, unique = true)
 	private String email;
 	
-	@Column(name = "username", nullable = false)
+	@Column(name = "username", nullable = false, unique = true)
 	private String username;
 	
 	@Column(name = "password", nullable = false)
@@ -51,14 +55,17 @@ public class User implements Serializable {
 	@Column(name = "role", nullable = false)
 	private String role;
 	
-	@Column(name = "moreinfo", nullable = true)
-	private List<String> moreInfo;
+	@Column(name = "more_info", nullable = true)
+	private List<String> moreInformations;
 	
 	@Builder.Default
 	@Column(name = "darkmode", nullable = false)
 	private boolean darkmode = false;
 	
-	@Column(name = "lastconnexion", nullable = false)
+	@Column(name = "last_connexion", nullable = false)
 	private LocalDateTime lastConnexion;
+
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+	private List<Decision> decisions;
 
 }
