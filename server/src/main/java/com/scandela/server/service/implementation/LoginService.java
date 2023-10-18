@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +27,7 @@ public class LoginService extends AbstractService<User> implements ILoginService
 		super(userDao);
 	}
 
+    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Override
 	@Transactional(readOnly = true)
@@ -32,7 +35,7 @@ public class LoginService extends AbstractService<User> implements ILoginService
 		List<User> users = this.getAll();
 
 		for (User user : users) {
-            if ((user.getEmail() == loginDetails.getEmail()) && (user.getPassword() == loginDetails.getPassword())) {
+            if ((user.getEmail() == loginDetails.getEmail()) && (passwordEncoder.matches("scan" + loginDetails.getPassword() + "dela", user.getPassword()))) {
                 List<String> moreInfos = new ArrayList<>();
 
                 try {
