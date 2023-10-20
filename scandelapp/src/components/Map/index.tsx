@@ -66,13 +66,39 @@ const Map: React.FC<MapProps> = ({
         "features": [] as GeoJSON.Feature[]
     });
 
+    let nantesData = require('../../assets/nantesData.json');
+
     const [dataLoaded, setDataLoaded] = React.useState<boolean>(false);
 
+    const geojsonDataRaw = React.useMemo(() => {
+        let geoJSON = {
+            type: 'FeatureCollection',
+            features: [] as any[],
+        };
+        nantesData.forEach((obj: any) => {
+            const feature = {
+                type: 'Feature',
+                geometry: {
+                    type: obj.geometry.type,
+                    coordinates: [
+                        obj.geometry.coordinates[0],
+                        obj.geometry.coordinates[1],
+                    ],
+                },
+                properties: {
+                    id: obj.fields.numero,
+                    name: obj.fields.type_foyer,
+                },
+            };
+            geoJSON.features.push(feature);
+        });
+        return geoJSON;
+    }, []);
 
     const getLightsData = async () => {
         console.log("asked")
         try {
-            const response = await fetch('http://localhost:3001/lamp', {
+            const response = await fetch('http://db.scandela.fr/lamp', {
                 method: 'GET',
             });
             if (!response.ok) {
@@ -218,7 +244,7 @@ const Map: React.FC<MapProps> = ({
                 maxZoom: 17,
             });
             cluster.current.load(
-                geojsonData.features.map((feature) => ({
+                geojsonDataRaw.features.map((feature) => ({
                     type: 'Feature',
                     properties: feature.properties,
                     geometry: {
@@ -284,6 +310,7 @@ const Map: React.FC<MapProps> = ({
             });
 
             map.current.on('load', () => {
+                console.log("load")
                 map.current.on('mouseenter', 'lamp', () => {
                     if (map.current) {
                         map.current.getCanvas().style.cursor = 'pointer';
@@ -299,7 +326,7 @@ const Map: React.FC<MapProps> = ({
                 if (!map.current?.getSource('points')) {
                     map.current.addSource('points', {
                         type: 'geojson',
-                        data: geojsonData as GeoJSON.FeatureCollection,
+                        data: geojsonDataRaw as GeoJSON.FeatureCollection,
                         cluster: true,
                         clusterRadius: 100,
                         clusterMaxZoom: 16,
@@ -575,7 +602,7 @@ const Map: React.FC<MapProps> = ({
         //         zoom: zoom,
         //     });
         // }
-    }, [isDark, lng, lat, zoom, geojsonData]);
+    }, [isDark, lng, lat, zoom]);
 
     const styleMap = {
         height: '100vh',
