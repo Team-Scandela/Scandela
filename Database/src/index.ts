@@ -34,8 +34,8 @@ app.listen(port, () => {
     console.log(`App running on port ${port}.`);
 });
 
-app.get('/lamp', (request : Request, response : Response) => {
-    lamp_model.getLamp(request, response)
+app.get('/lamp', (request: Request, response: Response) => {
+    lamp_model.getLamp(request, response);
 });
 
 app.post('/script', (request: Request, response: Response) => {
@@ -58,178 +58,178 @@ app.patch('/lamp/:uuid', (request: Request, response: Response) => {
     lamp_model.updateLamp(request, response);
 });
 
-app.get('/lampshade', (request : Request, response : Response) => {
-    lampshade_model.getLampshade(request, response)
+app.get('/lampshade', (request: Request, response: Response) => {
+    lampshade_model.getLampshade(request, response);
 });
 
-app.post('/lampshade', (request : Request, response : Response) => {
-    lampshade_model.createLampshade(request, response)
+app.post('/lampshade', (request: Request, response: Response) => {
+    lampshade_model.createLampshade(request, response);
 });
 
-app.delete('/lampshade/:uuid', (request : Request, response : Response) => {
-    lampshade_model.deleteLampshade(request, response)
+app.delete('/lampshade/:uuid', (request: Request, response: Response) => {
+    lampshade_model.deleteLampshade(request, response);
 });
 
-app.patch('/lampshade/:uuid', (request : Request, response : Response) => {
-    lampshade_model.updateLampshade(request, response)
+app.patch('/lampshade/:uuid', (request: Request, response: Response) => {
+    lampshade_model.updateLampshade(request, response);
 });
 
-app.get('/bulb', (request : Request, response : Response) => {
-    bulb_model.getBulb(request, response)
+app.get('/bulb', (request: Request, response: Response) => {
+    bulb_model.getBulb(request, response);
 });
 
-app.post('/bulb', (request : Request, response : Response) => {
-    bulb_model.createBulb(request, response)
+app.post('/bulb', (request: Request, response: Response) => {
+    bulb_model.createBulb(request, response);
 });
 
-app.delete('/bulb/:uuid', (request : Request, response : Response) => {
-    bulb_model.deleteBulb(request, response)
+app.delete('/bulb/:uuid', (request: Request, response: Response) => {
+    bulb_model.deleteBulb(request, response);
 });
 
-app.patch('/bulb/:uuid', (request : Request, response : Response) => {
-    bulb_model.updateBulb(request, response)
+app.patch('/bulb/:uuid', (request: Request, response: Response) => {
+    bulb_model.updateBulb(request, response);
 });
 
-app.get('/cabinet', (request : Request, response : Response) => {
-    cabinet_model.getCabinet(request, response)
+app.get('/cabinet', (request: Request, response: Response) => {
+    cabinet_model.getCabinet(request, response);
 });
 
-app.post('/cabinet', (request : Request, response : Response) => {
-    cabinet_model.createCabinet(request, response)
+app.post('/cabinet', (request: Request, response: Response) => {
+    cabinet_model.createCabinet(request, response);
 });
 
-app.delete('/cabinet/:uuid', (request : Request, response : Response) => {
-    cabinet_model.deleteCabinet(request, response)
+app.delete('/cabinet/:uuid', (request: Request, response: Response) => {
+    cabinet_model.deleteCabinet(request, response);
 });
 
-app.patch('/cabinet/:uuid', (request : Request, response : Response) => {
-    cabinet_model.updateCabinet(request, response)
+app.patch('/cabinet/:uuid', (request: Request, response: Response) => {
+    cabinet_model.updateCabinet(request, response);
 });
 
-app.get('/user', (request : Request, response : Response) => {
-    user_model.getUser(request, response)
+app.get('/user', (request: Request, response: Response) => {
+    user_model.getUser(request, response);
 });
 
-app.post('/user', (request : Request, response : Response) => {
-    user_model.createUser(request, response)
+app.post('/user', (request: Request, response: Response) => {
+    user_model.createUser(request, response);
 });
 
-app.delete('/user/:uuid', (request : Request, response : Response) => {
-    user_model.deleteUser(request, response)
+app.delete('/user/:uuid', (request: Request, response: Response) => {
+    user_model.deleteUser(request, response);
 });
 
-app.patch('/user/:uuid', (request : Request, response : Response) => {
-    user_model.updateUser(request, response)
+app.patch('/user/:uuid', (request: Request, response: Response) => {
+    user_model.updateUser(request, response);
 });
 
-app.get('/town', (request : Request, response : Response) => {
-    town_model.getTown(request, response)
+app.get('/town', (request: Request, response: Response) => {
+    town_model.getTown(request, response);
 });
 
-app.post('/town', (request : Request, response : Response) => {
-    town_model.createTown(request, response)
+app.post('/town', (request: Request, response: Response) => {
+    town_model.createTown(request, response);
 });
 
-app.delete('/town/:uuid', (request : Request, response : Response) => {
-    town_model.deleteTown(request, response)
+app.delete('/town/:uuid', (request: Request, response: Response) => {
+    town_model.deleteTown(request, response);
 });
 
-app.patch('/town/:uuid', (request : Request, response : Response) => {
-    town_model.updateTown(request, response)
+app.patch('/town/:uuid', (request: Request, response: Response) => {
+    town_model.updateTown(request, response);
 });
 
-app.get('/decision', (request : Request, response : Response) => {
-    decision_model.getDecision(request, response)
+app.get('/decision', (request: Request, response: Response) => {
+    decision_model.getDecision(request, response);
 });
 
-app.post('/decision', (request : Request, response : Response) => {
-    decision_model.createDecision(request, response)
+app.post('/decision', (request: Request, response: Response) => {
+    decision_model.createDecision(request, response);
 });
 
-app.delete('/decision/:uuid', (request : Request, response : Response) => {
-    decision_model.deleteDecision(request, response)
+app.delete('/decision/:uuid', (request: Request, response: Response) => {
+    decision_model.deleteDecision(request, response);
 });
 
-app.patch('/decision/:uuid', (request : Request, response : Response) => {
-    decision_model.updateDecision(request, response)
+app.patch('/decision/:uuid', (request: Request, response: Response) => {
+    decision_model.updateDecision(request, response);
 });
 
-app.get('/decisiontype', (request : Request, response : Response) => {
-    decisiontype_model.getDecisiontype(request, response)
+app.get('/decisiontype', (request: Request, response: Response) => {
+    decisiontype_model.getDecisiontype(request, response);
 });
 
-app.post('/decisiontype', (request : Request, response : Response) => {
-    decisiontype_model.createDecisiontype(request, response)
+app.post('/decisiontype', (request: Request, response: Response) => {
+    decisiontype_model.createDecisiontype(request, response);
 });
 
-app.delete('/decisiontype/:uuid', (request : Request, response : Response) => {
-    decisiontype_model.deleteDecisiontype(request, response)
+app.delete('/decisiontype/:uuid', (request: Request, response: Response) => {
+    decisiontype_model.deleteDecisiontype(request, response);
 });
 
-app.patch('/decisiontype/:uuid', (request : Request, response : Response) => {
-    decisiontype_model.updateDecisiontype(request, response)
+app.patch('/decisiontype/:uuid', (request: Request, response: Response) => {
+    decisiontype_model.updateDecisiontype(request, response);
 });
 
-app.get('/hood', (request : Request, response : Response) => {
-    hood_model.getHood(request, response)
+app.get('/hood', (request: Request, response: Response) => {
+    hood_model.getHood(request, response);
 });
 
-app.post('/hood', (request : Request, response : Response) => {
-    hood_model.createHood(request, response)
+app.post('/hood', (request: Request, response: Response) => {
+    hood_model.createHood(request, response);
 });
 
-app.delete('/hood/:uuid', (request : Request, response : Response) => {
-    hood_model.deleteHood(request, response)
+app.delete('/hood/:uuid', (request: Request, response: Response) => {
+    hood_model.deleteHood(request, response);
 });
 
-app.patch('/hood/:uuid', (request : Request, response : Response) => {
-    hood_model.updateHood(request, response)
+app.patch('/hood/:uuid', (request: Request, response: Response) => {
+    hood_model.updateHood(request, response);
 });
 
-app.get('/incident', (request : Request, response : Response) => {
-    incident_model.getIncident(request, response)
+app.get('/incident', (request: Request, response: Response) => {
+    incident_model.getIncident(request, response);
 });
 
-app.post('/incident', (request : Request, response : Response) => {
-    incident_model.createIncident(request, response)
+app.post('/incident', (request: Request, response: Response) => {
+    incident_model.createIncident(request, response);
 });
 
-app.delete('/incident/:uuid', (request : Request, response : Response) => {
-    incident_model.deleteIncident(request, response)
+app.delete('/incident/:uuid', (request: Request, response: Response) => {
+    incident_model.deleteIncident(request, response);
 });
 
-app.patch('/incident/:uuid', (request : Request, response : Response) => {
-    incident_model.updateIncident(request, response)
+app.patch('/incident/:uuid', (request: Request, response: Response) => {
+    incident_model.updateIncident(request, response);
 });
 
-app.get('/lampdecision', (request : Request, response : Response) => {
-    lampdecision_model.getLampdecision(request, response)
+app.get('/lampdecision', (request: Request, response: Response) => {
+    lampdecision_model.getLampdecision(request, response);
 });
 
-app.post('/lampdecision', (request : Request, response : Response) => {
-    lampdecision_model.createLampdecision(request, response)
+app.post('/lampdecision', (request: Request, response: Response) => {
+    lampdecision_model.createLampdecision(request, response);
 });
 
-app.delete('/lampdecision/:uuid', (request : Request, response : Response) => {
-    lampdecision_model.deleteLampdecision(request, response)
+app.delete('/lampdecision/:uuid', (request: Request, response: Response) => {
+    lampdecision_model.deleteLampdecision(request, response);
 });
 
-app.patch('/lampdecision/:uuid', (request : Request, response : Response) => {
-    lampdecision_model.updateLampdecision(request, response)
+app.patch('/lampdecision/:uuid', (request: Request, response: Response) => {
+    lampdecision_model.updateLampdecision(request, response);
 });
 
-app.get('/street', (request : Request, response : Response) => {
-    street_model.getStreet(request, response)
+app.get('/street', (request: Request, response: Response) => {
+    street_model.getStreet(request, response);
 });
 
-app.post('/street', (request : Request, response : Response) => {
-    street_model.createStreet(request, response)
+app.post('/street', (request: Request, response: Response) => {
+    street_model.createStreet(request, response);
 });
 
-app.delete('/street/:uuid', (request : Request, response : Response) => {
-    street_model.deleteStreet(request, response)
+app.delete('/street/:uuid', (request: Request, response: Response) => {
+    street_model.deleteStreet(request, response);
 });
 
-app.patch('/street/:uuid', (request : Request, response : Response) => {
-    street_model.updateStreet(request, response)
+app.patch('/street/:uuid', (request: Request, response: Response) => {
+    street_model.updateStreet(request, response);
 });
