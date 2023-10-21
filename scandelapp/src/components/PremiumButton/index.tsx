@@ -7,7 +7,7 @@ import {
     PremiumButtonOnOffStyle,
     PremiumButtonOnOffText,
 } from './elements';
-import {FaCrown} from 'react-icons/fa'
+import { FaCrown } from 'react-icons/fa';
 
 /** Menu of the premium button
  * @param {boolean} isDark - If the map is in dark mode or not
@@ -25,7 +25,6 @@ const PremiumButton: React.FC<PremiumButtonProps> = ({
     isPremiumActivated,
     handleToggleIsPremiumActivated,
 }) => {
-
     const [isPopupOpen, setPopupOpen] = useState<boolean>(false);
 
     const handleTogglePopupOpen = () => {
@@ -34,15 +33,28 @@ const PremiumButton: React.FC<PremiumButtonProps> = ({
 
     return (
         <div>
-            <VersionText isDark={isDark} isPremiumActivated={isPremiumActivated}>{isPremiumActivated ? "Version premium" : "Version démo"}</VersionText>
-            <PremiumButtonStyle isDark={isDark} onClick={() => handleTogglePopupOpen()}>
-                <FaCrown size={32}/>
-            </PremiumButtonStyle >
+            <VersionText
+                isDark={isDark}
+                isPremiumActivated={isPremiumActivated}
+            >
+                {isPremiumActivated ? 'Version premium' : 'Version démo'}
+            </VersionText>
+            <PremiumButtonStyle
+                isDark={isDark}
+                onClick={() => handleTogglePopupOpen()}
+            >
+                <FaCrown size={32} />
+            </PremiumButtonStyle>
             {isPopupOpen && (
                 <PremiumButtonPopupContainer isDark={isDark}>
-                    <PremiumButtonOnOffStyle isDark={isDark} onClick={() => handleToggleIsPremiumActivated()}>
+                    <PremiumButtonOnOffStyle
+                        isDark={isDark}
+                        onClick={() => handleToggleIsPremiumActivated()}
+                    >
                         <PremiumButtonOnOffText isDark={isDark}>
-                            {isPremiumActivated ? "Désactiver la version premium" : "Activer la version premium"}
+                            {isPremiumActivated
+                                ? 'Désactiver la version premium'
+                                : 'Activer la version premium'}
                         </PremiumButtonOnOffText>
                     </PremiumButtonOnOffStyle>
                 </PremiumButtonPopupContainer>

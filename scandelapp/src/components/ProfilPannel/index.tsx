@@ -1,5 +1,10 @@
 import * as React from 'react';
-import { ProfilMenuContainer, ProfileField, EditButton, Title } from './elements';
+import {
+    ProfilMenuContainer,
+    ProfileField,
+    EditButton,
+    Title,
+} from './elements';
 
 interface ProfilPannelProps {
     id: string;
@@ -17,48 +22,48 @@ const ProfilPannel: React.FC<ProfilPannelProps> = ({
     const [isEditingPassword, setIsEditingPassword] = React.useState(false);
     const [isEditingKwH, setIsEditingKwH] = React.useState(false);
 
-    const [name, setName] = React.useState("Victor Harri-Chal");
-    const [email, setEmail] = React.useState("victor.harrichal@epitech.eu");
-    const [password, setPassword] = React.useState("scandevloppeur");
-    const [kwH, setKwH] = React.useState("600");
+    const [name, setName] = React.useState('Victor Harri-Chal');
+    const [email, setEmail] = React.useState('victor.harrichal@epitech.eu');
+    const [password, setPassword] = React.useState('scandevloppeur');
+    const [kwH, setKwH] = React.useState('600');
 
     const handleEditClick = (field: string) => {
         switch (field) {
-            case "name":
+            case 'name':
                 setIsEditingName(true);
                 break;
-            case "email":
+            case 'email':
                 setIsEditingEmail(true);
                 break;
-            case "password":
+            case 'password':
                 setIsEditingPassword(true);
                 break;
-            case "kwH":
+            case 'kwH':
                 setIsEditingKwH(true);
                 break;
             default:
                 break;
         }
-    }
+    };
 
     const handleSaveClick = (field: string) => {
         switch (field) {
-            case "name":
+            case 'name':
                 setIsEditingName(false);
                 break;
-            case "email":
+            case 'email':
                 setIsEditingEmail(false);
                 break;
-            case "password":
+            case 'password':
                 setIsEditingPassword(false);
                 break;
-            case "kwH":
+            case 'kwH':
                 setIsEditingKwH(false);
                 break;
             default:
                 break;
         }
-    }
+    };
 
     const renderPasswordField = () => {
         if (isEditingPassword) {
@@ -70,18 +75,17 @@ const ProfilPannel: React.FC<ProfilPannelProps> = ({
                 />
             );
         } else {
-            return (
-                <span>{'*'.repeat(password.length)}</span>
-            );
+            return <span>{'*'.repeat(password.length)}</span>;
         }
-    }
+    };
 
     return (
         <div>
             <ProfilMenuContainer isDark={isDark}>
                 <Title>Profil</Title>
                 <ProfileField isDark={isDark}>
-                    Nom : {isEditingName ? (
+                    Nom :{' '}
+                    {isEditingName ? (
                         <input
                             type="text"
                             value={name}
@@ -91,17 +95,24 @@ const ProfilPannel: React.FC<ProfilPannelProps> = ({
                         name
                     )}
                     {isEditingName ? (
-                        <EditButton isDark={isDark} onClick={() => handleSaveClick("name")}>
+                        <EditButton
+                            isDark={isDark}
+                            onClick={() => handleSaveClick('name')}
+                        >
                             Enregistrer
                         </EditButton>
                     ) : (
-                        <EditButton isDark={isDark} onClick={() => handleEditClick("name")}>
+                        <EditButton
+                            isDark={isDark}
+                            onClick={() => handleEditClick('name')}
+                        >
                             Modifier
                         </EditButton>
                     )}
                 </ProfileField>
                 <ProfileField isDark={isDark}>
-                    Email : {isEditingEmail ? (
+                    Email :{' '}
+                    {isEditingEmail ? (
                         <input
                             type="text"
                             value={email}
@@ -111,11 +122,17 @@ const ProfilPannel: React.FC<ProfilPannelProps> = ({
                         email
                     )}
                     {isEditingEmail ? (
-                        <EditButton isDark={isDark} onClick={() => handleSaveClick("email")}>
+                        <EditButton
+                            isDark={isDark}
+                            onClick={() => handleSaveClick('email')}
+                        >
                             Enregistrer
                         </EditButton>
                     ) : (
-                        <EditButton isDark={isDark} onClick={() => handleEditClick("email")}>
+                        <EditButton
+                            isDark={isDark}
+                            onClick={() => handleEditClick('email')}
+                        >
                             Modifier
                         </EditButton>
                     )}
@@ -123,17 +140,24 @@ const ProfilPannel: React.FC<ProfilPannelProps> = ({
                 <ProfileField isDark={isDark}>
                     Mot de passe : {renderPasswordField()}
                     {isEditingPassword ? (
-                        <EditButton isDark={isDark} onClick={() => handleSaveClick("password")}>
+                        <EditButton
+                            isDark={isDark}
+                            onClick={() => handleSaveClick('password')}
+                        >
                             Enregistrer
                         </EditButton>
                     ) : (
-                        <EditButton isDark={isDark} onClick={() => handleEditClick("password")}>
+                        <EditButton
+                            isDark={isDark}
+                            onClick={() => handleEditClick('password')}
+                        >
                             Modifier
                         </EditButton>
                     )}
                 </ProfileField>
                 <ProfileField isDark={isDark}>
-                    Kw/h de la ville : {isEditingKwH ? (
+                    Kw/h de la ville :{' '}
+                    {isEditingKwH ? (
                         <input
                             type="text"
                             value={kwH}
@@ -141,14 +165,20 @@ const ProfilPannel: React.FC<ProfilPannelProps> = ({
                         />
                     ) : (
                         kwH
-                    )}
-                    {' '}kwH
+                    )}{' '}
+                    kwH
                     {isEditingKwH ? (
-                        <EditButton isDark={isDark} onClick={() => handleSaveClick("kwH")}>
+                        <EditButton
+                            isDark={isDark}
+                            onClick={() => handleSaveClick('kwH')}
+                        >
                             Enregistrer
                         </EditButton>
                     ) : (
-                        <EditButton isDark={isDark} onClick={() => handleEditClick("kwH")}>
+                        <EditButton
+                            isDark={isDark}
+                            onClick={() => handleEditClick('kwH')}
+                        >
                             Modifier
                         </EditButton>
                     )}

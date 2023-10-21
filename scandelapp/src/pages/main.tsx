@@ -28,7 +28,8 @@ export enum Filters {
 /** Main page of the app */
 const Main: React.FC = () => {
     const [isDark, setIsDark] = React.useState<boolean>(true);
-    const [isPremiumActivated, setIsPremiumActivated] = React.useState<boolean>(true);
+    const [isPremiumActivated, setIsPremiumActivated] =
+        React.useState<boolean>(true);
     const [isLassoActive, setIsLassoActive] = React.useState(false);
     const [filter, setFilter] = React.useState<Filters>(Filters.none);
     const [lat, setLat] = React.useState<number>(47.218371);
@@ -197,7 +198,9 @@ const Main: React.FC = () => {
                         setActionsListExtended={setActionsListExtended}
                         decisionPanelExtended={decisionPanelExtended}
                         optimisationTemplateData={optimisationTemplateData}
-                        setOptimisationTemplateData={setOptimisationTemplateData}
+                        setOptimisationTemplateData={
+                            setOptimisationTemplateData
+                        }
                     />
                     <SettingsButton
                         id={'settingsButtonId'}
@@ -224,7 +227,9 @@ const Main: React.FC = () => {
                         optimisationTemplateData={optimisationTemplateData}
                         handleButtonSelectAllClick={handleButtonSelectAllClick}
                         currentSelected={currentSelected}
-                        handleCurrentSelectedChange={handleCurrentSelectedChange}
+                        handleCurrentSelectedChange={
+                            handleCurrentSelectedChange
+                        }
                     />
                     <EditInPdfPannel
                         id={'editinPdfPannelComponentId'}
@@ -237,11 +242,14 @@ const Main: React.FC = () => {
                         decisionPanelExtended={decisionPanelExtended}
                         actionsListExtended={actionsListExtended}
                     />
-                    <AbsencePannel id={'DuringPannelComponentId'} isDark={isDark} />
+                    <AbsencePannel
+                        id={'DuringPannelComponentId'}
+                        isDark={isDark}
+                    />
                     <SmallLampInfosPopup isDark={isDark} />
                     <Toastr id={'toastrComponentId'} isDark={isDark} />
                 </>
-            )} 
+            )}
         </div>
     );
 };

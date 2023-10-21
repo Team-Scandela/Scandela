@@ -74,12 +74,11 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({
         if (fileInputRef.current) {
             fileInputRef.current.click();
         }
-    }
+    };
 
     const handleSettingsMenu = () => {
-        setOn(!on)
-        if (on === true)
-            setIsProfileOpen(false);
+        setOn(!on);
+        if (on === true) setIsProfileOpen(false);
     };
 
     const handleProfileButtonClick = () => {
@@ -88,11 +87,16 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({
 
     return (
         <div>
-            <SettingsButtonContainer isDark={isDark} onClick={handleSettingsMenu}>
+            <SettingsButtonContainer
+                isDark={isDark}
+                onClick={handleSettingsMenu}
+            >
                 <NameOfCity isDark={isDark}> Nantes </NameOfCity>
             </SettingsButtonContainer>
             <OptionsMenuContainer show={on} isDark={isDark}>
-                <ProfileButton onClick={handleProfileButtonClick}></ProfileButton>
+                <ProfileButton
+                    onClick={handleProfileButtonClick}
+                ></ProfileButton>
                 <LightDark
                     id={'lightDarkComponentId'}
                     isDark={isDark}
@@ -103,17 +107,22 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({
                 ></LanguageButton>
                 <DownloadButton
                     onClick={() => openFilePicker()}
-                    ></DownloadButton>
+                ></DownloadButton>
                 <input
                     type="file"
                     ref={fileInputRef}
                     style={{ display: 'none' }}
                     onChange={downloadData}
-                    />
+                />
                 <LogoutButton onClick={handleLogout}></LogoutButton>
             </OptionsMenuContainer>
-            {isProfileOpen && <ProfilPannel id={'yourId'} isDark={isDark} setIsDark={setIsDark} />}
-
+            {isProfileOpen && (
+                <ProfilPannel
+                    id={'yourId'}
+                    isDark={isDark}
+                    setIsDark={setIsDark}
+                />
+            )}
         </div>
     );
 };

@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { Yellow, Black, White, Grey } from '../../colors';
 
-
 /** Container for premium button **/
 export const PremiumButtonStyle = styled.div`
     display: flex;
@@ -52,8 +51,7 @@ export const PremiumButtonPopupContainer = styled.div`
     top: 72px;
     left: 970px;
     user-select: none;
-    background-color: ${(props) =>
-        props.isDark ? Black : Black};
+    background-color: ${(props) => (props.isDark ? Black : Black)};
     color: ${(props) => (props.isDark ? Yellow : Black)};
     box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
     border-radius: 10px;

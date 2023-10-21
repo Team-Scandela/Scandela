@@ -65,8 +65,7 @@ const ActionsList: React.FC<ActionsListProps> = ({
             <ActionsListButton
                 isDark={isDark}
                 onClick={() => handleToggleActionsListExpend()}
-            >
-            </ActionsListButton>
+            ></ActionsListButton>
             <ActionsListPanel isDark={isDark} show={actionsListExtended}>
                 <ScrollableOptimisationsContainer isDark={isDark}>
                     <TimeIcon isDark={isDark} size={150}></TimeIcon>

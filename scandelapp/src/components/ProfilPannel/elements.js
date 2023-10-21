@@ -7,7 +7,8 @@ export const ProfilMenuContainer = styled.div`
     align-items: center;
     width: 350px;
     height: 350px;
-    background-color: ${(props) => (props.isDark ? Black + 'CC' : White + 'CC')};
+    background-color: ${(props) =>
+        props.isDark ? Black + 'CC' : White + 'CC'};
     position: fixed;
     color: ${(props) => (props.isDark ? Yellow : Black)};
     box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
