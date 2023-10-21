@@ -5,7 +5,7 @@ export const ProfilMenuContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 300px;
+    width: 350px;
     height: 350px;
     background-color: ${(props) => (props.isDark ? Black + 'CC' : White + 'CC')};
     position: fixed;
