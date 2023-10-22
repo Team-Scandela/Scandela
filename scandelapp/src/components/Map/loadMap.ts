@@ -141,8 +141,10 @@ export default function loadMap(map: mapboxgl.Map | undefined) {
                 'interpolate',
                 ['linear'],
                 ['get', 'haloSize'], // propriété de données "haloSize" pour gérer la taille du halo
-                0, 6, // Lsi haloSize est 0, le rayon du halo est de 6 pixels
-                10, 12, // pareil mais pour 10 c'est 12 pixels
+                0,
+                6, // Lsi haloSize est 0, le rayon du halo est de 6 pixels
+                10,
+                12, // pareil mais pour 10 c'est 12 pixels
                 // On peut ajouter plus ici pour plus de variation
             ],
             'circle-color': getRandomColor(),
