@@ -1,10 +1,13 @@
 package com.scandela.server.service.implementation;
 
+import org.springframework.stereotype.Service;
+
 import com.scandela.server.dao.implementation.LightPointDao;
 import com.scandela.server.entity.LightPoint;
 import com.scandela.server.service.AbstractService;
 import com.scandela.server.service.ILightPopUpService;
 
+@Service
 public class LightPopUpService extends AbstractService<LightPoint> implements ILightPopUpService {
 
     protected LightPopUpService(LightPointDao lightPointDao) {
