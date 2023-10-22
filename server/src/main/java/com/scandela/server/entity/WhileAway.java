@@ -30,6 +30,9 @@ public class WhileAway implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "id", updatable = false, nullable = false)
-	private Long id;
+	private Integer id;
+
+	@Column(name = "updatedData", updatable = true, nullable = true)
+	private String updatedData;
 
 }
