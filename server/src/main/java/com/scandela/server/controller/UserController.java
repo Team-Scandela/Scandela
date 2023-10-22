@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.scandela.server.entity.User;
+import com.scandela.server.service.IEmailService;
 import com.scandela.server.exception.UserException;
 import com.scandela.server.service.IUserService;
 
@@ -22,12 +23,15 @@ import com.scandela.server.service.IUserService;
 public class UserController extends AbstractController {
 
 	// Attributes \\
-		// Private \\
+	// Private \\
 	@Autowired
 	private IUserService userService;
 
+	@Autowired
+	private IEmailService emailService;
+
 	// Methods \\
-		// Public \\
+	// Public \\
 	/**
 	 * Get all users
 	 * 
@@ -58,6 +62,8 @@ public class UserController extends AbstractController {
 	 */
 	@PostMapping("/create")
 	public User createUser(@RequestBody User newUser) throws Exception {
+		emailService.sendSimpleEmail(newUser.getEmail(), "Welcome to Scandela!",
+				"Thank you for being a new member of Scandela !\n\nScandela Team");
 		return userService.create(newUser);
 	}
 
