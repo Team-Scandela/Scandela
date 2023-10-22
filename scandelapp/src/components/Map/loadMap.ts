@@ -103,7 +103,6 @@ export default function loadMap(map: mapboxgl.Map | undefined) {
                 'circle-stroke-width': 2,
             },
         });
-
         // pas encore bon
         // map.on('click', 'circle-layer', (event: mapboxgl.MapMouseEvent & mapboxgl.EventData) => {
         //     const coordinates = event.features![0].geometry.coordinates.slice();
@@ -127,29 +126,29 @@ export default function loadMap(map: mapboxgl.Map | undefined) {
         // .setHTML(popupContent)
         // .addTo(map!);
         // });
+    });
 
-        // Filtre pour les points avec des halos de lumière sur les pins
-        map.addLayer({
-            id: 'filter',
-            type: 'circle',
-            source: 'zone',
-            layout: {
-                visibility: 'none',
-            },
-            paint: {
-                'circle-radius': [
-                    'interpolate',
-                    ['linear'],
-                    ['get', 'haloSize'], // propriété de données "haloSize" pour gérer la taille du halo
-                    0, 6, // Lsi haloSize est 0, le rayon du halo est de 6 pixels
-                    10, 12, // pareil mais pour 10 c'est 12 pixels
-                    // On peut ajouter plus ici pour plus de variation
-                ],
-                'circle-color': getRandomColor(),
-                'circle-opacity': ['get', 'haloOpacity'], // la propriété de données "haloOpacity" pour gérer l'opacité du cercle lumineux
-                'circle-stroke-color': '#FAC710', // pour la couleur jaune des halos
-                'circle-stroke-width': 2,
-            },
-        });
+    // Filtre pour les points avec des halos de lumière sur les pins
+    map.addLayer({
+        id: 'filter',
+        type: 'circle',
+        source: 'zone',
+        layout: {
+            visibility: 'none',
+        },
+        paint: {
+            'circle-radius': [
+                'interpolate',
+                ['linear'],
+                ['get', 'haloSize'], // propriété de données "haloSize" pour gérer la taille du halo
+                0, 6, // Lsi haloSize est 0, le rayon du halo est de 6 pixels
+                10, 12, // pareil mais pour 10 c'est 12 pixels
+                // On peut ajouter plus ici pour plus de variation
+            ],
+            'circle-color': getRandomColor(),
+            'circle-opacity': ['get', 'haloOpacity'], // la propriété de données "haloOpacity" pour gérer l'opacité du cercle lumineux
+            'circle-stroke-color': '#FAC710', // pour la couleur jaune des halos
+            'circle-stroke-width': 2,
+        },
     });
 }
