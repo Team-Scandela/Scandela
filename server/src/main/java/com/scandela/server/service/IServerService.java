@@ -1,11 +1,11 @@
 package com.scandela.server.service;
 
-import com.scandela.server.entity.dto.ServerDto;
+import com.scandela.server.entity.Server;
 
 public interface IServerService {
 
 	// Methods \\
 		// Public \\
-	public ServerDto getServerInformations();
+	public Server getServerInformations();
 
 }

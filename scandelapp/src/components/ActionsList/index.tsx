@@ -65,9 +65,7 @@ const ActionsList: React.FC<ActionsListProps> = ({
             <ActionsListButton
                 isDark={isDark}
                 onClick={() => handleToggleActionsListExpend()}
-            >
-                Liste des actions
-            </ActionsListButton>
+            ></ActionsListButton>
             <ActionsListPanel isDark={isDark} show={actionsListExtended}>
                 <ScrollableOptimisationsContainer isDark={isDark}>
                     <TimeIcon isDark={isDark} size={150}></TimeIcon>
@@ -93,7 +91,7 @@ const ActionsList: React.FC<ActionsListProps> = ({
                 </ScrollableOptimisationsContainer>
                 <TotalContainer isDark={isDark}>
                     <TotalTitleText isDark={isDark}>
-                        Impact Économique
+                        Impact économique
                     </TotalTitleText>
                 </TotalContainer>
                 {/* Render personalized gauge components */}
