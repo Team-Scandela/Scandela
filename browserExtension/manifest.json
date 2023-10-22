@@ -1,0 +1,17 @@
+{
+    "manifest_version": 2,
+    "name": "Scandela",
+    "description": "Receive notifications about your Scandela city",
+    "version": "0.1",
+    "permissions": [
+        "http://*/*",
+        "https://*/*"
+    ],
+    "browser_action": {
+        "default_icon" : "assets/logo-128x128.png",
+        "default_popup": "popup.html"
+    },
+    "icons": {
+        "128" : "assets/logo-128x128.png"
+    }
+}
