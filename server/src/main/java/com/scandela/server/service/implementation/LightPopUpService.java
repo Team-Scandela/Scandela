@@ -2,17 +2,25 @@ package com.scandela.server.service.implementation;
 
 import org.springframework.stereotype.Service;
 
-import com.scandela.server.dao.implementation.LightPointDao;
+import com.scandela.server.dao.LightPointDao;
+import com.scandela.server.dao.WhileAwayDao;
 import com.scandela.server.entity.LightPoint;
+import com.scandela.server.entity.WhileAway;
 import com.scandela.server.service.AbstractService;
 import com.scandela.server.service.ILightPopUpService;
 
 @Service
 public class LightPopUpService extends AbstractService<LightPoint> implements ILightPopUpService {
 
-    protected LightPopUpService(LightPointDao lightPointDao) {
+    private WhileAwayDao whileAwayDao;
+    private LightPointDao lightPointDao;
+
+    protected LightPopUpService(LightPointDao lightPointDao, WhileAwayDao whileAwayDao) {
         super(lightPointDao);
+        this.lightPointDao = lightPointDao;
+        this.whileAwayDao = whileAwayDao;
     }
+
 
     @Override
     public LightPoint computeOptimisations(LightPoint lightPoint) {
@@ -45,5 +53,25 @@ public class LightPopUpService extends AbstractService<LightPoint> implements IL
         }
 
         return lightPoint;
+    }
+
+    public LightPoint updateLightPoint(LightPoint toModify, LightPoint updatedData) {
+
+        toModify = updatedData;
+
+
+        WhileAway whileAway = new WhileAway();
+
+        whileAway.setUpdatedUuid(toModify.getUuid());
+
+        whileAway.setUpdatedData(updatedData.toString());
+
+        whileAwayDao.save(whileAway);
+
+        return toModify;
+    }
+
+    public LightPoint getLightPointByUuid(String uuid) {
+        return lightPointDao.findByUuid(uuid);
     }
 }
