@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.scandela.server.dao.TownDao;
 import com.scandela.server.dao.UserDao;
-import com.scandela.server.entity.Login;
 import com.scandela.server.entity.User;
 import com.scandela.server.service.AbstractService;
 import com.scandela.server.service.ILoginService;
