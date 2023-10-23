@@ -1,7 +1,5 @@
 package com.scandela.server.entity;
 
-import java.io.Serializable;
-
 // @Entity
 // @Builder
 // @Data
