@@ -26,7 +26,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-@Table(name = "hood")
+@Table(name = "decision")
 public class Decision implements Serializable {
 
 	// Attributes \\
