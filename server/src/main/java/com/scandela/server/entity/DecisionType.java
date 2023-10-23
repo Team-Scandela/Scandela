@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.UUID;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -44,6 +46,7 @@ public class DecisionType implements Serializable {
 	@Column(name = "title", nullable = false)
 	private String title;
 	
+	@JdbcTypeCode(SqlTypes.JSON)
 	@Column(name = "moreinfo", nullable = true)
 	private List<String> moreInformations;
 

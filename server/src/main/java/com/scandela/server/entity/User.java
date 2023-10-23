@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.UUID;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -57,7 +59,8 @@ public class User implements Serializable {
 	
 	@Column(name = "rights", nullable = false)
 	private Integer rights;
-	
+
+	@JdbcTypeCode(SqlTypes.JSON)
 	@Column(name = "moreinfo", nullable = true)
 	private List<String> moreInformations;
 	

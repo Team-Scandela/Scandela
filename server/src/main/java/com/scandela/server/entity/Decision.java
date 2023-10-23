@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.UUID;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -59,6 +61,7 @@ public class Decision implements Serializable {
 	@Column(name = "cost", nullable = false)
 	private Float cost;
 
+	@JdbcTypeCode(SqlTypes.JSON)
 	@Column(name = "benefits", nullable = true)
 	private List<Long> benefits;
 	
