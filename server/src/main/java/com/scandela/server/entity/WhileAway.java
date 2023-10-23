@@ -32,6 +32,9 @@ public class WhileAway implements Serializable {
 	@Column(name = "id", updatable = false, nullable = false)
 	private Integer id;
 
+	@Column(name = "updatedUuid", updatable = true, nullable = true)
+	private String updatedUuid;
+
 	@Column(name = "updatedData", updatable = true, nullable = true)
 	private String updatedData;
 

@@ -19,8 +19,8 @@ public class LightPopUpController extends AbstractController {
     private ILightPopUpService lightPopUpService;
 
     @GetMapping("/{id}")
-    public LightPoint getLightPopUpInfos(@PathVariable int id) {
-        return lightPopUpService.computeOptimisations(lightPopUpService.get(id));
+    public LightPoint getLightPopUpInfos(@PathVariable String id) {
+        return lightPopUpService.computeOptimisations(lightPopUpService.getLightPointByUuid(id));
     }
 
     @PutMapping("/{id}")

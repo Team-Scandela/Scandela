@@ -13,9 +13,11 @@ import com.scandela.server.service.ILightPopUpService;
 public class LightPopUpService extends AbstractService<LightPoint> implements ILightPopUpService {
 
     private WhileAwayDao whileAwayDao;
+    private LightPointDao lightPointDao;
 
     protected LightPopUpService(LightPointDao lightPointDao, WhileAwayDao whileAwayDao) {
         super(lightPointDao);
+        this.lightPointDao = lightPointDao;
         this.whileAwayDao = whileAwayDao;
     }
 
@@ -60,12 +62,16 @@ public class LightPopUpService extends AbstractService<LightPoint> implements IL
 
         WhileAway whileAway = new WhileAway();
 
-        whileAway.setId(toModify.getUuid());
+        whileAway.setUpdatedUuid(toModify.getUuid());
 
         whileAway.setUpdatedData(updatedData.toString());
 
         whileAwayDao.save(whileAway);
 
         return toModify;
+    }
+
+    public LightPoint getLightPointByUuid(String uuid) {
+        return lightPointDao.findByUuid(uuid);
     }
 }
