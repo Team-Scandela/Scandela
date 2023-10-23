@@ -36,9 +36,10 @@ public class LoginService extends AbstractService<User> implements ILoginService
         List<User> users = this.getAll();
 
         for (User user : users) {
-            if ((user.getEmail() == loginDetails.getEmail())
-                    && (passwordEncoder.matches("scan" + loginDetails.getPassword() + "dela", user.getPassword()))) {
+            if (user.getEmail().equals(loginDetails.getEmail())
+                    && (passwordEncoder.matches(("scan" + loginDetails.getPassword() + "dela"), user.getPassword()))) {
                 List<String> moreInfos = new ArrayList<>();
+
 
                 try {
 
