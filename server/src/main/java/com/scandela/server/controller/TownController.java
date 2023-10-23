@@ -1,6 +1,7 @@
 package com.scandela.server.controller;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -45,7 +46,7 @@ public class TownController extends AbstractController {
 	 * @return town
 	 */
 	@GetMapping("/{id}")
-	public Town getTown(@PathVariable long id) {
+	public Town getTown(@PathVariable UUID id) {
 		return townService.get(id);
 	}
 
@@ -67,7 +68,7 @@ public class TownController extends AbstractController {
 	 * @param id
 	 */
 	@DeleteMapping("/delete/{id}")
-	public void deleteTown(@PathVariable long id) {
+	public void deleteTown(@PathVariable UUID id) {
 		townService.delete(id);
 	}
 

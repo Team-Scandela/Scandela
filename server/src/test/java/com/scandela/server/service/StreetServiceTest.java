@@ -9,6 +9,7 @@ import static org.mockito.Mockito.when;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,7 +40,7 @@ public class StreetServiceTest {
 	@Mock
 	private HoodDao hoodDaoMock;
 	
-	private final long id = 1;
+	private final UUID id = UUID.randomUUID();
 	private final List<String> address = Arrays.asList("a", "b");
 	private final Hood hood = Hood.builder().id(id).build();
 	private final Street street = Street.builder()
@@ -67,7 +68,7 @@ public class StreetServiceTest {
 	@Test
 	public void testGetAll_whenManyStreets_thenReturnManyStreets() {
 		Street street2 = Street.builder()
-				.id(Long.valueOf(2))
+				.id(UUID.randomUUID())
 				.hood(hood)
 				.address(address)
 				.build();
@@ -115,12 +116,12 @@ public class StreetServiceTest {
 	@Test
 	public void testCreate() throws StreetException {
 		when(streetDaoMock.save(Mockito.any(Street.class))).thenReturn(street);
-		when(hoodDaoMock.findById(Mockito.anyLong())).thenReturn(Optional.ofNullable(hood));
+		when(hoodDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(hood));
 		
 		Street result = testedObject.create(street);
 
 		verify(streetDaoMock, times(1)).save(Mockito.any(Street.class));
-		verify(hoodDaoMock, times(1)).findById(Mockito.anyLong());
+		verify(hoodDaoMock, times(1)).findById(Mockito.any());
 		assertThat(result.getId()).isEqualTo(street.getId());
 		assertThat(result.getHood()).isEqualTo(street.getHood());
 		assertThat(result.getAddress()).hasSize(street.getAddress().size());
@@ -133,7 +134,7 @@ public class StreetServiceTest {
 		StreetException result = assertThrows(StreetException.class, () -> testedObject.create(street));
 		
 		verify(streetDaoMock, times(0)).save(Mockito.any(Street.class));
-		verify(hoodDaoMock, times(0)).findById(Mockito.anyLong());
+		verify(hoodDaoMock, times(0)).findById(Mockito.any());
 		assertThat(result.getMessage()).isEqualTo(StreetException.INCOMPLETE_INFORMATIONS);
 	}
 	
@@ -142,23 +143,23 @@ public class StreetServiceTest {
 		street.setAddress(null);
 
 		when(streetDaoMock.save(Mockito.any(Street.class))).thenThrow(DataIntegrityViolationException.class);
-		when(hoodDaoMock.findById(Mockito.anyLong())).thenReturn(Optional.ofNullable(hood));
+		when(hoodDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(hood));
 		
 		StreetException result = assertThrows(StreetException.class, () -> testedObject.create(street));
 
 		verify(streetDaoMock, times(1)).save(Mockito.any(Street.class));
-		verify(hoodDaoMock, times(1)).findById(Mockito.anyLong());
+		verify(hoodDaoMock, times(1)).findById(Mockito.any());
 		assertThat(result.getMessage()).isEqualTo(StreetException.INCOMPLETE_INFORMATIONS);
 	}
 	
 	@Test
 	public void testCreate_whenHoodNotFound_thenThrowStreetException() throws StreetException {
-		when(hoodDaoMock.findById(Mockito.anyLong())).thenReturn(Optional.empty());
+		when(hoodDaoMock.findById(Mockito.any())).thenReturn(Optional.empty());
 		
 		StreetException result = assertThrows(StreetException.class, () -> testedObject.create(street));
 
 		verify(streetDaoMock, times(0)).save(Mockito.any(Street.class));
-		verify(hoodDaoMock, times(1)).findById(Mockito.anyLong());
+		verify(hoodDaoMock, times(1)).findById(Mockito.any());
 		assertThat(result.getMessage()).isEqualTo(StreetException.HOOD_LOADING);
 	}
 

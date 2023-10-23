@@ -9,6 +9,7 @@ import static org.mockito.Mockito.when;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,7 +39,7 @@ public class LampIncidentServiceTest {
 	@Mock
 	private IncidentDao incidentDaoMock;
 	
-	private final long id = 1;
+	private final UUID id = UUID.randomUUID();
 	private final Incident incident = Incident.builder().id(id).build();
 	private final LampIncident lampIncident = LampIncident.builder()
 			.id(id)
@@ -63,7 +64,7 @@ public class LampIncidentServiceTest {
 	@Test
 	public void testGetAll_whenManyLampIncidents_thenReturnManyLampIncidents() {
 		LampIncident lampIncident2 = LampIncident.builder()
-				.id(Long.valueOf(2))
+				.id(UUID.randomUUID())
 				.incident(incident)
 				.build();
 		
@@ -109,12 +110,12 @@ public class LampIncidentServiceTest {
 	@Test
 	public void testCreate() throws LampIncidentException {
 		when(lampIncidentDaoMock.save(Mockito.any(LampIncident.class))).thenReturn(lampIncident);
-		when(incidentDaoMock.findById(Mockito.anyLong())).thenReturn(Optional.ofNullable(incident));
+		when(incidentDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(incident));
 		
 		LampIncident result = testedObject.create(lampIncident);
 
 		verify(lampIncidentDaoMock, times(1)).save(Mockito.any(LampIncident.class));
-		verify(incidentDaoMock, times(1)).findById(Mockito.anyLong());
+		verify(incidentDaoMock, times(1)).findById(Mockito.any());
 		assertThat(result.getId()).isEqualTo(lampIncident.getId());
 		assertThat(result.getIncident()).isEqualTo(lampIncident.getIncident());
 	}
@@ -126,18 +127,18 @@ public class LampIncidentServiceTest {
 		LampIncidentException result = assertThrows(LampIncidentException.class, () -> testedObject.create(lampIncident));
 		
 		verify(lampIncidentDaoMock, times(0)).save(Mockito.any(LampIncident.class));
-		verify(incidentDaoMock, times(0)).findById(Mockito.anyLong());
+		verify(incidentDaoMock, times(0)).findById(Mockito.any());
 		assertThat(result.getMessage()).isEqualTo(LampIncidentException.INCOMPLETE_INFORMATIONS);
 	}
 	
 	@Test
 	public void testCreate_whenIncidentNotFound_thenThrowLampIncidentException() throws LampIncidentException {
-		when(incidentDaoMock.findById(Mockito.anyLong())).thenReturn(Optional.empty());
+		when(incidentDaoMock.findById(Mockito.any())).thenReturn(Optional.empty());
 		
 		LampIncidentException result = assertThrows(LampIncidentException.class, () -> testedObject.create(lampIncident));
 
 		verify(lampIncidentDaoMock, times(0)).save(Mockito.any(LampIncident.class));
-		verify(incidentDaoMock, times(1)).findById(Mockito.anyLong());
+		verify(incidentDaoMock, times(1)).findById(Mockito.any());
 		assertThat(result.getMessage()).isEqualTo(LampIncidentException.INCIDENT_LOADING);
 	}
 

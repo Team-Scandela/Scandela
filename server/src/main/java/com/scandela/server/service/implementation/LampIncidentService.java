@@ -1,6 +1,7 @@
 package com.scandela.server.service.implementation;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,7 +52,7 @@ public class LampIncidentService extends AbstractService<LampIncident> implement
 			throw new LampIncidentException(IncidentException.INCOMPLETE_INFORMATIONS);
 		}
 	
-		long incidentId = newLampIncident.getIncident().getId();
+		UUID incidentId = newLampIncident.getIncident().getId();
 		
 		Optional<Incident> incident = incidentDao.findById(incidentId);
 		if (incident.isEmpty()) {

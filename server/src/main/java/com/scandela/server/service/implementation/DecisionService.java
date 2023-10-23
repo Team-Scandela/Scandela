@@ -1,7 +1,7 @@
 package com.scandela.server.service.implementation;
 
-import java.time.LocalDate;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,8 +40,6 @@ public class DecisionService extends AbstractService<Decision> implements IDecis
 			loadDecisionType(newDecision);
 			loadUser(newDecision);
 			
-			newDecision.setDate(LocalDate.now());
-			
 			return dao.save(newDecision);
 		} catch (Exception e) {
 			if (newDecision.getType() == null || newDecision.getUser() == null ||
@@ -58,7 +56,7 @@ public class DecisionService extends AbstractService<Decision> implements IDecis
 			throw new DecisionException(DecisionException.INCOMPLETE_INFORMATIONS);
 		}
 	
-		long typeId = newDecision.getType().getId();
+		UUID typeId = newDecision.getType().getId();
 		
 		Optional<DecisionType> type = decisionTypeDao.findById(typeId);
 		if (type.isEmpty()) {
@@ -73,7 +71,7 @@ public class DecisionService extends AbstractService<Decision> implements IDecis
 			throw new DecisionException(DecisionException.INCOMPLETE_INFORMATIONS);
 		}
 	
-		long userId = newDecision.getUser().getId();
+		UUID userId = newDecision.getUser().getId();
 		
 		Optional<User> user = userDao.findById(userId);
 		if (user.isEmpty()) {
