@@ -9,6 +9,7 @@ import static org.mockito.Mockito.when;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,7 +39,7 @@ public class LampDecisionServiceTest {
 	@Mock
 	private DecisionDao decisionDaoMock;
 	
-	private final long id = 1;
+	private final UUID id = UUID.randomUUID();
 	private final Decision decision = Decision.builder().id(id).build();
 	private final LampDecision lampDecision = LampDecision.builder()
 			.id(id)
@@ -63,7 +64,7 @@ public class LampDecisionServiceTest {
 	@Test
 	public void testGetAll_whenManyLampDecisions_thenReturnManyLampDecisions() {
 		LampDecision lampDecision2 = LampDecision.builder()
-				.id(Long.valueOf(2))
+				.id(UUID.randomUUID())
 				.decision(decision)
 				.build();
 		
@@ -109,12 +110,12 @@ public class LampDecisionServiceTest {
 	@Test
 	public void testCreate() throws LampDecisionException {
 		when(lampDecisionDaoMock.save(Mockito.any(LampDecision.class))).thenReturn(lampDecision);
-		when(decisionDaoMock.findById(Mockito.anyLong())).thenReturn(Optional.ofNullable(decision));
+		when(decisionDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(decision));
 		
 		LampDecision result = testedObject.create(lampDecision);
 
 		verify(lampDecisionDaoMock, times(1)).save(Mockito.any(LampDecision.class));
-		verify(decisionDaoMock, times(1)).findById(Mockito.anyLong());
+		verify(decisionDaoMock, times(1)).findById(Mockito.any());
 		assertThat(result.getId()).isEqualTo(lampDecision.getId());
 		assertThat(result.getDecision()).isEqualTo(lampDecision.getDecision());
 	}
@@ -126,18 +127,18 @@ public class LampDecisionServiceTest {
 		LampDecisionException result = assertThrows(LampDecisionException.class, () -> testedObject.create(lampDecision));
 		
 		verify(lampDecisionDaoMock, times(0)).save(Mockito.any(LampDecision.class));
-		verify(decisionDaoMock, times(0)).findById(Mockito.anyLong());
+		verify(decisionDaoMock, times(0)).findById(Mockito.any());
 		assertThat(result.getMessage()).isEqualTo(LampDecisionException.INCOMPLETE_INFORMATIONS);
 	}
 	
 	@Test
 	public void testCreate_whenDecisionNotFound_thenThrowLampDecisionException() throws LampDecisionException {
-		when(decisionDaoMock.findById(Mockito.anyLong())).thenReturn(Optional.empty());
+		when(decisionDaoMock.findById(Mockito.any())).thenReturn(Optional.empty());
 		
 		LampDecisionException result = assertThrows(LampDecisionException.class, () -> testedObject.create(lampDecision));
 
 		verify(lampDecisionDaoMock, times(0)).save(Mockito.any(LampDecision.class));
-		verify(decisionDaoMock, times(1)).findById(Mockito.anyLong());
+		verify(decisionDaoMock, times(1)).findById(Mockito.any());
 		assertThat(result.getMessage()).isEqualTo(LampDecisionException.DECISION_LOADING);
 	}
 

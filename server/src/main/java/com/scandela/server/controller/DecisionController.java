@@ -1,6 +1,7 @@
 package com.scandela.server.controller;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.scandela.server.entity.Decision;
+import com.scandela.server.exception.DecisionException;
 import com.scandela.server.service.IDecisionService;
 
 @CrossOrigin//TODO a changer dans le future en mettant un access token
@@ -44,7 +46,7 @@ public class DecisionController extends AbstractController {
 	 * @return decision
 	 */
 	@GetMapping("/{id}")
-	public Decision getDecision(@PathVariable long id) {
+	public Decision getDecision(@PathVariable UUID id) {
 		return decisionService.get(id);
 	}
 
@@ -66,7 +68,7 @@ public class DecisionController extends AbstractController {
 	 * @param id
 	 */
 	@DeleteMapping("/delete/{id}")
-	public void deleteDecision(@PathVariable long id) {
+	public void deleteDecision(@PathVariable UUID id) {
 		decisionService.delete(id);
 	}
 

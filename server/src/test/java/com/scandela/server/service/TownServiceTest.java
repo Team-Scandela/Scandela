@@ -9,6 +9,7 @@ import static org.mockito.Mockito.when;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,9 +36,9 @@ public class TownServiceTest {
 	@Mock
 	private TownDao townDaoMock;
 	
-	private final long id = 1;
+	private final UUID id = UUID.randomUUID();
 	private final String name = "Test";
-	private final int electricityPrice = 17;
+	private final float electricityPrice = 17;
 	private final float indiceElectricity = 0.17f;
 	private final float indiceEcology = 0.45f;
 	private final float indiceQuality = 0.78f;
@@ -77,12 +78,12 @@ public class TownServiceTest {
 	@Test
 	public void testGetAll_whenManyTowns_thenReturnManyTowns() {
 		Town town2 = Town.builder()
-				.id(Long.valueOf(2))
+				.id(UUID.randomUUID())
 				.name("Test2")
 				.hoods(hoods)
 				.latitude(89.0913)
 				.longitude(3.4543)
-				.electricityPrice(32)
+				.electricityPrice(32f)
 				.indiceElectricity(0.45f)
 				.indiceEcology(0.78f)
 				.indiceQuality(0.17f)

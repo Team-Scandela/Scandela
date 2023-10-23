@@ -1,5 +1,7 @@
 package com.scandela.server.controller;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,12 +21,12 @@ public class LightPopUpController extends AbstractController {
     private ILightPopUpService lightPopUpService;
 
     @GetMapping("/{id}")
-    public LightPoint getLightPopUpInfos(@PathVariable int id) {
+    public LightPoint getLightPopUpInfos(@PathVariable UUID id) {
         return lightPopUpService.computeOptimisations(lightPopUpService.get(id));
     }
 
     @PutMapping("/{id}")
-    public LightPoint updateLightPoint(@PathVariable int id, @RequestBody LightPoint updatedData) {
+    public LightPoint updateLightPoint(@PathVariable UUID id, @RequestBody LightPoint updatedData) {
         return lightPopUpService.updateLightPoint(lightPopUpService.get(id), updatedData);
     }
 }

@@ -1,6 +1,7 @@
 package com.scandela.server.service.implementation;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,7 +50,7 @@ public class StreetService extends AbstractService<Street> implements IStreetSer
 			throw new StreetException(StreetException.INCOMPLETE_INFORMATIONS);
 		}
 
-		long hoodId = newStreet.getHood().getId();
+		UUID hoodId = newStreet.getHood().getId();
 		
 		Optional<Hood> hood = hoodDao.findById(hoodId);
 		if (hood.isEmpty()) {

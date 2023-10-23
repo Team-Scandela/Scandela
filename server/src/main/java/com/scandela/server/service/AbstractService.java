@@ -1,6 +1,7 @@
 package com.scandela.server.service;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,10 +14,10 @@ public abstract class AbstractService<T> implements IService<T> {
 		// Protected \\
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 	
-	protected JpaRepository<T, Long> dao;
+	protected JpaRepository<T, UUID> dao;
 	
 	// Constructors \\
-	protected AbstractService(JpaRepository<T, Long> dao) {
+	protected AbstractService(JpaRepository<T, UUID> dao) {
 		this.dao = dao;
 	}
 	
@@ -30,7 +31,7 @@ public abstract class AbstractService<T> implements IService<T> {
 
 	@Override
 	@Transactional(readOnly = true)
-	public T get(long id) {
+	public T get(UUID id) {
 		return dao.findById(id).orElse(null);
 	}
 
@@ -42,7 +43,7 @@ public abstract class AbstractService<T> implements IService<T> {
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-	public void delete(long id) {
+	public void delete(UUID id) {
 		dao.deleteById(id);
 	}
 

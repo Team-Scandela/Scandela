@@ -1,6 +1,7 @@
 package com.scandela.server.service.implementation;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,7 +52,7 @@ public class LampDecisionService extends AbstractService<LampDecision> implement
 			throw new LampDecisionException(DecisionException.INCOMPLETE_INFORMATIONS);
 		}
 	
-		long decisionId = newLampDecision.getDecision().getId();
+		UUID decisionId = newLampDecision.getDecision().getId();
 		
 		Optional<Decision> decision = decisionDao.findById(decisionId);
 		if (decision.isEmpty()) {

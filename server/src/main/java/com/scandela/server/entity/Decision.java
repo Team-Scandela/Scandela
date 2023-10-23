@@ -3,13 +3,15 @@ package com.scandela.server.entity;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
+
+import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -34,31 +36,28 @@ public class Decision implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name = "id", updatable = false, nullable = false)
-	private Long id;
+	@GenericGenerator(name = "UUIDGenerator", strategy = "uuid2")
+    @GeneratedValue(generator = "UUIDGenerator")
+	@Column(name = "uuid", updatable = false, nullable = false)
+	private UUID id;
 
 	@ManyToOne
-	@JoinColumn(name = "id_decisiontype", nullable = false)
+	@JoinColumn(name = "uuiddecisiontype", nullable = false)
 	private DecisionType type;
 
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@ManyToOne
-	@JoinColumn(name = "id_user", nullable = false)
+	@JoinColumn(name = "uuiduser", nullable = false)
 	private User user;
 
 	@Column(name = "description", nullable = false)
 	private String description;
 
-	@Builder.Default
-	@Column(name = "validate", nullable = false)
-	private boolean validate = false;
-
-	@Column(name = "date", nullable = false)
-	private LocalDate date;
+	@Column(name = "validate", nullable = true)
+	private LocalDate validate;
 
 	@Column(name = "cost", nullable = false)
-	private Long cost;
+	private Float cost;
 
 	@Column(name = "benefits", nullable = true)
 	private List<Long> benefits;

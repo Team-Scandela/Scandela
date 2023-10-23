@@ -1,6 +1,7 @@
 package com.scandela.server.controller;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -45,7 +46,7 @@ public class LampDecisionController extends AbstractController {
 	 * @return lampDecision
 	 */
 	@GetMapping("/{id}")
-	public LampDecision getLampDecision(@PathVariable long id) {
+	public LampDecision getLampDecision(@PathVariable UUID id) {
 		return lampDecisionService.get(id);
 	}
 
@@ -67,7 +68,7 @@ public class LampDecisionController extends AbstractController {
 	 * @param id
 	 */
 	@DeleteMapping("/delete/{id}")
-	public void deleteLampDecision(@PathVariable long id) {
+	public void deleteLampDecision(@PathVariable UUID id) {
 		lampDecisionService.delete(id);
 	}
 

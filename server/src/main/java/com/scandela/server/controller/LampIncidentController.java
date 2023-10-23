@@ -1,6 +1,7 @@
 package com.scandela.server.controller;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.scandela.server.entity.LampIncident;
+import com.scandela.server.exception.LampIncidentException;
 import com.scandela.server.service.ILampIncidentService;
 
 @CrossOrigin//TODO a changer dans le future en mettant un access token
@@ -44,7 +46,7 @@ public class LampIncidentController extends AbstractController {
 	 * @return lampIncident
 	 */
 	@GetMapping("/{id}")
-	public LampIncident getLampIncident(@PathVariable long id) {
+	public LampIncident getLampIncident(@PathVariable UUID id) {
 		return lampIncidentService.get(id);
 	}
 
@@ -66,7 +68,7 @@ public class LampIncidentController extends AbstractController {
 	 * @param id
 	 */
 	@DeleteMapping("/delete/{id}")
-	public void deleteLampIncident(@PathVariable long id) {
+	public void deleteLampIncident(@PathVariable UUID id) {
 		lampIncidentService.delete(id);
 	}
 
