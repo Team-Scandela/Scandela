@@ -42,6 +42,7 @@ const resources = {
             infrequentTraffic: 'Passage peu fréquent',
             economicImpact: 'Impact Économique',
             duringAbsence: 'Pendant votre absence',
+            FAKE_TRANSLATION_DEMO: "sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss"
         },
     },
 };
