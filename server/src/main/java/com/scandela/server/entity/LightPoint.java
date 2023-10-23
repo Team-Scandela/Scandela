@@ -27,7 +27,7 @@ public class LightPoint implements Serializable {
     @Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "uuid", updatable = false, nullable = false)
-	private Integer uuid;
+	private String uuid;
 
     @Column(name = "recommandedOptimisations", nullable = true)
 	private List<String> recommandedOptimisations;
