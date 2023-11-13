@@ -97,7 +97,7 @@ const deleteAllLamp = (request: Request, response: Response) => {
 };
 
 const launchScript = (request: Request, response: Response) => {
-    const jsonData = JSON.stringify(request.body.argument) as any;
+    const jsonData = JSON.parse(request.body.argument);
 
     for (const item of jsonData) {
         const { fields } = item;
@@ -138,12 +138,12 @@ const launchScript = (request: Request, response: Response) => {
         // UNCOMMENT WHEN THE DEV PHASE IS OVER
         // UNCOMMENT WHEN THE DEV PHASE IS OVER
 
-        // pool.query(query, values, (error: any, results: any) => {
-        //   if (error) {
-        //     throw error;
-        //   }
-        // //   console.log(`Lamp added with ID: ${results.rows[0].uuid}`);
-        // });
+        pool.query(query, values, (error: any, results: any) => {
+            if (error) {
+                throw error;
+            }
+            console.log(`Lamp added with ID: ${results.rows[0].uuid}`);
+        });
     }
 
     response.status(200).send('Script executed successfully.');
