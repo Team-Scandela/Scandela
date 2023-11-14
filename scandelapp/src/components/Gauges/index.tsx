@@ -10,6 +10,10 @@ import {
     GaugeLevelRight,
     GaugeContainerPersonnalized,
     GaugeOldLevel,
+    GaugePupLeft,
+    GaugePupMiddle,
+    GaugePupRight,
+    GaugePupText
 } from './elements';
 import * as images from './gaugesImports';
 import { Green, Red } from '../../colors';
@@ -52,12 +56,22 @@ export const Gauges: React.FC<GaugesProps> = ({
         oldLevelLumi - levelLumi
     );
 
+    const [showPupLeft, setShowPupLeft] = React.useState<boolean>(false);
+    const [showPupMiddle, setShowPupMiddle] = React.useState<boolean>(false);
+    const [showPupRight, setShowPupRight] = React.useState<boolean>(false);
+
     return (
         <div id={id}>
             {!actionsListExtended && (
                 <div>
                     <GaugeContainerLeft
                         decisionPanelExtended={decisionPanelExtended}
+                        decal={showPupMiddle || showPupRight}
+                        onClick={() => {
+                            setShowPupLeft(!showPupLeft);
+                            setShowPupMiddle(false);
+                            setShowPupRight(false);
+                        }}
                     >
                         <GaugeBackground
                             src={isDark ? images.left : images.leftLight}
@@ -71,10 +85,23 @@ export const Gauges: React.FC<GaugesProps> = ({
                         <GaugeLogo
                             src={isDark ? images.elec : images.elecLight}
                         />
+
+                        <GaugePupLeft
+                            show={showPupLeft}
+                            isDark={isDark}
+                        >
+                            <GaugePupText>Consommation énergétique<br /><b>30 GW/h</b><br />40% de l\'objectif</GaugePupText>
+                        </GaugePupLeft>
                     </GaugeContainerLeft>
 
                     <GaugeContainerMiddle
                         decisionPanelExtended={decisionPanelExtended}
+                        decal={showPupRight}
+                        onClick={() => {
+                            setShowPupLeft(false);
+                            setShowPupMiddle(!showPupMiddle);
+                            setShowPupRight(false);
+                        }}
                     >
                         <GaugeBackground
                             src={isDark ? images.middle : images.middleLight}
@@ -88,10 +115,22 @@ export const Gauges: React.FC<GaugesProps> = ({
                         <GaugeLogo
                             src={isDark ? images.bio : images.bioLight}
                         />
+                        <GaugePupMiddle
+                            show={showPupMiddle}
+                            isDark={isDark}
+                        >
+                            <GaugePupText>Impact sur l\'environnement<br /><b>350g de CO2/heure</b><br />80% de l\'objectif</GaugePupText>
+                        </GaugePupMiddle>
                     </GaugeContainerMiddle>
 
                     <GaugeContainerRight
                         decisionPanelExtended={decisionPanelExtended}
+                        decal={false}
+                        onClick={() => {
+                            setShowPupLeft(false);
+                            setShowPupMiddle(false);
+                            setShowPupRight(!showPupRight);
+                        }}
                     >
                         <GaugeBackground
                             src={isDark ? images.right : images.rightLight}
@@ -105,12 +144,26 @@ export const Gauges: React.FC<GaugesProps> = ({
                         <GaugeLogo
                             src={isDark ? images.lumi : images.lumiLight}
                         />
+
+                        <GaugePupRight
+                            show={showPupRight}
+                            isDark={isDark}
+                        >
+                            <GaugePupText>Qualité de l'éclairage<br />20% des zones disposent d'un bon éclairage</GaugePupText>
+                        </GaugePupRight>
                     </GaugeContainerRight>
                 </div>
             )}
         </div>
     );
 };
+
+
+
+
+
+
+
 
 /** Ligth / Dark mode button
  * @param {number} id - Id of the gauge
