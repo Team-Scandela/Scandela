@@ -136,11 +136,3 @@ export const EventText = styled.div<DarkProps>`
     color: ${(props) => (props.isDark ? Black : White)};
     font-weight: 550;
 `;
-
-export const IndicatorsImage = styled.img`
-    position: absolute;
-    right: 50px;
-    top: 125px;
-    width: 100px;
-    height: auto;
-`;
