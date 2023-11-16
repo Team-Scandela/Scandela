@@ -18,8 +18,8 @@ export const ButtonEditContainer = styled.div`
                 ? Yellow + 'FF'
                 : Grey + 'FF'
             : props.isDark
-            ? Grey + 'FF'
-            : Grey + 'FF'};
+              ? Grey + 'FF'
+              : Grey + 'FF'};
     border-radius: 10px;
     transition: opacity 0.1s;
 
@@ -31,8 +31,8 @@ export const ButtonEditContainer = styled.div`
                     ? Yellow + 'CC'
                     : Grey + 'CC'
                 : props.isDark
-                ? White + 'CC'
-                : Black + 'CC'};
+                  ? White + 'CC'
+                  : Black + 'CC'};
     }
 `;
 
@@ -48,6 +48,6 @@ export const ExportIcon = styled(AiOutlineDownload)`
                 ? White
                 : Yellow
             : props.isDark
-            ? Black
-            : Yellow};
+              ? Black
+              : Yellow};
 `;

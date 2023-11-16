@@ -10,13 +10,15 @@ export const GaugeContainer = styled.div`
 
 export const GaugeContainerLeft = styled(GaugeContainer)`
     bottom: ${(props) => (props.decisionPanelExtended ? 55 : 30)}px;
-    right: ${(props) => (props.decisionPanelExtended ? 325 : (props.decal ? 385 : 175) )}px;
+    right: ${(props) =>
+        props.decisionPanelExtended ? 325 : props.decal ? 385 : 175}px;
     transition: all 0.5s ease-in-out;
 `;
 
 export const GaugeContainerMiddle = styled(GaugeContainer)`
     bottom: ${(props) => (props.decisionPanelExtended ? 55 : 30)}px;
-    right: ${(props) => (props.decisionPanelExtended ? 220 : (props.decal ? 310 : 100) )}px;
+    right: ${(props) =>
+        props.decisionPanelExtended ? 220 : props.decal ? 310 : 100}px;
     transition: all 0.5s ease-in-out;
 `;
 
@@ -70,8 +72,8 @@ export const GaugeOldLevel = styled.div`
         props.diffLevel >= 0
             ? `calc((100% - 8px) * ${props.level / 100})`
             : `calc((100% - 8px) * ${
-                props.level / 100 - -props.diffLevel / 100
-            } + 4px)`};
+                  props.level / 100 - -props.diffLevel / 100
+              } + 4px)`};
 
     height: calc(
         (100% - 8px) *
@@ -106,24 +108,22 @@ export const GaugePup = styled.div`
     border-color: ${Yellow};
     border-style: solid;
     border-width: 2px;
-
 `;
 
 export const GaugePupLeft = styled(GaugePup)`
-    right : 250px;
+    right: 250px;
 `;
 
 export const GaugePupMiddle = styled(GaugePup)`
-    right : 175px;
+    right: 175px;
 `;
 
 export const GaugePupRight = styled(GaugePup)`
-    right : 100px;
+    right: 100px;
 `;
 
-
 export const GaugePupText = styled.div`
-    color : ${Yellow};
+    color: ${Yellow};
     font-size: 15px;
 
     position: absolute;

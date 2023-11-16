@@ -13,7 +13,7 @@ import {
     GaugePupLeft,
     GaugePupMiddle,
     GaugePupRight,
-    GaugePupText
+    GaugePupText,
 } from './elements';
 import * as images from './gaugesImports';
 import { Green, Red } from '../../colors';
@@ -86,11 +86,14 @@ export const Gauges: React.FC<GaugesProps> = ({
                             src={isDark ? images.elec : images.elecLight}
                         />
 
-                        <GaugePupLeft
-                            show={showPupLeft}
-                            isDark={isDark}
-                        >
-                            <GaugePupText>Consommation énergétique<br /><b>30 GW/h</b><br />40% de l\'objectif</GaugePupText>
+                        <GaugePupLeft show={showPupLeft} isDark={isDark}>
+                            <GaugePupText>
+                                Consommation énergétique
+                                <br />
+                                <b>30 GW/h</b>
+                                <br />
+                                40% de l\'objectif
+                            </GaugePupText>
                         </GaugePupLeft>
                     </GaugeContainerLeft>
 
@@ -115,11 +118,14 @@ export const Gauges: React.FC<GaugesProps> = ({
                         <GaugeLogo
                             src={isDark ? images.bio : images.bioLight}
                         />
-                        <GaugePupMiddle
-                            show={showPupMiddle}
-                            isDark={isDark}
-                        >
-                            <GaugePupText>Impact sur l\'environnement<br /><b>350g de CO2/heure</b><br />80% de l\'objectif</GaugePupText>
+                        <GaugePupMiddle show={showPupMiddle} isDark={isDark}>
+                            <GaugePupText>
+                                Impact sur l\'environnement
+                                <br />
+                                <b>350g de CO2/heure</b>
+                                <br />
+                                80% de l\'objectif
+                            </GaugePupText>
                         </GaugePupMiddle>
                     </GaugeContainerMiddle>
 
@@ -145,11 +151,12 @@ export const Gauges: React.FC<GaugesProps> = ({
                             src={isDark ? images.lumi : images.lumiLight}
                         />
 
-                        <GaugePupRight
-                            show={showPupRight}
-                            isDark={isDark}
-                        >
-                            <GaugePupText>Qualité de l'éclairage<br />20% des zones disposent d'un bon éclairage</GaugePupText>
+                        <GaugePupRight show={showPupRight} isDark={isDark}>
+                            <GaugePupText>
+                                Qualité de l'éclairage
+                                <br />
+                                20% des zones disposent d'un bon éclairage
+                            </GaugePupText>
                         </GaugePupRight>
                     </GaugeContainerRight>
                 </div>
@@ -157,13 +164,6 @@ export const Gauges: React.FC<GaugesProps> = ({
         </div>
     );
 };
-
-
-
-
-
-
-
 
 /** Ligth / Dark mode button
  * @param {number} id - Id of the gauge
@@ -205,16 +205,16 @@ export const PersonnalizedGauge: React.FC<PersonnalizedGaugeProps> = ({
             ? images.elec
             : images.elecLight
         : isBio
-        ? isDark
-            ? images.bio
-            : images.bioLight
-        : isLumi
-        ? isDark
-            ? images.lumi
-            : images.lumiLight
-        : isDark
-        ? images.elec
-        : images.elecLight;
+          ? isDark
+              ? images.bio
+              : images.bioLight
+          : isLumi
+            ? isDark
+                ? images.lumi
+                : images.lumiLight
+            : isDark
+              ? images.elec
+              : images.elecLight;
     const diffLevel = oldLevel - level;
 
     return (
