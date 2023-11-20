@@ -7,6 +7,7 @@ public class LampException extends Exception {
 	public static final String INCOMPLETE_INFORMATIONS = "Incomplete informations.";
 	public static final String TOWN_LOADING = "Impossibility to load given town.";
 	public static final String STREET_LOADING = "Impossibility to load given street.";
+	public static final String BULB_LOADING = "Impossibility to load given bulb.";
 
 		// Private \\
 	private static final long serialVersionUID = 1L;

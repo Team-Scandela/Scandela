@@ -42,6 +42,10 @@ public class Lamp implements Serializable {
     @GeneratedValue(generator = "UUIDGenerator")
 	@Column(name = "uuid", updatable = false, nullable = false)
 	private UUID id;
+	
+	@ManyToOne
+	@JoinColumn(name = "uuidbulb", nullable = false)
+	private Bulb bulb;
 
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@ManyToOne
