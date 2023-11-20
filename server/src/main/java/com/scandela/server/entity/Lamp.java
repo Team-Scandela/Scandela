@@ -30,7 +30,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-@Table(name = "decision")
+@Table(name = "lamp")
 public class Lamp implements Serializable {
 
 	// Attributes \\
