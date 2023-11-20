@@ -75,4 +75,7 @@ public class Town implements Serializable {
 
 	@OneToMany(mappedBy = "town", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	private List<Incident> incidents;
+
+	@OneToMany(mappedBy = "town", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+	private List<Lamp> lamps;
 }
