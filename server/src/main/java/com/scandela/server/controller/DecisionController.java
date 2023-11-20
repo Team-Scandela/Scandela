@@ -3,7 +3,6 @@ package com.scandela.server.controller;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,12 +19,12 @@ import com.scandela.server.service.IDecisionService;
 @CrossOrigin//TODO a changer dans le future en mettant un access token
 @RestController
 @RequestMapping(value = "/decisions")
-public class DecisionController extends AbstractController {
-
-	// Attributes \\
-		// Private \\
-	@Autowired
-	private IDecisionService decisionService;
+public class DecisionController extends AbstractController<Decision> {
+	
+	// Constructors \\
+	protected DecisionController(IDecisionService decisionService) {
+		super(decisionService);
+	}
 
 	// Methods \\
 		// Public \\
@@ -36,7 +35,7 @@ public class DecisionController extends AbstractController {
 	 */
 	@GetMapping
 	public List<Decision> getDecisions() {
-		return decisionService.getAll();
+		return super.getAll();
 	}
 
 	/**
@@ -47,7 +46,7 @@ public class DecisionController extends AbstractController {
 	 */
 	@GetMapping("/{id}")
 	public Decision getDecision(@PathVariable UUID id) {
-		return decisionService.get(id);
+		return super.get(id);
 	}
 
 	/**
@@ -59,7 +58,7 @@ public class DecisionController extends AbstractController {
 	 */
 	@PostMapping("/create")
 	public Decision createDecision(@RequestBody Decision newDecision) throws Exception {
-		return decisionService.create(newDecision);
+		return super.create(newDecision);
 	}
 
 	/**
@@ -69,7 +68,7 @@ public class DecisionController extends AbstractController {
 	 */
 	@DeleteMapping("/delete/{id}")
 	public void deleteDecision(@PathVariable UUID id) {
-		decisionService.delete(id);
+		super.delete(id);
 	}
 
 }

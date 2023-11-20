@@ -3,7 +3,6 @@ package com.scandela.server.controller;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,12 +19,12 @@ import com.scandela.server.service.IStreetService;
 @CrossOrigin//TODO a changer dans le future en mettant un access token
 @RestController
 @RequestMapping(value = "/streets")
-public class StreetController extends AbstractController {
-
-	// Attributes \\
-		// Private \\
-	@Autowired
-	private IStreetService streetService;
+public class StreetController extends AbstractController<Street> {
+	
+	// Constructors \\
+	protected StreetController(IStreetService streetService) {
+		super(streetService);
+	}
 
 	// Methods \\
 		// Public \\
@@ -36,7 +35,7 @@ public class StreetController extends AbstractController {
 	 */
 	@GetMapping
 	public List<Street> getStreets() {
-		return streetService.getAll();
+		return super.getAll();
 	}
 
 	/**
@@ -47,7 +46,7 @@ public class StreetController extends AbstractController {
 	 */
 	@GetMapping("/{id}")
 	public Street getStreet(@PathVariable UUID id) {
-		return streetService.get(id);
+		return super.get(id);
 	}
 
 	/**
@@ -59,7 +58,7 @@ public class StreetController extends AbstractController {
 	 */
 	@PostMapping("/create")
 	public Street createStreet(@RequestBody Street newStreet) throws Exception {
-		return streetService.create(newStreet);
+		return super.create(newStreet);
 	}
 
 	/**
@@ -69,7 +68,7 @@ public class StreetController extends AbstractController {
 	 */
 	@DeleteMapping("/delete")
 	public void deleteStreet(@PathVariable UUID id) {
-		streetService.delete(id);
+		super.delete(id);
 	}
 
 }

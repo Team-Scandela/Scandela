@@ -3,7 +3,6 @@ package com.scandela.server.controller;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,12 +19,12 @@ import com.scandela.server.service.ILampDecisionService;
 @CrossOrigin//TODO a changer dans le future en mettant un access token
 @RestController
 @RequestMapping(value = "/lampDecisions")
-public class LampDecisionController extends AbstractController {
-
-	// Attributes \\
-		// Private \\
-	@Autowired
-	private ILampDecisionService lampDecisionService;
+public class LampDecisionController extends AbstractController<LampDecision> {
+	
+	// Constructors \\
+	protected LampDecisionController(ILampDecisionService lampDecisionService) {
+		super(lampDecisionService);
+	}
 
 	// Methods \\
 		// Public \\
@@ -36,7 +35,7 @@ public class LampDecisionController extends AbstractController {
 	 */
 	@GetMapping
 	public List<LampDecision> getLampDecisions() {
-		return lampDecisionService.getAll();
+		return super.getAll();
 	}
 
 	/**
@@ -47,7 +46,7 @@ public class LampDecisionController extends AbstractController {
 	 */
 	@GetMapping("/{id}")
 	public LampDecision getLampDecision(@PathVariable UUID id) {
-		return lampDecisionService.get(id);
+		return super.get(id);
 	}
 
 	/**
@@ -59,7 +58,7 @@ public class LampDecisionController extends AbstractController {
 	 */
 	@PostMapping("/create")
 	public LampDecision createLampDecision(@RequestBody LampDecision newLampDecision) throws Exception {
-		return lampDecisionService.create(newLampDecision);
+		return super.create(newLampDecision);
 	}
 
 	/**
@@ -69,7 +68,7 @@ public class LampDecisionController extends AbstractController {
 	 */
 	@DeleteMapping("/delete/{id}")
 	public void deleteLampDecision(@PathVariable UUID id) {
-		lampDecisionService.delete(id);
+		super.delete(id);
 	}
 
 }

@@ -3,7 +3,6 @@ package com.scandela.server.controller;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,12 +19,12 @@ import com.scandela.server.service.ILampIncidentService;
 @CrossOrigin//TODO a changer dans le future en mettant un access token
 @RestController
 @RequestMapping(value = "/lampIncidents")
-public class LampIncidentController extends AbstractController {
-
-	// Attributes \\
-		// Private \\
-	@Autowired
-	private ILampIncidentService lampIncidentService;
+public class LampIncidentController extends AbstractController<LampIncident> {
+	
+	// Constructors \\
+	protected LampIncidentController(ILampIncidentService lampIncidentService) {
+		super(lampIncidentService);
+	}
 
 	// Methods \\
 		// Public \\
@@ -36,7 +35,7 @@ public class LampIncidentController extends AbstractController {
 	 */
 	@GetMapping
 	public List<LampIncident> getLampIncidents() {
-		return lampIncidentService.getAll();
+		return super.getAll();
 	}
 
 	/**
@@ -47,7 +46,7 @@ public class LampIncidentController extends AbstractController {
 	 */
 	@GetMapping("/{id}")
 	public LampIncident getLampIncident(@PathVariable UUID id) {
-		return lampIncidentService.get(id);
+		return super.get(id);
 	}
 
 	/**
@@ -59,7 +58,7 @@ public class LampIncidentController extends AbstractController {
 	 */
 	@PostMapping("/create")
 	public LampIncident createLampIncident(@RequestBody LampIncident newLampIncident) throws Exception {
-		return lampIncidentService.create(newLampIncident);
+		return super.create(newLampIncident);
 	}
 
 	/**
@@ -69,7 +68,7 @@ public class LampIncidentController extends AbstractController {
 	 */
 	@DeleteMapping("/delete/{id}")
 	public void deleteLampIncident(@PathVariable UUID id) {
-		lampIncidentService.delete(id);
+		super.delete(id);
 	}
 
 }

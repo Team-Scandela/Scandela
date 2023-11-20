@@ -3,7 +3,6 @@ package com.scandela.server.controller;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,12 +19,12 @@ import com.scandela.server.service.IHoodService;
 @CrossOrigin//TODO a changer dans le future en mettant un access token
 @RestController
 @RequestMapping(value = "/hoods")
-public class HoodController extends AbstractController {
-
-	// Attributes \\
-		// Private \\
-	@Autowired
-	private IHoodService hoodService;
+public class HoodController extends AbstractController<Hood> {
+	
+	// Constructors \\
+	protected HoodController(IHoodService hoodService) {
+		super(hoodService);
+	}
 
 	// Methods \\
 		// Public \\
@@ -36,7 +35,7 @@ public class HoodController extends AbstractController {
 	 */
 	@GetMapping
 	public List<Hood> getHoods() {
-		return hoodService.getAll();
+		return super.getAll();
 	}
 
 	/**
@@ -47,7 +46,7 @@ public class HoodController extends AbstractController {
 	 */
 	@GetMapping("/{id}")
 	public Hood getHood(@PathVariable UUID id) {
-		return hoodService.get(id);
+		return super.get(id);
 	}
 
 	/**
@@ -59,7 +58,7 @@ public class HoodController extends AbstractController {
 	 */
 	@PostMapping("/create")
 	public Hood createHood(@RequestBody Hood newHood) throws Exception {
-		return hoodService.create(newHood);
+		return super.create(newHood);
 	}
 
 	/**
@@ -69,7 +68,7 @@ public class HoodController extends AbstractController {
 	 */
 	@DeleteMapping("/delete/{id}")
 	public void deleteHood(@PathVariable UUID id) {
-		hoodService.delete(id);
+		super.delete(id);
 	}
 
 }

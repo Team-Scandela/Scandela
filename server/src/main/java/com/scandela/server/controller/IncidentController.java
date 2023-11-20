@@ -3,7 +3,6 @@ package com.scandela.server.controller;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,12 +19,12 @@ import com.scandela.server.service.IIncidentService;
 @CrossOrigin//TODO a changer dans le future en mettant un access token
 @RestController
 @RequestMapping(value = "/incidents")
-public class IncidentController extends AbstractController {
-
-	// Attributes \\
-		// Private \\
-	@Autowired
-	private IIncidentService incidentService;
+public class IncidentController extends AbstractController<Incident> {
+	
+	// Constructors \\
+	protected IncidentController(IIncidentService incidentService) {
+		super(incidentService);
+	}
 
 	// Methods \\
 		// Public \\
@@ -36,7 +35,7 @@ public class IncidentController extends AbstractController {
 	 */
 	@GetMapping
 	public List<Incident> getIncidents() {
-		return incidentService.getAll();
+		return super.getAll();
 	}
 
 	/**
@@ -47,7 +46,7 @@ public class IncidentController extends AbstractController {
 	 */
 	@GetMapping("/{id}")
 	public Incident getIncident(@PathVariable UUID id) {
-		return incidentService.get(id);
+		return super.get(id);
 	}
 
 	/**
@@ -59,7 +58,7 @@ public class IncidentController extends AbstractController {
 	 */
 	@PostMapping("/create")
 	public Incident createIncident(@RequestBody Incident newIncident) throws Exception {
-		return incidentService.create(newIncident);
+		return super.create(newIncident);
 	}
 
 	/**
@@ -69,7 +68,7 @@ public class IncidentController extends AbstractController {
 	 */
 	@DeleteMapping("/delete/{id}")
 	public void deleteIncident(@PathVariable UUID id) {
-		incidentService.delete(id);
+		super.delete(id);
 	}
 
 }

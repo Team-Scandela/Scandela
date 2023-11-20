@@ -15,7 +15,7 @@ import com.scandela.server.service.ILightPopUpService;
 
 @RestController
 @RequestMapping(value = "/light")
-public class LightPopUpController extends AbstractController {
+public class LightPopUpController {
 
     @Autowired
     private ILightPopUpService lightPopUpService;
