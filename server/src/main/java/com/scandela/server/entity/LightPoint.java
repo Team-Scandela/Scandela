@@ -23,7 +23,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-@Table(name = "lamp")
+@Table(name = "lmp")//TODO fusionner les deux parce que pb
 public class LightPoint implements Serializable {
 
     @Id
