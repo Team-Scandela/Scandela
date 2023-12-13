@@ -7,9 +7,11 @@ import {
     ProfileButton,
     LanguageButton,
     DownloadButton,
+    TicketButton
 } from './elements';
 import LightDark from '../LightDark';
 import ProfilPannel from '../ProfilPannel';
+import TicketSender from '../TicketSender';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
@@ -33,6 +35,7 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({
     /** If the option menu is open or closed */
     const navigate = useNavigate();
     const [isProfileOpen, setIsProfileOpen] = React.useState(false);
+    const [isTicketOpen, setIsTicketOpen] = React.useState(false);
     const [on, setOn] = React.useState(false);
 
     const fileInputRef = React.useRef<HTMLInputElement | null>(null);
@@ -85,6 +88,11 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({
         setIsProfileOpen(!isProfileOpen);
     };
 
+    const handleTicketButtonClick = () => {
+        console.log('test');
+        setIsTicketOpen(!isTicketOpen);
+    };
+
     return (
         <div>
             <SettingsButtonContainer
@@ -114,6 +122,7 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({
                     style={{ display: 'none' }}
                     onChange={downloadData}
                 />
+                <TicketButton onClick={handleTicketButtonClick} />
                 <LogoutButton onClick={handleLogout}></LogoutButton>
             </OptionsMenuContainer>
             {isProfileOpen && (
@@ -123,6 +132,12 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({
                     setIsDark={setIsDark}
                 />
             )}
+            {isTicketOpen && (
+                <TicketSender
+                    isDark={isDark}
+                />
+            )}
+
         </div>
     );
 };
