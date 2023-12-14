@@ -55,3 +55,12 @@ export const SearchIcon = styled(MdSearch)`
         cursor: pointer;
     }
 `;
+
+export const SpinnerContainer = styled.div`
+    position: absolute;
+    right: 10px;
+    width: 7%;
+    height: auto;
+    display: flex;
+    align-items: center;
+`;
