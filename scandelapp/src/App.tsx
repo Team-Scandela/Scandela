@@ -5,37 +5,32 @@ import Main from './pages/main';
 import Login from './pages/login';
 import Redirect from './pages/redirect';
 import MainDB from './pages/maindb';
-import Test from './pages/test';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import * as Sentry from '@sentry/browser';
+//import LoadingPage from './components/LoadingPage';
 
 /** Route page */
 const App: React.FC = () => {
-    Sentry.init({
-        dsn: 'https://b7ba74511176b52c96d1d58dc76d7ab7@o4505907192725504.ingest.sentry.io/4505907207012352',
-        integrations: [
-            new Sentry.BrowserTracing({
-                tracePropagationTargets: [
-                    'localhost',
-                    /^https:\/\/app.scandela.fr/,
-                ],
-            }),
-        ],
-        tracesSampleRate: 1.0,
-        // Session Replay
-        replaysSessionSampleRate: 0.1,
-        replaysOnErrorSampleRate: 1.0,
-    });
+    /*const [testIsLoading, setTestIsLoading] = React.useState(true);
+
+    React.useEffect(() => {
+        const timeout = setTimeout(() => {
+            setTestIsLoading(false);
+        }, 7000);
+        return () => clearTimeout(timeout);
+    }, []); */
 
     return (
-        <BrowserRouter>
-            <Routes>
-                <Route path="/" element={<Main />} />
-                <Route path="/fromdb" element={<MainDB />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/redirect" element={<Redirect />} />
-            </Routes>
-        </BrowserRouter>
+        <>
+            {/*<LoadingPage isLoading={testIsLoading} />*/}
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/" element={<Main />} />
+                    <Route path="/fromdb" element={<MainDB />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/redirect" element={<Redirect />} />
+                </Routes>
+            </BrowserRouter>
+        </>
     );
 };
 
