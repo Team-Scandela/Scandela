@@ -1,6 +1,7 @@
 package com.scandela.server.controller;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.scandela.server.entity.Incident;
+import com.scandela.server.exception.IncidentException;
 import com.scandela.server.service.IIncidentService;
 
 @CrossOrigin//TODO a changer dans le future en mettant un access token
@@ -44,7 +46,7 @@ public class IncidentController extends AbstractController {
 	 * @return incident
 	 */
 	@GetMapping("/{id}")
-	public Incident getIncident(@PathVariable long id) {
+	public Incident getIncident(@PathVariable UUID id) {
 		return incidentService.get(id);
 	}
 
@@ -66,7 +68,7 @@ public class IncidentController extends AbstractController {
 	 * @param id
 	 */
 	@DeleteMapping("/delete/{id}")
-	public void deleteIncident(@PathVariable long id) {
+	public void deleteIncident(@PathVariable UUID id) {
 		incidentService.delete(id);
 	}
 

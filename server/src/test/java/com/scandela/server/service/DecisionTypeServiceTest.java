@@ -9,6 +9,7 @@ import static org.mockito.Mockito.when;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,7 +36,7 @@ public class DecisionTypeServiceTest {
 	@Mock
 	private DecisionTypeDao decisionTypeDaoMock;
 	
-	private final long id = 1;
+	private final UUID id = UUID.randomUUID();
 	private final String title = "Test";
 	private final List<Decision> decisions = Arrays.asList(Decision.builder().id(id).build());
 	private final DecisionType decisionType = DecisionType.builder()
@@ -65,7 +66,7 @@ public class DecisionTypeServiceTest {
 	@Test
 	public void testGetAll_whenManyDecisionTypes_thenReturnManyDecisionTypes() {
 		DecisionType decisionType2 = DecisionType.builder()
-				.id(Long.valueOf(2))
+				.id(UUID.randomUUID())
 				.title(title)
 				.build();
 		

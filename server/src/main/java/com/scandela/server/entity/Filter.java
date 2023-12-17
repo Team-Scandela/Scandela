@@ -1,19 +1,14 @@
 package com.scandela.server.entity;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.UUID;
 
 import org.hibernate.annotations.GenericGenerator;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,24 +22,18 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-@Table(name = "street")
-public class Street implements Serializable {
+@Table(name = "filters")
+public class Filter implements Serializable {
 
-	// Attributes \\
-		// Private \\
-	private static final long serialVersionUID = 1L;
-
-	@Id
+    @Id
 	@GenericGenerator(name = "UUIDGenerator", strategy = "uuid2")
     @GeneratedValue(generator = "UUIDGenerator")
-	@Column(name = "uuid", updatable = false, nullable = false)
+	@Column(name = "id", updatable = false, nullable = false)
 	private UUID id;
 
-	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-	@ManyToOne
-	@JoinColumn(name = "uuidhood", nullable = false)
-	private Hood hood;
-	
-	@Column(name = "adress", nullable = false)
-	private List<String> address;
+    @Column(name = "isActive", updatable = false)
+    private Boolean isActive;
+
+    @Column(name = "title", updatable = false)
+    private String title;
 }

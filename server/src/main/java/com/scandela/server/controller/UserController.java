@@ -1,6 +1,7 @@
 package com.scandela.server.controller;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -13,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.scandela.server.entity.User;
-import com.scandela.server.service.IEmailService;
 import com.scandela.server.exception.UserException;
+import com.scandela.server.service.IEmailService;
 import com.scandela.server.service.IUserService;
 
 @CrossOrigin//TODO a changer dans le future en mettant un access token
@@ -49,7 +50,7 @@ public class UserController extends AbstractController {
 	 * @return user
 	 */
 	@GetMapping("/{id}")
-	public User getUser(@PathVariable long id) {
+	public User getUser(@PathVariable UUID id) {
 		return userService.get(id);
 	}
 
@@ -73,7 +74,7 @@ public class UserController extends AbstractController {
 	 * @param id
 	 */
 	@DeleteMapping("/delete/{id}")
-	public void deleteUser(@PathVariable long id) {
+	public void deleteUser(@PathVariable UUID id) {
 		userService.delete(id);
 	}
 

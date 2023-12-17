@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -42,11 +43,11 @@ public class UserServiceTest {
 	@Mock
 	private TownDao townDaoMock;
 	
-	private final long id = 1;
+	private final UUID id = UUID.randomUUID();
 	private final String email = "test@test.test";
 	private final String username = "tester";
 	private final String password = "test";
-	private final String role = "role";
+	private final Integer rights = 1;
 	private final Town town = Town.builder().id(id).build();
 	private final List<Decision> decisions = Arrays.asList(Decision.builder().id(id).build());
 	private final User user = User.builder()
@@ -55,7 +56,7 @@ public class UserServiceTest {
 			.email(email)
 			.username(username)
 			.password(password)
-			.role(role)
+			.rights(rights)
 			.moreInformations(new ArrayList<>())
 			.darkmode(true)
 			.lastConnexion(LocalDateTime.now())
@@ -78,7 +79,7 @@ public class UserServiceTest {
 		assertThat(resultedUser.getEmail()).isEqualTo(user.getEmail());
 		assertThat(resultedUser.getUsername()).isEqualTo(user.getUsername());
 		assertThat(resultedUser.getPassword()).isEqualTo(user.getPassword());
-		assertThat(resultedUser.getRole()).isEqualTo(user.getRole());
+		assertThat(resultedUser.getRights()).isEqualTo(user.getRights());
 		assertThat(resultedUser.getMoreInformations()).isEqualTo(user.getMoreInformations());
 		assertThat(resultedUser.isDarkmode()).isEqualTo(user.isDarkmode());
 		assertThat(resultedUser.getLastConnexion().toString()).isEqualTo(user.getLastConnexion().toString());
@@ -88,23 +89,23 @@ public class UserServiceTest {
 	@Test
 	public void testGetAll_whenManyUsers_thenReturnManyUsers() {
 		Town town2 = Town.builder()
-				.id(Long.valueOf(2))
+				.id(UUID.randomUUID())
 				.name("Test2")
 				.latitude(89.0913)
 				.longitude(3.4543)
-				.electricityPrice(32)
+				.electricityPrice(32f)
 				.indiceElectricity(0.45f)
 				.indiceEcology(0.78f)
 				.indiceQuality(0.17f)
 				.build();
 		
 		User user2 = User.builder()
-				.id(Long.valueOf(2))
+				.id(UUID.randomUUID())
 				.town(town2)
 				.email("test2@test2.test2")
 				.username("tester2")
 				.password("test2")
-				.role("role2")
+				.rights(2)
 				.lastConnexion(LocalDateTime.now())
 				.build();
 		
@@ -138,7 +139,7 @@ public class UserServiceTest {
 		assertThat(result.getEmail()).isEqualTo(user.getEmail());
 		assertThat(result.getUsername()).isEqualTo(user.getUsername());
 		assertThat(result.getPassword()).isEqualTo(user.getPassword());
-		assertThat(result.getRole()).isEqualTo(user.getRole());
+		assertThat(result.getRights()).isEqualTo(user.getRights());
 		assertThat(result.getMoreInformations()).isEqualTo(user.getMoreInformations());
 		assertThat(result.isDarkmode()).isEqualTo(user.isDarkmode());
 		assertThat(result.getLastConnexion().toString()).isEqualTo(user.getLastConnexion().toString());
@@ -158,18 +159,18 @@ public class UserServiceTest {
 	@Test
 	public void testCreate() throws UserException {
 		when(userDaoMock.save(Mockito.any(User.class))).thenReturn(user);
-		when(townDaoMock.findById(Mockito.anyLong())).thenReturn(Optional.ofNullable(town));
+		when(townDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(town));
 		
 		User result = testedObject.create(user);
 
 		verify(userDaoMock, times(1)).save(Mockito.any(User.class));
-		verify(townDaoMock, times(1)).findById(Mockito.anyLong());
+		verify(townDaoMock, times(1)).findById(Mockito.any());
 		assertThat(result.getId()).isEqualTo(user.getId());
 		assertThat(result.getTown()).isEqualTo(user.getTown());
 		assertThat(result.getEmail()).isEqualTo(user.getEmail());
 		assertThat(result.getUsername()).isEqualTo(user.getUsername());
 		assertThat(result.getPassword()).isEqualTo(user.getPassword());
-		assertThat(result.getRole()).isEqualTo(user.getRole());
+		assertThat(result.getRights()).isEqualTo(user.getRights());
 		assertThat(result.getMoreInformations()).isEqualTo(user.getMoreInformations());
 		assertThat(result.isDarkmode()).isEqualTo(user.isDarkmode());
 		assertThat(result.getLastConnexion().toString()).isEqualTo(user.getLastConnexion().toString());
@@ -183,7 +184,7 @@ public class UserServiceTest {
 		UserException result = assertThrows(UserException.class, () -> testedObject.create(user));
 
 		verify(userDaoMock, times(0)).save(Mockito.any(User.class));
-		verify(townDaoMock, times(0)).findById(Mockito.anyLong());
+		verify(townDaoMock, times(0)).findById(Mockito.any());
 		assertThat(result.getMessage()).isEqualTo(UserException.INCOMPLETE_INFORMATIONS);
 	}
 	
@@ -192,12 +193,12 @@ public class UserServiceTest {
 		user.setEmail(null);
 
 		when(userDaoMock.save(Mockito.any(User.class))).thenThrow(DataIntegrityViolationException.class);
-		when(townDaoMock.findById(Mockito.anyLong())).thenReturn(Optional.ofNullable(town));
+		when(townDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(town));
 		
 		UserException result = assertThrows(UserException.class, () -> testedObject.create(user));
 
 		verify(userDaoMock, times(1)).save(Mockito.any(User.class));
-		verify(townDaoMock, times(1)).findById(Mockito.anyLong());
+		verify(townDaoMock, times(1)).findById(Mockito.any());
 		assertThat(result.getMessage()).isEqualTo(UserException.INCOMPLETE_INFORMATIONS);
 	}
 	
@@ -206,12 +207,12 @@ public class UserServiceTest {
 		user.setUsername(null);
 
 		when(userDaoMock.save(Mockito.any(User.class))).thenThrow(DataIntegrityViolationException.class);
-		when(townDaoMock.findById(Mockito.anyLong())).thenReturn(Optional.ofNullable(town));
+		when(townDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(town));
 		
 		UserException result = assertThrows(UserException.class, () -> testedObject.create(user));
 
 		verify(userDaoMock, times(1)).save(Mockito.any(User.class));
-		verify(townDaoMock, times(1)).findById(Mockito.anyLong());
+		verify(townDaoMock, times(1)).findById(Mockito.any());
 		assertThat(result.getMessage()).isEqualTo(UserException.INCOMPLETE_INFORMATIONS);
 	}
 	
@@ -219,37 +220,37 @@ public class UserServiceTest {
 	public void testCreate_whenPasswordIsNull_thenThrowUserException() {
 		user.setPassword(null);
 		
-		when(townDaoMock.findById(Mockito.anyLong())).thenReturn(Optional.ofNullable(town));
+		when(townDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(town));
 
 		UserException result = assertThrows(UserException.class, () -> testedObject.create(user));
 
 		verify(userDaoMock, times(0)).save(Mockito.any(User.class));
-		verify(townDaoMock, times(1)).findById(Mockito.anyLong());
+		verify(townDaoMock, times(1)).findById(Mockito.any());
 		assertThat(result.getMessage()).isEqualTo(UserException.INCOMPLETE_INFORMATIONS);
 	}
 	
 	@Test
 	public void testCreate_whenRoleIsNull_thenThrowUserException() {
-		user.setRole(null);
+		user.setRights(null);
 
 		when(userDaoMock.save(Mockito.any(User.class))).thenThrow(DataIntegrityViolationException.class);
-		when(townDaoMock.findById(Mockito.anyLong())).thenReturn(Optional.ofNullable(town));
+		when(townDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(town));
 		
 		UserException result = assertThrows(UserException.class, () -> testedObject.create(user));
 
 		verify(userDaoMock, times(1)).save(Mockito.any(User.class));
-		verify(townDaoMock, times(1)).findById(Mockito.anyLong());
+		verify(townDaoMock, times(1)).findById(Mockito.any());
 		assertThat(result.getMessage()).isEqualTo(UserException.INCOMPLETE_INFORMATIONS);
 	}
 	
 	@Test
 	public void testCreate_whenTownNotFound_thenThrowUserException() throws UserException {
-		when(townDaoMock.findById(Mockito.anyLong())).thenReturn(Optional.empty());
+		when(townDaoMock.findById(Mockito.any())).thenReturn(Optional.empty());
 		
 		UserException result = assertThrows(UserException.class, () -> testedObject.create(user));
 
 		verify(userDaoMock, times(0)).save(Mockito.any(User.class));
-		verify(townDaoMock, times(1)).findById(Mockito.anyLong());
+		verify(townDaoMock, times(1)).findById(Mockito.any());
 		assertThat(result.getMessage()).isEqualTo(UserException.TOWN_LOADING);
 	}
 	

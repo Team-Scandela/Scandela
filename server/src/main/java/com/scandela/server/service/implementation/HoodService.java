@@ -1,6 +1,7 @@
 package com.scandela.server.service.implementation;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,7 +51,7 @@ public class HoodService extends AbstractService<Hood> implements IHoodService {
 			throw new HoodException(HoodException.INCOMPLETE_INFORMATIONS);
 		}
 	
-		long townId = newHood.getTown().getId();
+		UUID townId = newHood.getTown().getId();
 		
 		Optional<Town> town = townDao.findById(townId);
 		if (town.isEmpty()) {

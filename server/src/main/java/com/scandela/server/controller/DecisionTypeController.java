@@ -1,6 +1,7 @@
 package com.scandela.server.controller;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -45,7 +46,7 @@ public class DecisionTypeController extends AbstractController {
 	 * @return decisionType
 	 */
 	@GetMapping("/{id}")
-	public DecisionType getDecisionType(@PathVariable long id) {
+	public DecisionType getDecisionType(@PathVariable UUID id) {
 		return decisionTypeService.get(id);
 	}
 
@@ -67,7 +68,7 @@ public class DecisionTypeController extends AbstractController {
 	 * @param id
 	 */
 	@DeleteMapping("/delete/{id}")
-	public void deleteDecisionType(@PathVariable long id) {
+	public void deleteDecisionType(@PathVariable UUID id) {
 		decisionTypeService.delete(id);
 	}
 

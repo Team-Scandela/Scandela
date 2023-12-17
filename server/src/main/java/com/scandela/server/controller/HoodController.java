@@ -1,6 +1,7 @@
 package com.scandela.server.controller;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -45,7 +46,7 @@ public class HoodController extends AbstractController {
 	 * @return hood
 	 */
 	@GetMapping("/{id}")
-	public Hood getHood(@PathVariable long id) {
+	public Hood getHood(@PathVariable UUID id) {
 		return hoodService.get(id);
 	}
 
@@ -67,7 +68,7 @@ public class HoodController extends AbstractController {
 	 * @param id
 	 */
 	@DeleteMapping("/delete/{id}")
-	public void deleteHood(@PathVariable long id) {
+	public void deleteHood(@PathVariable UUID id) {
 		hoodService.delete(id);
 	}
 

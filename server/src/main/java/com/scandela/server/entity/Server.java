@@ -10,7 +10,7 @@ import lombok.Data;
 public class Server {
 
 	// Attributes \\
-		// Private \\
+	// Private \\
 	private String name;
 	private List<String> team;
 
