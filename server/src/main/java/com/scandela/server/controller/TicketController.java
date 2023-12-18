@@ -8,10 +8,12 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.scandela.server.entity.Ticket;
+import com.scandela.server.entity.Town;
 import com.scandela.server.service.ITicketService;
 
 @RestController
@@ -31,9 +33,9 @@ public class TicketController extends AbstractController {
 		return ticketService.get(id);
 	}
 
-    @PostMapping
-    public void createTicket() {
-        ;
+    @PostMapping("/create")
+    public Ticket createTicket(@RequestBody Ticket newTicket) throws Exception {
+        return ticketService.create(newTicket);
     }
 
     @DeleteMapping("/delete/{id}")

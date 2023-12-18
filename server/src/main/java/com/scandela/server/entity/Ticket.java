@@ -1,6 +1,7 @@
 package com.scandela.server.entity;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -31,10 +32,10 @@ import lombok.NoArgsConstructor;
 public class Ticket implements Serializable {
 
     @Id
-	@GenericGenerator(name = "UUIDGenerator", strategy = "uuid2")
+    @GenericGenerator(name = "UUIDGenerator", strategy = "uuid2")
     @GeneratedValue(generator = "UUIDGenerator")
-	@Column(name = "uuid", updatable = false, nullable = false)
-	private UUID id;
+    @Column(name = "uuid", updatable = false, nullable = false)
+    private UUID id;
 
     @Column(name = "author", updatable = false)
     private String author;
@@ -44,4 +45,10 @@ public class Ticket implements Serializable {
 
     @Column(name = "content", updatable = false)
     private String content;
+
+    @Column(name = "date", updatable = false)
+    private LocalDateTime date;
+
+    @Column(name = "status", updatable = false)
+    private Integer status;
 }
