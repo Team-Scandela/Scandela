@@ -12,18 +12,21 @@ export const GaugeContainerLeft = styled(GaugeContainer)`
     bottom: ${(props) => (props.decisionPanelExtended ? 55 : 30)}px;
     right: ${(props) => (props.decisionPanelExtended ? 325 : 175)}px;
     transition: all 0.5s ease-in-out;
+    z-index: 2;
 `;
 
 export const GaugeContainerMiddle = styled(GaugeContainer)`
     bottom: ${(props) => (props.decisionPanelExtended ? 55 : 30)}px;
     right: ${(props) => (props.decisionPanelExtended ? 220 : 100)}px;
     transition: all 0.5s ease-in-out;
+    z-index: 2;
 `;
 
 export const GaugeContainerRight = styled(GaugeContainer)`
     bottom: ${(props) => (props.decisionPanelExtended ? 55 : 30)}px;
     right: ${(props) => (props.decisionPanelExtended ? 115 : 25)}px;
     transition: all 0.5s ease-in-out;
+    z-index: 2;
 `;
 
 export const GaugeContainerPersonnalized = styled(GaugeContainer)`

@@ -3,6 +3,7 @@ import './translation/translation';
 import './App.css';
 import Main from './pages/main';
 import Login from './pages/login';
+import LandingPage from './pages/landingpage';
 import Redirect from './pages/redirect';
 import MainDB from './pages/maindb';
 import Test from './pages/test';
@@ -30,9 +31,10 @@ const App: React.FC = () => {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<Main />} />
+                <Route path="/" element={<LandingPage />} />
                 <Route path="/fromdb" element={<MainDB />} />
                 <Route path="/login" element={<Login />} />
+                <Route path="/scandela" element={<Main />} />
                 <Route path="/redirect" element={<Redirect />} />
             </Routes>
         </BrowserRouter>

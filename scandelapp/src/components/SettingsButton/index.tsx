@@ -44,7 +44,7 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({
     };
 
     const handleLogout = () => {
-        navigate('/login');
+        navigate('/');
     };
 
     function launchScript(argument: string) {
