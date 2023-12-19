@@ -9,7 +9,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfiguration {
 	@Bean
 	public SecurityFilterChain getSecurityFilterChain(HttpSecurity httpSecurity) throws Exception {
-		httpSecurity.authorizeHttpRequests((authentication) -> authentication.requestMatchers("/").authenticated())
+		httpSecurity.authorizeHttpRequests((authentication) -> authentication.anyRequest().authenticated())
 					.httpBasic();
 		
 		return httpSecurity.build();
