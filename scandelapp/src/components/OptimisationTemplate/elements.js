@@ -15,10 +15,10 @@ export const OptimisationTemplateContainer = styled.div`
         props.isDark && props.checked
             ? Green + 'FF'
             : props.isDark && !props.checked
-            ? Grey + 'FF'
-            : !props.isDark && props.checked
-            ? Green + 'FF'
-            : Grey + 'FF'};
+              ? Grey + 'FF'
+              : !props.isDark && props.checked
+                ? Green + 'FF'
+                : Grey + 'FF'};
     margin: 6px;
     border: 2px solid ${Black};
     cursor: pointer;
