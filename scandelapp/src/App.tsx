@@ -6,22 +6,22 @@ import Login from './pages/login';
 import Redirect from './pages/redirect';
 import MainDB from './pages/maindb';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-//import LoadingPage from './components/LoadingPage';
+import LoadingPage from './components/LoadingPage';
 
 /** Route page */
 const App: React.FC = () => {
-    /*const [testIsLoading, setTestIsLoading] = React.useState(true);
+    const [testIsLoading, setTestIsLoading] = React.useState(true);
 
     React.useEffect(() => {
         const timeout = setTimeout(() => {
             setTestIsLoading(false);
         }, 7000);
         return () => clearTimeout(timeout);
-    }, []); */
+    }, []);
 
     return (
         <>
-            {/*<LoadingPage isLoading={testIsLoading} />*/}
+            <LoadingPage isLoading={testIsLoading} />
             <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<Main />} />
