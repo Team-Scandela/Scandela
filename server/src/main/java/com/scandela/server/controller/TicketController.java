@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.scandela.server.entity.Ticket;
-import com.scandela.server.entity.Town;
 import com.scandela.server.service.ITicketService;
 
 @RestController
