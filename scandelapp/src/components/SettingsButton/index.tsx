@@ -40,7 +40,7 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({
     };
 
     function launchScript(argument: string) {
-        fetch(`http://db.scandela.fr/script`, {
+        fetch(`http://localhost:3001/script`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

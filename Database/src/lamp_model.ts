@@ -97,9 +97,10 @@ const deleteAllLamp = (request: Request, response: Response) => {
 };
 
 const launchScript = (request: Request, response: Response) => {
-    const jsonData = JSON.stringify(request.body.argument) as any;
+    const JSONData = JSON.parse(request.body.argument);
 
-    for (const item of jsonData) {
+    for (const item of JSONData) {
+        console.log(item);
         const { fields } = item;
 
         const lat = fields.geo_point_2d[0];
@@ -138,12 +139,12 @@ const launchScript = (request: Request, response: Response) => {
         // UNCOMMENT WHEN THE DEV PHASE IS OVER
         // UNCOMMENT WHEN THE DEV PHASE IS OVER
 
-        // pool.query(query, values, (error: any, results: any) => {
-        //   if (error) {
-        //     throw error;
-        //   }
-        // //   console.log(`Lamp added with ID: ${results.rows[0].uuid}`);
-        // });
+        pool.query(query, values, (error: any, results: any) => {
+            if (error) {
+                throw error;
+            }
+            console.log(`Lamp added with ID: ${results.rows[0].uuid}`);
+        });
     }
 
     response.status(200).send('Script executed successfully.');

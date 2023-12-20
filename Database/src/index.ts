@@ -27,6 +27,7 @@ app.use(function (req: Request, res: Response, next: NextFunction) {
         'Access-Control-Allow-Headers',
         'Content-Type, Access-Control-Allow-Headers'
     );
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
     next();
 });
 
@@ -39,6 +40,7 @@ app.get('/lamp', (request: Request, response: Response) => {
 });
 
 app.post('/script', (request: Request, response: Response) => {
+    console.log('script');
     lamp_model.launchScript(request, response);
 });
 
