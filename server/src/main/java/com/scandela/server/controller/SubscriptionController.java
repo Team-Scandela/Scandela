@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -32,5 +34,10 @@ public class SubscriptionController extends AbstractController {
     @GetMapping("/create-payment-intent")
     public PaymentIntent createPaymentIntent() {
         return subscriptionService.createPaymentIntent(null);
+    }
+
+    @PostMapping
+    public Subscription subscribeToPremium(@RequestBody Subscription subscription) {
+        return subscriptionService.createSubscription(subscription);
     }
 }

@@ -31,8 +31,17 @@ public class Subscription implements Serializable {
 	@Column(name = "id", updatable = false, nullable = false)
 	private UUID id;
 
+    @Column(name = "stripeId", updatable = false)
+    private String stripeId;
+
     @Column(name = "username", updatable = false)
     private String username;
+
+    @Column(name = "email", updatable = false)
+    private String email;
+
+    @Column(name = "fullName", updatable = false)
+    private String fullName;
 
     @Column(name = "startDate", updatable = false)
     private String startDate;
@@ -42,5 +51,17 @@ public class Subscription implements Serializable {
 
     @Column(name = "subscriptionType", updatable = false)
     private String subscriptionType;
+
+    @Column(name = "cardNumber", updatable = false)
+    private String cardNumber;
+
+    @Column(name = "cardExpMonth", updatable = false)
+    private String cardExpMonth;
+
+    @Column(name = "cardExpYear", updatable = false)
+    private String cardExpYear;
+
+    @Column(name = "cardCVC", updatable = false)
+    private String cardCVC;
 }
 
