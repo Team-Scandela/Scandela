@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -44,9 +45,23 @@ public class LampController extends AbstractController<Lamp> {
 	 * @return lamp
 	 */
 	@GetMapping("/{id}")
-	public Lamp getLamp(@PathVariable UUID id) {
-		return super.get(id);
+	public Lamp getLamp(@PathVariable UUID id) throws Exception {
+//		return super.get(id);
+        return ((ILampService) service).computeOptimisations(id);//Il me semble que c'est pour les tests
 	}
+
+	/**
+	 * Update lamp by id
+	 * 
+	 * @param id
+	 * @param update
+	 * @return
+	 * @throws Exception
+	 */
+    @PutMapping("/{id}")
+    public Lamp updateLamp(@PathVariable UUID id, @RequestBody Lamp update) throws Exception {
+        return super.update(id, update);
+    }
 
 	/**
 	 * Create new lamp

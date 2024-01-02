@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -60,6 +61,19 @@ public class HoodController extends AbstractController<Hood> {
 	public Hood createHood(@RequestBody Hood newHood) throws Exception {
 		return super.create(newHood);
 	}
+
+	/**
+	 * Update hood by id
+	 * 
+	 * @param id
+	 * @param update
+	 * @return
+	 * @throws Exception
+	 */
+    @PutMapping("/{id}")
+    public Hood updateHood(@PathVariable UUID id, @RequestBody Hood update) throws Exception {
+        return super.update(id, update);
+    }
 
 	/**
 	 * Delete hood

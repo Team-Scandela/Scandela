@@ -16,9 +16,7 @@ public abstract class AbstractController<T> {
 	// Attributes \\
 		// Protected \\
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
-
-		// Private \\
-	private final IService<T> service;
+	protected final IService<T> service;
 
 	// Constructors \\
 	protected AbstractController(IService<T> service) {
@@ -37,6 +35,10 @@ public abstract class AbstractController<T> {
 	
 	protected T create(T newEntity) throws Exception {
 		return service.create(newEntity);
+	}
+	
+	protected T update(UUID id, T update) throws Exception {
+		return service.update(id, update);
 	}
 	
 	protected void delete(UUID id) {

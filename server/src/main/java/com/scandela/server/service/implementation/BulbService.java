@@ -1,5 +1,7 @@
 package com.scandela.server.service.implementation;
 
+import java.util.UUID;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,6 +13,10 @@ import com.scandela.server.service.IBulbService;
 
 @Service
 public class BulbService extends AbstractService<Bulb> implements IBulbService {
+
+	// Attributes \\
+		// Private \\
+	private final String[] EDITABLES = { "intensity", "consommation", "reference" };
 
 	// Constructors \\
 	protected BulbService(BulbDao bulbDao) {
@@ -32,5 +38,17 @@ public class BulbService extends AbstractService<Bulb> implements IBulbService {
 			throw e;
 		}
 	}
+
+	@Override
+	@Transactional(rollbackFor = { Exception.class })
+    public Bulb update(UUID id, Bulb update, String... editables) throws Exception {
+		try {
+			Bulb bulb = super.update(id, update, EDITABLES);
+			
+	        return bulb;
+		} catch (Exception e) {
+			throw e;
+		}
+    }
 
 }

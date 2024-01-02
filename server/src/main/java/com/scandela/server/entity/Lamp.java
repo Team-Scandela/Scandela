@@ -11,12 +11,15 @@ import org.hibernate.type.SqlTypes;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -43,9 +46,21 @@ public class Lamp implements Serializable {
 	@Column(name = "uuid", updatable = false, nullable = false)
 	private UUID id;
 	
+	@Column(name = "name", nullable = false)
+	private String name;
+
+	@Column(name = "address", nullable = false)
+	private String address;
+	
 	@ManyToOne
 	@JoinColumn(name = "uuidbulb", nullable = false)
 	private Bulb bulb;
+	
+	//TODO Cabinet plus tard
+	
+	//TODO jsp ce que c'est
+//	@Column(name = "uuidlampshade", nullable = true)
+//	private Integer uuidlampshade;
 
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@ManyToOne
@@ -74,6 +89,23 @@ public class Lamp implements Serializable {
 
 	@JdbcTypeCode(SqlTypes.JSON)
 	@Column(name = "moreinfo", nullable = true)
-	private List<String> moreInformations;
+	private String moreInformations;
+
+    @Column(name = "recommandedOptimisations", nullable = true)
+	private List<String> recommandedOptimisations;
+
+	@Column(name = "lamptype", nullable = false)
+	private String lamptype;
+
+	@Column(name = "foyertype", nullable = false)
+	private String foyertype;
+
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+	@OneToMany(mappedBy = "lamp", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+	private List<LampDecision> lampDecisions;
+	
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+	@OneToMany(mappedBy = "lamp", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+	private List<LampIncident> lampIncidents;
 	
 }

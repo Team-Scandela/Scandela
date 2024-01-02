@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -60,6 +61,19 @@ public class IncidentController extends AbstractController<Incident> {
 	public Incident createIncident(@RequestBody Incident newIncident) throws Exception {
 		return super.create(newIncident);
 	}
+
+	/**
+	 * Update incident by id
+	 * 
+	 * @param id
+	 * @param update
+	 * @return
+	 * @throws Exception
+	 */
+    @PutMapping("/{id}")
+    public Incident updateIncident(@PathVariable UUID id, @RequestBody Incident update) throws Exception {
+        return super.update(id, update);
+    }
 
 	/**
 	 * Delete incident

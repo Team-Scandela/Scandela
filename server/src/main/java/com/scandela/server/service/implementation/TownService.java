@@ -1,5 +1,7 @@
 package com.scandela.server.service.implementation;
 
+import java.util.UUID;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,6 +13,11 @@ import com.scandela.server.service.ITownService;
 
 @Service
 public class TownService extends AbstractService<Town> implements ITownService {
+
+	// Attributes \\
+		// Private \\
+	private final String[] EDITABLES = { "name", "latitude", "longitude", "electricityPrice",
+										  "indiceElectricity", "indiceEcology", "indiceQuality" };
 
 	// Constructors \\
 	protected TownService(TownDao townDao) {
@@ -34,5 +41,17 @@ public class TownService extends AbstractService<Town> implements ITownService {
 			throw e;
 		}
 	}
+
+	@Override
+	@Transactional(rollbackFor = { Exception.class })
+    public Town update(UUID id, Town update, String... editables) throws Exception {
+		try {
+			Town town = super.update(id, update, EDITABLES);
+	        
+	        return town;
+		} catch (Exception e) {
+			throw e;
+		}
+    }
 
 }

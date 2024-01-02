@@ -19,6 +19,8 @@ public class StreetService extends AbstractService<Street> implements IStreetSer
 
 	// Attributes \\
 		// Private \\
+	private final String[] EDITABLES = { "address" };
+	
 	private HoodDao hoodDao;
 
 	// Constructors \\
@@ -43,6 +45,18 @@ public class StreetService extends AbstractService<Street> implements IStreetSer
 			throw e;
 		}
 	}
+
+	@Override
+	@Transactional(rollbackFor = { Exception.class })
+    public Street update(UUID id, Street update, String... editables) throws Exception {
+		try {
+			Street street = super.update(id, update, EDITABLES);
+	        
+	        return street;
+		} catch (Exception e) {
+			throw e;
+		}
+    }
 
 		// Private \\
 	private void loadHood(Street newStreet) throws StreetException {

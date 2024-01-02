@@ -1,10 +1,12 @@
 package com.scandela.server.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,6 +41,20 @@ public abstract class AbstractService<T> implements IService<T> {
 	@Transactional(rollbackFor = { Exception.class })
 	public T create(T newEntity) throws Exception {
 		return dao.save(newEntity);
+	}
+	
+	@Override
+	@Transactional(rollbackFor = { Exception.class })
+	public T update(UUID id, T update, String... editables) throws Exception {
+		Optional<T> entity = dao.findById(id);
+		
+		if (editables.length > 0) {
+			BeanUtils.copyProperties(update, entity.get(), editables);
+		} else {
+			BeanUtils.copyProperties(update, entity.get(), "id");
+		}
+		
+		return entity.get();
 	}
 
 	@Override

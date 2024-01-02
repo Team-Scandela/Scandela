@@ -61,7 +61,7 @@ public class LampServiceTest {
 	private final Town town = Town.builder().id(id).build();
 	private final Street street = Street.builder().id(id).build();
 	private final Bulb bulb = Bulb.builder().id(id).build();
-	private final List<String> moreInformations = Arrays.asList("test");
+	private final String moreInformations = "test";
 	private final Lamp lamp = Lamp.builder()
 			.id(id)
 			.bulb(bulb)
@@ -94,7 +94,7 @@ public class LampServiceTest {
 		assertThat(resultedLamp.getLongitude()).isEqualTo(lamp.getLongitude());
 		assertThat(resultedLamp.getLightOff()).isEqualTo(lamp.getLightOff());
 		assertThat(resultedLamp.getLightOn()).isEqualTo(lamp.getLightOn());
-		assertThat(resultedLamp.getMoreInformations()).hasSize(lamp.getMoreInformations().size());
+		assertThat(resultedLamp.getMoreInformations()).isEqualTo(lamp.getMoreInformations());
 	}
 	
 	@Test
@@ -145,7 +145,7 @@ public class LampServiceTest {
 		assertThat(result.getLongitude()).isEqualTo(lamp.getLongitude());
 		assertThat(result.getLightOff()).isEqualTo(lamp.getLightOff());
 		assertThat(result.getLightOn()).isEqualTo(lamp.getLightOn());
-		assertThat(result.getMoreInformations()).hasSize(lamp.getMoreInformations().size());
+		assertThat(result.getMoreInformations()).isEqualTo(lamp.getMoreInformations());
 	}
 	
 	@Test
@@ -179,7 +179,7 @@ public class LampServiceTest {
 		assertThat(result.getLongitude()).isEqualTo(lamp.getLongitude());
 		assertThat(result.getLightOff()).isEqualTo(lamp.getLightOff());
 		assertThat(result.getLightOn()).isEqualTo(lamp.getLightOn());
-		assertThat(result.getMoreInformations()).hasSize(lamp.getMoreInformations().size());
+		assertThat(result.getMoreInformations()).isEqualTo(lamp.getMoreInformations());
 	}
 	
 	@Test

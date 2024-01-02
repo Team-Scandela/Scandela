@@ -10,10 +10,12 @@ import com.scandela.server.dao.BulbDao;
 import com.scandela.server.dao.LampDao;
 import com.scandela.server.dao.StreetDao;
 import com.scandela.server.dao.TownDao;
+import com.scandela.server.dao.WhileAwayDao;
 import com.scandela.server.entity.Bulb;
 import com.scandela.server.entity.Lamp;
 import com.scandela.server.entity.Street;
 import com.scandela.server.entity.Town;
+import com.scandela.server.entity.WhileAway;
 import com.scandela.server.exception.LampException;
 import com.scandela.server.service.AbstractService;
 import com.scandela.server.service.ILampService;
@@ -23,23 +25,28 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
 
 	// Attributes \\
 		// Private \\
+	private final String[] EDITABLES = { "name", "address", "latitude", "longitude",
+										  "lightOn", "lightOff", "height", "moreInformations",
+										  "recommandedOptimisations", "lampType", "foyerType" };
 	private TownDao townDao;
 	private StreetDao streetDao;
 	private BulbDao bulbDao;
+    private WhileAwayDao whileAwayDao;
 
 	// Constructors \\
-	protected LampService(LampDao lampDao, TownDao townDao, StreetDao streetDao, BulbDao bulbDao) {
+	protected LampService(LampDao lampDao, TownDao townDao, StreetDao streetDao, BulbDao bulbDao, WhileAwayDao whileAwayDao) {
 		super(lampDao);
 		this.townDao = townDao;
 		this.streetDao = streetDao;
 		this.bulbDao = bulbDao;
+		this.whileAwayDao = whileAwayDao;
 	}
 
 	// Methods \\
 		// Public \\
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-	public Lamp create(Lamp newLamp) throws LampException{
+	public Lamp create(Lamp newLamp) throws LampException {
 		try {
 			loadTown(newLamp);
 			loadStreet(newLamp);
@@ -56,6 +63,63 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
 			throw e;
 		}
 	}
+
+	@Override
+	@Transactional(rollbackFor = { Exception.class })
+	public Lamp computeOptimisations(UUID id) throws LampException {
+    	Optional<Lamp> lamp = dao.findById(id);
+    	
+    	if (lamp.isEmpty()) {
+    		throw new LampException(LampException.LAMP_NOT_FOUND);
+    	}
+		
+        double tensionMoyenne = 8000; // Volts
+        double courantMoyen = 0.05; // Ampères
+
+        // Puissance(Watts) = Tension(Volts) * Courant(Ampères)
+        double puissanceMoyenne = tensionMoyenne * courantMoyen; // Watts
+
+        int fourchetteHoraireMoyenne = 7; // heures
+
+        // COUTS -> Puissance * durée d’allumage sur 1 journée(Minutes) = Conso totale
+        // journalière
+        double consommationJournalière = puissanceMoyenne * fourchetteHoraireMoyenne / 1000; // kWh
+
+        double indiceEmpreinteCarbonne = 0.5 /* moyenne CO2 / kWh */ * consommationJournalière;
+
+        lamp.get().setMoreInformations("Infos:   Puissance -> " + puissanceMoyenne + "     Consommation journalière -> "
+                + consommationJournalière + "     Empreinte carbonne -> " + indiceEmpreinteCarbonne);
+
+        if (consommationJournalière > 2) {
+            lamp.get().setMoreInformations(lamp.get().getMoreInformations()
+                    + "\n WARNING: La Consommation Journalière dépasse le seuil recommandé (2kWh) pour un point lumineux moyen!");
+        }
+
+        if (indiceEmpreinteCarbonne > 1) {
+            lamp.get().setMoreInformations(lamp.get().getMoreInformations()
+                    + "\n WARNING: L'Empreinte d'émission de carbone dépasse le seuil recommandé (1kg CO2 / jour) pour un point lumineux moyen!");;
+        }
+
+        return lamp.get();
+    }
+
+	@Override
+	@Transactional(rollbackFor = { Exception.class })
+    public Lamp update(UUID id, Lamp update, String... editables) throws Exception {
+		try {
+			Lamp lamp = super.update(id, update, EDITABLES);
+
+	        WhileAway whileAway = new WhileAway();
+
+	        whileAway.setId(lamp.getId());
+	        whileAway.setUpdatedData(update.toString());
+	        whileAwayDao.save(whileAway);
+	        
+	        return lamp;
+		} catch (Exception e) {
+			throw e;
+		}
+    }
 
 		// Private \\
 	private void loadTown(Lamp newLamp) throws LampException {

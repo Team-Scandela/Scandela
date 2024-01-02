@@ -21,7 +21,9 @@ import com.scandela.server.service.IUserService;
 public class UserService extends AbstractService<User> implements IUserService {
 
 	// Attributes \\
-	// Private \\
+		// Private \\
+	private final String[] EDITABLES = { "email", "username", "password", "rights",
+										 "moreInformations", "darkmode", "lastConnexion" };
 	private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 	private TownDao townDao;
@@ -55,6 +57,18 @@ public class UserService extends AbstractService<User> implements IUserService {
 			throw e;
 		}
 	}
+
+	@Override
+	@Transactional(rollbackFor = { Exception.class })
+    public User update(UUID id, User update, String... editables) throws Exception {
+		try {
+			User user = super.update(id, update, EDITABLES);
+	        
+	        return user;
+		} catch (Exception e) {
+			throw e;
+		}
+    }
 
 	// Private \\
 	private void loadTown(User newUser) throws UserException {

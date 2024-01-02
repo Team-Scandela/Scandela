@@ -19,6 +19,8 @@ public class HoodService extends AbstractService<Hood> implements IHoodService {
 
 	// Attributes \\
 		// Private \\
+	private final String[] EDITABLES = { "name", "latitude", "longitude" };
+	
 	private TownDao townDao;
 
 	// Constructors \\
@@ -44,6 +46,18 @@ public class HoodService extends AbstractService<Hood> implements IHoodService {
 			throw e;
 		}
 	}
+
+	@Override
+	@Transactional(rollbackFor = { Exception.class })
+    public Hood update(UUID id, Hood update, String... editables) throws Exception {
+		try {
+			Hood hood = super.update(id, update, EDITABLES);
+	        
+	        return hood;
+		} catch (Exception e) {
+			throw e;
+		}
+    }
 
 		// Private \\
 	private void loadTown(Hood newHood) throws HoodException {
