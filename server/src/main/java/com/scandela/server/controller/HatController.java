@@ -13,45 +13,57 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.scandela.server.entity.Lamp;
-import com.scandela.server.service.ILampService;
+import com.scandela.server.entity.Hat;
+import com.scandela.server.exception.HatException;
+import com.scandela.server.service.IHatService;
 
 @CrossOrigin
 @RestController
-@RequestMapping(value = "/lamps")
-public class LampController extends AbstractController<Lamp> {
+@RequestMapping(value = "/hats")
+public class HatController extends AbstractController<Hat> {
 	
 	// Constructors \\
-	protected LampController(ILampService lampService) {
-		super(lampService);
+	protected HatController(IHatService hatService) {
+		super(hatService);
 	}
 
 	// Methods \\
 		// Public \\
 	/**
-	 * Get all lamps
+	 * Get all hats
 	 * 
-	 * @return allLamps
+	 * @return allHats
 	 */
 	@GetMapping
-	public List<Lamp> getLamps() {
+	public List<Hat> getHats() {
 		return super.getAll();
 	}
 
 	/**
-	 * Get lamp by id
+	 * Get hat by id
 	 * 
 	 * @param id
-	 * @return lamp
+	 * @return hat
 	 */
 	@GetMapping("/{id}")
-	public Lamp getLamp(@PathVariable UUID id) throws Exception {
-//		return super.get(id);
-        return ((ILampService) service).computeOptimisations(id);//Il me semble que c'est pour les tests
+	public Hat getHat(@PathVariable UUID id) {
+		return super.get(id);
 	}
 
 	/**
-	 * Update lamp by id
+	 * Create new hat
+	 * 
+	 * @param newHat
+	 * @return newHat
+	 * @throws HatException
+	 */
+	@PostMapping("/create")
+	public Hat createHat(@RequestBody Hat newHat) throws Exception {
+		return super.create(newHat);
+	}
+
+	/**
+	 * Update hat by id
 	 * 
 	 * @param id
 	 * @param update
@@ -59,29 +71,17 @@ public class LampController extends AbstractController<Lamp> {
 	 * @throws Exception
 	 */
     @PutMapping("/{id}")
-    public Lamp updateLamp(@PathVariable UUID id, @RequestBody Lamp update) throws Exception {
+    public Hat updateHat(@PathVariable UUID id, @RequestBody Hat update) throws Exception {
         return super.update(id, update);
     }
 
 	/**
-	 * Create new lamp
-	 * 
-	 * @param newLamp
-	 * @return newLamp
-	 * @throws LampException
-	 */
-	@PostMapping("/create")
-	public Lamp createLamp(@RequestBody Lamp newLamp) throws Exception {
-		return super.create(newLamp);
-	}
-
-	/**
-	 * Delete lamp
+	 * Delete hat
 	 * 
 	 * @param id
 	 */
 	@DeleteMapping("/delete/{id}")
-	public void deleteLamp(@PathVariable UUID id) {
+	public void deleteHat(@PathVariable UUID id) {
 		super.delete(id);
 	}
 

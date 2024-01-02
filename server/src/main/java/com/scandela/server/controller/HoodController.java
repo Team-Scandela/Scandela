@@ -17,7 +17,7 @@ import com.scandela.server.entity.Hood;
 import com.scandela.server.exception.HoodException;
 import com.scandela.server.service.IHoodService;
 
-@CrossOrigin//TODO a changer dans le future en mettant un access token
+@CrossOrigin
 @RestController
 @RequestMapping(value = "/hoods")
 public class HoodController extends AbstractController<Hood> {

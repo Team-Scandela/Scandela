@@ -17,7 +17,7 @@ import com.scandela.server.entity.LampDecision;
 import com.scandela.server.exception.LampDecisionException;
 import com.scandela.server.service.ILampDecisionService;
 
-@CrossOrigin//TODO a changer dans le future en mettant un access token
+@CrossOrigin
 @RestController
 @RequestMapping(value = "/lampDecisions")
 public class LampDecisionController extends AbstractController<LampDecision> {

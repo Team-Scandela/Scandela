@@ -17,7 +17,7 @@ import com.scandela.server.entity.Incident;
 import com.scandela.server.exception.IncidentException;
 import com.scandela.server.service.IIncidentService;
 
-@CrossOrigin//TODO a changer dans le future en mettant un access token
+@CrossOrigin
 @RestController
 @RequestMapping(value = "/incidents")
 public class IncidentController extends AbstractController<Incident> {

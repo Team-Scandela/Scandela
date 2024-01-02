@@ -17,7 +17,7 @@ import com.scandela.server.entity.LampIncident;
 import com.scandela.server.exception.LampIncidentException;
 import com.scandela.server.service.ILampIncidentService;
 
-@CrossOrigin//TODO a changer dans le future en mettant un access token
+@CrossOrigin
 @RestController
 @RequestMapping(value = "/lampIncidents")
 public class LampIncidentController extends AbstractController<LampIncident> {

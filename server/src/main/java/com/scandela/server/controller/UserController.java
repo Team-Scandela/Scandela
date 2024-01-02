@@ -19,7 +19,7 @@ import com.scandela.server.exception.UserException;
 import com.scandela.server.service.IEmailService;
 import com.scandela.server.service.IUserService;
 
-@CrossOrigin//TODO a changer dans le future en mettant un access token
+@CrossOrigin
 @RestController
 @RequestMapping(value = "/users")
 public class UserController extends AbstractController<User> {

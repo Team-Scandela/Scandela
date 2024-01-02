@@ -51,12 +51,18 @@ public class Lamp implements Serializable {
 
 	@Column(name = "address", nullable = false)
 	private String address;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "uuidbulb", nullable = false)
 	private Bulb bulb;
 	
-	//TODO Cabinet plus tard
+	@ManyToOne
+	@JoinColumn(name = "uuidcabinet", nullable = false)
+	private Cabinet cabinet;
+	
+	@ManyToOne
+	@JoinColumn(name = "uuidhat", nullable = false)
+	private Hat hat;
 	
 	//TODO jsp ce que c'est
 //	@Column(name = "uuidlampshade", nullable = true)

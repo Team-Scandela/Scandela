@@ -13,45 +13,57 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.scandela.server.entity.Lamp;
-import com.scandela.server.service.ILampService;
+import com.scandela.server.entity.Cabinet;
+import com.scandela.server.exception.CabinetException;
+import com.scandela.server.service.ICabinetService;
 
 @CrossOrigin
 @RestController
-@RequestMapping(value = "/lamps")
-public class LampController extends AbstractController<Lamp> {
+@RequestMapping(value = "/cabinets")
+public class CabinetController extends AbstractController<Cabinet> {
 	
 	// Constructors \\
-	protected LampController(ILampService lampService) {
-		super(lampService);
+	protected CabinetController(ICabinetService cabinetService) {
+		super(cabinetService);
 	}
 
 	// Methods \\
 		// Public \\
 	/**
-	 * Get all lamps
+	 * Get all cabinets
 	 * 
-	 * @return allLamps
+	 * @return allCabinets
 	 */
 	@GetMapping
-	public List<Lamp> getLamps() {
+	public List<Cabinet> getCabinets() {
 		return super.getAll();
 	}
 
 	/**
-	 * Get lamp by id
+	 * Get cabinet by id
 	 * 
 	 * @param id
-	 * @return lamp
+	 * @return cabinet
 	 */
 	@GetMapping("/{id}")
-	public Lamp getLamp(@PathVariable UUID id) throws Exception {
-//		return super.get(id);
-        return ((ILampService) service).computeOptimisations(id);//Il me semble que c'est pour les tests
+	public Cabinet getCabinet(@PathVariable UUID id) {
+		return super.get(id);
 	}
 
 	/**
-	 * Update lamp by id
+	 * Create new cabinet
+	 * 
+	 * @param newCabinet
+	 * @return newCabinet
+	 * @throws CabinetException
+	 */
+	@PostMapping("/create")
+	public Cabinet createCabinet(@RequestBody Cabinet newCabinet) throws Exception {
+		return super.create(newCabinet);
+	}
+
+	/**
+	 * Update cabinet by id
 	 * 
 	 * @param id
 	 * @param update
@@ -59,29 +71,17 @@ public class LampController extends AbstractController<Lamp> {
 	 * @throws Exception
 	 */
     @PutMapping("/{id}")
-    public Lamp updateLamp(@PathVariable UUID id, @RequestBody Lamp update) throws Exception {
+    public Cabinet updateCabinet(@PathVariable UUID id, @RequestBody Cabinet update) throws Exception {
         return super.update(id, update);
     }
 
 	/**
-	 * Create new lamp
-	 * 
-	 * @param newLamp
-	 * @return newLamp
-	 * @throws LampException
-	 */
-	@PostMapping("/create")
-	public Lamp createLamp(@RequestBody Lamp newLamp) throws Exception {
-		return super.create(newLamp);
-	}
-
-	/**
-	 * Delete lamp
+	 * Delete cabinet
 	 * 
 	 * @param id
 	 */
 	@DeleteMapping("/delete/{id}")
-	public void deleteLamp(@PathVariable UUID id) {
+	public void deleteCabinet(@PathVariable UUID id) {
 		super.delete(id);
 	}
 

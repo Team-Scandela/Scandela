@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.scandela.server.entity.Server;
 import com.scandela.server.service.IServerService;
 
-@CrossOrigin//TODO a changer dans le future en mettant un access token
+@CrossOrigin
 @RestController
 @RequestMapping(value = "/")
 public class ServerController {

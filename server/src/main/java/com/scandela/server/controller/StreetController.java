@@ -17,7 +17,7 @@ import com.scandela.server.entity.Street;
 import com.scandela.server.exception.StreetException;
 import com.scandela.server.service.IStreetService;
 
-@CrossOrigin//TODO a changer dans le future en mettant un access token
+@CrossOrigin
 @RestController
 @RequestMapping(value = "/streets")
 public class StreetController extends AbstractController<Street> {

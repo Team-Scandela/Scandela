@@ -17,7 +17,7 @@ import com.scandela.server.entity.Bulb;
 import com.scandela.server.exception.BulbException;
 import com.scandela.server.service.IBulbService;
 
-@CrossOrigin//TODO a changer dans le future en mettant un access token
+@CrossOrigin
 @RestController
 @RequestMapping(value = "/bulbs")
 public class BulbController extends AbstractController<Bulb> {

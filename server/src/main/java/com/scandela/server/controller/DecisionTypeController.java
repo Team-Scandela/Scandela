@@ -17,7 +17,7 @@ import com.scandela.server.entity.DecisionType;
 import com.scandela.server.exception.DecisionTypeException;
 import com.scandela.server.service.IDecisionTypeService;
 
-@CrossOrigin//TODO a changer dans le future en mettant un access token
+@CrossOrigin
 @RestController
 @RequestMapping(value = "/decisionTypes")
 public class DecisionTypeController extends AbstractController<DecisionType> {
