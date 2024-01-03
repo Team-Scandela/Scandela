@@ -2,6 +2,7 @@ package com.scandela.server.controller;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.scandela.server.entity.Lamp;
+import com.scandela.server.entity.dto.LampDto;
+import com.scandela.server.exception.LampException;
 import com.scandela.server.service.ILampService;
 
 @CrossOrigin
@@ -29,13 +32,15 @@ public class LampController extends AbstractController<Lamp> {
 	// Methods \\
 		// Public \\
 	/**
-	 * Get all lamps
+	 * Get all lamps only with id and coordinates
 	 * 
 	 * @return allLamps
 	 */
 	@GetMapping
-	public List<Lamp> getLamps() {
-		return super.getAll();
+	public List<LampDto> getLamps() {
+		List<Lamp> lamps = super.getAll();
+		
+		return lamps.stream().map(lamp -> LampDto.from(lamp)).collect(Collectors.toList());
 	}
 
 	/**
