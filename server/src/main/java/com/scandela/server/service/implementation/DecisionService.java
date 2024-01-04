@@ -21,7 +21,7 @@ public class DecisionService extends AbstractService<Decision> implements IDecis
 
 	// Attributes \\
 		// Private \\
-	private final String[] EDITABLES = { "description", "validate", "cost", "benefits" };
+	private final String[] IGNORED_PROPERTIES = { "id", "user", "type" };
 	
 	private DecisionTypeDao decisionTypeDao;
 	private UserDao userDao;
@@ -54,9 +54,9 @@ public class DecisionService extends AbstractService<Decision> implements IDecis
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-    public Decision update(UUID id, Decision update, String... editables) throws Exception {
+    public Decision update(UUID id, Decision update, String... ignoredProperties) throws Exception {
 		try {
-			Decision decision = super.update(id, update, EDITABLES);
+			Decision decision = super.update(id, update, IGNORED_PROPERTIES);
 	        
 	        return decision;
 		} catch (Exception e) {

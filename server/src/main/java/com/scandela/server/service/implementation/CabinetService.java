@@ -16,7 +16,7 @@ public class CabinetService extends AbstractService<Cabinet> implements ICabinet
 
 	// Attributes \\
 		// Private \\
-	private final String[] EDITABLES = { "latitude", "longitude" };
+	private final String[] IGNORED_PROPERTIES = { "id", "lamps" };
 
 	// Constructors \\
 	protected CabinetService(CabinetDao cabinetDao) {
@@ -41,9 +41,9 @@ public class CabinetService extends AbstractService<Cabinet> implements ICabinet
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-    public Cabinet update(UUID id, Cabinet update, String... editables) throws Exception {
+    public Cabinet update(UUID id, Cabinet update, String... ignoredProperties) throws Exception {
 		try {
-			Cabinet cabinet = super.update(id, update, EDITABLES);
+			Cabinet cabinet = super.update(id, update, IGNORED_PROPERTIES);
 			
 	        return cabinet;
 		} catch (Exception e) {

@@ -161,6 +161,29 @@ public class BulbServiceTest {
 		verify(bulbDaoMock, times(1)).save(Mockito.any(Bulb.class));
 		assertThat(result.getMessage()).isEqualTo(BulbException.INCOMPLETE_INFORMATIONS);
 	}
+	
+	@Test
+	public void testUpdate() throws Exception {
+		UUID id2 = UUID.randomUUID();
+		Long intensity2 = 1188L;
+		Short consommation2 = 9;
+		String reference2 = "ref2";
+		Bulb bulb2 = Bulb.builder()
+				.id(id2)
+				.intensity(intensity2)
+				.consommation(consommation2)
+				.reference(reference2)
+				.build();
+		
+		when(bulbDaoMock.findById(id)).thenReturn(Optional.ofNullable(bulb));
+		
+		Bulb result = testedObject.update(id, bulb2);
+		
+		assertThat(result.getId()).isEqualTo(id);
+		assertThat(result.getIntensity()).isEqualTo(bulb2.getIntensity());
+		assertThat(result.getConsommation()).isEqualTo(bulb2.getConsommation());
+		assertThat(result.getReference()).isEqualTo(bulb2.getReference());
+	}
 
 	@Test
 	public void testDelete() {

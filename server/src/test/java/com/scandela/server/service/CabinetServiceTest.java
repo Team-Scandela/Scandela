@@ -161,6 +161,29 @@ public class CabinetServiceTest {
 		verify(cabinetDaoMock, times(1)).save(Mockito.any(Cabinet.class));
 		assertThat(result.getMessage()).isEqualTo(CabinetException.INCOMPLETE_INFORMATIONS);
 	}
+	
+	@Test
+	public void testUpdate() throws Exception {
+		UUID id2 = UUID.randomUUID();
+		String reference2 = "ref2";
+		Double latitude2 = 1.8;
+		Double longitude2 = 2.91;
+		Cabinet cabinet2 = Cabinet.builder()
+				.id(id2)
+				.reference(reference2)
+				.latitude(latitude2)
+				.longitude(longitude2)
+				.build();
+		
+		when(cabinetDaoMock.findById(id)).thenReturn(Optional.ofNullable(cabinet));
+		
+		Cabinet result = testedObject.update(id, cabinet2);
+		
+		assertThat(result.getId()).isEqualTo(id);
+		assertThat(result.getReference()).isEqualTo(cabinet2.getReference());
+		assertThat(result.getLatitude()).isEqualTo(cabinet2.getLatitude());
+		assertThat(result.getLongitude()).isEqualTo(cabinet2.getLongitude());
+	}
 
 	@Test
 	public void testDelete() {

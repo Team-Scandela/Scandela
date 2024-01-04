@@ -21,7 +21,7 @@ public class LampDecisionService extends AbstractService<LampDecision> implement
 
 	// Attributes \\
 		// Private \\
-	private final String[] EDITABLES = {};
+	private final String[] IGNORED_PROPERTIES = { "id", "lamp", "decision" };
 	
 	private LampDao lampDao;
 	private DecisionDao decisionDao;
@@ -53,9 +53,9 @@ public class LampDecisionService extends AbstractService<LampDecision> implement
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-    public LampDecision update(UUID id, LampDecision update, String... editables) throws Exception {
+    public LampDecision update(UUID id, LampDecision update, String... ignoredProperties) throws Exception {
 		try {
-			LampDecision lampDecision = super.update(id, update, EDITABLES);
+			LampDecision lampDecision = super.update(id, update, IGNORED_PROPERTIES);
 	        
 	        return lampDecision;
 		} catch (Exception e) {

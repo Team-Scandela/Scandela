@@ -182,6 +182,20 @@ public class LampDecisionServiceTest {
 		verify(decisionDaoMock, times(1)).findById(Mockito.any());
 		assertThat(result.getMessage()).isEqualTo(LampDecisionException.DECISION_LOADING);
 	}
+	
+	@Test
+	public void testUpdate() throws Exception {
+		UUID id2 = UUID.randomUUID();
+		LampDecision lampDecision2 = LampDecision.builder()
+				.id(id2)
+				.build();
+		
+		when(lampDecisionDaoMock.findById(id)).thenReturn(Optional.ofNullable(lampDecision));
+		
+		LampDecision result = testedObject.update(id, lampDecision2);
+		
+		assertThat(result.getId()).isEqualTo(id);
+	}
 
 	@Test
 	public void testDelete() {

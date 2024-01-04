@@ -61,12 +61,8 @@ public class Lamp implements Serializable {
 	private Cabinet cabinet;
 	
 	@ManyToOne
-	@JoinColumn(name = "uuidhat", nullable = false)
-	private Hat hat;
-	
-	//TODO jsp ce que c'est
-//	@Column(name = "uuidlampshade", nullable = true)
-//	private Integer uuidlampshade;
+	@JoinColumn(name = "uuidlampshade", nullable = false)
+	private LampShade lampShade;
 
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@ManyToOne

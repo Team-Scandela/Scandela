@@ -45,11 +45,11 @@ public abstract class AbstractService<T> implements IService<T> {
 	
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-	public T update(UUID id, T update, String... editables) throws Exception {
+	public T update(UUID id, T update, String... ignoredProperties) throws Exception {
 		Optional<T> entity = dao.findById(id);
-		
-		if (editables.length > 0) {
-			BeanUtils.copyProperties(update, entity.get(), editables);
+
+		if (ignoredProperties.length > 0) {
+			BeanUtils.copyProperties(update, entity.get(), ignoredProperties);
 		} else {
 			BeanUtils.copyProperties(update, entity.get(), "id");
 		}

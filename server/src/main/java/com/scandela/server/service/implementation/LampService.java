@@ -7,12 +7,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.scandela.server.dao.BulbDao;
+import com.scandela.server.dao.CabinetDao;
 import com.scandela.server.dao.LampDao;
+import com.scandela.server.dao.LampShadeDao;
 import com.scandela.server.dao.StreetDao;
 import com.scandela.server.dao.TownDao;
 import com.scandela.server.dao.WhileAwayDao;
 import com.scandela.server.entity.Bulb;
+import com.scandela.server.entity.Cabinet;
 import com.scandela.server.entity.Lamp;
+import com.scandela.server.entity.LampShade;
 import com.scandela.server.entity.Street;
 import com.scandela.server.entity.Town;
 import com.scandela.server.entity.WhileAway;
@@ -25,20 +29,22 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
 
 	// Attributes \\
 		// Private \\
-	private final String[] EDITABLES = { "name", "address", "latitude", "longitude",
-										  "lightOn", "lightOff", "height", "moreInformations",
-										  "recommandedOptimisations", "lampType", "foyerType" };
+	private final String[] IGNORED_PROPERTIES = { "id", "cabinet", "lampShade", "bulb", "town", "street", "lampDecisions", "lampIncidents" };
 	private TownDao townDao;
 	private StreetDao streetDao;
 	private BulbDao bulbDao;
+	private CabinetDao cabinetDao;
+	private LampShadeDao lampShadeDao;
     private WhileAwayDao whileAwayDao;
 
 	// Constructors \\
-	protected LampService(LampDao lampDao, TownDao townDao, StreetDao streetDao, BulbDao bulbDao, WhileAwayDao whileAwayDao) {
+	protected LampService(LampDao lampDao, TownDao townDao, StreetDao streetDao, BulbDao bulbDao, CabinetDao cabinetDao, LampShadeDao lampShadeDao, WhileAwayDao whileAwayDao) {
 		super(lampDao);
 		this.townDao = townDao;
 		this.streetDao = streetDao;
 		this.bulbDao = bulbDao;
+		this.cabinetDao = cabinetDao;
+		this.lampShadeDao = lampShadeDao;
 		this.whileAwayDao = whileAwayDao;
 	}
 
@@ -51,13 +57,16 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
 			loadTown(newLamp);
 			loadStreet(newLamp);
 			loadBulb(newLamp);
+			loadCabinet(newLamp);
+			loadLampShade(newLamp);
 			
 			return dao.save(newLamp);
 		} catch (Exception e) {
 			if (newLamp.getTown() == null || newLamp.getStreet() == null ||
 				newLamp.getLatitude() == null || newLamp.getLongitude() == null ||
 				newLamp.getLightOff() == null || newLamp.getLightOn() == null ||
-				newLamp.getHeight() == null || newLamp.getBulb() == null) {
+				newLamp.getHeight() == null || newLamp.getBulb() == null ||
+				newLamp.getCabinet() == null || newLamp.getLampShade() == null) {
 				throw new LampException(LampException.INCOMPLETE_INFORMATIONS);
 			}
 			throw e;
@@ -105,9 +114,9 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-    public Lamp update(UUID id, Lamp update, String... editables) throws Exception {
+    public Lamp update(UUID id, Lamp update, String... ignoredProperties) throws Exception {
 		try {
-			Lamp lamp = super.update(id, update, EDITABLES);
+			Lamp lamp = super.update(id, update, IGNORED_PROPERTIES);
 
 	        WhileAway whileAway = new WhileAway();
 
@@ -165,6 +174,36 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
 		}
 	
 		newLamp.setBulb(bulb.orElseGet(() -> { return null; }));
+	}
+	
+	private void loadCabinet(Lamp newLamp) throws LampException {
+		if (newLamp.getCabinet() == null) {
+			throw new LampException(LampException.INCOMPLETE_INFORMATIONS);
+		}
+	
+		UUID cabinetId = newLamp.getCabinet().getId();
+		
+		Optional<Cabinet> cabinet = cabinetDao.findById(cabinetId);
+		if (cabinet.isEmpty()) {
+			throw new LampException(LampException.CABINET_LOADING);
+		}
+	
+		newLamp.setCabinet(cabinet.orElseGet(() -> { return null; }));
+	}
+	
+	private void loadLampShade(Lamp newLamp) throws LampException {
+		if (newLamp.getLampShade() == null) {
+			throw new LampException(LampException.INCOMPLETE_INFORMATIONS);
+		}
+	
+		UUID lampShadeId = newLamp.getLampShade().getId();
+		
+		Optional<LampShade> lampShade = lampShadeDao.findById(lampShadeId);
+		if (lampShade.isEmpty()) {
+			throw new LampException(LampException.LAMPSHADE_LOADING);
+		}
+	
+		newLamp.setLampShade(lampShade.orElseGet(() -> { return null; }));
 	}
 
 }

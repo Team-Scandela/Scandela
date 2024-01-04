@@ -19,7 +19,7 @@ public class HoodService extends AbstractService<Hood> implements IHoodService {
 
 	// Attributes \\
 		// Private \\
-	private final String[] EDITABLES = { "name", "latitude", "longitude" };
+	private final String[] IGNORED_PROPERTIES = { "id", "town", "streets" };
 	
 	private TownDao townDao;
 
@@ -49,9 +49,9 @@ public class HoodService extends AbstractService<Hood> implements IHoodService {
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-    public Hood update(UUID id, Hood update, String... editables) throws Exception {
+    public Hood update(UUID id, Hood update, String... ignoredProperties) throws Exception {
 		try {
-			Hood hood = super.update(id, update, EDITABLES);
+			Hood hood = super.update(id, update, IGNORED_PROPERTIES);
 	        
 	        return hood;
 		} catch (Exception e) {

@@ -19,7 +19,7 @@ public class IncidentService extends AbstractService<Incident> implements IIncid
 
 	// Attributes \\
 		// Private \\
-	private final String[] EDITABLES = { "title", "description", "impactElectricity", "impactEcology", "impactQuality" };
+	private final String[] EDITABLES = { "id", "town", "lampIncidents" };
 	
 	private TownDao townDao;
 

@@ -182,6 +182,20 @@ public class LampIncidentServiceTest {
 		verify(incidentDaoMock, times(1)).findById(Mockito.any());
 		assertThat(result.getMessage()).isEqualTo(LampIncidentException.INCIDENT_LOADING);
 	}
+	
+	@Test
+	public void testUpdate() throws Exception {
+		UUID id2 = UUID.randomUUID();
+		LampIncident lampIncident2 = LampIncident.builder()
+				.id(id2)
+				.build();
+		
+		when(lampIncidentDaoMock.findById(id)).thenReturn(Optional.ofNullable(lampIncident));
+		
+		LampIncident result = testedObject.update(id, lampIncident2);
+		
+		assertThat(result.getId()).isEqualTo(id);
+	}
 
 	@Test
 	public void testDelete() {

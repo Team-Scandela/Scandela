@@ -1,6 +1,6 @@
 package com.scandela.server.exception;
 
-public class HatException extends Exception {
+public class LampShadeException extends Exception {
 
 	// Attributes \\
 		// Public \\
@@ -10,7 +10,7 @@ public class HatException extends Exception {
 	private static final long serialVersionUID = 1L;
 	
 	// Constructors \\
-	public HatException(String message) {
+	public LampShadeException(String message) {
 		super(message);
 	}
 

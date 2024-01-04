@@ -19,7 +19,7 @@ public class StreetService extends AbstractService<Street> implements IStreetSer
 
 	// Attributes \\
 		// Private \\
-	private final String[] EDITABLES = { "address" };
+	private final String[] IGNORED_PROPERTIES = { "id", "hood", "lamps" };
 	
 	private HoodDao hoodDao;
 
@@ -48,9 +48,9 @@ public class StreetService extends AbstractService<Street> implements IStreetSer
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-    public Street update(UUID id, Street update, String... editables) throws Exception {
+    public Street update(UUID id, Street update, String... ignoredProperties) throws Exception {
 		try {
-			Street street = super.update(id, update, EDITABLES);
+			Street street = super.update(id, update, IGNORED_PROPERTIES);
 	        
 	        return street;
 		} catch (Exception e) {

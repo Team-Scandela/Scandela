@@ -13,57 +13,57 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.scandela.server.entity.Hat;
-import com.scandela.server.exception.HatException;
-import com.scandela.server.service.IHatService;
+import com.scandela.server.entity.LampShade;
+import com.scandela.server.exception.LampShadeException;
+import com.scandela.server.service.ILampShadeService;
 
 @CrossOrigin
 @RestController
-@RequestMapping(value = "/hats")
-public class HatController extends AbstractController<Hat> {
+@RequestMapping(value = "/lampShades")
+public class LampShadeController extends AbstractController<LampShade> {
 	
 	// Constructors \\
-	protected HatController(IHatService hatService) {
-		super(hatService);
+	protected LampShadeController(ILampShadeService lampShadeService) {
+		super(lampShadeService);
 	}
 
 	// Methods \\
 		// Public \\
 	/**
-	 * Get all hats
+	 * Get all lampShades
 	 * 
-	 * @return allHats
+	 * @return allLampShades
 	 */
 	@GetMapping
-	public List<Hat> getHats() {
+	public List<LampShade> getLampShades() {
 		return super.getAll();
 	}
 
 	/**
-	 * Get hat by id
+	 * Get lampShade by id
 	 * 
 	 * @param id
-	 * @return hat
+	 * @return lampShade
 	 */
 	@GetMapping("/{id}")
-	public Hat getHat(@PathVariable UUID id) {
+	public LampShade getLampShade(@PathVariable UUID id) {
 		return super.get(id);
 	}
 
 	/**
-	 * Create new hat
+	 * Create new lampShade
 	 * 
-	 * @param newHat
-	 * @return newHat
-	 * @throws HatException
+	 * @param newLampShade
+	 * @return newLampShade
+	 * @throws LampShadeException
 	 */
 	@PostMapping("/create")
-	public Hat createHat(@RequestBody Hat newHat) throws Exception {
-		return super.create(newHat);
+	public LampShade createLampShade(@RequestBody LampShade newLampShade) throws Exception {
+		return super.create(newLampShade);
 	}
 
 	/**
-	 * Update hat by id
+	 * Update lampShade by id
 	 * 
 	 * @param id
 	 * @param update
@@ -71,17 +71,17 @@ public class HatController extends AbstractController<Hat> {
 	 * @throws Exception
 	 */
     @PutMapping("/{id}")
-    public Hat updateHat(@PathVariable UUID id, @RequestBody Hat update) throws Exception {
+    public LampShade updateLampShade(@PathVariable UUID id, @RequestBody LampShade update) throws Exception {
         return super.update(id, update);
     }
 
 	/**
-	 * Delete hat
+	 * Delete lampShade
 	 * 
 	 * @param id
 	 */
 	@DeleteMapping("/delete/{id}")
-	public void deleteHat(@PathVariable UUID id) {
+	public void deleteLampShade(@PathVariable UUID id) {
 		super.delete(id);
 	}
 

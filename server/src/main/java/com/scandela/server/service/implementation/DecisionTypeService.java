@@ -16,7 +16,7 @@ public class DecisionTypeService extends AbstractService<DecisionType> implement
 
 	// Attributes \\
 		// Private \\
-	private final String[] EDITABLES = { "title", "moreInformations" };
+	private final String[] IGNORED_PROPERTIES = { "id", "decisions" };
 
 	// Constructors \\
 	protected DecisionTypeService(DecisionTypeDao decisionTypeDao) {
@@ -40,9 +40,9 @@ public class DecisionTypeService extends AbstractService<DecisionType> implement
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-    public DecisionType update(UUID id, DecisionType update, String... editables) throws Exception {
+    public DecisionType update(UUID id, DecisionType update, String... ignoredProperties) throws Exception {
 		try {
-			DecisionType decisionType = super.update(id, update, EDITABLES);
+			DecisionType decisionType = super.update(id, update, IGNORED_PROPERTIES);
 	        
 	        return decisionType;
 		} catch (Exception e) {

@@ -5,9 +5,9 @@ import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.scandela.server.entity.Hat;
+import com.scandela.server.entity.LampShade;
 
 @Repository
-public interface HatDao extends JpaRepository<Hat, UUID> {
+public interface LampShadeDao extends JpaRepository<LampShade, UUID> {
 
 }

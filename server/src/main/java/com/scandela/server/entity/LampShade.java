@@ -28,8 +28,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-@Table(name = "hat")
-public class Hat implements Serializable {
+@Table(name = "lampshade")
+public class LampShade implements Serializable {
 
 	// Attributes \\
 		// Private \\
@@ -48,7 +48,7 @@ public class Hat implements Serializable {
 	private Double quality;
 
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-	@OneToMany(mappedBy = "hat", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "lampShade", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	private List<Lamp> lamps;
 	
 }

@@ -16,7 +16,7 @@ public class BulbService extends AbstractService<Bulb> implements IBulbService {
 
 	// Attributes \\
 		// Private \\
-	private final String[] EDITABLES = { "intensity", "consommation", "reference" };
+	private final String[] IGNORED_PROPERTIES = { "id", "lamps" };
 
 	// Constructors \\
 	protected BulbService(BulbDao bulbDao) {
@@ -41,9 +41,9 @@ public class BulbService extends AbstractService<Bulb> implements IBulbService {
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-    public Bulb update(UUID id, Bulb update, String... editables) throws Exception {
+    public Bulb update(UUID id, Bulb update, String... ignoredProperties) throws Exception {
 		try {
-			Bulb bulb = super.update(id, update, EDITABLES);
+			Bulb bulb = super.update(id, update, IGNORED_PROPERTIES);
 			
 	        return bulb;
 		} catch (Exception e) {

@@ -22,8 +22,7 @@ public class UserService extends AbstractService<User> implements IUserService {
 
 	// Attributes \\
 		// Private \\
-	private final String[] EDITABLES = { "email", "username", "password", "rights",
-										 "moreInformations", "darkmode", "lastConnexion" };
+	private final String[] IGNORED_PROPERTIES = { "id", "town", "decisions" };
 	private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 	private TownDao townDao;
@@ -60,9 +59,9 @@ public class UserService extends AbstractService<User> implements IUserService {
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-    public User update(UUID id, User update, String... editables) throws Exception {
+    public User update(UUID id, User update, String... ignoredProperties) throws Exception {
 		try {
-			User user = super.update(id, update, EDITABLES);
+			User user = super.update(id, update, IGNORED_PROPERTIES);
 	        
 	        return user;
 		} catch (Exception e) {
