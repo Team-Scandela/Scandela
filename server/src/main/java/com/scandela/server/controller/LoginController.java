@@ -12,7 +12,7 @@ import com.scandela.server.service.ILoginService;
 
 @RestController
 @RequestMapping(value = "/login")
-public class LoginController extends AbstractController {
+public class LoginController {
 
     // Attributes \\
 		// Private \\

@@ -1,5 +1,7 @@
 package com.scandela.server.service.implementation;
 
+import java.util.UUID;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,6 +13,10 @@ import com.scandela.server.service.IDecisionTypeService;
 
 @Service
 public class DecisionTypeService extends AbstractService<DecisionType> implements IDecisionTypeService {
+
+	// Attributes \\
+		// Private \\
+	private final String[] IGNORED_PROPERTIES = { "id", "decisions" };
 
 	// Constructors \\
 	protected DecisionTypeService(DecisionTypeDao decisionTypeDao) {
@@ -31,5 +37,17 @@ public class DecisionTypeService extends AbstractService<DecisionType> implement
 			throw e;
 		}
 	}
+
+	@Override
+	@Transactional(rollbackFor = { Exception.class })
+    public DecisionType update(UUID id, DecisionType update, String... ignoredProperties) throws Exception {
+		try {
+			DecisionType decisionType = super.update(id, update, IGNORED_PROPERTIES);
+	        
+	        return decisionType;
+		} catch (Exception e) {
+			throw e;
+		}
+    }
 
 }

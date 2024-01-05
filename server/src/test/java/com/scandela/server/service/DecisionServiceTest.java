@@ -239,6 +239,32 @@ public class DecisionServiceTest {
 		verify(decisionTypeDaoMock, times(1)).findById(Mockito.any());
 		assertThat(result.getMessage()).isEqualTo(DecisionException.INCOMPLETE_INFORMATIONS);
 	}
+	
+	@Test
+	public void testUpdate() throws Exception {
+		UUID id2 = UUID.randomUUID();
+		String description2 = "desc2";
+		LocalDate validate2 = LocalDate.now().minusWeeks(1L);
+		float cost2 = 817;
+		List<Long> benefits2 = Arrays.asList(898l);
+		Decision decision2 = Decision.builder()
+				.id(id2)
+				.description(description2)
+				.validate(validate2)
+				.cost(cost2)
+				.benefits(benefits2)
+				.build();
+		
+		when(decisionDaoMock.findById(id)).thenReturn(Optional.ofNullable(decision));
+		
+		Decision result = testedObject.update(id, decision2);
+		
+		assertThat(result.getId()).isEqualTo(id);
+		assertThat(result.getDescription()).isEqualTo(decision2.getDescription());
+		assertThat(result.getValidate()).isEqualTo(decision2.getValidate());
+		assertThat(result.getCost()).isEqualTo(decision2.getCost());
+		assertThat(result.getBenefits()).isEqualTo(decision2.getBenefits());
+	}
 
 	@Test
 	public void testDelete() {
