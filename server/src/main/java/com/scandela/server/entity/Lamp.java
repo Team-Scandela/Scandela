@@ -53,25 +53,25 @@ public class Lamp implements Serializable {
 	private String address;
 
 	@ManyToOne
-	@JoinColumn(name = "uuidbulb", nullable = false)
+	@JoinColumn(name = "uuidbulb")
 	private Bulb bulb;
 	
 	@ManyToOne
-	@JoinColumn(name = "uuidcabinet", nullable = false)
+	@JoinColumn(name = "uuidcabinet")
 	private Cabinet cabinet;
 	
 	@ManyToOne
-	@JoinColumn(name = "uuidlampshade", nullable = false)
+	@JoinColumn(name = "uuidlampshade")
 	private LampShade lampShade;
 
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@ManyToOne
-	@JoinColumn(name = "uuidtown", nullable = false)
+	@JoinColumn(name = "uuidtown")
 	private Town town;
 
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@ManyToOne
-	@JoinColumn(name = "uuidstreet", nullable = false)
+	@JoinColumn(name = "uuidstreet")
 	private Street street;
 
 	@Column(name = "lat", nullable = false)
@@ -80,10 +80,10 @@ public class Lamp implements Serializable {
 	@Column(name = "lng", nullable = false)
 	private Double longitude;
 	
-	@Column(name = "lighton", nullable = false)
+	@Column(name = "lighton")
 	private LocalTime lightOn;
 
-	@Column(name = "lightoff", nullable = false)
+	@Column(name = "lightoff")
 	private LocalTime lightOff;
 
 	@Column(name = "height", nullable = false)

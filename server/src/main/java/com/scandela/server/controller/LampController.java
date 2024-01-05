@@ -51,8 +51,8 @@ public class LampController extends AbstractController<Lamp> {
 	 */
 	@GetMapping("/{id}")
 	public Lamp getLamp(@PathVariable UUID id) throws Exception {
-//		return super.get(id);
-        return ((ILampService) service).computeOptimisations(id);//Il me semble que c'est pour les tests
+		return super.get(id);
+//        return ((ILampService) service).computeOptimisations(id);//Il me semble que c'est pour les tests
 	}
 
 	/**
