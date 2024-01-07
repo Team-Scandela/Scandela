@@ -3,7 +3,7 @@ import { Yellow, Black, White, Grey } from '../../colors';
 import ticketsImage from '../../assets/landing_page/tickets_bg.png'
 import scandelaImage from '../../assets/landing_page/scandela_bg.png'
 import faqImage from '../../assets/landing_page/faq_bg.png'
-import adminImage from '../../assets/landing_page/admin_bg.png'
+import logoutImage from '../../assets/landing_page/logout_bg.png'
 import premiumImage from '../../assets/landing_page/premium_bg.png'
 import profilImage from '../../assets/landing_page/profil_bg.png'
 
@@ -25,27 +25,6 @@ export const ScandelaText = styled.div`
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-`;
-
-/** Container of the logout button */
-export const LogoutButtonContainer = styled.div`
-    display: flex;
-    position: absolute;
-    align-items: center;
-    justify-content: center;
-    width: 200px;
-    height: 60px;
-    top: 650px;
-    left: 700px;
-    background-color: ${Grey};
-    border-radius: 10px;
-    transition: opacity 0.1s;
-    border: 5px solid black;
-
-    &:hover {
-        cursor: pointer;
-        background-color: rgba(250,	199, 16, 0.6);
-    }
 `;
 
 /** Container that contain the scandela logo **/
@@ -112,13 +91,13 @@ export const FAQImgBg = styled.div`
     transition: filter 0.3s ease-in-out;
 `;
 
-/** Admin image background for the portal */
-export const AdminImgBg = styled.div`
+/** Logout image background for the portal */
+export const LogoutImgBg = styled.div`
     display: flex;
     position: absolute;
     width: 100%;
     height: 100%;
-    background: url(${adminImage}) center/cover;
+    background: url(${logoutImage}) center/cover;
     filter: blur(2px);
     transition: filter 0.3s ease-in-out;
 `;
@@ -151,11 +130,11 @@ export const PortalLinkContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 200px;
-    height: 200px;
+    width: ${(props) => props.width};
+    height: ${(props) => props.height};
     top: ${(props) => props.top};
     left: ${(props) => props.left};
-    border-radius: 10px;
+    border-radius: ${(props) => props.borderRadius};
     transition: opacity 0.3s ease-in-out, background-color 0.3s ease-in-out;
     border: 5px solid black;
 
@@ -170,12 +149,42 @@ export const PortalLinkContainer = styled.div`
     }
 `;
 
+/** Container for the clickable admin portal */
+export const PortalLinkAdmin = styled.div`
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 180px;
+    height: 90px;
+    top: ${(props) => props.top};
+    left: ${(props) => props.left};
+    border-radius: 10px;
+    transition: opacity 0.3s ease-in-out, background-color 0.3s ease-in-out;
+    border: 5px solid black;
+
+    &:hover {
+        cursor: pointer;
+    }
+`;
+
 /** Style for the portals titles */
 export const PortalTitle = styled.h2`
     position: fixed;
-    color: white;
+    color: ${Grey};
     text-align: center;
-    font-size: 1.5rem;
+    font-size: ${(props) => props.fontSize};
     opacity: 1;
     transition: opacity 0.3s ease-in-out;
+`;
+
+export const PremiumPopup = styled.div`
+    display: flex;
+    position: absolute;
+    width: 900px;
+    height: 600px;
+    top: 150px;
+    left: 300px;
+    background-color: ${Grey};
+    border-radius: 20px;
 `;
