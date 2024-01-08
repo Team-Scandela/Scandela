@@ -51,4 +51,7 @@ public class Ticket implements Serializable {
 
     @Column(name = "status", updatable = false)
     private Integer status;
+
+    @Column(name = "category", updatable = false)
+    private Integer category;
 }
