@@ -97,10 +97,10 @@ public class Lamp implements Serializable {
 	private List<String> recommandedOptimisations;
 
 	@Column(name = "lamptype", nullable = false)
-	private String lamptype;
+	private String lampType;
 
 	@Column(name = "foyertype", nullable = false)
-	private String foyertype;
+	private String foyerType;
 
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@OneToMany(mappedBy = "lamp", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)

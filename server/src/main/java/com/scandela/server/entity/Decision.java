@@ -1,22 +1,18 @@
 package com.scandela.server.entity;
 
 import java.io.Serializable;
-import java.time.LocalDate;
-import java.util.List;
 import java.util.UUID;
 
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -46,23 +42,16 @@ public class Decision implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "uuiddecisiontype", nullable = false)
 	private DecisionType type;
-
-	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-	@ManyToOne
-	@JoinColumn(name = "uuiduser", nullable = false)
-	private User user;
-
+	
+	@Column(name = "location")
+	private String location;
+	
 	@Column(name = "description", nullable = false)
 	private String description;
-
-	@Column(name = "validate", nullable = true)
-	private LocalDate validate;
-
-	@Column(name = "cost", nullable = false)
-	private Float cost;
-
-	@JdbcTypeCode(SqlTypes.JSON)
-	@Column(name = "benefits", nullable = true)
-	private List<Long> benefits;
 	
+	@Column(name = "solution", nullable = false)
+	private String solution;
+
+	@OneToOne(mappedBy = "decision", cascade = CascadeType.REMOVE)
+	private LampDecision lampDecision;
 }

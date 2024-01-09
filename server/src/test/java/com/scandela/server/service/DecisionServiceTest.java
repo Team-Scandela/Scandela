@@ -6,7 +6,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -22,10 +21,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 
 import com.scandela.server.dao.DecisionDao;
 import com.scandela.server.dao.DecisionTypeDao;
-import com.scandela.server.dao.UserDao;
 import com.scandela.server.entity.Decision;
 import com.scandela.server.entity.DecisionType;
-import com.scandela.server.entity.User;
 import com.scandela.server.exception.DecisionException;
 import com.scandela.server.service.implementation.DecisionService;
 
@@ -43,24 +40,17 @@ public class DecisionServiceTest {
 	@Mock
 	private DecisionTypeDao decisionTypeDaoMock;
 	
-	@Mock
-	private UserDao userDaoMock;
-	
 	private final UUID id = UUID.randomUUID();
 	private final String description = "desc";
-	private final LocalDate validate = LocalDate.now();
-	private final float cost = 17;
-	private final List<Long> benefits = Arrays.asList(17l);
+	private final String location = "loca";
+	private final String solution = "soluce";
 	private final DecisionType decisionType = DecisionType.builder().id(id).build();
-	private final User user = User.builder().id(id).build();
 	private final Decision decision = Decision.builder()
 			.id(id)
 			.type(decisionType)
-			.user(user)
+			.location(location)
 			.description(description)
-			.validate(validate)
-			.cost(cost)
-			.benefits(benefits)
+			.solution(solution)
 			.build();
 	
 	// Methods \\
@@ -76,11 +66,9 @@ public class DecisionServiceTest {
 		Decision resultedDecision = result.get(0);
 		assertThat(resultedDecision.getId()).isEqualTo(decision.getId());
 		assertThat(resultedDecision.getType()).isEqualTo(decision.getType());
-		assertThat(resultedDecision.getUser()).isEqualTo(decision.getUser());
+		assertThat(resultedDecision.getLocation()).isEqualTo(decision.getLocation());
 		assertThat(resultedDecision.getDescription()).isEqualTo(decision.getDescription());
-		assertThat(resultedDecision.getValidate()).isEqualTo(decision.getValidate());
-		assertThat(resultedDecision.getCost()).isEqualTo(decision.getCost());
-		assertThat(resultedDecision.getBenefits()).hasSize(decision.getBenefits().size());
+		assertThat(resultedDecision.getSolution()).isEqualTo(decision.getSolution());
 	}
 	
 	@Test
@@ -88,11 +76,9 @@ public class DecisionServiceTest {
 		Decision decision2 = Decision.builder()
 				.id(UUID.randomUUID())
 				.type(decisionType)
-				.user(user)
+				.location(location)
 				.description(description)
-				.validate(validate)
-				.cost(cost)
-				.benefits(benefits)
+				.solution(solution)
 				.build();
 		
 		when(decisionDaoMock.findAll()).thenReturn(Arrays.asList(decision, decision2));
@@ -122,11 +108,9 @@ public class DecisionServiceTest {
 		verify(decisionDaoMock, times(1)).findById(id);
 		assertThat(result.getId()).isEqualTo(decision.getId());
 		assertThat(result.getType()).isEqualTo(decision.getType());
-		assertThat(result.getUser()).isEqualTo(decision.getUser());
+		assertThat(result.getLocation()).isEqualTo(decision.getLocation());
 		assertThat(result.getDescription()).isEqualTo(decision.getDescription());
-		assertThat(result.getValidate()).isEqualTo(decision.getValidate());
-		assertThat(result.getCost()).isEqualTo(decision.getCost());
-		assertThat(result.getBenefits()).hasSize(decision.getBenefits().size());
+		assertThat(result.getSolution()).isEqualTo(decision.getSolution());
 	}
 	
 	@Test
@@ -143,20 +127,16 @@ public class DecisionServiceTest {
 	public void testCreate() throws DecisionException {
 		when(decisionDaoMock.save(Mockito.any(Decision.class))).thenReturn(decision);
 		when(decisionTypeDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(decisionType));
-		when(userDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(user));
 		
 		Decision result = testedObject.create(decision);
 
 		verify(decisionDaoMock, times(1)).save(Mockito.any(Decision.class));
 		verify(decisionTypeDaoMock, times(1)).findById(Mockito.any());
-		verify(userDaoMock, times(1)).findById(Mockito.any());
 		assertThat(result.getId()).isEqualTo(decision.getId());
 		assertThat(result.getType()).isEqualTo(decision.getType());
-		assertThat(result.getUser()).isEqualTo(decision.getUser());
+		assertThat(result.getLocation()).isEqualTo(decision.getLocation());
 		assertThat(result.getDescription()).isEqualTo(decision.getDescription());
-		assertThat(result.getValidate()).isEqualTo(decision.getValidate());
-		assertThat(result.getCost()).isEqualTo(decision.getCost());
-		assertThat(result.getBenefits()).hasSize(decision.getBenefits().size());
+		assertThat(result.getSolution()).isEqualTo(decision.getSolution());
 	}
 	
 	@Test
@@ -167,7 +147,6 @@ public class DecisionServiceTest {
 		
 		verify(decisionDaoMock, times(0)).save(Mockito.any(Decision.class));
 		verify(decisionTypeDaoMock, times(0)).findById(Mockito.any());
-		verify(userDaoMock, times(0)).findById(Mockito.any());
 		assertThat(result.getMessage()).isEqualTo(DecisionException.INCOMPLETE_INFORMATIONS);
 	}
 	
@@ -179,35 +158,7 @@ public class DecisionServiceTest {
 
 		verify(decisionDaoMock, times(0)).save(Mockito.any(Decision.class));
 		verify(decisionTypeDaoMock, times(1)).findById(Mockito.any());
-		verify(userDaoMock, times(0)).findById(Mockito.any());
 		assertThat(result.getMessage()).isEqualTo(DecisionException.DECISIONTYPE_LOADING);
-	}
-	
-	@Test
-	public void testCreate_whenUserIsNull_thenReturnThrowDecisionException() {
-		decision.setUser(null);
-		
-		when(decisionTypeDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(decisionType));
-		
-		DecisionException result = assertThrows(DecisionException.class, () -> testedObject.create(decision));
-		
-		verify(decisionDaoMock, times(0)).save(Mockito.any(Decision.class));
-		verify(decisionTypeDaoMock, times(1)).findById(Mockito.any());
-		verify(userDaoMock, times(0)).findById(Mockito.any());
-		assertThat(result.getMessage()).isEqualTo(DecisionException.INCOMPLETE_INFORMATIONS);
-	}
-	
-	@Test
-	public void testCreate_whenUserNotFound_thenThrowDecisionException() throws DecisionException {
-		when(decisionTypeDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(decisionType));
-		when(userDaoMock.findById(Mockito.any())).thenReturn(Optional.empty());
-		
-		DecisionException result = assertThrows(DecisionException.class, () -> testedObject.create(decision));
-
-		verify(decisionDaoMock, times(0)).save(Mockito.any(Decision.class));
-		verify(decisionTypeDaoMock, times(1)).findById(Mockito.any());
-		verify(userDaoMock, times(1)).findById(Mockito.any());
-		assertThat(result.getMessage()).isEqualTo(DecisionException.USER_LOADING);
 	}
 	
 	@Test
@@ -216,7 +167,6 @@ public class DecisionServiceTest {
 
 		when(decisionDaoMock.save(Mockito.any(Decision.class))).thenThrow(DataIntegrityViolationException.class);
 		when(decisionTypeDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(decisionType));
-		when(userDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(user));
 		
 		DecisionException result = assertThrows(DecisionException.class, () -> testedObject.create(decision));
 
@@ -226,12 +176,25 @@ public class DecisionServiceTest {
 	}
 	
 	@Test
-	public void testCreate_whenCostIsNull_thenReturnThrowDecisionException() {
-		decision.setCost(null);
+	public void testCreate_whenLocationIsNull_thenReturnThrowDecisionException() {
+		decision.setLocation(null);
 
 		when(decisionDaoMock.save(Mockito.any(Decision.class))).thenThrow(DataIntegrityViolationException.class);
 		when(decisionTypeDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(decisionType));
-		when(userDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(user));
+		
+		DecisionException result = assertThrows(DecisionException.class, () -> testedObject.create(decision));
+
+		verify(decisionDaoMock, times(1)).save(Mockito.any(Decision.class));
+		verify(decisionTypeDaoMock, times(1)).findById(Mockito.any());
+		assertThat(result.getMessage()).isEqualTo(DecisionException.INCOMPLETE_INFORMATIONS);
+	}
+	
+	@Test
+	public void testCreate_whenSolutionIsNull_thenReturnThrowDecisionException() {
+		decision.setSolution(null);
+
+		when(decisionDaoMock.save(Mockito.any(Decision.class))).thenThrow(DataIntegrityViolationException.class);
+		when(decisionTypeDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(decisionType));
 		
 		DecisionException result = assertThrows(DecisionException.class, () -> testedObject.create(decision));
 
@@ -244,15 +207,13 @@ public class DecisionServiceTest {
 	public void testUpdate() throws Exception {
 		UUID id2 = UUID.randomUUID();
 		String description2 = "desc2";
-		LocalDate validate2 = LocalDate.now().minusWeeks(1L);
-		float cost2 = 817;
-		List<Long> benefits2 = Arrays.asList(898l);
+		String solution2 = "soluce2";
+		String location2 = "location2";
 		Decision decision2 = Decision.builder()
 				.id(id2)
+				.location(location2)
 				.description(description2)
-				.validate(validate2)
-				.cost(cost2)
-				.benefits(benefits2)
+				.solution(solution2)
 				.build();
 		
 		when(decisionDaoMock.findById(id)).thenReturn(Optional.ofNullable(decision));
@@ -261,9 +222,8 @@ public class DecisionServiceTest {
 		
 		assertThat(result.getId()).isEqualTo(id);
 		assertThat(result.getDescription()).isEqualTo(decision2.getDescription());
-		assertThat(result.getValidate()).isEqualTo(decision2.getValidate());
-		assertThat(result.getCost()).isEqualTo(decision2.getCost());
-		assertThat(result.getBenefits()).isEqualTo(decision2.getBenefits());
+		assertThat(result.getLocation()).isEqualTo(decision2.getLocation());
+		assertThat(result.getSolution()).isEqualTo(decision2.getSolution());
 	}
 
 	@Test
