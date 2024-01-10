@@ -57,6 +57,11 @@ export const PremiumButtonOnOffStyle = styled.div`
         opacity: 1;
         cursor: pointer;
     }
+
+    &:active {
+        opacity: 0.5;
+    }
+
 `;
 
 /** Style for the premium button on/off text **/
@@ -85,4 +90,9 @@ export const ReturnButtonContainer = styled(IoIosReturnLeft)`
         opacity: 1;
         cursor: pointer;
     }
+
+    &:active {
+        opacity: 0.5;
+    }
+
 `;

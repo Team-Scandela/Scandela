@@ -4,7 +4,8 @@ ProfilImgBg, PortalLinkContainer, LogoContainer, TriangleContainerLeft,
 TriangleContainerRight, PortalTitle} from './elements';
 import logoYellow from '../../assets/logo-128x128-yellow.png';
 import { useNavigate } from 'react-router-dom';
-import PremiumPageComponent from './PremiumPageComponent';
+import PremiumPage from './PremiumPage';
+import TicketSenderPage from './TicketSenderPage';
 
 /** Landing component page
  * @param {boolean} isPremiumActivated- Boolean
@@ -23,6 +24,7 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({
     const navigate = useNavigate();
     const [isMenuPageDisplayed, setIsMenuPageDisplayed] = React.useState(true);
     const [isPremiumPageDisplayed, setIsPremiumPageDisplayed] = React.useState(false);
+    const [isTicketPageDisplayed, setIsTicketPageDisplayed] = React.useState(false);
 
     const handleLogScandela = () => {
         navigate('/scandela');
@@ -31,6 +33,11 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({
     const handlePremiumButtonClicked = () => {
         setIsMenuPageDisplayed(!isMenuPageDisplayed);
         setIsPremiumPageDisplayed(!isPremiumPageDisplayed);
+    };
+
+    const handleTicketButtonClicked = () => {
+        setIsMenuPageDisplayed(!isMenuPageDisplayed);
+        setIsTicketPageDisplayed(!isTicketPageDisplayed);
     };
 
     const handleLogout = () => {
@@ -57,7 +64,7 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({
                         <ProfilImgBg></ProfilImgBg>
                         <PortalTitle fontSize={'1.5rem'}>Profil</PortalTitle>
                     </PortalLinkContainer>
-                    <PortalLinkContainer top={'400px'} left={'420px'} width={'200px'} height={'200px'} borderRadius={'100px'} img={TicketsImgBg}>
+                    <PortalLinkContainer top={'400px'} left={'420px'} width={'200px'} height={'200px'} borderRadius={'100px'} img={TicketsImgBg} onClick={handleTicketButtonClicked}>
                         <TicketsImgBg></TicketsImgBg>
                         <PortalTitle fontSize={'1.5rem'}>Tickets</PortalTitle>
                     </PortalLinkContainer>
@@ -73,7 +80,12 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({
             )}
             {isPremiumPageDisplayed && (
                 <div>
-                    <PremiumPageComponent isPremiumActivated={isPremiumActivated} handleToggleIsPremiumActivated={handleToggleIsPremiumActivated} handlePremiumButtonClicked={handlePremiumButtonClicked} ></PremiumPageComponent>
+                    <PremiumPage isPremiumActivated={isPremiumActivated} handleToggleIsPremiumActivated={handleToggleIsPremiumActivated} handlePremiumButtonClicked={handlePremiumButtonClicked} ></PremiumPage>
+                </div>
+            )}
+            {isTicketPageDisplayed && (
+                <div>
+                    <TicketSenderPage handleTicketButtonClicked={handleTicketButtonClicked}></TicketSenderPage>
                 </div>
             )}
         </div>

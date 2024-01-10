@@ -1,25 +1,31 @@
 import React from 'react';
 import {
-    TicketSenderContainer,
     Title,
     DropdownContainer,
     DropdownItem,
     TicketTitleInput,
     TicketDescriptionInput,
     SendButton,
+    ReturnButtonContainer,
 } from './elements';
 
-interface TicketSenderProps {
-    isDark: boolean; // A flag to determine if it's in dark mode
+interface TicketSenderPageProps {
+    handleTicketButtonClicked: () => void;
 }
 
-const TicketSender: React.FC<TicketSenderProps> = ({isDark }) => {
+const TicketSenderPage: React.FC<TicketSenderPageProps> = ({
+    handleTicketButtonClicked,
+}) => {
 
     const [showDropdown, setShowDropdown] = React.useState(false);
     const [choosenItem, setChoosenItem] = React.useState('Catégorie');
 
     const handleDropdownToggle = () => {
         setShowDropdown(!showDropdown);
+    };
+
+    const handleReturnButtonClicked = () => {
+        handleTicketButtonClicked();
     };
 
     const sendTicket = async () => {
@@ -47,13 +53,10 @@ const TicketSender: React.FC<TicketSenderProps> = ({isDark }) => {
         console.log(tickets);
     }
 
-
-
     return (
         <div>
-            <TicketSenderContainer isDark={isDark}>
-                <Title isDark={isDark}>Envoyer un ticket</Title>
-                <DropdownContainer isDark={isDark} onClick={handleDropdownToggle}>
+                <Title>Envoyer un ticket</Title>
+                <DropdownContainer onClick={handleDropdownToggle}>
                     {choosenItem}
                     {showDropdown && (
                         <>
@@ -65,13 +68,13 @@ const TicketSender: React.FC<TicketSenderProps> = ({isDark }) => {
                         </>
                     )}
                 </DropdownContainer>
-                <TicketTitleInput isDark={isDark} placeholder="Titre du ticket"></TicketTitleInput>
-                <TicketDescriptionInput isDark={isDark} placeholder="Description du ticket"></TicketDescriptionInput>
-                <SendButton isDark={isDark} onClick={sendTicket} >Envoyer</SendButton>
-            </TicketSenderContainer>
+                <TicketTitleInput placeholder="Titre du ticket"></TicketTitleInput>
+                <TicketDescriptionInput placeholder="Description du ticket"></TicketDescriptionInput>
+                <SendButton onClick={sendTicket} >Envoyer</SendButton>
+            <ReturnButtonContainer onClick={handleReturnButtonClicked}>Return</ReturnButtonContainer>
         </div>
 
     );
 };
 
-export default TicketSender;
+export default TicketSenderPage;

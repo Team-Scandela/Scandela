@@ -7,13 +7,13 @@ import { PremiumPageContainer, MainTitle, MainText, PremiumButtonOnOffStyle, Pre
  * @param {function} handlePremiumButtonClicked - Function to show/hide premium page
  */
 
-interface PremiumPageComponentProps {
+interface PremiumPagePros {
     isPremiumActivated: boolean;
     handleToggleIsPremiumActivated: () => void;
     handlePremiumButtonClicked: () => void;
 }
 
-const PremiumPageComponent: React.FC<PremiumPageComponentProps> = ({
+const PremiumPage: React.FC<PremiumPagePros> = ({
     isPremiumActivated,
     handleToggleIsPremiumActivated,
     handlePremiumButtonClicked,
@@ -48,4 +48,4 @@ const PremiumPageComponent: React.FC<PremiumPageComponentProps> = ({
     );
 };
 
-export default PremiumPageComponent;
+export default PremiumPage;
