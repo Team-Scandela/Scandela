@@ -4,15 +4,22 @@ ProfilImgBg, PortalLinkContainer, LogoContainer, TriangleContainerLeft,
 TriangleContainerRight, PortalTitle} from './elements';
 import logoYellow from '../../assets/logo-128x128-yellow.png';
 import { useNavigate } from 'react-router-dom';
+import PremiumPageComponent from './PremiumPageComponent';
 
 /** Landing component page
- *
+ * @param {boolean} isPremiumActivated- Boolean
+ * @param {function} handleToggleIsPremiumActivated - Function to set/unset the premium version
  */
 
 interface LandingPageComponentProps {
+    isPremiumActivated: boolean;
+    handleToggleIsPremiumActivated: () => void;
 }
 
-const LandingPageComponent: React.FC<LandingPageComponentProps> = ({ }) => {
+const LandingPageComponent: React.FC<LandingPageComponentProps> = ({
+    isPremiumActivated,
+    handleToggleIsPremiumActivated,
+}) => {
     const navigate = useNavigate();
     const [isMenuPageDisplayed, setIsMenuPageDisplayed] = React.useState(true);
     const [isPremiumPageDisplayed, setIsPremiumPageDisplayed] = React.useState(false);
@@ -22,14 +29,13 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({ }) => {
     };
 
     const handlePremiumButtonClicked = () => {
-        setIsPremiumPageDisplayed(!isPremiumPageDisplayed);
         setIsMenuPageDisplayed(!isMenuPageDisplayed);
+        setIsPremiumPageDisplayed(!isPremiumPageDisplayed);
     };
 
     const handleLogout = () => {
         navigate('/login');
     };
-
 
     return (
         <div>
@@ -63,6 +69,11 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({ }) => {
                         <FAQImgBg></FAQImgBg>
                         <PortalTitle fontSize={'1.5rem'}>FAQ</PortalTitle>
                     </PortalLinkContainer>
+                </div>
+            )}
+            {isPremiumPageDisplayed && (
+                <div>
+                    <PremiumPageComponent isPremiumActivated={isPremiumActivated} handleToggleIsPremiumActivated={handleToggleIsPremiumActivated} handlePremiumButtonClicked={handlePremiumButtonClicked} ></PremiumPageComponent>
                 </div>
             )}
         </div>

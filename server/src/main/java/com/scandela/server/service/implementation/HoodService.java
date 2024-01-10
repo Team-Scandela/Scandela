@@ -1,6 +1,7 @@
 package com.scandela.server.service.implementation;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +19,8 @@ public class HoodService extends AbstractService<Hood> implements IHoodService {
 
 	// Attributes \\
 		// Private \\
+	private final String[] IGNORED_PROPERTIES = { "id", "town", "streets" };
+	
 	private TownDao townDao;
 
 	// Constructors \\
@@ -44,13 +47,25 @@ public class HoodService extends AbstractService<Hood> implements IHoodService {
 		}
 	}
 
+	@Override
+	@Transactional(rollbackFor = { Exception.class })
+    public Hood update(UUID id, Hood update, String... ignoredProperties) throws Exception {
+		try {
+			Hood hood = super.update(id, update, IGNORED_PROPERTIES);
+	        
+	        return hood;
+		} catch (Exception e) {
+			throw e;
+		}
+    }
+
 		// Private \\
 	private void loadTown(Hood newHood) throws HoodException {
 		if (newHood.getTown() == null) {
 			throw new HoodException(HoodException.INCOMPLETE_INFORMATIONS);
 		}
 	
-		long townId = newHood.getTown().getId();
+		UUID townId = newHood.getTown().getId();
 		
 		Optional<Town> town = townDao.findById(townId);
 		if (town.isEmpty()) {

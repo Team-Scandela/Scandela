@@ -1,13 +1,14 @@
 package com.scandela.server.controller;
 
 import java.util.List;
+import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,15 +17,15 @@ import com.scandela.server.entity.Street;
 import com.scandela.server.exception.StreetException;
 import com.scandela.server.service.IStreetService;
 
-@CrossOrigin//TODO a changer dans le future en mettant un access token
+@CrossOrigin
 @RestController
 @RequestMapping(value = "/streets")
-public class StreetController extends AbstractController {
-
-	// Attributes \\
-		// Private \\
-	@Autowired
-	private IStreetService streetService;
+public class StreetController extends AbstractController<Street> {
+	
+	// Constructors \\
+	protected StreetController(IStreetService streetService) {
+		super(streetService);
+	}
 
 	// Methods \\
 		// Public \\
@@ -35,7 +36,7 @@ public class StreetController extends AbstractController {
 	 */
 	@GetMapping
 	public List<Street> getStreets() {
-		return streetService.getAll();
+		return super.getAll();
 	}
 
 	/**
@@ -45,8 +46,8 @@ public class StreetController extends AbstractController {
 	 * @return street
 	 */
 	@GetMapping("/{id}")
-	public Street getStreet(@PathVariable long id) {
-		return streetService.get(id);
+	public Street getStreet(@PathVariable UUID id) {
+		return super.get(id);
 	}
 
 	/**
@@ -58,8 +59,21 @@ public class StreetController extends AbstractController {
 	 */
 	@PostMapping("/create")
 	public Street createStreet(@RequestBody Street newStreet) throws Exception {
-		return streetService.create(newStreet);
+		return super.create(newStreet);
 	}
+
+	/**
+	 * Update street by id
+	 * 
+	 * @param id
+	 * @param update
+	 * @return
+	 * @throws Exception
+	 */
+    @PutMapping("/{id}")
+    public Street updateStreet(@PathVariable UUID id, @RequestBody Street update) throws Exception {
+        return super.update(id, update);
+    }
 
 	/**
 	 * Delete street
@@ -67,8 +81,8 @@ public class StreetController extends AbstractController {
 	 * @param id
 	 */
 	@DeleteMapping("/delete")
-	public void deleteStreet(@PathVariable long id) {
-		streetService.delete(id);
+	public void deleteStreet(@PathVariable UUID id) {
+		super.delete(id);
 	}
 
 }

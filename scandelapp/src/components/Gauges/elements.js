@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Yellow } from '../../colors';
+import { Yellow, Black, White } from '../../colors';
 
 export const GaugeContainer = styled.div`
     display: flex;
@@ -10,14 +10,16 @@ export const GaugeContainer = styled.div`
 
 export const GaugeContainerLeft = styled(GaugeContainer)`
     bottom: ${(props) => (props.decisionPanelExtended ? 55 : 30)}px;
-    right: ${(props) => (props.decisionPanelExtended ? 325 : 175)}px;
+    right: ${(props) =>
+        props.decisionPanelExtended ? 325 : props.decal ? 385 : 175}px;
     transition: all 0.5s ease-in-out;
     z-index: 2;
 `;
 
 export const GaugeContainerMiddle = styled(GaugeContainer)`
     bottom: ${(props) => (props.decisionPanelExtended ? 55 : 30)}px;
-    right: ${(props) => (props.decisionPanelExtended ? 220 : 100)}px;
+    right: ${(props) =>
+        props.decisionPanelExtended ? 220 : props.decal ? 310 : 100}px;
     transition: all 0.5s ease-in-out;
     z-index: 2;
 `;
@@ -93,4 +95,47 @@ export const GaugeLogo = styled.img`
     user-select: none;
     position: fixed;
     height: 100px;
+`;
+
+export const GaugePup = styled.div`
+    display: ${(props) => (props.show ? 'flex' : 'none')};
+    user-select: none;
+    position: fixed;
+    height: 100px;
+    width: 200px;
+    bottom: 30px;
+    transition: all 0.5s ease-in-out;
+
+    background-color: ${(props) => (props.isDark ? Black : White)};
+    border-radius: 10%;
+    border-color: ${Yellow};
+    border-style: solid;
+    border-width: 2px;
+`;
+
+export const GaugePupLeft = styled(GaugePup)`
+    right: 250px;
+`;
+
+export const GaugePupMiddle = styled(GaugePup)`
+    right: 175px;
+`;
+
+export const GaugePupRight = styled(GaugePup)`
+    right: 100px;
+`;
+
+export const GaugePupText = styled.div`
+    color: ${Yellow};
+    font-size: 15px;
+
+    position: absolute;
+    top: 10%;
+    left: 10%;
+
+    width: 80%;
+    height: 80%;
+
+    text-align: center;
+    vertical-align: middle;
 `;

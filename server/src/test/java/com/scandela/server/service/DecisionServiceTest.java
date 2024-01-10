@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -45,12 +46,11 @@ public class DecisionServiceTest {
 	@Mock
 	private UserDao userDaoMock;
 	
-	private final long id = 1;
+	private final UUID id = UUID.randomUUID();
 	private final String description = "desc";
-	private final boolean validate = true;
-	private final LocalDate date = LocalDate.now();
-	private final long cost = 17;
-	private final List<Long> benefits = Arrays.asList(cost);
+	private final LocalDate validate = LocalDate.now();
+	private final float cost = 17;
+	private final List<Long> benefits = Arrays.asList(17l);
 	private final DecisionType decisionType = DecisionType.builder().id(id).build();
 	private final User user = User.builder().id(id).build();
 	private final Decision decision = Decision.builder()
@@ -59,7 +59,6 @@ public class DecisionServiceTest {
 			.user(user)
 			.description(description)
 			.validate(validate)
-			.date(date)
 			.cost(cost)
 			.benefits(benefits)
 			.build();
@@ -79,8 +78,7 @@ public class DecisionServiceTest {
 		assertThat(resultedDecision.getType()).isEqualTo(decision.getType());
 		assertThat(resultedDecision.getUser()).isEqualTo(decision.getUser());
 		assertThat(resultedDecision.getDescription()).isEqualTo(decision.getDescription());
-		assertThat(resultedDecision.isValidate()).isEqualTo(decision.isValidate());
-		assertThat(resultedDecision.getDate()).isEqualTo(decision.getDate());
+		assertThat(resultedDecision.getValidate()).isEqualTo(decision.getValidate());
 		assertThat(resultedDecision.getCost()).isEqualTo(decision.getCost());
 		assertThat(resultedDecision.getBenefits()).hasSize(decision.getBenefits().size());
 	}
@@ -88,12 +86,11 @@ public class DecisionServiceTest {
 	@Test
 	public void testGetAll_whenManyDecisions_thenReturnManyDecisions() {
 		Decision decision2 = Decision.builder()
-				.id(Long.valueOf(2))
+				.id(UUID.randomUUID())
 				.type(decisionType)
 				.user(user)
 				.description(description)
 				.validate(validate)
-				.date(date)
 				.cost(cost)
 				.benefits(benefits)
 				.build();
@@ -127,8 +124,7 @@ public class DecisionServiceTest {
 		assertThat(result.getType()).isEqualTo(decision.getType());
 		assertThat(result.getUser()).isEqualTo(decision.getUser());
 		assertThat(result.getDescription()).isEqualTo(decision.getDescription());
-		assertThat(result.isValidate()).isEqualTo(decision.isValidate());
-		assertThat(result.getDate()).isEqualTo(decision.getDate());
+		assertThat(result.getValidate()).isEqualTo(decision.getValidate());
 		assertThat(result.getCost()).isEqualTo(decision.getCost());
 		assertThat(result.getBenefits()).hasSize(decision.getBenefits().size());
 	}
@@ -146,20 +142,19 @@ public class DecisionServiceTest {
 	@Test
 	public void testCreate() throws DecisionException {
 		when(decisionDaoMock.save(Mockito.any(Decision.class))).thenReturn(decision);
-		when(decisionTypeDaoMock.findById(Mockito.anyLong())).thenReturn(Optional.ofNullable(decisionType));
-		when(userDaoMock.findById(Mockito.anyLong())).thenReturn(Optional.ofNullable(user));
+		when(decisionTypeDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(decisionType));
+		when(userDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(user));
 		
 		Decision result = testedObject.create(decision);
 
 		verify(decisionDaoMock, times(1)).save(Mockito.any(Decision.class));
-		verify(decisionTypeDaoMock, times(1)).findById(Mockito.anyLong());
-		verify(userDaoMock, times(1)).findById(Mockito.anyLong());
+		verify(decisionTypeDaoMock, times(1)).findById(Mockito.any());
+		verify(userDaoMock, times(1)).findById(Mockito.any());
 		assertThat(result.getId()).isEqualTo(decision.getId());
 		assertThat(result.getType()).isEqualTo(decision.getType());
 		assertThat(result.getUser()).isEqualTo(decision.getUser());
 		assertThat(result.getDescription()).isEqualTo(decision.getDescription());
-		assertThat(result.isValidate()).isEqualTo(decision.isValidate());
-		assertThat(result.getDate()).isEqualTo(decision.getDate());
+		assertThat(result.getValidate()).isEqualTo(decision.getValidate());
 		assertThat(result.getCost()).isEqualTo(decision.getCost());
 		assertThat(result.getBenefits()).hasSize(decision.getBenefits().size());
 	}
@@ -171,20 +166,20 @@ public class DecisionServiceTest {
 		DecisionException result = assertThrows(DecisionException.class, () -> testedObject.create(decision));
 		
 		verify(decisionDaoMock, times(0)).save(Mockito.any(Decision.class));
-		verify(decisionTypeDaoMock, times(0)).findById(Mockito.anyLong());
-		verify(userDaoMock, times(0)).findById(Mockito.anyLong());
+		verify(decisionTypeDaoMock, times(0)).findById(Mockito.any());
+		verify(userDaoMock, times(0)).findById(Mockito.any());
 		assertThat(result.getMessage()).isEqualTo(DecisionException.INCOMPLETE_INFORMATIONS);
 	}
 	
 	@Test
 	public void testCreate_whenTypeNotFound_thenThrowDecisionException() throws DecisionException {
-		when(decisionTypeDaoMock.findById(Mockito.anyLong())).thenReturn(Optional.empty());
+		when(decisionTypeDaoMock.findById(Mockito.any())).thenReturn(Optional.empty());
 		
 		DecisionException result = assertThrows(DecisionException.class, () -> testedObject.create(decision));
 
 		verify(decisionDaoMock, times(0)).save(Mockito.any(Decision.class));
-		verify(decisionTypeDaoMock, times(1)).findById(Mockito.anyLong());
-		verify(userDaoMock, times(0)).findById(Mockito.anyLong());
+		verify(decisionTypeDaoMock, times(1)).findById(Mockito.any());
+		verify(userDaoMock, times(0)).findById(Mockito.any());
 		assertThat(result.getMessage()).isEqualTo(DecisionException.DECISIONTYPE_LOADING);
 	}
 	
@@ -192,26 +187,26 @@ public class DecisionServiceTest {
 	public void testCreate_whenUserIsNull_thenReturnThrowDecisionException() {
 		decision.setUser(null);
 		
-		when(decisionTypeDaoMock.findById(Mockito.anyLong())).thenReturn(Optional.ofNullable(decisionType));
+		when(decisionTypeDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(decisionType));
 		
 		DecisionException result = assertThrows(DecisionException.class, () -> testedObject.create(decision));
 		
 		verify(decisionDaoMock, times(0)).save(Mockito.any(Decision.class));
-		verify(decisionTypeDaoMock, times(1)).findById(Mockito.anyLong());
-		verify(userDaoMock, times(0)).findById(Mockito.anyLong());
+		verify(decisionTypeDaoMock, times(1)).findById(Mockito.any());
+		verify(userDaoMock, times(0)).findById(Mockito.any());
 		assertThat(result.getMessage()).isEqualTo(DecisionException.INCOMPLETE_INFORMATIONS);
 	}
 	
 	@Test
 	public void testCreate_whenUserNotFound_thenThrowDecisionException() throws DecisionException {
-		when(decisionTypeDaoMock.findById(Mockito.anyLong())).thenReturn(Optional.ofNullable(decisionType));
-		when(userDaoMock.findById(Mockito.anyLong())).thenReturn(Optional.empty());
+		when(decisionTypeDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(decisionType));
+		when(userDaoMock.findById(Mockito.any())).thenReturn(Optional.empty());
 		
 		DecisionException result = assertThrows(DecisionException.class, () -> testedObject.create(decision));
 
 		verify(decisionDaoMock, times(0)).save(Mockito.any(Decision.class));
-		verify(decisionTypeDaoMock, times(1)).findById(Mockito.anyLong());
-		verify(userDaoMock, times(1)).findById(Mockito.anyLong());
+		verify(decisionTypeDaoMock, times(1)).findById(Mockito.any());
+		verify(userDaoMock, times(1)).findById(Mockito.any());
 		assertThat(result.getMessage()).isEqualTo(DecisionException.USER_LOADING);
 	}
 	
@@ -220,13 +215,13 @@ public class DecisionServiceTest {
 		decision.setDescription(null);
 
 		when(decisionDaoMock.save(Mockito.any(Decision.class))).thenThrow(DataIntegrityViolationException.class);
-		when(decisionTypeDaoMock.findById(Mockito.anyLong())).thenReturn(Optional.ofNullable(decisionType));
-		when(userDaoMock.findById(Mockito.anyLong())).thenReturn(Optional.ofNullable(user));
+		when(decisionTypeDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(decisionType));
+		when(userDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(user));
 		
 		DecisionException result = assertThrows(DecisionException.class, () -> testedObject.create(decision));
 
 		verify(decisionDaoMock, times(1)).save(Mockito.any(Decision.class));
-		verify(decisionTypeDaoMock, times(1)).findById(Mockito.anyLong());
+		verify(decisionTypeDaoMock, times(1)).findById(Mockito.any());
 		assertThat(result.getMessage()).isEqualTo(DecisionException.INCOMPLETE_INFORMATIONS);
 	}
 	
@@ -235,14 +230,40 @@ public class DecisionServiceTest {
 		decision.setCost(null);
 
 		when(decisionDaoMock.save(Mockito.any(Decision.class))).thenThrow(DataIntegrityViolationException.class);
-		when(decisionTypeDaoMock.findById(Mockito.anyLong())).thenReturn(Optional.ofNullable(decisionType));
-		when(userDaoMock.findById(Mockito.anyLong())).thenReturn(Optional.ofNullable(user));
+		when(decisionTypeDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(decisionType));
+		when(userDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(user));
 		
 		DecisionException result = assertThrows(DecisionException.class, () -> testedObject.create(decision));
 
 		verify(decisionDaoMock, times(1)).save(Mockito.any(Decision.class));
-		verify(decisionTypeDaoMock, times(1)).findById(Mockito.anyLong());
+		verify(decisionTypeDaoMock, times(1)).findById(Mockito.any());
 		assertThat(result.getMessage()).isEqualTo(DecisionException.INCOMPLETE_INFORMATIONS);
+	}
+	
+	@Test
+	public void testUpdate() throws Exception {
+		UUID id2 = UUID.randomUUID();
+		String description2 = "desc2";
+		LocalDate validate2 = LocalDate.now().minusWeeks(1L);
+		float cost2 = 817;
+		List<Long> benefits2 = Arrays.asList(898l);
+		Decision decision2 = Decision.builder()
+				.id(id2)
+				.description(description2)
+				.validate(validate2)
+				.cost(cost2)
+				.benefits(benefits2)
+				.build();
+		
+		when(decisionDaoMock.findById(id)).thenReturn(Optional.ofNullable(decision));
+		
+		Decision result = testedObject.update(id, decision2);
+		
+		assertThat(result.getId()).isEqualTo(id);
+		assertThat(result.getDescription()).isEqualTo(decision2.getDescription());
+		assertThat(result.getValidate()).isEqualTo(decision2.getValidate());
+		assertThat(result.getCost()).isEqualTo(decision2.getCost());
+		assertThat(result.getBenefits()).isEqualTo(decision2.getBenefits());
 	}
 
 	@Test

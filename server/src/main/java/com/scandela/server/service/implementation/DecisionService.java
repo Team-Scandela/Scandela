@@ -1,7 +1,7 @@
 package com.scandela.server.service.implementation;
 
-import java.time.LocalDate;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +21,8 @@ public class DecisionService extends AbstractService<Decision> implements IDecis
 
 	// Attributes \\
 		// Private \\
+	private final String[] IGNORED_PROPERTIES = { "id", "user", "type" };
+	
 	private DecisionTypeDao decisionTypeDao;
 	private UserDao userDao;
 
@@ -40,8 +42,6 @@ public class DecisionService extends AbstractService<Decision> implements IDecis
 			loadDecisionType(newDecision);
 			loadUser(newDecision);
 			
-			newDecision.setDate(LocalDate.now());
-			
 			return dao.save(newDecision);
 		} catch (Exception e) {
 			if (newDecision.getType() == null || newDecision.getUser() == null ||
@@ -52,13 +52,25 @@ public class DecisionService extends AbstractService<Decision> implements IDecis
 		}
 	}
 
+	@Override
+	@Transactional(rollbackFor = { Exception.class })
+    public Decision update(UUID id, Decision update, String... ignoredProperties) throws Exception {
+		try {
+			Decision decision = super.update(id, update, IGNORED_PROPERTIES);
+	        
+	        return decision;
+		} catch (Exception e) {
+			throw e;
+		}
+    }
+
 		// Private \\
 	private void loadDecisionType(Decision newDecision) throws DecisionException {
 		if (newDecision.getType() == null) {
 			throw new DecisionException(DecisionException.INCOMPLETE_INFORMATIONS);
 		}
 	
-		long typeId = newDecision.getType().getId();
+		UUID typeId = newDecision.getType().getId();
 		
 		Optional<DecisionType> type = decisionTypeDao.findById(typeId);
 		if (type.isEmpty()) {
@@ -73,7 +85,7 @@ public class DecisionService extends AbstractService<Decision> implements IDecis
 			throw new DecisionException(DecisionException.INCOMPLETE_INFORMATIONS);
 		}
 	
-		long userId = newDecision.getUser().getId();
+		UUID userId = newDecision.getUser().getId();
 		
 		Optional<User> user = userDao.findById(userId);
 		if (user.isEmpty()) {

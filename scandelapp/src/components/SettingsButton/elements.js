@@ -4,6 +4,7 @@ import { TbLogout } from 'react-icons/tb';
 import { CgProfile } from 'react-icons/cg';
 import { MdOutlineLanguage } from 'react-icons/md';
 import { MdDownload } from 'react-icons/md';
+import { IoTicketSharp } from "react-icons/io5";
 
 /** Container for the background of the searchbar **/
 export const SettingsButtonContainer = styled.div`
@@ -45,7 +46,7 @@ export const OptionsMenuContainer = styled.div`
     gap: 16px;
     justify-content: center;
     align-items: center;
-    width: ${(props) => (props.show ? '200px' : '0px')};
+    width: ${(props) => (props.show ? '240px' : '0px')};
     height: ${(props) => (props.show ? '40px' : '0px')};
     border-radius: 10px;
     transition: all 0.2s ease-in-out;
@@ -90,6 +91,15 @@ export const LanguageButton = styled(MdOutlineLanguage)`
 `;
 
 export const DownloadButton = styled(MdDownload)`
+    cursor: pointer;
+    position: relative;
+
+    &:hover {
+        top: -1px;
+    }
+`;
+
+export const TicketButton = styled(IoTicketSharp)`
     cursor: pointer;
     position: relative;
 

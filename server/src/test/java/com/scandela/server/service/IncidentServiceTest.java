@@ -9,6 +9,7 @@ import static org.mockito.Mockito.when;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -40,7 +41,7 @@ public class IncidentServiceTest {
 	@Mock
 	private TownDao townDaoMock;
 	
-	private final long id = 1;
+	private final UUID id = UUID.randomUUID();
 	private final String title = "Title";
 	private final String description = "Description";
 	private final Town town = Town.builder().id(id).build();
@@ -83,7 +84,7 @@ public class IncidentServiceTest {
 	@Test
 	public void testGetAll_whenManyIncidents_thenReturnManyIncidents() {
 		Incident incident2 = Incident.builder()
-				.id(Long.valueOf(2))
+				.id(UUID.randomUUID())
 				.town(town)
 				.title(title)
 				.description(description)
@@ -141,12 +142,12 @@ public class IncidentServiceTest {
 	@Test
 	public void testCreate() throws IncidentException {
 		when(incidentDaoMock.save(Mockito.any(Incident.class))).thenReturn(incident);
-		when(townDaoMock.findById(Mockito.anyLong())).thenReturn(Optional.ofNullable(town));
+		when(townDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(town));
 		
 		Incident result = testedObject.create(incident);
 
 		verify(incidentDaoMock, times(1)).save(Mockito.any(Incident.class));
-		verify(townDaoMock, times(1)).findById(Mockito.anyLong());
+		verify(townDaoMock, times(1)).findById(Mockito.any());
 		assertThat(result.getId()).isEqualTo(incident.getId());
 		assertThat(result.getTown()).isEqualTo(incident.getTown());
 		assertThat(result.getTitle()).isEqualTo(incident.getTitle());
@@ -162,12 +163,12 @@ public class IncidentServiceTest {
 		incident.setTitle(null);
 
 		when(incidentDaoMock.save(Mockito.any(Incident.class))).thenThrow(DataIntegrityViolationException.class);
-		when(townDaoMock.findById(Mockito.anyLong())).thenReturn(Optional.ofNullable(town));
+		when(townDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(town));
 		
 		IncidentException result = assertThrows(IncidentException.class, () -> testedObject.create(incident));
 
 		verify(incidentDaoMock, times(1)).save(Mockito.any(Incident.class));
-		verify(townDaoMock, times(1)).findById(Mockito.anyLong());
+		verify(townDaoMock, times(1)).findById(Mockito.any());
 		assertThat(result.getMessage()).isEqualTo(IncidentException.INCOMPLETE_INFORMATIONS);
 	}
 	
@@ -178,7 +179,7 @@ public class IncidentServiceTest {
 		IncidentException result = assertThrows(IncidentException.class, () -> testedObject.create(incident));
 		
 		verify(incidentDaoMock, times(0)).save(Mockito.any(Incident.class));
-		verify(townDaoMock, times(0)).findById(Mockito.anyLong());
+		verify(townDaoMock, times(0)).findById(Mockito.any());
 		assertThat(result.getMessage()).isEqualTo(IncidentException.INCOMPLETE_INFORMATIONS);
 	}
 	
@@ -187,24 +188,53 @@ public class IncidentServiceTest {
 		incident.setDescription(null);
 
 		when(incidentDaoMock.save(Mockito.any(Incident.class))).thenThrow(DataIntegrityViolationException.class);
-		when(townDaoMock.findById(Mockito.anyLong())).thenReturn(Optional.ofNullable(town));
+		when(townDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(town));
 		
 		IncidentException result = assertThrows(IncidentException.class, () -> testedObject.create(incident));
 
 		verify(incidentDaoMock, times(1)).save(Mockito.any(Incident.class));
-		verify(townDaoMock, times(1)).findById(Mockito.anyLong());
+		verify(townDaoMock, times(1)).findById(Mockito.any());
 		assertThat(result.getMessage()).isEqualTo(IncidentException.INCOMPLETE_INFORMATIONS);
 	}
 	
 	@Test
 	public void testCreate_whenTownNotFound_thenThrowIncidentException() throws IncidentException {
-		when(townDaoMock.findById(Mockito.anyLong())).thenReturn(Optional.empty());
+		when(townDaoMock.findById(Mockito.any())).thenReturn(Optional.empty());
 		
 		IncidentException result = assertThrows(IncidentException.class, () -> testedObject.create(incident));
 
 		verify(incidentDaoMock, times(0)).save(Mockito.any(Incident.class));
-		verify(townDaoMock, times(1)).findById(Mockito.anyLong());
+		verify(townDaoMock, times(1)).findById(Mockito.any());
 		assertThat(result.getMessage()).isEqualTo(IncidentException.TOWN_LOADING);
+	}
+	
+	@Test
+	public void testUpdate() throws Exception {
+		UUID id2 = UUID.randomUUID();
+		String title2 = "Title2";
+		String description2 = "Description2";
+		float impactElectricity2 = 12131.17f;
+		float impactEcology2 = 113.45f;
+		float impactQuality2 = 3877.78f;
+		Incident incident2 = Incident.builder()
+				.id(id2)
+				.title(title2)
+				.description(description2)
+				.impactElectricity(impactElectricity2)
+				.impactEcology(impactEcology2)
+				.impactQuality(impactQuality2)
+				.build();
+		
+		when(incidentDaoMock.findById(id)).thenReturn(Optional.ofNullable(incident));
+		
+		Incident result = testedObject.update(id, incident2);
+		
+		assertThat(result.getId()).isEqualTo(id);
+		assertThat(result.getTitle()).isEqualTo(incident2.getTitle());
+		assertThat(result.getDescription()).isEqualTo(incident2.getDescription());
+		assertThat(result.getImpactElectricity()).isEqualTo(incident2.getImpactElectricity());
+		assertThat(result.getImpactEcology()).isEqualTo(incident2.getImpactEcology());
+		assertThat(result.getImpactQuality()).isEqualTo(incident2.getImpactQuality());
 	}
 
 	@Test
