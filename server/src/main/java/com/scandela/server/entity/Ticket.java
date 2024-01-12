@@ -53,5 +53,5 @@ public class Ticket implements Serializable {
     private Integer status;
 
     @Column(name = "category", updatable = false)
-    private Integer category;
+    private String category;
 }

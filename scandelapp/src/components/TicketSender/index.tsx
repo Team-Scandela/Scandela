@@ -17,6 +17,8 @@ const TicketSender: React.FC<TicketSenderProps> = ({isDark }) => {
 
     const [showDropdown, setShowDropdown] = React.useState(false);
     const [choosenItem, setChoosenItem] = React.useState('Catégorie');
+    const [title, setTitle] = React.useState('');
+    const [description, setDescription] = React.useState('');
 
     const handleDropdownToggle = () => {
         setShowDropdown(!showDropdown);
@@ -30,14 +32,17 @@ const TicketSender: React.FC<TicketSenderProps> = ({isDark }) => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    // author: 'le_nom_de_l_auteur',  // Remplacez par le nom de l'auteur réel
-                    // title: title,
-                    // content: 'le_contenu_du_ticket',  // Remplacez par le contenu réel du ticket
-                    // date: new Date().toISOString(),  // Remplacez par la date réelle
-                    // status: 1,  // Remplacez par le statut réel
-                    // category: chosenItem,
+                    author: "",
+                    title: title,
+                    content: description,
+                    date: new Date().toISOString(),
+                    status: 1,
+                    category: choosenItem,
                 }),
             });
+        } catch (error) {
+            console.log(error);
+        };
     };
 
     const getTicket = async () => {
@@ -64,8 +69,18 @@ const TicketSender: React.FC<TicketSenderProps> = ({isDark }) => {
                         </>
                     )}
                 </DropdownContainer>
-                <TicketTitleInput isDark={isDark} placeholder="Titre du ticket"></TicketTitleInput>
-                <TicketDescriptionInput isDark={isDark} placeholder="Description du ticket"></TicketDescriptionInput>
+                <TicketTitleInput
+                    isDark={isDark}
+                    placeholder="Titre du ticket"
+                    value={title}
+                    onChange={(e : any) => setTitle(e.target.value)}
+                />
+                <TicketDescriptionInput
+                    isDark={isDark}
+                    placeholder="Description du ticket"
+                    value={description}
+                    onChange={(e : any) => setDescription(e.target.value)}
+                />
                 <SendButton isDark={isDark} onClick={sendTicket} >Envoyer</SendButton>
             </TicketSenderContainer>
         </div>
