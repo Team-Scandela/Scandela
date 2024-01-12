@@ -36,7 +36,7 @@ const TicketSender: React.FC<TicketSenderProps> = ({isDark }) => {
                     title: title,
                     content: description,
                     date: new Date().toISOString(),
-                    status: 1,
+                    status: 0,
                     category: choosenItem,
                 }),
             });
