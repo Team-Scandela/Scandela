@@ -1,21 +1,15 @@
 import * as React from 'react';
-import {
-    ProfilMenuContainer,
-    ProfileField,
-    EditButton,
-    Title,
-} from './elements';
+import { ProfilePageContainer, ProfileField, EditButton, EditIcon, ValidateIcon, ReturnButtonContainer } from './elements';
 
-interface ProfilPannelProps {
-    id: string;
-    isDark: boolean;
-    setIsDark: (isDark: boolean) => void;
+/** Profile page component
+ */
+
+interface ProfilePageProps {
+    handleProfileButtonClicked: () => void;
 }
 
-const ProfilPannel: React.FC<ProfilPannelProps> = ({
-    id,
-    isDark,
-    setIsDark,
+const ProfilePage: React.FC<ProfilePageProps> = ({
+    handleProfileButtonClicked,
 }) => {
     const [isEditingName, setIsEditingName] = React.useState(false);
     const [isEditingEmail, setIsEditingEmail] = React.useState(false);
@@ -26,6 +20,10 @@ const ProfilPannel: React.FC<ProfilPannelProps> = ({
     const [email, setEmail] = React.useState('victor.harrichal@epitech.eu');
     const [password, setPassword] = React.useState('scandevloppeur');
     const [kwH, setKwH] = React.useState('600');
+
+    const handleReturnButtonClicked = () => {
+        handleProfileButtonClicked();
+    };
 
     const handleEditClick = (field: string) => {
         switch (field) {
@@ -69,7 +67,7 @@ const ProfilPannel: React.FC<ProfilPannelProps> = ({
         if (isEditingPassword) {
             return (
                 <input
-                    type="password"
+                    type="text"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
@@ -81,9 +79,8 @@ const ProfilPannel: React.FC<ProfilPannelProps> = ({
 
     return (
         <div>
-            <ProfilMenuContainer isDark={isDark}>
-                <Title>Profil</Title>
-                <ProfileField isDark={isDark}>
+            <ProfilePageContainer>
+                <ProfileField top={'7%'}>
                     Nom :{' '}
                     {isEditingName ? (
                         <input
@@ -95,22 +92,16 @@ const ProfilPannel: React.FC<ProfilPannelProps> = ({
                         name
                     )}
                     {isEditingName ? (
-                        <EditButton
-                            isDark={isDark}
-                            onClick={() => handleSaveClick('name')}
-                        >
-                            Enregistrer
+                        <EditButton onClick={() => handleSaveClick('name')}>
+                            <ValidateIcon></ValidateIcon>
                         </EditButton>
                     ) : (
-                        <EditButton
-                            isDark={isDark}
-                            onClick={() => handleEditClick('name')}
-                        >
-                            Modifier
+                        <EditButton onClick={() => handleEditClick('name')}>
+                            <EditIcon></EditIcon>
                         </EditButton>
                     )}
                 </ProfileField>
-                <ProfileField isDark={isDark}>
+                <ProfileField top={'17%'}>
                     Email :{' '}
                     {isEditingEmail ? (
                         <input
@@ -122,40 +113,28 @@ const ProfilPannel: React.FC<ProfilPannelProps> = ({
                         email
                     )}
                     {isEditingEmail ? (
-                        <EditButton
-                            isDark={isDark}
-                            onClick={() => handleSaveClick('email')}
-                        >
-                            Enregistrer
+                        <EditButton onClick={() => handleSaveClick('email')}>
+                            <ValidateIcon></ValidateIcon>
                         </EditButton>
                     ) : (
-                        <EditButton
-                            isDark={isDark}
-                            onClick={() => handleEditClick('email')}
-                        >
-                            Modifier
+                        <EditButton onClick={() => handleEditClick('email')}>
+                            <EditIcon></EditIcon>
                         </EditButton>
                     )}
                 </ProfileField>
-                <ProfileField isDark={isDark}>
+                <ProfileField top={'27%'}>
                     Mot de passe : {renderPasswordField()}
                     {isEditingPassword ? (
-                        <EditButton
-                            isDark={isDark}
-                            onClick={() => handleSaveClick('password')}
-                        >
-                            Enregistrer
+                        <EditButton onClick={() => handleSaveClick('password')}>
+                            <ValidateIcon></ValidateIcon>
                         </EditButton>
                     ) : (
-                        <EditButton
-                            isDark={isDark}
-                            onClick={() => handleEditClick('password')}
-                        >
-                            Modifier
+                        <EditButton onClick={() => handleEditClick('password')}>
+                            <EditIcon></EditIcon>
                         </EditButton>
                     )}
                 </ProfileField>
-                <ProfileField isDark={isDark}>
+                <ProfileField top={'37%'}>
                     Kw/h de la ville :{' '}
                     {isEditingKwH ? (
                         <input
@@ -168,24 +147,19 @@ const ProfilPannel: React.FC<ProfilPannelProps> = ({
                     )}{' '}
                     kwH
                     {isEditingKwH ? (
-                        <EditButton
-                            isDark={isDark}
-                            onClick={() => handleSaveClick('kwH')}
-                        >
-                            Enregistrer
+                        <EditButton onClick={() => handleSaveClick('kwH')}>
+                            <ValidateIcon></ValidateIcon>
                         </EditButton>
                     ) : (
-                        <EditButton
-                            isDark={isDark}
-                            onClick={() => handleEditClick('kwH')}
-                        >
-                            Modifier
+                        <EditButton onClick={() => handleEditClick('kwH')}>
+                            <EditIcon></EditIcon>
                         </EditButton>
                     )}
                 </ProfileField>
-            </ProfilMenuContainer>
+            </ProfilePageContainer>
+            <ReturnButtonContainer onClick={handleReturnButtonClicked}>Return</ReturnButtonContainer>
         </div>
     );
 };
 
-export default ProfilPannel;
+export default ProfilePage;

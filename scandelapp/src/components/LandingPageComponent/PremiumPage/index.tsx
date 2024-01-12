@@ -33,15 +33,13 @@ const PremiumPage: React.FC<PremiumPagePros> = ({
                 Boostez votre capacité à prendre des décisions éclairées pour l'éclairage public !</MainText>
                 <MainTitle top={'58%'}>Comment passer à Premium ?</MainTitle>
                 <MainText top={'65%'}>Cliquez simplement sur le bouton ci-dessous pour passer à la version premium dès maintenant !</MainText>
-                <PremiumButtonOnOffStyle
-                        onClick={() => handleToggleIsPremiumActivated()}
-                    >
-                        <PremiumButtonOnOffText>
-                            {isPremiumActivated
-                                ? 'Désactiver la version premium'
-                                : 'Activer la version premium'}
-                        </PremiumButtonOnOffText>
-                    </PremiumButtonOnOffStyle>
+                <PremiumButtonOnOffStyle onClick={() => handleToggleIsPremiumActivated()}>
+                    <PremiumButtonOnOffText>
+                        {isPremiumActivated
+                            ? 'Désactiver la version premium'
+                            : 'Activer la version premium'}
+                    </PremiumButtonOnOffText>
+                </PremiumButtonOnOffStyle>
             </PremiumPageContainer>
             <ReturnButtonContainer onClick={handleReturnButtonClicked}>Return</ReturnButtonContainer>
         </div>

@@ -39,7 +39,7 @@ const App: React.FC = () => {
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<LandingPage isPremiumActivated={isPremiumActivated} handleToggleIsPremiumActivated={handleToggleIsPremiumActivated}/>} />
-                <Route path="/fromdb" element={<MainDB />} />
+                <Route path="/fromdb" element={<MainDB isPremiumActivated={isPremiumActivated}/>} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/scandela" element={<Main isPremiumActivated={isPremiumActivated}/>} />
                 <Route path="/redirect" element={<Redirect />} />

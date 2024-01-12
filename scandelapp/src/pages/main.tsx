@@ -7,11 +7,13 @@ import { handleSearchUtils } from '../utils/searchUtils';
 import DecisionMenu from '../components/DecisionMenu';
 import EditInPdfPannel from '../components/EditInPdfPannel';
 import ActionsList from '../components/ActionsList';
+import SettingsButton from '../components/SettingsButton';
+import LogoutButton from '../components/LogoutButton';
 import Toastr from '../components/Toastr';
 import AbsencePannel from '../components/AbsencePannel';
 import { Gauges } from '../components/Gauges';
 import Lasso from '../components/Lasso';
-import SettingsButton from '../components/SettingsButton';
+import CityButton from '../components/CityButton';
 import SmallLampInfosPopup from '../components/SmallLampInfosPopup';
 
 export enum Filters {
@@ -183,6 +185,14 @@ const Main: React.FC<MainProps> = ({
                 setFilter={setFilter}
                 isDark={isDark}
             />
+            <LogoutButton 
+                id={'logoutButtonId'}
+                isDark={isDark}
+            />
+            <CityButton
+                id={'cityButtonId'}
+                isDark={isDark}
+            />
             {isPremiumActivated && (
                 <>
                     <ActionsList
@@ -196,7 +206,7 @@ const Main: React.FC<MainProps> = ({
                             setOptimisationTemplateData
                         }
                     />
-                    <SettingsButton
+                    <SettingsButton 
                         id={'settingsButtonId'}
                         isDark={isDark}
                         setIsDark={setIsDark}

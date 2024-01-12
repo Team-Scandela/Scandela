@@ -6,6 +6,7 @@ import logoYellow from '../../assets/logo-128x128-yellow.png';
 import { useNavigate } from 'react-router-dom';
 import PremiumPage from './PremiumPage';
 import TicketSenderPage from './TicketSenderPage';
+import ProfilePage from './ProfilePage';
 
 /** Landing component page
  * @param {boolean} isPremiumActivated- Boolean
@@ -25,6 +26,7 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({
     const [isMenuPageDisplayed, setIsMenuPageDisplayed] = React.useState(true);
     const [isPremiumPageDisplayed, setIsPremiumPageDisplayed] = React.useState(false);
     const [isTicketPageDisplayed, setIsTicketPageDisplayed] = React.useState(false);
+    const [isProfilePageDisplayed, setIsProfilePageDisplayed] = React.useState(false);
 
     const handleLogScandela = () => {
         navigate('/scandela');
@@ -38,6 +40,11 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({
     const handleTicketButtonClicked = () => {
         setIsMenuPageDisplayed(!isMenuPageDisplayed);
         setIsTicketPageDisplayed(!isTicketPageDisplayed);
+    };
+
+    const handleProfileButtonClicked = () => {
+        setIsMenuPageDisplayed(!isMenuPageDisplayed);
+        setIsProfilePageDisplayed(!isProfilePageDisplayed);
     };
 
     const handleLogout = () => {
@@ -60,7 +67,7 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({
                         <ScandelaImgBg></ScandelaImgBg>
                         <PortalTitle fontSize={'3rem'}>Scandela</PortalTitle>
                     </PortalLinkContainer>
-                    <PortalLinkContainer top={'150px'} left={'970px'} width={'200px'} height={'200px'} borderRadius={'100px'} img={ProfilImgBg}>
+                    <PortalLinkContainer top={'150px'} left={'970px'} width={'200px'} height={'200px'} borderRadius={'100px'} img={ProfilImgBg} onClick={handleProfileButtonClicked}>
                         <ProfilImgBg></ProfilImgBg>
                         <PortalTitle fontSize={'1.5rem'}>Profil</PortalTitle>
                     </PortalLinkContainer>
@@ -86,6 +93,11 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({
             {isTicketPageDisplayed && (
                 <div>
                     <TicketSenderPage handleTicketButtonClicked={handleTicketButtonClicked}></TicketSenderPage>
+                </div>
+            )}
+            {isProfilePageDisplayed && (
+                <div>
+                    <ProfilePage handleProfileButtonClicked={handleProfileButtonClicked}></ProfilePage>
                 </div>
             )}
         </div>
