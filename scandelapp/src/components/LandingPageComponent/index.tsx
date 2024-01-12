@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import PremiumPage from './PremiumPage';
 import TicketSenderPage from './TicketSenderPage';
 import ProfilePage from './ProfilePage';
+import FAQPage from './FAQPage';
 
 /** Landing component page
  * @param {boolean} isPremiumActivated- Boolean
@@ -27,6 +28,7 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({
     const [isPremiumPageDisplayed, setIsPremiumPageDisplayed] = React.useState(false);
     const [isTicketPageDisplayed, setIsTicketPageDisplayed] = React.useState(false);
     const [isProfilePageDisplayed, setIsProfilePageDisplayed] = React.useState(false);
+    const [isFAQPageDisplayed, setIsFAQPageDisplayed] = React.useState(false);
 
     const handleLogScandela = () => {
         navigate('/scandela');
@@ -45,6 +47,11 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({
     const handleProfileButtonClicked = () => {
         setIsMenuPageDisplayed(!isMenuPageDisplayed);
         setIsProfilePageDisplayed(!isProfilePageDisplayed);
+    };
+
+    const handleFAQButtonClicked = () => {
+        setIsMenuPageDisplayed(!isMenuPageDisplayed);
+        setIsFAQPageDisplayed(!isFAQPageDisplayed);
     };
 
     const handleLogout = () => {
@@ -79,7 +86,7 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({
                         <LogoutImgBg></LogoutImgBg>
                         <PortalTitle fontSize={'1rem'}>Déconnection</PortalTitle>
                     </PortalLinkContainer>
-                    <PortalLinkContainer top={'400px'} left={'930px'} width={'200px'} height={'200px'} borderRadius={'100px'} img={FAQImgBg}>
+                    <PortalLinkContainer top={'400px'} left={'930px'} width={'200px'} height={'200px'} borderRadius={'100px'} img={FAQImgBg} onClick={handleFAQButtonClicked}>
                         <FAQImgBg></FAQImgBg>
                         <PortalTitle fontSize={'1.5rem'}>FAQ</PortalTitle>
                     </PortalLinkContainer>
@@ -98,6 +105,11 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({
             {isProfilePageDisplayed && (
                 <div>
                     <ProfilePage handleProfileButtonClicked={handleProfileButtonClicked}></ProfilePage>
+                </div>
+            )}
+            {isFAQPageDisplayed && (
+                <div>
+                    <FAQPage handleFAQButtonClicked={handleFAQButtonClicked}></FAQPage>
                 </div>
             )}
         </div>
