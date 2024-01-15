@@ -73,7 +73,7 @@ export const ScandelaText = styled.div`
     transform: perspective(10px) rotateX(2deg);
     letter-spacing: 2px;
     padding: 10px;
-    background: linear-gradient(to right, ${Yellow}, #FFD700);
+    background: linear-gradient(to right, ${Yellow}, #ffd700);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;

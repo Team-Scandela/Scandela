@@ -18,10 +18,7 @@ interface CityButtonProps {
     isDark: boolean;
 }
 
-const CityButton: React.FC<CityButtonProps> = ({
-    id,
-    isDark,
-}) => {
+const CityButton: React.FC<CityButtonProps> = ({ id, isDark }) => {
     /** If the option menu is open or closed */
     const [on, setOn] = React.useState(false);
 

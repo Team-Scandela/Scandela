@@ -1,8 +1,5 @@
 import * as React from 'react';
-import {
-    SettingsButtonContainer,
-    SettingsPannelContainer,
-} from './elements';
+import { SettingsButtonContainer, SettingsPannelContainer } from './elements';
 
 interface SettingsButtonProps {
     id: string;
@@ -15,7 +12,8 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({
     isDark,
     setIsDark,
 }) => {
-    const [isSettingsPannelOpen, setIsSettingsPannelOpen] = React.useState(false);
+    const [isSettingsPannelOpen, setIsSettingsPannelOpen] =
+        React.useState(false);
 
     const handleSettingsButtonClick = () => {
         setIsSettingsPannelOpen(!isSettingsPannelOpen);
@@ -23,10 +21,14 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({
 
     return (
         <div>
-            <SettingsButtonContainer isDark={isDark} onClick={handleSettingsButtonClick}></SettingsButtonContainer>
+            <SettingsButtonContainer
+                isDark={isDark}
+                onClick={handleSettingsButtonClick}
+            ></SettingsButtonContainer>
             {isSettingsPannelOpen && (
-                <SettingsPannelContainer isDark={isDark}>
-                </SettingsPannelContainer>
+                <SettingsPannelContainer
+                    isDark={isDark}
+                ></SettingsPannelContainer>
             )}
         </div>
     );

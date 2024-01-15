@@ -1,8 +1,15 @@
 import styled from 'styled-components';
-import { Yellow, Black, White, Grey, DarkGrey, DarkYellow } from '../../../colors';
-import { IoIosReturnLeft } from "react-icons/io";
-import { FaEdit } from "react-icons/fa";
-import { FaCheck } from "react-icons/fa";
+import {
+    Yellow,
+    Black,
+    White,
+    Grey,
+    DarkGrey,
+    DarkYellow,
+} from '../../../colors';
+import { IoIosReturnLeft } from 'react-icons/io';
+import { FaEdit } from 'react-icons/fa';
+import { FaCheck } from 'react-icons/fa';
 
 export const ProfilePageContainer = styled.div`
     position: absolute;
@@ -53,15 +60,13 @@ export const EditButton = styled.div`
     cursor: pointer;
     transition: background-color 0.2s ease-in-out;
     user-select: none;
-
 `;
 
 export const EditIcon = styled(FaEdit)`
     margin-left: 2px;
 `;
 
-export const ValidateIcon = styled(FaCheck)`
-`;
+export const ValidateIcon = styled(FaCheck)``;
 
 export const ReturnButtonContainer = styled(IoIosReturnLeft)`
     position: absolute;
@@ -84,5 +89,4 @@ export const ReturnButtonContainer = styled(IoIosReturnLeft)`
     &:active {
         opacity: 0.5;
     }
-
 `;

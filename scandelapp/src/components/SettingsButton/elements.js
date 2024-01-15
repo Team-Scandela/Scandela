@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { Yellow, Black, White } from '../../colors';
-import { IoMdSettings } from "react-icons/io";
-
+import { IoMdSettings } from 'react-icons/io';
 
 /** Container for the settings button **/
 export const SettingsButtonContainer = styled(IoMdSettings)`

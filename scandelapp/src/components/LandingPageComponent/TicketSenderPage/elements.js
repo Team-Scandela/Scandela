@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Yellow, Black, White, Grey } from '../../../colors';
-import { IoIosReturnLeft } from "react-icons/io";
+import { IoIosReturnLeft } from 'react-icons/io';
 
 export const Title = styled.div`
     position: absolute;

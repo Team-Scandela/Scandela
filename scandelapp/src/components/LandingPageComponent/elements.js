@@ -1,12 +1,11 @@
 import styled from 'styled-components';
 import { Yellow, Black, White, Grey } from '../../colors';
-import ticketsImage from '../../assets/landing_page/tickets_bg.png'
-import scandelaImage from '../../assets/landing_page/scandela_bg.png'
-import faqImage from '../../assets/landing_page/faq_bg.png'
-import logoutImage from '../../assets/landing_page/logout_bg.png'
-import premiumImage from '../../assets/landing_page/premium_bg.png'
-import profilImage from '../../assets/landing_page/profil_bg.png'
-
+import ticketsImage from '../../assets/landing_page/tickets_bg.png';
+import scandelaImage from '../../assets/landing_page/scandela_bg.png';
+import faqImage from '../../assets/landing_page/faq_bg.png';
+import logoutImage from '../../assets/landing_page/logout_bg.png';
+import premiumImage from '../../assets/landing_page/premium_bg.png';
+import profilImage from '../../assets/landing_page/profil_bg.png';
 
 /** Main text on the decision page */
 export const ScandelaText = styled.div`
@@ -21,7 +20,7 @@ export const ScandelaText = styled.div`
     transform: perspective(10px) rotateX(2deg);
     letter-spacing: 2px;
     padding: 10px;
-    background: linear-gradient(to right, ${Yellow}, #FFD700);
+    background: linear-gradient(to right, ${Yellow}, #ffd700);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -135,7 +134,9 @@ export const PortalLinkContainer = styled.div`
     top: ${(props) => props.top};
     left: ${(props) => props.left};
     border-radius: ${(props) => props.borderRadius};
-    transition: opacity 0.3s ease-in-out, background-color 0.3s ease-in-out;
+    transition:
+        opacity 0.3s ease-in-out,
+        background-color 0.3s ease-in-out;
     border: 5px solid black;
 
     &:hover {
@@ -160,7 +161,9 @@ export const PortalLinkAdmin = styled.div`
     top: ${(props) => props.top};
     left: ${(props) => props.left};
     border-radius: 10px;
-    transition: opacity 0.3s ease-in-out, background-color 0.3s ease-in-out;
+    transition:
+        opacity 0.3s ease-in-out,
+        background-color 0.3s ease-in-out;
     border: 5px solid black;
 
     &:hover {

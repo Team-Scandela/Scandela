@@ -31,9 +31,7 @@ interface MainProps {
 }
 
 /** Main page of the app */
-const Main: React.FC<MainProps> = ({
-    isPremiumActivated,
-}) => {
+const Main: React.FC<MainProps> = ({ isPremiumActivated }) => {
     const [isDark, setIsDark] = React.useState<boolean>(true);
     const [isLassoActive, setIsLassoActive] = React.useState(false);
     const [filter, setFilter] = React.useState<Filters>(Filters.none);
@@ -185,14 +183,8 @@ const Main: React.FC<MainProps> = ({
                 setFilter={setFilter}
                 isDark={isDark}
             />
-            <LogoutButton 
-                id={'logoutButtonId'}
-                isDark={isDark}
-            />
-            <CityButton
-                id={'cityButtonId'}
-                isDark={isDark}
-            />
+            <LogoutButton id={'logoutButtonId'} isDark={isDark} />
+            <CityButton id={'cityButtonId'} isDark={isDark} />
             {isPremiumActivated && (
                 <>
                     <ActionsList
@@ -206,7 +198,7 @@ const Main: React.FC<MainProps> = ({
                             setOptimisationTemplateData
                         }
                     />
-                    <SettingsButton 
+                    <SettingsButton
                         id={'settingsButtonId'}
                         isDark={isDark}
                         setIsDark={setIsDark}

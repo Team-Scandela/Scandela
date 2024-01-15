@@ -1,6 +1,13 @@
 import styled from 'styled-components';
-import { Yellow, Black, White, Grey, DarkGrey, DarkYellow } from '../../../colors';
-import { IoIosReturnLeft } from "react-icons/io";
+import {
+    Yellow,
+    Black,
+    White,
+    Grey,
+    DarkGrey,
+    DarkYellow,
+} from '../../../colors';
+import { IoIosReturnLeft } from 'react-icons/io';
 
 export const FAQPageContainer = styled.div`
     position: absolute;
@@ -57,5 +64,4 @@ export const ReturnButtonContainer = styled(IoIosReturnLeft)`
     &:active {
         opacity: 0.5;
     }
-
 `;

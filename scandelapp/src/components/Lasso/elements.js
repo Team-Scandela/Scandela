@@ -21,16 +21,16 @@ export const LassoButton = styled.div`
                 ? Yellow
                 : Black
             : props.isDark
-              ? Black + 'CC'
-              : White + 'CC'};
+            ? Black + 'CC'
+            : White + 'CC'};
     color: ${(props) =>
         props.isOn
             ? props.isDark
                 ? Black
                 : White
             : props.isDark
-              ? Yellow
-              : Black};
+            ? Yellow
+            : Black};
     box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
 
     position: fixed;

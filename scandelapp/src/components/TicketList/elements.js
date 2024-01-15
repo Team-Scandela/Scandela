@@ -31,7 +31,7 @@ export const TicketContainer = styled.div`
 `;
 
 export const TicketInfoContainer = styled.div`
-    background-color: ${props => props.color};
+    background-color: ${(props) => props.color};
     display: flex;
     flex-direction: row;
     justify-content: space-between;

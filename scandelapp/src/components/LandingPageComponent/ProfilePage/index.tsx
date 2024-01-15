@@ -1,5 +1,12 @@
 import * as React from 'react';
-import { ProfilePageContainer, ProfileField, EditButton, EditIcon, ValidateIcon, ReturnButtonContainer } from './elements';
+import {
+    ProfilePageContainer,
+    ProfileField,
+    EditButton,
+    EditIcon,
+    ValidateIcon,
+    ReturnButtonContainer,
+} from './elements';
 
 /** Profile page component
  */
@@ -157,7 +164,9 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
                     )}
                 </ProfileField>
             </ProfilePageContainer>
-            <ReturnButtonContainer onClick={handleReturnButtonClicked}>Return</ReturnButtonContainer>
+            <ReturnButtonContainer onClick={handleReturnButtonClicked}>
+                Return
+            </ReturnButtonContainer>
         </div>
     );
 };

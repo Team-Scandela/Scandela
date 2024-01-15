@@ -2,8 +2,6 @@ import styled from 'styled-components';
 import { Yellow, Black, White } from '../../colors';
 import { TbLogout } from 'react-icons/tb';
 
-
-
 /** Container for the logout button **/
 export const LogoutButtonContainer = styled(TbLogout)`
     display: flex;

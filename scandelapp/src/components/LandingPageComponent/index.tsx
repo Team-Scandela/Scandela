@@ -1,7 +1,18 @@
 import * as React from 'react';
-import { ScandelaText, TicketsImgBg, ScandelaImgBg, FAQImgBg, LogoutImgBg, PremiumImgBg,
-ProfilImgBg, PortalLinkContainer, LogoContainer, TriangleContainerLeft,
-TriangleContainerRight, PortalTitle} from './elements';
+import {
+    ScandelaText,
+    TicketsImgBg,
+    ScandelaImgBg,
+    FAQImgBg,
+    LogoutImgBg,
+    PremiumImgBg,
+    ProfilImgBg,
+    PortalLinkContainer,
+    LogoContainer,
+    TriangleContainerLeft,
+    TriangleContainerRight,
+    PortalTitle,
+} from './elements';
 import logoYellow from '../../assets/logo-128x128-yellow.png';
 import { useNavigate } from 'react-router-dom';
 import PremiumPage from './PremiumPage';
@@ -25,9 +36,12 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({
 }) => {
     const navigate = useNavigate();
     const [isMenuPageDisplayed, setIsMenuPageDisplayed] = React.useState(true);
-    const [isPremiumPageDisplayed, setIsPremiumPageDisplayed] = React.useState(false);
-    const [isTicketPageDisplayed, setIsTicketPageDisplayed] = React.useState(false);
-    const [isProfilePageDisplayed, setIsProfilePageDisplayed] = React.useState(false);
+    const [isPremiumPageDisplayed, setIsPremiumPageDisplayed] =
+        React.useState(false);
+    const [isTicketPageDisplayed, setIsTicketPageDisplayed] =
+        React.useState(false);
+    const [isProfilePageDisplayed, setIsProfilePageDisplayed] =
+        React.useState(false);
     const [isFAQPageDisplayed, setIsFAQPageDisplayed] = React.useState(false);
 
     const handleLogScandela = () => {
@@ -66,27 +80,77 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({
             <TriangleContainerRight></TriangleContainerRight>
             {isMenuPageDisplayed && (
                 <div>
-                    <PortalLinkContainer top={'150px'} left={'380px'} width={'200px'} height={'200px'} borderRadius={'100px'} img={PremiumImgBg} onClick={handlePremiumButtonClicked}>
+                    <PortalLinkContainer
+                        top={'150px'}
+                        left={'380px'}
+                        width={'200px'}
+                        height={'200px'}
+                        borderRadius={'100px'}
+                        img={PremiumImgBg}
+                        onClick={handlePremiumButtonClicked}
+                    >
                         <PremiumImgBg></PremiumImgBg>
                         <PortalTitle fontSize={'1.5rem'}>Premium</PortalTitle>
                     </PortalLinkContainer>
-                    <PortalLinkContainer top={'150px'} left={'600px'} width={'350px'} height={'350px'} borderRadius={'175px'} img={ScandelaImgBg} onClick={handleLogScandela}>
+                    <PortalLinkContainer
+                        top={'150px'}
+                        left={'600px'}
+                        width={'350px'}
+                        height={'350px'}
+                        borderRadius={'175px'}
+                        img={ScandelaImgBg}
+                        onClick={handleLogScandela}
+                    >
                         <ScandelaImgBg></ScandelaImgBg>
                         <PortalTitle fontSize={'3rem'}>Scandela</PortalTitle>
                     </PortalLinkContainer>
-                    <PortalLinkContainer top={'150px'} left={'970px'} width={'200px'} height={'200px'} borderRadius={'100px'} img={ProfilImgBg} onClick={handleProfileButtonClicked}>
+                    <PortalLinkContainer
+                        top={'150px'}
+                        left={'970px'}
+                        width={'200px'}
+                        height={'200px'}
+                        borderRadius={'100px'}
+                        img={ProfilImgBg}
+                        onClick={handleProfileButtonClicked}
+                    >
                         <ProfilImgBg></ProfilImgBg>
                         <PortalTitle fontSize={'1.5rem'}>Profil</PortalTitle>
                     </PortalLinkContainer>
-                    <PortalLinkContainer top={'400px'} left={'420px'} width={'200px'} height={'200px'} borderRadius={'100px'} img={TicketsImgBg} onClick={handleTicketButtonClicked}>
+                    <PortalLinkContainer
+                        top={'400px'}
+                        left={'420px'}
+                        width={'200px'}
+                        height={'200px'}
+                        borderRadius={'100px'}
+                        img={TicketsImgBg}
+                        onClick={handleTicketButtonClicked}
+                    >
                         <TicketsImgBg></TicketsImgBg>
                         <PortalTitle fontSize={'1.5rem'}>Tickets</PortalTitle>
                     </PortalLinkContainer>
-                    <PortalLinkContainer top={'530px'} left={'700px'} width={'150px'} height={'150px'} borderRadius={'75px'} img={LogoutImgBg} onClick={handleLogout}>
+                    <PortalLinkContainer
+                        top={'530px'}
+                        left={'700px'}
+                        width={'150px'}
+                        height={'150px'}
+                        borderRadius={'75px'}
+                        img={LogoutImgBg}
+                        onClick={handleLogout}
+                    >
                         <LogoutImgBg></LogoutImgBg>
-                        <PortalTitle fontSize={'1rem'}>Déconnection</PortalTitle>
+                        <PortalTitle fontSize={'1rem'}>
+                            Déconnection
+                        </PortalTitle>
                     </PortalLinkContainer>
-                    <PortalLinkContainer top={'400px'} left={'930px'} width={'200px'} height={'200px'} borderRadius={'100px'} img={FAQImgBg} onClick={handleFAQButtonClicked}>
+                    <PortalLinkContainer
+                        top={'400px'}
+                        left={'930px'}
+                        width={'200px'}
+                        height={'200px'}
+                        borderRadius={'100px'}
+                        img={FAQImgBg}
+                        onClick={handleFAQButtonClicked}
+                    >
                         <FAQImgBg></FAQImgBg>
                         <PortalTitle fontSize={'1.5rem'}>FAQ</PortalTitle>
                     </PortalLinkContainer>
@@ -94,22 +158,34 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({
             )}
             {isPremiumPageDisplayed && (
                 <div>
-                    <PremiumPage isPremiumActivated={isPremiumActivated} handleToggleIsPremiumActivated={handleToggleIsPremiumActivated} handlePremiumButtonClicked={handlePremiumButtonClicked} ></PremiumPage>
+                    <PremiumPage
+                        isPremiumActivated={isPremiumActivated}
+                        handleToggleIsPremiumActivated={
+                            handleToggleIsPremiumActivated
+                        }
+                        handlePremiumButtonClicked={handlePremiumButtonClicked}
+                    ></PremiumPage>
                 </div>
             )}
             {isTicketPageDisplayed && (
                 <div>
-                    <TicketSenderPage handleTicketButtonClicked={handleTicketButtonClicked}></TicketSenderPage>
+                    <TicketSenderPage
+                        handleTicketButtonClicked={handleTicketButtonClicked}
+                    ></TicketSenderPage>
                 </div>
             )}
             {isProfilePageDisplayed && (
                 <div>
-                    <ProfilePage handleProfileButtonClicked={handleProfileButtonClicked}></ProfilePage>
+                    <ProfilePage
+                        handleProfileButtonClicked={handleProfileButtonClicked}
+                    ></ProfilePage>
                 </div>
             )}
             {isFAQPageDisplayed && (
                 <div>
-                    <FAQPage handleFAQButtonClicked={handleFAQButtonClicked}></FAQPage>
+                    <FAQPage
+                        handleFAQButtonClicked={handleFAQButtonClicked}
+                    ></FAQPage>
                 </div>
             )}
         </div>

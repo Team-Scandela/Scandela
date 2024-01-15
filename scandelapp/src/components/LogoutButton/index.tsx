@@ -1,7 +1,5 @@
 import * as React from 'react';
-import {
-    LogoutButtonContainer,
-} from './elements';
+import { LogoutButtonContainer } from './elements';
 import { useNavigate } from 'react-router-dom';
 
 interface LogoutButtonProps {
@@ -9,10 +7,7 @@ interface LogoutButtonProps {
     isDark: boolean;
 }
 
-const LogoutButton: React.FC<LogoutButtonProps> = ({
-    id,
-    isDark,
-}) => {
+const LogoutButton: React.FC<LogoutButtonProps> = ({ id, isDark }) => {
     const navigate = useNavigate();
 
     const handleLogout = () => {
@@ -21,7 +16,10 @@ const LogoutButton: React.FC<LogoutButtonProps> = ({
 
     return (
         <div>
-            <LogoutButtonContainer isDark={isDark} onClick={handleLogout}></LogoutButtonContainer>
+            <LogoutButtonContainer
+                isDark={isDark}
+                onClick={handleLogout}
+            ></LogoutButtonContainer>
         </div>
     );
 };

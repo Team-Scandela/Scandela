@@ -16,7 +16,10 @@ const LandingPage: React.FC<LandingPageProps> = ({
             id={'landingPage'}
             style={{ backgroundColor: '#2A2B2A', height: '100vh' }}
         >
-            <LandingPageComponent isPremiumActivated={isPremiumActivated} handleToggleIsPremiumActivated={handleToggleIsPremiumActivated}/>
+            <LandingPageComponent
+                isPremiumActivated={isPremiumActivated}
+                handleToggleIsPremiumActivated={handleToggleIsPremiumActivated}
+            />
         </div>
     );
 };

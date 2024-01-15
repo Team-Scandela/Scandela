@@ -1,6 +1,13 @@
 import styled from 'styled-components';
-import { Yellow, Black, White, Grey, DarkGrey, DarkYellow } from '../../../colors';
-import { IoIosReturnLeft } from "react-icons/io";
+import {
+    Yellow,
+    Black,
+    White,
+    Grey,
+    DarkGrey,
+    DarkYellow,
+} from '../../../colors';
+import { IoIosReturnLeft } from 'react-icons/io';
 
 export const PremiumPageContainer = styled.div`
     position: absolute;
@@ -61,7 +68,6 @@ export const PremiumButtonOnOffStyle = styled.div`
     &:active {
         opacity: 0.5;
     }
-
 `;
 
 /** Style for the premium button on/off text **/
@@ -94,5 +100,4 @@ export const ReturnButtonContainer = styled(IoIosReturnLeft)`
     &:active {
         opacity: 0.5;
     }
-
 `;
