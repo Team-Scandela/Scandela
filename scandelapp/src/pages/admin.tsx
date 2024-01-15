@@ -19,24 +19,20 @@ interface Ticket {
 
 /** Admin page of the app */
 const Admin: React.FC = () => {
-
     const [tickets, setTickets] = React.useState<Ticket[]>([]);
 
     const getTicket = async () => {
         const response = await fetch('http://localhost:8080/tickets');
         const tickets = await response.json();
         setTickets(tickets);
-    }
+    };
 
     React.useEffect(() => {
         getTicket();
     }, []);
 
-
     return (
-        <div
-            style={{ backgroundColor: '#fff', height: '100vh' }}
-        >
+        <div style={{ backgroundColor: '#fff', height: '100vh' }}>
             <h1 style={titleStyle}>Administration : Ticket list</h1>
             <TicketList data={tickets} />
         </div>

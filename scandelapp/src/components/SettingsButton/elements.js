@@ -4,7 +4,7 @@ import { TbLogout } from 'react-icons/tb';
 import { CgProfile } from 'react-icons/cg';
 import { MdOutlineLanguage } from 'react-icons/md';
 import { MdDownload } from 'react-icons/md';
-import { IoTicketSharp } from "react-icons/io5";
+import { IoTicketSharp } from 'react-icons/io5';
 
 /** Container for the background of the searchbar **/
 export const SettingsButtonContainer = styled.div`

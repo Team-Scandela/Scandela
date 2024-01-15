@@ -7,7 +7,7 @@ import {
     ProfileButton,
     LanguageButton,
     DownloadButton,
-    TicketButton
+    TicketButton,
 } from './elements';
 import LightDark from '../LightDark';
 import ProfilPannel from '../ProfilPannel';
@@ -132,12 +132,7 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({
                     setIsDark={setIsDark}
                 />
             )}
-            {isTicketOpen && (
-                <TicketSender
-                    isDark={isDark}
-                />
-            )}
-
+            {isTicketOpen && <TicketSender isDark={isDark} />}
         </div>
     );
 };
