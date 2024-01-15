@@ -11,9 +11,7 @@ const titleStyle = {
 /** Admin page of the app */
 const Admin: React.FC = () => {
     return (
-        <div
-            style={{ backgroundColor: '#fff', height: '100vh' }}
-        >
+        <div style={{ backgroundColor: '#fff', height: '100vh' }}>
             <h1 style={titleStyle}>Administration : Ticket list</h1>
             <TicketList />
         </div>
