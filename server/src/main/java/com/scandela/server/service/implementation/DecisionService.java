@@ -1,5 +1,6 @@
 package com.scandela.server.service.implementation;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -21,6 +22,7 @@ import com.scandela.server.entity.LampDecision;
 import com.scandela.server.exception.DecisionException;
 import com.scandela.server.service.AbstractService;
 import com.scandela.server.service.IDecisionService;
+import com.scandela.server.util.TimeHelper;
 
 @Service
 public class DecisionService extends AbstractService<Decision> implements IDecisionService {
@@ -100,6 +102,66 @@ public class DecisionService extends AbstractService<Decision> implements IDecis
 			
 			decisions.add(decision);
 			lampDecisions.add(lampDecision);
+		});
+		
+		dao.saveAll(decisions);
+		lampDecisionDao.saveAll(lampDecisions);
+		
+		return decisions;
+	}
+	
+	@Override
+	@Transactional(rollbackFor = { Exception.class })
+	public List<Decision> algoReductionConsoHoraire() throws Exception {
+		Optional<DecisionType> decisionTypeAllumer = decisionTypeDao.findByTitleContains("Allumer lampadaire");
+		Optional<DecisionType> decisionTypeEteindre = decisionTypeDao.findByTitleContains("Éteindre lampadaire");
+		
+		if (decisionTypeAllumer.isEmpty() || decisionTypeEteindre.isEmpty()) {
+			throw new DecisionException(DecisionException.DECISIONTYPE_LOADING);
+		}
+		
+		LocalTime sunrise = TimeHelper.getSunriseTime(47.2173, -1.5534);//lighOff1 avec coord de nantes
+		LocalTime sunset = TimeHelper.getSunsetTime(47.2173, -1.5534);//LightOn2 avec coord de nantes
+
+		Page<Lamp> lampsPageAllumer = lampDao.findByLightOn2SuperiorAndLampDecisionsContains(sunset, "Allumer le lampdaire", PageRequest.of(0, 25));
+		Page<Lamp> lampsPageEteindre = lampDao.findByLightOffInferiorAndLampDecisionsContains(sunrise, "Éteindre le lampdaire", PageRequest.of(0, 25));
+		List<Lamp> lampsEteindre = lampsPageEteindre.getContent();
+		List<Lamp> lampsAllumer = lampsPageAllumer.getContent();
+		List<Decision> decisions = new ArrayList<>();
+		List<LampDecision> lampDecisions = new ArrayList<>();
+
+		lampsAllumer.forEach(lamp -> {
+			Decision decisionAllumer = Decision.builder()
+					.type(decisionTypeAllumer.get())
+					.location(lamp.getAddress())
+					.description("Coucher du soleil à " + sunset.toString())
+					.solution("Allumer le lampadaire " + lamp.getName() + " à partir de " + sunset.toString())//TODO changer les solution en comparant les anciennes plages et nouvelles proposées
+					.build();
+			LampDecision lampDecisionAllumer = LampDecision.builder()
+					.decision(decisionAllumer)
+					.lamp(lamp)
+					.build();
+			decisionAllumer.setLampDecision(lampDecisionAllumer);
+
+			decisions.add(decisionAllumer);
+			lampDecisions.add(lampDecisionAllumer);
+		});
+		
+		lampsEteindre.forEach(lamp -> {
+			Decision decisionEteindre = Decision.builder()
+					.type(decisionTypeEteindre.get())
+					.location(lamp.getAddress())
+					.description("Lever du soleil à " + sunrise.toString())
+					.solution("Éteindre le lampadaire " + lamp.getName() + " à partir de " + sunrise.toString())//TODO changer les solution en comparant les anciennes plages et nouvelles proposées
+					.build();
+			LampDecision lampDecisionEteindre = LampDecision.builder()
+					.decision(decisionEteindre)
+					.lamp(lamp)
+					.build();
+			decisionEteindre.setLampDecision(lampDecisionEteindre);
+
+			decisions.add(decisionEteindre);
+			lampDecisions.add(lampDecisionEteindre);
 		});
 		
 		dao.saveAll(decisions);

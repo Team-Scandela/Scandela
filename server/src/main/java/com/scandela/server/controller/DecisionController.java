@@ -89,5 +89,9 @@ public class DecisionController extends AbstractController<Decision> {
 	public List<Decision> algoChangementBulb() throws Exception {
 		return ((IDecisionService) service).algoChangementBulb();
 	}
-
+	
+	@PostMapping("/algoReductionConsoHoraire")
+	public List<Decision> algoReductionConsoHoraire() throws Exception {
+		return ((IDecisionService) service).algoReductionConsoHoraire();
+	}
 }

@@ -79,12 +79,18 @@ public class Lamp implements Serializable {
 
 	@Column(name = "lng", nullable = false)
 	private Double longitude;
-	
+	//TODO changer les 2 lighton et lightoff pour stocker une liste plutot
 	@Column(name = "lighton")
 	private LocalTime lightOn;
 
 	@Column(name = "lightoff")
 	private LocalTime lightOff;
+	
+	@Column(name = "lighton2")
+	private LocalTime lightOn2;
+
+	@Column(name = "lightoff2")
+	private LocalTime lightOff2;
 
 	@Column(name = "height", nullable = false)
 	private Double height;

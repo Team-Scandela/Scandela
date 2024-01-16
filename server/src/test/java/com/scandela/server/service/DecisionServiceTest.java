@@ -2,6 +2,7 @@ package com.scandela.server.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertThrows;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -18,11 +19,15 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.PageImpl;
 
 import com.scandela.server.dao.DecisionDao;
 import com.scandela.server.dao.DecisionTypeDao;
+import com.scandela.server.dao.LampDao;
+import com.scandela.server.dao.LampDecisionDao;
 import com.scandela.server.entity.Decision;
 import com.scandela.server.entity.DecisionType;
+import com.scandela.server.entity.Lamp;
 import com.scandela.server.exception.DecisionException;
 import com.scandela.server.service.implementation.DecisionService;
 
@@ -39,6 +44,12 @@ public class DecisionServiceTest {
 	
 	@Mock
 	private DecisionTypeDao decisionTypeDaoMock;
+	
+	@Mock
+	private LampDao lampDaoMock;
+	
+	@Mock
+	private LampDecisionDao lampDecisionDaoMock;
 	
 	private final UUID id = UUID.randomUUID();
 	private final String description = "desc";
@@ -231,6 +242,125 @@ public class DecisionServiceTest {
 		testedObject.delete(id);
 
 		verify(decisionDaoMock, times(1)).deleteById(id);
+	}
+	
+	@Test
+	public void testChangementBulb() throws Exception {
+		DecisionType decisionType = DecisionType.builder()
+				.title("Changement bulb")
+				.build();
+		Lamp lamp = Lamp.builder()
+				.address("AAA")
+				.lampType("SHDE")
+				.build();
+		
+		when(decisionTypeDaoMock.findByTitleContains("Changement")).thenReturn(Optional.of(decisionType));
+		when(lampDaoMock.findByTypeIsNotAndLampDecisionsContains(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(new PageImpl<>(Arrays.asList(lamp)));
+		
+		List<Decision> result = testedObject.algoChangementBulb();
+
+		verify(decisionTypeDaoMock, times(1)).findByTitleContains("Changement");
+		verify(lampDaoMock, times(1)).findByTypeIsNotAndLampDecisionsContains(Mockito.any(), Mockito.any(), Mockito.any());
+		verify(decisionDaoMock, times(1)).saveAll(Mockito.any());
+		verify(lampDecisionDaoMock, times(1)).saveAll(Mockito.any());
+		assertThat(result).hasSize(1);
+		assertThat(result.get(0).getDescription()).contains("Ampoule LED moins consommatrice.");
+		assertThat(result.get(0).getSolution()).contains("Changer l'ampoule \"");
+		assertThat(result.get(0).getLampDecision().getLamp()).isEqualTo(lamp);
+	}
+	
+	@Test
+	public void testAlgoChangementBulb_whenDecisionTypeNotFound_thenThrowDecisionException() {
+		when(decisionTypeDaoMock.findByTitleContains("Changement")).thenReturn(Optional.empty());
+		
+		DecisionException result = assertThrows(DecisionException.class, () -> testedObject.algoChangementBulb());
+
+		verify(decisionTypeDaoMock, times(1)).findByTitleContains("Changement");
+		verify(lampDaoMock, never()).findByTypeIsNotAndLampDecisionsContains(Mockito.any(), Mockito.any(), Mockito.any());
+		verify(decisionDaoMock, never()).saveAll(Mockito.any());
+		verify(lampDecisionDaoMock, never()).saveAll(Mockito.any());
+		assertThat(result.getMessage()).isEqualTo(DecisionException.DECISIONTYPE_LOADING);
+	}
+	
+	@Test
+	public void testAlgoReductionConsoHoraire() throws Exception {
+		DecisionType decisionTypeAllumer = DecisionType.builder()
+				.title("Allumer lampadaire")
+				.build();
+		DecisionType decisionTypeEteindre = DecisionType.builder()
+				.title("Éteindre lampadaire")
+				.build();
+		Lamp lamp1 = Lamp.builder()
+				.address("AAA")
+				.name("NAME1")
+				.build();
+		Lamp lamp2 = Lamp.builder()
+				.address("BBB")
+				.name("NAME2")
+				.build();
+
+		when(decisionTypeDaoMock.findByTitleContains("Allumer lampadaire")).thenReturn(Optional.of(decisionTypeAllumer));
+		when(decisionTypeDaoMock.findByTitleContains("Éteindre lampadaire")).thenReturn(Optional.of(decisionTypeEteindre));
+		when(lampDaoMock.findByLightOn2SuperiorAndLampDecisionsContains(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(new PageImpl<>(Arrays.asList(lamp1)));
+		when(lampDaoMock.findByLightOffInferiorAndLampDecisionsContains(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(new PageImpl<>(Arrays.asList(lamp2)));
+		
+		List<Decision> result = testedObject.algoReductionConsoHoraire();
+
+		verify(decisionTypeDaoMock, times(1)).findByTitleContains("Allumer lampadaire");
+		verify(decisionTypeDaoMock, times(1)).findByTitleContains("Éteindre lampadaire");
+		verify(lampDaoMock, times(1)).findByLightOn2SuperiorAndLampDecisionsContains(Mockito.any(), Mockito.any(), Mockito.any());
+		verify(lampDaoMock, times(1)).findByLightOffInferiorAndLampDecisionsContains(Mockito.any(), Mockito.any(), Mockito.any());
+		verify(decisionDaoMock, times(1)).saveAll(Mockito.any());
+		verify(lampDecisionDaoMock, times(1)).saveAll(Mockito.any());
+		assertThat(result).hasSize(2);
+		assertThat(result.get(0).getType()).isEqualTo(decisionTypeAllumer);
+		assertThat(result.get(0).getDescription()).contains("Coucher du soleil à ");
+		assertThat(result.get(0).getSolution()).contains(lamp1.getName());
+		assertThat(result.get(0).getLampDecision().getLamp()).isEqualTo(lamp1);
+		assertThat(result.get(1).getType()).isEqualTo(decisionTypeEteindre);
+		assertThat(result.get(1).getDescription()).contains("Lever du soleil à ");
+		assertThat(result.get(1).getSolution()).contains(lamp2.getName());
+		assertThat(result.get(1).getLampDecision().getLamp()).isEqualTo(lamp2);
+	}
+	
+	@Test
+	public void testAlgoReductionConsoHoraire_whenDecisionTypeAllumerNotFound_thenThrowDecisionException() {
+		DecisionType decisionTypeEteindre = DecisionType.builder()
+				.title("Éteindre lampadaire")
+				.build();
+		
+		when(decisionTypeDaoMock.findByTitleContains("Allumer lampadaire")).thenReturn(Optional.empty());
+		when(decisionTypeDaoMock.findByTitleContains("Éteindre lampadaire")).thenReturn(Optional.of(decisionTypeEteindre));
+		
+		DecisionException result = assertThrows(DecisionException.class, () -> testedObject.algoReductionConsoHoraire());
+
+		verify(decisionTypeDaoMock, times(1)).findByTitleContains("Allumer lampadaire");
+		verify(decisionTypeDaoMock, times(1)).findByTitleContains("Éteindre lampadaire");
+		verify(lampDaoMock, never()).findByLightOn2SuperiorAndLampDecisionsContains(Mockito.any(), Mockito.any(), Mockito.any());
+		verify(lampDaoMock, never()).findByLightOffInferiorAndLampDecisionsContains(Mockito.any(), Mockito.any(), Mockito.any());
+		verify(decisionDaoMock, never()).saveAll(Mockito.any());
+		verify(lampDecisionDaoMock, never()).saveAll(Mockito.any());
+		assertThat(result.getMessage()).isEqualTo(DecisionException.DECISIONTYPE_LOADING);
+	}
+	
+	@Test
+	public void testAlgoReductionConsoHoraire_whenDecisionTypeEteindreNotFound_thenThrowDecisionException() {
+		DecisionType decisionTypeAllumer = DecisionType.builder()
+				.title("Allumer lampadaire")
+				.build();
+		
+		when(decisionTypeDaoMock.findByTitleContains("Allumer lampadaire")).thenReturn(Optional.of(decisionTypeAllumer));
+		when(decisionTypeDaoMock.findByTitleContains("Éteindre lampadaire")).thenReturn(Optional.empty());
+		
+		DecisionException result = assertThrows(DecisionException.class, () -> testedObject.algoReductionConsoHoraire());
+
+		verify(decisionTypeDaoMock, times(1)).findByTitleContains("Allumer lampadaire");
+		verify(decisionTypeDaoMock, times(1)).findByTitleContains("Éteindre lampadaire");
+		verify(lampDaoMock, never()).findByLightOn2SuperiorAndLampDecisionsContains(Mockito.any(), Mockito.any(), Mockito.any());
+		verify(lampDaoMock, never()).findByLightOffInferiorAndLampDecisionsContains(Mockito.any(), Mockito.any(), Mockito.any());
+		verify(decisionDaoMock, never()).saveAll(Mockito.any());
+		verify(lampDecisionDaoMock, never()).saveAll(Mockito.any());
+		assertThat(result.getMessage()).isEqualTo(DecisionException.DECISIONTYPE_LOADING);
 	}
 	
 }
