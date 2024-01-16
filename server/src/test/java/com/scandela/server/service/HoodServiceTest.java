@@ -200,6 +200,27 @@ public class HoodServiceTest {
 		verify(townDaoMock, times(1)).findById(Mockito.any());
 		assertThat(result.getMessage()).isEqualTo(HoodException.TOWN_LOADING);
 	}
+	
+	@Test
+	public void testUpdate() throws Exception {
+		UUID id2 = UUID.randomUUID();
+		String name2 = "Test2";
+		Hood hood2 = Hood.builder()
+				.id(id2)
+				.name(name2)
+				.latitude(1878.01)
+				.longitude(1371.0913)
+				.build();
+		
+		when(hoodDaoMock.findById(id)).thenReturn(Optional.ofNullable(hood));
+		
+		Hood result = testedObject.update(id, hood2);
+		
+		assertThat(result.getId()).isEqualTo(id);
+		assertThat(result.getName()).isEqualTo(hood2.getName());
+		assertThat(result.getLatitude()).isEqualTo(hood2.getLatitude());
+		assertThat(result.getLongitude()).isEqualTo(hood2.getLongitude());
+	}
 
 	@Test
 	public void testDelete() {

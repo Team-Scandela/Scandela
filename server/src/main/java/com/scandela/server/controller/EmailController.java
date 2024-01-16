@@ -10,7 +10,7 @@ import com.scandela.server.service.IEmailService;
 
 @RestController
 @RequestMapping(value = "/emailConfirmation")
-public class EmailController extends AbstractController {
+public class EmailController {
 
     // Attributes \\
 	// Private \\

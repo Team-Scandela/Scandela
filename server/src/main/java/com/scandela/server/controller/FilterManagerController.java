@@ -12,7 +12,7 @@ import com.scandela.server.service.IFilterManagerService;
 
 @RestController
 @RequestMapping(value = "/filtermanager")
-public class FilterManagerController extends AbstractController {
+public class FilterManagerController {
 
     @Autowired
     private IFilterManagerService filterManagerService;

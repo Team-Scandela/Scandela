@@ -19,6 +19,8 @@ public class IncidentService extends AbstractService<Incident> implements IIncid
 
 	// Attributes \\
 		// Private \\
+	private final String[] EDITABLES = { "id", "town", "lampIncidents" };
+	
 	private TownDao townDao;
 
 	// Constructors \\
@@ -44,6 +46,18 @@ public class IncidentService extends AbstractService<Incident> implements IIncid
 			throw e;
 		}
 	}
+
+	@Override
+	@Transactional(rollbackFor = { Exception.class })
+    public Incident update(UUID id, Incident update, String... editables) throws Exception {
+		try {
+			Incident incident = super.update(id, update, EDITABLES);
+	        
+	        return incident;
+		} catch (Exception e) {
+			throw e;
+		}
+    }
 
 		// Private \\
 	private void loadTown(Incident newIncident) throws IncidentException {

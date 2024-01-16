@@ -255,6 +255,39 @@ public class UserServiceTest {
 	}
 	
 	@Test
+	public void testUpdate() throws Exception {
+		UUID id2 = UUID.randomUUID();
+		String email2 = "test2@test.test";
+		String username2 = "tester2";
+		String password2 = "test2";
+		Integer rights2 = 2;
+		User user2 = User.builder()
+				.id(id2)
+				.email(email2)
+				.username(username2)
+				.password(password2)
+				.rights(rights2)
+				.moreInformations(new ArrayList<>())
+				.darkmode(false)
+				.lastConnexion(LocalDateTime.now().minusDays(1))
+				.build();
+		
+		
+		when(userDaoMock.findById(id)).thenReturn(Optional.ofNullable(user));
+		
+		User result = testedObject.update(id, user2);
+
+		assertThat(result.getId()).isEqualTo(id);
+		assertThat(result.getEmail()).isEqualTo(user2.getEmail());
+		assertThat(result.getUsername()).isEqualTo(user2.getUsername());
+		assertThat(result.getPassword()).isEqualTo(user2.getPassword());
+		assertThat(result.getRights()).isEqualTo(user2.getRights());
+		assertThat(result.getMoreInformations()).isEqualTo(user2.getMoreInformations());
+		assertThat(result.isDarkmode()).isEqualTo(user2.isDarkmode());
+		assertThat(result.getLastConnexion()).isEqualTo(user2.getLastConnexion());
+	}
+	
+	@Test
 	public void testDelete() {
 		testedObject.delete(id);
 

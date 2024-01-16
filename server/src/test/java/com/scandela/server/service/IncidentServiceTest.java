@@ -207,6 +207,35 @@ public class IncidentServiceTest {
 		verify(townDaoMock, times(1)).findById(Mockito.any());
 		assertThat(result.getMessage()).isEqualTo(IncidentException.TOWN_LOADING);
 	}
+	
+	@Test
+	public void testUpdate() throws Exception {
+		UUID id2 = UUID.randomUUID();
+		String title2 = "Title2";
+		String description2 = "Description2";
+		float impactElectricity2 = 12131.17f;
+		float impactEcology2 = 113.45f;
+		float impactQuality2 = 3877.78f;
+		Incident incident2 = Incident.builder()
+				.id(id2)
+				.title(title2)
+				.description(description2)
+				.impactElectricity(impactElectricity2)
+				.impactEcology(impactEcology2)
+				.impactQuality(impactQuality2)
+				.build();
+		
+		when(incidentDaoMock.findById(id)).thenReturn(Optional.ofNullable(incident));
+		
+		Incident result = testedObject.update(id, incident2);
+		
+		assertThat(result.getId()).isEqualTo(id);
+		assertThat(result.getTitle()).isEqualTo(incident2.getTitle());
+		assertThat(result.getDescription()).isEqualTo(incident2.getDescription());
+		assertThat(result.getImpactElectricity()).isEqualTo(incident2.getImpactElectricity());
+		assertThat(result.getImpactEcology()).isEqualTo(incident2.getImpactEcology());
+		assertThat(result.getImpactQuality()).isEqualTo(incident2.getImpactQuality());
+	}
 
 	@Test
 	public void testDelete() {
