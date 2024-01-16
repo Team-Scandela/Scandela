@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import com.scandela.server.entity.Ticket;
+import com.scandela.server.service.IService;
 import com.scandela.server.service.ITicketService;
 
 @RestController
@@ -21,7 +22,11 @@ import com.scandela.server.service.ITicketService;
 @RequestMapping(value = "/tickets")
 public class TicketController extends AbstractController {
 
-    @Autowired
+    protected TicketController(IService service) {
+		super(service);
+	}
+
+	@Autowired
 	private ITicketService ticketService;
 
     @GetMapping
