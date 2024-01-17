@@ -14,38 +14,35 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import com.scandela.server.entity.Ticket;
-import com.scandela.server.service.IService;
 import com.scandela.server.service.ITicketService;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000/, https://app.scandela.fr/")
 @RequestMapping(value = "/tickets")
-public class TicketController extends AbstractController {
+public class TicketController extends AbstractController<Ticket> {
 
-    protected TicketController(IService service) {
-		super(service);
-	}
-
-	@Autowired
-	private ITicketService ticketService;
+    @Autowired
+    protected TicketController(ITicketService service) {
+        super(service);
+    }
 
     @GetMapping
-	public List<Ticket> getTickets() {
-		return ticketService.getAll();
-	}
+    public List<Ticket> getTickets() {
+        return super.getAll();
+    }
 
     @GetMapping("/{id}")
-	public Ticket getUser(@PathVariable UUID id) {
-		return ticketService.get(id);
-	}
+    public Ticket getTicket(@PathVariable UUID id) {
+        return super.get(id);
+    }
 
     @PostMapping("/create")
     public Ticket createTicket(@RequestBody Ticket newTicket) throws Exception {
-        return ticketService.create(newTicket);
+        return super.create(newTicket);
     }
 
     @DeleteMapping("/delete/{id}")
-	public void deleteTicket(@PathVariable UUID id) {
-		ticketService.delete(id);
-	}
+    public void deleteTicket(@PathVariable UUID id) {
+        super.delete(id);
+    }
 }
