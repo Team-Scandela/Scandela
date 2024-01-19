@@ -1,8 +1,8 @@
 import * as React from 'react';
 import FilterMenu from '../components/FilterMenu';
 import Map from '../components/Map';
-import LightDark from '../components/LightDark';
 import SearchBar from '../components/SearchBar';
+import ToastHistory from '../components/ToastHistory';
 import { handleSearchUtils } from '../utils/searchUtils';
 import DecisionMenu from '../components/DecisionMenu';
 import EditInPdfPannel from '../components/EditInPdfPannel';
@@ -124,6 +124,7 @@ const MainDB: React.FC<MainProps> = ({ isPremiumActivated }) => {
                 solution: 'Off: 18h-10h',
             },
         ]);
+    const [toastHistoryData, setToastHistoryData] = React.useState([]);
 
     const handleSearch = (value: string) => {
         handleSearchUtils(value, lat, setLat, lng, setLng, zoom, setZoom);
@@ -162,6 +163,17 @@ const MainDB: React.FC<MainProps> = ({ isPremiumActivated }) => {
         setIsLassoActive(isActive);
     };
 
+    const addNotificationToList = (description: string) => {
+        const date = new Date();
+
+        const hour = date.getHours();
+        const min = date.getMinutes();
+        const time = `${hour}:${min}`;
+        const updatedList = [...toastHistoryData, { time, description }];
+
+        setToastHistoryData(updatedList);
+    }
+
     return (
         <div>
             <MapDB
@@ -188,6 +200,11 @@ const MainDB: React.FC<MainProps> = ({ isPremiumActivated }) => {
             <CityButton id={'cityButtonId'} isDark={isDark} />
             {isPremiumActivated && (
                 <>
+                    <ToastHistory
+                        id={'toastHistoryId'}
+                        isDark={isDark}
+                        toastHistoryData={toastHistoryData}
+                    />
                     <ActionsList
                         id={'actionsListComponentId'}
                         isDark={isDark}
@@ -227,6 +244,7 @@ const MainDB: React.FC<MainProps> = ({ isPremiumActivated }) => {
                         handleCurrentSelectedChange={
                             handleCurrentSelectedChange
                         }
+                        addNotificationToList={addNotificationToList}
                     />
                     <EditInPdfPannel
                         id={'editinPdfPannelComponentId'}

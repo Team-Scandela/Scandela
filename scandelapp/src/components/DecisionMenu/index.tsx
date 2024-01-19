@@ -35,6 +35,7 @@ import { showToast } from '../Toastr';
  * @param {function} handleButtonSelectAllClick - Callback function
  * @param {function} handleCurrentSelectedChange - Callback function
  * @param {string} currentSelected - Current selected optimisation type
+ * @param {function} addNotificationToList - Function to add a toastr notification to the toast history
  */
 interface DecisionMenuProps {
     id: string;
@@ -48,6 +49,7 @@ interface DecisionMenuProps {
     handleButtonSelectAllClick: () => void;
     handleCurrentSelectedChange: (data: string) => void;
     currentSelected: string;
+    addNotificationToList: (description: string) => void;
 }
 
 const DecisionMenu: React.FC<DecisionMenuProps> = ({
@@ -62,6 +64,7 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
     handleButtonSelectAllClick,
     handleCurrentSelectedChange,
     currentSelected,
+    addNotificationToList,
 }) => {
     const [dropdownExpended, setDropdownExpended] = React.useState(false);
     const [items, setItems] = React.useState([]);
@@ -111,7 +114,7 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
             }
         });
         handleOptimisationTemplateDataChange(updatedData);
-        if (itemsUpdated === 0)
+        if (itemsUpdated === 0) {
             showToast(
                 'error',
                 "Il n'y a rien à ajouter dans la liste d'action",
@@ -122,7 +125,8 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
                 false,
                 true
             );
-        else if (itemsUpdated > 0)
+            addNotificationToList("Echec de modification de la liste d'action");
+        } else if (itemsUpdated > 0) {
             showToast(
                 'success',
                 'La liste des actions a bien été mise à jour',
@@ -133,6 +137,8 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
                 false,
                 true
             );
+            addNotificationToList("Mise à jour de la liste d'action");
+        }
         setIsOnCooldown(true);
         setTimeout(() => {
             setIsOnCooldown(false);

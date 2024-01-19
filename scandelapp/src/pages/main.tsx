@@ -1,8 +1,8 @@
 import * as React from 'react';
 import FilterMenu from '../components/FilterMenu';
 import Map from '../components/Map';
-import LightDark from '../components/LightDark';
 import SearchBar from '../components/SearchBar';
+import ToastHistory from '../components/ToastHistory';
 import { handleSearchUtils } from '../utils/searchUtils';
 import DecisionMenu from '../components/DecisionMenu';
 import EditInPdfPannel from '../components/EditInPdfPannel';
@@ -15,6 +15,7 @@ import { Gauges } from '../components/Gauges';
 import Lasso from '../components/Lasso';
 import CityButton from '../components/CityButton';
 import SmallLampInfosPopup from '../components/SmallLampInfosPopup';
+import MapDB from '../components/MapDB';
 
 export enum Filters {
     pin = 'pin',
@@ -123,6 +124,7 @@ const Main: React.FC<MainProps> = ({ isPremiumActivated }) => {
                 solution: 'Off: 18h-10h',
             },
         ]);
+    const [toastHistoryData, setToastHistoryData] = React.useState([]);
 
     const handleSearch = (value: string) => {
         handleSearchUtils(value, lat, setLat, lng, setLng, zoom, setZoom);
@@ -161,6 +163,21 @@ const Main: React.FC<MainProps> = ({ isPremiumActivated }) => {
         setIsLassoActive(isActive);
     };
 
+    const addNotificationToList = (description: string) => {
+        const date = new Date();
+
+        const jour = date.getDate();
+        const mois = date.getMonth() + 1;
+        const hour = date.getHours();
+        const min = date.getMinutes();
+
+        const time = `${jour.toString().padStart(2, '0')}/${mois.toString().padStart(2, '0')} ${hour}:${min}`;
+        const updatedList = [{ time, description }, ...toastHistoryData];
+        const limitedList = updatedList.slice(0, 7);
+
+        setToastHistoryData(limitedList);
+      };
+
     return (
         <div>
             <Map
@@ -187,6 +204,11 @@ const Main: React.FC<MainProps> = ({ isPremiumActivated }) => {
             <CityButton id={'cityButtonId'} isDark={isDark} />
             {isPremiumActivated && (
                 <>
+                    <ToastHistory
+                        id={'toastHistoryId'}
+                        isDark={isDark}
+                        toastHistoryData={toastHistoryData}
+                    />
                     <ActionsList
                         id={'actionsListComponentId'}
                         isDark={isDark}
@@ -226,6 +248,7 @@ const Main: React.FC<MainProps> = ({ isPremiumActivated }) => {
                         handleCurrentSelectedChange={
                             handleCurrentSelectedChange
                         }
+                        addNotificationToList={addNotificationToList}
                     />
                     <EditInPdfPannel
                         id={'editinPdfPannelComponentId'}
