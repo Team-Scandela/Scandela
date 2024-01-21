@@ -45,7 +45,7 @@ export const TriangleContainerLeft = styled.div`
     transform: rotate(180deg);
 `;
 
-/** Container for the left triangle */
+/** Container for the right triangle */
 export const TriangleContainerRight = styled.div`
     display: flex;
     position: absolute;

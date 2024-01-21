@@ -34,6 +34,9 @@ const Toastr: React.FC<ToastrProps> = ({ id, isDark }) => {
  *    @param {boolean} closeOnClick - OPTIONAL - Is the toastr closing on click ?
  *    @param {boolean} pauseOnHover - OPTIONAL - Is the toastr pausing on hover ?
  *    @param {boolean} draggable - OPTIONAL - Is the toastr draggable ?
+ *
+ * 3. Optionnel : Passer en paramètre de la class utilisant le toastr la fonction AddNotificationToList depuis main.tsx
+ *    pour ajouter la notification dans l'historique
  */
 export const showToast = (
     type: string,
