@@ -26,11 +26,12 @@ const ToastHistory: React.FC<ToastHistoryProps> = ({
     isDark,
     toastHistoryData,
 }) => {
-    const [toastHistoryExtended, setToastHistoryExtended] = React.useState(false);
+    const [toastHistoryExtended, setToastHistoryExtended] =
+        React.useState(false);
 
     const handleToastHistoryPannelButtonClicked = () => {
         setToastHistoryExtended(!toastHistoryExtended);
-    }
+    };
 
     return (
         <div>
@@ -41,15 +42,19 @@ const ToastHistory: React.FC<ToastHistoryProps> = ({
             >
                 <ToastHistoryButtonIcon size={30} />
             </ToastHistoryButton>
-            <ToastHistoryPannel
-                isDark={isDark}
-                show={toastHistoryExtended}
-            >
-                <NotificationsText isDark={isDark}>Notifications</NotificationsText>
+            <ToastHistoryPannel isDark={isDark} show={toastHistoryExtended}>
+                <NotificationsText isDark={isDark}>
+                    Notifications
+                </NotificationsText>
                 <NotificationsContainer isDark={isDark}>
                     {toastHistoryData.map((item: any, i: number) => (
-                        <NotificationTemplateContainer isDark={isDark} y={53 * i}>
-                            <DescriptionText isDark={isDark}>{item.description}</DescriptionText>
+                        <NotificationTemplateContainer
+                            isDark={isDark}
+                            y={53 * i}
+                        >
+                            <DescriptionText isDark={isDark}>
+                                {item.description}
+                            </DescriptionText>
                             <TimeText isDark={isDark}>{item.time}</TimeText>
                         </NotificationTemplateContainer>
                     ))}

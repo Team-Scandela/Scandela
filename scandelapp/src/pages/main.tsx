@@ -171,12 +171,14 @@ const Main: React.FC<MainProps> = ({ isPremiumActivated }) => {
         const hour = date.getHours();
         const min = date.getMinutes();
 
-        const time = `${jour.toString().padStart(2, '0')}/${mois.toString().padStart(2, '0')} ${hour}:${min}`;
+        const time = `${jour.toString().padStart(2, '0')}/${mois
+            .toString()
+            .padStart(2, '0')} ${hour}:${min}`;
         const updatedList = [{ time, description }, ...toastHistoryData];
         const limitedList = updatedList.slice(0, 7);
 
         setToastHistoryData(limitedList);
-      };
+    };
 
     return (
         <div>

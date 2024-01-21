@@ -172,7 +172,7 @@ const MainDB: React.FC<MainProps> = ({ isPremiumActivated }) => {
         const updatedList = [...toastHistoryData, { time, description }];
 
         setToastHistoryData(updatedList);
-    }
+    };
 
     return (
         <div>

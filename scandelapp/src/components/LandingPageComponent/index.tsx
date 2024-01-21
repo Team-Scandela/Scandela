@@ -81,8 +81,8 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({
             {isMenuPageDisplayed && (
                 <div>
                     <PortalLinkContainer
-                        top={'150px'}
-                        left={'380px'}
+                        top={'21%'}
+                        left={'25%'}
                         width={'200px'}
                         height={'200px'}
                         borderRadius={'100px'}
@@ -93,8 +93,8 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({
                         <PortalTitle fontSize={'1.5rem'}>Premium</PortalTitle>
                     </PortalLinkContainer>
                     <PortalLinkContainer
-                        top={'150px'}
-                        left={'600px'}
+                        top={'21%'}
+                        left={'39%'}
                         width={'350px'}
                         height={'350px'}
                         borderRadius={'175px'}
@@ -105,8 +105,8 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({
                         <PortalTitle fontSize={'3rem'}>Scandela</PortalTitle>
                     </PortalLinkContainer>
                     <PortalLinkContainer
-                        top={'150px'}
-                        left={'970px'}
+                        top={'21%'}
+                        left={'63%'}
                         width={'200px'}
                         height={'200px'}
                         borderRadius={'100px'}
@@ -117,8 +117,8 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({
                         <PortalTitle fontSize={'1.5rem'}>Profil</PortalTitle>
                     </PortalLinkContainer>
                     <PortalLinkContainer
-                        top={'400px'}
-                        left={'420px'}
+                        top={'54%'}
+                        left={'27.5%'}
                         width={'200px'}
                         height={'200px'}
                         borderRadius={'100px'}
@@ -129,8 +129,8 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({
                         <PortalTitle fontSize={'1.5rem'}>Tickets</PortalTitle>
                     </PortalLinkContainer>
                     <PortalLinkContainer
-                        top={'530px'}
-                        left={'700px'}
+                        top={'72%'}
+                        left={'45.5%'}
                         width={'150px'}
                         height={'150px'}
                         borderRadius={'75px'}
@@ -143,8 +143,8 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({
                         </PortalTitle>
                     </PortalLinkContainer>
                     <PortalLinkContainer
-                        top={'400px'}
-                        left={'930px'}
+                        top={'54%'}
+                        left={'60.5%'}
                         width={'200px'}
                         height={'200px'}
                         borderRadius={'100px'}

@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { Yellow, Black, White, Grey, DarkYellow, DarkGrey } from '../../colors';
-import { IoNotifications } from "react-icons/io5";
-
+import { IoNotifications } from 'react-icons/io5';
 
 /** Button who allows to open the toast history pannel */
 export const ToastHistoryButton = styled.div`
@@ -14,8 +13,7 @@ export const ToastHistoryButton = styled.div`
     border-radius: 0px 8px 8px 0px;
     cursor: pointer;
 
-    background-color: ${(props) =>
-        props.isDark ? Black : White };
+    background-color: ${(props) => (props.isDark ? Black : White)};
     color: ${(props) => (props.isDark ? DarkYellow : Black)};
     box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.75);
 
@@ -33,7 +31,7 @@ export const ToastHistoryButtonIcon = styled(IoNotifications)`
     display: flex;
     margin-left: 30px;
     margin-top: 5px;
-    `;
+`;
 
 /** History pannel */
 export const ToastHistoryPannel = styled.div`
@@ -45,8 +43,7 @@ export const ToastHistoryPannel = styled.div`
     left: ${(props) => (props.show ? '0%' : '-210px')};
     border-radius: 0px 8px 8px 0px;
 
-    background-color: ${(props) =>
-        props.isDark ? Black : White };
+    background-color: ${(props) => (props.isDark ? Black : White)};
     color: ${(props) => (props.isDark ? DarkYellow : Black)};
     box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.75);
 
