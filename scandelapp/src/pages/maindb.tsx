@@ -220,6 +220,7 @@ const MainDB: React.FC<MainProps> = ({ isPremiumActivated }) => {
                         id={'settingsButtonId'}
                         isDark={isDark}
                         setIsDark={setIsDark}
+                        decisionPanelExtended={decisionPanelExtended}
                     />
                     <Lasso
                         id={'LassoComponentId'}

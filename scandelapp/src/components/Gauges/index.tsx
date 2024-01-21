@@ -205,16 +205,16 @@ export const PersonnalizedGauge: React.FC<PersonnalizedGaugeProps> = ({
             ? images.elec
             : images.elecLight
         : isBio
-        ? isDark
-            ? images.bio
-            : images.bioLight
-        : isLumi
-        ? isDark
-            ? images.lumi
-            : images.lumiLight
-        : isDark
-        ? images.elec
-        : images.elecLight;
+          ? isDark
+              ? images.bio
+              : images.bioLight
+          : isLumi
+            ? isDark
+                ? images.lumi
+                : images.lumiLight
+            : isDark
+              ? images.elec
+              : images.elecLight;
     const diffLevel = oldLevel - level;
 
     return (

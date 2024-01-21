@@ -226,6 +226,7 @@ const Main: React.FC<MainProps> = ({ isPremiumActivated }) => {
                         id={'settingsButtonId'}
                         isDark={isDark}
                         setIsDark={setIsDark}
+                        decisionPanelExtended={decisionPanelExtended}
                     />
                     <Lasso
                         id={'LassoComponentId'}
@@ -263,11 +264,11 @@ const Main: React.FC<MainProps> = ({ isPremiumActivated }) => {
                         decisionPanelExtended={decisionPanelExtended}
                         actionsListExtended={actionsListExtended}
                     />
-                    <AbsencePannel
+                    {/* <AbsencePannel
                         id={'DuringPannelComponentId'}
                         isDark={isDark}
                     />
-                    <SmallLampInfosPopup isDark={isDark} />
+                    <SmallLampInfosPopup isDark={isDark} /> */}
                     <Toastr id={'toastrComponentId'} isDark={isDark} />
                 </>
             )}

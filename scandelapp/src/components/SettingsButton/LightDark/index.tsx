@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { SunButton, MoonButton } from './elements';
+import RadioButton from '../../RadioButton';
 
 /** Ligth / Dark mode button
  * @param {boolean} isDark - If the mode is dark or not
@@ -7,24 +8,27 @@ import { SunButton, MoonButton } from './elements';
  */
 
 interface LightDarkProps {
-    id: string;
     isDark: boolean;
     setIsDark: (isDark: boolean) => void;
 }
 
-const LightDark: React.FC<LightDarkProps> = ({ id, isDark, setIsDark }) => {
+const LightDark: React.FC<LightDarkProps> = ({ isDark, setIsDark }) => {
     /** Handle the click on the button and switch to the other mode */
-    const handleIconClick = () => {
+    const handleToggleLightDark = () => {
         setIsDark(!isDark);
     };
 
     return (
         <div>
-            {isDark ? (
-                <SunButton onClick={handleIconClick} />
-            ) : (
-                <MoonButton onClick={handleIconClick} />
-            )}
+            <SunButton size={40} />
+            <RadioButton
+                isDark={isDark}
+                top={'200px'}
+                left={'200px'}
+                trigger={isDark}
+                setTrigger={handleToggleLightDark}
+            />
+            <MoonButton size={40} />
         </div>
     );
 };
