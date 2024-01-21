@@ -68,7 +68,15 @@ export const ScandelaText = styled.div`
     font-size: 45px;
     user-select: none;
     color: ${(props) => (props.isDark ? Yellow : Black)};
-    font-weight: 500;
+    font-weight: 700;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    transform: perspective(10px) rotateX(2deg);
+    letter-spacing: 2px;
+    padding: 10px;
+    background: linear-gradient(to right, ${Yellow}, #ffd700);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
 `;
 
 /** Container of the decision panel content */

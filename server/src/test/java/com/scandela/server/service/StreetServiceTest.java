@@ -162,6 +162,24 @@ public class StreetServiceTest {
 		verify(hoodDaoMock, times(1)).findById(Mockito.any());
 		assertThat(result.getMessage()).isEqualTo(StreetException.HOOD_LOADING);
 	}
+	
+	@Test
+	public void testUpdate() throws Exception {
+		UUID id2 = UUID.randomUUID();
+		List<String> address2 = Arrays.asList("c", "D");
+		Street street2 = Street.builder()
+				.id(id2)
+				.address(address2)
+				.build();
+		
+		
+		when(streetDaoMock.findById(id)).thenReturn(Optional.ofNullable(street));
+		
+		Street result = testedObject.update(id, street2);
+
+		assertThat(result.getId()).isEqualTo(id);
+		assertThat(result.getAddress()).isEqualTo(street2.getAddress());
+	}
 
 	@Test
 	public void testDelete() {

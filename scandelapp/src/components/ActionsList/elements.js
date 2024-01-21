@@ -8,16 +8,16 @@ import { PiListChecksDuotone } from 'react-icons/pi';
 /** Container of the decision pannel and the button */
 export const ActionsListContainer = styled.div``;
 
-/** Container for the background of the searchbar **/
+/** Container for the actions list button **/
 export const ActionsListButton = styled(PiListChecksDuotone)`
     display: flex;
     position: absolute;
     width: 50px;
     height: 40px;
     top: 25px;
-    left: 1100px;
+    left: 1190px;
     user-select: none;
-    opacity: 0.8;
+    opacity: 0.9;
     background-color: ${(props) =>
         props.isDark ? Black + 'CC' : White + 'CC'};
     color: ${(props) => (props.isDark ? Yellow : Black)};

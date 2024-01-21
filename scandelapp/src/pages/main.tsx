@@ -7,12 +7,13 @@ import { handleSearchUtils } from '../utils/searchUtils';
 import DecisionMenu from '../components/DecisionMenu';
 import EditInPdfPannel from '../components/EditInPdfPannel';
 import ActionsList from '../components/ActionsList';
+import SettingsButton from '../components/SettingsButton';
+import LogoutButton from '../components/LogoutButton';
 import Toastr from '../components/Toastr';
 import AbsencePannel from '../components/AbsencePannel';
 import { Gauges } from '../components/Gauges';
 import Lasso from '../components/Lasso';
-import SettingsButton from '../components/SettingsButton';
-import PremiumButton from '../components/PremiumButton';
+import CityButton from '../components/CityButton';
 import SmallLampInfosPopup from '../components/SmallLampInfosPopup';
 
 export enum Filters {
@@ -25,11 +26,13 @@ export enum Filters {
     none = 'none',
 }
 
+interface MainProps {
+    isPremiumActivated: boolean;
+}
+
 /** Main page of the app */
-const Main: React.FC = () => {
+const Main: React.FC<MainProps> = ({ isPremiumActivated }) => {
     const [isDark, setIsDark] = React.useState<boolean>(true);
-    const [isPremiumActivated, setIsPremiumActivated] =
-        React.useState<boolean>(true);
     const [isLassoActive, setIsLassoActive] = React.useState(false);
     const [filter, setFilter] = React.useState<Filters>(Filters.none);
     const [lat, setLat] = React.useState<number>(47.218371);
@@ -125,10 +128,6 @@ const Main: React.FC = () => {
         handleSearchUtils(value, lat, setLat, lng, setLng, zoom, setZoom);
     };
 
-    const handleToggleIsPremiumActivated = () => {
-        setIsPremiumActivated((prevState) => !prevState);
-    };
-
     const handleButtonEditInPdfClick = () => {
         setIsButtonEditInPdfClicked((prevState) => !prevState);
     };
@@ -178,17 +177,14 @@ const Main: React.FC = () => {
                 isDark={isDark}
                 onSubmit={handleSearch}
             />
-            <PremiumButton
-                isDark={isDark}
-                isPremiumActivated={isPremiumActivated}
-                handleToggleIsPremiumActivated={handleToggleIsPremiumActivated}
-            />
             <FilterMenu
                 id={'filterMenuComponentId'}
                 filter={filter}
                 setFilter={setFilter}
                 isDark={isDark}
             />
+            <LogoutButton id={'logoutButtonId'} isDark={isDark} />
+            <CityButton id={'cityButtonId'} isDark={isDark} />
             {isPremiumActivated && (
                 <>
                     <ActionsList

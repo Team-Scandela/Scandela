@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -36,6 +37,7 @@ public class Town implements Serializable {
 		// Private \\
 	private static final long serialVersionUID = 1L;
 
+	@JsonDeserialize(using = UUIDDeserializer.class)
 	@Id
 	@GenericGenerator(name = "UUIDGenerator", strategy = "uuid2")
     @GeneratedValue(generator = "UUIDGenerator")
@@ -75,4 +77,7 @@ public class Town implements Serializable {
 
 	@OneToMany(mappedBy = "town", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	private List<Incident> incidents;
+
+	@OneToMany(mappedBy = "town", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+	private List<Lamp> lamps;
 }
