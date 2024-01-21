@@ -9,9 +9,18 @@ services:
     volumes:
       - ./scandelapp:/dev_scandelapp
   
-  dev.server:
+  # dev.server:
+  #   build:
+  #     context: ./server
+  #     dockerfile: Dockerfile.dev
+  #   ports:
+  #     - 3001:3001
+
+  dev-database:
     build:
-      context: ./server
+      context: ./database
       dockerfile: Dockerfile.dev
     ports:
-      - 7000:7000
+      - 4001:4001
+    volumes:
+      - ./database:/dev_scandelapp

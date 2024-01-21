@@ -1,84 +1,90 @@
 package com.scandela.server.service.implementation;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.scandela.server.dao.IUserDao;
-import com.scandela.server.dao.criteria.UserCriteria;
+import com.scandela.server.dao.TownDao;
+import com.scandela.server.dao.UserDao;
+import com.scandela.server.entity.Town;
 import com.scandela.server.entity.User;
-import com.scandela.server.entity.dto.UserDto;
+import com.scandela.server.exception.UserException;
 import com.scandela.server.service.AbstractService;
 import com.scandela.server.service.IUserService;
 
 @Service
-public class UserService extends AbstractService implements IUserService {
+public class UserService extends AbstractService<User> implements IUserService {
 
 	// Attributes \\
 		// Private \\
+	private final String[] IGNORED_PROPERTIES = { "id", "town", "decisions" };
 	private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-	@Autowired
-	private IUserDao userDao;
+	private TownDao townDao;
+
+	// Constructors \\
+	protected UserService(UserDao userDao, TownDao townDao) {
+		super(userDao);
+		this.townDao = townDao;
+	}
 
 	// Methods \\
-		// Public \\
+	// Public \\
 	@Override
-	@Transactional(readOnly = true)
-	public List<UserDto> getUsers() {
-		List<User> users = userDao.getAll();
-		List<UserDto> userDtos = new ArrayList<>();
+	@Transactional(rollbackFor = { Exception.class })
+	public User create(User newUser) throws UserException {
+		try {
+			loadTown(newUser);
 
-		for (User user : users) {
-			userDtos.add(UserDto.from(user));
+			if (newUser.getPassword() == null) {
+				throw new UserException(UserException.INCOMPLETE_INFORMATIONS);
+			}
+			newUser.setPassword(passwordEncoder.encode("scan" + newUser.getPassword() + "dela"));
+			newUser.setLastConnexion(LocalDateTime.now());
+
+			return dao.save(newUser);
+		} catch (Exception e) {
+			if (newUser.getTown() == null || newUser.getEmail() == null ||
+				newUser.getUsername() == null || newUser.getRights() == null) {
+				throw new UserException(UserException.INCOMPLETE_INFORMATIONS);
+			}
+			throw e;
 		}
-
-		return userDtos;
 	}
 
 	@Override
-	@Transactional(readOnly = true)
-	public UserDto getUser(int id) {
-		Optional<User> user = userDao.get(id);
+	@Transactional(rollbackFor = { Exception.class })
+    public User update(UUID id, User update, String... ignoredProperties) throws Exception {
+		try {
+			User user = super.update(id, update, IGNORED_PROPERTIES);
+	        
+	        return user;
+		} catch (Exception e) {
+			throw e;
+		}
+    }
 
-		if (user.isEmpty()) {
+	// Private \\
+	private void loadTown(User newUser) throws UserException {
+		if (newUser.getTown() == null) {
+			throw new UserException(UserException.INCOMPLETE_INFORMATIONS);
+		}
+
+		UUID townId = newUser.getTown().getId();
+
+		Optional<Town> town = townDao.findById(townId);
+		if (town.isEmpty()) {
+			throw new UserException(UserException.TOWN_LOADING);
+		}
+
+		newUser.setTown(town.orElseGet(() -> {
 			return null;
-		}
-
-		return UserDto.from(user.get());
-	}
-
-	@Override
-	@Transactional(rollbackFor = { Exception.class })
-	public UserDto createUser(User newUser) {
-		if (newUser.getEmail() == null || newUser.getUsername() == null ||
-			newUser.getPassword() == null || newUser.getRole() == null) {
-			return null;// throw pour différencier?
-		}
-		if (userDao.getByCriteria(UserCriteria.builder().email(newUser.getEmail()).build()).isPresent()) {
-			return null;// throw pour différencier?
-		}
-		if (userDao.getByCriteria(UserCriteria.builder().username(newUser.getUsername()).build()).isPresent()) {
-			return null;// throw pour différencier?
-		}
-
-		newUser.setPassword(passwordEncoder.encode("scan" + newUser.getPassword() + "dela"));
-		newUser.setLastConnexion(LocalDateTime.now());
-		
-		return UserDto.from(userDao.save(newUser));
-	}
-
-	@Override
-	@Transactional(rollbackFor = { Exception.class })
-	public void deleteUser(User user) {
-		userDao.delete(user);
+		}));
 	}
 
 }

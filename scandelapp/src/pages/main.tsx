@@ -7,11 +7,14 @@ import { handleSearchUtils } from '../utils/searchUtils';
 import DecisionMenu from '../components/DecisionMenu';
 import EditInPdfPannel from '../components/EditInPdfPannel';
 import ActionsList from '../components/ActionsList';
+import SettingsButton from '../components/SettingsButton';
+import LogoutButton from '../components/LogoutButton';
 import Toastr from '../components/Toastr';
 import AbsencePannel from '../components/AbsencePannel';
 import { Gauges } from '../components/Gauges';
 import Lasso from '../components/Lasso';
-import SettingsButton from '../components/SettingsButton';
+import CityButton from '../components/CityButton';
+import SmallLampInfosPopup from '../components/SmallLampInfosPopup';
 
 export enum Filters {
     pin = 'pin',
@@ -23,9 +26,14 @@ export enum Filters {
     none = 'none',
 }
 
+interface MainProps {
+    isPremiumActivated: boolean;
+}
+
 /** Main page of the app */
-const Main: React.FC = () => {
+const Main: React.FC<MainProps> = ({ isPremiumActivated }) => {
     const [isDark, setIsDark] = React.useState<boolean>(true);
+    const [isLassoActive, setIsLassoActive] = React.useState(false);
     const [filter, setFilter] = React.useState<Filters>(Filters.none);
     const [lat, setLat] = React.useState<number>(47.218371);
     const [lng, setLng] = React.useState<number>(-1.553621);
@@ -46,7 +54,7 @@ const Main: React.FC = () => {
                 id: 0,
                 saved: false,
                 selected: false,
-                type: 'Éteindre lampadaire ',
+                type: 'Éteindre lampadaire',
                 location: '13 Rue Pierrick Guyard',
                 description: 'Passage peu fréquent',
                 solution: 'Off: 18h-10h',
@@ -119,6 +127,7 @@ const Main: React.FC = () => {
     const handleSearch = (value: string) => {
         handleSearchUtils(value, lat, setLat, lng, setLng, zoom, setZoom);
     };
+
     const handleButtonEditInPdfClick = () => {
         setIsButtonEditInPdfClicked((prevState) => !prevState);
     };
@@ -148,8 +157,6 @@ const Main: React.FC = () => {
         setCurrentSelected(data);
     };
 
-    const [isLassoActive, setIsLassoActive] = React.useState(false);
-
     const handleLassoActivation = (isActive: boolean) => {
         setIsLassoActive(isActive);
     };
@@ -165,24 +172,10 @@ const Main: React.FC = () => {
                 zoom={zoom}
                 isLassoActive={isLassoActive}
             />
-            <SettingsButton
-                id={'settingsButtonId'}
-                isDark={isDark}
-                setIsDark={setIsDark}
-            />
             <SearchBar
                 id={'searchBarComponentId'}
                 isDark={isDark}
                 onSubmit={handleSearch}
-            />
-            <ActionsList
-                id={'actionsListComponentId'}
-                isDark={isDark}
-                actionsListExtended={actionsListExtended}
-                setActionsListExtended={setActionsListExtended}
-                decisionPanelExtended={decisionPanelExtended}
-                optimisationTemplateData={optimisationTemplateData}
-                setOptimisationTemplateData={setOptimisationTemplateData}
             />
             <FilterMenu
                 id={'filterMenuComponentId'}
@@ -190,41 +183,69 @@ const Main: React.FC = () => {
                 setFilter={setFilter}
                 isDark={isDark}
             />
-            <Lasso
-                id={'LassoComponentId'}
-                isDark={isDark}
-                onLassoActivation={handleLassoActivation}
-            />
-            <DecisionMenu
-                id={'decisionMenuComponentId'}
-                isDark={isDark}
-                handleButtonEditInPdfClick={handleButtonEditInPdfClick}
-                isButtonEditInPdfClicked={isButtonEditInPdfClicked}
-                handleToggleDecisionPanelExtend={
-                    handleToggleDecisionPanelExtend
-                }
-                decisionPanelExtended={decisionPanelExtended}
-                handleOptimisationTemplateDataChange={
-                    handleOptimisationTemplateDataChange
-                }
-                optimisationTemplateData={optimisationTemplateData}
-                handleButtonSelectAllClick={handleButtonSelectAllClick}
-                currentSelected={currentSelected}
-                handleCurrentSelectedChange={handleCurrentSelectedChange}
-            />
-            <EditInPdfPannel
-                id={'editinPdfPannelComponentId'}
-                isDark={isDark}
-                isButtonEditInPdfClicked={isButtonEditInPdfClicked}
-            />
-            <Gauges
-                id={'gaugesComponentId'}
-                isDark={isDark}
-                decisionPanelExtended={decisionPanelExtended}
-                actionsListExtended={actionsListExtended}
-            />
-            <AbsencePannel id={'DuringPannelComponentId'} isDark={isDark} />
-            <Toastr id={'toastrComponentId'} isDark={isDark} />
+            <LogoutButton id={'logoutButtonId'} isDark={isDark} />
+            <CityButton id={'cityButtonId'} isDark={isDark} />
+            {isPremiumActivated && (
+                <>
+                    <ActionsList
+                        id={'actionsListComponentId'}
+                        isDark={isDark}
+                        actionsListExtended={actionsListExtended}
+                        setActionsListExtended={setActionsListExtended}
+                        decisionPanelExtended={decisionPanelExtended}
+                        optimisationTemplateData={optimisationTemplateData}
+                        setOptimisationTemplateData={
+                            setOptimisationTemplateData
+                        }
+                    />
+                    <SettingsButton
+                        id={'settingsButtonId'}
+                        isDark={isDark}
+                        setIsDark={setIsDark}
+                    />
+                    <Lasso
+                        id={'LassoComponentId'}
+                        isDark={isDark}
+                        onLassoActivation={handleLassoActivation}
+                    />
+                    <DecisionMenu
+                        id={'decisionMenuComponentId'}
+                        isDark={isDark}
+                        handleButtonEditInPdfClick={handleButtonEditInPdfClick}
+                        isButtonEditInPdfClicked={isButtonEditInPdfClicked}
+                        handleToggleDecisionPanelExtend={
+                            handleToggleDecisionPanelExtend
+                        }
+                        decisionPanelExtended={decisionPanelExtended}
+                        handleOptimisationTemplateDataChange={
+                            handleOptimisationTemplateDataChange
+                        }
+                        optimisationTemplateData={optimisationTemplateData}
+                        handleButtonSelectAllClick={handleButtonSelectAllClick}
+                        currentSelected={currentSelected}
+                        handleCurrentSelectedChange={
+                            handleCurrentSelectedChange
+                        }
+                    />
+                    <EditInPdfPannel
+                        id={'editinPdfPannelComponentId'}
+                        isDark={isDark}
+                        isButtonEditInPdfClicked={isButtonEditInPdfClicked}
+                    />
+                    <Gauges
+                        id={'gaugesComponentId'}
+                        isDark={isDark}
+                        decisionPanelExtended={decisionPanelExtended}
+                        actionsListExtended={actionsListExtended}
+                    />
+                    <AbsencePannel
+                        id={'DuringPannelComponentId'}
+                        isDark={isDark}
+                    />
+                    <SmallLampInfosPopup isDark={isDark} />
+                    <Toastr id={'toastrComponentId'} isDark={isDark} />
+                </>
+            )}
         </div>
     );
 };

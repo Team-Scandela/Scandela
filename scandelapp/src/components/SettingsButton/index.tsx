@@ -1,21 +1,5 @@
 import * as React from 'react';
-import {
-    SettingsButtonContainer,
-    NameOfCity,
-    OptionsMenuContainer,
-    LogoutButton,
-    ProfileButton,
-    LanguageButton,
-    DownloadButton,
-} from './element';
-import LightDark from '../LightDark';
-import { useTranslation } from 'react-i18next';
-
-/** SettingsButton of the main page Scandela
- * This SettingsButton allow the user to disconnect from his account and to switch le lightmod
- * @param {boolean} isDark - If the mode is dark or not
- * @param {function} setIsDark - Function to set the mode
- **/
+import { SettingsButtonContainer, SettingsPannelContainer } from './elements';
 
 interface SettingsButtonProps {
     id: string;
@@ -28,16 +12,16 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({
     isDark,
     setIsDark,
 }) => {
-    /** If the option menu is open or closed */
-    const [on, setOn] = React.useState(false);
+    const [isSettingsPannelOpen, setIsSettingsPannelOpen] =
+        React.useState(false);
 
     const fileInputRef = React.useRef<HTMLInputElement | null>(null);
 
-    const { i18n } = useTranslation();
+    // const { i18n } = useTranslation();
 
-    const changeLanguage = (lng: string) => {
-        i18n.changeLanguage(lng);
-    };
+    // const changeLanguage = (lng: string) => {
+    //     i18n.changeLanguage(lng);
+    // };
 
     function launchScript(argument: string) {
         fetch(`http://localhost:3001/script`, {
@@ -66,34 +50,23 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({
         if (fileInputRef.current) {
             fileInputRef.current.click();
         }
+    }
+
+    const handleSettingsButtonClick = () => {
+        setIsSettingsPannelOpen(!isSettingsPannelOpen);
     };
 
     return (
         <div>
-            <SettingsButtonContainer isDark={isDark} onClick={() => setOn(!on)}>
-                <NameOfCity isDark={isDark}> Nantes </NameOfCity>
-            </SettingsButtonContainer>
-            <OptionsMenuContainer show={on} isDark={isDark}>
-                <ProfileButton></ProfileButton>
-                <LightDark
-                    id={'lightDarkComponentId'}
+            <SettingsButtonContainer
+                isDark={isDark}
+                onClick={handleSettingsButtonClick}
+            ></SettingsButtonContainer>
+            {isSettingsPannelOpen && (
+                <SettingsPannelContainer
                     isDark={isDark}
-                    setIsDark={setIsDark}
-                ></LightDark>
-                <LanguageButton
-                    onClick={() => changeLanguage('en')}
-                ></LanguageButton>
-                <DownloadButton
-                    onClick={() => openFilePicker()}
-                ></DownloadButton>
-                <input
-                    type="file"
-                    ref={fileInputRef}
-                    style={{ display: 'none' }}
-                    onChange={downloadData}
-                />
-                <LogoutButton></LogoutButton>
-            </OptionsMenuContainer>
+                ></SettingsPannelContainer>
+            )}
         </div>
     );
 };
