@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+    TicketSenderContainer,
     Title,
     DropdownContainer,
     DropdownItem,
@@ -13,11 +14,13 @@ interface TicketSenderPageProps {
     handleTicketButtonClicked: () => void;
 }
 
-const TicketSenderPage: React.FC<TicketSenderPageProps> = ({
+const TicketSender: React.FC<TicketSenderPageProps> = ({
     handleTicketButtonClicked,
 }) => {
     const [showDropdown, setShowDropdown] = React.useState(false);
     const [choosenItem, setChoosenItem] = React.useState('Catégorie');
+    const [title, setTitle] = React.useState('');
+    const [description, setDescription] = React.useState('');
 
     const handleDropdownToggle = () => {
         setShowDropdown(!showDropdown);
@@ -37,16 +40,18 @@ const TicketSenderPage: React.FC<TicketSenderPageProps> = ({
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        // author: 'le_nom_de_l_auteur',  // Remplacez par le nom de l'auteur réel
-                        // title: title,
-                        // content: 'le_contenu_du_ticket',  // Remplacez par le contenu réel du ticket
-                        // date: new Date().toISOString(),  // Remplacez par la date réelle
-                        // status: 1,  // Remplacez par le statut réel
-                        // category: chosenItem,
+                        author: '',
+                        title: title,
+                        content: description,
+                        date: new Date().toISOString(),
+                        status: 0,
+                        category: choosenItem,
                     }),
                 }
             );
-        } catch {}
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     const getTicket = async () => {
@@ -57,51 +62,65 @@ const TicketSenderPage: React.FC<TicketSenderPageProps> = ({
 
     return (
         <div>
-            <Title>Envoyer un ticket</Title>
-            <DropdownContainer onClick={handleDropdownToggle}>
-                {choosenItem}
-                {showDropdown && (
-                    <>
-                        <DropdownItem
-                            onClick={() => setChoosenItem('Problème technique')}
-                        >
-                            Problème technique
-                        </DropdownItem>
-                        <DropdownItem
-                            onClick={() =>
-                                setChoosenItem('Accès et Authentification')
-                            }
-                        >
-                            Accès et Authentification
-                        </DropdownItem>
-                        <DropdownItem
-                            onClick={() =>
-                                setChoosenItem('Demande de Mise à Jour')
-                            }
-                        >
-                            Demande de Mise à Jour
-                        </DropdownItem>
-                        <DropdownItem
-                            onClick={() =>
-                                setChoosenItem('Feedback et Suggestions')
-                            }
-                        >
-                            Feedback et Suggestions
-                        </DropdownItem>
-                        <DropdownItem onClick={() => setChoosenItem('Autre')}>
-                            Autre
-                        </DropdownItem>
-                    </>
-                )}
-            </DropdownContainer>
-            <TicketTitleInput placeholder="Titre du ticket"></TicketTitleInput>
-            <TicketDescriptionInput placeholder="Description du ticket"></TicketDescriptionInput>
-            <SendButton onClick={sendTicket}>Envoyer</SendButton>
-            <ReturnButtonContainer onClick={handleReturnButtonClicked}>
-                Return
-            </ReturnButtonContainer>
+            <TicketSenderContainer>
+                <Title>Envoyer un ticket</Title>
+                <DropdownContainer onClick={handleDropdownToggle}>
+                    {choosenItem}
+                    {showDropdown && (
+                        <>
+                            <DropdownItem
+                                onClick={() =>
+                                    setChoosenItem('Problème technique')
+                                }
+                            >
+                                Problème technique
+                            </DropdownItem>
+                            <DropdownItem
+                                onClick={() =>
+                                    setChoosenItem('Accès et Authentification')
+                                }
+                            >
+                                Accès et Authentification
+                            </DropdownItem>
+                            <DropdownItem
+                                onClick={() =>
+                                    setChoosenItem('Demande de Mise à Jour')
+                                }
+                            >
+                                Demande de Mise à Jour
+                            </DropdownItem>
+                            <DropdownItem
+                                onClick={() =>
+                                    setChoosenItem('Feedback et Suggestions')
+                                }
+                            >
+                                Feedback et Suggestions
+                            </DropdownItem>
+                            <DropdownItem
+                                onClick={() => setChoosenItem('Autre')}
+                            >
+                                Autre
+                            </DropdownItem>
+                        </>
+                    )}
+                </DropdownContainer>
+                <TicketTitleInput
+                    placeholder="Titre du ticket"
+                    value={title}
+                    onChange={(e: any) => setTitle(e.target.value)}
+                />
+                <TicketDescriptionInput
+                    placeholder="Description du ticket"
+                    value={description}
+                    onChange={(e: any) => setDescription(e.target.value)}
+                />
+                <SendButton onClick={sendTicket}>Envoyer</SendButton>
+                <ReturnButtonContainer onClick={handleReturnButtonClicked}>
+                    Return
+                </ReturnButtonContainer>
+            </TicketSenderContainer>
         </div>
     );
 };
 
-export default TicketSenderPage;
+export default TicketSender;
