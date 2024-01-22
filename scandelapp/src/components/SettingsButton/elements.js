@@ -1,5 +1,10 @@
 import styled from 'styled-components';
 import { Yellow, Black, White } from '../../colors';
+// import { TbLogout } from 'react-icons/tb';
+// import { CgProfile } from 'react-icons/cg';
+// import { MdOutlineLanguage } from 'react-icons/md';
+// import { MdDownload } from 'react-icons/md';
+// import { IoTicketSharp } from 'react-icons/io5';
 import { IoMdSettings } from 'react-icons/io';
 
 /** Container for the settings button **/

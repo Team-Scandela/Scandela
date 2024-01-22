@@ -14,7 +14,18 @@ import {
 } from './elements';
 import { CgProfile } from 'react-icons/cg';
 
-interface TicketListProps {}
+interface Ticket {
+    id: number;
+    title: string;
+    content: string;
+    category: string;
+    date: string;
+    status: number;
+}
+
+interface TicketListProps {
+    data: Ticket[];
+}
 
 const TicketListData = [
     {
@@ -61,9 +72,13 @@ const TicketListData = [
     },
 ];
 
-const TicketList: React.FC<TicketListProps> = ({}) => {
-    const [tickets, setTickets] = React.useState(TicketListData);
+const TicketList: React.FC<TicketListProps> = ({ data }) => {
+    const [tickets, setTickets] = React.useState(data);
     const [showDropdown, setShowDropdown] = React.useState(-1);
+
+    React.useEffect(() => {
+        setTickets(data);
+    }, [data]);
 
     const getStatusText = (status: number) => {
         switch (status) {
@@ -95,6 +110,7 @@ const TicketList: React.FC<TicketListProps> = ({}) => {
         setTickets((prevTickets) => {
             const updatedTickets = prevTickets.map((ticket) => {
                 if (ticket.id === ticketId) {
+                    updateStatusInDB(ticketId, status);
                     return { ...ticket, status: status };
                 }
                 return ticket;
@@ -102,6 +118,30 @@ const TicketList: React.FC<TicketListProps> = ({}) => {
             return updatedTickets;
         });
         setShowDropdown(-1);
+    };
+
+    const updateStatusInDB = async (ticketId: number, status: number) => {
+        // try {
+        //     const response = await fetch('http://localhost:8080/tickets/update', {
+        //         method: 'PUT',
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //         },
+        //         body: JSON.stringify({
+        //             id: ticketId,
+        //             status: status,
+        //         }),
+        //     });
+        // } catch (error) {
+        //     console.log(error);
+        // };
+    };
+
+    // timestamp to date
+    const timestampToDate = (timestamp: string) => {
+        const dateString =
+            timestamp[2] + '/' + timestamp[1] + '/' + timestamp[0];
+        return dateString;
     };
 
     return (
@@ -113,10 +153,8 @@ const TicketList: React.FC<TicketListProps> = ({}) => {
                         <TicketCategory>{ticket.category}</TicketCategory>
                     </TicketHeader>
                     <TicketInfoContainer color={getStatusColor(ticket.status)}>
-                        <TicketDescription>
-                            {ticket.description}
-                        </TicketDescription>
-                        <TicketDate>{ticket.date}</TicketDate>
+                        <TicketDescription>{ticket.content}</TicketDescription>
+                        <TicketDate>{timestampToDate(ticket.date)}</TicketDate>
                         <TicketClient>
                             {' '}
                             <CgProfile />{' '}
