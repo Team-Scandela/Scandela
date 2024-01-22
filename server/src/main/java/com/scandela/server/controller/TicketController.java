@@ -19,28 +19,30 @@ import com.scandela.server.service.ITicketService;
 @RestController
 @CrossOrigin(origins = "http://localhost:3000/, https://app.scandela.fr/")
 @RequestMapping(value = "/tickets")
-public class TicketController extends AbstractController {
+public class TicketController extends AbstractController<Ticket> {
 
     @Autowired
-	private ITicketService ticketService;
+    protected TicketController(ITicketService service) {
+        super(service);
+    }
 
     @GetMapping
-	public List<Ticket> getTickets() {
-		return ticketService.getAll();
-	}
+    public List<Ticket> getTickets() {
+        return super.getAll();
+    }
 
     @GetMapping("/{id}")
-	public Ticket getUser(@PathVariable UUID id) {
-		return ticketService.get(id);
-	}
+    public Ticket getTicket(@PathVariable UUID id) {
+        return super.get(id);
+    }
 
     @PostMapping("/create")
     public Ticket createTicket(@RequestBody Ticket newTicket) throws Exception {
-        return ticketService.create(newTicket);
+        return super.create(newTicket);
     }
 
     @DeleteMapping("/delete/{id}")
-	public void deleteTicket(@PathVariable UUID id) {
-		ticketService.delete(id);
-	}
+    public void deleteTicket(@PathVariable UUID id) {
+        super.delete(id);
+    }
 }

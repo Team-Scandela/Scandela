@@ -1,6 +1,7 @@
 {
     "dependencies": {
         "auth0": "^4.0.1",
+        "country-flag-icons": "^1.5.9",
         "file-saver": "^2.0.5",
         "pdf-lib": "^1.17.1",
         "supercluster": "^8.0.1"
