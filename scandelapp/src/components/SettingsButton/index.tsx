@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {
     SettingsButtonContainer,
     SettingsPannelContainer,
@@ -43,7 +43,7 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({
             handleSettingsButtonClick();
     });
 
-    const fileInputRef = React.useRef<HTMLInputElement | null>(null);
+    const fileInputRef = useRef<HTMLInputElement | null>(null);
 
     // const { i18n } = useTranslation();
 
