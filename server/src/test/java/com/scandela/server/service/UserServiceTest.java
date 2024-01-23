@@ -23,7 +23,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 
 import com.scandela.server.dao.TownDao;
 import com.scandela.server.dao.UserDao;
-import com.scandela.server.entity.Decision;
 import com.scandela.server.entity.Town;
 import com.scandela.server.entity.User;
 import com.scandela.server.exception.UserException;
@@ -49,7 +48,6 @@ public class UserServiceTest {
 	private final String password = "test";
 	private final Integer rights = 1;
 	private final Town town = Town.builder().id(id).build();
-	private final List<Decision> decisions = Arrays.asList(Decision.builder().id(id).build());
 	private final User user = User.builder()
 			.id(id)
 			.town(town)
@@ -60,7 +58,6 @@ public class UserServiceTest {
 			.moreInformations(new ArrayList<>())
 			.darkmode(true)
 			.lastConnexion(LocalDateTime.now())
-			.decisions(decisions)
 			.build();
 	
 	// Methods \\
@@ -83,7 +80,6 @@ public class UserServiceTest {
 		assertThat(resultedUser.getMoreInformations()).isEqualTo(user.getMoreInformations());
 		assertThat(resultedUser.isDarkmode()).isEqualTo(user.isDarkmode());
 		assertThat(resultedUser.getLastConnexion().toString()).isEqualTo(user.getLastConnexion().toString());
-		assertThat(resultedUser.getDecisions()).hasSize(user.getDecisions().size());
 	}
 	
 	@Test
@@ -143,7 +139,6 @@ public class UserServiceTest {
 		assertThat(result.getMoreInformations()).isEqualTo(user.getMoreInformations());
 		assertThat(result.isDarkmode()).isEqualTo(user.isDarkmode());
 		assertThat(result.getLastConnexion().toString()).isEqualTo(user.getLastConnexion().toString());
-		assertThat(result.getDecisions()).hasSize(user.getDecisions().size());
 	}
 	
 	@Test
@@ -174,7 +169,6 @@ public class UserServiceTest {
 		assertThat(result.getMoreInformations()).isEqualTo(user.getMoreInformations());
 		assertThat(result.isDarkmode()).isEqualTo(user.isDarkmode());
 		assertThat(result.getLastConnexion().toString()).isEqualTo(user.getLastConnexion().toString());
-		assertThat(result.getDecisions()).hasSize(user.getDecisions().size());
 	}
 	
 	@Test
