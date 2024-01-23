@@ -50,7 +50,10 @@ const App: React.FC = () => {
                     content="Scandela, éclairage, gestion, maintenance, éclairage public, éclairage urbain, éclairage intelligent, smart city, smart lighting, aide"
                 />
                 <meta name="author" content="Scandela" />
-                <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                <meta
+                    name="viewport"
+                    content="width=device-width, initial-scale=1.0"
+                />
             </Helmet>
             <BrowserRouter>
                 <Routes>
@@ -64,15 +67,19 @@ const App: React.FC = () => {
                                 }
                             />
                         }
-                        />
+                    />
                     <Route
                         path="/fromdb"
-                        element={<MainDB isPremiumActivated={isPremiumActivated} />}
+                        element={
+                            <MainDB isPremiumActivated={isPremiumActivated} />
+                        }
                     />
                     <Route path="/login" element={<Login />} />
                     <Route
                         path="/scandela"
-                        element={<Main isPremiumActivated={isPremiumActivated} />}
+                        element={
+                            <Main isPremiumActivated={isPremiumActivated} />
+                        }
                     />
                     <Route path="/redirect" element={<Redirect />} />
                     <Route path="/admin" element={<Admin />} />
