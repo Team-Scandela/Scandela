@@ -21,8 +21,9 @@ const InfoIconPopup: React.FC<InfoIconPopupProps> = ({ isDark }) => {
     const [bulbValue, setBulbValue] = React.useState<string>('');
 
     const createBulb = async () => {
+
         try {
-            const response = await fetch('http://localhost:8080/bulb/create', {
+            const response = await fetch('http://localhost:8080/bulbs/create', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
