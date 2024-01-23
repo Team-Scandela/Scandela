@@ -39,7 +39,7 @@ export const DropdownContainer = styled.div`
     left: 30px;
     width: 80%;
     height: 40px;
-    background-color: ${(props) => (props.isDark ? White : Black)};
+    background-color: ${(props) => (props.isDark ? White : White)};
     border: 1px solid ${Grey};
     border-radius: 5px;
     overflow: hidden;
@@ -130,8 +130,8 @@ export const ReturnButtonContainer = styled(IoIosReturnLeft)`
     justify-content: center;
     width: 80px;
     height: 40px;
-    top: 88%;
-    left: 46%;
+    bottom: 14%;
+    right: 3.5%;
     border-radius: 10px;
     background-color: ${Yellow};
     opacity: 0.8;

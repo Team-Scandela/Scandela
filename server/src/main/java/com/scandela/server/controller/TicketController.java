@@ -17,7 +17,7 @@ import com.scandela.server.entity.Ticket;
 import com.scandela.server.service.ITicketService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000/, https://app.scandela.fr/")
+@CrossOrigin(origins = "*")
 @RequestMapping(value = "/tickets")
 public class TicketController extends AbstractController<Ticket> {
 
