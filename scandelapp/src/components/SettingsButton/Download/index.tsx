@@ -12,13 +12,13 @@ interface DownloadProps {
 interface Lamp {
     name: string;
     address: string;
-    lat : number;
-    long : number;
-    lighton : string;
-    lightoff : string;
-    height : number;
-    lamptype : string;
-    foyertype : string;
+    lat: number;
+    long: number;
+    lighton: string;
+    lightoff: string;
+    height: number;
+    lamptype: string;
+    foyertype: string;
 }
 
 const Download: React.FC<DownloadProps> = ({ isDark }) => {
@@ -35,7 +35,9 @@ const Download: React.FC<DownloadProps> = ({ isDark }) => {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
-                            Authorization: `Basic ${btoa(`${username}:${password}`)}`
+                            Authorization: `Basic ${btoa(
+                                `${username}:${password}`
+                            )}`,
                         },
                         body: JSON.stringify({
                             name: lamp.name,
@@ -54,10 +56,14 @@ const Download: React.FC<DownloadProps> = ({ isDark }) => {
                 console.log(responsebody);
                 console.log(response);
                 if (!response.ok) {
-                    console.error(`Failed to add ${lamp.name} to the database. Status: ${response.status}`);
+                    console.error(
+                        `Failed to add ${lamp.name} to the database. Status: ${response.status}`
+                    );
                 }
             } catch (error) {
-                console.error(`Error adding ${lamp.name} to the database: ${error.message}`);
+                console.error(
+                    `Error adding ${lamp.name} to the database: ${error.message}`
+                );
             }
         }
     };
@@ -94,7 +100,9 @@ const Download: React.FC<DownloadProps> = ({ isDark }) => {
             reader.onload = (evt) => {
                 if (evt.target) {
                     const fileContent = evt.target.result;
-                    const parsedData = parseData(JSON.parse(fileContent as string));
+                    const parsedData = parseData(
+                        JSON.parse(fileContent as string)
+                    );
                     addToDB(parsedData);
                 }
             };

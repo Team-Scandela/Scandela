@@ -78,7 +78,7 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({
         if (fileInputRef.current) {
             fileInputRef.current.click();
         }
-    }
+    };
 
     const handleSettingsButtonClick = () => {
         setIsSettingsPannelOpen(!isSettingsPannelOpen);

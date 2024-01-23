@@ -24,15 +24,13 @@ const Admin: React.FC = () => {
     const getTicket = async () => {
         const username = 'tester';
         const password = 'T&st';
-        const response = await fetch('http://db.scandela.store/tickets',
-            {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Basic ${btoa(`${username}:${password}`)}`,
-                },
-            }
-        );
+        const response = await fetch('http://db.scandela.store/tickets', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Basic ${btoa(`${username}:${password}`)}`,
+            },
+        });
         const tickets = await response.json();
         setTickets(tickets);
     };
