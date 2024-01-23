@@ -32,12 +32,16 @@ const TicketSender: React.FC<TicketSenderPageProps> = ({
 
     const sendTicket = async () => {
         try {
+            const username = 'tester';
+            const password = 'T&st';
             const response = await fetch(
                 'http://localhost:8080/tickets/create',
                 {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
+                        Authorization: `Basic ${btoa(`${username}:${password}`)}`,
+
                     },
                     body: JSON.stringify({
                         author: '',
