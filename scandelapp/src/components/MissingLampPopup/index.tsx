@@ -21,12 +21,14 @@ const InfoIconPopup: React.FC<InfoIconPopupProps> = ({ isDark }) => {
     const [bulbValue, setBulbValue] = React.useState<string>('');
 
     const createBulb = async () => {
-
+        const username = 'tester';
+        const password = 'T&st';
         try {
             const response = await fetch('http://localhost:8080/bulbs/create', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    Authorization: `Basic ${btoa(`${username}:${password}`)}`,
                 },
                 body: JSON.stringify({
                     intensity: 0,
