@@ -10,7 +10,7 @@ const Redirect: React.FC = () => {
     // Use useEffect to redirect to the root path after a few seconds
     useEffect(() => {
         if (email) {
-            fetch('https://localhost:8080/emailConfirmation', {
+            fetch('https://db.scandela.fr/emailConfirmation', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -24,7 +24,7 @@ const Admin: React.FC = () => {
     const getTicket = async () => {
         const username = 'tester';
         const password = 'T&st';
-        const response = await fetch('http://localhost:8080/tickets',
+        const response = await fetch('http://db.scandela.fr/tickets',
             {
                 method: 'GET',
                 headers: {

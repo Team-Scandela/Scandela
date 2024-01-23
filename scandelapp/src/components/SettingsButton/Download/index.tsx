@@ -17,6 +17,8 @@ interface Lamp {
     lighton : string;
     lightoff : string;
     height : number;
+    lamptype : string;
+    foyertype : string;
 }
 
 const Download: React.FC<DownloadProps> = ({ isDark }) => {
@@ -25,24 +27,32 @@ const Download: React.FC<DownloadProps> = ({ isDark }) => {
     const addToDB = async (data: Lamp[]) => {
         for (const lamp of data) {
             try {
+                const username = 'tester';
+                const password = 'T&st';
                 const response = await fetch(
-                    'http://localhost:8080/lamps/create',
+                    'http://db.scandela.fr/lamps/create',
                     {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
+                            Authorization: `Basic ${btoa(`${username}:${password}`)}`
                         },
                         body: JSON.stringify({
                             name: lamp.name,
                             address: lamp.address,
                             lat: lamp.lat,
                             long: lamp.long,
-                            lighton: lamp.lighton,
-                            lightoff: lamp.lightoff,
+                            // lighton: lamp.lighton,
+                            // lightoff: lamp.lightoff,
                             height: lamp.height,
+                            lamptype: lamp.lamptype,
+                            foyertype: lamp.foyertype,
                         }),
                     }
                 );
+                const responsebody = await response.text();
+                console.log(responsebody);
+                console.log(response);
                 if (!response.ok) {
                     console.error(`Failed to add ${lamp.name} to the database. Status: ${response.status}`);
                 }
@@ -64,6 +74,8 @@ const Download: React.FC<DownloadProps> = ({ isDark }) => {
                     lighton: element.fields.type_lampe,
                     lightoff: element.fields.type_foyer,
                     height: element.fields.hauteur_support,
+                    lamptype: element.fields.type_lampe,
+                    foyertype: element.fields.type_foyer,
                 };
                 lampList.push(lamp);
             });
