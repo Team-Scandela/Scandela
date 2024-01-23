@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { LogoutButtonContainer } from './elements';
 import { useNavigate } from 'react-router-dom';
 

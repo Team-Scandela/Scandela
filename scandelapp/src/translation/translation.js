@@ -20,6 +20,10 @@ const resources = {
             infrequentTraffic: 'Infrequent traffic',
             economicImpact: 'Economic impact',
             duringAbsence: 'During your absence',
+            lightDarkMode: 'Dark / Light mode',
+            language: 'Language',
+            loadData: 'Load data',
+            notifications: 'Notifications',
         },
     },
 
@@ -42,6 +46,10 @@ const resources = {
             infrequentTraffic: 'Passage peu fréquent',
             economicImpact: 'Impact Économique',
             duringAbsence: 'Pendant votre absence',
+            lightDarkMode: 'Mode sombre / clair',
+            language: 'Langage',
+            loadData: 'Charger des données',
+            notifications: 'Notifications',
         },
     },
 };

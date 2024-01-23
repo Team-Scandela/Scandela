@@ -1,5 +1,4 @@
-import * as React from 'react';
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import {
     SettingsButtonContainer,
     SettingsPannelContainer,
@@ -18,7 +17,7 @@ import { FiSun } from 'react-icons/fi';
 import { MdOutlineLanguage } from 'react-icons/md';
 import { MdDownload } from 'react-icons/md';
 import { IoNotifications } from 'react-icons/io5';
-import RadioButton from '../RadioButton';
+import { useTranslation } from 'react-i18next';
 
 interface SettingsButtonProps {
     id: string;
@@ -33,11 +32,11 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({
     setIsDark,
     decisionPanelExtended,
 }) => {
-    const [isSettingsPannelOpen, setIsSettingsPannelOpen] =
-        React.useState(false);
+    const [isSettingsPannelOpen, setIsSettingsPannelOpen] = useState(false);
     const [currentOptionSelected, setCurrentOptionSeleted] =
-        React.useState('lightmode');
-    const [currentLanguage, setCurrentLanguage] = React.useState(false); // false : fr, true: en
+        useState('lightmode');
+    const [currentLanguage, setCurrentLanguage] = useState(true); // true : fr, false: en
+    const { t } = useTranslation();
 
     useEffect(() => {
         if (decisionPanelExtended && isSettingsPannelOpen)
@@ -88,7 +87,7 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({
                         {currentOptionSelected === 'lightmode' && (
                             <div>
                                 <TitleText isDark={isDark}>
-                                    Mode sombre / clair
+                                    {t('lightDarkMode')}
                                 </TitleText>
                                 <LightDark
                                     isDark={isDark}
@@ -103,7 +102,7 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({
                                     currentLanguage={currentLanguage}
                                     setCurrentLanguage={setCurrentLanguage}
                                 >
-                                    Langage
+                                    {t('language')}
                                 </TitleText>
                                 <Language
                                     isDark={isDark}
@@ -115,7 +114,7 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({
                         {currentOptionSelected === 'download' && (
                             <div>
                                 <TitleText isDark={isDark}>
-                                    Charger des données
+                                    {t('loadData')}
                                 </TitleText>
                                 <Download isDark={isDark} />
                             </div>
@@ -123,7 +122,7 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({
                         {currentOptionSelected === 'notification' && (
                             <div>
                                 <TitleText isDark={isDark}>
-                                    Notifications
+                                    {t('notifications')}
                                 </TitleText>
                             </div>
                         )}

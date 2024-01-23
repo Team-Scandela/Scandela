@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState } from 'react';
 import FilterMenu from '../components/FilterMenu';
 import Map from '../components/Map';
 import SearchBar from '../components/SearchBar';
@@ -33,98 +33,97 @@ interface MainProps {
 
 /** Main page of the app */
 const MainDB: React.FC<MainProps> = ({ isPremiumActivated }) => {
-    const [isDark, setIsDark] = React.useState<boolean>(true);
-    const [isLassoActive, setIsLassoActive] = React.useState(false);
-    const [filter, setFilter] = React.useState<Filters>(Filters.none);
-    const [lat, setLat] = React.useState<number>(47.218371);
-    const [lng, setLng] = React.useState<number>(-1.553621);
-    const [zoom, setZoom] = React.useState(12);
+    const [isDark, setIsDark] = useState<boolean>(true);
+    const [isLassoActive, setIsLassoActive] = useState(false);
+    const [filter, setFilter] = useState<Filters>(Filters.none);
+    const [lat, setLat] = useState<number>(47.218371);
+    const [lng, setLng] = useState<number>(-1.553621);
+    const [zoom, setZoom] = useState(12);
     const [isButtonEditInPdfClicked, setIsButtonEditInPdfClicked] =
-        React.useState<boolean>(false);
+        useState<boolean>(false);
     /** If the decision panel is open or closed */
     const [decisionPanelExtended, setDecisionPanelExtended] =
-        React.useState<boolean>(false);
+        useState<boolean>(false);
     /** If the action list panel is open or closed */
-    const [actionsListExtended, setActionsListExtended] = React.useState(false);
-    const [currentSelected, setCurrentSelected] = React.useState(
+    const [actionsListExtended, setActionsListExtended] = useState(false);
+    const [currentSelected, setCurrentSelected] = useState(
         'Choisissez une action'
     );
-    const [optimisationTemplateData, setOptimisationTemplateData] =
-        React.useState([
-            {
-                id: 0,
-                saved: false,
-                selected: false,
-                type: 'Éteindre lampadaire',
-                location: '13 Rue Pierrick Guyard',
-                description: 'Passage peu fréquent',
-                solution: 'Off: 18h-10h',
-            },
-            {
-                id: 1,
-                saved: false,
-                selected: false,
-                type: 'Éteindre lampadaire',
-                location: '14 Rue Pierrick Guyard',
-                description: 'Passage peu fréquent',
-                solution: 'Off: 18h-10h',
-            },
-            {
-                id: 2,
-                saved: false,
-                selected: false,
-                type: 'Allumer lampadaire',
-                location: '15 Rue Pierrick Guyard',
-                description: 'Passage peu fréquent',
-                solution: 'Off: 18h-10h',
-            },
-            {
-                id: 3,
-                saved: false,
-                selected: false,
-                type: 'Augmenter intensité',
-                location: '16 Rue Pierrick Guyard',
-                description: 'Passage peu fréquent',
-                solution: 'Off: 18h-10h',
-            },
-            {
-                id: 4,
-                saved: false,
-                selected: false,
-                type: 'Réduire intensité',
-                location: '17 Rue Pierrick Guyard',
-                description: 'Passage peu fréquent',
-                solution: 'Off: 18h-10h',
-            },
-            {
-                id: 5,
-                saved: false,
-                selected: false,
-                type: 'Changer ampoule',
-                location: '18 Rue Pierrick Guyard',
-                description: 'Passage peu fréquent',
-                solution: 'Off: 18h-10h',
-            },
-            {
-                id: 6,
-                saved: false,
-                selected: false,
-                type: 'Ajouter lampadaire',
-                location: '19 Rue Pierrick Guyard',
-                description: 'Passage peu fréquent',
-                solution: 'Off: 18h-10h',
-            },
-            {
-                id: 7,
-                saved: false,
-                selected: false,
-                type: 'Retirer lampadaire',
-                location: '20 Rue Pierrick Guyard',
-                description: 'Passage peu fréquent',
-                solution: 'Off: 18h-10h',
-            },
-        ]);
-    const [toastHistoryData, setToastHistoryData] = React.useState([]);
+    const [optimisationTemplateData, setOptimisationTemplateData] = useState([
+        {
+            id: 0,
+            saved: false,
+            selected: false,
+            type: 'Éteindre lampadaire',
+            location: '13 Rue Pierrick Guyard',
+            description: 'Passage peu fréquent',
+            solution: 'Off: 18h-10h',
+        },
+        {
+            id: 1,
+            saved: false,
+            selected: false,
+            type: 'Éteindre lampadaire',
+            location: '14 Rue Pierrick Guyard',
+            description: 'Passage peu fréquent',
+            solution: 'Off: 18h-10h',
+        },
+        {
+            id: 2,
+            saved: false,
+            selected: false,
+            type: 'Allumer lampadaire',
+            location: '15 Rue Pierrick Guyard',
+            description: 'Passage peu fréquent',
+            solution: 'Off: 18h-10h',
+        },
+        {
+            id: 3,
+            saved: false,
+            selected: false,
+            type: 'Augmenter intensité',
+            location: '16 Rue Pierrick Guyard',
+            description: 'Passage peu fréquent',
+            solution: 'Off: 18h-10h',
+        },
+        {
+            id: 4,
+            saved: false,
+            selected: false,
+            type: 'Réduire intensité',
+            location: '17 Rue Pierrick Guyard',
+            description: 'Passage peu fréquent',
+            solution: 'Off: 18h-10h',
+        },
+        {
+            id: 5,
+            saved: false,
+            selected: false,
+            type: 'Changer ampoule',
+            location: '18 Rue Pierrick Guyard',
+            description: 'Passage peu fréquent',
+            solution: 'Off: 18h-10h',
+        },
+        {
+            id: 6,
+            saved: false,
+            selected: false,
+            type: 'Ajouter lampadaire',
+            location: '19 Rue Pierrick Guyard',
+            description: 'Passage peu fréquent',
+            solution: 'Off: 18h-10h',
+        },
+        {
+            id: 7,
+            saved: false,
+            selected: false,
+            type: 'Retirer lampadaire',
+            location: '20 Rue Pierrick Guyard',
+            description: 'Passage peu fréquent',
+            solution: 'Off: 18h-10h',
+        },
+    ]);
+    const [toastHistoryData, setToastHistoryData] = useState([]);
 
     const handleSearch = (value: string) => {
         handleSearchUtils(value, lat, setLat, lng, setLng, zoom, setZoom);
@@ -195,6 +194,7 @@ const MainDB: React.FC<MainProps> = ({ isPremiumActivated }) => {
                 filter={filter}
                 setFilter={setFilter}
                 isDark={isDark}
+                isLassoActive={isLassoActive}
             />
             <LogoutButton id={'logoutButtonId'} isDark={isDark} />
             <CityButton id={'cityButtonId'} isDark={isDark} />

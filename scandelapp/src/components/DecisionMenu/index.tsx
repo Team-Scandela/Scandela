@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState } from 'react';
 import {
     DecisionMenuContainer,
     DecisionMenuButton,
@@ -23,6 +23,7 @@ import ButtonSelectAll from '../ButtonSelectAll';
 import logoDark from '../../assets/logo-128x128-yellow.png';
 import OptimisationTemplate from '../OptimisationTemplate';
 import { showToast } from '../Toastr';
+import { useTranslation } from 'react-i18next';
 
 /** Props of the decision pannel
  * @param {boolean} isDark - If the map is in dark mode or not
@@ -66,9 +67,10 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
     currentSelected,
     addNotificationToList,
 }) => {
-    const [dropdownExpended, setDropdownExpended] = React.useState(false);
-    const [items, setItems] = React.useState([]);
-    const [isOnCooldown, setIsOnCooldown] = React.useState(false);
+    const [dropdownExpended, setDropdownExpended] = useState(false);
+    const [items, setItems] = useState([]);
+    const [isOnCooldown, setIsOnCooldown] = useState(false);
+    const { t } = useTranslation();
 
     const handleChildCheckboxChange = (id: number, isChecked: boolean) => {
         const updatedData = [...optimisationTemplateData];
@@ -252,7 +254,7 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
                             onClick={() => handleActionsListButtonClick()}
                             disabled={isOnCooldown}
                         >
-                            Ajouter à la liste d'actions
+                            {t('addToActionList')}
                         </AddToActionsListButton>
                     </DecisionPanelContentContainer>
                 </DecisionPanel>

@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import {
     TicketSenderContainer,
     Title,
@@ -17,10 +17,10 @@ interface TicketSenderPageProps {
 const TicketSender: React.FC<TicketSenderPageProps> = ({
     handleTicketButtonClicked,
 }) => {
-    const [showDropdown, setShowDropdown] = React.useState(false);
-    const [choosenItem, setChoosenItem] = React.useState('Catégorie');
-    const [title, setTitle] = React.useState('');
-    const [description, setDescription] = React.useState('');
+    const [showDropdown, setShowDropdown] = useState(false);
+    const [choosenItem, setChoosenItem] = useState('Catégorie');
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
 
     const handleDropdownToggle = () => {
         setShowDropdown(!showDropdown);
