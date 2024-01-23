@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState } from 'react';
 import './translation/translation';
 import './App.css';
 import Main from './pages/main';
@@ -13,8 +13,7 @@ import * as Sentry from '@sentry/browser';
 
 /** Route page */
 const App: React.FC = () => {
-    const [isPremiumActivated, setIsPremiumActivated] =
-        React.useState<boolean>(true);
+    const [isPremiumActivated, setIsPremiumActivated] = useState<boolean>(true);
 
     const handleToggleIsPremiumActivated = () => {
         setIsPremiumActivated((prevState) => !prevState);

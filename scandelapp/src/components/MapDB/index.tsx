@@ -1,6 +1,6 @@
 import * as mapboxgl from 'mapbox-gl';
 import Supercluster from 'supercluster';
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { Filters } from '../../pages/main';
 import { Yellow } from '../../colors';
 import LampInfosPopup from '../LampInfosPopup';
@@ -35,18 +35,16 @@ const MapDB: React.FC<MapProps> = ({
     isLassoActive,
 }) => {
     // Reference to the map container element
-    const mapContainer = React.useRef<HTMLDivElement | null>(null);
+    const mapContainer = useRef<HTMLDivElement | null>(null);
 
     // Reference to the Mapbox map object
-    const map = React.useRef<mapboxgl.Map | null>(null);
+    const map = useRef<mapboxgl.Map | null>(null);
 
     // Reference to the Supercluster object
-    const cluster = React.useRef<Supercluster | null>(null);
+    const cluster = useRef<Supercluster | null>(null);
 
     // Pour suivre l'ID du lampadaire sélectionné
-    const [selectedLampId, setSelectedLampId] = React.useState<string | null>(
-        null
-    );
+    const [selectedLampId, setSelectedLampId] = useState<string | null>(null);
 
     const [cursorStyle, setCursorStyle] = useState('auto');
 
@@ -57,21 +55,20 @@ const MapDB: React.FC<MapProps> = ({
         useState<boolean>(false);
 
     const [selectedLampFeature, setSelectedLampFeature] =
-        React.useState<mapboxgl.MapboxGeoJSONFeature | null>(null);
+        useState<mapboxgl.MapboxGeoJSONFeature | null>(null);
 
-    const [fetchAsked, setFetchAsked] = React.useState<boolean>(false);
+    const [fetchAsked, setFetchAsked] = useState<boolean>(false);
 
-    const [geojsonData, setGeojsonData] =
-        React.useState<GeoJSON.FeatureCollection>({
-            type: 'FeatureCollection',
-            features: [] as GeoJSON.Feature[],
-        });
+    const [geojsonData, setGeojsonData] = useState<GeoJSON.FeatureCollection>({
+        type: 'FeatureCollection',
+        features: [] as GeoJSON.Feature[],
+    });
 
     let nantesData = require('../../assets/nantesData.json');
 
-    const [dataLoaded, setDataLoaded] = React.useState<boolean>(false);
+    const [dataLoaded, setDataLoaded] = useState<boolean>(false);
 
-    const geojsonDataRaw = React.useMemo(() => {
+    const geojsonDataRaw = useMemo(() => {
         let geoJSON = {
             type: 'FeatureCollection',
             features: [] as any[],
@@ -114,7 +111,7 @@ const MapDB: React.FC<MapProps> = ({
         }
     };
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (!fetchAsked) {
             const fetchData = async () => {
                 try {
@@ -153,7 +150,7 @@ const MapDB: React.FC<MapProps> = ({
         }
     }, []);
 
-    React.useEffect(() => {
+    useEffect(() => {
         console.log('geojsondata updated:', geojsonData);
         if (geojsonData.features.length > 0) {
             setDataLoaded(true);
@@ -437,12 +434,12 @@ const MapDB: React.FC<MapProps> = ({
     };
 
     // Initialize the map on the first render
-    React.useEffect(() => {
+    useEffect(() => {
         //initializeMap();
     }, [isDark, lng, lat, zoom]);
 
     // Use effect for the lasso
-    React.useEffect(() => {
+    useEffect(() => {
         if (map.current) {
             if (isLassoActive) {
                 // Bloquer le zoom et le déplacement
@@ -485,7 +482,7 @@ const MapDB: React.FC<MapProps> = ({
     }, [isLassoActive]);
 
     // Use effect for the lasso
-    React.useEffect(() => {
+    useEffect(() => {
         if (map.current) {
             if (isLassoActive) {
                 // Supprime les sources et layers si ils existent
@@ -564,7 +561,7 @@ const MapDB: React.FC<MapProps> = ({
     }, [clickedPoints, isLassoActive]);
 
     // Use effect to monitor filter changes
-    React.useEffect(() => {
+    useEffect(() => {
         console.log('update for filter');
         if (map.current) {
             if (map.current.isStyleLoaded()) {
@@ -578,7 +575,7 @@ const MapDB: React.FC<MapProps> = ({
     }, [filter]);
 
     // Use effect for black mode and search
-    React.useEffect(() => {
+    useEffect(() => {
         if (map.current) {
             console.log('update for black and search');
             map.current.setStyle(

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useRef } from 'react';
 import { DownloadButton } from './elements';
 
 /** Download setting component props
@@ -10,7 +10,7 @@ interface DownloadProps {
 }
 
 const Download: React.FC<DownloadProps> = ({ isDark }) => {
-    const fileInputRef = React.useRef<HTMLInputElement | null>(null);
+    const fileInputRef = useRef<HTMLInputElement | null>(null);
 
     function launchScript(argument: string) {
         fetch(`http://db.scandela.fr/script`, {
@@ -43,7 +43,10 @@ const Download: React.FC<DownloadProps> = ({ isDark }) => {
 
     return (
         <div>
-            <DownloadButton onClick={() => openFilePicker()}></DownloadButton>
+            <DownloadButton
+                isDark={isDark}
+                onClick={() => openFilePicker()}
+            ></DownloadButton>
             <input
                 type="file"
                 ref={fileInputRef}

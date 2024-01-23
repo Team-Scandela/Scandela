@@ -1,4 +1,3 @@
-import * as React from 'react';
 import LandingPageComponent from '../components/LandingPageComponent';
 
 interface LandingPageProps {

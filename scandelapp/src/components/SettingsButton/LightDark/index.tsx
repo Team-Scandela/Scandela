@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { SunButton, MoonButton } from './elements';
 import RadioButton from '../../RadioButton';
 

@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { MainContainer, ButtonContainer } from './elements';
 
 /** Props of the toastr component

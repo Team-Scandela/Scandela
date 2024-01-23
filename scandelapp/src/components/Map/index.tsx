@@ -1,6 +1,6 @@
 import * as mapboxgl from 'mapbox-gl';
 import Supercluster from 'supercluster';
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { Filters } from '../../pages/main';
 import { Yellow } from '../../colors';
 import LampInfosPopup from '../LampInfosPopup';
@@ -35,18 +35,16 @@ const Map: React.FC<MapProps> = ({
     isLassoActive,
 }) => {
     // Reference to the map container element
-    const mapContainer = React.useRef<HTMLDivElement | null>(null);
+    const mapContainer = useRef<HTMLDivElement | null>(null);
 
     // Reference to the Mapbox map object
-    const map = React.useRef<mapboxgl.Map | null>(null);
+    const map = useRef<mapboxgl.Map | null>(null);
 
     // Reference to the Supercluster object
-    const cluster = React.useRef<Supercluster | null>(null);
+    const cluster = useRef<Supercluster | null>(null);
 
     // Pour suivre l'ID du lampadaire sélectionné
-    const [selectedLampId, setSelectedLampId] = React.useState<string | null>(
-        null
-    );
+    const [selectedLampId, setSelectedLampId] = useState<string | null>(null);
 
     const [cursorStyle, setCursorStyle] = useState('auto');
 
@@ -57,10 +55,10 @@ const Map: React.FC<MapProps> = ({
         useState<boolean>(false);
 
     const [selectedLampFeature, setSelectedLampFeature] =
-        React.useState<mapboxgl.MapboxGeoJSONFeature | null>(null);
+        useState<mapboxgl.MapboxGeoJSONFeature | null>(null);
 
     // Crée les données géoJSON à partir des données de Nantes
-    const geojsonData = React.useMemo(() => {
+    const geojsonData = useMemo(() => {
         let geoJSON = {
             type: 'FeatureCollection',
             features: [] as any[],
@@ -349,11 +347,11 @@ const Map: React.FC<MapProps> = ({
     };
 
     // Initialize the map on the first render
-    React.useEffect(() => {
+    useEffect(() => {
         initializeMap();
     }, [isDark, lng, lat, zoom]);
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (map.current) {
             if (isLassoActive) {
                 // Bloquer le zoom et le déplacement
@@ -464,7 +462,7 @@ const Map: React.FC<MapProps> = ({
                     source: 'clickedPoints',
                     paint: {
                         'circle-radius': 6,
-                        'circle-color': '#8CC63F',
+                        'circle-color': '#151fac',
                         'circle-stroke-color': '#F9F9F9',
                         'circle-stroke-width': 2,
                     },
@@ -474,7 +472,7 @@ const Map: React.FC<MapProps> = ({
     }, [clickedPoints, isLassoActive]);
 
     // Effect to monitor filter changes
-    React.useEffect(() => {
+    useEffect(() => {
         if (map.current.isStyleLoaded()) {
             handleFilterChange(); // Call the function to handle layer visibility
         } else {

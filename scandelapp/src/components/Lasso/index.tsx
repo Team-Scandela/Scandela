@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState } from 'react';
 import { LassoButton } from './elements';
 import { TbLassoPolygon } from 'react-icons/tb';
 
@@ -13,7 +13,7 @@ const Lasso: React.FC<LassoButtonProps> = ({
     isDark,
     onLassoActivation,
 }) => {
-    const [isOn, setIsOn] = React.useState(false);
+    const [isOn, setIsOn] = useState(false);
 
     const toggleButton = () => {
         const isActive = !isOn;

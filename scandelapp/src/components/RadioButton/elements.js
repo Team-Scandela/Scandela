@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Yellow, Black, White, Grey, DarkYellow } from '../../colors';
+import { Yellow, Black, White, Grey, DarkYellow, DarkGrey } from '../../colors';
 
 export const MainContainer = styled.div`
     display: flex;
@@ -8,7 +8,8 @@ export const MainContainer = styled.div`
     width: 70px;
     top: ${(props) => props.top};
     left: ${(props) => props.left};
-    background-color: ${(props) => (props.isDark ? Black + 'CC' : Grey + 'CC')};
+    background-color: ${(props) =>
+        props.isDark ? DarkGrey + 'CC' : Grey + 'CC'};
     border-radius: 25px;
 `;
 

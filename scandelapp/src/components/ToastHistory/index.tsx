@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState } from 'react';
 import {
     ToastHistoryButton,
     ToastHistoryButtonIcon,
@@ -26,8 +26,7 @@ const ToastHistory: React.FC<ToastHistoryProps> = ({
     isDark,
     toastHistoryData,
 }) => {
-    const [toastHistoryExtended, setToastHistoryExtended] =
-        React.useState(false);
+    const [toastHistoryExtended, setToastHistoryExtended] = useState(false);
 
     const handleToastHistoryPannelButtonClicked = () => {
         setToastHistoryExtended(!toastHistoryExtended);
