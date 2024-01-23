@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.scandela.server.entity.Server;
 import com.scandela.server.service.IServerService;
 
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:3000, https://app.scandela.fr")
 @RestController
 @RequestMapping(value = "/")
 public class ServerController {

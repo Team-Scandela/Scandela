@@ -17,7 +17,7 @@ import com.scandela.server.entity.Incident;
 import com.scandela.server.exception.IncidentException;
 import com.scandela.server.service.IIncidentService;
 
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:3000, https://app.scandela.fr")
 @RestController
 @RequestMapping(value = "/incidents")
 public class IncidentController extends AbstractController<Incident> {

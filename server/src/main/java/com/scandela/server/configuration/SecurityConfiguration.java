@@ -16,9 +16,9 @@ public class SecurityConfiguration {
             authorize.anyRequest().authenticated();
         }).httpBasic(Customizer.withDefaults());
 
-         http.cors(configurer -> {
+        http.cors(configurer -> {
             CorsConfiguration corsConfiguration = new CorsConfiguration();
-            corsConfiguration.addAllowedOrigin("http://localhost:3000");
+            corsConfiguration.addAllowedOrigin("http://localhost:3000, https://app.scandela.fr");
             corsConfiguration.addAllowedMethod("*");
             corsConfiguration.addAllowedHeader("*");
             configurer.configurationSource(request -> corsConfiguration);
