@@ -17,9 +17,9 @@ import com.scandela.server.entity.Bulb;
 import com.scandela.server.exception.BulbException;
 import com.scandela.server.service.IBulbService;
 
-@CrossOrigin
 @RestController
 @RequestMapping(value = "/bulbs")
+@CrossOrigin(origins = "http://localhost:3000")
 public class BulbController extends AbstractController<Bulb> {
 	
 	// Constructors \\

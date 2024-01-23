@@ -79,12 +79,18 @@ public class Lamp implements Serializable {
 
 	@Column(name = "lng", nullable = false)
 	private Double longitude;
-	
+	//TODO changer les 2 lighton et lightoff pour stocker une liste plutot
 	@Column(name = "lighton")
 	private LocalTime lightOn;
 
 	@Column(name = "lightoff")
 	private LocalTime lightOff;
+	
+	@Column(name = "lighton2")
+	private LocalTime lightOn2;
+
+	@Column(name = "lightoff2")
+	private LocalTime lightOff2;
 
 	@Column(name = "height", nullable = false)
 	private Double height;
@@ -97,10 +103,10 @@ public class Lamp implements Serializable {
 	private List<String> recommandedOptimisations;
 
 	@Column(name = "lamptype", nullable = false)
-	private String lamptype;
+	private String lampType;
 
 	@Column(name = "foyertype", nullable = false)
-	private String foyertype;
+	private String foyerType;
 
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@OneToMany(mappedBy = "lamp", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)

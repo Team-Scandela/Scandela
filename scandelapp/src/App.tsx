@@ -10,6 +10,7 @@ import Test from './pages/test';
 import Admin from './pages/admin';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import * as Sentry from '@sentry/browser';
+import { Helmet } from 'react-helmet';
 
 /** Route page */
 const App: React.FC = () => {
@@ -36,32 +37,54 @@ const App: React.FC = () => {
     });
 
     return (
-        <BrowserRouter>
-            <Routes>
-                <Route
-                    path="/"
-                    element={
-                        <LandingPage
-                            isPremiumActivated={isPremiumActivated}
-                            handleToggleIsPremiumActivated={
-                                handleToggleIsPremiumActivated
-                            }
-                        />
-                    }
+        <div>
+            <Helmet>
+                <title>Scandela</title>
+                <meta
+                    name="description"
+                    content="Scandela est une application d'aide à la gestion et à la maintenance de l'éclairage public."
                 />
-                <Route
-                    path="/fromdb"
-                    element={<MainDB isPremiumActivated={isPremiumActivated} />}
+                <meta
+                    name="keywords"
+                    content="Scandela, éclairage, gestion, maintenance, éclairage public, éclairage urbain, éclairage intelligent, smart city, smart lighting, aide"
                 />
-                <Route path="/login" element={<Login />} />
-                <Route
-                    path="/scandela"
-                    element={<Main isPremiumActivated={isPremiumActivated} />}
+                <meta name="author" content="Scandela" />
+                <meta
+                    name="viewport"
+                    content="width=device-width, initial-scale=1.0"
                 />
-                <Route path="/redirect" element={<Redirect />} />
-                <Route path="/admin" element={<Admin />} />
-            </Routes>
-        </BrowserRouter>
+            </Helmet>
+            <BrowserRouter>
+                <Routes>
+                    <Route
+                        path="/"
+                        element={
+                            <LandingPage
+                                isPremiumActivated={isPremiumActivated}
+                                handleToggleIsPremiumActivated={
+                                    handleToggleIsPremiumActivated
+                                }
+                            />
+                        }
+                    />
+                    <Route
+                        path="/fromdb"
+                        element={
+                            <MainDB isPremiumActivated={isPremiumActivated} />
+                        }
+                    />
+                    <Route path="/login" element={<Login />} />
+                    <Route
+                        path="/scandela"
+                        element={
+                            <Main isPremiumActivated={isPremiumActivated} />
+                        }
+                    />
+                    <Route path="/redirect" element={<Redirect />} />
+                    <Route path="/admin" element={<Admin />} />
+                </Routes>
+            </BrowserRouter>
+        </div>
     );
 };
 

@@ -12,6 +12,9 @@ import {
     CloseIcon,
     ListDetailContainer,
 } from './elements';
+
+import MissingLampPopup from '../MissingLampPopup/';
+
 import * as images from './ficheImports';
 
 interface LampInfosPopupProps {
@@ -46,7 +49,6 @@ const LampInfosPopup: React.FC<LampInfosPopupProps> = ({
     if (!selectedLampId) {
         return null;
     }
-
     return (
         <div id={id}>
             <PannelContainer isDark={isDark}>
@@ -105,6 +107,7 @@ const LampInfosPopup: React.FC<LampInfosPopupProps> = ({
                     {' '}
                     50 kW/h{' '}
                 </PopupText>
+                <MissingLampPopup isDark={isDark} />
                 <img
                     src={images.leaf}
                     alt="Flash"
