@@ -1,5 +1,6 @@
 package com.scandela.server.dao;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,5 +10,5 @@ import com.scandela.server.entity.DecisionType;
 
 @Repository
 public interface DecisionTypeDao extends JpaRepository<DecisionType, UUID> {
-
+	public Optional<DecisionType> findByTitleContains(String title);
 }
