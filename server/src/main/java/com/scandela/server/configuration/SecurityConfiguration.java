@@ -1,5 +1,6 @@
 package com.scandela.server.configuration;
 
+import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -14,6 +15,15 @@ public class SecurityConfiguration {
         http.csrf().disable().authorizeHttpRequests((authorize) -> {
             authorize.anyRequest().authenticated();
         }).httpBasic(Customizer.withDefaults());
+
+         http.cors(configurer -> {
+            CorsConfiguration corsConfiguration = new CorsConfiguration();
+            corsConfiguration.addAllowedOrigin("http://localhost:3000");
+            corsConfiguration.addAllowedMethod("*");
+            corsConfiguration.addAllowedHeader("*");
+            configurer.configurationSource(request -> corsConfiguration);
+        });
+
         return http.build();
     }
 }
