@@ -84,5 +84,14 @@ public class DecisionController extends AbstractController<Decision> {
 	public void deleteDecision(@PathVariable UUID id) {
 		super.delete(id);
 	}
-
+	
+	@PostMapping("/algoChangementBulb")
+	public List<Decision> algoChangementBulb() throws Exception {
+		return ((IDecisionService) service).algoChangementBulb();
+	}
+	
+	@PostMapping("/algoReductionConsoHoraire")
+	public List<Decision> algoReductionConsoHoraire() throws Exception {
+		return ((IDecisionService) service).algoReductionConsoHoraire();
+	}
 }
