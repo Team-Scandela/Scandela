@@ -39,7 +39,7 @@ public class LampDecision implements Serializable {
 
 //	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)TODO check si on veut savoir si il y a une decision a prendre quand on clique sur le lampdaire
 	@ManyToOne
-	@JoinColumn(name = "id_lamp", nullable = false)
+	@JoinColumn(name = "uuidlamp", nullable = false)
 	private Lamp lamp;
 
 	@ManyToOne
