@@ -24,7 +24,7 @@ const InfoIconPopup: React.FC<InfoIconPopupProps> = ({ isDark }) => {
         const username = 'tester';
         const password = 'T&st';
         try {
-            const response = await fetch('http://db.scandela.fr/bulbs/create', {
+            const response = await fetch('http://db.scandela.store/bulbs/create', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
