@@ -13,7 +13,7 @@ export const SettingsButtonContainer = styled(IoMdSettings)`
     user-select: none;
     opacity: 0.9;
     background-color: ${(props) =>
-        props.isDark ? Black + 'CC' : White + 'CC'};
+        props.isDark ? Black / +'CC' : White + 'CC'};
     color: ${(props) => (props.isDark ? Yellow : Black)};
     box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
     border-radius: 10px;
@@ -29,8 +29,7 @@ export const SettingsPannelContainer = styled.div`
     position: fixed;
     width: 600px;
     height: 420px;
-    background-color: ${(props) => (props.isDark ? Black : White)};
-    color: ${(props) => (props.isDark ? Yellow : Black)};
+    background-color: ${(props) => (props.isDark ? Yellow : White)};
     box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
     top: 90px;
     left: 500px;
@@ -44,8 +43,7 @@ export const ButtonsMenuContainer = styled.div`
     position: relative;
     width: 110px;
     height: 400px;
-    background-color: ${(props) => (props.isDark ? Grey : White)};
-    color: ${(props) => (props.isDark ? Yellow : Black)};
+    background-color: ${(props) => (props.isDark ? Black : White)};
     box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
     top: 10px;
     left: 10px;
@@ -60,8 +58,7 @@ export const ContentContainer = styled.div`
     justify-content: center;
     width: 460px;
     height: 400px;
-    background-color: ${(props) => (props.isDark ? DarkGrey : White)};
-    color: ${(props) => (props.isDark ? Yellow : Black)};
+    background-color: ${(props) => (props.isDark ? Black : White)};
     box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
     top: 10px;
     left: 20px;
@@ -77,8 +74,8 @@ export const LightModeButton = styled.div`
     justify-content: center;
     width: 100px;
     height: 70px;
-    background-color: ${(props) => (props.isDark ? Black : White)};
-    color: ${(props) => (props.isDark ? DarkYellow : Black)};
+    background-color: ${(props) => (props.isDark ? DarkYellow : White)};
+    color: ${(props) => (props.isDark ? Black : Black)};
     box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
     top: 5px;
     left: 5px;
@@ -87,8 +84,8 @@ export const LightModeButton = styled.div`
     overflow: hidden;
 
     &:hover {
-        background-color: ${(props) => (props.isDark ? DarkYellow : Black)};
-        color: ${(props) => (props.isDark ? Black : White)};
+        background-color: ${(props) => (props.isDark ? DarkGrey : Black)};
+        color: ${(props) => (props.isDark ? DarkYellow : White)};
         cursor: pointer;
     }
 `;
@@ -100,8 +97,8 @@ export const LanguageButton = styled.div`
     justify-content: center;
     width: 100px;
     height: 70px;
-    background-color: ${(props) => (props.isDark ? Black : White)};
-    color: ${(props) => (props.isDark ? DarkYellow : Black)};
+    background-color: ${(props) => (props.isDark ? DarkYellow : White)};
+    color: ${(props) => (props.isDark ? Black : Black)};
     box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
     top: 85px;
     left: 5px;
@@ -110,8 +107,8 @@ export const LanguageButton = styled.div`
     overflow: hidden;
 
     &:hover {
-        background-color: ${(props) => (props.isDark ? DarkYellow : Black)};
-        color: ${(props) => (props.isDark ? Black : White)};
+        background-color: ${(props) => (props.isDark ? DarkGrey : Black)};
+        color: ${(props) => (props.isDark ? DarkYellow : White)};
         cursor: pointer;
     }
 `;
@@ -123,8 +120,8 @@ export const DownloadButton = styled.div`
     justify-content: center;
     width: 100px;
     height: 70px;
-    background-color: ${(props) => (props.isDark ? Black : White)};
-    color: ${(props) => (props.isDark ? DarkYellow : Black)};
+    background-color: ${(props) => (props.isDark ? DarkYellow : White)};
+    color: ${(props) => (props.isDark ? Black : Black)};
     box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
     top: 165px;
     left: 5px;
@@ -133,8 +130,8 @@ export const DownloadButton = styled.div`
     overflow: hidden;
 
     &:hover {
-        background-color: ${(props) => (props.isDark ? DarkYellow : Black)};
-        color: ${(props) => (props.isDark ? Black : White)};
+        background-color: ${(props) => (props.isDark ? DarkGrey : Black)};
+        color: ${(props) => (props.isDark ? DarkYellow : White)};
         cursor: pointer;
     }
 `;
@@ -146,8 +143,8 @@ export const NotificationButton = styled.div`
     justify-content: center;
     width: 100px;
     height: 70px;
-    background-color: ${(props) => (props.isDark ? Black : White)};
-    color: ${(props) => (props.isDark ? DarkYellow : Black)};
+    background-color: ${(props) => (props.isDark ? DarkYellow : White)};
+    color: ${(props) => (props.isDark ? Black : Black)};
     box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
     top: 245px;
     left: 5px;
@@ -156,8 +153,8 @@ export const NotificationButton = styled.div`
     overflow: hidden;
 
     &:hover {
-        background-color: ${(props) => (props.isDark ? DarkYellow : Black)};
-        color: ${(props) => (props.isDark ? Black : White)};
+        background-color: ${(props) => (props.isDark ? DarkGrey : Black)};
+        color: ${(props) => (props.isDark ? DarkYellow : White)};
         cursor: pointer;
     }
 `;

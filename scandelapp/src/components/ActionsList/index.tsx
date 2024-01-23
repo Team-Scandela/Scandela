@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { useEffect } from 'react';
 import {
     ActionsListContainer,
@@ -15,6 +14,7 @@ import {
     GaugesContainer,
 } from './elements';
 import { PersonnalizedGauge } from '../Gauges';
+import { useTranslation } from 'react-i18next';
 
 /** Menu of the decision pannel
  * @param {boolean} isDark - If the map is in dark mode or not
@@ -43,6 +43,7 @@ const ActionsList: React.FC<ActionsListProps> = ({
     optimisationTemplateData,
     setOptimisationTemplateData,
 }) => {
+    const { t } = useTranslation();
     useEffect(() => {
         if (decisionPanelExtended && actionsListExtended)
             handleToggleActionsListExpend();
@@ -91,7 +92,7 @@ const ActionsList: React.FC<ActionsListProps> = ({
                 </ScrollableOptimisationsContainer>
                 <TotalContainer isDark={isDark}>
                     <TotalTitleText isDark={isDark}>
-                        Impact économique
+                        {t('economicImpact')}
                     </TotalTitleText>
                 </TotalContainer>
                 {/* Render personalized gauge components */}

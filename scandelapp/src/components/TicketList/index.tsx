@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState, useEffect } from 'react';
 import {
     TicketListContainer,
     TicketContainer,
@@ -73,10 +73,10 @@ const TicketListData = [
 ];
 
 const TicketList: React.FC<TicketListProps> = ({ data }) => {
-    const [tickets, setTickets] = React.useState(data);
-    const [showDropdown, setShowDropdown] = React.useState(-1);
+    const [tickets, setTickets] = useState(data);
+    const [showDropdown, setShowDropdown] = useState(-1);
 
-    React.useEffect(() => {
+    useEffect(() => {
         setTickets(data);
     }, [data]);
 

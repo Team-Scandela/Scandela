@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { FranceFlag, EnglishFlag } from './elements';
 import RadioButton from '../../RadioButton';
 import { useTranslation } from 'react-i18next';

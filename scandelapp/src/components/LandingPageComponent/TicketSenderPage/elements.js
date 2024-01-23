@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Yellow, Black, White, Grey } from '../../../colors';
+import { Yellow, Black, White, Grey, DarkGrey } from '../../../colors';
 import { IoIosReturnLeft } from 'react-icons/io';
 
 export const TicketSenderContainer = styled.div`
@@ -39,7 +39,7 @@ export const DropdownContainer = styled.div`
     left: 30px;
     width: 80%;
     height: 40px;
-    background-color: ${(props) => (props.isDark ? White : White)};
+    background-color: ${White};
     border: 1px solid ${Grey};
     border-radius: 5px;
     overflow: hidden;
@@ -50,7 +50,11 @@ export const DropdownContainer = styled.div`
 
     display: flex;
     align-items: center;
-    color: ${(props) => (props.isDark ? Yellow : Black)};
+    color: ${Black};
+
+    &:hover {
+        background-color: ${Yellow};
+    }
 `;
 
 export const DropdownItem = styled.div`
@@ -62,7 +66,7 @@ export const DropdownItem = styled.div`
     cursor: pointer;
 
     &:hover {
-        background-color: ${Grey};
+        background-color: ${White};
     }
 `;
 
@@ -76,7 +80,7 @@ export const TicketTitleInput = styled.input`
     border: 1px solid ${Grey};
     border-radius: 5px;
     box-sizing: border-box;
-    color: ${(props) => (props.isDark ? Yellow : Black)};
+    color: ${Yellow};
     font-size: 16px;
     font-weight: 500;
 `;
@@ -92,7 +96,7 @@ export const TicketDescriptionInput = styled.textarea`
     border: 1px solid ${Grey};
     border-radius: 5px;
     box-sizing: border-box;
-    color: ${(props) => (props.isDark ? Yellow : Black)};
+    color: ${Yellow};
     font-size: 16px;
     font-weight: 500;
     resize: none;
@@ -105,9 +109,9 @@ export const SendButton = styled.div`
     width: 100px;
     height: 40px;
     transform: translateY(100%);
-    background-color: ${(props) => (props.isDark ? Yellow : Black)};
+    background-color: ${Yellow};
     border-radius: 5px;
-    color: ${(props) => (props.isDark ? Black : White)};
+    color: ${Black};
     font-size: 16px;
     font-weight: 500;
     text-align: center;
@@ -128,11 +132,11 @@ export const ReturnButtonContainer = styled(IoIosReturnLeft)`
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 80px;
+    width: 100px;
     height: 40px;
-    bottom: 14%;
-    right: 3.5%;
-    border-radius: 10px;
+    bottom: 70px;
+    right: 30px;
+    border-radius: 5px;
     background-color: ${Yellow};
     opacity: 0.8;
 

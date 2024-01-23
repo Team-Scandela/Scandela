@@ -1,10 +1,10 @@
-import * as React from 'react';
+import { useState, useEffect } from 'react';
 
 /** Test page of the app */
 const Test: React.FC = () => {
-    const [lamp, setLamp] = React.useState<string>(null);
+    const [lamp, setLamp] = useState<string>(null);
 
-    React.useEffect(() => {
+    useEffect(() => {
         getLamp();
     }, []);
 

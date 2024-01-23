@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState } from 'react';
 import {
     ProfilePageContainer,
     ProfileField,
@@ -18,15 +18,15 @@ interface ProfilePageProps {
 const ProfilePage: React.FC<ProfilePageProps> = ({
     handleProfileButtonClicked,
 }) => {
-    const [isEditingName, setIsEditingName] = React.useState(false);
-    const [isEditingEmail, setIsEditingEmail] = React.useState(false);
-    const [isEditingPassword, setIsEditingPassword] = React.useState(false);
-    const [isEditingKwH, setIsEditingKwH] = React.useState(false);
+    const [isEditingName, setIsEditingName] = useState(false);
+    const [isEditingEmail, setIsEditingEmail] = useState(false);
+    const [isEditingPassword, setIsEditingPassword] = useState(false);
+    const [isEditingKwH, setIsEditingKwH] = useState(false);
 
-    const [name, setName] = React.useState('Victor Harri-Chal');
-    const [email, setEmail] = React.useState('victor.harrichal@epitech.eu');
-    const [password, setPassword] = React.useState('scandevloppeur');
-    const [kwH, setKwH] = React.useState('600');
+    const [name, setName] = useState('Victor Harri-Chal');
+    const [email, setEmail] = useState('victor.harrichal@epitech.eu');
+    const [password, setPassword] = useState('scandevloppeur');
+    const [kwH, setKwH] = useState('600');
 
     const handleReturnButtonClicked = () => {
         handleProfileButtonClicked();

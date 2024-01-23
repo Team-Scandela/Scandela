@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Yellow, Black, White, DarkYellow } from '../../../colors';
+import { Yellow, Black, White, DarkYellow, Grey } from '../../../colors';
 import { MdDownload } from 'react-icons/md';
 
 export const DownloadButton = styled(MdDownload)`
@@ -9,6 +9,7 @@ export const DownloadButton = styled(MdDownload)`
     width: 100px;
     top: 150px;
     left: 170px;
+    color: ${(props) => (props.isDark ? Yellow : Black)};
 
     &:hover {
         cursor: pointer;
