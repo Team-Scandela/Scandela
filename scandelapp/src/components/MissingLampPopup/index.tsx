@@ -20,6 +20,24 @@ const InfoIconPopup: React.FC<InfoIconPopupProps> = ({ isDark }) => {
     const [bulbID, setBulbID] = React.useState<string>('');
     const [bulbValue, setBulbValue] = React.useState<string>('');
 
+    const createBulb = async () => {
+        try {
+            const response = await fetch('http://localhost:8080/bulb/create', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    intensity: 0,
+                    consommation: parseInt(bulbValue, 10),
+                    reference: bulbID,
+                }),
+            });
+        } catch (error) {
+            console.log('ERROR CREATE BULB = ' + error);
+        }
+    };
+
     const handleInfoIconClick = () => {
         setPopupVisible(!isPopupVisible);
         setEnteringID(true);
@@ -39,6 +57,7 @@ const InfoIconPopup: React.FC<InfoIconPopupProps> = ({ isDark }) => {
                 setEnteringID(false);
             } else {
                 setPopupVisible(false);
+                createBulb();
             }
         }
     };
