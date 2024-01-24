@@ -1,6 +1,7 @@
 package com.scandela.server.service.implementation;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,7 +18,9 @@ import com.stripe.model.Card;
 import com.stripe.model.Charge;
 import com.stripe.model.Customer;
 import com.stripe.model.PaymentIntent;
+import com.stripe.model.PaymentMethod;
 import com.stripe.model.Token;
+import com.stripe.param.PaymentMethodAttachParams;
 // import com.stripe.model.Subscription;
 import com.stripe.Stripe;
 
@@ -84,39 +87,44 @@ public class SubscriptionService extends AbstractService<Subscription> implement
         } catch (StripeException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        } //add customer id here : it will start with cus_
+        } // add customer id here : it will start with cus_
 
         return customer;
     }
 
-    public Card createCard(Subscription subscription, Customer customer) throws StripeException {
+    public String createCard(Subscription subscription, Customer customer) throws StripeException {
 
-        HashMap<String, Object> cardParam = new HashMap<String, Object>(); //add card details
+        HashMap<String, Object> cardParam = new HashMap<String, Object>(); // add card details
 
-		cardParam.put("number", subscription.getCardNumber());
-		cardParam.put("exp_month", subscription.getCardExpMonth());
-		cardParam.put("exp_year", subscription.getCardExpYear());
-		cardParam.put("cvc", subscription.getCardCVC());
+        cardParam.put("number", subscription.getCardNumber());
+        cardParam.put("exp_month", subscription.getCardExpMonth());
+        cardParam.put("exp_year", subscription.getCardExpYear());
+        cardParam.put("cvc", subscription.getCardCVC());
 
-		HashMap<String, Object> tokenParam = new HashMap<String, Object>();
-		tokenParam.put("card", cardParam);
+        HashMap<String, Object> tokenParam = new HashMap<String, Object>();
+        tokenParam.put("card", cardParam);
 
-		Token token = Token.create(tokenParam); // create a token
+        try {
+            Token token = Token.create(tokenParam);
+            return token.getId();
+        } catch (StripeException e) {
+            e.printStackTrace();
+            return null;
+        }
 
-		HashMap<String, Object> source = new HashMap<String, Object>();
-		source.put("source", "tok_visa"); //add token as source
+        // HashMap<String, Object> source = new HashMap<String, Object>();
+        // source.put("source", "tok_visa"); //add token as source
 
-        Card card = (Card)customer.getSources().create(source);
+        // Card card = (Card)customer.getSources().create(source);
 
-        return card;
     }
 
     public void createCharge(Customer customer) {
-        HashMap<String, Object> chargeParam = new HashMap<String, Object>(); //add card details
+        HashMap<String, Object> chargeParam = new HashMap<String, Object>(); // add card details
 
-		chargeParam.put("amount", "1200");
-		chargeParam.put("currency", "usd");
-		chargeParam.put("exp_year", customer.getId());
+        chargeParam.put("amount", "1200");
+        chargeParam.put("currency", "usd");
+        chargeParam.put("exp_year", customer.getId());
 
         try {
             Charge.create(chargeParam);
@@ -126,31 +134,67 @@ public class SubscriptionService extends AbstractService<Subscription> implement
         }
     }
 
+    public PaymentMethod createPaymentMethod(String cardToken, String customerId) {
+
+        Map<String, Object> tmpCardParams = new HashMap<>();
+        tmpCardParams.put("token", cardToken);
+
+        Map<String, Object> paymentMethodParams = new HashMap<>();
+        paymentMethodParams.put("type", "card");
+        paymentMethodParams.put("card", tmpCardParams);
+
+        try {
+            PaymentMethod paymentMethod = PaymentMethod.create(paymentMethodParams);
+
+            Customer customer = Customer.retrieve(customerId);
+            Map<String, Object> params = new HashMap<>();
+            params.put("customer", customer.getId());
+            params.put("payment_method", paymentMethod.getId());
+
+            PaymentMethodAttachParams newPayMethodParams = PaymentMethodAttachParams.builder().setCustomer(customerId)
+                    .build();
+            PaymentMethod updatedPaymentMethod = paymentMethod.attach(newPayMethodParams);
+
+            return updatedPaymentMethod;
+        } catch (StripeException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 
     public Subscription createSubscription(Subscription subscription) {
 
         Stripe.apiKey = secretKey;
-        // if (subscription.getStripeId() != null && retrieveCustomer(subscription.getStripeId()) != null) {
-        //     ;
+        // if (subscription.getStripeId() != null &&
+        // retrieveCustomer(subscription.getStripeId()) != null) {
+        // ;
         // } else {
         Customer newCustomer = createCustomer(subscription);
 
         subscription.setStripeId(newCustomer.getId());
 
         try {
-            createCard(subscription, newCustomer);
-            createCharge(newCustomer);
-            Map<String, Object> prodParams = new HashMap<String, Object>();
-            prodParams.put("prod", "prod_PDoC5Ig8LbirCM");
+            // String cardToken = createCard(subscription, newCustomer);
+            PaymentMethod paymentMethod = createPaymentMethod("tok_visa", newCustomer.getId());
 
-            Map<String, Object> items = new HashMap<String, Object>();
-            items.put("0", prodParams);
+            Map<String, Object> subscriptionParams = new HashMap<>();
+            subscriptionParams.put("customer", newCustomer.getId());
+            subscriptionParams.put("items", Collections.singletonList(Map.of("price", "price_1OPMaWA9IrH4mWMNF0InmSO8")));
+            subscriptionParams.put("default_payment_method", paymentMethod.getId());
 
-            Map<String, Object> subscriptionParam = new HashMap<String, Object>();
-            subscriptionParam.put("items", items);
-            subscriptionParam.put("customer", newCustomer.getId());
+            // createCharge(newCustomer);
+            // Map<String, Object> prodParams = new HashMap<String, Object>();
+            // prodParams.put("prod", "prod_PDoC5Ig8LbirCM");
 
-            com.stripe.model.Subscription.create(subscriptionParam);
+            // Map<String, Object> items = new HashMap<String, Object>();
+            // items.put("0", prodParams);
+
+            // Map<String, Object> subscriptionParam = new HashMap<String, Object>();
+            // subscriptionParam.put("items", items);
+            // subscriptionParam.put("customer", newCustomer.getId());
+
+            com.stripe.model.Subscription.create(subscriptionParams);
 
         } catch (StripeException e) {
             // TODO Auto-generated catch block
@@ -159,7 +203,6 @@ public class SubscriptionService extends AbstractService<Subscription> implement
 
         dao.save(subscription);
         // }
-
 
         return subscription;
     }
