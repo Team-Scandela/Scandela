@@ -33,12 +33,13 @@ interface MainProps {
 
 /** Main page of the app */
 const Main: React.FC<MainProps> = ({ isPremiumActivated }) => {
-    const [isDark, setIsDark] = useState<boolean>(true);
-    const [isLassoActive, setIsLassoActive] = useState(false);
-    const [filter, setFilter] = useState<Filters>(Filters.none);
-    const [lat, setLat] = useState<number>(47.218371);
-    const [lng, setLng] = useState<number>(-1.553621);
-    const [zoom, setZoom] = useState(12);
+    const [isDark, setIsDark] = React.useState<boolean>(false);
+    const [isLassoActive, setIsLassoActive] = React.useState(false);
+    const [filter, setFilter] = React.useState<Filters>(Filters.none);
+    const [lat, setLat] = React.useState<number>(47.218371);
+    const [lng, setLng] = React.useState<number>(-1.553621);
+    const [zoom, setZoom] = React.useState(12);
+
     const [isButtonEditInPdfClicked, setIsButtonEditInPdfClicked] =
         useState<boolean>(false);
     /** If the decision panel is open or closed */
@@ -49,6 +50,34 @@ const Main: React.FC<MainProps> = ({ isPremiumActivated }) => {
     const [currentSelected, setCurrentSelected] = useState(
         'Choisissez une action'
     );
+
+    const getUser = async () => {
+        const username = 'tester';
+        const password = 'T&st';
+        try {
+            const response = await fetch(
+                'http://db.scandela.store/users/183e5775-6d38-4d0b-95b4-6f4c7bbb0597',
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Basic ${btoa(
+                            `${username}:${password}`
+                        )}`,
+                    },
+                }
+            );
+
+            const user = await response.json();
+            console.log(user);
+            setIsDark(user.darkmode);
+        } catch (error) {
+            console.log('ERROR GET USER = ' + error);
+        }
+    };
+
+    getUser();
+
     const [optimisationTemplateData, setOptimisationTemplateData] = useState([
         {
             id: 0,
