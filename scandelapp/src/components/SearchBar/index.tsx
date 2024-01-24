@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState } from 'react';
 import {
     SearchBarContainer,
     InputWrapper,
@@ -23,8 +23,9 @@ interface SearchBarProps {
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({ id, isDark, onSubmit }) => {
-    const [searchValue, setSearchValue] = React.useState<string>('');
-    const [testIsLoading, setTestIsLoading] = React.useState<boolean>(false);
+
+    const [testIsLoading, setTestIsLoading] = useState<boolean>(false);
+    const [searchValue, setSearchValue] = useState<string>('');
     const { t } = useTranslation();
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

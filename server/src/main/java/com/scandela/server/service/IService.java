@@ -10,5 +10,6 @@ public interface IService<T> {
 	public List<T> getAll();
 	public T get(UUID id);
 	public T create(T entity) throws Exception;
+	public T update(UUID id, T update, String... ignoredProperties) throws Exception;
 	public void delete(UUID id);
 }

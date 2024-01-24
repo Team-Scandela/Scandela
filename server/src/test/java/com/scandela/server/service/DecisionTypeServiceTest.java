@@ -135,6 +135,25 @@ public class DecisionTypeServiceTest {
 		verify(decisionTypeDaoMock, times(1)).save(Mockito.any(DecisionType.class));
 		assertThat(result.getMessage()).isEqualTo(DecisionTypeException.INCOMPLETE_INFORMATIONS);
 	}
+	
+	@Test
+	public void testUpdate() throws Exception {
+		UUID id2 = UUID.randomUUID();
+		String title2 = "Test2";
+		DecisionType decisionType2 = DecisionType.builder()
+				.id(id2)
+				.title(title2)
+				.moreInformations(Arrays.asList(title2))
+				.build();
+		
+		when(decisionTypeDaoMock.findById(id)).thenReturn(Optional.ofNullable(decisionType));
+		
+		DecisionType result = testedObject.update(id, decisionType2);
+		
+		assertThat(result.getId()).isEqualTo(id);
+		assertThat(result.getTitle()).isEqualTo(decisionType2.getTitle());
+		assertThat(result.getMoreInformations()).isEqualTo(decisionType2.getMoreInformations());
+	}
 
 	@Test
 	public void testDelete() {
