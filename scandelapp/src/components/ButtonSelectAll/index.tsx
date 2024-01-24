@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { ButtonEditContainer, SelectIcon } from './elements';
 
 /** Button EditInPDf of the Decison Help Menu

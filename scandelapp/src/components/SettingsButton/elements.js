@@ -1,22 +1,20 @@
 import styled from 'styled-components';
-import { Yellow, Black, White } from '../../colors';
-import { TbLogout } from 'react-icons/tb';
-import { CgProfile } from 'react-icons/cg';
-import { MdOutlineLanguage } from 'react-icons/md';
-import { MdDownload } from 'react-icons/md';
+import { Yellow, Black, White, Grey, DarkYellow, DarkGrey } from '../../colors';
+import { IoMdSettings } from 'react-icons/io';
 
-/** Container for the background of the searchbar **/
-export const SettingsButtonContainer = styled.div`
+/** Container for the settings button **/
+export const SettingsButtonContainer = styled(IoMdSettings)`
     display: flex;
     position: absolute;
-    align-items: center;
-    width: 120px;
+    width: 50px;
     height: 40px;
     top: 25px;
-    right: 30px;
-    opacity: 0.8;
+    left: 1255px;
+    user-select: none;
+    opacity: 0.9;
     background-color: ${(props) =>
-        props.isDark ? Black + 'FF' : White + 'FF'};
+        props.isDark ? Black / +'CC' : White + 'CC'};
+    color: ${(props) => (props.isDark ? Yellow : Black)};
     box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
     border-radius: 10px;
 
@@ -26,74 +24,154 @@ export const SettingsButtonContainer = styled.div`
     }
 `;
 
-export const NameOfCity = styled.div`
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 16px;
-    user-select: none;
-    color: ${(props) => (props.isDark ? Yellow : Black)};
-    font-weight: 450;
-    letter-spacing: 1px;
+export const SettingsPannelContainer = styled.div`
+    display: flex;
+    position: fixed;
+    width: 600px;
+    height: 420px;
+    background-color: ${(props) => (props.isDark ? Yellow : White)};
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+    top: 90px;
+    left: 500px;
+    border-radius: 10px;
+    transition: all 0.8s ease-in-out;
+    overflow: hidden;
 `;
 
-/** Container of option menu map */
-export const OptionsMenuContainer = styled.div`
+export const ButtonsMenuContainer = styled.div`
     display: flex;
-    flex-direction: row;
-    gap: 16px;
+    position: relative;
+    width: 110px;
+    height: 400px;
+    background-color: ${(props) => (props.isDark ? Black : White)};
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+    top: 10px;
+    left: 10px;
+    border-radius: 10px;
+    transition: all 0.8s ease-in-out;
+    overflow: hidden;
+`;
+
+export const ContentContainer = styled.div`
+    display: flex;
+    position: relative;
     justify-content: center;
+    width: 460px;
+    height: 400px;
+    background-color: ${(props) => (props.isDark ? Black : White)};
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+    top: 10px;
+    left: 20px;
+    border-radius: 10px;
+    transition: all 0.8s ease-in-out;
+    overflow: hidden;
+`;
+
+export const LightModeButton = styled.div`
+    display: flex;
+    position: absolute;
     align-items: center;
-    width: ${(props) => (props.show ? '200px' : '0px')};
-    height: ${(props) => (props.show ? '40px' : '0px')};
+    justify-content: center;
+    width: 100px;
+    height: 70px;
+    background-color: ${(props) => (props.isDark ? DarkYellow : White)};
+    color: ${(props) => (props.isDark ? Black : Black)};
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+    top: 5px;
+    left: 5px;
     border-radius: 10px;
     transition: all 0.2s ease-in-out;
     overflow: hidden;
-    font-size: 25px;
 
-    background-color: ${(props) =>
-        props.isDark ? Black + 'CC' : White + 'CC'};
-    color: ${(props) => (props.isDark ? Yellow : Black)};
+    &:hover {
+        background-color: ${(props) => (props.isDark ? DarkGrey : Black)};
+        color: ${(props) => (props.isDark ? DarkYellow : White)};
+        cursor: pointer;
+    }
+`;
+
+export const LanguageButton = styled.div`
+    display: flex;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 70px;
+    background-color: ${(props) => (props.isDark ? DarkYellow : White)};
+    color: ${(props) => (props.isDark ? Black : Black)};
     box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
-
-    position: fixed;
-    top: 25px;
-    right: 170px;
-`;
-
-export const LogoutButton = styled(TbLogout)`
-    cursor: pointer;
-    position: relative;
+    top: 85px;
+    left: 5px;
+    border-radius: 10px;
+    transition: all 0.2s ease-in-out;
+    overflow: hidden;
 
     &:hover {
-        top: -1px;
+        background-color: ${(props) => (props.isDark ? DarkGrey : Black)};
+        color: ${(props) => (props.isDark ? DarkYellow : White)};
+        cursor: pointer;
     }
 `;
 
-export const ProfileButton = styled(CgProfile)`
-    cursor: pointer;
-    position: relative;
+export const DownloadButton = styled.div`
+    display: flex;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 70px;
+    background-color: ${(props) => (props.isDark ? DarkYellow : White)};
+    color: ${(props) => (props.isDark ? Black : Black)};
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+    top: 165px;
+    left: 5px;
+    border-radius: 10px;
+    transition: all 0.2s ease-in-out;
+    overflow: hidden;
 
     &:hover {
-        top: -1px;
+        background-color: ${(props) => (props.isDark ? DarkGrey : Black)};
+        color: ${(props) => (props.isDark ? DarkYellow : White)};
+        cursor: pointer;
     }
 `;
 
-export const LanguageButton = styled(MdOutlineLanguage)`
-    cursor: pointer;
-    position: relative;
+export const NotificationButton = styled.div`
+    display: flex;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 70px;
+    background-color: ${(props) => (props.isDark ? DarkYellow : White)};
+    color: ${(props) => (props.isDark ? Black : Black)};
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+    top: 245px;
+    left: 5px;
+    border-radius: 10px;
+    transition: all 0.2s ease-in-out;
+    overflow: hidden;
 
     &:hover {
-        top: -1px;
+        background-color: ${(props) => (props.isDark ? DarkGrey : Black)};
+        color: ${(props) => (props.isDark ? DarkYellow : White)};
+        cursor: pointer;
     }
 `;
 
-export const DownloadButton = styled(MdDownload)`
-    cursor: pointer;
+/** Main title on the content container */
+export const TitleText = styled.div`
     position: relative;
-
-    &:hover {
-        top: -1px;
-    }
+    top: 5%;
+    font-size: 25px;
+    user-select: none;
+    color: ${(props) => (props.isDark ? Yellow : Black)};
+    font-weight: 700;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    transform: perspective(10px) rotateX(2deg);
+    letter-spacing: 2px;
+    background: linear-gradient(to right, ${Yellow}, #ffd700);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
 `;

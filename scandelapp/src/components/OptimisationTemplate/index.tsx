@@ -1,5 +1,4 @@
-import * as React from 'react';
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import {
     OptimisationTemplateContainer,
     TypeText,
@@ -28,7 +27,7 @@ const OptimisationTemplate: React.FC<OptimisationTemplateProps> = ({
     optimisationTemplateData,
     onTemplateClick,
 }) => {
-    const [isChecked, setIsChecked] = React.useState(false);
+    const [isChecked, setIsChecked] = useState(false);
 
     useEffect(() => {
         setIsChecked(optimisationTemplateData.selected);

@@ -21,7 +21,8 @@ import com.scandela.server.service.IUserService;
 public class UserService extends AbstractService<User> implements IUserService {
 
 	// Attributes \\
-	// Private \\
+		// Private \\
+	private final String[] IGNORED_PROPERTIES = { "id", "town", "decisions" };
 	private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 	private TownDao townDao;
@@ -49,12 +50,24 @@ public class UserService extends AbstractService<User> implements IUserService {
 			return dao.save(newUser);
 		} catch (Exception e) {
 			if (newUser.getTown() == null || newUser.getEmail() == null ||
-					newUser.getUsername() == null || newUser.getRights() == null) {
+				newUser.getUsername() == null || newUser.getRights() == null) {
 				throw new UserException(UserException.INCOMPLETE_INFORMATIONS);
 			}
 			throw e;
 		}
 	}
+
+	@Override
+	@Transactional(rollbackFor = { Exception.class })
+    public User update(UUID id, User update, String... ignoredProperties) throws Exception {
+		try {
+			User user = super.update(id, update, IGNORED_PROPERTIES);
+	        
+	        return user;
+		} catch (Exception e) {
+			throw e;
+		}
+    }
 
 	// Private \\
 	private void loadTown(User newUser) throws UserException {

@@ -2,6 +2,7 @@ package com.scandela.server.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,9 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.scandela.server.entity.User;
 import com.scandela.server.service.ILoginService;
 
+@CrossOrigin(origins = "http://localhost:3000, https://app.scandela.fr")
 @RestController
 @RequestMapping(value = "/login")
-public class LoginController extends AbstractController {
+public class LoginController {
 
     // Attributes \\
 		// Private \\

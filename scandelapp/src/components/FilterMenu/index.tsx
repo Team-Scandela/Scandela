@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState } from 'react';
 import { FilterMenuButton, FilterMenuContainer } from './elements';
 import { MdOutlineFilterNone as FilterIcon } from 'react-icons/md';
 import {
@@ -15,12 +15,14 @@ import { Filters } from '../../pages/main';
  * @param {string} filter - The current filter
  * @param {function} setFilter - Function to set the filter
  * @param {boolean} isDark - If the map is in dark mode or not
+ * @param {boolean} isLassoActive - If the lasso tool is on / off
  */
 interface FilterMenuProps {
     id: string;
     filter: string;
     setFilter: (filter: Filters) => void;
     isDark: boolean;
+    isLassoActive: boolean;
 }
 
 const FilterMenu: React.FC<FilterMenuProps> = ({
@@ -28,9 +30,10 @@ const FilterMenu: React.FC<FilterMenuProps> = ({
     filter,
     setFilter,
     isDark,
+    isLassoActive,
 }) => {
     /** If the map filter container is on or out */
-    const [on, setOn] = React.useState(false);
+    const [on, setOn] = useState(false);
 
     /** Handle the click on a filter icon. Switch to the new icon and if the icon is already selected set the filter to none
      * @param {string} newFilter - The filter selected
