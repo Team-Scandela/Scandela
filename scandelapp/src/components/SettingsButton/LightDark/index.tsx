@@ -18,7 +18,7 @@ const updateUser = async (isDark: boolean) => {
 
     try {
         const responseUser = await fetch(
-            'http://db.scandela.store/users/183e5775-6d38-4d0b-95b4-6f4c7bbb0597',
+            'http://app.scandela.fr:2001/users/183e5775-6d38-4d0b-95b4-6f4c7bbb0597',
             {
                 method: 'GET',
                 headers: {
