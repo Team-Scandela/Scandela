@@ -1,4 +1,3 @@
-import * as React from 'react';
 import LoginModule from '../components/LoginModule';
 
 /** Login page of the app */

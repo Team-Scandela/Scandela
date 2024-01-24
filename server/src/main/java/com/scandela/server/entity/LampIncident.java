@@ -37,10 +37,10 @@ public class LampIncident implements Serializable {
 	@Column(name = "uuid", updatable = false, nullable = false)
 	private UUID id;
 
-//	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)TODO quand ce sera implémenté
-//	@ManyToOne
-//	@JoinColumn(name = "id_lamp", nullable = false)
-//	private Lamp lamp;
+//	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)TODO check si on veut savoir si il y a un incident a prendre quand on clique sur le lampdaire
+	@ManyToOne
+	@JoinColumn(name = "uuidlamp", nullable = false)
+	private Lamp lamp;
 
 	@ManyToOne
 	@JoinColumn(name = "uuidincident", nullable = false)

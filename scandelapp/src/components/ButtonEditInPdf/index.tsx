@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { ButtonEditContainer, ExportIcon } from './elements';
 
 interface ButtonEditInPdfProps {
