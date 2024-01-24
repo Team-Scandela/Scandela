@@ -23,7 +23,6 @@ interface SearchBarProps {
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({ id, isDark, onSubmit }) => {
-
     const [testIsLoading, setTestIsLoading] = useState<boolean>(false);
     const [searchValue, setSearchValue] = useState<string>('');
     const { t } = useTranslation();
