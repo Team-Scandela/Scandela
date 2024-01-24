@@ -4,10 +4,12 @@ import {
     InputWrapper,
     LogoContainer,
     SearchIcon,
+    SpinnerContainer,
 } from './elements';
 import logoDark from '../../assets/logo-128x128-yellow.png';
 import logoLight from '../../assets/logo-128x128.png';
 import { useTranslation } from 'react-i18next';
+import LoadingSpinner from '../LoadingSpinner';
 
 /** SearchBar of the main page Scandela
  * This SearchBar allow the user to search a precise street or city in the Scandel'App
@@ -21,11 +23,18 @@ interface SearchBarProps {
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({ id, isDark, onSubmit }) => {
+
+    const [testIsLoading, setTestIsLoading] = useState<boolean>(false);
     const [searchValue, setSearchValue] = useState<string>('');
     const { t } = useTranslation();
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setTestIsLoading(true);
         setSearchValue(e.target.value);
+
+        setTimeout(() => {
+            setTestIsLoading(false);
+        }, 3000);
     };
 
     const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -45,10 +54,16 @@ const SearchBar: React.FC<SearchBarProps> = ({ id, isDark, onSubmit }) => {
                     onChange={handleInputChange}
                     onKeyDown={handleInputKeyDown}
                 />
-                <SearchIcon
-                    isdark={isDark}
-                    onClick={() => onSubmit(searchValue)}
-                />
+                {testIsLoading ? (
+                    <SpinnerContainer>
+                        <LoadingSpinner />
+                    </SpinnerContainer>
+                ) : (
+                    <SearchIcon
+                        isdark={isDark}
+                        onClick={() => onSubmit(searchValue)}
+                    />
+                )}
             </SearchBarContainer>
         </div>
     );
