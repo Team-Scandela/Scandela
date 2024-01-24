@@ -20,16 +20,16 @@ const App: React.FC = () => {
     const handleToggleIsPremiumActivated = () => {
         setIsPremiumActivated((prevState) => !prevState);
     };
-  
-    const [testIsLoading, setTestIsLoading] = React.useState(true);
 
-  
-  useEffect(() => {
+    const [testIsLoading, setTestIsLoading] = useState(true);
+
+    useEffect(() => {
         const timeout = setTimeout(() => {
             setTestIsLoading(false);
         }, 7000);
         return () => clearTimeout(timeout);
-    }, []);useEffect(() => {
+    }, []);
+    useEffect(() => {
         const timeout = setTimeout(() => {
             setTestIsLoading(false);
         }, 7000);
