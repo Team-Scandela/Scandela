@@ -21,14 +21,14 @@ import com.scandela.server.service.ITownService;
 @RestController
 @RequestMapping(value = "/towns")
 public class TownController extends AbstractController<Town> {
-	
+
 	// Constructors \\
 	protected TownController(ITownService townService) {
 		super(townService);
 	}
 
 	// Methods \\
-		// Public \\
+	// Public \\
 	/**
 	 * Get all towns
 	 * 
@@ -70,10 +70,10 @@ public class TownController extends AbstractController<Town> {
 	 * @return
 	 * @throws Exception
 	 */
-    @PutMapping("/{id}")
-    public Town updateTown(@PathVariable UUID id, @RequestBody Town update) throws Exception {
-        return super.update(id, update);
-    }
+	@PutMapping("/{id}")
+	public Town updateTown(@PathVariable UUID id, @RequestBody Town update) throws Exception {
+		return super.update(id, update);
+	}
 
 	/**
 	 * Delete town

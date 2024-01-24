@@ -3,6 +3,7 @@ package com.scandela.server.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,10 +14,10 @@ import com.stripe.model.PaymentIntent;
 
 import com.scandela.server.entity.Subscription;
 import com.scandela.server.service.ISubscriptionService;
-
+@CrossOrigin(origins = "http://localhost:3000, https://app.scandela.fr")
 @RestController
 @RequestMapping(value = "/subscription")
-public class SubscriptionController extends AbstractController {
+public class SubscriptionController {
     @Autowired
     private ISubscriptionService subscriptionService;
 
