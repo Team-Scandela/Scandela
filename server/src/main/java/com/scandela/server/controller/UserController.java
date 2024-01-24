@@ -19,9 +19,9 @@ import com.scandela.server.exception.UserException;
 import com.scandela.server.service.IEmailService;
 import com.scandela.server.service.IUserService;
 
-@CrossOrigin
 @RestController
 @RequestMapping(value = "/users")
+@CrossOrigin(origins = "http://localhost:3000/,http://db.scandela.store")
 public class UserController extends AbstractController<User> {
 
 	// Attributes \\

@@ -19,7 +19,7 @@ import com.scandela.server.service.IBulbService;
 
 @RestController
 @RequestMapping(value = "/bulbs")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000/,http://db.scandela.store")
 public class BulbController extends AbstractController<Bulb> {
 	
 	// Constructors \\

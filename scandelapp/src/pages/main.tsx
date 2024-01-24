@@ -33,7 +33,7 @@ interface MainProps {
 
 /** Main page of the app */
 const Main: React.FC<MainProps> = ({ isPremiumActivated }) => {
-    const [isDark, setIsDark] = React.useState<boolean>(true);
+    const [isDark, setIsDark] = React.useState<boolean>(false);
     const [isLassoActive, setIsLassoActive] = React.useState(false);
     const [filter, setFilter] = React.useState<Filters>(Filters.none);
     const [lat, setLat] = React.useState<number>(47.218371);
@@ -49,6 +49,34 @@ const Main: React.FC<MainProps> = ({ isPremiumActivated }) => {
     const [currentSelected, setCurrentSelected] = React.useState(
         'Choisissez une action'
     );
+
+    const getUser = async () => {
+        const username = 'tester';
+        const password = 'T&st';
+        try {
+            const response = await fetch(
+                'http://db.scandela.store/users/183e5775-6d38-4d0b-95b4-6f4c7bbb0597',
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Basic ${btoa(
+                            `${username}:${password}`
+                        )}`,
+                    },
+                }
+            );
+
+            const user = await response.json();
+            console.log(user);
+            setIsDark(user.darkmode);
+        } catch (error) {
+            console.log('ERROR GET USER = ' + error);
+        }
+    };
+
+    getUser();
+
     const [optimisationTemplateData, setOptimisationTemplateData] =
         React.useState([
             {

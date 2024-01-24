@@ -18,7 +18,7 @@ public class SecurityConfiguration {
 
          http.cors(configurer -> {
             CorsConfiguration corsConfiguration = new CorsConfiguration();
-            corsConfiguration.addAllowedOrigin("http://localhost:3000");
+            corsConfiguration.addAllowedOrigin("http://localhost:3000,http://db.scandela.store");
             corsConfiguration.addAllowedMethod("*");
             corsConfiguration.addAllowedHeader("*");
             configurer.configurationSource(request -> corsConfiguration);

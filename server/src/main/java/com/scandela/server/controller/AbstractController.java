@@ -13,7 +13,7 @@ import com.scandela.server.service.IService;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000,http://db.scandela.store")
 public abstract class AbstractController<T> {
 
 	// Attributes \\
