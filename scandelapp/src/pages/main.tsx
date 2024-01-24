@@ -33,12 +33,12 @@ interface MainProps {
 
 /** Main page of the app */
 const Main: React.FC<MainProps> = ({ isPremiumActivated }) => {
-    const [isDark, setIsDark] = React.useState<boolean>(false);
-    const [isLassoActive, setIsLassoActive] = React.useState(false);
-    const [filter, setFilter] = React.useState<Filters>(Filters.none);
-    const [lat, setLat] = React.useState<number>(47.218371);
-    const [lng, setLng] = React.useState<number>(-1.553621);
-    const [zoom, setZoom] = React.useState(12);
+    const [isDark, setIsDark] = useState<boolean>(true);
+    const [isLassoActive, setIsLassoActive] = useState(false);
+    const [filter, setFilter] = useState<Filters>(Filters.none);
+    const [lat, setLat] = useState<number>(47.218371);
+    const [lng, setLng] = useState<number>(-1.553621);
+    const [zoom, setZoom] = useState(12);
 
     const [isButtonEditInPdfClicked, setIsButtonEditInPdfClicked] =
         useState<boolean>(false);
@@ -56,7 +56,7 @@ const Main: React.FC<MainProps> = ({ isPremiumActivated }) => {
         const password = 'T&st';
         try {
             const response = await fetch(
-                'http://db.scandela.store/users/183e5775-6d38-4d0b-95b4-6f4c7bbb0597',
+                'http://app.scandela.fr:2001/users/183e5775-6d38-4d0b-95b4-6f4c7bbb0597',
                 {
                     method: 'GET',
                     headers: {

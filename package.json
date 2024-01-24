@@ -5,12 +5,19 @@
         "country-flag-icons": "^1.5.9",
         "file-saver": "^2.0.5",
         "pdf-lib": "^1.17.1",
+        "react-icons": "^4.11.0",
         "react-helmet": "^6.1.0",
         "supercluster": "^8.0.1"
     },
     "devDependencies": {
         "@types/file-saver": "^2.0.5",
-        "prettier": "^3.0.3"
+        "copy-webpack-plugin": "^11.0.0",
+        "css-loader": "^6.8.1",
+        "html-webpack-plugin": "^5.5.3",
+        "prettier": "^3.0.3",
+        "ts-node": "^10.9.1",
+        "webpack": "^5.89.0",
+        "webpack-cli": "^5.1.4"
     },
     "scripts": {
         "format": "prettier --check .",
