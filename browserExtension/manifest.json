@@ -1,0 +1,10 @@
+{
+    "short_name": "Scandela",
+    "name": "Scandela browser extension",
+    "version": "1.0.0",
+    "manifest_version": 3,
+    "action": {
+        "default_popup": "js/index.html",
+        "default_title": "Scandela browser extension"
+    }
+}
