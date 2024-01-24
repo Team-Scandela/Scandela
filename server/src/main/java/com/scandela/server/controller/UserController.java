@@ -21,7 +21,7 @@ import com.scandela.server.service.IUserService;
 
 @RestController
 @RequestMapping(value = "/users")
-@CrossOrigin(origins = "http://localhost:3000/,http://db.scandela.store")
+@CrossOrigin(origins = "http://localhost:3000, https://app.scandela.fr")
 public class UserController extends AbstractController<User> {
 
 	// Attributes \\
