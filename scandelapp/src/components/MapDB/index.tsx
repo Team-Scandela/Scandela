@@ -96,7 +96,7 @@ const MapDB: React.FC<MapProps> = ({
     const getLightsData = async () => {
         console.log('asked');
         try {
-            const response = await fetch('http://db.scandela.store/lamp', {
+            const response = await fetch('http://app.scandela.fr:2001/lamp', {
                 method: 'GET',
             });
             if (!response.ok) {
