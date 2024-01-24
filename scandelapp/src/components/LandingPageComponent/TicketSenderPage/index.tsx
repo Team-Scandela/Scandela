@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import {
     TicketSenderContainer,
     Title,
@@ -17,10 +17,10 @@ interface TicketSenderPageProps {
 const TicketSender: React.FC<TicketSenderPageProps> = ({
     handleTicketButtonClicked,
 }) => {
-    const [showDropdown, setShowDropdown] = React.useState(false);
-    const [choosenItem, setChoosenItem] = React.useState('Catégorie');
-    const [title, setTitle] = React.useState('');
-    const [description, setDescription] = React.useState('');
+    const [showDropdown, setShowDropdown] = useState(false);
+    const [choosenItem, setChoosenItem] = useState('Catégorie');
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
 
     const handleDropdownToggle = () => {
         setShowDropdown(!showDropdown);
@@ -32,12 +32,17 @@ const TicketSender: React.FC<TicketSenderPageProps> = ({
 
     const sendTicket = async () => {
         try {
+            const username = 'tester';
+            const password = 'T&st';
             const response = await fetch(
-                'http://localhost:8080/tickets/create',
+                'http://db.scandela.store/tickets/create',
                 {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
+                        Authorization: `Basic ${btoa(
+                            `${username}:${password}`
+                        )}`,
                     },
                     body: JSON.stringify({
                         author: '',
@@ -55,7 +60,7 @@ const TicketSender: React.FC<TicketSenderPageProps> = ({
     };
 
     const getTicket = async () => {
-        const response = await fetch('http://localhost:8080/tickets');
+        const response = await fetch('http://db.scandela.store/tickets');
         const tickets = await response.json();
         console.log(tickets);
     };

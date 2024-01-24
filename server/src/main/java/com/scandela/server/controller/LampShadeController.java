@@ -17,7 +17,7 @@ import com.scandela.server.entity.LampShade;
 import com.scandela.server.exception.LampShadeException;
 import com.scandela.server.service.ILampShadeService;
 
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:3000, https://app.scandela.fr")
 @RestController
 @RequestMapping(value = "/lampShades")
 public class LampShadeController extends AbstractController<LampShade> {

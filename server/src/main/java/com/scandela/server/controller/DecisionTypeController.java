@@ -17,7 +17,7 @@ import com.scandela.server.entity.DecisionType;
 import com.scandela.server.exception.DecisionTypeException;
 import com.scandela.server.service.IDecisionTypeService;
 
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:3000, https://app.scandela.fr")
 @RestController
 @RequestMapping(value = "/decisionTypes")
 public class DecisionTypeController extends AbstractController<DecisionType> {

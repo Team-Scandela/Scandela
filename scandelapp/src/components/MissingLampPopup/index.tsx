@@ -24,18 +24,23 @@ const InfoIconPopup: React.FC<InfoIconPopupProps> = ({ isDark }) => {
         const username = 'tester';
         const password = 'T&st';
         try {
-            const response = await fetch('http://localhost:8080/bulbs/create', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Basic ${btoa(`${username}:${password}`)}`,
-                },
-                body: JSON.stringify({
-                    intensity: 0,
-                    consommation: parseInt(bulbValue, 10),
-                    reference: bulbID,
-                }),
-            });
+            const response = await fetch(
+                'http://db.scandela.store/bulbs/create',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Basic ${btoa(
+                            `${username}:${password}`
+                        )}`,
+                    },
+                    body: JSON.stringify({
+                        intensity: 0,
+                        consommation: parseInt(bulbValue, 10),
+                        reference: bulbID,
+                    }),
+                }
+            );
         } catch (error) {
             console.log('ERROR CREATE BULB = ' + error);
         }

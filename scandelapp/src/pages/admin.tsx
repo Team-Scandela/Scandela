@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState, useEffect } from 'react';
 import TicketList from '../components/TicketList';
 
 // css style for the admin page title
@@ -19,15 +19,23 @@ interface Ticket {
 
 /** Admin page of the app */
 const Admin: React.FC = () => {
-    const [tickets, setTickets] = React.useState<Ticket[]>([]);
+    const [tickets, setTickets] = useState<Ticket[]>([]);
 
     const getTicket = async () => {
-        const response = await fetch('http://localhost:8080/tickets');
+        const username = 'tester';
+        const password = 'T&st';
+        const response = await fetch('http://db.scandela.store/tickets', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Basic ${btoa(`${username}:${password}`)}`,
+            },
+        });
         const tickets = await response.json();
         setTickets(tickets);
     };
 
-    React.useEffect(() => {
+    useEffect(() => {
         getTicket();
     }, []);
 

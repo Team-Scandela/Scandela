@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState } from 'react';
 import {
     ScandelaText,
     TicketsImgBg,
@@ -35,14 +35,11 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({
     handleToggleIsPremiumActivated,
 }) => {
     const navigate = useNavigate();
-    const [isMenuPageDisplayed, setIsMenuPageDisplayed] = React.useState(true);
-    const [isPremiumPageDisplayed, setIsPremiumPageDisplayed] =
-        React.useState(false);
-    const [isTicketPageDisplayed, setIsTicketPageDisplayed] =
-        React.useState(false);
-    const [isProfilePageDisplayed, setIsProfilePageDisplayed] =
-        React.useState(false);
-    const [isFAQPageDisplayed, setIsFAQPageDisplayed] = React.useState(false);
+    const [isMenuPageDisplayed, setIsMenuPageDisplayed] = useState(true);
+    const [isPremiumPageDisplayed, setIsPremiumPageDisplayed] = useState(false);
+    const [isTicketPageDisplayed, setIsTicketPageDisplayed] = useState(false);
+    const [isProfilePageDisplayed, setIsProfilePageDisplayed] = useState(false);
+    const [isFAQPageDisplayed, setIsFAQPageDisplayed] = useState(false);
 
     const handleLogScandela = () => {
         navigate('/scandela');

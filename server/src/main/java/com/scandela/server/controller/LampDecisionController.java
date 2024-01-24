@@ -17,7 +17,7 @@ import com.scandela.server.entity.LampDecision;
 import com.scandela.server.exception.LampDecisionException;
 import com.scandela.server.service.ILampDecisionService;
 
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:3000, https://app.scandela.fr")
 @RestController
 @RequestMapping(value = "/lampDecisions")
 public class LampDecisionController extends AbstractController<LampDecision> {

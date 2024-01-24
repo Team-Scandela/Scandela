@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { SettingsButtonContainer, NameOfCity } from './elements';
 
 /** City button of the main page Scandela

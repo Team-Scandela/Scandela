@@ -19,7 +19,7 @@ import com.scandela.server.entity.dto.LampDto;
 import com.scandela.server.exception.LampException;
 import com.scandela.server.service.ILampService;
 
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:3000, https://app.scandela.fr")
 @RestController
 @RequestMapping(value = "/lamps")
 public class LampController extends AbstractController<Lamp> {

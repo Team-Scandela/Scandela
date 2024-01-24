@@ -17,7 +17,7 @@ import com.scandela.server.entity.Town;
 import com.scandela.server.exception.TownException;
 import com.scandela.server.service.ITownService;
 
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:3000, https://app.scandela.fr")
 @RestController
 @RequestMapping(value = "/towns")
 public class TownController extends AbstractController<Town> {
