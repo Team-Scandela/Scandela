@@ -50,10 +50,6 @@ const Map: React.FC<MapProps> = ({
 
     const [clickedPoints, setClickedPoints] = useState<mapboxgl.LngLat[]>([]);
 
-    const [circleRadius, setCircleRadius] = useState<number>(0);
-    const [circleLayerVisible, setCircleLayerVisible] =
-        useState<boolean>(false);
-
     const [selectedLampFeature, setSelectedLampFeature] =
         useState<mapboxgl.MapboxGeoJSONFeature | null>(null);
 
@@ -83,31 +79,6 @@ const Map: React.FC<MapProps> = ({
         return geoJSON;
     }, []);
 
-    const updateCircleRadius = () => {
-        if (map.current) {
-            let newRadius;
-            if (map.current.getZoom() !== 12) {
-                switch (map.current.getZoom()) {
-                    case 18: // address
-                        newRadius = 1;
-                        break;
-                    case 17: // route
-                        newRadius = 250;
-                        break;
-                    case 14: // nightborhood
-                        newRadius = 250;
-                        break;
-                    default:
-                        newRadius = 0;
-                }
-                setCircleRadius(newRadius);
-                setCircleLayerVisible(true);
-            } else {
-                setCircleLayerVisible(false);
-            }
-        }
-    };
-
     // Function to handle filter changes
     const handleFilterChange = () => {
         if (map.current) {
@@ -134,6 +105,29 @@ const Map: React.FC<MapProps> = ({
                     'visible'
                 );
                 map.current.setLayoutProperty('lamp', 'visibility', 'visible');
+            } else if (filter === 'filter' as Filters) {
+                    // Show layers when the filter is "pin"
+                    map.current.setLayoutProperty(
+                        'cluster-text',
+                        'visibility',
+                        'visible'
+                    );
+                    map.current.setLayoutProperty(
+                        'clusters',
+                        'visibility',
+                        'visible'
+                    );
+                    map.current.setLayoutProperty(
+                        'cluster-markers',
+                        'visibility',
+                        'visible'
+                    );
+                    map.current.setLayoutProperty(
+                        'cluster-border',
+                        'visibility',
+                        'visible'
+                    );
+                    map.current.setLayoutProperty('lamp', 'visibility', 'visible');
             } else {
                 // Hide layers when the filter is not "pin"
                 map.current.setLayoutProperty(
@@ -166,8 +160,6 @@ const Map: React.FC<MapProps> = ({
             });
             cluster.current.load(geojsonData.features);
 
-            setCircleLayerVisible(false);
-
             map.current = new mapboxgl.Map({
                 container: mapContainer.current,
                 style: isDark
@@ -175,14 +167,6 @@ const Map: React.FC<MapProps> = ({
                     : 'mapbox://styles/titouantd/cljwui6ss00ij01pj1oin6oa5',
                 center: [lng, lat],
                 zoom: zoom,
-            });
-
-            map.current.on('move', () => {
-                setCircleLayerVisible(false);
-            });
-
-            map.current.on('moveend', () => {
-                setCircleLayerVisible(true);
             });
 
             map.current.on('click', 'lamp', (e) => {
@@ -340,7 +324,6 @@ const Map: React.FC<MapProps> = ({
                         'none'
                     );
                     map.current.setLayoutProperty('lamp', 'visibility', 'none');
-                    map.current?.on('zoom', updateCircleRadius);
                 }
             });
         }
@@ -487,8 +470,8 @@ const Map: React.FC<MapProps> = ({
         if (map.current) {
             map.current.setStyle(
                 isDark
-                    ? 'mapbox://styles/mapbox/dark-v11'
-                    : 'mapbox://styles/mapbox/light-v11'
+                    ? 'mapbox://styles/titouantd/cljwv2coy025k01pk785839a1'
+                    : 'mapbox://styles/titouantd/cljwui6ss00ij01pj1oin6oa5'
             );
             map.current.flyTo({
                 center: [lng, lat],
@@ -496,13 +479,12 @@ const Map: React.FC<MapProps> = ({
                 speed: 1.2,
                 curve: 1.42,
             });
-            setCircleLayerVisible(true);
         } else {
             map.current = new mapboxgl.Map({
                 container: mapContainer.current,
                 style: isDark
-                    ? 'mapbox://styles/mapbox/dark-v11'
-                    : 'mapbox://styles/mapbox/light-v11',
+                    ? 'mapbox://styles/titouantd/cljwv2coy025k01pk785839a1'
+                    : 'mapbox://styles/titouantd/cljwui6ss00ij01pj1oin6oa5',
                 center: [lng, lat],
                 zoom: zoom,
             });
@@ -548,23 +530,6 @@ const Map: React.FC<MapProps> = ({
                 display: none;
                 }`}
             </style>
-            {circleLayerVisible && circleRadius > 0 && (
-                <div
-                    className="red-circle"
-                    style={{
-                        position: 'absolute',
-                        top: '50%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)',
-                        width: circleRadius * 2,
-                        height: circleRadius * 2,
-                        borderRadius: '50%',
-                        border: `1px dashed ${Yellow}`,
-                        pointerEvents: 'none',
-                        zIndex: 1,
-                    }}
-                />
-            )}
             {selectedLampId && (
                 <LampInfosPopup
                     id={'LampInfosPopupComponentId'}
