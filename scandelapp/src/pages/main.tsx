@@ -15,7 +15,8 @@ import Lasso from '../components/Lasso';
 import CityButton from '../components/CityButton';
 import AbsencePannel from '../components/AbsencePannel';
 import SmallLampInfosPopup from '../components/SmallLampInfosPopup';
-import MapDB from '../components/MapDB';
+// import MapDB from '../components/MapDB';
+import FilterSearch from '../components/FilterSearch';
 
 export enum Filters {
     pin = 'pin',
@@ -233,6 +234,15 @@ const Main: React.FC<MainProps> = ({ isPremiumActivated }) => {
             />
             <LogoutButton id={'logoutButtonId'} isDark={isDark} />
             <CityButton id={'cityButtonId'} isDark={isDark} />
+            {filter === Filters.filter && (
+                <>
+                    <FilterSearch
+                        id={'filterSearchComponentId'}
+                        isDark={isDark}
+                    />
+                </>
+            )}
+
             {isPremiumActivated && (
                 <>
                     <ToastHistory
