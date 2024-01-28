@@ -29,7 +29,6 @@ const updateUser = async (isDark: boolean) => {
         );
 
         const user = await responseUser.json();
-        console.log(user);
         try {
             const updatedUserData = {
                 town: user.town,
@@ -55,7 +54,6 @@ const updateUser = async (isDark: boolean) => {
                 }
             );
             const userUpdate = await response.json();
-            console.log(user);
         } catch (error) {
             console.log('ERROR UPDATE USER = ' + error);
         }

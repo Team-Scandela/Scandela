@@ -3,9 +3,7 @@ import './App.css';
 import MainPanel from './components/MainPanel';
 
 function App() {
-    return (
-        <MainPanel />
-    );
+    return <MainPanel />;
 }
 
 export default App;

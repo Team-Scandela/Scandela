@@ -51,6 +51,9 @@ const Main: React.FC<MainProps> = ({ isPremiumActivated }) => {
     const [currentSelected, setCurrentSelected] = useState(
         'Choisissez une action'
     );
+    /** Variables for the search for the filter filter */
+    const [search, setSearch] = useState<string>('');
+    const [selected, setSelected] = useState<string>('Lamp');
 
     const getUser = async () => {
         const username = 'tester';
@@ -219,6 +222,8 @@ const Main: React.FC<MainProps> = ({ isPremiumActivated }) => {
                 lng={lng}
                 zoom={zoom}
                 isLassoActive={isLassoActive}
+                selectedFilter={selected}
+                searchFilter={search}
             />
             <SearchBar
                 id={'searchBarComponentId'}
@@ -239,6 +244,10 @@ const Main: React.FC<MainProps> = ({ isPremiumActivated }) => {
                     <FilterSearch
                         id={'filterSearchComponentId'}
                         isDark={isDark}
+                        selected={selected}
+                        setSelected={setSelected}
+                        search={search}
+                        setSearch={setSearch}
                     />
                 </>
             )}

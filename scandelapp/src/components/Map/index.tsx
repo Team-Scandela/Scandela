@@ -22,6 +22,8 @@ interface MapProps {
     lng: number;
     zoom: number;
     isLassoActive: boolean;
+    selectedFilter: string;
+    searchFilter: string;
 }
 
 // Map component
@@ -33,6 +35,8 @@ const Map: React.FC<MapProps> = ({
     lng,
     zoom,
     isLassoActive,
+    selectedFilter,
+    searchFilter,
 }) => {
     // Reference to the map container element
     const mapContainer = useRef<HTMLDivElement | null>(null);
@@ -105,29 +109,29 @@ const Map: React.FC<MapProps> = ({
                     'visible'
                 );
                 map.current.setLayoutProperty('lamp', 'visibility', 'visible');
-            } else if (filter === 'filter' as Filters) {
-                    // Show layers when the filter is "pin"
-                    map.current.setLayoutProperty(
-                        'cluster-text',
-                        'visibility',
-                        'visible'
-                    );
-                    map.current.setLayoutProperty(
-                        'clusters',
-                        'visibility',
-                        'visible'
-                    );
-                    map.current.setLayoutProperty(
-                        'cluster-markers',
-                        'visibility',
-                        'visible'
-                    );
-                    map.current.setLayoutProperty(
-                        'cluster-border',
-                        'visibility',
-                        'visible'
-                    );
-                    map.current.setLayoutProperty('lamp', 'visibility', 'visible');
+            } else if (filter === ('filter' as Filters)) {
+                // Show layers when the filter is "pin"
+                map.current.setLayoutProperty(
+                    'cluster-text',
+                    'visibility',
+                    'visible'
+                );
+                map.current.setLayoutProperty(
+                    'clusters',
+                    'visibility',
+                    'visible'
+                );
+                map.current.setLayoutProperty(
+                    'cluster-markers',
+                    'visibility',
+                    'visible'
+                );
+                map.current.setLayoutProperty(
+                    'cluster-border',
+                    'visibility',
+                    'visible'
+                );
+                map.current.setLayoutProperty('lamp', 'visibility', 'visible');
             } else {
                 // Hide layers when the filter is not "pin"
                 map.current.setLayoutProperty(
@@ -328,6 +332,18 @@ const Map: React.FC<MapProps> = ({
             });
         }
     };
+
+    useEffect(() => {
+        if (selectedFilter === 'Lamp') {
+            const sortedData = nantesData.filter(
+                (lamp: any) => lamp.fields.type_lampe === searchFilter
+            );
+        } else if (selectedFilter === 'Hat') {
+            const sortedData = nantesData.filter(
+                (lamp: any) => lamp.fields.type_foyer === searchFilter
+            );
+        }
+    }, [selectedFilter, searchFilter]);
 
     // Initialize the map on the first render
     useEffect(() => {

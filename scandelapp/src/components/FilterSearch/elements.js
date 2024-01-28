@@ -61,7 +61,6 @@ export const FilterSearchSelected = styled.div`
     padding: 0 10px;
     width: 25%;
 
-
     &:hover {
         cursor: pointer;
     }
