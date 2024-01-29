@@ -57,6 +57,26 @@ const Map: React.FC<MapProps> = ({
     const [selectedLampFeature, setSelectedLampFeature] =
         useState<mapboxgl.MapboxGeoJSONFeature | null>(null);
 
+
+    interface geojson {
+        type : string,
+        features : feature[]
+    }
+
+    interface feature {
+        type : string,
+        geometry : {
+            type : string,
+            coordinates : number[]
+        },
+        properties : {
+            id : string,
+            name : string,
+            lamp : string,
+            hat : string
+        }
+    }
+
     // Crée les données géoJSON à partir des données de Nantes
     const geojsonData = useMemo(() => {
         let geoJSON = {
@@ -64,7 +84,7 @@ const Map: React.FC<MapProps> = ({
             features: [] as any[],
         };
         nantesData.forEach((obj: any) => {
-            const feature = {
+            const feature : any = {
                 type: 'Feature',
                 geometry: {
                     type: obj.geometry.type,
@@ -74,8 +94,10 @@ const Map: React.FC<MapProps> = ({
                     ],
                 },
                 properties: {
-                    id: obj.fields.numero,
-                    name: obj.fields.type_foyer,
+                    id: obj.recordid,
+                    name: obj.fields.numero,
+                    lamp : obj.fields.type_lampe,
+                    hat : obj.fields.type_foyer,
                 },
             };
             geoJSON.features.push(feature);
@@ -156,13 +178,15 @@ const Map: React.FC<MapProps> = ({
     };
 
     // Initialise la carte
-    const initializeMap = () => {
+    const initializeMap = (data : any) => {
+        console.log("initializeMap before")
         if (!map.current) {
+            console.log("initializeMap after")
             cluster.current = new Supercluster({
                 radius: 100,
                 maxZoom: 17,
             });
-            cluster.current.load(geojsonData.features);
+            cluster.current.load(data.features);
 
             map.current = new mapboxgl.Map({
                 container: mapContainer.current,
@@ -225,7 +249,7 @@ const Map: React.FC<MapProps> = ({
                 if (!map.current?.getSource('points')) {
                     map.current.addSource('points', {
                         type: 'geojson',
-                        data: geojsonData as GeoJSON.FeatureCollection,
+                        data: data as GeoJSON.FeatureCollection,
                         cluster: true,
                         clusterRadius: 100,
                         clusterMaxZoom: 16,
@@ -333,22 +357,33 @@ const Map: React.FC<MapProps> = ({
         }
     };
 
-    useEffect(() => {
-        if (selectedFilter === 'Lamp') {
-            const sortedData = nantesData.filter(
-                (lamp: any) => lamp.fields.type_lampe === searchFilter
-            );
-        } else if (selectedFilter === 'Hat') {
-            const sortedData = nantesData.filter(
-                (lamp: any) => lamp.fields.type_foyer === searchFilter
-            );
-        }
-    }, [selectedFilter, searchFilter]);
 
     // Initialize the map on the first render
     useEffect(() => {
-        initializeMap();
+        initializeMap(geojsonData);
     }, [isDark, lng, lat, zoom]);
+
+    // update the map with the filter filter
+    useEffect(() => {
+        if (searchFilter == '') {
+            return;
+        }
+        let sortedData : geojson  = {
+            type : "FeatureCollection",
+            features : []
+        }
+        if (selectedFilter === 'Lamp') {
+            sortedData.features = geojsonData.features.filter((feature : any) => feature.properties.lamp === searchFilter);
+        } else if (selectedFilter === 'Hat') {
+            sortedData.features = geojsonData.features.filter((feature : any) => feature.properties.hat === searchFilter);
+        }
+        console.log(sortedData);
+        if (searchFilter != '') {
+            console.log("new data")
+            initializeMap(sortedData);
+        }
+    }, [selectedFilter, searchFilter]);
+
 
     useEffect(() => {
         if (map.current) {

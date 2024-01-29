@@ -73,7 +73,6 @@ const Main: React.FC<MainProps> = ({ isPremiumActivated }) => {
             );
 
             const user = await response.json();
-            console.log(user);
             setIsDark(user.darkmode);
         } catch (error) {
             console.log('ERROR GET USER = ' + error);
