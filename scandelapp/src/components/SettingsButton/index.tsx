@@ -13,6 +13,7 @@ import {
 import LightDark from './LightDark';
 import Language from './Language';
 import Download from './Download';
+import Notifications from './Notifications';
 import { FiSun } from 'react-icons/fi';
 import { MdOutlineLanguage } from 'react-icons/md';
 import { MdDownload } from 'react-icons/md';
@@ -24,6 +25,9 @@ interface SettingsButtonProps {
     isDark: boolean;
     setIsDark: (isDark: boolean) => void;
     decisionPanelExtended: boolean;
+    notificationsPreference: any;
+    setNotificationsPreference: (item: any) => void;
+    addNotificationToList: (description: string) => void;
 }
 
 const SettingsButton: React.FC<SettingsButtonProps> = ({
@@ -31,6 +35,10 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({
     isDark,
     setIsDark,
     decisionPanelExtended,
+    notificationsPreference,
+    setNotificationsPreference,
+    addNotificationToList,
+
 }) => {
     const [isSettingsPannelOpen, setIsSettingsPannelOpen] = useState(false);
     const [currentOptionSelected, setCurrentOptionSeleted] =
@@ -43,42 +51,6 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({
             handleSettingsButtonClick();
     });
 
-    const fileInputRef = useRef<HTMLInputElement | null>(null);
-
-    // const { i18n } = useTranslation();
-
-    // const changeLanguage = (lng: string) => {
-    //     i18n.changeLanguage(lng);
-    // };
-
-    function launchScript(argument: string) {
-        fetch(`http://localhost:3001/script`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ argument }),
-        }).then((response) => response.text());
-    }
-
-    const downloadData = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files && e.target.files.length > 0) {
-            const reader = new FileReader();
-            reader.readAsText(e.target.files[0], 'UTF-8');
-            reader.onload = (evt) => {
-                if (evt.target) {
-                    const fileContent = evt.target.result;
-                    launchScript(fileContent as string);
-                }
-            };
-        }
-    };
-
-    const openFilePicker = () => {
-        if (fileInputRef.current) {
-            fileInputRef.current.click();
-        }
-    };
 
     const handleSettingsButtonClick = () => {
         setIsSettingsPannelOpen(!isSettingsPannelOpen);
@@ -129,6 +101,8 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({
                                 <LightDark
                                     isDark={isDark}
                                     setIsDark={setIsDark}
+                                    notificationsPreference={notificationsPreference}
+                                    addNotificationToList={addNotificationToList}
                                 />
                             </div>
                         )}
@@ -145,6 +119,8 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({
                                     isDark={isDark}
                                     currentLanguage={currentLanguage}
                                     setCurrentLanguage={setCurrentLanguage}
+                                    notificationsPreference={notificationsPreference}
+                                    addNotificationToList={addNotificationToList}
                                 />
                             </div>
                         )}
@@ -161,6 +137,8 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({
                                 <TitleText isDark={isDark}>
                                     {t('notifications')}
                                 </TitleText>
+                                <Notifications isDark={isDark} notificationsPreference={notificationsPreference} 
+                                setNotificationsPreference={setNotificationsPreference}/>
                             </div>
                         )}
                     </ContentContainer>

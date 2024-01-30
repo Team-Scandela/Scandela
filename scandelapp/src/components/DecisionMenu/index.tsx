@@ -37,6 +37,7 @@ import { useTranslation } from 'react-i18next';
  * @param {function} handleCurrentSelectedChange - Callback function
  * @param {string} currentSelected - Current selected optimisation type
  * @param {function} addNotificationToList - Function to add a toastr notification to the toast history
+ * @param {any} notificationsPreference - Notifications preference
  */
 interface DecisionMenuProps {
     id: string;
@@ -51,6 +52,7 @@ interface DecisionMenuProps {
     handleCurrentSelectedChange: (data: string) => void;
     currentSelected: string;
     addNotificationToList: (description: string) => void;
+    notificationsPreference: any;
 }
 
 const DecisionMenu: React.FC<DecisionMenuProps> = ({
@@ -66,6 +68,7 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
     handleCurrentSelectedChange,
     currentSelected,
     addNotificationToList,
+    notificationsPreference,
 }) => {
     const [dropdownExpended, setDropdownExpended] = useState(false);
     const [items, setItems] = useState([]);
@@ -117,28 +120,30 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
         });
         handleOptimisationTemplateDataChange(updatedData);
         if (itemsUpdated === 0) {
-            showToast(
-                'error',
-                "Il n'y a rien à ajouter dans la liste d'action",
-                'top-left',
-                5000,
-                false,
-                true,
-                false,
-                true
-            );
+            if (!notificationsPreference.find((item : any) => item[0] === "actionListUpdate")[1])
+                showToast(
+                    'error',
+                    "Il n'y a rien à ajouter dans la liste d'action",
+                    'top-left',
+                    5000,
+                    false,
+                    true,
+                    false,
+                    true
+                );
             addNotificationToList("Echec de modification de la liste d'action");
         } else if (itemsUpdated > 0) {
-            showToast(
-                'success',
-                'La liste des actions a bien été mise à jour',
-                'top-left',
-                5000,
-                false,
-                true,
-                false,
-                true
-            );
+            if (!notificationsPreference.find((item : any) => item[0] === "actionListUpdate")[1])
+                showToast(
+                    'success',
+                    'La liste des actions a bien été mise à jour',
+                    'top-left',
+                    5000,
+                    false,
+                    true,
+                    false,
+                    true
+                );
             addNotificationToList("Mise à jour de la liste d'action");
         }
         setIsOnCooldown(true);
