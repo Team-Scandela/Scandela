@@ -57,24 +57,23 @@ const Map: React.FC<MapProps> = ({
     const [selectedLampFeature, setSelectedLampFeature] =
         useState<mapboxgl.MapboxGeoJSONFeature | null>(null);
 
-
     interface geojson {
-        type : string,
-        features : feature[]
+        type: string;
+        features: feature[];
     }
 
     interface feature {
-        type : string,
-        geometry : {
-            type : string,
-            coordinates : number[]
-        },
-        properties : {
-            id : string,
-            name : string,
-            lamp : string,
-            hat : string
-        }
+        type: string;
+        geometry: {
+            type: string;
+            coordinates: number[];
+        };
+        properties: {
+            id: string;
+            name: string;
+            lamp: string;
+            hat: string;
+        };
     }
 
     // Crée les données géoJSON à partir des données de Nantes
@@ -84,7 +83,7 @@ const Map: React.FC<MapProps> = ({
             features: [] as any[],
         };
         nantesData.forEach((obj: any) => {
-            const feature : any = {
+            const feature: any = {
                 type: 'Feature',
                 geometry: {
                     type: obj.geometry.type,
@@ -96,8 +95,8 @@ const Map: React.FC<MapProps> = ({
                 properties: {
                     id: obj.recordid,
                     name: obj.fields.numero,
-                    lamp : obj.fields.type_lampe,
-                    hat : obj.fields.type_foyer,
+                    lamp: obj.fields.type_lampe,
+                    hat: obj.fields.type_foyer,
                 },
             };
             geoJSON.features.push(feature);
@@ -115,7 +114,6 @@ const Map: React.FC<MapProps> = ({
                 setLayoutVisibilityFilter('none');
             } else if (filter === ('filter' as Filters)) {
                 // Show layers when the filter is "pin"
-
             } else {
                 // Hide layers when the filter is not "pin"
                 setLayoutVisibility('none');
@@ -125,12 +123,8 @@ const Map: React.FC<MapProps> = ({
         }
     };
 
-    const setLayoutVisibility = (visibility : string) => {
-        map.current.setLayoutProperty(
-            'cluster-text',
-            'visibility',
-            visibility
-        );
+    const setLayoutVisibility = (visibility: string) => {
+        map.current.setLayoutProperty('cluster-text', 'visibility', visibility);
         map.current.setLayoutProperty('clusters', 'visibility', visibility);
         map.current.setLayoutProperty(
             'cluster-markers',
@@ -143,15 +137,19 @@ const Map: React.FC<MapProps> = ({
             visibility
         );
         map.current.setLayoutProperty('lamp', 'visibility', visibility);
-    }
+    };
 
-    const setLayoutVisibilityFilter = (visibility : string) => {
+    const setLayoutVisibilityFilter = (visibility: string) => {
         map.current.setLayoutProperty(
             'cluster-textFilter',
             'visibility',
             visibility
         );
-        map.current.setLayoutProperty('clustersFilter', 'visibility', visibility);
+        map.current.setLayoutProperty(
+            'clustersFilter',
+            'visibility',
+            visibility
+        );
         map.current.setLayoutProperty(
             'cluster-markers',
             'visibility',
@@ -163,13 +161,13 @@ const Map: React.FC<MapProps> = ({
             visibility
         );
         map.current.setLayoutProperty('lampFilter', 'visibility', visibility);
-    }
+    };
 
     // Initialise la carte
-    const initializeMap = (data : any) => {
-        console.log("initializeMap before")
+    const initializeMap = (data: any) => {
+        console.log('initializeMap before');
         if (!map.current) {
-            console.log("initializeMap after")
+            console.log('initializeMap after');
             cluster.current = new Supercluster({
                 radius: 100,
                 maxZoom: 17,
@@ -320,11 +318,7 @@ const Map: React.FC<MapProps> = ({
                     },
                 });
 
-                map.current.setLayoutProperty(
-                    'clusters',
-                    'visibility',
-                    'none'
-                );
+                map.current.setLayoutProperty('clusters', 'visibility', 'none');
                 map.current.setLayoutProperty(
                     'cluster-markers',
                     'visibility',
@@ -345,8 +339,7 @@ const Map: React.FC<MapProps> = ({
         });
     };
 
-
-    const initializeMapFilter = (data : any) => {
+    const initializeMapFilter = (data: any) => {
         cluster.current = new Supercluster({
             radius: 100,
             maxZoom: 17,
@@ -374,11 +367,7 @@ const Map: React.FC<MapProps> = ({
                     'circle-stroke-color',
                     [
                         'case',
-                        [
-                            '==',
-                            ['get', 'id'],
-                            selectedFeature.properties.id,
-                        ],
+                        ['==', ['get', 'id'], selectedFeature.properties.id],
                         '#FAC710',
                         '#F9F9F9',
                     ]
@@ -389,7 +378,7 @@ const Map: React.FC<MapProps> = ({
             }
         });
 
-        console.log("load")
+        console.log('load');
         map.current.on('mouseenter', 'lampFilter', () => {
             if (map.current) {
                 map.current.getCanvas().style.cursor = 'pointer';
@@ -403,7 +392,7 @@ const Map: React.FC<MapProps> = ({
         });
 
         if (!map.current?.getSource('pointsFilter')) {
-            console.log("add source")
+            console.log('add source');
             map.current.addSource('pointsFilter', {
                 type: 'geojson',
                 data: data as GeoJSON.FeatureCollection,
@@ -490,8 +479,7 @@ const Map: React.FC<MapProps> = ({
         }
 
         setLayoutVisibilityFilter('visible');
-
-    }
+    };
 
     // Initialize the map on the first render
     useEffect(() => {
@@ -503,22 +491,25 @@ const Map: React.FC<MapProps> = ({
         if (searchFilter == '') {
             return;
         }
-        let sortedData : geojson  = {
-            type : "FeatureCollection",
-            features : []
-        }
+        let sortedData: geojson = {
+            type: 'FeatureCollection',
+            features: [],
+        };
         if (selectedFilter === 'Lamp') {
-            sortedData.features = geojsonData.features.filter((feature : any) => feature.properties.lamp === searchFilter);
+            sortedData.features = geojsonData.features.filter(
+                (feature: any) => feature.properties.lamp === searchFilter
+            );
         } else if (selectedFilter === 'Hat') {
-            sortedData.features = geojsonData.features.filter((feature : any) => feature.properties.hat === searchFilter);
+            sortedData.features = geojsonData.features.filter(
+                (feature: any) => feature.properties.hat === searchFilter
+            );
         }
         console.log(sortedData);
         if (searchFilter != '') {
-            console.log("new data")
+            console.log('new data');
             initializeMapFilter(sortedData);
         }
     }, [selectedFilter, searchFilter]);
-
 
     useEffect(() => {
         if (map.current) {
