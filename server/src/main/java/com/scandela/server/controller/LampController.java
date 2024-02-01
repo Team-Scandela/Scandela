@@ -1,9 +1,12 @@
 package com.scandela.server.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.springframework.data.util.Pair;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.scandela.server.entity.Lamp;
@@ -88,6 +92,18 @@ public class LampController extends AbstractController<Lamp> {
 	@DeleteMapping("/delete/{id}")
 	public void deleteLamp(@PathVariable UUID id) {
 		super.delete(id);
+	}
+
+	@GetMapping("/coordinates")
+	public List<Lamp> getAllByCoordinates(@RequestParam(value = "coordinate") List<String> coordinates) {
+		List<Pair<Double, Double>> coordinatePairs = new ArrayList<>();
+		
+		coordinates.forEach(coord -> {
+			String[] latlng = coord.split(",");
+			coordinatePairs.add(Pair.of(Double.valueOf(latlng[0]), Double.valueOf(latlng[1])));
+		});
+		
+		return ((ILampService) service).getAllByCoordinates(coordinatePairs);
 	}
 
 }

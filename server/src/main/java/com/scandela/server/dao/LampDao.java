@@ -1,6 +1,7 @@
 package com.scandela.server.dao;
 
 import java.time.LocalTime;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
@@ -36,5 +37,7 @@ public interface LampDao extends JpaRepository<Lamp, UUID> {
 	           "AND (ld IS NULL OR (ld IS NOT NULL AND NOT EXISTS " +
 	           "(SELECT d FROM LampDecision d " +
 	           "WHERE d.lamp = l AND d.decision.solution LIKE %:decisionSolution%)))")
-		public Page<Lamp> findByLightOn2SuperiorAndLampDecisionsContains(@Param("lightOn") LocalTime lightOn, @Param("decisionSolution") String decisionSolution, Pageable pageable);
+	public Page<Lamp> findByLightOn2SuperiorAndLampDecisionsContains(@Param("lightOn") LocalTime lightOn, @Param("decisionSolution") String decisionSolution, Pageable pageable);
+	
+	public List<Lamp> findByLatitudeBetweenAndLongitudeBetween(double latitudeMin, double latitudeMax, double longitudeMin, double longitudeMax);
 }
