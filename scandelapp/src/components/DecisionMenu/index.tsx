@@ -37,7 +37,7 @@ import { useTranslation } from 'react-i18next';
  * @param {function} handleCurrentSelectedChange - Callback function
  * @param {string} currentSelected - Current selected optimisation type
  * @param {function} addNotificationToList - Function to add a toastr notification to the toast history
- * @param {any} notificationsPreference - Notifications preference
+ * @param {any} notificationsPreference - Notifications preference data
  */
 interface DecisionMenuProps {
     id: string;
@@ -154,7 +154,7 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
 
     return (
         <div id={id}>
-            <DecisionMenuContainer>
+            <DecisionMenuContainer show={decisionPanelExtended}>
                 <DecisionMenuButton
                     onClick={() => handleDecisionPanelButtonClick()}
                     isDark={isDark}

@@ -50,6 +50,7 @@ export const ActionsListPanel = styled.div`
     transition: all 0.5s ease-in-out;
 
     transform: translate(0%, -50%);
+    visibility: ${(props) => (props.show ? 'visible' : 'hidden')};
 `;
 
 /** Container of the scrollable optimisation container */

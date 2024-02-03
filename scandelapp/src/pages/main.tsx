@@ -291,6 +291,8 @@ const Main: React.FC<MainProps> = ({ isPremiumActivated }) => {
                         id={'editinPdfPannelComponentId'}
                         isDark={isDark}
                         isButtonEditInPdfClicked={isButtonEditInPdfClicked}
+                        decisionPanelExtended={decisionPanelExtended}
+                        handleButtonEditInPdfClick={handleButtonEditInPdfClick}
                     />
                     <Gauges
                         id={'gaugesComponentId'}
@@ -298,11 +300,11 @@ const Main: React.FC<MainProps> = ({ isPremiumActivated }) => {
                         decisionPanelExtended={decisionPanelExtended}
                         actionsListExtended={actionsListExtended}
                     />
-                    {/* <AbsencePannel
-                        id={'DuringPannelComponentId'}
+                    <AbsencePannel
+                        id={'absencePannelComponentId'}
                         isDark={isDark}
                     />
-                    <SmallLampInfosPopup isDark={isDark} /> */}
+                    {/* <SmallLampInfosPopup isDark={isDark} /> */}
                     <Toastr id={'toastrComponentId'} isDark={isDark} />
                 </>
             )}

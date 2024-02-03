@@ -256,6 +256,8 @@ const MainDB: React.FC<MainProps> = ({ isPremiumActivated }) => {
                         id={'editinPdfPannelComponentId'}
                         isDark={isDark}
                         isButtonEditInPdfClicked={isButtonEditInPdfClicked}
+                        decisionPanelExtended={decisionPanelExtended}
+                        handleButtonEditInPdfClick={handleButtonEditInPdfClick}
                     />
                     <Gauges
                         id={'gaugesComponentId'}
@@ -264,10 +266,10 @@ const MainDB: React.FC<MainProps> = ({ isPremiumActivated }) => {
                         actionsListExtended={actionsListExtended}
                     />
                     <AbsencePannel
-                        id={'DuringPannelComponentId'}
+                        id={'absencePannelComponentId'}
                         isDark={isDark}
                     />
-                    <SmallLampInfosPopup isDark={isDark} />
+                    {/* <SmallLampInfosPopup isDark={isDark} /> */}
                     <Toastr id={'toastrComponentId'} isDark={isDark} />
                 </>
             )}
