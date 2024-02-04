@@ -8,8 +8,7 @@ import {
     DarkYellow,
 } from '../../../colors';
 import { IoIosReturnLeft } from 'react-icons/io';
-import { FaEdit } from 'react-icons/fa';
-import { FaCheck } from 'react-icons/fa';
+import { FaEdit, FaCheck } from 'react-icons/fa';
 
 export const ProfilePageContainer = styled.div`
     position: absolute;
