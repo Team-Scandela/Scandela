@@ -124,6 +124,11 @@ const MainDB: React.FC<MainProps> = ({ isPremiumActivated }) => {
         },
     ]);
     const [toastHistoryData, setToastHistoryData] = useState([]);
+    const [notificationsPreference, setNotificationsPreference] = useState([
+        ['actionListUpdate', false],
+        ['lightDarkModeUpdate', false],
+        ['languageUpdate', false],
+    ]);
 
     const handleSearch = (value: string) => {
         handleSearchUtils(value, lat, setLat, lng, setLng, zoom, setZoom);
@@ -221,6 +226,9 @@ const MainDB: React.FC<MainProps> = ({ isPremiumActivated }) => {
                         isDark={isDark}
                         setIsDark={setIsDark}
                         decisionPanelExtended={decisionPanelExtended}
+                        notificationsPreference={notificationsPreference}
+                        setNotificationsPreference={setNotificationsPreference}
+                        addNotificationToList={addNotificationToList}
                     />
                     <Lasso
                         id={'LassoComponentId'}
@@ -246,11 +254,14 @@ const MainDB: React.FC<MainProps> = ({ isPremiumActivated }) => {
                             handleCurrentSelectedChange
                         }
                         addNotificationToList={addNotificationToList}
+                        notificationsPreference={notificationsPreference}
                     />
                     <EditInPdfPannel
                         id={'editinPdfPannelComponentId'}
                         isDark={isDark}
                         isButtonEditInPdfClicked={isButtonEditInPdfClicked}
+                        decisionPanelExtended={decisionPanelExtended}
+                        handleButtonEditInPdfClick={handleButtonEditInPdfClick}
                     />
                     <Gauges
                         id={'gaugesComponentId'}
@@ -259,10 +270,10 @@ const MainDB: React.FC<MainProps> = ({ isPremiumActivated }) => {
                         actionsListExtended={actionsListExtended}
                     />
                     <AbsencePannel
-                        id={'DuringPannelComponentId'}
+                        id={'absencePannelComponentId'}
                         isDark={isDark}
                     />
-                    <SmallLampInfosPopup isDark={isDark} />
+                    {/* <SmallLampInfosPopup isDark={isDark} /> */}
                     <Toastr id={'toastrComponentId'} isDark={isDark} />
                 </>
             )}

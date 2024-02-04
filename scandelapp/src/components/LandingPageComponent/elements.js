@@ -6,6 +6,8 @@ import faqImage from '../../assets/landing_page/faq_bg.png';
 import logoutImage from '../../assets/landing_page/logout_bg.png';
 import premiumImage from '../../assets/landing_page/premium_bg.png';
 import profilImage from '../../assets/landing_page/profil_bg.png';
+import { FaLock } from 'react-icons/fa6';
+import { FaCrown } from 'react-icons/fa';
 
 /** Main text on the decision page */
 export const ScandelaText = styled.div`
@@ -123,6 +125,15 @@ export const ProfilImgBg = styled.div`
     transition: filter 0.3s ease-in-out;
 `;
 
+export const LockIcon = styled(FaLock)`
+    display: flex;
+    position: absolute;
+    width: 50%;
+    height: 50%;
+    transition: all 0.1s ease-in;
+    visibility: hidden;
+`;
+
 /** Container for the clickable portals */
 export const PortalLinkContainer = styled.div`
     position: absolute;
@@ -143,6 +154,9 @@ export const PortalLinkContainer = styled.div`
         cursor: pointer;
         ${(props) => props.img} {
             filter: blur(0);
+        }
+        ${(props) => props.icon} {
+            visibility: visible;
         }
         h2 {
             opacity: 0;
@@ -190,4 +204,15 @@ export const PremiumPopup = styled.div`
     left: 300px;
     background-color: ${Grey};
     border-radius: 20px;
+`;
+
+export const CrownIcon = styled(FaCrown)`
+    display: flex;
+    position: absolute;
+    width: 12%;
+    height: 12%;
+    top: 105px;
+    left: 300px;
+    color: ${Yellow};
+    transform: rotate(-40deg);
 `;
