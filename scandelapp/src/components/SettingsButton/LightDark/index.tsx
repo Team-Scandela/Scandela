@@ -68,15 +68,24 @@ const updateUser = async (isDark: boolean) => {
     }
 };
 
-const LightDark: React.FC<LightDarkProps> = ({ isDark, setIsDark, notificationsPreference, addNotificationToList, }) => {
+const LightDark: React.FC<LightDarkProps> = ({
+    isDark,
+    setIsDark,
+    notificationsPreference,
+    addNotificationToList,
+}) => {
     /** Handle the click on the button and switch to the other mode */
     const handleToggleLightDark = () => {
         setIsDark(!isDark);
         updateUser(isDark);
-        if (!notificationsPreference.find((item : any) => item[0] === "lightDarkModeUpdate")[1])
+        if (
+            !notificationsPreference.find(
+                (item: any) => item[0] === 'lightDarkModeUpdate'
+            )[1]
+        )
             showToast(
                 'success',
-                "Le thème a bien été mis à jour",
+                'Le thème a bien été mis à jour',
                 'top-left',
                 5000,
                 false,
@@ -84,7 +93,7 @@ const LightDark: React.FC<LightDarkProps> = ({ isDark, setIsDark, notificationsP
                 false,
                 true
             );
-        addNotificationToList("Mise à jour du thème");
+        addNotificationToList('Mise à jour du thème');
     };
 
     return (

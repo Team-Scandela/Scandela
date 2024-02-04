@@ -38,7 +38,6 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({
     notificationsPreference,
     setNotificationsPreference,
     addNotificationToList,
-
 }) => {
     const [isSettingsPannelOpen, setIsSettingsPannelOpen] = useState(false);
     const [currentOptionSelected, setCurrentOptionSeleted] =
@@ -50,7 +49,6 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({
         if (decisionPanelExtended && isSettingsPannelOpen)
             handleSettingsButtonClick();
     });
-
 
     const handleSettingsButtonClick = () => {
         setIsSettingsPannelOpen(!isSettingsPannelOpen);
@@ -101,8 +99,12 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({
                                 <LightDark
                                     isDark={isDark}
                                     setIsDark={setIsDark}
-                                    notificationsPreference={notificationsPreference}
-                                    addNotificationToList={addNotificationToList}
+                                    notificationsPreference={
+                                        notificationsPreference
+                                    }
+                                    addNotificationToList={
+                                        addNotificationToList
+                                    }
                                 />
                             </div>
                         )}
@@ -119,8 +121,12 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({
                                     isDark={isDark}
                                     currentLanguage={currentLanguage}
                                     setCurrentLanguage={setCurrentLanguage}
-                                    notificationsPreference={notificationsPreference}
-                                    addNotificationToList={addNotificationToList}
+                                    notificationsPreference={
+                                        notificationsPreference
+                                    }
+                                    addNotificationToList={
+                                        addNotificationToList
+                                    }
                                 />
                             </div>
                         )}
@@ -137,8 +143,15 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({
                                 <TitleText isDark={isDark}>
                                     {t('notifications')}
                                 </TitleText>
-                                <Notifications isDark={isDark} notificationsPreference={notificationsPreference} 
-                                setNotificationsPreference={setNotificationsPreference}/>
+                                <Notifications
+                                    isDark={isDark}
+                                    notificationsPreference={
+                                        notificationsPreference
+                                    }
+                                    setNotificationsPreference={
+                                        setNotificationsPreference
+                                    }
+                                />
                             </div>
                         )}
                     </ContentContainer>

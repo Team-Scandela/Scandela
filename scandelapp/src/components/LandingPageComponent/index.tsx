@@ -78,12 +78,12 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({
     return (
         <div>
             <ScandelaText>ScandeMenu</ScandelaText>
-            <LogoContainer src={logoYellow}/>
-            <TriangleContainerLeft/>
-            <TriangleContainerRight/>
+            <LogoContainer src={logoYellow} />
+            <TriangleContainerLeft />
+            <TriangleContainerRight />
             {isMenuPageDisplayed && (
                 <div>
-                    {isPremiumActivated && (<CrownIcon/>)}
+                    {isPremiumActivated && <CrownIcon />}
                     <PortalLinkContainer
                         top={'21%'}
                         left={'25%'}
@@ -93,7 +93,7 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({
                         img={PremiumImgBg}
                         onClick={handlePremiumButtonClicked}
                     >
-                        <PremiumImgBg/>
+                        <PremiumImgBg />
                         <PortalTitle fontSize={'1.5rem'}>Premium</PortalTitle>
                     </PortalLinkContainer>
                     <PortalLinkContainer
@@ -105,7 +105,7 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({
                         img={ScandelaImgBg}
                         onClick={handleLogScandela}
                     >
-                        <ScandelaImgBg/>
+                        <ScandelaImgBg />
                         <PortalTitle fontSize={'3rem'}>Scandela</PortalTitle>
                     </PortalLinkContainer>
                     <PortalLinkContainer
@@ -118,8 +118,8 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({
                         icon={LockIcon}
                         onClick={handleProfileButtonClicked}
                     >
-                        <ProfilImgBg/>
-                        {!isPremiumActivated && (<LockIcon/>)}
+                        <ProfilImgBg />
+                        {!isPremiumActivated && <LockIcon />}
                         <PortalTitle fontSize={'1.5rem'}>Profil</PortalTitle>
                     </PortalLinkContainer>
                     <PortalLinkContainer
@@ -132,8 +132,8 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({
                         icon={LockIcon}
                         onClick={handleTicketButtonClicked}
                     >
-                        <TicketsImgBg/>
-                        {!isPremiumActivated && (<LockIcon/>)}
+                        <TicketsImgBg />
+                        {!isPremiumActivated && <LockIcon />}
                         <PortalTitle fontSize={'1.5rem'}>Tickets</PortalTitle>
                     </PortalLinkContainer>
                     <PortalLinkContainer
@@ -145,7 +145,7 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({
                         img={LogoutImgBg}
                         onClick={handleLogout}
                     >
-                        <LogoutImgBg/>
+                        <LogoutImgBg />
                         <PortalTitle fontSize={'1rem'}>
                             Déconnection
                         </PortalTitle>
@@ -159,7 +159,7 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({
                         img={FAQImgBg}
                         onClick={handleFAQButtonClicked}
                     >
-                        <FAQImgBg/>
+                        <FAQImgBg />
                         <PortalTitle fontSize={'1.5rem'}>FAQ</PortalTitle>
                     </PortalLinkContainer>
                 </div>

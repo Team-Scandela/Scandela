@@ -6,8 +6,8 @@ import faqImage from '../../assets/landing_page/faq_bg.png';
 import logoutImage from '../../assets/landing_page/logout_bg.png';
 import premiumImage from '../../assets/landing_page/premium_bg.png';
 import profilImage from '../../assets/landing_page/profil_bg.png';
-import { FaLock } from "react-icons/fa6";
-import { FaCrown } from "react-icons/fa";
+import { FaLock } from 'react-icons/fa6';
+import { FaCrown } from 'react-icons/fa';
 
 /** Main text on the decision page */
 export const ScandelaText = styled.div`

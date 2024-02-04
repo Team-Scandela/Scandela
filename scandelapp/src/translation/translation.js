@@ -24,9 +24,9 @@ const resources = {
             language: 'Language',
             loadData: 'Load data',
             notifications: 'Notifications',
-            actionListUpdates: "Action list updates",
-            lightDarkModeUpdates: "Dark / Light mode updates",
-            languageUpdates: "Lannguage updates",
+            actionListUpdates: 'Action list updates',
+            lightDarkModeUpdates: 'Dark / Light mode updates',
+            languageUpdates: 'Lannguage updates',
         },
     },
 
@@ -54,8 +54,8 @@ const resources = {
             loadData: 'Charger des données',
             notifications: 'Notifications',
             actionListUpdates: "Mises à jour de la liste d'action",
-            lightDarkModeUpdates: "Mises à jour du mode sombre / clair",
-            languageUpdates: "Mises à jour de la langue",
+            lightDarkModeUpdates: 'Mises à jour du mode sombre / clair',
+            languageUpdates: 'Mises à jour de la langue',
         },
     },
 };

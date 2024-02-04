@@ -124,7 +124,11 @@ const MainDB: React.FC<MainProps> = ({ isPremiumActivated }) => {
         },
     ]);
     const [toastHistoryData, setToastHistoryData] = useState([]);
-    const [notificationsPreference, setNotificationsPreference] = useState([["actionListUpdate", false], ["lightDarkModeUpdate", false], ["languageUpdate", false]]);
+    const [notificationsPreference, setNotificationsPreference] = useState([
+        ['actionListUpdate', false],
+        ['lightDarkModeUpdate', false],
+        ['languageUpdate', false],
+    ]);
 
     const handleSearch = (value: string) => {
         handleSearchUtils(value, lat, setLat, lng, setLng, zoom, setZoom);

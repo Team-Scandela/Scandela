@@ -24,7 +24,6 @@ const EditInPdfPannel: React.FC<EditInPdfPannellProps> = ({
     decisionPanelExtended,
     handleButtonEditInPdfClick,
 }) => {
-
     useEffect(() => {
         if (!decisionPanelExtended && isButtonEditInPdfClicked)
             handleButtonEditInPdfClick();
@@ -40,10 +39,7 @@ const EditInPdfPannel: React.FC<EditInPdfPannellProps> = ({
 
     return (
         <div id={id}>
-            <PannelContainer
-                isDark={isDark}
-                show={isButtonEditInPdfClicked}
-            >
+            <PannelContainer isDark={isDark} show={isButtonEditInPdfClicked}>
                 <PannelText isDark={isDark}>
                     Exporter les actions Sélectionnées
                 </PannelText>

@@ -13,7 +13,7 @@ import {
     IndicatorsImage,
 } from './elements';
 import { PersonnalizedGauge } from '../Gauges';
-import { GoInfo } from "react-icons/go";
+import { GoInfo } from 'react-icons/go';
 
 interface AbsencePannelProps {
     id: string;
@@ -33,11 +33,13 @@ const AbsencePannel: React.FC<AbsencePannelProps> = ({ id, isDark }) => {
                 isDark={isDark}
                 onClick={handleToggleAbsencePannel}
             >
-                <GoInfo size={35}/>
+                <GoInfo size={35} />
             </AbsencePannelButtonContainer>
             {isAbsencePannelOpen && (
                 <PannelContainer isDark={isDark}>
-                    <PannelText isDark={isDark}>Pendant votre absence</PannelText>
+                    <PannelText isDark={isDark}>
+                        Pendant votre absence
+                    </PannelText>
 
                     <ListDetailContainer isDark={isDark}>
                         <EventContainer isDark={isDark} top="10%">
@@ -51,7 +53,6 @@ const AbsencePannel: React.FC<AbsencePannelProps> = ({ id, isDark }) => {
 
                             <ArrowIcon isDark={isDark} />
                         </EventContainer>
-
                     </ListDetailContainer>
 
                     <PersonnalizedGauge
@@ -87,7 +88,10 @@ const AbsencePannel: React.FC<AbsencePannelProps> = ({ id, isDark }) => {
                         top={500}
                         left={1060}
                     />
-                    <CloseIcon isDark={isDark} onClick={handleToggleAbsencePannel}/>
+                    <CloseIcon
+                        isDark={isDark}
+                        onClick={handleToggleAbsencePannel}
+                    />
                 </PannelContainer>
             )}
         </div>
