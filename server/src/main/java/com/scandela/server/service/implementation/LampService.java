@@ -1,8 +1,11 @@
 package com.scandela.server.service.implementation;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -129,6 +132,70 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
 			throw e;
 		}
     }
+	
+	@Override
+	@Transactional(readOnly = true, rollbackFor = { Exception.class })
+	public List<Lamp> getAllByCoordinates(List<Pair<Double, Double>> coordinates) {
+		if (coordinates.isEmpty()) {
+			return null;
+		}
+
+		double latitudeMax = -180;
+		double latitudeMin = 180;
+		double longitudeMax = -180;
+		double longitudeMin = 180;
+		
+		for (Pair<Double, Double> coord : coordinates) {
+			if (coord.getFirst() > latitudeMax) {
+				latitudeMax = coord.getFirst();
+			}
+			if (coord.getFirst() < latitudeMin) {
+				latitudeMin = coord.getFirst();
+			}
+			if (coord.getSecond() > longitudeMax) {
+				longitudeMax = coord.getSecond();
+			}
+			if (coord.getSecond() < longitudeMin) {
+				longitudeMin = coord.getSecond();
+			}
+		}
+		
+		List<Lamp> lamps = ((LampDao) dao).findByLatitudeBetweenAndLongitudeBetween(latitudeMin, latitudeMax, longitudeMin, longitudeMax);
+		List<Lamp> resultLamps = new ArrayList<>();
+		
+		if (coordinates.size() > 2) {
+			lamps.forEach(lamp -> {
+				int counter = 0;
+				int i;
+				int N = coordinates.size();
+				double xinters;
+				Pair<Double, Double> p1,p2;
+
+				p1 = coordinates.get(0);
+				for (i=1;i<=N;i++) {
+					p2 = coordinates.get(i % N);
+					if (lamp.getLatitude() > Math.min(p1.getFirst(),p2.getFirst())) {
+						if (lamp.getLatitude() <= Math.max(p1.getFirst(),p2.getFirst())) {
+							if (lamp.getLongitude() <= Math.max(p1.getSecond(),p2.getSecond())) {
+								if (p1.getFirst() != p2.getFirst()) {
+									xinters = (lamp.getLatitude()-p1.getFirst())*(p2.getSecond()-p1.getSecond())/(p2.getFirst()-p1.getFirst())+p1.getSecond();
+									if (p1.getSecond() == p2.getSecond() || lamp.getLongitude() <= xinters)
+										counter++;
+								}
+							}
+						}
+					}
+					p1 = p2;
+				}
+
+				if (counter % 2 != 0) {
+					resultLamps.add(lamp);
+				}
+			});
+		}
+		
+		return resultLamps;
+	}
 
 		// Private \\
 	private void loadTown(Lamp newLamp) throws LampException {
