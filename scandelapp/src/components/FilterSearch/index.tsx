@@ -55,6 +55,13 @@ const FilterSearch: React.FC<FilterSearchProps> = ({
                     >
                         Hat
                     </FilterSearchDropdownItem>
+                    <FilterSearchDropdownItem
+                        onClick={() => setSelectedItem('Cabinet')}
+                        isDark={isDark}
+                        index={2}
+                    >
+                        Cabinet
+                    </FilterSearchDropdownItem>
                 </FilterSearchDropdown>
             )}
             {!dropdownOpen && (
