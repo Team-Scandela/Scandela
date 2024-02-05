@@ -5,9 +5,7 @@ import Main from './pages/main';
 import Login from './pages/login';
 import LandingPage from './pages/landingpage';
 import Redirect from './pages/redirect';
-import MainDB from './pages/maindb';
 import LoadingPage from './components/LoadingPage';
-import Test from './pages/test';
 import Admin from './pages/admin';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import * as Sentry from '@sentry/browser';
@@ -82,12 +80,6 @@ const App: React.FC = () => {
                                     handleToggleIsPremiumActivated
                                 }
                             />
-                        }
-                    />
-                    <Route
-                        path="/fromdb"
-                        element={
-                            <MainDB isPremiumActivated={isPremiumActivated} />
                         }
                     />
                     <Route path="/login" element={<Login />} />
