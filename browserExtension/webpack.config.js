@@ -1,19 +1,19 @@
-const path = require("path");
-const HTMLPlugin = require("html-webpack-plugin");
-const CopyPlugin = require("copy-webpack-plugin")
+const path = require('path');
+const HTMLPlugin = require('html-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     entry: {
-        index: "./src/index.tsx"
+        index: './src/index.tsx',
     },
-    mode: "production",
+    mode: 'production',
     module: {
         rules: [
             {
                 test: /\.tsx?$/,
                 use: [
                     {
-                        loader: "ts-loader",
+                        loader: 'ts-loader',
                         options: {
                             compilerOptions: { noEmit: false },
                         },
@@ -24,10 +24,7 @@ module.exports = {
             {
                 exclude: /node_modules/,
                 test: /\.css$/i,
-                use: [
-                    "style-loader",
-                    "css-loader"
-                ],
+                use: ['style-loader', 'css-loader'],
             },
             {
                 test: /\.(png|jpg|gif)$/i,
@@ -44,19 +41,22 @@ module.exports = {
     },
     plugins: [
         new CopyPlugin({
-            patterns: [
-                { from: "manifest.json", to: "../manifest.json" },
-            ],
+            patterns: [{ from: 'manifest.json', to: '../manifest.json' }],
         }),
-        ...getHtmlPlugins(["index"]),
+        ...getHtmlPlugins(['index']),
     ],
     resolve: {
-        extensions: [".tsx", ".ts", ".js"],
-        modules: ['node_modules', './src', './src/components', './src/components/Gauges/gauges'],
+        extensions: ['.tsx', '.ts', '.js'],
+        modules: [
+            'node_modules',
+            './src',
+            './src/components',
+            './src/components/Gauges/gauges',
+        ],
     },
     output: {
-        path: path.join(__dirname, "dist/js"),
-        filename: "[name].js",
+        path: path.join(__dirname, 'dist/js'),
+        filename: '[name].js',
     },
 };
 
@@ -64,7 +64,7 @@ function getHtmlPlugins(chunks) {
     return chunks.map(
         (chunk) =>
             new HTMLPlugin({
-                title: "React extension",
+                title: 'React extension',
                 filename: `${chunk}.html`,
                 chunks: [chunk],
             })

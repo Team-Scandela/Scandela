@@ -13,17 +13,15 @@ import {
 import PersonnalizedGauge from '../Gauges';
 
 class MainPanel extends React.Component {
-
     redirectToMain = () => {
         // ouvre un nouvel onglet avec l'adresse de l'application "app.scandela.fr/"
-        window.open("https://app.scandela.fr/", "_blank");
-    }
+        window.open('https://app.scandela.fr/', '_blank');
+    };
 
     render() {
         return (
             <div>
                 <PannelContainer show={true} isDark={true}>
-
                     <PannelText isDark={true}>Scandextension</PannelText>
 
                     <ListDetailContainer isDark={true}>
@@ -37,48 +35,46 @@ class MainPanel extends React.Component {
                                 </EventText>
                             </EventTextContainer>
 
-                            <ArrowIcon isDark={true} onClick={() => this.redirectToMain()} />
+                            <ArrowIcon
+                                isDark={true}
+                                onClick={() => this.redirectToMain()}
+                            />
                         </EventContainer>
-
                     </ListDetailContainer>
 
-
-
-                <PersonnalizedGauge
-                    id={'ElecGaugesComponentId'}
-                    isDark={true}
-                    isElec={true}
-                    isBio={false}
-                    isLumi={false}
-                    level={70}
-                    oldLevel={50}
-                    top={130}
-                    left={720}
-                />
-                <PersonnalizedGauge
-                    id={'BioGaugesComponentId'}
-                    isDark={true}
-                    isElec={false}
-                    isBio={true}
-                    isLumi={false}
-                    level={75}
-                    oldLevel={85}
-                    top={240}
-                    left={720}
-                />
-                <PersonnalizedGauge
-                    id={'LumiGaugesComponentId'}
-                    isDark={true}
-                    isElec={false}
-                    isBio={false}
-                    isLumi={true}
-                    level={30}
-                    oldLevel={20}
-                    top={350}
-                    left={720}
-                />
-
-
+                    <PersonnalizedGauge
+                        id={'ElecGaugesComponentId'}
+                        isDark={true}
+                        isElec={true}
+                        isBio={false}
+                        isLumi={false}
+                        level={70}
+                        oldLevel={50}
+                        top={130}
+                        left={720}
+                    />
+                    <PersonnalizedGauge
+                        id={'BioGaugesComponentId'}
+                        isDark={true}
+                        isElec={false}
+                        isBio={true}
+                        isLumi={false}
+                        level={75}
+                        oldLevel={85}
+                        top={240}
+                        left={720}
+                    />
+                    <PersonnalizedGauge
+                        id={'LumiGaugesComponentId'}
+                        isDark={true}
+                        isElec={false}
+                        isBio={false}
+                        isLumi={true}
+                        level={30}
+                        oldLevel={20}
+                        top={350}
+                        left={720}
+                    />
                 </PannelContainer>
             </div>
         );

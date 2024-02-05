@@ -15,7 +15,8 @@ import Lasso from '../components/Lasso';
 import CityButton from '../components/CityButton';
 import AbsencePannel from '../components/AbsencePannel';
 import SmallLampInfosPopup from '../components/SmallLampInfosPopup';
-import MapDB from '../components/MapDB';
+// import MapDB from '../components/MapDB';
+import FilterSearch from '../components/FilterSearch';
 
 export enum Filters {
     pin = 'pin',
@@ -50,6 +51,9 @@ const Main: React.FC<MainProps> = ({ isPremiumActivated }) => {
     const [currentSelected, setCurrentSelected] = useState(
         'Choisissez une action'
     );
+    /** Variables for the search for the filter filter */
+    const [search, setSearch] = useState<string>('');
+    const [selected, setSelected] = useState<string>('Lamp');
 
     const getUser = async () => {
         const username = 'tester';
@@ -69,7 +73,6 @@ const Main: React.FC<MainProps> = ({ isPremiumActivated }) => {
             );
 
             const user = await response.json();
-            console.log(user);
             setIsDark(user.darkmode);
         } catch (error) {
             console.log('ERROR GET USER = ' + error);
@@ -223,6 +226,8 @@ const Main: React.FC<MainProps> = ({ isPremiumActivated }) => {
                 lng={lng}
                 zoom={zoom}
                 isLassoActive={isLassoActive}
+                selectedFilter={selected}
+                searchFilter={search}
             />
             <SearchBar
                 id={'searchBarComponentId'}
@@ -238,6 +243,19 @@ const Main: React.FC<MainProps> = ({ isPremiumActivated }) => {
             />
             <LogoutButton id={'logoutButtonId'} isDark={isDark} />
             <CityButton id={'cityButtonId'} isDark={isDark} />
+            {filter === Filters.filter && (
+                <>
+                    <FilterSearch
+                        id={'filterSearchComponentId'}
+                        isDark={isDark}
+                        selected={selected}
+                        setSelected={setSelected}
+                        search={search}
+                        setSearch={setSearch}
+                    />
+                </>
+            )}
+
             {isPremiumActivated && (
                 <>
                     <ToastHistory

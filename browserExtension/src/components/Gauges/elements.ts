@@ -7,15 +7,14 @@ interface topLeftProps {
 }
 
 interface levelProps {
-    level : number;
+    level: number;
 }
 
 interface levelDiffLevelProps {
-    level : number;
-    diffLevel : number;
-    color : string;
+    level: number;
+    diffLevel: number;
+    color: string;
 }
-
 
 export const GaugeContainer = styled.div`
     display: flex;
@@ -60,8 +59,8 @@ export const GaugeOldLevel = styled.div<levelDiffLevelProps>`
         props.diffLevel >= 0
             ? `calc((100% - 8px) * ${props.level / 100})`
             : `calc((100% - 8px) * ${
-                props.level / 100 - -props.diffLevel / 100
-            } + 4px)`};
+                  props.level / 100 - -props.diffLevel / 100
+              } + 4px)`};
 
     height: calc(
         (100% - 8px) *
@@ -70,7 +69,6 @@ export const GaugeOldLevel = styled.div<levelDiffLevelProps>`
                     ? props.diffLevel / 100
                     : -props.diffLevel / 100}
     );
-
 
     left: 4px;
     width: calc(100% - 9px);
