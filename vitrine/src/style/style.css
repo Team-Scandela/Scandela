@@ -148,9 +148,9 @@ normalement ça prends pas trop de temps incha'Allah*/
 /* Styles pour le footer */
 .footer {
     background-color: #2a2b2a;
-    color: #fff;
+    color: #e6af2e;
     text-align: center;
-    padding: 20px;
+    /* padding: 20px; */
     position: relative;
 }
 
@@ -188,8 +188,41 @@ body {
     flex-direction: column;
 }
 
+.wrapper-content {
+    background-color: #000; /* Couleur de fond par défaut */
+    transition: background-color 10s ease; /* Ajoutez une transition en douceur pour le changement de couleur de fond */
+}
+
+.wrapper-light {
+    background-color: #e6af2e; /* Couleur de fond lorsque la lumière est activée */
+}
+
 .wrapper {
     flex: 1;
+}
+
+.flex-container {
+    display: flex;
+    justify-content: space-around; /* Ajustez selon vos besoins */
+    align-items: center; /* Ajustez selon vos besoins */
+    flex-wrap: wrap; /* Permettre le passage à la ligne si l'espace est insuffisant */
+}
+
+.image-container,
+.text-container {
+    width: 48%; /* Ajustez selon vos besoins, cela dépend de la répartition souhaitée */
+    box-sizing: border-box;
+    margin: 10px; /* Ajustez selon vos besoins */
+}
+
+.image-container img {
+    max-width: 100%;
+    height: auto;
+}
+
+.section-container {
+    border-bottom: 2px solid #2a2b2a; /* Bordure de séparation entre les sections */
+    padding-bottom: 20px; /* Espace entre la bordure et le contenu de chaque section */
 }
 
 .flex-card {
@@ -211,6 +244,17 @@ body {
 .page2 {
     height: 100dvh;
     display: flex;
+    color: #fff;
+    background-color: #2a2b2a;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.page3 {
+    height: 100dvh;
+    display: flex;
+    color: #fff;
+    background-color: #e6af2e;
     flex-direction: column;
     justify-content: center;
 }
