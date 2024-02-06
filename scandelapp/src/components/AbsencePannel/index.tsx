@@ -63,8 +63,8 @@ const AbsencePannel: React.FC<AbsencePannelProps> = ({ id, isDark }) => {
                         isLumi={false}
                         level={70}
                         oldLevel={50}
-                        top={260}
-                        left={1060}
+                        top={36}
+                        left={69.5}
                     />
                     <PersonnalizedGauge
                         id={'BioGaugesComponentId'}
@@ -74,8 +74,8 @@ const AbsencePannel: React.FC<AbsencePannelProps> = ({ id, isDark }) => {
                         isLumi={false}
                         level={75}
                         oldLevel={85}
-                        top={380}
-                        left={1060}
+                        top={52}
+                        left={69.5}
                     />
                     <PersonnalizedGauge
                         id={'LumiGaugesComponentId'}
@@ -85,8 +85,8 @@ const AbsencePannel: React.FC<AbsencePannelProps> = ({ id, isDark }) => {
                         isLumi={true}
                         level={30}
                         oldLevel={20}
-                        top={500}
-                        left={1060}
+                        top={68}
+                        left={69.5}
                     />
                     <CloseIcon
                         isDark={isDark}

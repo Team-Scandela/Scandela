@@ -211,8 +211,8 @@ export const CrownIcon = styled(FaCrown)`
     position: absolute;
     width: 12%;
     height: 12%;
-    top: 105px;
-    left: 300px;
+    top: 14%;
+    left: 19.5%;
     color: ${Yellow};
     transform: rotate(-40deg);
 `;
