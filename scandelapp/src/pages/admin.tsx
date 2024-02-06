@@ -24,7 +24,7 @@ const Admin: React.FC = () => {
     const getTicket = async () => {
         const username = 'tester';
         const password = 'T&st';
-        const response = await fetch('https://db.scandela.fr/tickets', {
+        const response = await fetch('https://api.scandela.fr/tickets', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

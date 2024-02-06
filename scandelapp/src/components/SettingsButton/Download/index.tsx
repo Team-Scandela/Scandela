@@ -30,7 +30,7 @@ const Download: React.FC<DownloadProps> = ({ isDark }) => {
                 const username = 'tester';
                 const password = 'T&st';
                 const response = await fetch(
-                    'https://db.scandela.fr/lamps/create',
+                    'https://api.scandela.fr/lamps/create',
                     {
                         method: 'POST',
                         headers: {
