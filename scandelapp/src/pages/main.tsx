@@ -60,7 +60,7 @@ const Main: React.FC<MainProps> = ({ isPremiumActivated }) => {
         const password = 'T&st';
         try {
             const response = await fetch(
-                'http://app.scandela.fr:2001/users/183e5775-6d38-4d0b-95b4-6f4c7bbb0597',
+                'https://api.scandela.fr/users/183e5775-6d38-4d0b-95b4-6f4c7bbb0597',
                 {
                     method: 'GET',
                     headers: {

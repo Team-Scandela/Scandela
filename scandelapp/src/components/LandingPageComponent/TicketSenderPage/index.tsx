@@ -35,7 +35,7 @@ const TicketSender: React.FC<TicketSenderPageProps> = ({
             const username = 'tester';
             const password = 'T&st';
             const response = await fetch(
-                'http://app.scandela.fr:2001/tickets/create',
+                'https://api.scandela.fr/tickets/create',
                 {
                     method: 'POST',
                     headers: {
@@ -60,7 +60,7 @@ const TicketSender: React.FC<TicketSenderPageProps> = ({
     };
 
     const getTicket = async () => {
-        const response = await fetch('http://app.scandela.fr:2001/tickets');
+        const response = await fetch('https://api.scandela.fr/tickets');
         const tickets = await response.json();
         console.log(tickets);
     };

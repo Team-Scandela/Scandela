@@ -25,7 +25,7 @@ const InfoIconPopup: React.FC<InfoIconPopupProps> = ({ isDark }) => {
         const password = 'T&st';
         try {
             const response = await fetch(
-                'http://app.scandela.fr:2001/bulbs/create',
+                'https://api.scandela.fr/bulbs/create',
                 {
                     method: 'POST',
                     headers: {
