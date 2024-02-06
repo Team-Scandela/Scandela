@@ -8,6 +8,78 @@
     <script src=" https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js "></script>
     <link href=" https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css " rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide-extension-auto-scroll@0.5.3/dist/js/splide-extension-auto-scroll.min.js" type="text/javascript"></script>
+    <style>
+        .pricing-card h2 {
+            text-decoration: underline 2px solid #e6af2e;
+            text-underline-offset: 4px; /* Ajustement pour décaler l'underline */
+            text-decoration-thickness: 2px;
+        }
+
+        .pricing {
+            display: flex;
+            justify-content: center; /* Utiliser "space-between" au lieu de "space-around" */
+            align-items: stretch; /* Ajustement pour que les cards aient la même hauteur */
+            gap: 10px;
+            padding: 20px;
+            background-color: #e6af2e;
+            margin-top: 60px;
+            min-height: 60vh;
+        }
+
+        .pricing-card {
+            border: none;
+            border-radius: 8px;
+            padding: 40px;
+            text-align: center;
+            transition: transform 0.3s;
+            cursor: pointer;
+            min-width: 250px;
+            width: 21%; /* Ajustement pour que les cards aient la même taille */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
+            background-color: #2a2b2a;
+            margin: 30px;
+            color: #e6af2e;
+        }
+
+        .pricing-card:hover {
+            transform: scale(1.05);
+        }
+
+        .checklist {
+            text-align: left;
+            color: #e6af2e;
+        }
+
+        .checklist-item {
+            margin-bottom: 8px;
+        }
+
+        .checklist-item.valid::before {
+            content: "✅ ";
+            color: green;
+        }
+
+        .checklist-item.invalid::before {
+            content: "❌ ";
+            color: red;
+        }
+
+        .buy-button {
+            display: block;
+            margin-top: 40px;
+            padding: 10px 15px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .buy-button:hover {
+            background-color: #2980b9;
+            color: azure;
+        }
+    </style>
     <title>ScandeVitrine</title>
 </head>
 <body>
@@ -15,99 +87,56 @@
         <div class="navbar">
             <a href="goals.html">À propos</a>
             <a href="team.html">Qui sommme nous</a>
-            <a href="#"><span class="logo"><img src="../assets/images/logo-128x128.png" alt="Logo"></span></a>
+            <a href="scandela.html"><span class="logo"><img src="../assets/images/logo-128x128.png" alt="Logo"></span></a>
             <a href="offers.html">Nos offres</a>
             <a href="contact.html">Nous contacter</a>
             <a href="explanation.html">Notre outil</a>
         </div>
-        <section class="page1">
-            <div class="intro">
-                <p class="name">SCANDELA</p>
-            </div>
-            <div class="flex-card">   
-                <div class="card-section">
-                    <div class="card-container">
-                        <div class="card-content">.
-                            <h2>À Propos de SCANDELA</h2>
-                            <p>SCANDELA est un outil de gestion de son parc luminaire, c'est un outil d'analyse très puissant
-                                prenant en compte plusieurs facteurs tel que la consommation, la qualité de l'éclairage, l'écologie,
-                                la sécurité, etc...
-                            </p>
-                        </div>
-                    </div>
-                    
-                    <div class="card-container">
-                        <div class="card-content">
-                            <h2>Qui somme nous ?</h2>
-                            <p>Nous sommes actuellement des étudiants d'EPITECH, nous somme 7 et nous travaillons chacun sur le projet depuis près d'un an.</p>
-                        </div>
-                    </div>
-    
-                    <div class="card-container">
-                        <div class="card-content">
-                            <h2>Nos offres</h2>
-                            <p>Nous proposons actuellement 3 types d'offres pour l'utilisation de ce produit, la version gratuite, la version light et la version optimisé.
-                                chacune de ces versions propose des fonctionnalités différentes, et des prix différents pour satisfaire le plus grand nombre.</p>
-                        </div>
-                    </div>
-    
-                    <div class="card-container">
-                        <div class="card-content">
-                            <h2>Nous contacter</h2>
-                            <p>Pour tout contact, n'hésitez pas à envoyer un mail aux différents membres de l'équipe, trouvable sur le site, ou en passant par la page de contact.
-                                une réponse sera émise au plus vite.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- <div class="image-container">
-            <img src="projet1.png" alt="projet 1">
-            <img src="projet2.png" alt="projet 2">
-            <img src="projet3.png" alt="projet 3">
-        </div> -->
-        <section class="page2">
-        <section
-            id="thumbnail-carousel"
-            class="splide"
-            aria-label="The carousel with thumbnails. Selecting a thumbnail will change the Beautiful Gallery carousel."
-        >
-        <div class="splide__track">
-    		<ul class="splide__list">
-			    <li class="splide__slide">
-                    <p>01. Pin</p>
-        			<img src="../assets/images/pin.png" alt="">
-			    </li>
-			    <li class="splide__slide">
-                    <p>02. Heatmap</p>
-        			<img src="../assets/images/heatmap.png" alt="">
-			    </li>
-			    <li class="splide__slide">
-                    <p>03. Traffic</p>
-        			<img src="../assets/images/traffic.png" alt="">
-			    </li>
-                <li class="splide__slide">
-                    <p>04. Quality</p>
-        			<img src="../assets/images/quality.png" alt="">
-			    </li>
-                <li class="splide__slide">
-                    <p>05. Intensity</p>
-        			<img src="../assets/images/zone.png" alt="">
-			    </li>
-                <li class="splide__slide">
-                    <p>06. Electrical cabinet</p>
-        			<img src="../assets/images/armoire.png" alt="">
-			    </li>
-    		</ul>
-        </div>
-        </section>
-    </section>
 
+        <div class="pricing">
+            <div class="pricing-card" onclick="showDetails('Basic', 9.99)">
+                <h2>ScandeLight</h2>
+                <p>Pour découvrir</p>
+                <p>Gratuit</p>
+                <div class="checklist">
+                    <div class="checklist-item valid">Carte interactive</div>
+                    <div class="checklist-item invalid">A.I</div>
+                    <div class="checklist-item invalid">Filtres (tous)</div>
+                    <div class="checklist-item invalid">génération pdf</div>
+                    <div class="checklist-item invalid">télémétrie</div>
+                </div>
+                <a href="#" class="buy-button">Acquérir</a>
+            </div>
+            <div class="pricing-card" onclick="showDetails('Standard', 19.99)">
+                <h2>ScandeMedium</h2>
+                <p>Pour aller plus loin</p>
+                <p>$19.99/mois</p>
+                <div class="checklist">
+                    <div class="checklist-item valid">Carte interactive</div>
+                    <div class="checklist-item valid">A.I</div>
+                    <div class="checklist-item valid">Filtres (tous)</div>
+                    <div class="checklist-item invalid">génération pdf</div>
+                    <div class="checklist-item invalid">télémétrie</div>
+                </div>
+                <a href="#" class="buy-button">Acheter</a>
+            </div>
+            <div class="pricing-card" onclick="showDetails('Premium', 29.99)">
+                <h2>ScandeHight</h2>
+                <p>Pour une optimisation maximale</p>
+                <p>$49.99/mois</p>
+                <div class="checklist">
+                    <div class="checklist-item valid">Carte interactive</div>
+                    <div class="checklist-item valid">A.I</div>
+                    <div class="checklist-item valid">Filtres (tous)</div>
+                    <div class="checklist-item valid">génération pdf</div>
+                    <div class="checklist-item valid">télémétrie</div>
+                </div>
+                <a href="#" class="buy-button">Acheter</a>
+            </div>
+        </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.6.3/js/foundation.min.js"></script>
-    <script src="observer.js" defer></script>
-    <script src="carousel.js"></script>
+       
+
     <footer class="footer">
         <div class="social-icons">
             <a href="https://www.instagram.com/votre_compte_instagram" target="_blank">
@@ -122,5 +151,11 @@
         </div>
         <p>&copy; 2023 - Scandela</p>
     </footer>
+    <script>
+        // Ajout d'une fonction pour afficher les détails du plan au clic
+        function showDetails(plan, price) {
+            alert(`Selected Plan: ${plan}\nPrice: $${price}/month`);
+        }
+    </script>
 </body>
 </html>

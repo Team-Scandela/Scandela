@@ -1,5 +1,4 @@
-/* le fichier peut être séparé, en plusieurs fichier pour que ce soit plus lisible, mais j'ai eu un peu la flemme
-normalement ça prends pas trop de temps incha'Allah*/
+/* le fichier peut être séparé, en plusieurs fichier pour que ce soit plus lisible */
 
 .image-container {
     display: flex;
@@ -66,8 +65,7 @@ normalement ça prends pas trop de temps incha'Allah*/
     color: #e6af2e;
 }
 
-/* Style pour l
-    z-index: -1;e survol de la card */
+/* z-index: -1 survol de la card */
 .card-container:hover {
     transform: translateY(10px);
 }

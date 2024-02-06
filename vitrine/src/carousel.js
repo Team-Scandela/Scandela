@@ -1,3 +1,6 @@
+
+
+
 document.addEventListener('DOMContentLoaded', function () {
     new Splide('#thumbnail-carousel', {
         perPage: 3,
