@@ -14,18 +14,13 @@ export const ScandelaText = styled.div`
     position: fixed;
     top: 5%;
     left: 42%;
-    font-size: 45px;
+    font-size: 60px;
     user-select: none;
     color: ${Yellow};
-    font-weight: 700;
+    font-weight: 200;
+    font-family: "coolvetica";
+    letter-spacing: 3px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    transform: perspective(10px) rotateX(2deg);
-    letter-spacing: 2px;
-    padding: 10px;
-    background: linear-gradient(to right, ${Yellow}, #ffd700);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
 `;
 
 /** Container that contain the scandela logo **/
@@ -193,6 +188,8 @@ export const PortalTitle = styled.h2`
     font-size: ${(props) => props.fontSize};
     opacity: 1;
     transition: opacity 0.3s ease-in-out;
+    font-family: "coolvetica condensed";
+    letter-spacing: 3px;
 `;
 
 export const PremiumPopup = styled.div`

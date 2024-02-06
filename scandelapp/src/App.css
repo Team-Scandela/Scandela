@@ -5,3 +5,13 @@
     font-family: 'Encode Sans Expanded', sans-serif;
     overflow: hidden;
 }
+@font-face {
+    font-family: "coolvetica";
+    src: local("coolvetica rg"),
+      url("./fonts/coolvetica rg.ttf") format("truetype");
+}
+@font-face {
+    font-family: "coolvetica condensed";
+    src: local("coolvetica condensed rg"),
+      url("./fonts/coolvetica condensed rg.ttf") format("truetype");
+}

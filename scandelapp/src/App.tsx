@@ -10,6 +10,8 @@ import Admin from './pages/admin';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import * as Sentry from '@sentry/browser';
 import { Helmet } from 'react-helmet';
+import "./fonts/coolvetica rg.ttf"
+import "./fonts/coolvetica condensed rg.ttf"
 
 /** Route page */
 const App: React.FC = () => {
