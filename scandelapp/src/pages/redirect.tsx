@@ -11,7 +11,7 @@ const Redirect: React.FC = () => {
     useEffect(() => {
         if (email) {
             fetch(
-                'https://http://https://api.scandela.fr/emailConfirmation',
+                'https://http://http://app.scandela.fr:2001/emailConfirmation',
                 {
                     method: 'POST',
                     headers: {
