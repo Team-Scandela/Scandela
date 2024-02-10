@@ -5,10 +5,14 @@ import java.util.UUID;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,6 +34,10 @@ public class Subscription implements Serializable {
     @GeneratedValue(generator = "UUIDGenerator")
 	@Column(name = "id", updatable = false, nullable = false)
 	private UUID id;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+	@OneToOne(mappedBy = "subscription", cascade = CascadeType.REMOVE)
+	private User user;
 
     @Column(name = "stripeId", updatable = false)
     private String stripeId;

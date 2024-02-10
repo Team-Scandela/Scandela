@@ -45,6 +45,10 @@ public class User implements Serializable {
 	@JoinColumn(name = "uuidtown", nullable = false)
 	private Town town;
 	
+	@OneToOne
+	@JoinColumn(name = "uuidsubscription", nullable = true)
+	private Subscription subscription;
+
 	@Column(name = "email", nullable = false, unique = true)
 	private String email;
 	
