@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useMemo } from 'react';
 import { Filters } from '../../pages/main';
 import { Yellow } from '../../colors';
 import LampInfosPopup from '../LampInfosPopup';
+import Lasso from '../Lasso';
 import { LassoOverlay } from './elements';
 
 // Load geographical data of Nantes from a local JSON file
@@ -21,7 +22,6 @@ interface MapProps {
     lat: number;
     lng: number;
     zoom: number;
-    isLassoActive: boolean;
     selectedFilter: string;
     searchFilter: string;
 }
@@ -34,7 +34,6 @@ const Map: React.FC<MapProps> = ({
     lat,
     lng,
     zoom,
-    isLassoActive,
     selectedFilter,
     searchFilter,
 }) => {
@@ -57,6 +56,8 @@ const Map: React.FC<MapProps> = ({
     const [selectedLampFeature, setSelectedLampFeature] =
         useState<mapboxgl.MapboxGeoJSONFeature | null>(null);
 
+    const [isLassoActive, setIsLassoActive] = useState(false);
+
     interface geojson {
         type: string;
         features: feature[];
@@ -75,6 +76,10 @@ const Map: React.FC<MapProps> = ({
             hat: string;
         };
     }
+
+    const handleLassoActivation = (isActive: boolean) => {
+        setIsLassoActive(isActive);
+    };
 
     // Crée les données géoJSON à partir des données de Nantes
     const geojsonData = useMemo(() => {
@@ -511,6 +516,41 @@ const Map: React.FC<MapProps> = ({
         }
     }, [selectedFilter, searchFilter]);
 
+    const handleLassoValidation = () => {
+        // console.log(clickedPoints);
+        // Formation de l'URL de requête
+        const queryString = clickedPoints.map(point => `coordinate=${point.lat.toFixed(3)},${point.lng.toFixed(3)}`).join('&');
+        const url = `http://localhost:8080/lamps/coordinates?${queryString}`;
+        // console.log(url);
+
+        // Envoi de la requête
+        fetch(url)
+        .then(response => {
+            if (!response.ok) {
+            throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Supposons que 'data' est un tableau d'identifiants de lampadaires à l'intérieur du lasso
+            const lampIds = data.map((lamp: any) => lamp.id);
+    
+            // Mettre à jour la couleur des lampadaires concernés sur la carte
+            if (map.current) {
+                map.current.setPaintProperty('lamp', 'circle-color', [
+                    'match',
+                    ['get', 'id'], // Assurez-vous que 'id' est le nom correct de la propriété contenant l'identifiant du lampadaire
+                    lampIds, // Le tableau des identifiants de lampadaires
+                    '#ce240e', // La couleur pour les lampadaires à l'intérieur du lasso
+                    '#FAC710' // Couleur par défaut pour les autres lampadaires
+                ]);
+            }
+        })
+        .catch(error => {
+            console.error('There has been a problem with your fetch operation:', error);
+        });
+    }
+
     useEffect(() => {
         if (map.current) {
             if (isLassoActive) {
@@ -615,7 +655,6 @@ const Map: React.FC<MapProps> = ({
                         },
                     });
                 }
-
                 map.current.addLayer({
                     id: 'clickedPointsLayer',
                     type: 'circle',
@@ -693,6 +732,12 @@ const Map: React.FC<MapProps> = ({
     // Render the map component
     return (
         <div id={id} style={{ overflow: 'hidden' }}>
+            <Lasso
+                id={'LassoComponentId'}
+                isDark={isDark}
+                onLassoActivation={handleLassoActivation}
+                onLassoValidation={handleLassoValidation}
+            />
             <LassoOverlay isLassoActive={isLassoActive} />
             <div
                 style={{ ...styleMap, cursor: cursorStyle }}
