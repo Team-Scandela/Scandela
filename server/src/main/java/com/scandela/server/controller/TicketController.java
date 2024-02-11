@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import com.scandela.server.entity.Ticket;
 import com.scandela.server.service.ITicketService;
 
-@CrossOrigin(origins = "http://localhost:3000, https://app.scandela.fr")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping(value = "/tickets")
 public class TicketController extends AbstractController<Ticket> {

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.scandela.server.entity.User;
 import com.scandela.server.service.ILoginService;
 
-@CrossOrigin(origins = "http://localhost:3000, https://app.scandela.fr")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping(value = "/login")
 public class LoginController {

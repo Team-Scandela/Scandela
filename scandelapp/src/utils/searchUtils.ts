@@ -12,7 +12,7 @@ export const handleSearchUtils = async (
     if (value !== '') {
         try {
             // request to get coordinate from the search
-            const key = process.env.REACT_APP_APIKEY;
+            const key = 'AIzaSyB7QCFgF77yvUyhkjRef8B3HWb0UqGexlo';
             const response = await fetch(
                 `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
                     value

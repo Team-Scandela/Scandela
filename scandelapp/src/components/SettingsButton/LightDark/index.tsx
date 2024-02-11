@@ -22,7 +22,7 @@ const updateUser = async (isDark: boolean) => {
 
     try {
         const responseUser = await fetch(
-            'https://api.scandela.fr/users/183e5775-6d38-4d0b-95b4-6f4c7bbb0597',
+            'https://serverdela.onrender.com/users/183e5775-6d38-4d0b-95b4-6f4c7bbb0597',
             {
                 method: 'GET',
                 headers: {

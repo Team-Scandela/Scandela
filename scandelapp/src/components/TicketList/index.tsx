@@ -122,7 +122,7 @@ const TicketList: React.FC<TicketListProps> = ({ data }) => {
 
     const updateStatusInDB = async (ticketId: number, status: number) => {
         // try {
-        //     const response = await fetch('https://api.scandela.fr/tickets/update', {
+        //     const response = await fetch('https://serverdela.onrender.com/tickets/update', {
         //         method: 'PUT',
         //         headers: {
         //             'Content-Type': 'application/json',
@@ -139,6 +139,7 @@ const TicketList: React.FC<TicketListProps> = ({ data }) => {
 
     // timestamp to date
     const timestampToDate = (timestamp: string) => {
+        if (!timestamp) return '';
         const dateString =
             timestamp[2] + '/' + timestamp[1] + '/' + timestamp[0];
         return dateString;
