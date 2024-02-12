@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 const Redirect: React.FC = () => {
@@ -10,13 +10,16 @@ const Redirect: React.FC = () => {
     // Use useEffect to redirect to the root path after a few seconds
     useEffect(() => {
         if (email) {
-            fetch('https://localhost:8080/emailConfirmation', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email: email }),
-            })
+            fetch(
+                'https://http://http://app.scandela.fr:2001/emailConfirmation',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email: email }),
+                }
+            )
                 .then((response) => {
                     if (response.ok) {
                         console.log('User registered successfully.');

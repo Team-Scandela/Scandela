@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useEffect } from 'react';
 import {
     PannelContainer,
     ExportButton,
@@ -13,13 +13,22 @@ interface EditInPdfPannellProps {
     id: string;
     isDark: boolean;
     isButtonEditInPdfClicked: boolean;
+    decisionPanelExtended: boolean;
+    handleButtonEditInPdfClick: () => void;
 }
 
 const EditInPdfPannel: React.FC<EditInPdfPannellProps> = ({
     id,
     isDark,
     isButtonEditInPdfClicked,
+    decisionPanelExtended,
+    handleButtonEditInPdfClick,
 }) => {
+    useEffect(() => {
+        if (!decisionPanelExtended && isButtonEditInPdfClicked)
+            handleButtonEditInPdfClick();
+    });
+
     const handleButtonClick = async () => {
         try {
             generatePDFDocument();
@@ -30,10 +39,7 @@ const EditInPdfPannel: React.FC<EditInPdfPannellProps> = ({
 
     return (
         <div id={id}>
-            <PannelContainer
-                isDark={isDark}
-                isButtonEditInPdfClicked={isButtonEditInPdfClicked}
-            >
+            <PannelContainer isDark={isDark} show={isButtonEditInPdfClicked}>
                 <PannelText isDark={isDark}>
                     Exporter les actions Sélectionnées
                 </PannelText>

@@ -3,12 +3,12 @@ package com.scandela.server.controller;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,18 +17,18 @@ import com.scandela.server.entity.Town;
 import com.scandela.server.exception.TownException;
 import com.scandela.server.service.ITownService;
 
-@CrossOrigin//TODO a changer dans le future en mettant un access token
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping(value = "/towns")
-public class TownController extends AbstractController {
+public class TownController extends AbstractController<Town> {
 
-	// Attributes \\
-		// Private \\
-	@Autowired
-	private ITownService townService;
+	// Constructors \\
+	protected TownController(ITownService townService) {
+		super(townService);
+	}
 
 	// Methods \\
-		// Public \\
+	// Public \\
 	/**
 	 * Get all towns
 	 * 
@@ -36,7 +36,7 @@ public class TownController extends AbstractController {
 	 */
 	@GetMapping
 	public List<Town> getTowns() {
-		return townService.getAll();
+		return super.getAll();
 	}
 
 	/**
@@ -47,7 +47,7 @@ public class TownController extends AbstractController {
 	 */
 	@GetMapping("/{id}")
 	public Town getTown(@PathVariable UUID id) {
-		return townService.get(id);
+		return super.get(id);
 	}
 
 	/**
@@ -59,7 +59,20 @@ public class TownController extends AbstractController {
 	 */
 	@PostMapping("/create")
 	public Town createTown(@RequestBody Town newTown) throws Exception {
-		return townService.create(newTown);
+		return super.create(newTown);
+	}
+
+	/**
+	 * Update town by id
+	 * 
+	 * @param id
+	 * @param update
+	 * @return
+	 * @throws Exception
+	 */
+	@PutMapping("/{id}")
+	public Town updateTown(@PathVariable UUID id, @RequestBody Town update) throws Exception {
+		return super.update(id, update);
 	}
 
 	/**
@@ -69,7 +82,7 @@ public class TownController extends AbstractController {
 	 */
 	@DeleteMapping("/delete/{id}")
 	public void deleteTown(@PathVariable UUID id) {
-		townService.delete(id);
+		super.delete(id);
 	}
 
 }
