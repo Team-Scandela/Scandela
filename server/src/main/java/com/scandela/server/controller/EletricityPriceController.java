@@ -12,7 +12,7 @@ import com.scandela.server.service.IElectricityPriceService;
 
 @RestController
 @RequestMapping(value = "/electricityPrice")
-public class EletricityPriceController extends AbstractController {
+public class EletricityPriceController {
 
     @Autowired
 	private IElectricityPriceService electricityPriceService;
