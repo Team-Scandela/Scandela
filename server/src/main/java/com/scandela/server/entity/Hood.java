@@ -2,15 +2,18 @@ package com.scandela.server.entity;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.UUID;
+
+import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -35,14 +38,16 @@ public class Hood implements Serializable {
 		// Private \\
 	private static final long serialVersionUID = 1L;
 
+	@JsonDeserialize(using = UUIDDeserializer.class)
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name = "id", updatable = false, nullable = false)
-	private Long id;
+	@GenericGenerator(name = "UUIDGenerator", strategy = "uuid2")
+    @GeneratedValue(generator = "UUIDGenerator")
+	@Column(name = "uuid", updatable = false, nullable = false)
+	private UUID id;
 
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@ManyToOne
-	@JoinColumn(name = "id_town", nullable = false)
+	@JoinColumn(name = "uuidtown", nullable = false)
 	private Town town;
 
 	@OneToMany(mappedBy = "hood", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)

@@ -2,15 +2,18 @@ package com.scandela.server.entity;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.UUID;
+
+import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
@@ -34,10 +37,12 @@ public class Town implements Serializable {
 		// Private \\
 	private static final long serialVersionUID = 1L;
 
+	@JsonDeserialize(using = UUIDDeserializer.class)
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name = "id", updatable = false, nullable = false)
-	private Long id;
+	@GenericGenerator(name = "UUIDGenerator", strategy = "uuid2")
+    @GeneratedValue(generator = "UUIDGenerator")
+	@Column(name = "uuid", updatable = false, nullable = false)
+	private UUID id;
 
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@OneToOne(mappedBy = "town", cascade = CascadeType.REMOVE)
@@ -55,21 +60,24 @@ public class Town implements Serializable {
 	@Column(name = "lng", nullable = false)
 	private Double longitude;
 
-	@Column(name = "electricity_price", nullable = false)
-	private Integer electricityPrice;
+	@Column(name = "electricityprice", nullable = false)
+	private Float electricityPrice;
 
 	@Builder.Default
-	@Column(name = "indice_elec", nullable = false)
+	@Column(name = "eleclevel", nullable = false)
 	private Float indiceElectricity = 0.0f;
 
 	@Builder.Default
-	@Column(name = "indice_eco", nullable = false)
+	@Column(name = "ecolevel", nullable = false)
 	private Float indiceEcology = 0.0f;
 
 	@Builder.Default
-	@Column(name = "indice_quali", nullable = false)
+	@Column(name = "qualilevel", nullable = false)
 	private Float indiceQuality = 0.0f;
 
 	@OneToMany(mappedBy = "town", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	private List<Incident> incidents;
+
+	@OneToMany(mappedBy = "town", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+	private List<Lamp> lamps;
 }

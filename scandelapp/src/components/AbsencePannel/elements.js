@@ -6,53 +6,68 @@ import {
     AiOutlineSend,
 } from 'react-icons/ai';
 
+/** Container for the absence pannel button **/
+export const AbsencePannelButtonContainer = styled.div`
+    display: flex;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 40px;
+    top: 25px;
+    left: 500px;
+    user-select: none;
+    opacity: 0.9;
+    background-color: ${(props) =>
+        props.isDark ? Black + 'CC' : White + 'CC'};
+    color: ${(props) => (props.isDark ? Yellow : Black)};
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+    border-radius: 10px;
+
+    &:hover {
+        opacity: 1;
+        cursor: pointer;
+    }
+`;
+
 /** Container for the background of the DuringYourAbsence **/
 export const PannelContainer = styled.div`
     display: flex;
     position: absolute;
     align-items: center;
     justify-content: center;
-    width: ${(props) => (props.show ? '900px' : '0px')};
-    height: ${(props) => (props.show ? '500px' : '0px')};
-    top: 25%;
+    width: 800px;
+    height: 500px;
+    top: 20%;
     left: 25%;
     background-color: ${(props) =>
         props.isDark ? Black + 'FF' : White + 'FF'};
-    border-radius: 30px;
-    transition:
-        transform 0.2s ease-in-out,
-        width 0.5s ease-in-out,
-        height 1s ease-in-out;
+    border-radius: 20px;
     box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
-    transform-origin: center;
-    transform: scaleX(${(props) => (props.show ? 1 : 0)})
-        scaleY(${(props) => (props.show ? 1 : 0)});
-    overflow: hidden;
 `;
 
 export const PannelText = styled.div`
     position: absolute;
-    top: 30px;
-    left: 30px;
-    font-size: 50px;
-    user-select: none;
+    top: 20px;
+    left: 20px;
+    font-size: 40px;
     color: ${(props) => (props.isDark ? Yellow : Black)};
     font-weight: 550;
+    user-select: none;
 `;
 
 export const CloseIcon = styled(AiFillCloseCircle)`
+    display: flex;
     position: absolute;
-    right: 30px;
-    top: 40px;
+    right: 20px;
+    top: 20px;
     font-size: 40px;
     color: ${(props) => (props.isDark ? Yellow : Black)};
     opacity: 1;
-    transition: opacity 0.1s;
-    overflow: hidden;
 
     &:hover {
         cursor: pointer;
-        opacity: 0.5;
+        opacity: 0.8;
     }
 `;
 
@@ -62,7 +77,7 @@ export const ListDetailContainer = styled.div`
     align-items: center;
     justify-content: center;
     left: 30px;
-    width: 680px;
+    width: 600px;
     height: 380px;
     top: 20%;
     background-color: ${(props) =>
@@ -75,9 +90,9 @@ export const EventContainer = styled.div`
     position: absolute;
     align-items: center;
     justify-content: center;
-    left: 5%;
+    left: 3%;
     width: 90%;
-    height: 100px;
+    height: 80px;
     top: ${(props) => props.top};
 `;
 

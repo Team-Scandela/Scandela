@@ -3,16 +3,17 @@ package com.scandela.server.entity;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
-import jakarta.persistence.CascadeType;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -35,12 +36,13 @@ public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name = "id", updatable = false, nullable = false)
-	private Long id;
+	@GenericGenerator(name = "UUIDGenerator", strategy = "uuid2")
+    @GeneratedValue(generator = "UUIDGenerator")
+	@Column(name = "uuid", updatable = false, nullable = false)
+	private UUID id;
 	
 	@OneToOne
-	@JoinColumn(name = "id_town", nullable = false)
+	@JoinColumn(name = "uuidtown", nullable = false)
 	private Town town;
 	
 	@Column(name = "email", nullable = false, unique = true)
@@ -52,20 +54,18 @@ public class User implements Serializable {
 	@Column(name = "password", nullable = false)
 	private String password;
 	
-	@Column(name = "role", nullable = false)
-	private String role;
-	
-	@Column(name = "more_info", nullable = true)
+	@Column(name = "rights", nullable = false)
+	private Integer rights;
+
+	@JdbcTypeCode(SqlTypes.JSON)
+	@Column(name = "moreinfo", nullable = true)
 	private List<String> moreInformations;
 	
 	@Builder.Default
 	@Column(name = "darkmode", nullable = false)
 	private boolean darkmode = false;
 	
-	@Column(name = "last_connexion", nullable = false)
+	@Column(name = "lastconnexion", nullable = false)
 	private LocalDateTime lastConnexion;
-
-	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-	private List<Decision> decisions;
 
 }

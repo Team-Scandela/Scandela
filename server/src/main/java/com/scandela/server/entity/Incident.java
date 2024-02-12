@@ -2,6 +2,9 @@ package com.scandela.server.entity;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.UUID;
+
+import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -10,7 +13,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -36,13 +38,14 @@ public class Incident implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name = "id", updatable = false, nullable = false)
-	private Long id;
+	@GenericGenerator(name = "UUIDGenerator", strategy = "uuid2")
+    @GeneratedValue(generator = "UUIDGenerator")
+	@Column(name = "uuid", updatable = false, nullable = false)
+	private UUID id;
 
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@ManyToOne
-	@JoinColumn(name = "id_town", nullable = false)
+	@JoinColumn(name = "uuidtown", nullable = false)
 	private Town town;
 
 	@Column(name = "title", nullable = false)
@@ -52,15 +55,15 @@ public class Incident implements Serializable {
 	private String description;
 
 	@Builder.Default
-	@Column(name = "impac_elec", nullable = false)
+	@Column(name = "impacElec", nullable = false)
 	private Float impactElectricity = 0.0f;
 
 	@Builder.Default
-	@Column(name = "impac_eco", nullable = false)
+	@Column(name = "impacEco", nullable = false)
 	private Float impactEcology = 0.0f;
 
 	@Builder.Default
-	@Column(name = "impac_quali", nullable = false)
+	@Column(name = "impacQuali", nullable = false)
 	private Float impactQuality = 0.0f;
 
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)

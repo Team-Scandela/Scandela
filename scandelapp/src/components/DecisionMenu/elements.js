@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Yellow, Black, White, Grey } from '../../colors';
+import { Yellow, Black, White, Grey, DarkYellow } from '../../colors';
 
 /** Container of the decision pannel and the button */
 export const DecisionMenuContainer = styled.div`
@@ -12,30 +12,36 @@ export const DecisionMenuContainer = styled.div`
     height: 625px;
     overflow: visible; /* To allow the button to overflow because of the overflow : hidden rules in App.css */
     z-index: 1;
+    user-select: none;
+    visibility: ${(props) => (props.show ? 'visible' : 'hidden')};
 `;
 
 /** Button who allows to open the decision pannel */
 export const DecisionMenuButton = styled.div`
     display: flex;
+    position: absolute;
     justify-content: center;
     align-items: center;
+    top: 50%;
+    right: ${(props) => (props.show ? '102%' : '52%')};
     width: 40px;
     height: 40px;
     border-radius: 10px;
-    cursor: pointer;
+    visibility: visible;
 
     background-color: ${(props) =>
         props.isDark ? Black + 'CC' : White + 'CC'};
-    color: ${(props) => (props.isDark ? Yellow : Black)};
+    color: ${(props) => (props.isDark ? DarkYellow : Black)};
     box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.75);
 
     transition: all 0.5s ease-in-out;
-
-    position: absolute;
-    top: 50%;
-    right: ${(props) => (props.show ? '102%' : '52%')};
     transform: ${(props) =>
         props.show ? 'translate(0%, -50%)' : 'translate(0%, -50%)'};
+
+    &:hover {
+        cursor: pointer;
+        color: ${(props) => (props.isDark ? Yellow : Black)};
+    }
 `;
 
 /** Container of the decision pannel  */
@@ -68,7 +74,15 @@ export const ScandelaText = styled.div`
     font-size: 45px;
     user-select: none;
     color: ${(props) => (props.isDark ? Yellow : Black)};
-    font-weight: 500;
+    font-weight: 700;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    transform: perspective(10px) rotateX(2deg);
+    letter-spacing: 2px;
+    padding: 10px;
+    background: linear-gradient(to right, ${Yellow}, #ffd700);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
 `;
 
 /** Container of the decision panel content */

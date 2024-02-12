@@ -6,6 +6,7 @@ public class LampIncidentException extends Exception {
 		// Public \\
 	public static final String INCOMPLETE_INFORMATIONS = "Incomplete informations.";
 	public static final String INCIDENT_LOADING = "Impossibility to load given incident.";
+	public static final String LAMP_LOADING = "Impossibility to load given lamp.";
 
 		// Private \\
 	private static final long serialVersionUID = 1L;

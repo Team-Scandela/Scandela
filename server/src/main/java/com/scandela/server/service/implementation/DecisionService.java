@@ -1,34 +1,46 @@
 package com.scandela.server.service.implementation;
 
-import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.scandela.server.dao.DecisionDao;
 import com.scandela.server.dao.DecisionTypeDao;
-import com.scandela.server.dao.UserDao;
+import com.scandela.server.dao.LampDao;
+import com.scandela.server.dao.LampDecisionDao;
 import com.scandela.server.entity.Decision;
 import com.scandela.server.entity.DecisionType;
-import com.scandela.server.entity.User;
+import com.scandela.server.entity.Lamp;
+import com.scandela.server.entity.LampDecision;
 import com.scandela.server.exception.DecisionException;
 import com.scandela.server.service.AbstractService;
 import com.scandela.server.service.IDecisionService;
+import com.scandela.server.util.TimeHelper;
 
 @Service
 public class DecisionService extends AbstractService<Decision> implements IDecisionService {
 
 	// Attributes \\
 		// Private \\
+	private final String[] IGNORED_PROPERTIES = { "id", "type" };
+	
 	private DecisionTypeDao decisionTypeDao;
-	private UserDao userDao;
+	private LampDecisionDao lampDecisionDao;
+	private LampDao lampDao;
 
 	// Constructors \\
-	protected DecisionService(DecisionDao decisionDao, DecisionTypeDao decisionTypeDao, UserDao userDao) {
+	protected DecisionService(DecisionDao decisionDao, DecisionTypeDao decisionTypeDao, LampDecisionDao lampDecisionDao, LampDao lampDao) {
 		super(decisionDao);
 		this.decisionTypeDao = decisionTypeDao;
-		this.userDao = userDao;
+		this.lampDecisionDao = lampDecisionDao;
+		this.lampDao = lampDao;
 	}
 
 	// Methods \\
@@ -38,18 +50,124 @@ public class DecisionService extends AbstractService<Decision> implements IDecis
 	public Decision create(Decision newDecision) throws DecisionException{
 		try {
 			loadDecisionType(newDecision);
-			loadUser(newDecision);
-			
-			newDecision.setDate(LocalDate.now());
 			
 			return dao.save(newDecision);
 		} catch (Exception e) {
-			if (newDecision.getType() == null || newDecision.getUser() == null ||
-				newDecision.getDescription() == null || newDecision.getCost() == null) {
+			if (newDecision.getType() == null || newDecision.getDescription() == null ||
+				newDecision.getLocation() == null || newDecision.getSolution() == null) {
 				throw new DecisionException(DecisionException.INCOMPLETE_INFORMATIONS);
 			}
 			throw e;
 		}
+	}
+
+	@Override
+	@Transactional(rollbackFor = { Exception.class })
+    public Decision update(UUID id, Decision update, String... ignoredProperties) throws Exception {
+		try {
+			Decision decision = super.update(id, update, IGNORED_PROPERTIES);
+	        
+	        return decision;
+		} catch (Exception e) {
+			throw e;
+		}
+    }
+	
+	@Override
+	@Transactional(rollbackFor = { Exception.class })
+	public List<Decision> algoChangementBulb() throws Exception {
+		Optional<DecisionType> decisionType = decisionTypeDao.findByTitleContains("Changement");
+		
+		if (decisionType.isEmpty()) {
+			throw new DecisionException(DecisionException.DECISIONTYPE_LOADING);
+		}
+		
+		Page<Lamp> lampsPage = lampDao.findByTypeIsNotAndLampDecisionsContains("LED", "Changer l'ampoule", PageRequest.of(0, 100));
+		List<Lamp> lamps = lampsPage.getContent();
+		List<Decision> decisions = new ArrayList<>();
+		List<LampDecision> lampDecisions = new ArrayList<>();
+		
+		lamps.forEach(lamp -> {
+			Decision decision = Decision.builder()
+					.type(decisionType.get())
+					.location(lamp.getAddress())
+					.description("Ampoule LED moins consommatrice.")
+					.solution("Changer l'ampoule \"" + lamp.getLampType() + "\" en ampoule \"LED\".")
+					.build();
+			LampDecision lampDecision = LampDecision.builder()
+					.decision(decision)
+					.lamp(lamp)
+					.build();
+			decision.setLampDecision(lampDecision);
+			
+			decisions.add(decision);
+			lampDecisions.add(lampDecision);
+		});
+		
+		dao.saveAll(decisions);
+		lampDecisionDao.saveAll(lampDecisions);
+		
+		return decisions;
+	}
+	
+	@Override
+	@Transactional(rollbackFor = { Exception.class })
+	public List<Decision> algoReductionConsoHoraire() throws Exception {
+		Optional<DecisionType> decisionTypeAllumer = decisionTypeDao.findByTitleContains("Allumer lampadaire");
+		Optional<DecisionType> decisionTypeEteindre = decisionTypeDao.findByTitleContains("Éteindre lampadaire");
+		
+		if (decisionTypeAllumer.isEmpty() || decisionTypeEteindre.isEmpty()) {
+			throw new DecisionException(DecisionException.DECISIONTYPE_LOADING);
+		}
+		
+		LocalTime sunrise = TimeHelper.getSunriseTime(47.2173, -1.5534);//lighOff1 avec coord de nantes
+		LocalTime sunset = TimeHelper.getSunsetTime(47.2173, -1.5534);//LightOn2 avec coord de nantes
+
+		Page<Lamp> lampsPageAllumer = lampDao.findByLightOn2SuperiorAndLampDecisionsContains(sunset, "Allumer le lampdaire", PageRequest.of(0, 25));
+		Page<Lamp> lampsPageEteindre = lampDao.findByLightOffInferiorAndLampDecisionsContains(sunrise, "Éteindre le lampdaire", PageRequest.of(0, 25));
+		List<Lamp> lampsEteindre = lampsPageEteindre.getContent();
+		List<Lamp> lampsAllumer = lampsPageAllumer.getContent();
+		List<Decision> decisions = new ArrayList<>();
+		List<LampDecision> lampDecisions = new ArrayList<>();
+
+		lampsAllumer.forEach(lamp -> {
+			Decision decisionAllumer = Decision.builder()
+					.type(decisionTypeAllumer.get())
+					.location(lamp.getAddress())
+					.description("Coucher du soleil à " + sunset.toString())
+					.solution("Allumer le lampadaire " + lamp.getName() + " à partir de " + sunset.toString())//TODO changer les solution en comparant les anciennes plages et nouvelles proposées
+					.build();
+			LampDecision lampDecisionAllumer = LampDecision.builder()
+					.decision(decisionAllumer)
+					.lamp(lamp)
+					.build();
+			decisionAllumer.setLampDecision(lampDecisionAllumer);
+
+			decisions.add(decisionAllumer);
+			lampDecisions.add(lampDecisionAllumer);
+		});
+		
+		lampsEteindre.forEach(lamp -> {
+			Decision decisionEteindre = Decision.builder()
+					.type(decisionTypeEteindre.get())
+					.location(lamp.getAddress())
+					.description("Lever du soleil à " + sunrise.toString())
+					.solution("Éteindre le lampadaire " + lamp.getName() + " à partir de " + sunrise.toString())//TODO changer les solution en comparant les anciennes plages et nouvelles proposées
+					.build();
+			LampDecision lampDecisionEteindre = LampDecision.builder()
+					.decision(decisionEteindre)
+					.lamp(lamp)
+					.build();
+			decisionEteindre.setLampDecision(lampDecisionEteindre);
+
+			decisions.add(decisionEteindre);
+			lampDecisions.add(lampDecisionEteindre);
+		});
+		
+		dao.saveAll(decisions);
+		lampDecisionDao.saveAll(lampDecisions);
+		
+		return decisions;
 	}
 
 		// Private \\
@@ -58,7 +176,7 @@ public class DecisionService extends AbstractService<Decision> implements IDecis
 			throw new DecisionException(DecisionException.INCOMPLETE_INFORMATIONS);
 		}
 	
-		long typeId = newDecision.getType().getId();
+		UUID typeId = newDecision.getType().getId();
 		
 		Optional<DecisionType> type = decisionTypeDao.findById(typeId);
 		if (type.isEmpty()) {
@@ -66,21 +184,6 @@ public class DecisionService extends AbstractService<Decision> implements IDecis
 		}
 	
 		newDecision.setType(type.orElseGet(() -> { return null; }));
-	}
-	
-	private void loadUser(Decision newDecision) throws DecisionException {
-		if (newDecision.getUser() == null) {
-			throw new DecisionException(DecisionException.INCOMPLETE_INFORMATIONS);
-		}
-	
-		long userId = newDecision.getUser().getId();
-		
-		Optional<User> user = userDao.findById(userId);
-		if (user.isEmpty()) {
-			throw new DecisionException(DecisionException.USER_LOADING);
-		}
-	
-		newDecision.setUser(user.orElseGet(() -> { return null; }));
 	}
 
 }

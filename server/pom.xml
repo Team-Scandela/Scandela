@@ -71,6 +71,13 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>com.stripe</groupId>
+			<artifactId>stripe-java</artifactId>
+			<version>24.3.0</version> <!-- Vérifie la dernière version sur Maven Central -->
+		</dependency>
+
 		
 		<dependency>
 		    <groupId>com.h2database</groupId>
@@ -98,13 +105,18 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-mail</artifactId>
-			<version>3.1.3</version>
 		</dependency>
 
 		<dependency>
 			<groupId>javax.mail</groupId>
 			<artifactId>javax.mail-api</artifactId>
 			<version>1.6.2</version>
+		</dependency>
+		
+		<dependency>
+		  <groupId>com.luckycatlabs</groupId>
+		  <artifactId>SunriseSunsetCalculator</artifactId>
+		  <version>1.2</version>
 		</dependency>
 
 	</dependencies>

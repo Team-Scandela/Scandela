@@ -1,13 +1,14 @@
 package com.scandela.server.controller;
 
 import java.util.List;
+import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,15 +17,15 @@ import com.scandela.server.entity.DecisionType;
 import com.scandela.server.exception.DecisionTypeException;
 import com.scandela.server.service.IDecisionTypeService;
 
-@CrossOrigin//TODO a changer dans le future en mettant un access token
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping(value = "/decisionTypes")
-public class DecisionTypeController extends AbstractController {
-
-	// Attributes \\
-		// Private \\
-	@Autowired
-	private IDecisionTypeService decisionTypeService;
+public class DecisionTypeController extends AbstractController<DecisionType> {
+	
+	// Constructors \\
+	protected DecisionTypeController(IDecisionTypeService decisionTypeService) {
+		super(decisionTypeService);
+	}
 
 	// Methods \\
 		// Public \\
@@ -35,7 +36,7 @@ public class DecisionTypeController extends AbstractController {
 	 */
 	@GetMapping
 	public List<DecisionType> getDecisionTypes() {
-		return decisionTypeService.getAll();
+		return super.getAll();
 	}
 
 	/**
@@ -45,8 +46,8 @@ public class DecisionTypeController extends AbstractController {
 	 * @return decisionType
 	 */
 	@GetMapping("/{id}")
-	public DecisionType getDecisionType(@PathVariable long id) {
-		return decisionTypeService.get(id);
+	public DecisionType getDecisionType(@PathVariable UUID id) {
+		return super.get(id);
 	}
 
 	/**
@@ -58,8 +59,21 @@ public class DecisionTypeController extends AbstractController {
 	 */
 	@PostMapping("/create")
 	public DecisionType createDecisionType(@RequestBody DecisionType newDecisionType) throws Exception {
-		return decisionTypeService.create(newDecisionType);
+		return super.create(newDecisionType);
 	}
+
+	/**
+	 * Update decisionType by id
+	 * 
+	 * @param id
+	 * @param update
+	 * @return
+	 * @throws Exception
+	 */
+    @PutMapping("/{id}")
+    public DecisionType updateDecisionType(@PathVariable UUID id, @RequestBody DecisionType update) throws Exception {
+        return super.update(id, update);
+    }
 
 	/**
 	 * Delete decisionType
@@ -67,8 +81,8 @@ public class DecisionTypeController extends AbstractController {
 	 * @param id
 	 */
 	@DeleteMapping("/delete/{id}")
-	public void deleteDecisionType(@PathVariable long id) {
-		decisionTypeService.delete(id);
+	public void deleteDecisionType(@PathVariable UUID id) {
+		super.delete(id);
 	}
 
 }

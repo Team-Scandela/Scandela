@@ -9,6 +9,7 @@ import static org.mockito.Mockito.when;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,9 +36,9 @@ public class TownServiceTest {
 	@Mock
 	private TownDao townDaoMock;
 	
-	private final long id = 1;
+	private final UUID id = UUID.randomUUID();
 	private final String name = "Test";
-	private final int electricityPrice = 17;
+	private final float electricityPrice = 17;
 	private final float indiceElectricity = 0.17f;
 	private final float indiceEcology = 0.45f;
 	private final float indiceQuality = 0.78f;
@@ -77,12 +78,12 @@ public class TownServiceTest {
 	@Test
 	public void testGetAll_whenManyTowns_thenReturnManyTowns() {
 		Town town2 = Town.builder()
-				.id(Long.valueOf(2))
+				.id(UUID.randomUUID())
 				.name("Test2")
 				.hoods(hoods)
 				.latitude(89.0913)
 				.longitude(3.4543)
-				.electricityPrice(32)
+				.electricityPrice(32f)
 				.indiceElectricity(0.45f)
 				.indiceEcology(0.78f)
 				.indiceQuality(0.17f)
@@ -230,6 +231,40 @@ public class TownServiceTest {
 
 		verify(townDaoMock, times(1)).save(Mockito.any(Town.class));
 		assertThat(result.getMessage()).isEqualTo(TownException.INCOMPLETE_INFORMATIONS);
+	}
+	
+	@Test
+	public void testUpdate() throws Exception {
+		UUID id2 = UUID.randomUUID();
+		String name2 = "Test2";
+		float electricityPrice2 = 17131;
+		float indiceElectricity2 = 1313.17f;
+		float indiceEcology2 = 1131.45f;
+		float indiceQuality2 = 1313.78f;
+		Town town2 = Town.builder()
+				.id(id2)
+				.name(name2)
+				.latitude(31133.4543)
+				.longitude(891313.0913)
+				.electricityPrice(electricityPrice2)
+				.indiceElectricity(indiceElectricity2)
+				.indiceEcology(indiceEcology2)
+				.indiceQuality(indiceQuality2)
+				.build();
+		
+		
+		when(townDaoMock.findById(id)).thenReturn(Optional.ofNullable(town));
+		
+		Town result = testedObject.update(id, town2);
+
+		assertThat(result.getId()).isEqualTo(id);
+		assertThat(result.getName()).isEqualTo(town2.getName());
+		assertThat(result.getLatitude()).isEqualTo(town2.getLatitude());
+		assertThat(result.getLongitude()).isEqualTo(town2.getLongitude());
+		assertThat(result.getElectricityPrice()).isEqualTo(town2.getElectricityPrice());
+		assertThat(result.getIndiceElectricity()).isEqualTo(town2.getIndiceElectricity());
+		assertThat(result.getIndiceEcology()).isEqualTo(town2.getIndiceEcology());
+		assertThat(result.getIndiceQuality()).isEqualTo(town2.getIndiceQuality());
 	}
 
 	@Test

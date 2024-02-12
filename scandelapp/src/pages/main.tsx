@@ -1,19 +1,22 @@
-import * as React from 'react';
+import { useState } from 'react';
 import FilterMenu from '../components/FilterMenu';
 import Map from '../components/Map';
-import LightDark from '../components/LightDark';
 import SearchBar from '../components/SearchBar';
+import ToastHistory from '../components/ToastHistory';
 import { handleSearchUtils } from '../utils/searchUtils';
 import DecisionMenu from '../components/DecisionMenu';
 import EditInPdfPannel from '../components/EditInPdfPannel';
 import ActionsList from '../components/ActionsList';
+import SettingsButton from '../components/SettingsButton';
+import LogoutButton from '../components/LogoutButton';
 import Toastr from '../components/Toastr';
-import AbsencePannel from '../components/AbsencePannel';
 import { Gauges } from '../components/Gauges';
 import Lasso from '../components/Lasso';
-import SettingsButton from '../components/SettingsButton';
-import PremiumButton from '../components/PremiumButton';
+import CityButton from '../components/CityButton';
+import AbsencePannel from '../components/AbsencePannel';
 import SmallLampInfosPopup from '../components/SmallLampInfosPopup';
+// import MapDB from '../components/MapDB';
+import FilterSearch from '../components/FilterSearch';
 
 export enum Filters {
     pin = 'pin',
@@ -25,108 +28,142 @@ export enum Filters {
     none = 'none',
 }
 
+interface MainProps {
+    isPremiumActivated: boolean;
+}
+
 /** Main page of the app */
-const Main: React.FC = () => {
-    const [isDark, setIsDark] = React.useState<boolean>(true);
-    const [isPremiumActivated, setIsPremiumActivated] =
-        React.useState<boolean>(true);
-    const [isLassoActive, setIsLassoActive] = React.useState(false);
-    const [filter, setFilter] = React.useState<Filters>(Filters.none);
-    const [lat, setLat] = React.useState<number>(47.218371);
-    const [lng, setLng] = React.useState<number>(-1.553621);
-    const [zoom, setZoom] = React.useState(12);
+const Main: React.FC<MainProps> = ({ isPremiumActivated }) => {
+    const [isDark, setIsDark] = useState<boolean>(true);
+    const [isLassoActive, setIsLassoActive] = useState(false);
+    const [filter, setFilter] = useState<Filters>(Filters.none);
+    const [lat, setLat] = useState<number>(47.218371);
+    const [lng, setLng] = useState<number>(-1.553621);
+    const [zoom, setZoom] = useState(12);
+
     const [isButtonEditInPdfClicked, setIsButtonEditInPdfClicked] =
-        React.useState<boolean>(false);
+        useState<boolean>(false);
     /** If the decision panel is open or closed */
     const [decisionPanelExtended, setDecisionPanelExtended] =
-        React.useState<boolean>(false);
+        useState<boolean>(false);
     /** If the action list panel is open or closed */
-    const [actionsListExtended, setActionsListExtended] = React.useState(false);
-    const [currentSelected, setCurrentSelected] = React.useState(
+    const [actionsListExtended, setActionsListExtended] = useState(false);
+    const [currentSelected, setCurrentSelected] = useState(
         'Choisissez une action'
     );
-    const [optimisationTemplateData, setOptimisationTemplateData] =
-        React.useState([
-            {
-                id: 0,
-                saved: false,
-                selected: false,
-                type: 'Éteindre lampadaire',
-                location: '13 Rue Pierrick Guyard',
-                description: 'Passage peu fréquent',
-                solution: 'Off: 18h-10h',
-            },
-            {
-                id: 1,
-                saved: false,
-                selected: false,
-                type: 'Éteindre lampadaire',
-                location: '14 Rue Pierrick Guyard',
-                description: 'Passage peu fréquent',
-                solution: 'Off: 18h-10h',
-            },
-            {
-                id: 2,
-                saved: false,
-                selected: false,
-                type: 'Allumer lampadaire',
-                location: '15 Rue Pierrick Guyard',
-                description: 'Passage peu fréquent',
-                solution: 'Off: 18h-10h',
-            },
-            {
-                id: 3,
-                saved: false,
-                selected: false,
-                type: 'Augmenter intensité',
-                location: '16 Rue Pierrick Guyard',
-                description: 'Passage peu fréquent',
-                solution: 'Off: 18h-10h',
-            },
-            {
-                id: 4,
-                saved: false,
-                selected: false,
-                type: 'Réduire intensité',
-                location: '17 Rue Pierrick Guyard',
-                description: 'Passage peu fréquent',
-                solution: 'Off: 18h-10h',
-            },
-            {
-                id: 5,
-                saved: false,
-                selected: false,
-                type: 'Changer ampoule',
-                location: '18 Rue Pierrick Guyard',
-                description: 'Passage peu fréquent',
-                solution: 'Off: 18h-10h',
-            },
-            {
-                id: 6,
-                saved: false,
-                selected: false,
-                type: 'Ajouter lampadaire',
-                location: '19 Rue Pierrick Guyard',
-                description: 'Passage peu fréquent',
-                solution: 'Off: 18h-10h',
-            },
-            {
-                id: 7,
-                saved: false,
-                selected: false,
-                type: 'Retirer lampadaire',
-                location: '20 Rue Pierrick Guyard',
-                description: 'Passage peu fréquent',
-                solution: 'Off: 18h-10h',
-            },
-        ]);
+    /** Variables for the search for the filter filter */
+    const [search, setSearch] = useState<string>('');
+    const [selected, setSelected] = useState<string>('Lamp');
+
+    const getUser = async () => {
+        const username = 'tester';
+        const password = 'T&st';
+        try {
+            const response = await fetch(
+                'http://app.scandela.fr:2001/users/183e5775-6d38-4d0b-95b4-6f4c7bbb0597',
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Basic ${btoa(
+                            `${username}:${password}`
+                        )}`,
+                    },
+                }
+            );
+
+            const user = await response.json();
+            setIsDark(user.darkmode);
+        } catch (error) {
+            console.log('ERROR GET USER = ' + error);
+        }
+    };
+
+    getUser();
+
+    const [optimisationTemplateData, setOptimisationTemplateData] = useState([
+        {
+            id: 0,
+            saved: false,
+            selected: false,
+            type: 'Éteindre lampadaire',
+            location: '13 Rue Pierrick Guyard',
+            description: 'Passage peu fréquent',
+            solution: 'Off: 18h-10h',
+        },
+        {
+            id: 1,
+            saved: false,
+            selected: false,
+            type: 'Éteindre lampadaire',
+            location: '14 Rue Pierrick Guyard',
+            description: 'Passage peu fréquent',
+            solution: 'Off: 18h-10h',
+        },
+        {
+            id: 2,
+            saved: false,
+            selected: false,
+            type: 'Allumer lampadaire',
+            location: '15 Rue Pierrick Guyard',
+            description: 'Passage peu fréquent',
+            solution: 'Off: 18h-10h',
+        },
+        {
+            id: 3,
+            saved: false,
+            selected: false,
+            type: 'Augmenter intensité',
+            location: '16 Rue Pierrick Guyard',
+            description: 'Passage peu fréquent',
+            solution: 'Off: 18h-10h',
+        },
+        {
+            id: 4,
+            saved: false,
+            selected: false,
+            type: 'Réduire intensité',
+            location: '17 Rue Pierrick Guyard',
+            description: 'Passage peu fréquent',
+            solution: 'Off: 18h-10h',
+        },
+        {
+            id: 5,
+            saved: false,
+            selected: false,
+            type: 'Changer ampoule',
+            location: '18 Rue Pierrick Guyard',
+            description: 'Passage peu fréquent',
+            solution: 'Off: 18h-10h',
+        },
+        {
+            id: 6,
+            saved: false,
+            selected: false,
+            type: 'Ajouter lampadaire',
+            location: '19 Rue Pierrick Guyard',
+            description: 'Passage peu fréquent',
+            solution: 'Off: 18h-10h',
+        },
+        {
+            id: 7,
+            saved: false,
+            selected: false,
+            type: 'Retirer lampadaire',
+            location: '20 Rue Pierrick Guyard',
+            description: 'Passage peu fréquent',
+            solution: 'Off: 18h-10h',
+        },
+    ]);
+    const [toastHistoryData, setToastHistoryData] = useState([]);
+    const [notificationsPreference, setNotificationsPreference] = useState([
+        ['actionListUpdate', false],
+        ['lightDarkModeUpdate', false],
+        ['languageUpdate', false],
+    ]);
 
     const handleSearch = (value: string) => {
         handleSearchUtils(value, lat, setLat, lng, setLng, zoom, setZoom);
-    };
-
-    const handleToggleIsPremiumActivated = () => {
-        setIsPremiumActivated((prevState) => !prevState);
     };
 
     const handleButtonEditInPdfClick = () => {
@@ -162,6 +199,23 @@ const Main: React.FC = () => {
         setIsLassoActive(isActive);
     };
 
+    const addNotificationToList = (description: string) => {
+        const date = new Date();
+
+        const jour = date.getDate();
+        const mois = date.getMonth() + 1;
+        const hour = date.getHours();
+        const min = date.getMinutes();
+
+        const time = `${jour.toString().padStart(2, '0')}/${mois
+            .toString()
+            .padStart(2, '0')} ${hour}:${min}`;
+        const updatedList = [{ time, description }, ...toastHistoryData];
+        const limitedList = updatedList.slice(0, 7);
+
+        setToastHistoryData(limitedList);
+    };
+
     return (
         <div>
             <Map
@@ -172,25 +226,43 @@ const Main: React.FC = () => {
                 lng={lng}
                 zoom={zoom}
                 isLassoActive={isLassoActive}
+                selectedFilter={selected}
+                searchFilter={search}
             />
             <SearchBar
                 id={'searchBarComponentId'}
                 isDark={isDark}
                 onSubmit={handleSearch}
             />
-            <PremiumButton
-                isDark={isDark}
-                isPremiumActivated={isPremiumActivated}
-                handleToggleIsPremiumActivated={handleToggleIsPremiumActivated}
-            />
             <FilterMenu
                 id={'filterMenuComponentId'}
                 filter={filter}
                 setFilter={setFilter}
                 isDark={isDark}
+                isLassoActive={isLassoActive}
             />
+            <LogoutButton id={'logoutButtonId'} isDark={isDark} />
+            <CityButton id={'cityButtonId'} isDark={isDark} />
+            {filter === Filters.filter && (
+                <>
+                    <FilterSearch
+                        id={'filterSearchComponentId'}
+                        isDark={isDark}
+                        selected={selected}
+                        setSelected={setSelected}
+                        search={search}
+                        setSearch={setSearch}
+                    />
+                </>
+            )}
+
             {isPremiumActivated && (
                 <>
+                    <ToastHistory
+                        id={'toastHistoryId'}
+                        isDark={isDark}
+                        toastHistoryData={toastHistoryData}
+                    />
                     <ActionsList
                         id={'actionsListComponentId'}
                         isDark={isDark}
@@ -206,6 +278,10 @@ const Main: React.FC = () => {
                         id={'settingsButtonId'}
                         isDark={isDark}
                         setIsDark={setIsDark}
+                        decisionPanelExtended={decisionPanelExtended}
+                        notificationsPreference={notificationsPreference}
+                        setNotificationsPreference={setNotificationsPreference}
+                        addNotificationToList={addNotificationToList}
                     />
                     <Lasso
                         id={'LassoComponentId'}
@@ -230,11 +306,15 @@ const Main: React.FC = () => {
                         handleCurrentSelectedChange={
                             handleCurrentSelectedChange
                         }
+                        addNotificationToList={addNotificationToList}
+                        notificationsPreference={notificationsPreference}
                     />
                     <EditInPdfPannel
                         id={'editinPdfPannelComponentId'}
                         isDark={isDark}
                         isButtonEditInPdfClicked={isButtonEditInPdfClicked}
+                        decisionPanelExtended={decisionPanelExtended}
+                        handleButtonEditInPdfClick={handleButtonEditInPdfClick}
                     />
                     <Gauges
                         id={'gaugesComponentId'}
@@ -243,10 +323,10 @@ const Main: React.FC = () => {
                         actionsListExtended={actionsListExtended}
                     />
                     <AbsencePannel
-                        id={'DuringPannelComponentId'}
+                        id={'absencePannelComponentId'}
                         isDark={isDark}
                     />
-                    <SmallLampInfosPopup isDark={isDark} />
+                    {/* <SmallLampInfosPopup isDark={isDark} /> */}
                     <Toastr id={'toastrComponentId'} isDark={isDark} />
                 </>
             )}
