@@ -517,31 +517,31 @@ const Map: React.FC<MapProps> = ({
     }, [selectedFilter, searchFilter]);
 
     const handleLassoValidation = () => {
-        // console.log(clickedPoints);
-        // Formation de l'URL de requête
         const queryString = clickedPoints.map(point => `coordinate=${point.lat.toFixed(3)},${point.lng.toFixed(3)}`).join('&');
         const url = `http://localhost:8080/lamps/coordinates?${queryString}`;
-        // console.log(url);
-
-        // Envoi de la requête
-        fetch(url)
+    
+        // Remplacer 'username' et 'password' par vos véritables informations d'identification
+        const username = 'tester';
+        const password = 'T&st';
+        const headers = new Headers();
+        headers.set('Authorization', 'Basic ' + btoa(username + ":" + password));
+    
+        // Envoi de la requête avec les en-têtes d'autorisation
+        fetch(url, { headers: headers })
         .then(response => {
             if (!response.ok) {
-            throw new Error('Network response was not ok');
+                throw new Error('Network response was not ok');
             }
             return response.json();
         })
         .then(data => {
-            // Supposons que 'data' est un tableau d'identifiants de lampadaires à l'intérieur du lasso
             const lampIds = data.map((lamp: any) => lamp.id);
-    
-            // Mettre à jour la couleur des lampadaires concernés sur la carte
             if (map.current) {
                 map.current.setPaintProperty('lamp', 'circle-color', [
                     'match',
-                    ['get', 'id'], // Assurez-vous que 'id' est le nom correct de la propriété contenant l'identifiant du lampadaire
-                    lampIds, // Le tableau des identifiants de lampadaires
-                    '#ce240e', // La couleur pour les lampadaires à l'intérieur du lasso
+                    ['get', 'id'],
+                    lampIds,
+                    '#ce240e', // Couleur pour les lampadaires à l'intérieur du lasso
                     '#FAC710' // Couleur par défaut pour les autres lampadaires
                 ]);
             }
@@ -549,7 +549,8 @@ const Map: React.FC<MapProps> = ({
         .catch(error => {
             console.error('There has been a problem with your fetch operation:', error);
         });
-    }
+    };
+    
 
     useEffect(() => {
         if (map.current) {
