@@ -65,10 +65,8 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({
     };
 
     const handleProfileButtonClicked = () => {
-        if (isPremiumActivated) {
-            setIsMenuPageDisplayed(!isMenuPageDisplayed);
-            setIsProfilePageDisplayed(!isProfilePageDisplayed);
-        }
+        setIsMenuPageDisplayed(!isMenuPageDisplayed);
+        setIsProfilePageDisplayed(!isProfilePageDisplayed);
     };
 
     const handleFAQButtonClicked = () => {
@@ -124,7 +122,6 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({
                         onClick={handleProfileButtonClicked}
                     >
                         <ProfilImgBg />
-                        {!isPremiumActivated && <LockIcon />}
                         <PortalTitle fontSize={'1.5rem'}>Profil</PortalTitle>
                     </PortalLinkContainer>
                     <PortalLinkContainer
