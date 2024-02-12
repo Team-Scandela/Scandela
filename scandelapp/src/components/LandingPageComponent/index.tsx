@@ -9,6 +9,7 @@ import {
     ProfilImgBg,
     LockIcon,
     PortalLinkContainer,
+    PortalLinkAdmin,
     LogoContainer,
     TriangleContainerLeft,
     TriangleContainerRight,
@@ -46,6 +47,10 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({
     const handleLogScandela = () => {
         navigate('/scandela');
     };
+
+    const handleLogAdmin = () => {
+        navigate('/admin');
+    }
 
     const handlePremiumButtonClicked = () => {
         setIsMenuPageDisplayed(!isMenuPageDisplayed);
@@ -162,6 +167,9 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({
                         <FAQImgBg />
                         <PortalTitle fontSize={'1.5rem'}>FAQ</PortalTitle>
                     </PortalLinkContainer>
+                    <PortalLinkAdmin onClick={handleLogAdmin}>
+                        Admin
+                    </PortalLinkAdmin>
                 </div>
             )}
             {isPremiumPageDisplayed && (
