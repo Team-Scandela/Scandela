@@ -21,11 +21,11 @@ const InfoIconPopup: React.FC<InfoIconPopupProps> = ({ isDark }) => {
     const [bulbValue, setBulbValue] = React.useState<string>('');
 
     const createBulb = async () => {
-        const username = 'tester';
-        const password = 'T&st';
+        const username = process.env.SPRING_USER;
+        const password = process.env.SPRING_PASSWORD;
         try {
             const response = await fetch(
-                'https://serverdela.onrender.com/bulbs/create',
+                '${process.env.REACT_APP_BACKEND_URL}/bulbs/create',
                 {
                     method: 'POST',
                     headers: {
