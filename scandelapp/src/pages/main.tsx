@@ -11,7 +11,6 @@ import SettingsButton from '../components/SettingsButton';
 import LogoutButton from '../components/LogoutButton';
 import Toastr from '../components/Toastr';
 import { Gauges } from '../components/Gauges';
-import Lasso from '../components/Lasso';
 import CityButton from '../components/CityButton';
 import AbsencePannel from '../components/AbsencePannel';
 import SmallLampInfosPopup from '../components/SmallLampInfosPopup';
@@ -35,7 +34,6 @@ interface MainProps {
 /** Main page of the app */
 const Main: React.FC<MainProps> = ({ isPremiumActivated }) => {
     const [isDark, setIsDark] = useState<boolean>(true);
-    const [isLassoActive, setIsLassoActive] = useState(false);
     const [filter, setFilter] = useState<Filters>(Filters.none);
     const [lat, setLat] = useState<number>(47.218371);
     const [lng, setLng] = useState<number>(-1.553621);
@@ -195,10 +193,6 @@ const Main: React.FC<MainProps> = ({ isPremiumActivated }) => {
         setCurrentSelected(data);
     };
 
-    const handleLassoActivation = (isActive: boolean) => {
-        setIsLassoActive(isActive);
-    };
-
     const addNotificationToList = (description: string) => {
         const date = new Date();
 
@@ -225,7 +219,6 @@ const Main: React.FC<MainProps> = ({ isPremiumActivated }) => {
                 lat={lat}
                 lng={lng}
                 zoom={zoom}
-                isLassoActive={isLassoActive}
                 selectedFilter={selected}
                 searchFilter={search}
             />
@@ -239,7 +232,6 @@ const Main: React.FC<MainProps> = ({ isPremiumActivated }) => {
                 filter={filter}
                 setFilter={setFilter}
                 isDark={isDark}
-                isLassoActive={isLassoActive}
             />
             <LogoutButton id={'logoutButtonId'} isDark={isDark} />
             <CityButton id={'cityButtonId'} isDark={isDark} />
@@ -282,11 +274,6 @@ const Main: React.FC<MainProps> = ({ isPremiumActivated }) => {
                         notificationsPreference={notificationsPreference}
                         setNotificationsPreference={setNotificationsPreference}
                         addNotificationToList={addNotificationToList}
-                    />
-                    <Lasso
-                        id={'LassoComponentId'}
-                        isDark={isDark}
-                        onLassoActivation={handleLassoActivation}
                     />
                     <DecisionMenu
                         id={'decisionMenuComponentId'}
