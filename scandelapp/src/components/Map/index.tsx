@@ -58,6 +58,8 @@ const Map: React.FC<MapProps> = ({
 
     const [isLassoActive, setIsLassoActive] = useState(false);
 
+    const [lassoSelectedLamps, setLassoSelectedLamps] = useState([]);
+
     interface geojson {
         type: string;
         features: feature[];
@@ -78,6 +80,18 @@ const Map: React.FC<MapProps> = ({
     }
 
     const handleLassoActivation = (isActive: boolean) => {
+        if (!isActive && lassoSelectedLamps[0]) {
+            if (map.current) {
+                map.current.setPaintProperty('lamp', 'circle-color', [
+                    'match',
+                    ['get', 'name'],
+                    lassoSelectedLamps,
+                    '#FAC710',
+                    '#FAC710'
+                ]);
+            }
+        }
+        setLassoSelectedLamps([]);
         setIsLassoActive(isActive);
     };
 
@@ -358,6 +372,7 @@ const Map: React.FC<MapProps> = ({
 
             if (features && features.length > 0) {
                 const selectedFeature = features[0];
+                console.log(selectedFeature);
                 setSelectedLampId(selectedFeature.properties.id);
 
                 // Mettre à jour la couleur du lampadaire sélectionné en utilisant un filtre
@@ -517,18 +532,15 @@ const Map: React.FC<MapProps> = ({
     }, [selectedFilter, searchFilter]);
 
     const handleLassoValidation = () => {
-        const queryString = clickedPoints.map(point => `coordinate=${point.lat.toFixed(3)},${point.lng.toFixed(3)}`).join('&');
+        const queryString = clickedPoints.map(point => `coordinate=${point.lat.toFixed(5)},${point.lng.toFixed(5)}`).join('&');
         const url = `http://localhost:8080/lamps/coordinates?${queryString}`;
 
-        // Encoder les informations d'identification
         const encodedCredentials = btoa('tester:T&st');
 
-        // Configurer les en-têtes de la requête, y compris l'autorisation
         const headers = new Headers({
             'Authorization': `Basic ${encodedCredentials}`
         });
 
-        // Envoi de la requête GET avec les en-têtes d'autorisation
         fetch(url, { method: 'GET', headers: headers })
         .then(response => {
             if (!response.ok) {
@@ -537,17 +549,15 @@ const Map: React.FC<MapProps> = ({
             return response.json();
         })
         .then(data => {
-            // Supposons que 'data' est un tableau d'objets avec les ID des lampes
-            const lampIds = data.map((lamp: any) => lamp.id);
-
-            // Mettre à jour la couleur des lampes sur la carte
+            const lampIds = data.map((lamp: any) => lamp.name);
+            setLassoSelectedLamps(lampIds);
             if (map.current) {
                 map.current.setPaintProperty('lamp', 'circle-color', [
                     'match',
-                    ['get', 'id'], // Assurez-vous que 'id' correspond au nom de la propriété d'identifiant dans vos données
-                    lampIds, // Le tableau des identifiants de lampadaires à colorier différemment
-                    '#ce240e', // Couleur pour les lampadaires à l'intérieur du lasso
-                    '#FAC710' // Couleur par défaut pour les autres lampadaires
+                    ['get', 'name'],
+                    lampIds,
+                    '#48187b',
+                    '#FAC710'
                 ]);
             }
         })
