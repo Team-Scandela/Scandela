@@ -50,8 +50,8 @@ export const ValidateButton = styled.div`
     user-select: none;
     font-size: 25px;
 
-    background-color: ${(props) => props.isDark ? Black : White};
-    color: ${(props) => props.isDark ? DarkYellow : Black};
+    background-color: ${(props) => (props.isDark ? Black : White)};
+    color: ${(props) => (props.isDark ? DarkYellow : Black)};
     box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
 
     position: fixed;
@@ -60,7 +60,6 @@ export const ValidateButton = styled.div`
 
     &:hover {
         cursor: pointer;
-        color: ${(props) => props.isDark ? Yellow : Black};
-
+        color: ${(props) => (props.isDark ? Yellow : Black)};
     }
 `;

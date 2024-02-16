@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { LassoButton, ValidateButton } from './elements';
 import { TbLassoPolygon } from 'react-icons/tb';
-import { FaCheck } from "react-icons/fa";
+import { FaCheck } from 'react-icons/fa';
 
 interface LassoButtonProps {
     id: string;
@@ -26,16 +26,20 @@ const Lasso: React.FC<LassoButtonProps> = ({
 
     const toggleLassoValidation = () => {
         onLassoValidation();
-    }
+    };
 
     return (
         <div id={id}>
-            <LassoButton onClick={toggleLassoActivation} isDark={isDark} isOn={isOn}>
+            <LassoButton
+                onClick={toggleLassoActivation}
+                isDark={isDark}
+                isOn={isOn}
+            >
                 <TbLassoPolygon size={30} />
             </LassoButton>
             {isOn && (
                 <ValidateButton isDark={isDark} onClick={toggleLassoValidation}>
-                    <FaCheck size={30}/>
+                    <FaCheck size={30} />
                 </ValidateButton>
             )}
         </div>

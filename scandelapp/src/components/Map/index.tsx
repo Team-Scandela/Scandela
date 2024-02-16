@@ -87,7 +87,7 @@ const Map: React.FC<MapProps> = ({
                     ['get', 'name'],
                     lassoSelectedLamps,
                     '#FAC710',
-                    '#FAC710'
+                    '#FAC710',
                 ]);
             }
         }
@@ -532,38 +532,46 @@ const Map: React.FC<MapProps> = ({
     }, [selectedFilter, searchFilter]);
 
     const handleLassoValidation = () => {
-        const queryString = clickedPoints.map(point => `coordinate=${point.lat.toFixed(5)},${point.lng.toFixed(5)}`).join('&');
+        const queryString = clickedPoints
+            .map(
+                (point) =>
+                    `coordinate=${point.lat.toFixed(5)},${point.lng.toFixed(5)}`
+            )
+            .join('&');
         const url = `http://localhost:8080/lamps/coordinates?${queryString}`;
 
         const encodedCredentials = btoa('tester:T&st');
 
         const headers = new Headers({
-            'Authorization': `Basic ${encodedCredentials}`
+            Authorization: `Basic ${encodedCredentials}`,
         });
 
         fetch(url, { method: 'GET', headers: headers })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            const lampIds = data.map((lamp: any) => lamp.name);
-            setLassoSelectedLamps(lampIds);
-            if (map.current) {
-                map.current.setPaintProperty('lamp', 'circle-color', [
-                    'match',
-                    ['get', 'name'],
-                    lampIds,
-                    '#48187b',
-                    '#FAC710'
-                ]);
-            }
-        })
-        .catch(error => {
-            console.error('There has been a problem with your fetch operation:', error);
-        });
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then((data) => {
+                const lampIds = data.map((lamp: any) => lamp.name);
+                setLassoSelectedLamps(lampIds);
+                if (map.current) {
+                    map.current.setPaintProperty('lamp', 'circle-color', [
+                        'match',
+                        ['get', 'name'],
+                        lampIds,
+                        '#48187b',
+                        '#FAC710',
+                    ]);
+                }
+            })
+            .catch((error) => {
+                console.error(
+                    'There has been a problem with your fetch operation:',
+                    error
+                );
+            });
     };
 
     useEffect(() => {
