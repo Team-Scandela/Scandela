@@ -1,7 +1,5 @@
 package com.scandela.server.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +16,9 @@ public class EletricityPriceController {
 	private IElectricityPriceService electricityPriceService;
 
     @GetMapping
-    public List<ElectricityPrice> getElectricityPrice() {
-        return electricityPriceService.getAll();
+    public ElectricityPrice getCurrentElectricityPrice() {
+        String accessToken = electricityPriceService.getoAuth2AccessToken();
+
+        return electricityPriceService.getLastElectricityPrice(accessToken);
     }
 }

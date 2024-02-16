@@ -31,6 +31,12 @@ public class ElectricityPrice implements Serializable {
 	@Column(name = "id", updatable = false, nullable = false)
 	private UUID id;
 
-    @Column(name = "value", updatable = false)
-    private Integer value;
+    @Column(name = "startDate", updatable = false)
+    private String startDate;
+
+    @Column(name = "endDate", updatable = false)
+    private String endDate;
+
+    @Column(name = "price", updatable = false)
+    private Double price;
 }

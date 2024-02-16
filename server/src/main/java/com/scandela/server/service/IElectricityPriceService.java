@@ -4,6 +4,7 @@ import com.scandela.server.entity.ElectricityPrice;
 
 public interface IElectricityPriceService extends IService<ElectricityPrice> {
 
-    public String getLatestElectricityPrice();
+    public String getoAuth2AccessToken();
+    public ElectricityPrice getLastElectricityPrice(String accessToken);
 
 }
