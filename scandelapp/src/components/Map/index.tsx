@@ -132,6 +132,7 @@ const Map: React.FC<MapProps> = ({
 
                 setLayoutVisibilityFilter('none');
             } else if (filter === ('filter' as Filters)) {
+                setLayoutVisibility('none');
                 // Show layers when the filter is "pin"
             } else {
                 // Hide layers when the filter is not "pin"
