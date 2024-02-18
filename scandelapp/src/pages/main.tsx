@@ -11,11 +11,11 @@ import SettingsButton from '../components/SettingsButton';
 import LogoutButton from '../components/LogoutButton';
 import Toastr from '../components/Toastr';
 import { Gauges } from '../components/Gauges';
-import Lasso from '../components/Lasso';
 import CityButton from '../components/CityButton';
 import AbsencePannel from '../components/AbsencePannel';
 import SmallLampInfosPopup from '../components/SmallLampInfosPopup';
-import MapDB from '../components/MapDB';
+// import MapDB from '../components/MapDB';
+import FilterSearch from '../components/FilterSearch';
 
 export enum Filters {
     pin = 'pin',
@@ -34,7 +34,6 @@ interface MainProps {
 /** Main page of the app */
 const Main: React.FC<MainProps> = ({ isPremiumActivated }) => {
     const [isDark, setIsDark] = useState<boolean>(true);
-    const [isLassoActive, setIsLassoActive] = useState(false);
     const [filter, setFilter] = useState<Filters>(Filters.none);
     const [lat, setLat] = useState<number>(47.218371);
     const [lng, setLng] = useState<number>(-1.553621);
@@ -50,13 +49,16 @@ const Main: React.FC<MainProps> = ({ isPremiumActivated }) => {
     const [currentSelected, setCurrentSelected] = useState(
         'Choisissez une action'
     );
+    /** Variables for the search for the filter filter */
+    const [search, setSearch] = useState<string>('');
+    const [selected, setSelected] = useState<string>('Lamp');
 
     const getUser = async () => {
         const username = 'tester';
         const password = 'T&st';
         try {
             const response = await fetch(
-                'http://app.scandela.fr:2001/users/183e5775-6d38-4d0b-95b4-6f4c7bbb0597',
+                'https://serverdela.onrender.com/users/183e5775-6d38-4d0b-95b4-6f4c7bbb0597',
                 {
                     method: 'GET',
                     headers: {
@@ -69,7 +71,6 @@ const Main: React.FC<MainProps> = ({ isPremiumActivated }) => {
             );
 
             const user = await response.json();
-            console.log(user);
             setIsDark(user.darkmode);
         } catch (error) {
             console.log('ERROR GET USER = ' + error);
@@ -153,6 +154,11 @@ const Main: React.FC<MainProps> = ({ isPremiumActivated }) => {
         },
     ]);
     const [toastHistoryData, setToastHistoryData] = useState([]);
+    const [notificationsPreference, setNotificationsPreference] = useState([
+        ['actionListUpdate', false],
+        ['lightDarkModeUpdate', false],
+        ['languageUpdate', false],
+    ]);
 
     const handleSearch = (value: string) => {
         handleSearchUtils(value, lat, setLat, lng, setLng, zoom, setZoom);
@@ -187,10 +193,6 @@ const Main: React.FC<MainProps> = ({ isPremiumActivated }) => {
         setCurrentSelected(data);
     };
 
-    const handleLassoActivation = (isActive: boolean) => {
-        setIsLassoActive(isActive);
-    };
-
     const addNotificationToList = (description: string) => {
         const date = new Date();
 
@@ -217,7 +219,8 @@ const Main: React.FC<MainProps> = ({ isPremiumActivated }) => {
                 lat={lat}
                 lng={lng}
                 zoom={zoom}
-                isLassoActive={isLassoActive}
+                selectedFilter={selected}
+                searchFilter={search}
             />
             <SearchBar
                 id={'searchBarComponentId'}
@@ -229,10 +232,22 @@ const Main: React.FC<MainProps> = ({ isPremiumActivated }) => {
                 filter={filter}
                 setFilter={setFilter}
                 isDark={isDark}
-                isLassoActive={isLassoActive}
             />
             <LogoutButton id={'logoutButtonId'} isDark={isDark} />
             <CityButton id={'cityButtonId'} isDark={isDark} />
+            {filter === Filters.filter && (
+                <>
+                    <FilterSearch
+                        id={'filterSearchComponentId'}
+                        isDark={isDark}
+                        selected={selected}
+                        setSelected={setSelected}
+                        search={search}
+                        setSearch={setSearch}
+                    />
+                </>
+            )}
+
             {isPremiumActivated && (
                 <>
                     <ToastHistory
@@ -256,11 +271,9 @@ const Main: React.FC<MainProps> = ({ isPremiumActivated }) => {
                         isDark={isDark}
                         setIsDark={setIsDark}
                         decisionPanelExtended={decisionPanelExtended}
-                    />
-                    <Lasso
-                        id={'LassoComponentId'}
-                        isDark={isDark}
-                        onLassoActivation={handleLassoActivation}
+                        notificationsPreference={notificationsPreference}
+                        setNotificationsPreference={setNotificationsPreference}
+                        addNotificationToList={addNotificationToList}
                     />
                     <DecisionMenu
                         id={'decisionMenuComponentId'}
@@ -281,11 +294,14 @@ const Main: React.FC<MainProps> = ({ isPremiumActivated }) => {
                             handleCurrentSelectedChange
                         }
                         addNotificationToList={addNotificationToList}
+                        notificationsPreference={notificationsPreference}
                     />
                     <EditInPdfPannel
                         id={'editinPdfPannelComponentId'}
                         isDark={isDark}
                         isButtonEditInPdfClicked={isButtonEditInPdfClicked}
+                        decisionPanelExtended={decisionPanelExtended}
+                        handleButtonEditInPdfClick={handleButtonEditInPdfClick}
                     />
                     <Gauges
                         id={'gaugesComponentId'}
@@ -293,11 +309,11 @@ const Main: React.FC<MainProps> = ({ isPremiumActivated }) => {
                         decisionPanelExtended={decisionPanelExtended}
                         actionsListExtended={actionsListExtended}
                     />
-                    {/* <AbsencePannel
-                        id={'DuringPannelComponentId'}
+                    <AbsencePannel
+                        id={'absencePannelComponentId'}
                         isDark={isDark}
                     />
-                    <SmallLampInfosPopup isDark={isDark} /> */}
+                    {/* <SmallLampInfosPopup isDark={isDark} /> */}
                     <Toastr id={'toastrComponentId'} isDark={isDark} />
                 </>
             )}

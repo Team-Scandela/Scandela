@@ -1,15 +1,19 @@
 import { SunButton, MoonButton } from './elements';
 import RadioButton from '../../RadioButton';
-import { IoShieldCheckmark } from 'react-icons/io5';
+import { showToast } from '../../Toastr';
 
 /** Ligth / Dark mode button
  * @param {boolean} isDark - If the mode is dark or not
  * @param {function} setIsDark - Function to set the mode
+ * @param {any} notificationsPreference - Notification preference data
+ * @param {function} addNotificationToList - Function to add a toastr notification to the toast history
  */
 
 interface LightDarkProps {
     isDark: boolean;
     setIsDark: (isDark: boolean) => void;
+    notificationsPreference: any;
+    addNotificationToList: (description: string) => void;
 }
 
 const updateUser = async (isDark: boolean) => {
@@ -18,7 +22,7 @@ const updateUser = async (isDark: boolean) => {
 
     try {
         const responseUser = await fetch(
-            'http://app.scandela.fr:2001/users/183e5775-6d38-4d0b-95b4-6f4c7bbb0597',
+            'https://serverdela.onrender.com/users/183e5775-6d38-4d0b-95b4-6f4c7bbb0597',
             {
                 method: 'GET',
                 headers: {
@@ -29,7 +33,6 @@ const updateUser = async (isDark: boolean) => {
         );
 
         const user = await responseUser.json();
-        console.log(user);
         try {
             const updatedUserData = {
                 town: user.town,
@@ -42,7 +45,7 @@ const updateUser = async (isDark: boolean) => {
                 lastConnexion: '2022-01-23T13:45:00',
             };
             const response = await fetch(
-                'http://localhost:8080/users/183e5775-6d38-4d0b-95b4-6f4c7bbb0597',
+                'https://serverdela.onrender.com/users/183e5775-6d38-4d0b-95b4-6f4c7bbb0597',
                 {
                     method: 'PUT',
                     headers: {
@@ -55,7 +58,6 @@ const updateUser = async (isDark: boolean) => {
                 }
             );
             const userUpdate = await response.json();
-            console.log(user);
         } catch (error) {
             console.log('ERROR UPDATE USER = ' + error);
         }
@@ -64,11 +66,32 @@ const updateUser = async (isDark: boolean) => {
     }
 };
 
-const LightDark: React.FC<LightDarkProps> = ({ isDark, setIsDark }) => {
+const LightDark: React.FC<LightDarkProps> = ({
+    isDark,
+    setIsDark,
+    notificationsPreference,
+    addNotificationToList,
+}) => {
     /** Handle the click on the button and switch to the other mode */
     const handleToggleLightDark = () => {
         setIsDark(!isDark);
         updateUser(isDark);
+        if (
+            !notificationsPreference.find(
+                (item: any) => item[0] === 'lightDarkModeUpdate'
+            )[1]
+        )
+            showToast(
+                'success',
+                'Le thème a bien été mis à jour',
+                'top-left',
+                5000,
+                false,
+                true,
+                false,
+                true
+            );
+        addNotificationToList('Mise à jour du thème');
     };
 
     return (

@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useMemo } from 'react';
 import { Filters } from '../../pages/main';
 import { Yellow } from '../../colors';
 import LampInfosPopup from '../LampInfosPopup';
+import Lasso from '../Lasso';
 import { LassoOverlay } from './elements';
 
 // Load geographical data of Nantes from a local JSON file
@@ -21,7 +22,8 @@ interface MapProps {
     lat: number;
     lng: number;
     zoom: number;
-    isLassoActive: boolean;
+    selectedFilter: string;
+    searchFilter: string;
 }
 
 // Map component
@@ -32,7 +34,8 @@ const Map: React.FC<MapProps> = ({
     lat,
     lng,
     zoom,
-    isLassoActive,
+    selectedFilter,
+    searchFilter,
 }) => {
     // Reference to the map container element
     const mapContainer = useRef<HTMLDivElement | null>(null);
@@ -50,12 +53,47 @@ const Map: React.FC<MapProps> = ({
 
     const [clickedPoints, setClickedPoints] = useState<mapboxgl.LngLat[]>([]);
 
-    const [circleRadius, setCircleRadius] = useState<number>(0);
-    const [circleLayerVisible, setCircleLayerVisible] =
-        useState<boolean>(false);
-
     const [selectedLampFeature, setSelectedLampFeature] =
         useState<mapboxgl.MapboxGeoJSONFeature | null>(null);
+
+    const [isLassoActive, setIsLassoActive] = useState(false);
+
+    const [lassoSelectedLamps, setLassoSelectedLamps] = useState([]);
+
+    interface geojson {
+        type: string;
+        features: feature[];
+    }
+
+    interface feature {
+        type: string;
+        geometry: {
+            type: string;
+            coordinates: number[];
+        };
+        properties: {
+            id: string;
+            name: string;
+            lamp: string;
+            hat: string;
+        };
+    }
+
+    const handleLassoActivation = (isActive: boolean) => {
+        if (!isActive && lassoSelectedLamps[0]) {
+            if (map.current) {
+                map.current.setPaintProperty('lamp', 'circle-color', [
+                    'match',
+                    ['get', 'name'],
+                    lassoSelectedLamps,
+                    '#FAC710',
+                    '#FAC710',
+                ]);
+            }
+        }
+        setLassoSelectedLamps([]);
+        setIsLassoActive(isActive);
+    };
 
     // Crée les données géoJSON à partir des données de Nantes
     const geojsonData = useMemo(() => {
@@ -64,7 +102,7 @@ const Map: React.FC<MapProps> = ({
             features: [] as any[],
         };
         nantesData.forEach((obj: any) => {
-            const feature = {
+            const feature: any = {
                 type: 'Feature',
                 geometry: {
                     type: obj.geometry.type,
@@ -74,8 +112,10 @@ const Map: React.FC<MapProps> = ({
                     ],
                 },
                 properties: {
-                    id: obj.fields.numero,
-                    name: obj.fields.type_foyer,
+                    id: obj.recordid,
+                    name: obj.fields.numero,
+                    lamp: obj.fields.type_lampe,
+                    hat: obj.fields.type_foyer,
                 },
             };
             geoJSON.features.push(feature);
@@ -83,90 +123,76 @@ const Map: React.FC<MapProps> = ({
         return geoJSON;
     }, []);
 
-    const updateCircleRadius = () => {
-        if (map.current) {
-            let newRadius;
-            if (map.current.getZoom() !== 12) {
-                switch (map.current.getZoom()) {
-                    case 18: // address
-                        newRadius = 1;
-                        break;
-                    case 17: // route
-                        newRadius = 250;
-                        break;
-                    case 14: // nightborhood
-                        newRadius = 250;
-                        break;
-                    default:
-                        newRadius = 0;
-                }
-                setCircleRadius(newRadius);
-                setCircleLayerVisible(true);
-            } else {
-                setCircleLayerVisible(false);
-            }
-        }
-    };
-
     // Function to handle filter changes
     const handleFilterChange = () => {
         if (map.current) {
             if (filter === 'pin') {
                 // Show layers when the filter is "pin"
-                map.current.setLayoutProperty(
-                    'cluster-text',
-                    'visibility',
-                    'visible'
-                );
-                map.current.setLayoutProperty(
-                    'clusters',
-                    'visibility',
-                    'visible'
-                );
-                map.current.setLayoutProperty(
-                    'cluster-markers',
-                    'visibility',
-                    'visible'
-                );
-                map.current.setLayoutProperty(
-                    'cluster-border',
-                    'visibility',
-                    'visible'
-                );
-                map.current.setLayoutProperty('lamp', 'visibility', 'visible');
+                setLayoutVisibility('visible');
+
+                setLayoutVisibilityFilter('none');
+            } else if (filter === ('filter' as Filters)) {
+                setLayoutVisibility('none');
+                // Show layers when the filter is "pin"
             } else {
                 // Hide layers when the filter is not "pin"
-                map.current.setLayoutProperty(
-                    'cluster-text',
-                    'visibility',
-                    'none'
-                );
-                map.current.setLayoutProperty('clusters', 'visibility', 'none');
-                map.current.setLayoutProperty(
-                    'cluster-markers',
-                    'visibility',
-                    'none'
-                );
-                map.current.setLayoutProperty(
-                    'cluster-border',
-                    'visibility',
-                    'none'
-                );
-                map.current.setLayoutProperty('lamp', 'visibility', 'none');
+                setLayoutVisibility('none');
+
+                setLayoutVisibilityFilter('none');
             }
         }
     };
 
+    const setLayoutVisibility = (visibility: string) => {
+        map.current.setLayoutProperty('cluster-text', 'visibility', visibility);
+        map.current.setLayoutProperty('clusters', 'visibility', visibility);
+        map.current.setLayoutProperty(
+            'cluster-markers',
+            'visibility',
+            visibility
+        );
+        map.current.setLayoutProperty(
+            'cluster-border',
+            'visibility',
+            visibility
+        );
+        map.current.setLayoutProperty('lamp', 'visibility', visibility);
+    };
+
+    const setLayoutVisibilityFilter = (visibility: string) => {
+        map.current.setLayoutProperty(
+            'cluster-textFilter',
+            'visibility',
+            visibility
+        );
+        map.current.setLayoutProperty(
+            'clustersFilter',
+            'visibility',
+            visibility
+        );
+        map.current.setLayoutProperty(
+            'cluster-markers',
+            'visibility',
+            visibility
+        );
+        map.current.setLayoutProperty(
+            'cluster-borderFilter',
+            'visibility',
+            visibility
+        );
+        map.current.setLayoutProperty('lampFilter', 'visibility', visibility);
+    };
+
     // Initialise la carte
-    const initializeMap = () => {
+    const initializeMap = (data: any) => {
+        console.log('initializeMap before');
         if (!map.current) {
+            console.log('initializeMap after');
             cluster.current = new Supercluster({
                 radius: 100,
                 maxZoom: 17,
             });
-            cluster.current.load(geojsonData.features);
-
-            setCircleLayerVisible(false);
+            cluster.current.load(data.features);
 
             map.current = new mapboxgl.Map({
                 container: mapContainer.current,
@@ -175,14 +201,6 @@ const Map: React.FC<MapProps> = ({
                     : 'mapbox://styles/titouantd/cljwui6ss00ij01pj1oin6oa5',
                 center: [lng, lat],
                 zoom: zoom,
-            });
-
-            map.current.on('move', () => {
-                setCircleLayerVisible(false);
-            });
-
-            map.current.on('moveend', () => {
-                setCircleLayerVisible(true);
             });
 
             map.current.on('click', 'lamp', (e) => {
@@ -220,136 +238,342 @@ const Map: React.FC<MapProps> = ({
                     setSelectedLampFeature(selectedFeature);
                 }
             });
+        }
 
-            map.current.on('load', () => {
-                map.current.on('mouseenter', 'lamp', () => {
-                    if (map.current) {
-                        map.current.getCanvas().style.cursor = 'pointer';
-                    }
-                });
-
-                map.current.on('mouseleave', 'lamp', () => {
-                    if (map.current) {
-                        map.current.getCanvas().style.cursor = '';
-                    }
-                });
-
-                if (!map.current?.getSource('points')) {
-                    map.current.addSource('points', {
-                        type: 'geojson',
-                        data: geojsonData as GeoJSON.FeatureCollection,
-                        cluster: true,
-                        clusterRadius: 100,
-                        clusterMaxZoom: 16,
-                    });
-
-                    // Définit les couleurs en format RGBA avec une opacité de 0.6
-                    const greenRGBA = 'rgba(0, 128, 0, 0.6)';
-                    const yellowRGBA = 'rgba(255, 255, 0, 0.6)';
-                    const orangeRGBA = 'rgba(255, 165, 0, 0.6)';
-
-                    // Définit les couleurs de la bordure en format RGBA avec une opacité de 0.3
-                    const greenBorderRGBA = 'rgba(0, 128, 0, 0.3)';
-                    const yellowBorderRGBA = 'rgba(255, 255, 0, 0.3)';
-                    const orangeBorderRGBA = 'rgba(255, 165, 0, 0.3)';
-
-                    map.current.addLayer({
-                        id: 'clusters',
-                        type: 'circle',
-                        source: 'points',
-                        filter: ['has', 'point_count'],
-                        paint: {
-                            'circle-radius': 19,
-                            'circle-color': [
-                                'step',
-                                ['get', 'point_count'],
-                                greenRGBA, // Couleur verte
-                                19,
-                                yellowRGBA, // Couleur jaune
-                                100,
-                                orangeRGBA, // Couleur orange
-                            ],
-                        },
-                    });
-
-                    map.current.addLayer({
-                        id: 'cluster-border',
-                        type: 'circle',
-                        source: 'points',
-                        filter: ['has', 'point_count'],
-                        paint: {
-                            'circle-radius': 24,
-                            'circle-color': [
-                                'step',
-                                ['get', 'point_count'],
-                                greenBorderRGBA, // Couleur de bordure verte
-                                19,
-                                yellowBorderRGBA, // Couleur de bordure jaune
-                                100,
-                                orangeBorderRGBA, // Couleur de bordure orange
-                            ],
-                        },
-                    });
-
-                    map.current.addLayer({
-                        id: 'lamp',
-                        type: 'circle',
-                        source: 'points',
-                        filter: ['!', ['has', 'point_count']],
-                        paint: {
-                            'circle-radius': 6,
-                            'circle-color': '#FAC710',
-                            'circle-stroke-color': '#F9F9F9',
-                            'circle-stroke-width': 2,
-                        },
-                    });
-
-                    map.current.addLayer({
-                        id: 'cluster-text',
-                        type: 'symbol',
-                        source: 'points',
-                        filter: ['has', 'point_count'],
-                        layout: {
-                            'text-field': '{point_count}',
-                            'text-font': ['Open Sans Regular'],
-                            'text-size': 13,
-                        },
-                        paint: {
-                            'text-color': '#000000',
-                        },
-                    });
-
-                    map.current.setLayoutProperty(
-                        'clusters',
-                        'visibility',
-                        'none'
-                    );
-                    map.current.setLayoutProperty(
-                        'cluster-markers',
-                        'visibility',
-                        'none'
-                    );
-                    map.current.setLayoutProperty(
-                        'cluster-text',
-                        'visibility',
-                        'none'
-                    );
-                    map.current.setLayoutProperty(
-                        'cluster-border',
-                        'visibility',
-                        'none'
-                    );
-                    map.current.setLayoutProperty('lamp', 'visibility', 'none');
-                    map.current?.on('zoom', updateCircleRadius);
+        map.current.on('load', () => {
+            map.current.on('mouseenter', 'lamp', () => {
+                if (map.current) {
+                    map.current.getCanvas().style.cursor = 'pointer';
                 }
             });
+
+            map.current.on('mouseleave', 'lamp', () => {
+                if (map.current) {
+                    map.current.getCanvas().style.cursor = '';
+                }
+            });
+
+            if (!map.current?.getSource('points')) {
+                map.current.addSource('points', {
+                    type: 'geojson',
+                    data: data as GeoJSON.FeatureCollection,
+                    cluster: true,
+                    clusterRadius: 100,
+                    clusterMaxZoom: 16,
+                });
+
+                // Définit les couleurs en format RGBA avec une opacité de 0.6
+                const greenRGBA = 'rgba(0, 128, 0, 0.6)';
+                const yellowRGBA = 'rgba(255, 255, 0, 0.6)';
+                const orangeRGBA = 'rgba(255, 165, 0, 0.6)';
+
+                // Définit les couleurs de la bordure en format RGBA avec une opacité de 0.3
+                const greenBorderRGBA = 'rgba(0, 128, 0, 0.3)';
+                const yellowBorderRGBA = 'rgba(255, 255, 0, 0.3)';
+                const orangeBorderRGBA = 'rgba(255, 165, 0, 0.3)';
+
+                map.current.addLayer({
+                    id: 'clusters',
+                    type: 'circle',
+                    source: 'points',
+                    filter: ['has', 'point_count'],
+                    paint: {
+                        'circle-radius': 19,
+                        'circle-color': [
+                            'step',
+                            ['get', 'point_count'],
+                            greenRGBA, // Couleur verte
+                            19,
+                            yellowRGBA, // Couleur jaune
+                            100,
+                            orangeRGBA, // Couleur orange
+                        ],
+                    },
+                });
+
+                map.current.addLayer({
+                    id: 'cluster-border',
+                    type: 'circle',
+                    source: 'points',
+                    filter: ['has', 'point_count'],
+                    paint: {
+                        'circle-radius': 24,
+                        'circle-color': [
+                            'step',
+                            ['get', 'point_count'],
+                            greenBorderRGBA, // Couleur de bordure verte
+                            19,
+                            yellowBorderRGBA, // Couleur de bordure jaune
+                            100,
+                            orangeBorderRGBA, // Couleur de bordure orange
+                        ],
+                    },
+                });
+
+                map.current.addLayer({
+                    id: 'lamp',
+                    type: 'circle',
+                    source: 'points',
+                    filter: ['!', ['has', 'point_count']],
+                    paint: {
+                        'circle-radius': 6,
+                        'circle-color': '#FAC710',
+                        'circle-stroke-color': '#F9F9F9',
+                        'circle-stroke-width': 2,
+                    },
+                });
+
+                map.current.addLayer({
+                    id: 'cluster-text',
+                    type: 'symbol',
+                    source: 'points',
+                    filter: ['has', 'point_count'],
+                    layout: {
+                        'text-field': '{point_count}',
+                        'text-font': ['Open Sans Regular'],
+                        'text-size': 13,
+                    },
+                    paint: {
+                        'text-color': '#000000',
+                    },
+                });
+
+                map.current.setLayoutProperty('clusters', 'visibility', 'none');
+                map.current.setLayoutProperty(
+                    'cluster-markers',
+                    'visibility',
+                    'none'
+                );
+                map.current.setLayoutProperty(
+                    'cluster-text',
+                    'visibility',
+                    'none'
+                );
+                map.current.setLayoutProperty(
+                    'cluster-border',
+                    'visibility',
+                    'none'
+                );
+                map.current.setLayoutProperty('lamp', 'visibility', 'none');
+            }
+        });
+    };
+
+    const initializeMapFilter = (data: any) => {
+        cluster.current = new Supercluster({
+            radius: 100,
+            maxZoom: 17,
+        });
+        cluster.current.load(data.features);
+
+        map.current.on('click', 'lampFilter', (e) => {
+            const features = map.current?.queryRenderedFeatures(e.point, {
+                layers: ['lampFilter'],
+            });
+
+            if (features && features.length > 0) {
+                const selectedFeature = features[0];
+                console.log(selectedFeature);
+                setSelectedLampId(selectedFeature.properties.id);
+
+                // Mettre à jour la couleur du lampadaire sélectionné en utilisant un filtre
+                map.current?.setPaintProperty('lampFilter', 'circle-color', [
+                    'case',
+                    ['==', ['get', 'id'], selectedFeature.properties.id],
+                    '#000000',
+                    '#FAC710',
+                ]);
+                map.current?.setPaintProperty(
+                    'lampFilter',
+                    'circle-stroke-color',
+                    [
+                        'case',
+                        ['==', ['get', 'id'], selectedFeature.properties.id],
+                        '#FAC710',
+                        '#F9F9F9',
+                    ]
+                );
+
+                // Conserver une référence au lampadaire sélectionné
+                setSelectedLampFeature(selectedFeature);
+            }
+        });
+
+        console.log('load');
+        map.current.on('mouseenter', 'lampFilter', () => {
+            if (map.current) {
+                map.current.getCanvas().style.cursor = 'pointer';
+            }
+        });
+
+        map.current.on('mouseleave', 'lampFilter', () => {
+            if (map.current) {
+                map.current.getCanvas().style.cursor = '';
+            }
+        });
+
+        if (!map.current?.getSource('pointsFilter')) {
+            console.log('add source');
+            map.current.addSource('pointsFilter', {
+                type: 'geojson',
+                data: data as GeoJSON.FeatureCollection,
+                cluster: true,
+                clusterRadius: 100,
+                clusterMaxZoom: 16,
+            });
+
+            // Définit les couleurs en format RGBA avec une opacité de 0.6
+            const greenRGBA = 'rgba(0, 128, 0, 0.6)';
+            const yellowRGBA = 'rgba(255, 255, 0, 0.6)';
+            const orangeRGBA = 'rgba(255, 165, 0, 0.6)';
+
+            // Définit les couleurs de la bordure en format RGBA avec une opacité de 0.3
+            const greenBorderRGBA = 'rgba(0, 128, 0, 0.3)';
+            const yellowBorderRGBA = 'rgba(255, 255, 0, 0.3)';
+            const orangeBorderRGBA = 'rgba(255, 165, 0, 0.3)';
+
+            map.current.addLayer({
+                id: 'clustersFilter',
+                type: 'circle',
+                source: 'pointsFilter',
+                filter: ['has', 'point_count'],
+                paint: {
+                    'circle-radius': 19,
+                    'circle-color': [
+                        'step',
+                        ['get', 'point_count'],
+                        greenRGBA, // Couleur verte
+                        19,
+                        yellowRGBA, // Couleur jaune
+                        100,
+                        orangeRGBA, // Couleur orange
+                    ],
+                },
+            });
+
+            map.current.addLayer({
+                id: 'cluster-borderFilter',
+                type: 'circle',
+                source: 'pointsFilter',
+                filter: ['has', 'point_count'],
+                paint: {
+                    'circle-radius': 24,
+                    'circle-color': [
+                        'step',
+                        ['get', 'point_count'],
+                        greenBorderRGBA, // Couleur de bordure verte
+                        19,
+                        yellowBorderRGBA, // Couleur de bordure jaune
+                        100,
+                        orangeBorderRGBA, // Couleur de bordure orange
+                    ],
+                },
+            });
+
+            map.current.addLayer({
+                id: 'lampFilter',
+                type: 'circle',
+                source: 'pointsFilter',
+                filter: ['!', ['has', 'point_count']],
+                paint: {
+                    'circle-radius': 6,
+                    'circle-color': '#FAC710',
+                    'circle-stroke-color': '#F9F9F9',
+                    'circle-stroke-width': 2,
+                },
+            });
+
+            map.current.addLayer({
+                id: 'cluster-textFilter',
+                type: 'symbol',
+                source: 'pointsFilter',
+                filter: ['has', 'point_count'],
+                layout: {
+                    'text-field': '{point_count}',
+                    'text-font': ['Open Sans Regular'],
+                    'text-size': 13,
+                },
+                paint: {
+                    'text-color': '#000000',
+                },
+            });
         }
+
+        setLayoutVisibilityFilter('visible');
     };
 
     // Initialize the map on the first render
     useEffect(() => {
-        initializeMap();
+        initializeMap(geojsonData);
     }, [isDark, lng, lat, zoom]);
+
+    // update the map with the filter filter
+    useEffect(() => {
+        if (searchFilter == '') {
+            return;
+        }
+        let sortedData: geojson = {
+            type: 'FeatureCollection',
+            features: [],
+        };
+        if (selectedFilter === 'Lamp') {
+            sortedData.features = geojsonData.features.filter(
+                (feature: any) => feature.properties.lamp === searchFilter
+            );
+        } else if (selectedFilter === 'Hat') {
+            sortedData.features = geojsonData.features.filter(
+                (feature: any) => feature.properties.hat === searchFilter
+            );
+        }
+        console.log(sortedData);
+        if (searchFilter != '') {
+            console.log('new data');
+            initializeMapFilter(sortedData);
+        }
+    }, [selectedFilter, searchFilter]);
+
+    const handleLassoValidation = () => {
+        const queryString = clickedPoints
+            .map(
+                (point) =>
+                    `coordinate=${point.lat.toFixed(5)},${point.lng.toFixed(5)}`
+            )
+            .join('&');
+        const url = `http://localhost:8080/lamps/coordinates?${queryString}`;
+
+        const encodedCredentials = btoa('tester:T&st');
+
+        const headers = new Headers({
+            Authorization: `Basic ${encodedCredentials}`,
+        });
+
+        fetch(url, { method: 'GET', headers: headers })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then((data) => {
+                const lampIds = data.map((lamp: any) => lamp.name);
+                setLassoSelectedLamps(lampIds);
+                if (map.current) {
+                    map.current.setPaintProperty('lamp', 'circle-color', [
+                        'match',
+                        ['get', 'name'],
+                        lampIds,
+                        '#48187b',
+                        '#FAC710',
+                    ]);
+                }
+            })
+            .catch((error) => {
+                console.error(
+                    'There has been a problem with your fetch operation:',
+                    error
+                );
+            });
+    };
 
     useEffect(() => {
         if (map.current) {
@@ -455,7 +679,6 @@ const Map: React.FC<MapProps> = ({
                         },
                     });
                 }
-
                 map.current.addLayer({
                     id: 'clickedPointsLayer',
                     type: 'circle',
@@ -487,8 +710,8 @@ const Map: React.FC<MapProps> = ({
         if (map.current) {
             map.current.setStyle(
                 isDark
-                    ? 'mapbox://styles/mapbox/dark-v11'
-                    : 'mapbox://styles/mapbox/light-v11'
+                    ? 'mapbox://styles/titouantd/cljwv2coy025k01pk785839a1'
+                    : 'mapbox://styles/titouantd/cljwui6ss00ij01pj1oin6oa5'
             );
             map.current.flyTo({
                 center: [lng, lat],
@@ -496,13 +719,12 @@ const Map: React.FC<MapProps> = ({
                 speed: 1.2,
                 curve: 1.42,
             });
-            setCircleLayerVisible(true);
         } else {
             map.current = new mapboxgl.Map({
                 container: mapContainer.current,
                 style: isDark
-                    ? 'mapbox://styles/mapbox/dark-v11'
-                    : 'mapbox://styles/mapbox/light-v11',
+                    ? 'mapbox://styles/titouantd/cljwv2coy025k01pk785839a1'
+                    : 'mapbox://styles/titouantd/cljwui6ss00ij01pj1oin6oa5',
                 center: [lng, lat],
                 zoom: zoom,
             });
@@ -534,6 +756,12 @@ const Map: React.FC<MapProps> = ({
     // Render the map component
     return (
         <div id={id} style={{ overflow: 'hidden' }}>
+            <Lasso
+                id={'LassoComponentId'}
+                isDark={isDark}
+                onLassoActivation={handleLassoActivation}
+                onLassoValidation={handleLassoValidation}
+            />
             <LassoOverlay isLassoActive={isLassoActive} />
             <div
                 style={{ ...styleMap, cursor: cursorStyle }}
@@ -548,23 +776,6 @@ const Map: React.FC<MapProps> = ({
                 display: none;
                 }`}
             </style>
-            {circleLayerVisible && circleRadius > 0 && (
-                <div
-                    className="red-circle"
-                    style={{
-                        position: 'absolute',
-                        top: '50%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)',
-                        width: circleRadius * 2,
-                        height: circleRadius * 2,
-                        borderRadius: '50%',
-                        border: `1px dashed ${Yellow}`,
-                        pointerEvents: 'none',
-                        zIndex: 1,
-                    }}
-                />
-            )}
             {selectedLampId && (
                 <LampInfosPopup
                     id={'LampInfosPopupComponentId'}

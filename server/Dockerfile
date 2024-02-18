@@ -1,23 +1,4 @@
-FROM arm32v7/ubuntu:22.04
-
-COPY . /prod
-
-WORKDIR /prod
-
-ENV SERVER_LOCATION=/prod
-
-RUN apt-get update && \
-    apt-get install -y openjdk-17-jdk openjdk-17-jre 
-
-ENV JRE_LOCATION=/usr/share/doc/openjdk-17-jre
-
-RUN apt-get install -y maven
-
-ENV JRE_HOME=/usr/share/doc/openjdk-17-jre
-
-RUN mvn clean install
-
-EXPOSE 20001
-
-CMD java -jar target/server.jar
-
+FROM eclipse-temurin:17-jdk-alpine
+VOLUME /tmp
+COPY target/*.jar app.jar
+ENTRYPOINT ["java","-jar","/app.jar"]

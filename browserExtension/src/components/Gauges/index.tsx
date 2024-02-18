@@ -43,24 +43,22 @@ const PersonnalizedGauge: React.FC<PersonnalizedGaugeProps> = ({
             ? elec
             : elec
         : isBio
-        ? isDark
-            ? bio
-            : bio
-        : isLumi
-        ? isDark
-            ? lumi
-            : lumi
-        : isDark
-        ? elec
-        : elec;
+          ? isDark
+              ? bio
+              : bio
+          : isLumi
+            ? isDark
+                ? lumi
+                : lumi
+            : isDark
+              ? elec
+              : elec;
     const diffLevel = oldLevel - level;
 
     return (
         <div id={id}>
             <GaugeContainerPersonnalized top={top} left={left}>
-                <GaugeBackground
-                    src={isDark ? middle : middle}
-                />
+                <GaugeBackground src={isDark ? middle : middle} />
                 <GaugeLevelMiddle level={level} />
                 <GaugeOldLevel
                     color={diffLevel > 0 ? Red : Green}

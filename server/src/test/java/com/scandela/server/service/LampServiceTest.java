@@ -20,6 +20,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.util.Pair;
 
 import com.scandela.server.dao.BulbDao;
 import com.scandela.server.dao.CabinetDao;
@@ -531,6 +532,53 @@ public class LampServiceTest {
 		testedObject.delete(id);
 
 		verify(lampDaoMock, times(1)).deleteById(id);
+	}
+	
+	@Test
+	public void testGetAllByCoordinates() {
+		List<Pair<Double, Double>> coordinates = Arrays.asList(
+				Pair.of(47.200, -1.602),
+				Pair.of(47.210, -1.620),
+				Pair.of(47.300, -1.615),
+				Pair.of(47.240, -1.442)
+			);
+		List<Lamp> lamps = Arrays.asList(
+				Lamp.builder()
+					.name("L1")
+					.latitude(47.205165511621)
+					.longitude(-1.485561685979863)
+					.build(),
+				Lamp.builder()
+					.name("L2")
+					.latitude(47.268184426201756)
+					.longitude(-1.442078094051944)
+					.build(),
+				Lamp.builder()
+					.name("L3")
+					.latitude(47.20372988905886)
+					.longitude(-1.602059008816147)
+					.build(),
+				Lamp.builder()
+					.name("L4")
+					.latitude(47.21045912051525)
+					.longitude(-1.605581283201155)
+					.build(),
+				Lamp.builder()
+					.name("L5")
+					.latitude(47.25142239677325)
+					.longitude(-1.536499996947058)
+					.build()
+			);
+		List<String> resultsNameExpected = Arrays.asList( "L3", "L4", "L5" );
+		
+		when(lampDaoMock.findByLatitudeBetweenAndLongitudeBetween(Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble())).thenReturn(lamps);
+		
+		List<Lamp> result = testedObject.getAllByCoordinates(coordinates);
+		
+		assertThat(result).hasSize(3);
+		assertThat(resultsNameExpected).contains(result.get(0).getName());
+		assertThat(resultsNameExpected).contains(result.get(1).getName());
+		assertThat(resultsNameExpected).contains(result.get(2).getName());
 	}
 	
 }
