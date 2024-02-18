@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,16 +23,14 @@ public class UserService extends AbstractService<User> implements IUserService {
 	// Attributes \\
 		// Private \\
 	private final String[] IGNORED_PROPERTIES = { "id", "town", "decisions" };
-	
-	private PasswordEncoder passwordEncoder;
+	private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 	private TownDao townDao;
 
 	// Constructors \\
-	protected UserService(UserDao userDao, TownDao townDao, PasswordEncoder passwordEncoder) {
+	protected UserService(UserDao userDao, TownDao townDao) {
 		super(userDao);
 		this.townDao = townDao;
-		this.passwordEncoder = passwordEncoder;
 	}
 
 	// Methods \\
