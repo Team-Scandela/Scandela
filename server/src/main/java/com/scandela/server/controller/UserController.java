@@ -1,6 +1,7 @@
 package com.scandela.server.controller;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,6 +70,13 @@ public class UserController extends AbstractController<User> {
 		emailService.sendSimpleEmail(newUser.getEmail(), "Welcome to Scandela!",
 				"Thank you for being a new member of Scandela !\n\nScandela Team");
 		return super.create(newUser);
+	}
+	
+	@PostMapping("/signin")
+	public Map<String, UUID> signIn(@RequestBody User user) throws UserException {
+		UUID id = ((IUserService) service).signIn(user.getEmail(), user.getPassword());
+		
+		return Map.of("id", id);
 	}
 
 	/**

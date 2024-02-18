@@ -20,6 +20,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.scandela.server.dao.TownDao;
 import com.scandela.server.dao.UserDao;
@@ -41,6 +42,9 @@ public class UserServiceTest {
 	
 	@Mock
 	private TownDao townDaoMock;
+	
+	@Mock
+	private PasswordEncoder passwordEncoderMock;
 	
 	private final UUID id = UUID.randomUUID();
 	private final String email = "test@test.test";
@@ -279,6 +283,34 @@ public class UserServiceTest {
 		assertThat(result.getMoreInformations()).isEqualTo(user2.getMoreInformations());
 		assertThat(result.isDarkmode()).isEqualTo(user2.isDarkmode());
 		assertThat(result.getLastConnexion()).isEqualTo(user2.getLastConnexion());
+	}
+	
+	@Test
+	public void testSignIn() throws UserException {
+		when(userDaoMock.findByEmail(email)).thenReturn(Optional.ofNullable(user));
+		when(passwordEncoderMock.matches(Mockito.anyString(), Mockito.anyString())).thenReturn(true);
+		
+		UUID result = testedObject.signIn(email, password);
+		
+		assertThat(result).isEqualTo(id);
+	}
+	
+	@Test
+	public void testSignIn_whenEmailNotCorresponding_thenThrowUserException() {
+		when(userDaoMock.findByEmail(email)).thenReturn(Optional.empty());
+
+		UserException result = assertThrows(UserException.class, () -> testedObject.signIn(email, password));
+
+		assertThat(result.getMessage()).isEqualTo(UserException.NO_CORRESPONDING_EMAIL);
+	}
+	
+	@Test
+	public void testSignIn_whenWrongPassword_thenThrowUserException() {
+		when(userDaoMock.findByEmail(email)).thenReturn(Optional.ofNullable(user));
+
+		UserException result = assertThrows(UserException.class, () -> testedObject.signIn(email, password));
+
+		assertThat(result.getMessage()).isEqualTo(UserException.WRONG_PASSWORD);
 	}
 	
 	@Test
