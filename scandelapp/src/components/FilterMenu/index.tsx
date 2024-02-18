@@ -15,14 +15,12 @@ import { Filters } from '../../pages/main';
  * @param {string} filter - The current filter
  * @param {function} setFilter - Function to set the filter
  * @param {boolean} isDark - If the map is in dark mode or not
- * @param {boolean} isLassoActive - If the lasso tool is on / off
  */
 interface FilterMenuProps {
     id: string;
     filter: string;
     setFilter: (filter: Filters) => void;
     isDark: boolean;
-    isLassoActive: boolean;
 }
 
 const FilterMenu: React.FC<FilterMenuProps> = ({
@@ -30,7 +28,6 @@ const FilterMenu: React.FC<FilterMenuProps> = ({
     filter,
     setFilter,
     isDark,
-    isLassoActive,
 }) => {
     /** If the map filter container is on or out */
     const [on, setOn] = useState(false);

@@ -22,7 +22,7 @@ const updateUser = async (isDark: boolean) => {
 
     try {
         const responseUser = await fetch(
-            'http://app.scandela.fr:2001/users/183e5775-6d38-4d0b-95b4-6f4c7bbb0597',
+            'https://serverdela.onrender.com/users/183e5775-6d38-4d0b-95b4-6f4c7bbb0597',
             {
                 method: 'GET',
                 headers: {
@@ -45,7 +45,7 @@ const updateUser = async (isDark: boolean) => {
                 lastConnexion: '2022-01-23T13:45:00',
             };
             const response = await fetch(
-                'http://localhost:8080/users/183e5775-6d38-4d0b-95b4-6f4c7bbb0597',
+                'https://serverdela.onrender.com/users/183e5775-6d38-4d0b-95b4-6f4c7bbb0597',
                 {
                     method: 'PUT',
                     headers: {
