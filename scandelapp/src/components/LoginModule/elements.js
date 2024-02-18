@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Yellow } from '../../colors';
+import { Yellow, DarkYellow, Black, Grey } from '../../colors';
 
 /** Login container who contains the signup and signin container */
 export const LoginContainer = styled.div`
@@ -69,7 +69,7 @@ export const Input = styled.input`
 export const Button = styled.button`
     border: none;
     border-radius: 20px;
-    background-color: ${Yellow};
+    background-color: ${DarkYellow};
     color: #fff;
     font-size: 12px;
     font-weight: bold;
@@ -119,7 +119,7 @@ export const OverlayContainer = styled.div`
 
 /** Overlay who covers the unused side */
 export const Overlay = styled.div`
-    background: ${Yellow};
+    background: ${DarkYellow};
     color: #eee;
     position: relative;
     left: -100%;

@@ -5,7 +5,7 @@ const Login: React.FC = () => {
     return (
         <div
             id={'loginPage'}
-            style={{ backgroundColor: '#fff', height: '100vh' }}
+            style={{ backgroundColor: '#444444', height: '100vh' }}
         >
             <LoginModule />
         </div>

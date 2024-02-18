@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState } from 'react';
 import {
     LoginContainer,
     SignUpContainer,
@@ -18,22 +18,74 @@ import {
 
 /** Login module who allow to sign in up. You can slide the overlay from left to right (or the opposite) to acess to the side wanted */
 const LoginModule: React.FC = () => {
-    const [signInPage, setSignInPage] = React.useState(true);
+    const [signInPage, setSignInPage] = useState(true);
 
-    const [usernameSignUp, setUsernameSignUp] = React.useState('');
-    const [emailSignUp, setEmailSignUp] = React.useState('');
-    const [passwordSignUp, setPasswordSignUp] = React.useState('');
+    const [usernameSignUp, setUsernameSignUp] = useState('');
+    const [emailSignUp, setEmailSignUp] = useState('');
+    const [passwordSignUp, setPasswordSignUp] = useState('');
     const [passwordConfirmSignUp, setPasswordConfirmSignUp] =
-        React.useState('');
+        useState('');
 
-    const [usernameSignIn, setUsernameSignIn] = React.useState('');
-    const [passwordSignIn, setPasswordSignIn] = React.useState('');
+    const [usernameSignIn, setUsernameSignIn] = useState('');
+    const [passwordSignIn, setPasswordSignIn] = useState('');
 
-    /** handle click of the submit sign up button */
-    const handleSubmitSignUp = () => {};
+    const handleSubmitSignIn = async (event: any) => {
+        event.preventDefault();
 
-    /** handle click of the submit sign in button */
-    const handleSubmitSignIn = () => {};
+        // Encodage des identifiants pour l'authentification
+        const encodedCredentials = btoa('tester:T&st');
+        const headers = new Headers({
+            'Content-Type': 'application/json',
+            Authorization: `Basic ${encodedCredentials}`,
+        });
+
+        try {
+            const response = await fetch('/', {
+                method: 'POST',
+                headers: headers,
+                body: JSON.stringify({ usernameSignIn, passwordSignIn }),
+            });
+
+            if (!response.ok) {
+                throw new Error('La connexion a échoué');
+            }
+
+            const data = await response.json();
+            // Gérez la réponse ici
+        } catch (error) {
+            console.error('Erreur lors de la connexion', error);
+            // Gérez l'erreur ici
+        }
+    };
+
+    const handleSubmitSignUp = async (event: any) => {
+        event.preventDefault();
+
+        // Encodage des identifiants pour l'authentification
+        const encodedCredentials = btoa('tester:T&st');
+        const headers = new Headers({
+            'Content-Type': 'application/json',
+            Authorization: `Basic ${encodedCredentials}`,
+        });
+
+        try {
+            const response = await fetch('/', {
+                method: 'POST',
+                headers: headers,
+                body: JSON.stringify({ usernameSignUp, emailSignUp, passwordSignUp, passwordConfirmSignUp }),
+            });
+
+            if (!response.ok) {
+                throw new Error("L'inscription a échoué");
+            }
+
+            const data = await response.json();
+            // Gérez la réponse ici
+        } catch (error) {
+            console.error("Erreur lors de l'inscription", error);
+            // Gérez l'erreur ici
+        }
+    };
 
     return (
         <LoginContainer>
