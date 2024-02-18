@@ -8,7 +8,6 @@ import Redirect from './pages/redirect';
 import LoadingPage from './components/LoadingPage';
 import Admin from './pages/admin';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import * as Sentry from '@sentry/browser';
 import { Helmet } from 'react-helmet';
 
 /** Route page */
@@ -18,37 +17,6 @@ const App: React.FC = () => {
     const handleToggleIsPremiumActivated = () => {
         setIsPremiumActivated((prevState) => !prevState);
     };
-
-    const [testIsLoading, setTestIsLoading] = useState(true);
-
-    useEffect(() => {
-        const timeout = setTimeout(() => {
-            setTestIsLoading(false);
-        }, 7000);
-        return () => clearTimeout(timeout);
-    }, []);
-    useEffect(() => {
-        const timeout = setTimeout(() => {
-            setTestIsLoading(false);
-        }, 7000);
-        return () => clearTimeout(timeout);
-    }, []);
-
-    Sentry.init({
-        dsn: 'https://b7ba74511176b52c96d1d58dc76d7ab7@o4505907192725504.ingest.sentry.io/4505907207012352',
-        integrations: [
-            new Sentry.BrowserTracing({
-                tracePropagationTargets: [
-                    'localhost',
-                    /^https:\/\/app.scandela.fr/,
-                ],
-            }),
-        ],
-        tracesSampleRate: 1.0,
-        // Session Replay
-        replaysSessionSampleRate: 0.1,
-        replaysOnErrorSampleRate: 1.0,
-    });
 
     return (
         <div>
@@ -68,7 +36,6 @@ const App: React.FC = () => {
                     content="width=device-width, initial-scale=1.0"
                 />
             </Helmet>
-            <LoadingPage isLoading={testIsLoading} />
             <BrowserRouter>
                 <Routes>
                     <Route

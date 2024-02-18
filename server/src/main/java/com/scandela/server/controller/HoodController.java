@@ -17,7 +17,7 @@ import com.scandela.server.entity.Hood;
 import com.scandela.server.exception.HoodException;
 import com.scandela.server.service.IHoodService;
 
-@CrossOrigin(origins = "http://localhost:3000, https://app.scandela.fr")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping(value = "/hoods")
 public class HoodController extends AbstractController<Hood> {

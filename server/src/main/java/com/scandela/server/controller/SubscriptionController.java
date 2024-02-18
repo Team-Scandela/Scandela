@@ -14,7 +14,7 @@ import com.stripe.model.PaymentIntent;
 
 import com.scandela.server.entity.Subscription;
 import com.scandela.server.service.ISubscriptionService;
-@CrossOrigin(origins = "http://localhost:3000, https://app.scandela.fr")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping(value = "/subscription")
 public class SubscriptionController {

@@ -19,7 +19,7 @@ import com.scandela.server.service.ICabinetService;
 
 @RestController
 @RequestMapping(value = "/cabinets")
-@CrossOrigin(origins = "http://localhost:3000, https://app.scandela.fr")
+@CrossOrigin(origins = "*")
 public class CabinetController extends AbstractController<Cabinet> {
 	
 	// Constructors \\

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.scandela.server.entity.Filter;
 import com.scandela.server.service.IFilterManagerService;
 
-@CrossOrigin(origins = "http://localhost:3000, https://app.scandela.fr")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping(value = "/filtermanager")
 public class FilterManagerController {

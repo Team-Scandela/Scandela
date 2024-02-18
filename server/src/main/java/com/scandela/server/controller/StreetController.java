@@ -17,7 +17,7 @@ import com.scandela.server.entity.Street;
 import com.scandela.server.exception.StreetException;
 import com.scandela.server.service.IStreetService;
 
-@CrossOrigin(origins = "http://localhost:3000, https://app.scandela.fr")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping(value = "/streets")
 public class StreetController extends AbstractController<Street> {
