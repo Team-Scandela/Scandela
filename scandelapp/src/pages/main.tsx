@@ -16,6 +16,7 @@ import AbsencePannel from '../components/AbsencePannel';
 import SmallLampInfosPopup from '../components/SmallLampInfosPopup';
 // import MapDB from '../components/MapDB';
 import FilterSearch from '../components/FilterSearch';
+import TrafficTime from '../components/TrafficTime';
 
 export enum Filters {
     pin = 'pin',
@@ -52,6 +53,8 @@ const Main: React.FC<MainProps> = ({ isPremiumActivated }) => {
     /** Variables for the search for the filter filter */
     const [search, setSearch] = useState<string>('');
     const [selected, setSelected] = useState<string>('Lamp');
+
+    const [trafficTimeValue, setTrafficTimeValue] = useState<string>('00:00');
 
     const getUser = async () => {
         const username = 'tester';
@@ -244,6 +247,16 @@ const Main: React.FC<MainProps> = ({ isPremiumActivated }) => {
                         setSelected={setSelected}
                         search={search}
                         setSearch={setSearch}
+                    />
+                </>
+            )}
+            {filter === Filters.traffic && (
+                <>
+                    <TrafficTime
+                        id={'trafficTimeComponentId'}
+                        isDark={isDark}
+                        trafficTime={trafficTimeValue}
+                        setTrafficTime={setTrafficTimeValue}
                     />
                 </>
             )}
