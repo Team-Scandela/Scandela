@@ -5,6 +5,9 @@ import { Filters } from '../../pages/main';
 import { Yellow } from '../../colors';
 import LampInfosPopup from '../LampInfosPopup';
 import { LassoOverlay } from './elements';
+import loadMap from './loadMap';
+import TimePicker from '../TimePicker';
+import React from 'react';
 
 // Load geographical data of Nantes from a local JSON file
 let nantesData = require('../../assets/nantesData.json');
@@ -38,6 +41,14 @@ const Map: React.FC<MapProps> = ({
     selectedFilter,
     searchFilter,
 }) => {
+    const [showTimePicker, setShowTimePicker] = useState(false);
+
+    // Fonction pour gérer la sélection de l'heure dans le TimePicker
+    const handleTimeSelection = (selectedHour: number) => {
+        console.log('Selected Hour:', selectedHour);
+        // Ajoutez ici la logique pour traiter l'heure sélectionnée, si nécessaire
+        setShowTimePicker(false); // Fermez le TimePicker après la sélection
+    };
     // Reference to the map container element
     const mapContainer = useRef<HTMLDivElement | null>(null);
 
@@ -122,6 +133,19 @@ const Map: React.FC<MapProps> = ({
             }
         }
     };
+
+    React.useEffect(() => {
+        if (map.current) {
+          for (const value in Filters) {
+            if (map.current.getLayer(value)) {
+              map.current.setLayoutProperty(value, 'visibility', 'none');
+            }
+          }
+          if (map.current.getLayer(filter)) {
+            map.current.setLayoutProperty(filter, 'visibility', 'visible');
+          }
+        }
+      }, [filter]);
 
     const setLayoutVisibility = (visibility: string) => {
         map.current.setLayoutProperty('cluster-text', 'visibility', visibility);
