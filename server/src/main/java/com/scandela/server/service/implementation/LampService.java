@@ -57,21 +57,18 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
 	@Transactional(rollbackFor = { Exception.class })
 	public Lamp create(Lamp newLamp) throws LampException {
 		try {
-			loadTown(newLamp);
-			loadStreet(newLamp);
-			loadBulb(newLamp);
-			loadCabinet(newLamp);
-			loadLampShade(newLamp);
+			// loadTown(newLamp);
+			// loadStreet(newLamp);
+			// loadBulb(newLamp);
+			// loadCabinet(newLamp);
+			// loadLampShade(newLamp);
 			
 			return dao.save(newLamp);
 		} catch (Exception e) {
-			if (newLamp.getTown() == null || newLamp.getStreet() == null ||
-				newLamp.getLatitude() == null || newLamp.getLongitude() == null ||
-				newLamp.getLightOff() == null || newLamp.getLightOn() == null ||
-				newLamp.getHeight() == null || newLamp.getBulb() == null ||
-				newLamp.getCabinet() == null || newLamp.getLampShade() == null) {
-				throw new LampException(LampException.INCOMPLETE_INFORMATIONS);
-			}
+			// if (newLamp.getLatitude() == null || newLamp.getLongitude() == null ||
+			// 	newLamp.getHeight() == null) {
+			// 	throw new LampException(LampException.INCOMPLETE_INFORMATIONS);
+			// }
 			throw e;
 		}
 	}
@@ -200,7 +197,8 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
 		// Private \\
 	private void loadTown(Lamp newLamp) throws LampException {
 		if (newLamp.getTown() == null) {
-			throw new LampException(LampException.INCOMPLETE_INFORMATIONS);
+			// throw new LampException(LampException.INCOMPLETE_INFORMATIONS);
+			return;
 		}
 	
 		UUID townId = newLamp.getTown().getId();
@@ -215,7 +213,8 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
 	
 	private void loadStreet(Lamp newLamp) throws LampException {
 		if (newLamp.getStreet() == null) {
-			throw new LampException(LampException.INCOMPLETE_INFORMATIONS);
+			// throw new LampException(LampException.INCOMPLETE_INFORMATIONS);
+			return;
 		}
 	
 		UUID streetId = newLamp.getStreet().getId();
@@ -230,7 +229,8 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
 	
 	private void loadBulb(Lamp newLamp) throws LampException {
 		if (newLamp.getBulb() == null) {
-			throw new LampException(LampException.INCOMPLETE_INFORMATIONS);
+			// throw new LampException(LampException.INCOMPLETE_INFORMATIONS);
+			return;
 		}
 	
 		UUID bulbId = newLamp.getBulb().getId();
@@ -245,7 +245,8 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
 	
 	private void loadCabinet(Lamp newLamp) throws LampException {
 		if (newLamp.getCabinet() == null) {
-			throw new LampException(LampException.INCOMPLETE_INFORMATIONS);
+			// throw new LampException(LampException.INCOMPLETE_INFORMATIONS);
+			return;
 		}
 	
 		UUID cabinetId = newLamp.getCabinet().getId();
@@ -260,7 +261,8 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
 	
 	private void loadLampShade(Lamp newLamp) throws LampException {
 		if (newLamp.getLampShade() == null) {
-			throw new LampException(LampException.INCOMPLETE_INFORMATIONS);
+			// throw new LampException(LampException.INCOMPLETE_INFORMATIONS);
+			return;
 		}
 	
 		UUID lampShadeId = newLamp.getLampShade().getId();

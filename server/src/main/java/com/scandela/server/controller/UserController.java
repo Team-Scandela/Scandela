@@ -67,8 +67,11 @@ public class UserController extends AbstractController<User> {
 	 */
 	@PostMapping("/create")
 	public User createUser(@RequestBody User newUser) throws Exception {
-		emailService.sendSimpleEmail(newUser.getEmail(), "Welcome to Scandela!",
-				"Thank you for being a new member of Scandela !\n\nScandela Team");
+		emailService.sendMail(newUser.getEmail(), "Welcome to Scandela!",
+				"Thank you for being a new member of Scandela !\n\n" +
+				"To confirm your account, please click here : " +
+				"https://dev.scandela.fr:2000/redirect?email=" +
+				newUser.getEmail() + "\n\nTeam Scandela");
 		return super.create(newUser);
 	}
 	
@@ -100,6 +103,11 @@ public class UserController extends AbstractController<User> {
 	@DeleteMapping("/delete/{id}")
 	public void deleteUser(@PathVariable UUID id) {
 		super.delete(id);
+	}
+	
+	@PostMapping("/newsletter")
+	public void newsletter(@RequestBody Map<String, String> mailInfos) throws Exception {
+		emailService.sendMail(mailInfos.get("email"), "Scandela Newsletter - " + mailInfos.get("subject"), mailInfos.get("body") + "\n\nTeam Scandela");
 	}
 
 }
