@@ -105,9 +105,9 @@ public class UserController extends AbstractController<User> {
 		super.delete(id);
 	}
 	
-	@GetMapping("/test")
-	public void test(/*@RequestBody String mailSubject, */@RequestBody String mailBody) throws Exception {//TODO voir comment mettre plusieurs requestbody pour assigner un nom
-		emailService.sendMail("enzo.laurent@epitech.eu", "Scandela Newsletter", "");
+	@PostMapping("/newsletter")
+	public void newsletter(@RequestBody Map<String, String> mailInfos) throws Exception {
+		emailService.sendMail(mailInfos.get("email"), "Scandela Newsletter - " + mailInfos.get("subject"), mailInfos.get("body") + "\n\nTeam Scandela");
 	}
 
 }
