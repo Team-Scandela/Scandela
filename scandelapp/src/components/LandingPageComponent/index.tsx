@@ -9,6 +9,7 @@ import {
     ProfilImgBg,
     LockIcon,
     PortalLinkContainer,
+    PortalLinkAdmin,
     LogoContainer,
     TriangleContainerLeft,
     TriangleContainerRight,
@@ -23,18 +24,18 @@ import ProfilePage from './ProfilePage';
 import FAQPage from './FAQPage';
 
 /** Landing component page
- * @param {boolean} isPremiumActivated- Boolean
- * @param {function} handleToggleIsPremiumActivated - Function to set/unset the premium version
+ * @param {boolean} userInfo - Infos about the current user
+ * @param {function} updateUserInfo - Function to update user infos
  */
 
 interface LandingPageComponentProps {
-    isPremiumActivated: boolean;
-    handleToggleIsPremiumActivated: () => void;
+    userInfo: any;
+    updateUserInfo: (newInfo: any) => void;
 }
 
 const LandingPageComponent: React.FC<LandingPageComponentProps> = ({
-    isPremiumActivated,
-    handleToggleIsPremiumActivated,
+    userInfo,
+    updateUserInfo,
 }) => {
     const navigate = useNavigate();
     const [isMenuPageDisplayed, setIsMenuPageDisplayed] = useState(true);
@@ -47,23 +48,25 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({
         navigate('/scandela');
     };
 
+    const handleLogAdmin = () => {
+        navigate('/admin');
+    };
+
     const handlePremiumButtonClicked = () => {
         setIsMenuPageDisplayed(!isMenuPageDisplayed);
         setIsPremiumPageDisplayed(!isPremiumPageDisplayed);
     };
 
     const handleTicketButtonClicked = () => {
-        if (isPremiumActivated) {
+        if (userInfo.isPremiumActivated) {
             setIsMenuPageDisplayed(!isMenuPageDisplayed);
             setIsTicketPageDisplayed(!isTicketPageDisplayed);
         }
     };
 
     const handleProfileButtonClicked = () => {
-        if (isPremiumActivated) {
-            setIsMenuPageDisplayed(!isMenuPageDisplayed);
-            setIsProfilePageDisplayed(!isProfilePageDisplayed);
-        }
+        setIsMenuPageDisplayed(!isMenuPageDisplayed);
+        setIsProfilePageDisplayed(!isProfilePageDisplayed);
     };
 
     const handleFAQButtonClicked = () => {
@@ -83,7 +86,7 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({
             <TriangleContainerRight />
             {isMenuPageDisplayed && (
                 <div>
-                    {isPremiumActivated && <CrownIcon />}
+                    {userInfo.isPremiumActivated && <CrownIcon />}
                     <PortalLinkContainer
                         top={'21%'}
                         left={'25%'}
@@ -119,7 +122,6 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({
                         onClick={handleProfileButtonClicked}
                     >
                         <ProfilImgBg />
-                        {!isPremiumActivated && <LockIcon />}
                         <PortalTitle fontSize={'1.5rem'}>Profil</PortalTitle>
                     </PortalLinkContainer>
                     <PortalLinkContainer
@@ -133,7 +135,7 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({
                         onClick={handleTicketButtonClicked}
                     >
                         <TicketsImgBg />
-                        {!isPremiumActivated && <LockIcon />}
+                        {!userInfo.isPremiumActivated && <LockIcon />}
                         <PortalTitle fontSize={'1.5rem'}>Tickets</PortalTitle>
                     </PortalLinkContainer>
                     <PortalLinkContainer
@@ -162,15 +164,16 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({
                         <FAQImgBg />
                         <PortalTitle fontSize={'1.5rem'}>FAQ</PortalTitle>
                     </PortalLinkContainer>
+                    <PortalLinkAdmin onClick={handleLogAdmin}>
+                        Admin
+                    </PortalLinkAdmin>
                 </div>
             )}
             {isPremiumPageDisplayed && (
                 <div>
                     <PremiumPage
-                        isPremiumActivated={isPremiumActivated}
-                        handleToggleIsPremiumActivated={
-                            handleToggleIsPremiumActivated
-                        }
+                        userInfo={userInfo}
+                        updateUserInfo={updateUserInfo}
                         handlePremiumButtonClicked={handlePremiumButtonClicked}
                     ></PremiumPage>
                 </div>

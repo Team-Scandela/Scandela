@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState } from 'react';
 import {
     LoginContainer,
     SignUpContainer,
@@ -15,25 +15,124 @@ import {
     Paragraph,
     GhostButton,
 } from './elements';
+import { useNavigate } from 'react-router-dom';
+
+interface LoginModuleProps {
+    updateUserInfo: (newInfo: any) => void;
+}
 
 /** Login module who allow to sign in up. You can slide the overlay from left to right (or the opposite) to acess to the side wanted */
-const LoginModule: React.FC = () => {
-    const [signInPage, setSignInPage] = React.useState(true);
+const LoginModule: React.FC<LoginModuleProps> = ({ updateUserInfo }) => {
+    const [signInPage, setSignInPage] = useState(true);
 
-    const [usernameSignUp, setUsernameSignUp] = React.useState('');
-    const [emailSignUp, setEmailSignUp] = React.useState('');
-    const [passwordSignUp, setPasswordSignUp] = React.useState('');
-    const [passwordConfirmSignUp, setPasswordConfirmSignUp] =
-        React.useState('');
+    const [usernameSignUp, setUsernameSignUp] = useState('');
+    const [emailSignUp, setEmailSignUp] = useState('');
+    const [passwordSignUp, setPasswordSignUp] = useState('');
+    const [passwordConfirmSignUp, setPasswordConfirmSignUp] = useState('');
 
-    const [usernameSignIn, setUsernameSignIn] = React.useState('');
-    const [passwordSignIn, setPasswordSignIn] = React.useState('');
+    const [emailSignIn, setEmailSignIn] = useState('');
+    const [passwordSignIn, setPasswordSignIn] = useState('');
+    const navigate = useNavigate();
 
-    /** handle click of the submit sign up button */
-    const handleSubmitSignUp = () => {};
+    const handleValidLogin = () => {
+        navigate('/');
+    };
 
-    /** handle click of the submit sign in button */
-    const handleSubmitSignIn = () => {};
+    const handleSubmitSignIn = async (event: any) => {
+        event.preventDefault();
+
+        const encodedCredentials = btoa('tester:T&st');
+        const headers = new Headers({
+            'Content-Type': 'application/json',
+            Authorization: `Basic ${encodedCredentials}`,
+        });
+
+        try {
+            const response = await fetch(
+                'https://serverdela.onrender.com/users/signin',
+                {
+                    method: 'POST',
+                    headers: headers,
+                    body: JSON.stringify({
+                        email: emailSignIn,
+                        password: passwordSignIn,
+                    }),
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error('La connexion a échoué');
+            }
+
+            const data = await response.json();
+            // console.log(data);
+            updateUserInfo({
+                id: data.id,
+                town: data.town,
+                email: data.email,
+                username: data.username,
+                password: data.password,
+                role: data.role,
+                moreInformations: data.moreInformations,
+                darkmode: data.darmode,
+                lastConnexion: data.lastConnexion,
+                decisions: data.decisions,
+            });
+            handleValidLogin();
+        } catch (error) {
+            console.error('Erreur lors de la connexion', error);
+        }
+    };
+
+    const handleSubmitSignUp = async (event: any) => {
+        if (passwordSignUp != '' && passwordSignUp == passwordConfirmSignUp) {
+            event.preventDefault();
+
+            const encodedCredentials = btoa('tester:T&st');
+            const headers = new Headers({
+                'Content-Type': 'application/json',
+                Authorization: `Basic ${encodedCredentials}`,
+            });
+
+            try {
+                const response = await fetch(
+                    'https://serverdela.onrender.com/users/create',
+                    {
+                        method: 'POST',
+                        headers: headers,
+                        body: JSON.stringify({
+                            town: { id: 1 },
+                            email: emailSignUp,
+                            username: usernameSignUp,
+                            password: passwordSignUp,
+                        }),
+                    }
+                );
+
+                if (!response.ok) {
+                    throw new Error("L'inscription a échoué");
+                }
+
+                const data = await response.json();
+                // console.log(data);
+                updateUserInfo({
+                    id: data.id,
+                    town: data.town,
+                    email: data.email,
+                    username: data.username,
+                    password: data.password,
+                    role: data.role,
+                    moreInformations: data.moreInformations,
+                    darkmode: data.darmode,
+                    lastConnexion: data.lastConnexion,
+                    decisions: data.decisions,
+                });
+                handleValidLogin();
+            } catch (error) {
+                console.error("Erreur lors de l'inscription", error);
+            }
+        }
+    };
 
     return (
         <LoginContainer>
@@ -87,10 +186,10 @@ const LoginModule: React.FC = () => {
                     <Title>Sign In</Title>
                     <Input
                         type="text"
-                        placeholder="Username"
-                        value={usernameSignIn}
+                        placeholder="Email"
+                        value={emailSignIn}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                            setUsernameSignIn(e.target.value)
+                            setEmailSignIn(e.target.value)
                         }
                     />
                     <Input
@@ -115,7 +214,7 @@ const LoginModule: React.FC = () => {
                             To keep connected with us please login
                         </Paragraph>
                         <GhostButton onClick={() => setSignInPage(true)}>
-                            Sign In
+                            Sign Up
                         </GhostButton>
                     </LeftOverlayPanel>
 
@@ -126,7 +225,7 @@ const LoginModule: React.FC = () => {
                             Scandelaventure
                         </Paragraph>
                         <GhostButton onClick={() => setSignInPage(false)}>
-                            Sigin Up
+                            Sign In
                         </GhostButton>
                     </RightOverlayPanel>
                 </Overlay>
