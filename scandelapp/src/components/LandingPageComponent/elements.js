@@ -185,7 +185,7 @@ export const PortalLinkAdmin = styled.div`
     &:hover {
         cursor: pointer;
         background-color: ${Grey};
-        color: ${DarkGrey}
+        color: ${DarkGrey};
     }
 `;
 
@@ -220,4 +220,3 @@ export const CrownIcon = styled(FaCrown)`
     color: ${Yellow};
     transform: rotate(-40deg);
 `;
-

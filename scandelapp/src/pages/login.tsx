@@ -11,9 +11,7 @@ const Login: React.FC<LoginProps> = ({ updateUserInfo }) => {
             id={'loginPage'}
             style={{ backgroundColor: '#444444', height: '100vh' }}
         >
-            <LoginModule 
-                updateUserInfo={updateUserInfo}
-            />
+            <LoginModule updateUserInfo={updateUserInfo} />
         </div>
     );
 };

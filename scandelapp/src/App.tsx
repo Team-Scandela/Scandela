@@ -21,7 +21,7 @@ const initialUserInfo = {
     darkmode: false,
     lastConnexion: '',
     decisions: [''],
-    isPremiumActivated: true
+    isPremiumActivated: true,
 };
 
 /** Route page */
@@ -29,8 +29,8 @@ const App: React.FC = () => {
     const [userInfo, setUserInfo] = useState(initialUserInfo);
 
     const updateUserInfo = (newInfo: any) => {
-        setUserInfo(prevState => ({ ...prevState, ...newInfo }));
-      };
+        setUserInfo((prevState) => ({ ...prevState, ...newInfo }));
+    };
 
     return (
         <div>
@@ -57,22 +57,17 @@ const App: React.FC = () => {
                         element={
                             <LandingPage
                                 userInfo={userInfo}
-                                updateUserInfo={
-                                    updateUserInfo
-                                }
+                                updateUserInfo={updateUserInfo}
                             />
                         }
                     />
-                    <Route path="/login" element={
-                        <Login
-                            updateUserInfo={
-                                updateUserInfo
-                            }/>} />
+                    <Route
+                        path="/login"
+                        element={<Login updateUserInfo={updateUserInfo} />}
+                    />
                     <Route
                         path="/scandela"
-                        element={
-                            <Main userInfo={userInfo} />
-                        }
+                        element={<Main userInfo={userInfo} />}
                     />
                     <Route path="/redirect" element={<Redirect />} />
                     <Route path="/admin" element={<Admin />} />

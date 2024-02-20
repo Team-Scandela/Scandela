@@ -50,7 +50,7 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({
 
     const handleLogAdmin = () => {
         navigate('/admin');
-    }
+    };
 
     const handlePremiumButtonClicked = () => {
         setIsMenuPageDisplayed(!isMenuPageDisplayed);
@@ -173,9 +173,7 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({
                 <div>
                     <PremiumPage
                         userInfo={userInfo}
-                        updateUserInfo={
-                            updateUserInfo
-                        }
+                        updateUserInfo={updateUserInfo}
                         handlePremiumButtonClicked={handlePremiumButtonClicked}
                     ></PremiumPage>
                 </div>

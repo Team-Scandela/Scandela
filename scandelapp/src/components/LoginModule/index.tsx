@@ -22,16 +22,13 @@ interface LoginModuleProps {
 }
 
 /** Login module who allow to sign in up. You can slide the overlay from left to right (or the opposite) to acess to the side wanted */
-const LoginModule: React.FC<LoginModuleProps> = ({
-    updateUserInfo,
-}) => {
+const LoginModule: React.FC<LoginModuleProps> = ({ updateUserInfo }) => {
     const [signInPage, setSignInPage] = useState(true);
 
     const [usernameSignUp, setUsernameSignUp] = useState('');
     const [emailSignUp, setEmailSignUp] = useState('');
     const [passwordSignUp, setPasswordSignUp] = useState('');
-    const [passwordConfirmSignUp, setPasswordConfirmSignUp] =
-        useState('');
+    const [passwordConfirmSignUp, setPasswordConfirmSignUp] = useState('');
 
     const [emailSignIn, setEmailSignIn] = useState('');
     const [passwordSignIn, setPasswordSignIn] = useState('');
@@ -39,7 +36,7 @@ const LoginModule: React.FC<LoginModuleProps> = ({
 
     const handleValidLogin = () => {
         navigate('/');
-    }
+    };
 
     const handleSubmitSignIn = async (event: any) => {
         event.preventDefault();
@@ -51,14 +48,17 @@ const LoginModule: React.FC<LoginModuleProps> = ({
         });
 
         try {
-            const response = await fetch('https://serverdela.onrender.com/users/signin', {
-                method: 'POST',
-                headers: headers,
-                body: JSON.stringify({
-                    email: emailSignIn,
-                    password: passwordSignIn,
-                 }),
-            });
+            const response = await fetch(
+                'https://serverdela.onrender.com/users/signin',
+                {
+                    method: 'POST',
+                    headers: headers,
+                    body: JSON.stringify({
+                        email: emailSignIn,
+                        password: passwordSignIn,
+                    }),
+                }
+            );
 
             if (!response.ok) {
                 throw new Error('La connexion a échoué');
@@ -66,9 +66,18 @@ const LoginModule: React.FC<LoginModuleProps> = ({
 
             const data = await response.json();
             // console.log(data);
-            updateUserInfo({id: data.id, town: data.town, email: data.email, username: data.username,
-                password: data.password, role: data.role, moreInformations: data.moreInformations,
-                darkmode: data.darmode, lastConnexion: data.lastConnexion, decisions: data.decisions })
+            updateUserInfo({
+                id: data.id,
+                town: data.town,
+                email: data.email,
+                username: data.username,
+                password: data.password,
+                role: data.role,
+                moreInformations: data.moreInformations,
+                darkmode: data.darmode,
+                lastConnexion: data.lastConnexion,
+                decisions: data.decisions,
+            });
             handleValidLogin();
         } catch (error) {
             console.error('Erreur lors de la connexion', error);
@@ -76,7 +85,7 @@ const LoginModule: React.FC<LoginModuleProps> = ({
     };
 
     const handleSubmitSignUp = async (event: any) => {
-        if (passwordSignUp != "" && (passwordSignUp == passwordConfirmSignUp)) {
+        if (passwordSignUp != '' && passwordSignUp == passwordConfirmSignUp) {
             event.preventDefault();
 
             const encodedCredentials = btoa('tester:T&st');
@@ -86,16 +95,19 @@ const LoginModule: React.FC<LoginModuleProps> = ({
             });
 
             try {
-                const response = await fetch('https://serverdela.onrender.com/users/create', {
-                    method: 'POST',
-                    headers: headers,
-                    body: JSON.stringify({
-                        town: {id : 1},
-                        email: emailSignUp,
-                        username: usernameSignUp,
-                        password: passwordSignUp,
-                    }),
-                });
+                const response = await fetch(
+                    'https://serverdela.onrender.com/users/create',
+                    {
+                        method: 'POST',
+                        headers: headers,
+                        body: JSON.stringify({
+                            town: { id: 1 },
+                            email: emailSignUp,
+                            username: usernameSignUp,
+                            password: passwordSignUp,
+                        }),
+                    }
+                );
 
                 if (!response.ok) {
                     throw new Error("L'inscription a échoué");
@@ -103,9 +115,18 @@ const LoginModule: React.FC<LoginModuleProps> = ({
 
                 const data = await response.json();
                 // console.log(data);
-                updateUserInfo({id: data.id, town: data.town, email: data.email, username: data.username,
-                    password: data.password, role: data.role, moreInformations: data.moreInformations,
-                    darkmode: data.darmode, lastConnexion: data.lastConnexion, decisions: data.decisions })
+                updateUserInfo({
+                    id: data.id,
+                    town: data.town,
+                    email: data.email,
+                    username: data.username,
+                    password: data.password,
+                    role: data.role,
+                    moreInformations: data.moreInformations,
+                    darkmode: data.darmode,
+                    lastConnexion: data.lastConnexion,
+                    decisions: data.decisions,
+                });
                 handleValidLogin();
             } catch (error) {
                 console.error("Erreur lors de l'inscription", error);
