@@ -77,7 +77,7 @@ const PremiumPage: React.FC<PremiumPageProps> = ({
                     method: 'POST',
                     headers: headers,
                     body: JSON.stringify({
-                        userId: userInfo.id,
+                        userid: userInfo.id,
                         ...formValues,
                     }),
                 }
