@@ -6,6 +6,9 @@ import { Yellow } from '../../colors';
 import LampInfosPopup from '../LampInfosPopup';
 import Lasso from '../Lasso';
 import { LassoOverlay } from './elements';
+//import loadMap from './loadMap';
+//import TimePicker from '../TimePicker';
+import React from 'react';
 
 // Load geographical data of Nantes from a local JSON file
 let nantesData = require('../../assets/nantesData.json');

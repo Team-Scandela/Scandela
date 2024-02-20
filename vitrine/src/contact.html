@@ -83,7 +83,10 @@
     </div>
     <div class="contact-form">
       <h2>Contactez-nous</h2>
-      <form>
+      <form
+        action="https://formspree.io/f/moqgdblb"
+        method="POST"
+      >
         <label for="name">Nom:</label>
         <input type="text" id="name" name="name" required>
 
@@ -97,6 +100,22 @@
       </form>
     </div>
   </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      var contactForm = document.querySelector(".contact-form");
+      contactForm.classList.add("show");
+  
+      // Récupérez le formulaire
+      var form = contactForm.querySelector("form");
+  
+      // Ajoutez un écouteur d'événements pour le rechargement de la page
+      window.addEventListener("beforeunload", function() {
+        // Réinitialisez les valeurs des champs du formulaire
+        form.reset();
+      });
+    });
+  </script>
+  
   <footer class="footer">
     <div class="social-icons">
         <a href="https://www.instagram.com/votre_compte_instagram" target="_blank">
