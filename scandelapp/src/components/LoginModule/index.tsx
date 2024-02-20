@@ -26,13 +26,12 @@ const LoginModule: React.FC = () => {
     const [passwordConfirmSignUp, setPasswordConfirmSignUp] =
         useState('');
 
-    const [usernameSignIn, setUsernameSignIn] = useState('');
+    const [emailSignIn, setEmailSignIn] = useState('');
     const [passwordSignIn, setPasswordSignIn] = useState('');
 
     const handleSubmitSignIn = async (event: any) => {
         event.preventDefault();
 
-        // Encodage des identifiants pour l'authentification
         const encodedCredentials = btoa('tester:T&st');
         const headers = new Headers({
             'Content-Type': 'application/json',
@@ -40,10 +39,13 @@ const LoginModule: React.FC = () => {
         });
 
         try {
-            const response = await fetch('/', {
+            const response = await fetch('https://serverdela.onrender.com/users/signin', {
                 method: 'POST',
                 headers: headers,
-                body: JSON.stringify({ usernameSignIn, passwordSignIn }),
+                body: JSON.stringify({
+                    email: emailSignIn,
+                    password: passwordSignIn,
+                 }),
             });
 
             if (!response.ok) {
@@ -51,39 +53,43 @@ const LoginModule: React.FC = () => {
             }
 
             const data = await response.json();
-            // Gérez la réponse ici
+            console.log(data);
         } catch (error) {
             console.error('Erreur lors de la connexion', error);
-            // Gérez l'erreur ici
         }
     };
 
     const handleSubmitSignUp = async (event: any) => {
-        event.preventDefault();
+        if (passwordSignUp != "" && (passwordSignUp == passwordConfirmSignUp)) {
+            event.preventDefault();
 
-        // Encodage des identifiants pour l'authentification
-        const encodedCredentials = btoa('tester:T&st');
-        const headers = new Headers({
-            'Content-Type': 'application/json',
-            Authorization: `Basic ${encodedCredentials}`,
-        });
-
-        try {
-            const response = await fetch('/', {
-                method: 'POST',
-                headers: headers,
-                body: JSON.stringify({ usernameSignUp, emailSignUp, passwordSignUp, passwordConfirmSignUp }),
+            const encodedCredentials = btoa('tester:T&st');
+            const headers = new Headers({
+                'Content-Type': 'application/json',
+                Authorization: `Basic ${encodedCredentials}`,
             });
 
-            if (!response.ok) {
-                throw new Error("L'inscription a échoué");
-            }
+            try {
+                const response = await fetch('https://serverdela.onrender.com/users/create', {
+                    method: 'POST',
+                    headers: headers,
+                    body: JSON.stringify({
+                        town: {id : 1},
+                        email: emailSignUp,
+                        username: usernameSignUp,
+                        password: passwordSignUp,
+                    }),
+                });
 
-            const data = await response.json();
-            // Gérez la réponse ici
-        } catch (error) {
-            console.error("Erreur lors de l'inscription", error);
-            // Gérez l'erreur ici
+                if (!response.ok) {
+                    throw new Error("L'inscription a échoué");
+                }
+
+                const data = await response.json();
+                console.log(data);
+            } catch (error) {
+                console.error("Erreur lors de l'inscription", error);
+            }
         }
     };
 
@@ -139,10 +145,10 @@ const LoginModule: React.FC = () => {
                     <Title>Sign In</Title>
                     <Input
                         type="text"
-                        placeholder="Username"
-                        value={usernameSignIn}
+                        placeholder="Email"
+                        value={emailSignIn}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                            setUsernameSignIn(e.target.value)
+                            setEmailSignIn(e.target.value)
                         }
                     />
                     <Input
@@ -167,7 +173,7 @@ const LoginModule: React.FC = () => {
                             To keep connected with us please login
                         </Paragraph>
                         <GhostButton onClick={() => setSignInPage(true)}>
-                            Sign In
+                            Sign Up
                         </GhostButton>
                     </LeftOverlayPanel>
 
@@ -178,7 +184,7 @@ const LoginModule: React.FC = () => {
                             Scandelaventure
                         </Paragraph>
                         <GhostButton onClick={() => setSignInPage(false)}>
-                            Sigin Up
+                            Sign In
                         </GhostButton>
                     </RightOverlayPanel>
                 </Overlay>
