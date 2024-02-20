@@ -14,8 +14,6 @@ interface Lamp {
     address: string;
     lat: number;
     long: number;
-    lighton: string;
-    lightoff: string;
     height: number;
     lamptype: string;
     foyertype: string;
@@ -44,8 +42,6 @@ const Download: React.FC<DownloadProps> = ({ isDark }) => {
                             address: lamp.address,
                             lat: lamp.lat,
                             long: lamp.long,
-                            // lighton: lamp.lighton,
-                            // lightoff: lamp.lightoff,
                             height: lamp.height,
                             lamptype: lamp.lamptype,
                             foyertype: lamp.foyertype,
@@ -77,8 +73,6 @@ const Download: React.FC<DownloadProps> = ({ isDark }) => {
                     address: element.fields.nom_voie,
                     lat: element.geometry.coordinates[1],
                     long: element.geometry.coordinates[0],
-                    lighton: element.fields.type_lampe,
-                    lightoff: element.fields.type_foyer,
                     height: element.fields.hauteur_support,
                     lamptype: element.fields.type_lampe,
                     foyertype: element.fields.type_foyer,

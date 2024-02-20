@@ -21,20 +21,22 @@ public class EmailService implements IEmailService {
     @Autowired
     private JavaMailSender emailSender;
 
-    public void sendSimpleEmail(String receiver, String subject, String message) {
+    @Override
+    public void sendMail(String receiver, String subject, String message) {
         SimpleMailMessage mail = new SimpleMailMessage();
         mail.setFrom("noreply@scandela.fr");
         mail.setTo(receiver);
         mail.setSubject(subject);
         mail.setText(message);
 
-        mail.setText("To confirm your account, please click here : "
-                + "https://dev.scandela.fr:2000/redirect?email=" + receiver);
+//        mail.setText("To confirm your account, please click here : "
+//                + "https://dev.scandela.fr:2000/redirect?email=" + receiver);
 
         emailSender.send(mail);
 
     }
 
+    @Override
     public JavaMailSender getJavaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
 

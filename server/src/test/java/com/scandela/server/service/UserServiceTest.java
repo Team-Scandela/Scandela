@@ -45,7 +45,7 @@ public class UserServiceTest {
 	private final UUID id = UUID.randomUUID();
 	private final String email = "test@test.test";
 	private final String username = "tester";
-	private final String password = "test";
+	private final String password = "PiWi17";
 	private final Integer rights = 1;
 	private final Town town = Town.builder().id(id).build();
 	private final User user = User.builder()
@@ -279,6 +279,35 @@ public class UserServiceTest {
 		assertThat(result.getMoreInformations()).isEqualTo(user2.getMoreInformations());
 		assertThat(result.isDarkmode()).isEqualTo(user2.isDarkmode());
 		assertThat(result.getLastConnexion()).isEqualTo(user2.getLastConnexion());
+	}
+	
+	@Test
+	public void testSignIn() throws UserException {
+		user.setPassword("$2a$10$6TEo/MJyDPspue8O1YBoTO.EUo5M.r13FqXAm3nBnnfXnw/FttkXO");
+		
+		when(userDaoMock.findByEmail(email)).thenReturn(Optional.ofNullable(user));
+		
+		UUID result = testedObject.signIn(email, password);
+		
+		assertThat(result).isEqualTo(id);
+	}
+	
+	@Test
+	public void testSignIn_whenEmailNotCorresponding_thenThrowUserException() {
+		when(userDaoMock.findByEmail(email)).thenReturn(Optional.empty());
+
+		UserException result = assertThrows(UserException.class, () -> testedObject.signIn(email, password));
+
+		assertThat(result.getMessage()).isEqualTo(UserException.NO_CORRESPONDING_EMAIL);
+	}
+	
+	@Test
+	public void testSignIn_whenWrongPassword_thenThrowUserException() {
+		when(userDaoMock.findByEmail(email)).thenReturn(Optional.ofNullable(user));
+
+		UserException result = assertThrows(UserException.class, () -> testedObject.signIn(email, password));
+
+		assertThat(result.getMessage()).isEqualTo(UserException.WRONG_PASSWORD);
 	}
 	
 	@Test
