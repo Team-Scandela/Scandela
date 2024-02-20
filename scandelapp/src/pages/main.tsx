@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import FilterMenu from '../components/FilterMenu';
 import Map from '../components/Map';
 import SearchBar from '../components/SearchBar';
@@ -77,7 +77,34 @@ const Main: React.FC<MainProps> = ({ isPremiumActivated }) => {
         }
     };
 
-    getUser();
+    const getDecisions = async () => {
+        const username = 'tester';
+        const password = 'T&st';
+        try {
+            const response = await fetch(
+                'https://serverdela.onrender.com/decisions/52ab540b-ab5b-4a6a-9d55-e3ad205db196',
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Basic ${btoa(
+                            `${username}:${password}`
+                        )}`,
+                    },
+                }
+            );
+
+            const data = await response.json();
+            console.log(data);
+        } catch (error) {
+            console.log('ERROR GET DECISIONS = ' + error);
+        }
+    }
+
+    useEffect(() => {
+        getUser();
+        getDecisions();
+    }, []);
 
     const [optimisationTemplateData, setOptimisationTemplateData] = useState([
         {
