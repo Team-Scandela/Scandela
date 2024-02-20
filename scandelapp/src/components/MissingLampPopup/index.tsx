@@ -28,7 +28,7 @@ const InfoIconPopup: React.FC<InfoIconPopupProps> = ({ isDark }) => {
         const url = process.env.REACT_APP_BACKEND_URL + '/bulbs/create';
 
         try {
-            const response = await fetch(url, {
+            const response = await fetch('https://serverdela.onrender.com/bulbs/create', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
