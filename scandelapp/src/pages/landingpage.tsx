@@ -1,14 +1,14 @@
 import LandingPageComponent from '../components/LandingPageComponent';
 
 interface LandingPageProps {
-    isPremiumActivated: boolean;
-    handleToggleIsPremiumActivated: () => void;
+    userInfo: any;
+    updateUserInfo: (newInfo: any) => void;
 }
 
 /** Landing page of the app */
 const LandingPage: React.FC<LandingPageProps> = ({
-    isPremiumActivated,
-    handleToggleIsPremiumActivated,
+    userInfo,
+    updateUserInfo,
 }) => {
     return (
         <div
@@ -16,8 +16,8 @@ const LandingPage: React.FC<LandingPageProps> = ({
             style={{ backgroundColor: '#2A2B2A', height: '100vh' }}
         >
             <LandingPageComponent
-                isPremiumActivated={isPremiumActivated}
-                handleToggleIsPremiumActivated={handleToggleIsPremiumActivated}
+                userInfo={userInfo}
+                updateUserInfo={updateUserInfo}
             />
         </div>
     );
