@@ -28,11 +28,11 @@ export enum Filters {
 }
 
 interface MainProps {
-    isPremiumActivated: boolean;
+    userInfo: any;
 }
 
 /** Main page of the app */
-const Main: React.FC<MainProps> = ({ isPremiumActivated }) => {
+const Main: React.FC<MainProps> = ({ userInfo }) => {
     const [isDark, setIsDark] = useState<boolean>(true);
     const [filter, setFilter] = useState<Filters>(Filters.none);
     const [lat, setLat] = useState<number>(47.218371);
@@ -248,7 +248,7 @@ const Main: React.FC<MainProps> = ({ isPremiumActivated }) => {
                 </>
             )}
 
-            {isPremiumActivated && (
+            {userInfo.isPremiumActivated && (
                 <>
                     <ToastHistory
                         id={'toastHistoryId'}

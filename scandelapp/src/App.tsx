@@ -10,12 +10,26 @@ import Admin from './pages/admin';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 
+const initialUserInfo = {
+    id: 0,
+    town: '',
+    email: '',
+    username: '',
+    password: '',
+    role: '',
+    moreInformations: [''],
+    darkmode: false,
+    lastConnexion: '',
+    decisions: [''],
+    isPremiumActivated: true,
+};
+
 /** Route page */
 const App: React.FC = () => {
-    const [isPremiumActivated, setIsPremiumActivated] = useState<boolean>(true);
+    const [userInfo, setUserInfo] = useState(initialUserInfo);
 
-    const handleToggleIsPremiumActivated = () => {
-        setIsPremiumActivated((prevState) => !prevState);
+    const updateUserInfo = (newInfo: any) => {
+        setUserInfo((prevState) => ({ ...prevState, ...newInfo }));
     };
 
     return (
@@ -42,19 +56,18 @@ const App: React.FC = () => {
                         path="/"
                         element={
                             <LandingPage
-                                isPremiumActivated={isPremiumActivated}
-                                handleToggleIsPremiumActivated={
-                                    handleToggleIsPremiumActivated
-                                }
+                                userInfo={userInfo}
+                                updateUserInfo={updateUserInfo}
                             />
                         }
                     />
-                    <Route path="/login" element={<Login />} />
+                    <Route
+                        path="/login"
+                        element={<Login updateUserInfo={updateUserInfo} />}
+                    />
                     <Route
                         path="/scandela"
-                        element={
-                            <Main isPremiumActivated={isPremiumActivated} />
-                        }
+                        element={<Main userInfo={userInfo} />}
                     />
                     <Route path="/redirect" element={<Redirect />} />
                     <Route path="/admin" element={<Admin />} />

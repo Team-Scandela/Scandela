@@ -795,7 +795,7 @@ const Map: React.FC<MapProps> = ({
                     `coordinate=${point.lat.toFixed(5)},${point.lng.toFixed(5)}`
             )
             .join('&');
-        const url = `http://localhost:8080/lamps/coordinates?${queryString}`;
+        const url = `http://serverdela.onrender.com/lamps/coordinates?${queryString}`;
 
         const encodedCredentials = btoa('tester:T&st');
 
