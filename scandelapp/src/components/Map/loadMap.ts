@@ -58,30 +58,6 @@ async function fetchRealTimeTrafficData(): Promise<any> {
     }
 }
 
-function filterTrafficDataForFrance(trafficData: any): any {
-    // Filtrer les données pour obtenir seulement celles qui sont en France (approximativement)
-    const franceBounds = [
-        [-5.559374, 41.333740], // Sud-ouest de la France
-        [9.561567, 51.124214],  // Nord-est de la France
-    ];
-
-    const filteredFeatures = trafficData.features.filter((feature: any) => {
-        const coordinates = feature.geometry.coordinates;
-        return (
-            coordinates[0] >= franceBounds[0][0] &&
-            coordinates[0] <= franceBounds[1][0] &&
-            coordinates[1] >= franceBounds[0][1] &&
-            coordinates[1] <= franceBounds[1][1]
-        );
-    });
-
-    return {
-        type: 'FeatureCollection',
-        features: filteredFeatures,
-        bbox: franceBounds.flat(),
-    };
-}
-
 const lightningYellow = 'src/assets/eclairJaune.png';
 
 async function fetchLightningData(): Promise<any> {
