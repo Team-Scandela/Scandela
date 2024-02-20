@@ -28,18 +28,29 @@ const PremiumPage: React.FC<PremiumPageProps> = ({
 }) => {
     const [showForm, setShowForm] = useState(false);
     const [formValues, setFormValues] = useState({
-      cardName: '',
+      fullName: '',
       cardNumber: '',
-      cardExpirationDate: '',
-      cardCVV: '',
+      cardExpMonth: '',
+      cardExpYear: '',
+      cardCVC: '',
     });
 
     const handleFormChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       const { name, value } = event.target;
-      setFormValues(prev => ({
-        ...prev,
-        [name]: value,
-      }));
+
+      if (name === "cardExpirationDate") {
+        const [year, month] = value.split("-");
+        setFormValues(prev => ({
+          ...prev,
+          cardExpMonth: month,
+          cardExpYear: year,
+        }));
+      } else {
+        setFormValues(prev => ({
+          ...prev,
+          [name]: value,
+        }));
+      }
     };
 
 
@@ -110,10 +121,10 @@ const PremiumPage: React.FC<PremiumPageProps> = ({
         )}
       {showForm && (
         <div>
-            <FormField type="text" name="cardName" placeholder="Nom sur la carte" value={formValues.cardName} onChange={handleFormChange} />
+            <FormField type="text" name="fullName" placeholder="Nom sur la carte" value={formValues.fullName} onChange={handleFormChange} />
             <FormField type="number" name="cardNumber" placeholder="Numéro de carte" value={formValues.cardNumber} onChange={handleFormChange} />
-            <FormField type="month" name="cardExpirationDate" placeholder="Date d'expiration" value={formValues.cardExpirationDate} onChange={handleFormChange} />
-            <FormField type="number" name="cardCVV" placeholder="CVV" value={formValues.cardCVV} onChange={handleFormChange} />
+            <FormField type="month" name="cardExpirationDate" placeholder="Date d'expiration" onChange={handleFormChange} />
+            <FormField type="number" name="cardCVC" placeholder="CVC" value={formValues.cardCVC} onChange={handleFormChange} />
             <SubmitButton onClick={handleFormSubmit}>Soumettre</SubmitButton>
         </div>
       )}
