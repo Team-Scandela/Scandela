@@ -31,7 +31,7 @@ public class PriceLimit implements Serializable {
     @Column(name = "uuid", updatable = false, nullable = false)
     private UUID id;
 
-    @Column(name = "userId", updatable = false, nullable = false)
+    @Column(name = "userId")
     private String userId;
 
     @Column(name = "triggeredstate", nullable = false)

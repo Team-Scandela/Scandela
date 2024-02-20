@@ -54,7 +54,7 @@ public class PriceLimitService extends AbstractService<PriceLimit> implements IP
 		URL obj;
 		String credentials = username + ":" + pwd;
 		String encodedKey = Base64.getEncoder().encodeToString(credentials.getBytes(StandardCharsets.UTF_8));
-
+		
 		try {
 			obj = new URL("https://serverdela.onrender.com/electricityPrice");
 			HttpURLConnection con = (HttpURLConnection) obj.openConnection();
