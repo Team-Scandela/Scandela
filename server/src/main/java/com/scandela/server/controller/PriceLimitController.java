@@ -24,32 +24,32 @@ import com.scandela.server.service.IPriceLimitService;
 @RequestMapping(value = "/pricelimits")
 public class PriceLimitController extends AbstractController<PriceLimit> {
 
-    @Autowired
-    protected PriceLimitController(IPriceLimitService service) {
-        super(service);
-    }
+	@Autowired
+	protected PriceLimitController(IPriceLimitService service) {
+		super(service);
+	}
 
-    @GetMapping
+	@GetMapping
 	public List<PriceLimit> getPriceLimits() {
 		return super.getAll();
 	}
 
-    @GetMapping("/{id}")
+	@GetMapping("/{id}")
 	public PriceLimit getPriceLimit(@PathVariable UUID id) {
 		return super.get(id);
 	}
 
-    @PostMapping("/create")
+	@PostMapping("/create")
 	public PriceLimit createPriceLimit(@RequestBody PriceLimit newPriceLimit) throws Exception {
 		return super.create(newPriceLimit);
 	}
 
-    @PutMapping("/{id}")
+	@PutMapping("/{id}")
 	public PriceLimit updatePriceLimit(@PathVariable UUID id, @RequestBody PriceLimit update) throws Exception {
 		return super.update(id, update);
 	}
 
-    @DeleteMapping("/delete/{id}")
+	@DeleteMapping("/delete/{id}")
 	public void deletePriceLimit(@PathVariable UUID id) {
 		super.delete(id);
 	}
