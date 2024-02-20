@@ -78,9 +78,9 @@ const Main: React.FC<MainProps> = ({ isPremiumActivated }) => {
     };
 
     useEffect(() => {
-        console.log('here');
+        console.log('here!');
         getUser();
-      }, []);
+    }, []);
 
     const [optimisationTemplateData, setOptimisationTemplateData] = useState([
         {
