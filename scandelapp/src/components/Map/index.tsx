@@ -4,9 +4,10 @@ import { useState, useEffect, useRef, useMemo } from 'react';
 import { Filters } from '../../pages/main';
 import { Yellow } from '../../colors';
 import LampInfosPopup from '../LampInfosPopup';
+import Lasso from '../Lasso';
 import { LassoOverlay } from './elements';
-import loadMap from './loadMap';
-import TimePicker from '../TimePicker';
+//import loadMap from './loadMap';
+//import TimePicker from '../TimePicker';
 import React from 'react';
 
 // Load geographical data of Nantes from a local JSON file
@@ -24,7 +25,6 @@ interface MapProps {
     lat: number;
     lng: number;
     zoom: number;
-    isLassoActive: boolean;
     selectedFilter: string;
     searchFilter: string;
 }
@@ -37,18 +37,9 @@ const Map: React.FC<MapProps> = ({
     lat,
     lng,
     zoom,
-    isLassoActive,
     selectedFilter,
     searchFilter,
 }) => {
-    const [showTimePicker, setShowTimePicker] = useState(false);
-
-    // Fonction pour gérer la sélection de l'heure dans le TimePicker
-    const handleTimeSelection = (selectedHour: number) => {
-        console.log('Selected Hour:', selectedHour);
-        // Ajoutez ici la logique pour traiter l'heure sélectionnée, si nécessaire
-        setShowTimePicker(false); // Fermez le TimePicker après la sélection
-    };
     // Reference to the map container element
     const mapContainer = useRef<HTMLDivElement | null>(null);
 
@@ -68,6 +59,10 @@ const Map: React.FC<MapProps> = ({
     const [selectedLampFeature, setSelectedLampFeature] =
         useState<mapboxgl.MapboxGeoJSONFeature | null>(null);
 
+    const [isLassoActive, setIsLassoActive] = useState(false);
+
+    const [lassoSelectedLamps, setLassoSelectedLamps] = useState([]);
+
     interface geojson {
         type: string;
         features: feature[];
@@ -86,6 +81,22 @@ const Map: React.FC<MapProps> = ({
             hat: string;
         };
     }
+
+    const handleLassoActivation = (isActive: boolean) => {
+        if (!isActive && lassoSelectedLamps[0]) {
+            if (map.current) {
+                map.current.setPaintProperty('lamp', 'circle-color', [
+                    'match',
+                    ['get', 'name'],
+                    lassoSelectedLamps,
+                    '#FAC710',
+                    '#FAC710',
+                ]);
+            }
+        }
+        setLassoSelectedLamps([]);
+        setIsLassoActive(isActive);
+    };
 
     // Crée les données géoJSON à partir des données de Nantes
     const geojsonData = useMemo(() => {
@@ -124,6 +135,7 @@ const Map: React.FC<MapProps> = ({
 
                 setLayoutVisibilityFilter('none');
             } else if (filter === ('filter' as Filters)) {
+                setLayoutVisibility('none');
                 // Show layers when the filter is "pin"
             } else {
                 // Hide layers when the filter is not "pin"
@@ -133,19 +145,6 @@ const Map: React.FC<MapProps> = ({
             }
         }
     };
-
-    React.useEffect(() => {
-        if (map.current) {
-          for (const value in Filters) {
-            if (map.current.getLayer(value)) {
-              map.current.setLayoutProperty(value, 'visibility', 'none');
-            }
-          }
-          if (map.current.getLayer(filter)) {
-            map.current.setLayoutProperty(filter, 'visibility', 'visible');
-          }
-        }
-      }, [filter]);
 
     const setLayoutVisibility = (visibility: string) => {
         map.current.setLayoutProperty('cluster-text', 'visibility', visibility);
@@ -377,6 +376,7 @@ const Map: React.FC<MapProps> = ({
 
             if (features && features.length > 0) {
                 const selectedFeature = features[0];
+                console.log(selectedFeature);
                 setSelectedLampId(selectedFeature.properties.id);
 
                 // Mettre à jour la couleur du lampadaire sélectionné en utilisant un filtre
@@ -535,6 +535,49 @@ const Map: React.FC<MapProps> = ({
         }
     }, [selectedFilter, searchFilter]);
 
+    const handleLassoValidation = () => {
+        const queryString = clickedPoints
+            .map(
+                (point) =>
+                    `coordinate=${point.lat.toFixed(5)},${point.lng.toFixed(5)}`
+            )
+            .join('&');
+        const url = `http://localhost:8080/lamps/coordinates?${queryString}`;
+
+        const encodedCredentials = btoa('tester:T&st');
+
+        const headers = new Headers({
+            Authorization: `Basic ${encodedCredentials}`,
+        });
+
+        fetch(url, { method: 'GET', headers: headers })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then((data) => {
+                const lampIds = data.map((lamp: any) => lamp.name);
+                setLassoSelectedLamps(lampIds);
+                if (map.current) {
+                    map.current.setPaintProperty('lamp', 'circle-color', [
+                        'match',
+                        ['get', 'name'],
+                        lampIds,
+                        '#48187b',
+                        '#FAC710',
+                    ]);
+                }
+            })
+            .catch((error) => {
+                console.error(
+                    'There has been a problem with your fetch operation:',
+                    error
+                );
+            });
+    };
+
     useEffect(() => {
         if (map.current) {
             if (isLassoActive) {
@@ -639,7 +682,6 @@ const Map: React.FC<MapProps> = ({
                         },
                     });
                 }
-
                 map.current.addLayer({
                     id: 'clickedPointsLayer',
                     type: 'circle',
@@ -717,6 +759,12 @@ const Map: React.FC<MapProps> = ({
     // Render the map component
     return (
         <div id={id} style={{ overflow: 'hidden' }}>
+            <Lasso
+                id={'LassoComponentId'}
+                isDark={isDark}
+                onLassoActivation={handleLassoActivation}
+                onLassoValidation={handleLassoValidation}
+            />
             <LassoOverlay isLassoActive={isLassoActive} />
             <div
                 style={{ ...styleMap, cursor: cursorStyle }}

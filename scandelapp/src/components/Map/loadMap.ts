@@ -331,19 +331,19 @@ export default async function loadMap(map: mapboxgl.Map | undefined) {
                         lightningState[clickedLightningID] ? 'lightning2' : 'lightning', 
                         'lightning',
                     ]);
-            
+
                     map.setLayoutProperty('cabinet', 'icon-size', [
                         'case',
                         ['==', ['get', 'id'], clickedLightningID],
                         lightningState[clickedLightningID] ? 0.05 : 0.1, // Taille différente pour l'éclair sélectionné
                         0.1, // Taille par défaut pour les autres éclairs
                     ]);
-            
+
                     // const visibilityState = Object.keys(lightningState).reduce((acc, id) => {
                     //     acc[id] = lightningState[id] ? 'visible' : 'none';
                     //     return acc;
                     // }, {} as Record<string, string>);
-            
+
                     // map.setFilter('cabinet', ['in', ['get', 'id'], ...Object.keys(visibilityState)]);
                 }
             });
