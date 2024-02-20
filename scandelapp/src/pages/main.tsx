@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import FilterMenu from '../components/FilterMenu';
 import Map from '../components/Map';
 import SearchBar from '../components/SearchBar';
@@ -80,7 +80,10 @@ const Main: React.FC<MainProps> = ({ userInfo }) => {
         }
     };
 
-    getUser();
+    useEffect(() => {
+        console.log('here!');
+        getUser();
+    }, []);
 
     const [optimisationTemplateData, setOptimisationTemplateData] = useState([
         {
