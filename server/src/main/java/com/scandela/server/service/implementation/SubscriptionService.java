@@ -41,7 +41,6 @@ public class SubscriptionService extends AbstractService<Subscription> implement
 
     private UserDao userDao;
 
-
     protected SubscriptionService(SubscriptionDao subscriptionDao, UserDao userDao) {
         super(subscriptionDao);
         this.userDao = userDao;
