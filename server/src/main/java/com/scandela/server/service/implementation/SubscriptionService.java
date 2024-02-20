@@ -4,13 +4,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-
+import java.util.Optional;
+import java.util.UUID;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.scandela.server.dao.SubscriptionDao;
+import com.scandela.server.dao.UserDao;
 import com.scandela.server.entity.Subscription;
+import com.scandela.server.entity.User;
 import com.scandela.server.service.AbstractService;
 import com.scandela.server.service.ISubscriptionService;
 import com.stripe.exception.StripeException;
@@ -26,9 +29,6 @@ import com.stripe.Stripe;
 
 @Service
 public class SubscriptionService extends AbstractService<Subscription> implements ISubscriptionService {
-    protected SubscriptionService(SubscriptionDao subscriptionDao) {
-        super(subscriptionDao);
-    }
 
     private String publicKey;
 
@@ -37,6 +37,13 @@ public class SubscriptionService extends AbstractService<Subscription> implement
 
     public String getClientPublicKey() {
         return publicKey;
+    }
+
+    private UserDao userDao;
+
+    protected SubscriptionService(SubscriptionDao subscriptionDao, UserDao userDao) {
+        super(subscriptionDao);
+        this.userDao = userDao;
     }
 
     // TODO: ajouter l'exception de Stripe
@@ -57,9 +64,11 @@ public class SubscriptionService extends AbstractService<Subscription> implement
 
     public Customer createCustomer(Subscription subscription) {
 
-        // Need -> address, full name, email, payment method
+        Optional<User> user = userDao.findById(UUID.fromString(subscription.getUserid()));
 
         HashMap<String, Object> params = new HashMap<String, Object>();
+
+        subscription.setEmail(user.get().getEmail());
 
         params.put("email", subscription.getEmail());
         params.put("name", subscription.getFullName());
@@ -94,7 +103,7 @@ public class SubscriptionService extends AbstractService<Subscription> implement
 
     public String createCard(Subscription subscription, Customer customer) throws StripeException {
 
-        HashMap<String, Object> cardParam = new HashMap<String, Object>(); // add card details
+        HashMap<String, Object> cardParam = new HashMap<String, Object>();
 
         cardParam.put("number", subscription.getCardNumber());
         cardParam.put("exp_month", subscription.getCardExpMonth());

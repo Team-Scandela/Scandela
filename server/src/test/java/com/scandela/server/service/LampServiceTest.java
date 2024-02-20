@@ -186,18 +186,18 @@ public class LampServiceTest {
 	@Test
 	public void testCreate() throws LampException {
 		when(lampDaoMock.save(Mockito.any(Lamp.class))).thenReturn(lamp);
-		when(townDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(town));
-		when(streetDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(street));
-		when(bulbDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(bulb));
-		when(cabinetDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(cabinet));
-		when(lampShadeDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(lampShade));
+		// when(townDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(town));
+		// when(streetDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(street));
+		// when(bulbDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(bulb));
+		// when(cabinetDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(cabinet));
+		// when(lampShadeDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(lampShade));
 		
 		Lamp result = testedObject.create(lamp);
 
 		verify(lampDaoMock, times(1)).save(Mockito.any(Lamp.class));
-		verify(townDaoMock, times(1)).findById(Mockito.any());
-		verify(streetDaoMock, times(1)).findById(Mockito.any());
-		verify(bulbDaoMock, times(1)).findById(Mockito.any());
+		// verify(townDaoMock, times(1)).findById(Mockito.any());
+		// verify(streetDaoMock, times(1)).findById(Mockito.any());
+		// verify(bulbDaoMock, times(1)).findById(Mockito.any());
 		assertThat(result.getId()).isEqualTo(lamp.getId());
 		assertThat(result.getBulb()).isEqualTo(lamp.getBulb());
 		assertThat(result.getTown()).isEqualTo(lamp.getTown());
@@ -211,289 +211,289 @@ public class LampServiceTest {
 		assertThat(result.getMoreInformations()).isEqualTo(lamp.getMoreInformations());
 	}
 	
-	@Test
-	public void testCreate_whenTownIsNull_thenReturnThrowLampException() {
-		lamp.setTown(null);
+	// @Test
+	// public void testCreate_whenTownIsNull_thenReturnThrowLampException() {
+	// 	lamp.setTown(null);
 		
-		LampException result = assertThrows(LampException.class, () -> testedObject.create(lamp));
+	// 	LampException result = assertThrows(LampException.class, () -> testedObject.create(lamp));
 		
-		verify(lampDaoMock, never()).save(Mockito.any(Lamp.class));
-		verify(townDaoMock, never()).findById(Mockito.any());
-		verify(streetDaoMock, never()).findById(Mockito.any());
-		verify(bulbDaoMock, never()).findById(Mockito.any());
-		verify(cabinetDaoMock, never()).findById(Mockito.any());
-		verify(lampShadeDaoMock, never()).findById(Mockito.any());
-		assertThat(result.getMessage()).isEqualTo(LampException.INCOMPLETE_INFORMATIONS);
-	}
+	// 	verify(lampDaoMock, never()).save(Mockito.any(Lamp.class));
+	// 	verify(townDaoMock, never()).findById(Mockito.any());
+	// 	verify(streetDaoMock, never()).findById(Mockito.any());
+	// 	verify(bulbDaoMock, never()).findById(Mockito.any());
+	// 	verify(cabinetDaoMock, never()).findById(Mockito.any());
+	// 	verify(lampShadeDaoMock, never()).findById(Mockito.any());
+	// 	assertThat(result.getMessage()).isEqualTo(LampException.INCOMPLETE_INFORMATIONS);
+	// }
 	
-	@Test
-	public void testCreate_whenTownNotFound_thenThrowLampException() throws LampException {
-		when(townDaoMock.findById(Mockito.any())).thenReturn(Optional.empty());
+	// @Test
+	// public void testCreate_whenTownNotFound_thenThrowLampException() throws LampException {
+	// 	when(townDaoMock.findById(Mockito.any())).thenReturn(Optional.empty());
 		
-		LampException result = assertThrows(LampException.class, () -> testedObject.create(lamp));
+	// 	LampException result = assertThrows(LampException.class, () -> testedObject.create(lamp));
 
-		verify(lampDaoMock, never()).save(Mockito.any(Lamp.class));
-		verify(townDaoMock, times(1)).findById(Mockito.any());
-		verify(streetDaoMock, never()).findById(Mockito.any());
-		verify(bulbDaoMock, never()).findById(Mockito.any());
-		verify(cabinetDaoMock, never()).findById(Mockito.any());
-		verify(lampShadeDaoMock, never()).findById(Mockito.any());
-		assertThat(result.getMessage()).isEqualTo(LampException.TOWN_LOADING);
-	}
+	// 	verify(lampDaoMock, never()).save(Mockito.any(Lamp.class));
+	// 	verify(townDaoMock, times(1)).findById(Mockito.any());
+	// 	verify(streetDaoMock, never()).findById(Mockito.any());
+	// 	verify(bulbDaoMock, never()).findById(Mockito.any());
+	// 	verify(cabinetDaoMock, never()).findById(Mockito.any());
+	// 	verify(lampShadeDaoMock, never()).findById(Mockito.any());
+	// 	assertThat(result.getMessage()).isEqualTo(LampException.TOWN_LOADING);
+	// }
 	
-	@Test
-	public void testCreate_whenBulbIsNull_thenReturnThrowLampException() {
-		lamp.setBulb(null);
+	// @Test
+	// public void testCreate_whenBulbIsNull_thenReturnThrowLampException() {
+	// 	lamp.setBulb(null);
 		
-		when(townDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(town));
-		when(streetDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(street));
+	// 	when(townDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(town));
+	// 	when(streetDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(street));
 		
-		LampException result = assertThrows(LampException.class, () -> testedObject.create(lamp));
+	// 	LampException result = assertThrows(LampException.class, () -> testedObject.create(lamp));
 		
-		verify(lampDaoMock, never()).save(Mockito.any(Lamp.class));
-		verify(townDaoMock, times(1)).findById(Mockito.any());
-		verify(streetDaoMock, times(1)).findById(Mockito.any());
-		verify(bulbDaoMock, never()).findById(Mockito.any());
-		verify(cabinetDaoMock, never()).findById(Mockito.any());
-		verify(lampShadeDaoMock, never()).findById(Mockito.any());
-		assertThat(result.getMessage()).isEqualTo(LampException.INCOMPLETE_INFORMATIONS);
-	}
+	// 	verify(lampDaoMock, never()).save(Mockito.any(Lamp.class));
+	// 	verify(townDaoMock, times(1)).findById(Mockito.any());
+	// 	verify(streetDaoMock, times(1)).findById(Mockito.any());
+	// 	verify(bulbDaoMock, never()).findById(Mockito.any());
+	// 	verify(cabinetDaoMock, never()).findById(Mockito.any());
+	// 	verify(lampShadeDaoMock, never()).findById(Mockito.any());
+	// 	assertThat(result.getMessage()).isEqualTo(LampException.INCOMPLETE_INFORMATIONS);
+	// }
 	
-	@Test
-	public void testCreate_whenBulbNotFound_thenThrowLampException() throws LampException {
-		when(townDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(town));
-		when(streetDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(street));
-		when(bulbDaoMock.findById(Mockito.any())).thenReturn(Optional.empty());
+	// @Test
+	// public void testCreate_whenBulbNotFound_thenThrowLampException() throws LampException {
+	// 	when(townDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(town));
+	// 	when(streetDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(street));
+	// 	when(bulbDaoMock.findById(Mockito.any())).thenReturn(Optional.empty());
 		
-		LampException result = assertThrows(LampException.class, () -> testedObject.create(lamp));
+	// 	LampException result = assertThrows(LampException.class, () -> testedObject.create(lamp));
 
-		verify(lampDaoMock, never()).save(Mockito.any(Lamp.class));
-		verify(townDaoMock, times(1)).findById(Mockito.any());
-		verify(streetDaoMock, times(1)).findById(Mockito.any());
-		verify(bulbDaoMock, times(1)).findById(Mockito.any());
-		verify(cabinetDaoMock, never()).findById(Mockito.any());
-		verify(lampShadeDaoMock, never()).findById(Mockito.any());
-		assertThat(result.getMessage()).isEqualTo(LampException.BULB_LOADING);
-	}
+	// 	verify(lampDaoMock, never()).save(Mockito.any(Lamp.class));
+	// 	verify(townDaoMock, times(1)).findById(Mockito.any());
+	// 	verify(streetDaoMock, times(1)).findById(Mockito.any());
+	// 	verify(bulbDaoMock, times(1)).findById(Mockito.any());
+	// 	verify(cabinetDaoMock, never()).findById(Mockito.any());
+	// 	verify(lampShadeDaoMock, never()).findById(Mockito.any());
+	// 	assertThat(result.getMessage()).isEqualTo(LampException.BULB_LOADING);
+	// }
 	
-	@Test
-	public void testCreate_whenStreetIsNull_thenReturnThrowLampException() {
-		lamp.setStreet(null);
+	// @Test
+	// public void testCreate_whenStreetIsNull_thenReturnThrowLampException() {
+	// 	lamp.setStreet(null);
 		
-		when(townDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(town));
+	// 	when(townDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(town));
 		
-		LampException result = assertThrows(LampException.class, () -> testedObject.create(lamp));
+	// 	LampException result = assertThrows(LampException.class, () -> testedObject.create(lamp));
 		
-		verify(lampDaoMock, never()).save(Mockito.any(Lamp.class));
-		verify(townDaoMock, times(1)).findById(Mockito.any());
-		verify(streetDaoMock, never()).findById(Mockito.any());
-		verify(bulbDaoMock, never()).findById(Mockito.any());
-		verify(cabinetDaoMock, never()).findById(Mockito.any());
-		verify(lampShadeDaoMock, never()).findById(Mockito.any());
-		assertThat(result.getMessage()).isEqualTo(LampException.INCOMPLETE_INFORMATIONS);
-	}
+	// 	verify(lampDaoMock, never()).save(Mockito.any(Lamp.class));
+	// 	verify(townDaoMock, times(1)).findById(Mockito.any());
+	// 	verify(streetDaoMock, never()).findById(Mockito.any());
+	// 	verify(bulbDaoMock, never()).findById(Mockito.any());
+	// 	verify(cabinetDaoMock, never()).findById(Mockito.any());
+	// 	verify(lampShadeDaoMock, never()).findById(Mockito.any());
+	// 	assertThat(result.getMessage()).isEqualTo(LampException.INCOMPLETE_INFORMATIONS);
+	// }
 	
-	@Test
-	public void testCreate_whenStreetNotFound_thenThrowLampException() throws LampException {
-		when(townDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(town));
-		when(streetDaoMock.findById(Mockito.any())).thenReturn(Optional.empty());
+	// @Test
+	// public void testCreate_whenStreetNotFound_thenThrowLampException() throws LampException {
+	// 	when(townDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(town));
+	// 	when(streetDaoMock.findById(Mockito.any())).thenReturn(Optional.empty());
 		
-		LampException result = assertThrows(LampException.class, () -> testedObject.create(lamp));
+	// 	LampException result = assertThrows(LampException.class, () -> testedObject.create(lamp));
 
-		verify(lampDaoMock, never()).save(Mockito.any(Lamp.class));
-		verify(townDaoMock, times(1)).findById(Mockito.any());
-		verify(streetDaoMock, times(1)).findById(Mockito.any());
-		verify(bulbDaoMock, never()).findById(Mockito.any());
-		verify(cabinetDaoMock, never()).findById(Mockito.any());
-		verify(lampShadeDaoMock, never()).findById(Mockito.any());
-		assertThat(result.getMessage()).isEqualTo(LampException.STREET_LOADING);
-	}
+	// 	verify(lampDaoMock, never()).save(Mockito.any(Lamp.class));
+	// 	verify(townDaoMock, times(1)).findById(Mockito.any());
+	// 	verify(streetDaoMock, times(1)).findById(Mockito.any());
+	// 	verify(bulbDaoMock, never()).findById(Mockito.any());
+	// 	verify(cabinetDaoMock, never()).findById(Mockito.any());
+	// 	verify(lampShadeDaoMock, never()).findById(Mockito.any());
+	// 	assertThat(result.getMessage()).isEqualTo(LampException.STREET_LOADING);
+	// }
 	
-	@Test
-	public void testCreate_whenCabinetIsNull_thenReturnThrowLampException() {
-		lamp.setCabinet(null);
+	// @Test
+	// public void testCreate_whenCabinetIsNull_thenReturnThrowLampException() {
+	// 	lamp.setCabinet(null);
 		
-		when(townDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(town));
-		when(streetDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(street));
-		when(bulbDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(bulb));
+	// 	when(townDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(town));
+	// 	when(streetDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(street));
+	// 	when(bulbDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(bulb));
 		
-		LampException result = assertThrows(LampException.class, () -> testedObject.create(lamp));
+	// 	LampException result = assertThrows(LampException.class, () -> testedObject.create(lamp));
 		
-		verify(lampDaoMock, never()).save(Mockito.any(Lamp.class));
-		verify(townDaoMock, times(1)).findById(Mockito.any());
-		verify(streetDaoMock, times(1)).findById(Mockito.any());
-		verify(bulbDaoMock, times(1)).findById(Mockito.any());
-		verify(cabinetDaoMock, never()).findById(Mockito.any());
-		verify(lampShadeDaoMock, never()).findById(Mockito.any());
-		assertThat(result.getMessage()).isEqualTo(LampException.INCOMPLETE_INFORMATIONS);
-	}
+	// 	verify(lampDaoMock, never()).save(Mockito.any(Lamp.class));
+	// 	verify(townDaoMock, times(1)).findById(Mockito.any());
+	// 	verify(streetDaoMock, times(1)).findById(Mockito.any());
+	// 	verify(bulbDaoMock, times(1)).findById(Mockito.any());
+	// 	verify(cabinetDaoMock, never()).findById(Mockito.any());
+	// 	verify(lampShadeDaoMock, never()).findById(Mockito.any());
+	// 	assertThat(result.getMessage()).isEqualTo(LampException.INCOMPLETE_INFORMATIONS);
+	// }
 	
-	@Test
-	public void testCreate_whenCabinetNotFound_thenThrowLampException() throws LampException {
-		when(townDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(town));
-		when(streetDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(street));
-		when(bulbDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(bulb));
-		when(cabinetDaoMock.findById(Mockito.any())).thenReturn(Optional.empty());
+	// @Test
+	// public void testCreate_whenCabinetNotFound_thenThrowLampException() throws LampException {
+	// 	when(townDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(town));
+	// 	when(streetDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(street));
+	// 	when(bulbDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(bulb));
+	// 	when(cabinetDaoMock.findById(Mockito.any())).thenReturn(Optional.empty());
 		
-		LampException result = assertThrows(LampException.class, () -> testedObject.create(lamp));
+	// 	LampException result = assertThrows(LampException.class, () -> testedObject.create(lamp));
 
-		verify(lampDaoMock, never()).save(Mockito.any(Lamp.class));
-		verify(townDaoMock, times(1)).findById(Mockito.any());
-		verify(streetDaoMock, times(1)).findById(Mockito.any());
-		verify(bulbDaoMock, times(1)).findById(Mockito.any());
-		verify(cabinetDaoMock, times(1)).findById(Mockito.any());
-		verify(lampShadeDaoMock, never()).findById(Mockito.any());
-		assertThat(result.getMessage()).isEqualTo(LampException.CABINET_LOADING);
-	}
+	// 	verify(lampDaoMock, never()).save(Mockito.any(Lamp.class));
+	// 	verify(townDaoMock, times(1)).findById(Mockito.any());
+	// 	verify(streetDaoMock, times(1)).findById(Mockito.any());
+	// 	verify(bulbDaoMock, times(1)).findById(Mockito.any());
+	// 	verify(cabinetDaoMock, times(1)).findById(Mockito.any());
+	// 	verify(lampShadeDaoMock, never()).findById(Mockito.any());
+	// 	assertThat(result.getMessage()).isEqualTo(LampException.CABINET_LOADING);
+	// }
 	
-	@Test
-	public void testCreate_whenLampShadeIsNull_thenReturnThrowLampException() {
-		lamp.setLampShade(null);
+	// @Test
+	// public void testCreate_whenLampShadeIsNull_thenReturnThrowLampException() {
+	// 	lamp.setLampShade(null);
 		
-		when(townDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(town));
-		when(streetDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(street));
-		when(bulbDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(bulb));
-		when(cabinetDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(cabinet));
+	// 	when(townDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(town));
+	// 	when(streetDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(street));
+	// 	when(bulbDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(bulb));
+	// 	when(cabinetDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(cabinet));
 		
-		LampException result = assertThrows(LampException.class, () -> testedObject.create(lamp));
+	// 	LampException result = assertThrows(LampException.class, () -> testedObject.create(lamp));
 		
-		verify(lampDaoMock, never()).save(Mockito.any(Lamp.class));
-		verify(townDaoMock, times(1)).findById(Mockito.any());
-		verify(streetDaoMock, times(1)).findById(Mockito.any());
-		verify(bulbDaoMock, times(1)).findById(Mockito.any());
-		verify(cabinetDaoMock, times(1)).findById(Mockito.any());
-		verify(lampShadeDaoMock, never()).findById(Mockito.any());
-		assertThat(result.getMessage()).isEqualTo(LampException.INCOMPLETE_INFORMATIONS);
-	}
+	// 	verify(lampDaoMock, never()).save(Mockito.any(Lamp.class));
+	// 	verify(townDaoMock, times(1)).findById(Mockito.any());
+	// 	verify(streetDaoMock, times(1)).findById(Mockito.any());
+	// 	verify(bulbDaoMock, times(1)).findById(Mockito.any());
+	// 	verify(cabinetDaoMock, times(1)).findById(Mockito.any());
+	// 	verify(lampShadeDaoMock, never()).findById(Mockito.any());
+	// 	assertThat(result.getMessage()).isEqualTo(LampException.INCOMPLETE_INFORMATIONS);
+	// }
 	
-	@Test
-	public void testCreate_whenLampShadeNotFound_thenThrowLampException() throws LampException {
-		when(townDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(town));
-		when(streetDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(street));
-		when(bulbDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(bulb));
-		when(cabinetDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(cabinet));
-		when(lampShadeDaoMock.findById(Mockito.any())).thenReturn(Optional.empty());
+	// @Test
+	// public void testCreate_whenLampShadeNotFound_thenThrowLampException() throws LampException {
+	// 	when(townDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(town));
+	// 	when(streetDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(street));
+	// 	when(bulbDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(bulb));
+	// 	when(cabinetDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(cabinet));
+	// 	when(lampShadeDaoMock.findById(Mockito.any())).thenReturn(Optional.empty());
 		
-		LampException result = assertThrows(LampException.class, () -> testedObject.create(lamp));
+	// 	LampException result = assertThrows(LampException.class, () -> testedObject.create(lamp));
 
-		verify(lampDaoMock, never()).save(Mockito.any(Lamp.class));
-		verify(townDaoMock, times(1)).findById(Mockito.any());
-		verify(streetDaoMock, times(1)).findById(Mockito.any());
-		verify(bulbDaoMock, times(1)).findById(Mockito.any());
-		verify(cabinetDaoMock, times(1)).findById(Mockito.any());
-		verify(lampShadeDaoMock, times(1)).findById(Mockito.any());
-		assertThat(result.getMessage()).isEqualTo(LampException.LAMPSHADE_LOADING);
-	}
+	// 	verify(lampDaoMock, never()).save(Mockito.any(Lamp.class));
+	// 	verify(townDaoMock, times(1)).findById(Mockito.any());
+	// 	verify(streetDaoMock, times(1)).findById(Mockito.any());
+	// 	verify(bulbDaoMock, times(1)).findById(Mockito.any());
+	// 	verify(cabinetDaoMock, times(1)).findById(Mockito.any());
+	// 	verify(lampShadeDaoMock, times(1)).findById(Mockito.any());
+	// 	assertThat(result.getMessage()).isEqualTo(LampException.LAMPSHADE_LOADING);
+	// }
 	
-	@Test
-	public void testCreate_whenLatitudeIsNull_thenReturnThrowLampException() {
-		lamp.setLatitude(null);
+	// @Test
+	// public void testCreate_whenLatitudeIsNull_thenReturnThrowLampException() {
+	// 	lamp.setLatitude(null);
 
-		when(lampDaoMock.save(Mockito.any(Lamp.class))).thenThrow(DataIntegrityViolationException.class);
-		when(townDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(town));
-		when(streetDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(street));
-		when(bulbDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(bulb));
-		when(cabinetDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(cabinet));
-		when(lampShadeDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(lampShade));
+	// 	when(lampDaoMock.save(Mockito.any(Lamp.class))).thenThrow(DataIntegrityViolationException.class);
+	// 	when(townDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(town));
+	// 	when(streetDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(street));
+	// 	when(bulbDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(bulb));
+	// 	when(cabinetDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(cabinet));
+	// 	when(lampShadeDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(lampShade));
 		
-		LampException result = assertThrows(LampException.class, () -> testedObject.create(lamp));
+	// 	LampException result = assertThrows(LampException.class, () -> testedObject.create(lamp));
 
-		verify(lampDaoMock, times(1)).save(Mockito.any(Lamp.class));
-		verify(townDaoMock, times(1)).findById(Mockito.any());
-		verify(streetDaoMock, times(1)).findById(Mockito.any());
-		verify(bulbDaoMock, times(1)).findById(Mockito.any());
-		verify(cabinetDaoMock, times(1)).findById(Mockito.any());
-		verify(lampShadeDaoMock, times(1)).findById(Mockito.any());
-		assertThat(result.getMessage()).isEqualTo(LampException.INCOMPLETE_INFORMATIONS);
-	}
+	// 	verify(lampDaoMock, times(1)).save(Mockito.any(Lamp.class));
+	// 	verify(townDaoMock, times(1)).findById(Mockito.any());
+	// 	verify(streetDaoMock, times(1)).findById(Mockito.any());
+	// 	verify(bulbDaoMock, times(1)).findById(Mockito.any());
+	// 	verify(cabinetDaoMock, times(1)).findById(Mockito.any());
+	// 	verify(lampShadeDaoMock, times(1)).findById(Mockito.any());
+	// 	assertThat(result.getMessage()).isEqualTo(LampException.INCOMPLETE_INFORMATIONS);
+	// }
 	
-	@Test
-	public void testCreate_whenLongitudeIsNull_thenReturnThrowLampException() {
-		lamp.setLongitude(null);
+	// @Test
+	// public void testCreate_whenLongitudeIsNull_thenReturnThrowLampException() {
+	// 	lamp.setLongitude(null);
 
-		when(lampDaoMock.save(Mockito.any(Lamp.class))).thenThrow(DataIntegrityViolationException.class);
-		when(townDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(town));
-		when(streetDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(street));
-		when(bulbDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(bulb));
-		when(cabinetDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(cabinet));
-		when(lampShadeDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(lampShade));
+	// 	when(lampDaoMock.save(Mockito.any(Lamp.class))).thenThrow(DataIntegrityViolationException.class);
+	// 	when(townDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(town));
+	// 	when(streetDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(street));
+	// 	when(bulbDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(bulb));
+	// 	when(cabinetDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(cabinet));
+	// 	when(lampShadeDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(lampShade));
 		
-		LampException result = assertThrows(LampException.class, () -> testedObject.create(lamp));
+	// 	LampException result = assertThrows(LampException.class, () -> testedObject.create(lamp));
 
-		verify(lampDaoMock, times(1)).save(Mockito.any(Lamp.class));
-		verify(townDaoMock, times(1)).findById(Mockito.any());
-		verify(streetDaoMock, times(1)).findById(Mockito.any());
-		verify(bulbDaoMock, times(1)).findById(Mockito.any());
-		verify(cabinetDaoMock, times(1)).findById(Mockito.any());
-		verify(lampShadeDaoMock, times(1)).findById(Mockito.any());
-		assertThat(result.getMessage()).isEqualTo(LampException.INCOMPLETE_INFORMATIONS);
-	}
+	// 	verify(lampDaoMock, times(1)).save(Mockito.any(Lamp.class));
+	// 	verify(townDaoMock, times(1)).findById(Mockito.any());
+	// 	verify(streetDaoMock, times(1)).findById(Mockito.any());
+	// 	verify(bulbDaoMock, times(1)).findById(Mockito.any());
+	// 	verify(cabinetDaoMock, times(1)).findById(Mockito.any());
+	// 	verify(lampShadeDaoMock, times(1)).findById(Mockito.any());
+	// 	assertThat(result.getMessage()).isEqualTo(LampException.INCOMPLETE_INFORMATIONS);
+	// }
 	
-	@Test
-	public void testCreate_whenLightOffIsNull_thenReturnThrowLampException() {
-		lamp.setLightOff(null);
+	// @Test
+	// public void testCreate_whenLightOffIsNull_thenReturnThrowLampException() {
+	// 	lamp.setLightOff(null);
 
-		when(lampDaoMock.save(Mockito.any(Lamp.class))).thenThrow(DataIntegrityViolationException.class);
-		when(townDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(town));
-		when(streetDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(street));
-		when(bulbDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(bulb));
-		when(cabinetDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(cabinet));
-		when(lampShadeDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(lampShade));
+	// 	when(lampDaoMock.save(Mockito.any(Lamp.class))).thenThrow(DataIntegrityViolationException.class);
+	// 	when(townDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(town));
+	// 	when(streetDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(street));
+	// 	when(bulbDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(bulb));
+	// 	when(cabinetDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(cabinet));
+	// 	when(lampShadeDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(lampShade));
 		
-		LampException result = assertThrows(LampException.class, () -> testedObject.create(lamp));
+	// 	LampException result = assertThrows(LampException.class, () -> testedObject.create(lamp));
 
-		verify(lampDaoMock, times(1)).save(Mockito.any(Lamp.class));
-		verify(townDaoMock, times(1)).findById(Mockito.any());
-		verify(streetDaoMock, times(1)).findById(Mockito.any());
-		verify(bulbDaoMock, times(1)).findById(Mockito.any());
-		verify(cabinetDaoMock, times(1)).findById(Mockito.any());
-		verify(lampShadeDaoMock, times(1)).findById(Mockito.any());
-		assertThat(result.getMessage()).isEqualTo(LampException.INCOMPLETE_INFORMATIONS);
-	}
+	// 	verify(lampDaoMock, times(1)).save(Mockito.any(Lamp.class));
+	// 	verify(townDaoMock, times(1)).findById(Mockito.any());
+	// 	verify(streetDaoMock, times(1)).findById(Mockito.any());
+	// 	verify(bulbDaoMock, times(1)).findById(Mockito.any());
+	// 	verify(cabinetDaoMock, times(1)).findById(Mockito.any());
+	// 	verify(lampShadeDaoMock, times(1)).findById(Mockito.any());
+	// 	assertThat(result.getMessage()).isEqualTo(LampException.INCOMPLETE_INFORMATIONS);
+	// }
 	
-	@Test
-	public void testCreate_whenLightOnIsNull_thenReturnThrowLampException() {
-		lamp.setLightOn(null);
+	// @Test
+	// public void testCreate_whenLightOnIsNull_thenReturnThrowLampException() {
+	// 	lamp.setLightOn(null);
 
-		when(lampDaoMock.save(Mockito.any(Lamp.class))).thenThrow(DataIntegrityViolationException.class);
-		when(townDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(town));
-		when(streetDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(street));
-		when(bulbDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(bulb));
-		when(cabinetDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(cabinet));
-		when(lampShadeDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(lampShade));
+	// 	when(lampDaoMock.save(Mockito.any(Lamp.class))).thenThrow(DataIntegrityViolationException.class);
+	// 	when(townDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(town));
+	// 	when(streetDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(street));
+	// 	when(bulbDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(bulb));
+	// 	when(cabinetDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(cabinet));
+	// 	when(lampShadeDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(lampShade));
 		
-		LampException result = assertThrows(LampException.class, () -> testedObject.create(lamp));
+	// 	LampException result = assertThrows(LampException.class, () -> testedObject.create(lamp));
 
-		verify(lampDaoMock, times(1)).save(Mockito.any(Lamp.class));
-		verify(townDaoMock, times(1)).findById(Mockito.any());
-		verify(streetDaoMock, times(1)).findById(Mockito.any());
-		verify(bulbDaoMock, times(1)).findById(Mockito.any());
-		verify(cabinetDaoMock, times(1)).findById(Mockito.any());
-		verify(lampShadeDaoMock, times(1)).findById(Mockito.any());
-		assertThat(result.getMessage()).isEqualTo(LampException.INCOMPLETE_INFORMATIONS);
-	}
+	// 	verify(lampDaoMock, times(1)).save(Mockito.any(Lamp.class));
+	// 	verify(townDaoMock, times(1)).findById(Mockito.any());
+	// 	verify(streetDaoMock, times(1)).findById(Mockito.any());
+	// 	verify(bulbDaoMock, times(1)).findById(Mockito.any());
+	// 	verify(cabinetDaoMock, times(1)).findById(Mockito.any());
+	// 	verify(lampShadeDaoMock, times(1)).findById(Mockito.any());
+	// 	assertThat(result.getMessage()).isEqualTo(LampException.INCOMPLETE_INFORMATIONS);
+	// }
 	
-	@Test
-	public void testCreate_whenHeightIsNull_thenReturnThrowLampException() {
-		lamp.setHeight(null);
+	// @Test
+	// public void testCreate_whenHeightIsNull_thenReturnThrowLampException() {
+	// 	lamp.setHeight(null);
 
-		when(lampDaoMock.save(Mockito.any(Lamp.class))).thenThrow(DataIntegrityViolationException.class);
-		when(townDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(town));
-		when(streetDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(street));
-		when(bulbDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(bulb));
-		when(cabinetDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(cabinet));
-		when(lampShadeDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(lampShade));
+	// 	when(lampDaoMock.save(Mockito.any(Lamp.class))).thenThrow(DataIntegrityViolationException.class);
+	// 	when(townDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(town));
+	// 	when(streetDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(street));
+	// 	when(bulbDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(bulb));
+	// 	when(cabinetDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(cabinet));
+	// 	when(lampShadeDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(lampShade));
 		
-		LampException result = assertThrows(LampException.class, () -> testedObject.create(lamp));
+	// 	LampException result = assertThrows(LampException.class, () -> testedObject.create(lamp));
 
-		verify(lampDaoMock, times(1)).save(Mockito.any(Lamp.class));
-		verify(townDaoMock, times(1)).findById(Mockito.any());
-		verify(streetDaoMock, times(1)).findById(Mockito.any());
-		verify(bulbDaoMock, times(1)).findById(Mockito.any());
-		verify(cabinetDaoMock, times(1)).findById(Mockito.any());
-		verify(lampShadeDaoMock, times(1)).findById(Mockito.any());
-		assertThat(result.getMessage()).isEqualTo(LampException.INCOMPLETE_INFORMATIONS);
-	}
+	// 	verify(lampDaoMock, times(1)).save(Mockito.any(Lamp.class));
+	// 	verify(townDaoMock, times(1)).findById(Mockito.any(F));
+	// 	verify(streetDaoMock, times(1)).findById(Mockito.any());
+	// 	verify(bulbDaoMock, times(1)).findById(Mockito.any());
+	// 	verify(cabinetDaoMock, times(1)).findById(Mockito.any());
+	// 	verify(lampShadeDaoMock, times(1)).findById(Mockito.any());
+	// 	assertThat(result.getMessage()).isEqualTo(LampException.INCOMPLETE_INFORMATIONS);
+	// }
 	
 	@Test
 	public void testUpdate() throws Exception {

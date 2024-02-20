@@ -9,6 +9,8 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -35,6 +37,7 @@ public class User implements Serializable {
 		// Private \\
 	private static final long serialVersionUID = 1L;
 
+	@JsonDeserialize(using = UUIDDeserializer.class)
 	@Id
 	@GenericGenerator(name = "UUIDGenerator", strategy = "uuid2")
     @GeneratedValue(generator = "UUIDGenerator")
@@ -67,5 +70,8 @@ public class User implements Serializable {
 	
 	@Column(name = "lastconnexion", nullable = false)
 	private LocalDateTime lastConnexion;
-
+	
+	@Builder.Default
+	@Column(name = "newsletter", nullable = false)
+	private Boolean newletter = false;
 }

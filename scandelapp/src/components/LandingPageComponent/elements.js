@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Yellow, Black, White, Grey } from '../../colors';
+import { Yellow, Black, White, Grey, DarkGrey } from '../../colors';
 import ticketsImage from '../../assets/landing_page/tickets_bg.png';
 import scandelaImage from '../../assets/landing_page/scandela_bg.png';
 import faqImage from '../../assets/landing_page/faq_bg.png';
@@ -170,18 +170,22 @@ export const PortalLinkAdmin = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 180px;
-    height: 90px;
-    top: ${(props) => props.top};
-    left: ${(props) => props.left};
+    width: 140px;
+    height: 70px;
+    top: 2%;
+    right: 2%;
     border-radius: 10px;
-    transition:
-        opacity 0.3s ease-in-out,
-        background-color 0.3s ease-in-out;
-    border: 5px solid black;
+    border: 4px solid black;
+    background-color: ${DarkGrey};
+    color: ${Grey};
+    transition: all 0.3s ease-in-out;
+    font-size: 18px;
+    font-weight: 700;
 
     &:hover {
         cursor: pointer;
+        background-color: ${Grey};
+        color: ${DarkGrey};
     }
 `;
 
