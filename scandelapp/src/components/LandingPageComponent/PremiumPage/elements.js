@@ -1,102 +1,104 @@
 import styled from 'styled-components';
-import {
-    Yellow,
-    Black,
-    White,
-    Grey,
-    DarkGrey,
-    DarkYellow,
-} from '../../../colors';
 import { IoIosReturnLeft } from 'react-icons/io';
+import { DarkGrey, DarkYellow, Yellow, Black } from '../../../colors';
 
 export const PremiumPageContainer = styled.div`
-    position: absolute;
     display: flex;
+    position: fixed;
+    flex-direction: column;
+    align-items: center;
+    top: 17%;
+    left: 38%;
+    justify-content: start;
     width: 400px;
-    height: 500px;
-    top: 18%;
-    left: 36%;
+    min-height: 500px;
     border-radius: 10px;
     background-color: ${DarkGrey};
+    padding: 20px;
+    gap: 7px;
 `;
 
 export const MainTitle = styled.div`
-    position: absolute;
-    display: flex;
-    top: ${(props) => props.top};
-    left: 7%;
     font-size: 17px;
-    user-select: none;
     color: ${DarkYellow};
     font-weight: 1000;
+    text-align: center;
 `;
 
 export const MainText = styled.div`
-    position: absolute;
-    display: flex;
-    top: ${(props) => props.top};
-    left: 7%;
     font-size: 15px;
-    user-select: none;
     color: ${DarkYellow};
     font-weight: 700;
+    text-align: center;
     max-width: 350px;
+    margin: 10px 0;
 `;
 
-/** Style for the premium on/off button **/
 export const PremiumButtonOnOffStyle = styled.div`
     display: flex;
-    position: absolute;
     align-items: center;
     justify-content: center;
     width: 180px;
     height: 40px;
-    top: 83%;
-    left: 27%;
+    margin-left: 25%;
     user-select: none;
-    opacity: 0.8;
-    background-color: ${Yellow + 'CC'};
+    background-color: ${Yellow};
     color: ${Black};
     box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
     border-radius: 10px;
 
     &:hover {
-        opacity: 1;
+        opacity: 0.8;
         cursor: pointer;
     }
-
     &:active {
         opacity: 0.5;
     }
 `;
 
-/** Style for the premium button on/off text **/
 export const PremiumButtonOnOffText = styled.div`
-    position: relative;
-    font-size: 10px;
-    user-select: none;
+    font-size: 14px;
     color: ${Black};
-    font-weight: 1000;
+    font-weight: 700;
+`;
+
+export const FormField = styled.input`
+    width: 100%;
+    margin: 14px 0;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid ${Yellow};
+`;
+
+export const SubmitButton = styled.button`
+    display: flex;
+    position: fixed;
+    background-color: ${Yellow};
+    color: ${Black};
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    margin-left: 8%;
+    &:hover {
+        cursor: pointer;
+        opacity: 0.9;
+    }
 `;
 
 export const ReturnButtonContainer = styled(IoIosReturnLeft)`
-    position: absolute;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    position: fixed;
     width: 80px;
     height: 40px;
     top: 88%;
-    left: 46%;
+    left: 48%;
     border-radius: 10px;
     background-color: ${Yellow};
     opacity: 0.8;
-
     &:hover {
         opacity: 1;
         cursor: pointer;
     }
-
     &:active {
         opacity: 0.5;
     }

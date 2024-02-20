@@ -6,6 +6,9 @@ import { Yellow } from '../../colors';
 import LampInfosPopup from '../LampInfosPopup';
 import Lasso from '../Lasso';
 import { LassoOverlay } from './elements';
+//import loadMap from './loadMap';
+//import TimePicker from '../TimePicker';
+import React from 'react';
 
 // Load geographical data of Nantes from a local JSON file
 let nantesData = require('../../assets/nantesData.json');
@@ -539,7 +542,7 @@ const Map: React.FC<MapProps> = ({
                     `coordinate=${point.lat.toFixed(5)},${point.lng.toFixed(5)}`
             )
             .join('&');
-        const url = `http://localhost:8080/lamps/coordinates?${queryString}`;
+        const url = `http://serverdela.onrender.com/lamps/coordinates?${queryString}`;
 
         const encodedCredentials = btoa('tester:T&st');
 
