@@ -70,5 +70,9 @@ public class User implements Serializable {
 	
 	@Column(name = "lastconnexion", nullable = false)
 	private LocalDateTime lastConnexion;
+	
+	@Builder.Default
+	@Column(name = "newsletter")
+	private boolean newletter = false;
 
 }
