@@ -24,18 +24,18 @@ import ProfilePage from './ProfilePage';
 import FAQPage from './FAQPage';
 
 /** Landing component page
- * @param {boolean} isPremiumActivated- Boolean
- * @param {function} handleToggleIsPremiumActivated - Function to set/unset the premium version
+ * @param {boolean} userInfo - Infos about the current user
+ * @param {function} updateUserInfo - Function to update user infos
  */
 
 interface LandingPageComponentProps {
-    isPremiumActivated: boolean;
-    handleToggleIsPremiumActivated: () => void;
+    userInfo: any;
+    updateUserInfo: (newInfo: any) => void;
 }
 
 const LandingPageComponent: React.FC<LandingPageComponentProps> = ({
-    isPremiumActivated,
-    handleToggleIsPremiumActivated,
+    userInfo,
+    updateUserInfo,
 }) => {
     const navigate = useNavigate();
     const [isMenuPageDisplayed, setIsMenuPageDisplayed] = useState(true);
@@ -58,7 +58,7 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({
     };
 
     const handleTicketButtonClicked = () => {
-        if (isPremiumActivated) {
+        if (userInfo.isPremiumActivated) {
             setIsMenuPageDisplayed(!isMenuPageDisplayed);
             setIsTicketPageDisplayed(!isTicketPageDisplayed);
         }
@@ -86,7 +86,7 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({
             <TriangleContainerRight />
             {isMenuPageDisplayed && (
                 <div>
-                    {isPremiumActivated && <CrownIcon />}
+                    {userInfo.isPremiumActivated && <CrownIcon />}
                     <PortalLinkContainer
                         top={'21%'}
                         left={'25%'}
@@ -135,7 +135,7 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({
                         onClick={handleTicketButtonClicked}
                     >
                         <TicketsImgBg />
-                        {!isPremiumActivated && <LockIcon />}
+                        {!userInfo.isPremiumActivated && <LockIcon />}
                         <PortalTitle fontSize={'1.5rem'}>Tickets</PortalTitle>
                     </PortalLinkContainer>
                     <PortalLinkContainer
@@ -172,9 +172,9 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({
             {isPremiumPageDisplayed && (
                 <div>
                     <PremiumPage
-                        isPremiumActivated={isPremiumActivated}
-                        handleToggleIsPremiumActivated={
-                            handleToggleIsPremiumActivated
+                        userInfo={userInfo}
+                        updateUserInfo={
+                            updateUserInfo
                         }
                         handlePremiumButtonClicked={handlePremiumButtonClicked}
                     ></PremiumPage>

@@ -11,22 +11,37 @@ import {
 } from './elements';
 
 /** Premium page component
- * @param {boolean} isPremiumActivated - Boolean
- * @param {function} handleToggleIsPremiumActivated - Function to set/unset the premium version
+ * @param {boolean} userInfo - Infos about the current user
+ * @param {function} updateUserInfo - Function to update the user infos
  * @param {function} handlePremiumButtonClicked - Function to show/hide premium page
  */
 interface PremiumPageProps {
-  isPremiumActivated: boolean;
-  handleToggleIsPremiumActivated: () => void;
+  userInfo: any;
+  updateUserInfo: (newInfo: any) => void;
   handlePremiumButtonClicked: () => void;
 }
 
 const PremiumPage: React.FC<PremiumPageProps> = ({
-  isPremiumActivated,
-  handleToggleIsPremiumActivated,
+  userInfo,
+  updateUserInfo,
   handlePremiumButtonClicked,
 }) => {
     const [showForm, setShowForm] = useState(false);
+    const [formValues, setFormValues] = useState({
+      cardName: '',
+      cardNumber: '',
+      cardExpirationDate: '',
+      cardCVV: '',
+    });
+
+    const handleFormChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const { name, value } = event.target;
+      setFormValues(prev => ({
+        ...prev,
+        [name]: value,
+      }));
+    };
+
 
   const handleReturnButtonClicked = () => {
     handlePremiumButtonClicked();
@@ -36,8 +51,35 @@ const PremiumPage: React.FC<PremiumPageProps> = ({
     setShowForm(!showForm);
   };
 
-  const handleFormSubmit = () => {
+  const handleFormSubmit = async (event: any) => {
+    event.preventDefault();
 
+    const encodedCredentials = btoa('tester:T&st');
+    const headers = new Headers({
+        'Content-Type': 'application/json',
+        Authorization: `Basic ${encodedCredentials}`,
+    });
+
+    try {
+        const response = await fetch('https://serverdela.onrender.com/subscription', {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify({
+              userId: userInfo.id,
+              ...formValues,
+              }),
+        });
+
+        if (!response.ok) {
+            throw new Error('La connexion a échoué');
+        }
+
+        const data = await response.json();
+        // console.log(data);
+        // updateUserInfo({ isPremiumActivated: true }); idée du résultat
+    } catch (error) {
+        console.error('Erreur lors de l\'achat', error);
+    }
   };
 
   return (
@@ -68,15 +110,16 @@ const PremiumPage: React.FC<PremiumPageProps> = ({
         )}
       {showForm && (
         <div>
-            <FormField type="text" placeholder="Nom sur la carte" />
-            <FormField type="number" placeholder="Numéro de carte" />
-            <FormField type="month" placeholder="Date d'expiration" />
-            <FormField type="number" placeholder="CVV" />
+            <FormField type="text" name="cardName" placeholder="Nom sur la carte" value={formValues.cardName} onChange={handleFormChange} />
+            <FormField type="number" name="cardNumber" placeholder="Numéro de carte" value={formValues.cardNumber} onChange={handleFormChange} />
+            <FormField type="month" name="cardExpirationDate" placeholder="Date d'expiration" value={formValues.cardExpirationDate} onChange={handleFormChange} />
+            <FormField type="number" name="cardCVV" placeholder="CVV" value={formValues.cardCVV} onChange={handleFormChange} />
             <SubmitButton onClick={handleFormSubmit}>Soumettre</SubmitButton>
         </div>
       )}
       </PremiumPageContainer>
       <ReturnButtonContainer onClick={handleReturnButtonClicked} />
+
     </div>
   );
 };

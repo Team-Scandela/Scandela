@@ -15,9 +15,16 @@ import {
     Paragraph,
     GhostButton,
 } from './elements';
+import { useNavigate } from 'react-router-dom';
+
+interface LoginModuleProps {
+    updateUserInfo: (newInfo: any) => void;
+}
 
 /** Login module who allow to sign in up. You can slide the overlay from left to right (or the opposite) to acess to the side wanted */
-const LoginModule: React.FC = () => {
+const LoginModule: React.FC<LoginModuleProps> = ({
+    updateUserInfo,
+}) => {
     const [signInPage, setSignInPage] = useState(true);
 
     const [usernameSignUp, setUsernameSignUp] = useState('');
@@ -28,6 +35,11 @@ const LoginModule: React.FC = () => {
 
     const [emailSignIn, setEmailSignIn] = useState('');
     const [passwordSignIn, setPasswordSignIn] = useState('');
+    const navigate = useNavigate();
+
+    const handleValidLogin = () => {
+        navigate('/');
+    }
 
     const handleSubmitSignIn = async (event: any) => {
         event.preventDefault();
@@ -53,7 +65,11 @@ const LoginModule: React.FC = () => {
             }
 
             const data = await response.json();
-            console.log(data);
+            // console.log(data);
+            updateUserInfo({id: data.id, town: data.town, email: data.email, username: data.username,
+                password: data.password, role: data.role, moreInformations: data.moreInformations,
+                darkmode: data.darmode, lastConnexion: data.lastConnexion, decisions: data.decisions })
+            handleValidLogin();
         } catch (error) {
             console.error('Erreur lors de la connexion', error);
         }
@@ -86,7 +102,11 @@ const LoginModule: React.FC = () => {
                 }
 
                 const data = await response.json();
-                console.log(data);
+                // console.log(data);
+                updateUserInfo({id: data.id, town: data.town, email: data.email, username: data.username,
+                    password: data.password, role: data.role, moreInformations: data.moreInformations,
+                    darkmode: data.darmode, lastConnexion: data.lastConnexion, decisions: data.decisions })
+                handleValidLogin();
             } catch (error) {
                 console.error("Erreur lors de l'inscription", error);
             }
