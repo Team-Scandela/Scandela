@@ -22,7 +22,7 @@ const updateUser = async (isDark: boolean) => {
 
     try {
         const responseUser = await fetch(
-            'http://app.scandela.fr:2001/users/183e5775-6d38-4d0b-95b4-6f4c7bbb0597',
+            'https://serverdela.onrender.com/users/183e5775-6d38-4d0b-95b4-6f4c7bbb0597',
             {
                 method: 'GET',
                 headers: {
@@ -41,11 +41,11 @@ const updateUser = async (isDark: boolean) => {
                 password: user.password,
                 rights: user.rights,
                 moreInformations: user.moreInformations,
-                darkmode: true,
-                lastConnexion: '2022-01-23T13:45:00',
+                darkmode: !user.darkmode,
+                lastConnexion: user.lastConnexion,
             };
             const response = await fetch(
-                'http://localhost:8080/users/183e5775-6d38-4d0b-95b4-6f4c7bbb0597',
+                'https://serverdela.onrender.com/users/183e5775-6d38-4d0b-95b4-6f4c7bbb0597',
                 {
                     method: 'PUT',
                     headers: {
@@ -75,7 +75,9 @@ const LightDark: React.FC<LightDarkProps> = ({
     /** Handle the click on the button and switch to the other mode */
     const handleToggleLightDark = () => {
         setIsDark(!isDark);
-        updateUser(isDark);
+        try {
+            updateUser(isDark);
+        } catch (error) {}
         if (
             !notificationsPreference.find(
                 (item: any) => item[0] === 'lightDarkModeUpdate'

@@ -1,6 +1,7 @@
 package com.scandela.server.controller;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ import com.scandela.server.service.IUserService;
 
 @RestController
 @RequestMapping(value = "/users")
-@CrossOrigin(origins = "http://localhost:3000, https://app.scandela.fr")
+@CrossOrigin(origins = "*")
 public class UserController extends AbstractController<User> {
 
 	// Attributes \\
@@ -66,9 +67,19 @@ public class UserController extends AbstractController<User> {
 	 */
 	@PostMapping("/create")
 	public User createUser(@RequestBody User newUser) throws Exception {
-		emailService.sendSimpleEmail(newUser.getEmail(), "Welcome to Scandela!",
-				"Thank you for being a new member of Scandela !\n\nScandela Team");
+		emailService.sendMail(newUser.getEmail(), "Welcome to Scandela!",
+				"Thank you for being a new member of Scandela !\n\n" +
+				"To confirm your account, please click here : " +
+				"https://dev.scandela.fr:2000/redirect?email=" +
+				newUser.getEmail() + "\n\nTeam Scandela");
 		return super.create(newUser);
+	}
+	
+	@PostMapping("/signin")
+	public Map<String, UUID> signIn(@RequestBody User user) throws UserException {
+		UUID id = ((IUserService) service).signIn(user.getEmail(), user.getPassword());
+		
+		return Map.of("id", id);
 	}
 
 	/**
@@ -92,6 +103,11 @@ public class UserController extends AbstractController<User> {
 	@DeleteMapping("/delete/{id}")
 	public void deleteUser(@PathVariable UUID id) {
 		super.delete(id);
+	}
+	
+	@PostMapping("/newsletter")
+	public void newsletter(@RequestBody Map<String, String> mailInfos) throws Exception {
+		emailService.sendMail(mailInfos.get("email"), "Scandela Newsletter - " + mailInfos.get("subject"), mailInfos.get("body") + "\n\nTeam Scandela");
 	}
 
 }

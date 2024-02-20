@@ -74,10 +74,10 @@ public class Lamp implements Serializable {
 	@JoinColumn(name = "uuidstreet")
 	private Street street;
 
-	@Column(name = "lat", nullable = false)
+	@Column(name = "lat")
 	private Double latitude;
 
-	@Column(name = "lng", nullable = false)
+	@Column(name = "lng")
 	private Double longitude;
 	//TODO changer les 2 lighton et lightoff pour stocker une liste plutot
 	@Column(name = "lighton")
@@ -92,7 +92,7 @@ public class Lamp implements Serializable {
 	@Column(name = "lightoff2")
 	private LocalTime lightOff2;
 
-	@Column(name = "height", nullable = false)
+	@Column(name = "height")
 	private Double height;
 
 	@JdbcTypeCode(SqlTypes.JSON)
@@ -102,10 +102,10 @@ public class Lamp implements Serializable {
     @Column(name = "recommandedOptimisations", nullable = true)
 	private List<String> recommandedOptimisations;
 
-	@Column(name = "lamptype", nullable = false)
+	@Column(name = "lamptype")
 	private String lampType;
 
-	@Column(name = "foyertype", nullable = false)
+	@Column(name = "foyertype")
 	private String foyerType;
 
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
