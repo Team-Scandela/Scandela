@@ -44,6 +44,17 @@ const ActionsList: React.FC<ActionsListProps> = ({
     setOptimisationTemplateData,
 }) => {
     const { t } = useTranslation();
+
+    const RandomNumberLine: React.FC<{ isDark: boolean; label: string; min: number; max: number }> = ({ isDark, label, min, max }) => {
+        const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+    
+        return (
+            <div style={{ color: isDark ? '#FAC710' : '#FAC710', fontSize: '0.8em', marginTop: '50px', marginLeft: '5px', textAlign: 'left'}}>
+                {label} {randomNumber}
+            </div>
+        );
+    };
+
     useEffect(() => {
         if (decisionPanelExtended && actionsListExtended)
             handleToggleActionsListExpend();
@@ -91,9 +102,22 @@ const ActionsList: React.FC<ActionsListProps> = ({
                         ))}
                 </ScrollableOptimisationsContainer>
                 <TotalContainer isDark={isDark}>
-                    <TotalTitleText isDark={isDark}>
+                    <TotalTitleText isDark={isDark} style={{ fontSize: '0.9em', marginBottom: '10px'}}>
                         {t('economicImpact')}
                     </TotalTitleText>
+                    {/* Utiliser le composant pour les coûts des actions */}
+                    <RandomNumberLine isDark={isDark} label="Coûts des actions (en euro):" min={1000} max={5000} />
+                    {/* Utiliser le composant pour le nombre économisé d'ici 1 an */}
+                    <RandomNumberLine isDark={isDark} label="économisé d'ici 1 an (en euro):" min={50000} max={200000} />
+                    {/* Ajouter les boutons */}
+                    <div style={{ display: 'flex', marginTop: '5px', alignContent: 'center', marginBottom: '2px'}}>
+                        <button style={{ padding: '10px', cursor: 'pointer', backgroundColor: '#FAC710', color: '#2A2B2A', border: 'none', borderRadius: '10px', marginLeft: '60px'}}>
+                            Exécuter
+                        </button>
+                        <button style={{ padding: '10px', cursor: 'pointer', backgroundColor: '#FAC710', color: '#2A2B2A', border: 'none', borderRadius: '10px', marginLeft: '80px' }}>
+                            Annuler
+                        </button>
+                    </div>
                 </TotalContainer>
                 {/* Render personalized gauge components */}
                 <GaugesContainer>

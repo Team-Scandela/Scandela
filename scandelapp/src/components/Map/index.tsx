@@ -150,6 +150,7 @@ const Map: React.FC<MapProps> = ({
             }
             if (filter === 'pinColor') {
                 setLayoutVisibilityFilters('none');
+                setLayoutVisibilityHeat('none');
                 setLayoutVisibilityPinColor('visible');
             }
             if (filter === 'traffic') {
