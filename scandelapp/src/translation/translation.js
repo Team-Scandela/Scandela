@@ -27,6 +27,8 @@ const resources = {
             actionListUpdates: 'Action list updates',
             lightDarkModeUpdates: 'Dark / Light mode updates',
             languageUpdates: 'Lannguage updates',
+            titleAddBulbPannel: 'Add bulb',
+            titleAddLampPannel: 'Add streetlamp',
         },
     },
 
@@ -56,6 +58,8 @@ const resources = {
             actionListUpdates: "Mises à jour de la liste d'action",
             lightDarkModeUpdates: 'Mises à jour du mode sombre / clair',
             languageUpdates: 'Mises à jour de la langue',
+            titleAddBulbPannel: 'Ajouter une ampoule',
+            titleAddLampPannel: 'Ajouter un lampadaire',
         },
     },
 };
