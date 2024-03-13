@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.scandela.server.dao.SubscriptionDao;
 import com.scandela.server.dao.UserDao;
 import com.scandela.server.dao.WhileAwayDao;
 import com.scandela.server.entity.User;
@@ -17,15 +18,19 @@ import com.scandela.server.entity.WhileAway;
 import com.scandela.server.service.AbstractService;
 import com.scandela.server.service.ILoginService;
 import com.scandela.server.entity.JwtGenerator;
+import com.scandela.server.entity.Subscription;
 
 @Service
 public class LoginService extends AbstractService<User> implements ILoginService {
 
     private WhileAwayDao whileAwayDao;
 
-    protected LoginService(UserDao userDao, WhileAwayDao whileAwayDao) {
+    private SubscriptionDao subscriptionDao;
+
+    protected LoginService(UserDao userDao, WhileAwayDao whileAwayDao, SubscriptionDao subscriptionDao) {
         super(userDao);
         this.whileAwayDao = whileAwayDao;
+        this.subscriptionDao = subscriptionDao;
     }
 
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -59,6 +64,16 @@ public class LoginService extends AbstractService<User> implements ILoginService
 
                     whileAwayDao.deleteAll();
 
+                    /* Check for premium */
+                    String isSubbed = "false";
+                    List<Subscription> subscriptions = subscriptionDao.findAll();
+
+                    for (Subscription subscription : subscriptions) {
+                        if (subscription.getUserid() == user.getId().toString())
+                            isSubbed = "true";
+                    }
+
+                    moreInfos.add(isSubbed);
                     user.setMoreInformations(moreInfos);
 
                 } catch (Exception e) {

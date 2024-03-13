@@ -74,5 +74,4 @@ public class User implements Serializable {
 	@Builder.Default
 	@Column(name = "newsletter")
 	private boolean newsletter = false;
-
 }

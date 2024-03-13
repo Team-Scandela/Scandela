@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import FilterMenu from '../components/FilterMenu';
 import Map from '../components/Map';
 import SearchBar from '../components/SearchBar';
@@ -16,6 +16,7 @@ import AbsencePannel from '../components/AbsencePannel';
 import SmallLampInfosPopup from '../components/SmallLampInfosPopup';
 // import MapDB from '../components/MapDB';
 import FilterSearch from '../components/FilterSearch';
+import TrafficTime from '../components/TrafficTime';
 
 export enum Filters {
     pin = 'pin',
@@ -28,11 +29,11 @@ export enum Filters {
 }
 
 interface MainProps {
-    isPremiumActivated: boolean;
+    userInfo: any;
 }
 
 /** Main page of the app */
-const Main: React.FC<MainProps> = ({ isPremiumActivated }) => {
+const Main: React.FC<MainProps> = ({ userInfo }) => {
     const [isDark, setIsDark] = useState<boolean>(true);
     const [filter, setFilter] = useState<Filters>(Filters.none);
     const [lat, setLat] = useState<number>(47.218371);
@@ -52,6 +53,8 @@ const Main: React.FC<MainProps> = ({ isPremiumActivated }) => {
     /** Variables for the search for the filter filter */
     const [search, setSearch] = useState<string>('');
     const [selected, setSelected] = useState<string>('Lamp');
+
+    const [trafficTimeValue, setTrafficTimeValue] = useState<string>('00:00');
 
     const getUser = async () => {
         const username = 'tester';
@@ -77,7 +80,10 @@ const Main: React.FC<MainProps> = ({ isPremiumActivated }) => {
         }
     };
 
-    getUser();
+    useEffect(() => {
+        console.log('here!');
+        getUser();
+    }, []);
 
     const [optimisationTemplateData, setOptimisationTemplateData] = useState([
         {
@@ -247,8 +253,18 @@ const Main: React.FC<MainProps> = ({ isPremiumActivated }) => {
                     />
                 </>
             )}
+            {filter === Filters.traffic && (
+                <>
+                    <TrafficTime
+                        id={'trafficTimeComponentId'}
+                        isDark={isDark}
+                        trafficTime={trafficTimeValue}
+                        setTrafficTime={setTrafficTimeValue}
+                    />
+                </>
+            )}
 
-            {isPremiumActivated && (
+            {userInfo.isPremiumActivated && (
                 <>
                     <ToastHistory
                         id={'toastHistoryId'}
