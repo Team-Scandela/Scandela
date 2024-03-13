@@ -1,6 +1,8 @@
 package com.scandela.server.service.implementation;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -83,6 +85,16 @@ public class UserService extends AbstractService<User> implements IUserService {
 		}
 		
 		return user.get().getId();
+	}
+	
+	public List<User> getAllForNewsletter() {
+		List<User> users = ((UserDao) dao).findByNewsletter(true);
+		
+		if (users == null || users.isEmpty()) {
+			return new ArrayList<>();
+		}
+		
+		return users;
 	}
 
 	// Private \\
