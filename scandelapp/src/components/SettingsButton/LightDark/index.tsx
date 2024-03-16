@@ -1,6 +1,8 @@
 import { SunButton, MoonButton } from './elements';
 import RadioButton from '../../RadioButton';
 import { showToast } from '../../Toastr';
+import { getUser } from '../../../utils/userUtils';
+import { putUser } from '../../../utils/userUtils';
 
 /** Ligth / Dark mode button
  * @param {boolean} isDark - If the mode is dark or not
@@ -17,53 +19,18 @@ interface LightDarkProps {
 }
 
 const updateUser = async (isDark: boolean) => {
-    const username = 'tester';
-    const password = 'T&st';
-
-    try {
-        const responseUser = await fetch(
-            'https://serverdela.onrender.com/users/183e5775-6d38-4d0b-95b4-6f4c7bbb0597',
-            {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Basic ${btoa(`${username}:${password}`)}`,
-                },
-            }
-        );
-
-        const user = await responseUser.json();
-        try {
-            const updatedUserData = {
-                town: user.town,
-                email: user.email,
-                username: user.username,
-                password: user.password,
-                rights: user.rights,
-                moreInformations: user.moreInformations,
-                darkmode: !user.darkmode,
-                lastConnexion: user.lastConnexion,
-            };
-            const response = await fetch(
-                'https://serverdela.onrender.com/users/183e5775-6d38-4d0b-95b4-6f4c7bbb0597',
-                {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Basic ${btoa(
-                            `${username}:${password}`
-                        )}`,
-                    },
-                    body: JSON.stringify(updatedUserData),
-                }
-            );
-            const userUpdate = await response.json();
-        } catch (error) {
-            console.log('ERROR UPDATE USER = ' + error);
-        }
-    } catch (error) {
-        console.log('ERROR GET USER = ' + error);
-    }
+    const user = await getUser();
+    const updatedUserData = {
+        town: user.town,
+        email: user.email,
+        username: user.username,
+        password: user.password,
+        rights: user.rights,
+        moreInformations: user.moreInformations,
+        darkmode: !user.darkmode,
+        lastConnexion: user.lastConnexion,
+    };
+    putUser(updatedUserData);
 };
 
 const LightDark: React.FC<LightDarkProps> = ({
@@ -75,6 +42,7 @@ const LightDark: React.FC<LightDarkProps> = ({
     /** Handle the click on the button and switch to the other mode */
     const handleToggleLightDark = () => {
         setIsDark(!isDark);
+        localStorage.setItem('isDark', JSON.stringify(!isDark));
         try {
             updateUser(isDark);
         } catch (error) {}

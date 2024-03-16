@@ -10,7 +10,7 @@ const LogoutButton: React.FC<LogoutButtonProps> = ({ id, isDark }) => {
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        navigate('/');
+        navigate('/landingpage');
     };
 
     return (

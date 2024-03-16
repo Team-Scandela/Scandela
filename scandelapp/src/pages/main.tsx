@@ -29,12 +29,17 @@ export enum Filters {
 }
 
 interface MainProps {
-    userInfo: any;
+    optimisationTemplateData: any;
+    setOptimisationTemplateData: (data: any) => void;
 }
 
 /** Main page of the app */
-const Main: React.FC<MainProps> = ({ userInfo }) => {
-    const [isDark, setIsDark] = useState<boolean>(true);
+const Main: React.FC<MainProps> = ({ optimisationTemplateData, setOptimisationTemplateData }) => {
+    const [isDark, setIsDark] = useState(() => {
+        const savedIsDark = localStorage.getItem('isDark');
+        return JSON.parse(savedIsDark);
+    });
+    const [isPremiumActivated, setIsPremiumActivated] = useState<boolean>(true);
     const [filter, setFilter] = useState<Filters>(Filters.none);
     const [lat, setLat] = useState<number>(47.218371);
     const [lng, setLng] = useState<number>(-1.553621);
@@ -56,109 +61,6 @@ const Main: React.FC<MainProps> = ({ userInfo }) => {
 
     const [trafficTimeValue, setTrafficTimeValue] = useState<string>('00:00');
 
-    const getUser = async () => {
-        const username = 'tester';
-        const password = 'T&st';
-        try {
-            const response = await fetch(
-                'https://serverdela.onrender.com/users/183e5775-6d38-4d0b-95b4-6f4c7bbb0597',
-                {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Basic ${btoa(
-                            `${username}:${password}`
-                        )}`,
-                    },
-                }
-            );
-
-            const user = await response.json();
-            setIsDark(user.darkmode);
-        } catch (error) {
-            console.log('ERROR GET USER = ' + error);
-        }
-    };
-
-    useEffect(() => {
-        console.log('here!');
-        getUser();
-    }, []);
-
-    const [optimisationTemplateData, setOptimisationTemplateData] = useState([
-        {
-            id: 0,
-            saved: false,
-            selected: false,
-            type: 'Éteindre lampadaire',
-            location: '13 Rue Pierrick Guyard',
-            description: 'Passage peu fréquent',
-            solution: 'Off: 18h-10h',
-        },
-        {
-            id: 1,
-            saved: false,
-            selected: false,
-            type: 'Éteindre lampadaire',
-            location: '14 Rue Pierrick Guyard',
-            description: 'Passage peu fréquent',
-            solution: 'Off: 18h-10h',
-        },
-        {
-            id: 2,
-            saved: false,
-            selected: false,
-            type: 'Allumer lampadaire',
-            location: '15 Rue Pierrick Guyard',
-            description: 'Passage peu fréquent',
-            solution: 'Off: 18h-10h',
-        },
-        {
-            id: 3,
-            saved: false,
-            selected: false,
-            type: 'Augmenter intensité',
-            location: '16 Rue Pierrick Guyard',
-            description: 'Passage peu fréquent',
-            solution: 'Off: 18h-10h',
-        },
-        {
-            id: 4,
-            saved: false,
-            selected: false,
-            type: 'Réduire intensité',
-            location: '17 Rue Pierrick Guyard',
-            description: 'Passage peu fréquent',
-            solution: 'Off: 18h-10h',
-        },
-        {
-            id: 5,
-            saved: false,
-            selected: false,
-            type: 'Changer ampoule',
-            location: '18 Rue Pierrick Guyard',
-            description: 'Passage peu fréquent',
-            solution: 'Off: 18h-10h',
-        },
-        {
-            id: 6,
-            saved: false,
-            selected: false,
-            type: 'Ajouter lampadaire',
-            location: '19 Rue Pierrick Guyard',
-            description: 'Passage peu fréquent',
-            solution: 'Off: 18h-10h',
-        },
-        {
-            id: 7,
-            saved: false,
-            selected: false,
-            type: 'Retirer lampadaire',
-            location: '20 Rue Pierrick Guyard',
-            description: 'Passage peu fréquent',
-            solution: 'Off: 18h-10h',
-        },
-    ]);
     const [toastHistoryData, setToastHistoryData] = useState([]);
     const [notificationsPreference, setNotificationsPreference] = useState([
         ['actionListUpdate', false],
@@ -264,7 +166,7 @@ const Main: React.FC<MainProps> = ({ userInfo }) => {
                 </>
             )}
 
-            {userInfo.isPremiumActivated && (
+            {isPremiumActivated && (
                 <>
                     <ToastHistory
                         id={'toastHistoryId'}

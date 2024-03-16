@@ -10,27 +10,32 @@ import Admin from './pages/admin';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 
-const initialUserInfo = {
-    id: 0,
-    town: '',
-    email: '',
-    username: '',
-    password: '',
-    role: '',
-    moreInformations: [''],
-    darkmode: false,
-    lastConnexion: '',
-    decisions: [''],
-    isPremiumActivated: true,
-};
-
 /** Route page */
 const App: React.FC = () => {
-    const [userInfo, setUserInfo] = useState(initialUserInfo);
+    const [optimisationTemplateData, setOptimisationTemplateData] = useState(() => {
+        const savedData = localStorage.getItem('optimisationTemplateData');
+        return savedData ? JSON.parse(savedData) : [];
+    });
 
-    const updateUserInfo = (newInfo: any) => {
-        setUserInfo((prevState) => ({ ...prevState, ...newInfo }));
-    };
+    useEffect(() => {
+        localStorage.setItem('optimisationTemplateData', JSON.stringify(optimisationTemplateData));
+    }, [optimisationTemplateData]);
+
+    const addItemToOptimisationTemplate = (data: any) => {
+        const newItems = data.map((item: any) => ({
+            id: optimisationTemplateData.length > 0
+                ? Math.max(...optimisationTemplateData.map((item: any) => item.id)) + 1
+                : 0,
+            saved: false,
+            selected: false,
+            type: item.type.title,
+            location: item.location,
+            description: item.description,
+            solution: item.solution,
+        }));
+
+        setOptimisationTemplateData([...optimisationTemplateData, ...newItems]);
+    }
 
     return (
         <div>
@@ -54,20 +59,15 @@ const App: React.FC = () => {
                 <Routes>
                     <Route
                         path="/"
-                        element={
-                            <LandingPage
-                                userInfo={userInfo}
-                                updateUserInfo={updateUserInfo}
-                            />
-                        }
+                        element={<Login addItemToOptimisationTemplate={addItemToOptimisationTemplate}/>}
                     />
                     <Route
-                        path="/login"
-                        element={<Login updateUserInfo={updateUserInfo} />}
+                        path="/landingpage"
+                        element={<LandingPage/>}
                     />
                     <Route
                         path="/scandela"
-                        element={<Main userInfo={userInfo} />}
+                        element={<Main optimisationTemplateData={optimisationTemplateData} setOptimisationTemplateData={setOptimisationTemplateData}/>}
                     />
                     <Route path="/redirect" element={<Redirect />} />
                     <Route path="/admin" element={<Admin />} />
