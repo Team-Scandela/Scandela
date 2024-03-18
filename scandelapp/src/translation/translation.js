@@ -29,6 +29,10 @@ const resources = {
             languageUpdates: 'Lannguage updates',
             titleAddBulbPannel: 'Add bulb',
             titleAddLampPannel: 'Add streetlamp',
+            intensity: 'Intensity',
+            reference: 'Reference',
+            consommation: 'Consommation',
+            validate: 'Validate',
         },
     },
 
@@ -60,6 +64,10 @@ const resources = {
             languageUpdates: 'Mises à jour de la langue',
             titleAddBulbPannel: 'Ajouter une ampoule',
             titleAddLampPannel: 'Ajouter un lampadaire',
+            intensity: 'Intensité',
+            reference: 'Reference',
+            consommation: 'Consommation',
+            validate: 'Valider',
         },
     },
 };
