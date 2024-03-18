@@ -17,6 +17,7 @@ import SmallLampInfosPopup from '../components/SmallLampInfosPopup';
 // import MapDB from '../components/MapDB';
 import FilterSearch from '../components/FilterSearch';
 import TrafficTime from '../components/TrafficTime';
+import ActionHistory from '../components/ActionHistory';
 
 export enum Filters {
     pin = 'pin',
@@ -270,6 +271,10 @@ const Main: React.FC<MainProps> = ({ userInfo }) => {
                         id={'toastHistoryId'}
                         isDark={isDark}
                         toastHistoryData={toastHistoryData}
+                    />
+                    <ActionHistory
+                        id={'actionHistoryId'}
+                        isDark={isDark}
                     />
                     <ActionsList
                         id={'actionsListComponentId'}

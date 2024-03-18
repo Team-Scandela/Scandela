@@ -1,14 +1,14 @@
 import styled from 'styled-components';
 import { Yellow, Black, White, Grey, DarkYellow, DarkGrey } from '../../colors';
-import { IoNotifications } from 'react-icons/io5';
+import { IoCheckmarkCircleOutline  } from 'react-icons/io5';
 
 /** Button who allows to open the toast history pannel */
-export const ToastHistoryButton = styled.div`
+export const ActionsHistoryButton = styled.div`
     position: absolute;
     display: flex;
     width: 70px;
     height: 40px;
-    top: 100px;
+    top: 150px;
     left: ${(props) => (props.show ? '195px' : '0%')};
     border-radius: 0px 8px 8px 0px;
     cursor: pointer;
@@ -26,23 +26,21 @@ export const ToastHistoryButton = styled.div`
     }
 `;
 
-export const ToastHistoryButtonIcon = styled(IoNotifications)`
+export const ActionHistoryButtonIcon = styled(IoCheckmarkCircleOutline)`
     position: absolute;
     display: flex;
     margin-left: 30px;
     margin-top: 5px;
 `;
 
-/** History pannel */
-export const ToastHistoryPannel = styled.div`
+export const ActionsHistoryPannel = styled.div`
     position: absolute;
     display: flex;
     width: 210px;
     height: 440px;
-    top: 300px;
+    top: 350px;
     left: ${(props) => (props.show ? '0%' : '-210px')};
     border-radius: 0px 8px 8px 0px;
-    z-index: 100;
 
     background-color: ${(props) => (props.isDark ? Black : White)};
     color: ${(props) => (props.isDark ? DarkYellow : Black)};
@@ -53,11 +51,10 @@ export const ToastHistoryPannel = styled.div`
         props.show ? 'translate(0%, -50%)' : 'translate(0%, -50%)'};
 `;
 
-/** Main text on the toast history pannel */
-export const NotificationsTitle = styled.div`
+export const ActionsTitle = styled.div`
     position: fixed;
     top: 2px;
-    left: 5px;
+    left: 40px;
     font-size: 25px;
     user-select: none;
     color: ${(props) => (props.isDark ? Yellow : Black)};
@@ -72,8 +69,7 @@ export const NotificationsTitle = styled.div`
     color: transparent;
 `;
 
-/** Container of the notifications */
-export const NotificationsContainer = styled.div`
+export const ActionContainer = styled.div`
     display: flex;
     flex-direction: column;
     position: relative;
@@ -86,8 +82,7 @@ export const NotificationsContainer = styled.div`
         props.isDark ? DarkGrey + 'FF' : Yellow + 'FF'};
 `;
 
-/** Container of the notification template */
-export const NotificationTemplateContainer = styled.div`
+export const ActionTemplateContainer = styled.div`
     display: flex;
     position: absolute;
     width: 178px;
@@ -101,7 +96,7 @@ export const NotificationTemplateContainer = styled.div`
     border: 2px solid ${Black};
 `;
 
-/** Style of the notification description text */
+/** Style of the Action description text */
 export const DescriptionText = styled.p`
     position: relative;
     top: 7px;
@@ -113,7 +108,7 @@ export const DescriptionText = styled.p`
     max-width: 170px;
 `;
 
-/** Style of the notification time text */
+/** Style of the Action time text */
 export const TimeText = styled.p`
     position: absolute;
     top: 27px;
