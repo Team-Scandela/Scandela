@@ -72,6 +72,16 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
 			throw e;
 		}
 	}
+	
+	@Override
+	@Transactional(readOnly = true, rollbackFor = { Exception.class })
+	public List<Lamp> getAll(String name) {
+		if (name == null || name.isBlank()) {
+			return super.getAll();
+		}
+		
+		return ((LampDao) dao).findByName(name);
+	}
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })

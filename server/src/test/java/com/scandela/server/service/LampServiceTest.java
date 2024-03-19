@@ -1,7 +1,6 @@
 package com.scandela.server.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertThrows;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -19,7 +18,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.util.Pair;
 
 import com.scandela.server.dao.BulbDao;
@@ -68,6 +66,7 @@ public class LampServiceTest {
 	private WhileAwayDao whileAwayDaoMock;
 	
 	private final UUID id = UUID.randomUUID();
+	private final String name = "AAA1";
 	private final double latitude = 17.11;
 	private final double longitude = 17.17;
 	private final double height = 5.01;
@@ -81,6 +80,7 @@ public class LampServiceTest {
 	private final String moreInformations = "test";
 	private final Lamp lamp = Lamp.builder()
 			.id(id)
+			.name(name)
 			.bulb(bulb)
 			.town(town)
 			.street(street)
@@ -151,6 +151,70 @@ public class LampServiceTest {
 
 		verify(lampDaoMock, times(1)).findAll();
 		assertThat(result).isEmpty();
+	}
+	
+	@Test
+	public void testGetAll_withName() {
+		when(lampDaoMock.findByName(lamp.getName())).thenReturn(Arrays.asList(lamp));
+		
+		List<Lamp> result = testedObject.getAll(lamp.getName());
+		
+		verify(lampDaoMock, never()).findAll();
+		verify(lampDaoMock, times(1)).findByName(lamp.getName());
+		assertThat(result).isNotEmpty();
+		assertThat(result.get(0).getId()).isEqualTo(lamp.getId());
+	}
+	
+	@Test
+	public void testGetAll_withName_whenNameIsNull_thenReturnAllLamps() {
+		Lamp lamp2 = Lamp.builder()
+				.id(UUID.randomUUID())
+				.bulb(bulb)
+				.town(town)
+				.street(street)
+				.cabinet(cabinet)
+				.lampShade(lampShade)
+				.latitude(latitude)
+				.longitude(longitude)
+				.lightOff(lightOff)
+				.lightOn(lightOn)
+				.height(height)
+				.moreInformations(moreInformations)
+				.build();
+		
+		when(lampDaoMock.findAll()).thenReturn(Arrays.asList(lamp, lamp2));
+		
+		List<Lamp> result = testedObject.getAll(null);
+		
+		verify(lampDaoMock, times(1)).findAll();
+		verify(lampDaoMock, never()).findByName(Mockito.anyString());
+		assertThat(result).hasSize(2);
+	}
+	
+	@Test
+	public void testGetAll_withName_whenNameIsBlank_thenReturnAllLamps() {
+		Lamp lamp2 = Lamp.builder()
+				.id(UUID.randomUUID())
+				.bulb(bulb)
+				.town(town)
+				.street(street)
+				.cabinet(cabinet)
+				.lampShade(lampShade)
+				.latitude(latitude)
+				.longitude(longitude)
+				.lightOff(lightOff)
+				.lightOn(lightOn)
+				.height(height)
+				.moreInformations(moreInformations)
+				.build();
+		
+		when(lampDaoMock.findAll()).thenReturn(Arrays.asList(lamp, lamp2));
+		
+		List<Lamp> result = testedObject.getAll("      ");
+		
+		verify(lampDaoMock, times(1)).findAll();
+		verify(lampDaoMock, never()).findByName(Mockito.anyString());
+		assertThat(result).hasSize(2);
 	}
 
 	@Test
