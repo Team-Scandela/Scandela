@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.scandela.server.entity.Bulb;
@@ -35,8 +36,8 @@ public class BulbController extends AbstractController<Bulb> {
 	 * @return allBulbs
 	 */
 	@GetMapping
-	public List<Bulb> getBulbs() {
-		return super.getAll();
+	public List<Bulb> getBulbs(@RequestParam("name") String name) {
+		return ((IBulbService) service).getAll(name);
 	}
 
 	/**
