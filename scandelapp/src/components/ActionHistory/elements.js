@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import { Yellow, Black, White, Grey, DarkYellow, DarkGrey } from '../../colors';
-import { IoCheckmarkCircleOutline  } from 'react-icons/io5';
+import { IoCheckmarkCircleOutline, IoCloseSharp   } from 'react-icons/io5';
 
-/** Button who allows to open the toast history pannel */
+/** Button who allows to open the action history pannel */
 export const ActionsHistoryButton = styled.div`
     position: absolute;
     display: flex;
@@ -26,6 +26,7 @@ export const ActionsHistoryButton = styled.div`
     }
 `;
 
+/** Icon of the button who allows to open the action history pannel */
 export const ActionHistoryButtonIcon = styled(IoCheckmarkCircleOutline)`
     position: absolute;
     display: flex;
@@ -33,6 +34,7 @@ export const ActionHistoryButtonIcon = styled(IoCheckmarkCircleOutline)`
     margin-top: 5px;
 `;
 
+/** Style of the Action history pannel */
 export const ActionsHistoryPannel = styled.div`
     position: absolute;
     display: flex;
@@ -51,6 +53,7 @@ export const ActionsHistoryPannel = styled.div`
         props.show ? 'translate(0%, -50%)' : 'translate(0%, -50%)'};
 `;
 
+/** Style of the Action title */
 export const ActionsTitle = styled.div`
     position: fixed;
     top: 2px;
@@ -69,6 +72,7 @@ export const ActionsTitle = styled.div`
     color: transparent;
 `;
 
+/** Style of the Action container */
 export const ActionContainer = styled.div`
     display: flex;
     flex-direction: column;
@@ -82,6 +86,7 @@ export const ActionContainer = styled.div`
         props.isDark ? DarkGrey + 'FF' : Yellow + 'FF'};
 `;
 
+/** Style of the Action template container */
 export const ActionTemplateContainer = styled.div`
     display: flex;
     position: absolute;
@@ -94,6 +99,9 @@ export const ActionTemplateContainer = styled.div`
     background-color: ${(props) => (props.isDark ? Grey + 'FF' : Grey + 'FF')};
     margin: 6px;
     border: 2px solid ${Black};
+    &:hover {
+        cursor: pointer;
+    }
 `;
 
 /** Style of the Action description text */
@@ -117,4 +125,79 @@ export const TimeText = styled.p`
     user-select: none;
     color: ${(props) => (props.isDark ? Black : Black)};
     font-weight: 700;
+`;
+
+/** Style of the pop-up of the action selected */
+export const PopUpContainer = styled.div`
+    display: flex;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    width: 800px;
+    height: 500px;
+    top: 20%;
+    left: 25%;
+    background-color: ${(props) =>
+        props.isDark ? Black + 'FF' : White + 'FF'};
+    border-radius: 20px;
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+`;
+
+/** Style of the pop-up close icon */
+export const PopUpClose = styled(IoCloseSharp)`
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    font-size: 50px;
+    color: ${(props) => (props.isDark ? Yellow : Black)};
+    z-index: 9999;
+
+    &:hover {
+        cursor: pointer;
+        opacity: 0.8;
+    }
+`;
+
+/** Style of the pop-up title */
+export const PopUpTitle = styled.div`
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 40px;
+    color: ${(props) => (props.isDark ? Yellow : Black)};
+    font-weight: 550;
+    user-select: none;
+`;
+
+/** Style of the pop-up text for the time */
+export const PopUpTime = styled.div`
+    position: absolute;
+    top: 80px;
+    left: 20px;
+    font-size: 25px;
+    color: ${(props) => (props.isDark ? Yellow : Black)};
+    font-weight: 400;
+    user-select: none;
+`;
+
+export const PopUpDescriptionContainer = styled.div`
+    position: absolute;
+    top: 150px;
+    left: 20px;
+    width: 760px;
+    height: 330px;
+    background-color: ${(props) =>
+        props.isDark ? DarkGrey + 'FF' : DarkGrey + 'FF'};
+    border-radius: 20px;
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+`;
+
+export const PopUpDescriptionText = styled.p`
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 25px;
+    color: ${(props) => (props.isDark ? Yellow : Black)};
+    font-weight: 400;
+    user-select: none;
 `;

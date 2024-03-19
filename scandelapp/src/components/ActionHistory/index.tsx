@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { ActionsHistoryButton, ActionHistoryButtonIcon, ActionsHistoryPannel, ActionsTitle, ActionContainer, ActionTemplateContainer, DescriptionText, TimeText } from "./elements";
+import { ActionsHistoryButton, ActionHistoryButtonIcon, ActionsHistoryPannel, ActionsTitle, 
+    ActionContainer, ActionTemplateContainer, DescriptionText, TimeText, PopUpContainer, PopUpClose, PopUpTitle, PopUpTime, PopUpDescriptionContainer, PopUpDescriptionText } from "./elements";
 
 interface ActionHistoryProps {
     id: string;
@@ -13,8 +14,9 @@ const ActionHistory: React.FC<ActionHistoryProps> = ({
 
     const [actionHistoryData, setActionHistoryData] = useState([
         {
-            description: "User has been created",
-            time: "18/03 12:00"
+            title: "User has been created",
+            time: "18/03 12:00",
+            description : "A new user has been created through the admin panel",
         },
     ]);
     const [actionHistoryExtended, setActionHistoryExtended] = useState(false);
@@ -22,6 +24,10 @@ const ActionHistory: React.FC<ActionHistoryProps> = ({
     const handleActionHistoryPannelButtonClicked = () => {
         setActionHistoryExtended(!actionHistoryExtended);
     };
+
+    const [showPopUp, setShowPopUp] = useState(false);
+    const [selectedAction, setSelectedAction] = useState({} as any);
+
 
     return (
         <div>
@@ -41,15 +47,46 @@ const ActionHistory: React.FC<ActionHistoryProps> = ({
                         <ActionTemplateContainer
                             isDark={isDark}
                             y={53 * i}
+                            onClick={() => {
+                                setShowPopUp(true);
+                                setSelectedAction(item);
+                            }}
                         >
                             <DescriptionText isDark={isDark}>
-                                {item.description}
+                                {item.title}
                             </DescriptionText>
                             <TimeText isDark={isDark}>{item.time}</TimeText>
                         </ActionTemplateContainer>
                     ))}
                 </ActionContainer>
             </ActionsHistoryPannel>
+
+            {showPopUp && (
+                <PopUpContainer
+                    isDark={isDark}
+                >
+                    <PopUpClose
+                        isDark={isDark}
+                        onClick={() => {
+                            setShowPopUp(false);
+                            setSelectedAction({} as any);
+                        }}
+                    />
+                    <PopUpTitle isDark={isDark}>
+                        {selectedAction.title}
+                    </PopUpTitle>
+                    <PopUpTime isDark={isDark}>
+                        {selectedAction.time}
+                    </PopUpTime>
+                    <PopUpDescriptionContainer>
+                        <PopUpDescriptionText isDark={isDark}>
+                            {selectedAction.description}
+                        </PopUpDescriptionText>
+                    </PopUpDescriptionContainer>
+
+
+                </PopUpContainer>
+            )}
 
         </div>
     );
