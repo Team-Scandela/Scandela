@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ActionsHistoryButton, ActionHistoryButtonIcon, ActionsHistoryPannel, ActionsTitle, 
     ActionContainer, ActionTemplateContainer, DescriptionText, TimeText, PopUpContainer, PopUpClose, PopUpTitle, PopUpTime, PopUpDescriptionContainer, PopUpDescriptionText } from "./elements";
 
@@ -12,6 +12,8 @@ const ActionHistory: React.FC<ActionHistoryProps> = ({
     isDark
 }) => {
 
+    const [dataReceived, setDataReceived] = useState(false);
+
     const [actionHistoryData, setActionHistoryData] = useState([
         {
             title: "User has been created",
@@ -19,6 +21,47 @@ const ActionHistory: React.FC<ActionHistoryProps> = ({
             description : "A new user has been created through the admin panel",
         },
     ]);
+
+    const getDecision = async () => {
+        const username = 'tester';
+        const password = 'T&st';
+        const response = await fetch(
+            'https://serverdela.onrender.com/decisions',
+            {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Basic ${btoa(`${username}:${password}`)}`,
+                },
+            }
+        );
+        const decisions = await response.json();
+        console.log(decisions)
+        setDataReceived(true);
+        parseDecisions(decisions);
+    };
+
+    const parseDecisions = (decisions: any) => {
+        const actionHistoryData: any = [];
+        decisions.forEach((decision: any) => {
+            if (decisions.done === true) {
+                const action = {
+                    title: decision.solution,
+                    time: "18/03 12:00",
+                    description: decision.description
+                };
+                actionHistoryData.push(action);
+
+            }
+        });
+        setActionHistoryData(actionHistoryData);
+    };
+
+    useEffect(() => {
+        if (!dataReceived)
+            getDecision();
+    }, []);
+
     const [actionHistoryExtended, setActionHistoryExtended] = useState(false);
 
     const handleActionHistoryPannelButtonClicked = () => {
