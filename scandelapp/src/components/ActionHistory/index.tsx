@@ -1,24 +1,34 @@
-import { useState, useEffect } from "react";
-import { ActionsHistoryButton, ActionHistoryButtonIcon, ActionsHistoryPannel, ActionsTitle, 
-    ActionContainer, ActionTemplateContainer, DescriptionText, TimeText, PopUpContainer, PopUpClose, PopUpTitle, PopUpTime, PopUpDescriptionContainer, PopUpDescriptionText } from "./elements";
+import { useState, useEffect } from 'react';
+import {
+    ActionsHistoryButton,
+    ActionHistoryButtonIcon,
+    ActionsHistoryPannel,
+    ActionsTitle,
+    ActionContainer,
+    ActionTemplateContainer,
+    DescriptionText,
+    TimeText,
+    PopUpContainer,
+    PopUpClose,
+    PopUpTitle,
+    PopUpTime,
+    PopUpDescriptionContainer,
+    PopUpDescriptionText,
+} from './elements';
 
 interface ActionHistoryProps {
     id: string;
     isDark: boolean;
 }
 
-const ActionHistory: React.FC<ActionHistoryProps> = ({
-    id,
-    isDark
-}) => {
-
+const ActionHistory: React.FC<ActionHistoryProps> = ({ id, isDark }) => {
     const [dataReceived, setDataReceived] = useState(false);
 
     const [actionHistoryData, setActionHistoryData] = useState([
         {
-            title: "User has been created",
-            time: "18/03 12:00",
-            description : "A new user has been created through the admin panel",
+            title: 'User has been created',
+            time: '18/03 12:00',
+            description: 'A new user has been created through the admin panel',
         },
     ]);
 
@@ -36,7 +46,7 @@ const ActionHistory: React.FC<ActionHistoryProps> = ({
             }
         );
         const decisions = await response.json();
-        console.log(decisions)
+        console.log(decisions);
         setDataReceived(true);
         parseDecisions(decisions);
     };
@@ -47,19 +57,17 @@ const ActionHistory: React.FC<ActionHistoryProps> = ({
             if (decisions.done === true) {
                 const action = {
                     title: decision.solution,
-                    time: "18/03 12:00",
-                    description: decision.description
+                    time: '18/03 12:00',
+                    description: decision.description,
                 };
                 actionHistoryData.push(action);
-
             }
         });
         setActionHistoryData(actionHistoryData);
     };
 
     useEffect(() => {
-        if (!dataReceived)
-            getDecision();
+        if (!dataReceived) getDecision();
     }, []);
 
     const [actionHistoryExtended, setActionHistoryExtended] = useState(false);
@@ -71,7 +79,6 @@ const ActionHistory: React.FC<ActionHistoryProps> = ({
     const [showPopUp, setShowPopUp] = useState(false);
     const [selectedAction, setSelectedAction] = useState({} as any);
 
-
     return (
         <div>
             <ActionsHistoryButton
@@ -82,9 +89,7 @@ const ActionHistory: React.FC<ActionHistoryProps> = ({
                 <ActionHistoryButtonIcon size={30} />
             </ActionsHistoryButton>
             <ActionsHistoryPannel isDark={isDark} show={actionHistoryExtended}>
-                <ActionsTitle isDark={isDark}>
-                    Actions
-                </ActionsTitle>
+                <ActionsTitle isDark={isDark}>Actions</ActionsTitle>
                 <ActionContainer isDark={isDark}>
                     {actionHistoryData.map((item: any, i: number) => (
                         <ActionTemplateContainer
@@ -105,9 +110,7 @@ const ActionHistory: React.FC<ActionHistoryProps> = ({
             </ActionsHistoryPannel>
 
             {showPopUp && (
-                <PopUpContainer
-                    isDark={isDark}
-                >
+                <PopUpContainer isDark={isDark}>
                     <PopUpClose
                         isDark={isDark}
                         onClick={() => {
@@ -118,19 +121,14 @@ const ActionHistory: React.FC<ActionHistoryProps> = ({
                     <PopUpTitle isDark={isDark}>
                         {selectedAction.title}
                     </PopUpTitle>
-                    <PopUpTime isDark={isDark}>
-                        {selectedAction.time}
-                    </PopUpTime>
+                    <PopUpTime isDark={isDark}>{selectedAction.time}</PopUpTime>
                     <PopUpDescriptionContainer>
                         <PopUpDescriptionText isDark={isDark}>
                             {selectedAction.description}
                         </PopUpDescriptionText>
                     </PopUpDescriptionContainer>
-
-
                 </PopUpContainer>
             )}
-
         </div>
     );
 };

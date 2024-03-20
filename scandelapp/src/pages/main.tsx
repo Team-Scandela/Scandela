@@ -272,10 +272,7 @@ const Main: React.FC<MainProps> = ({ userInfo }) => {
                         isDark={isDark}
                         toastHistoryData={toastHistoryData}
                     />
-                    <ActionHistory
-                        id={'actionHistoryId'}
-                        isDark={isDark}
-                    />
+                    <ActionHistory id={'actionHistoryId'} isDark={isDark} />
                     <ActionsList
                         id={'actionsListComponentId'}
                         isDark={isDark}

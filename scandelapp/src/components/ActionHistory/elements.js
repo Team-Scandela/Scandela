@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Yellow, Black, White, Grey, DarkYellow, DarkGrey } from '../../colors';
-import { IoCheckmarkCircleOutline, IoCloseSharp   } from 'react-icons/io5';
+import { IoCheckmarkCircleOutline, IoCloseSharp } from 'react-icons/io5';
 
 /** Button who allows to open the action history pannel */
 export const ActionsHistoryButton = styled.div`
