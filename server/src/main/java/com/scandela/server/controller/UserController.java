@@ -107,7 +107,11 @@ public class UserController extends AbstractController<User> {
 	
 	@PostMapping("/newsletter")
 	public void newsletter(@RequestBody Map<String, String> mailInfos) throws Exception {
-		emailService.sendMail(mailInfos.get("email"), "Scandela Newsletter - " + mailInfos.get("subject"), mailInfos.get("body") + "\n\nTeam Scandela");
+		List<User> users = ((IUserService) service).getAllForNewsletter();
+		
+		for (User user : users) {
+			emailService.sendMail(user.getEmail(), "Scandela Newsletter - " + mailInfos.get("subject"), mailInfos.get("body") + "\n\nTeam Scandela");
+		}
 	}
 
 }

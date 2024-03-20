@@ -1,5 +1,6 @@
 package com.scandela.server.dao;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -10,5 +11,6 @@ import com.scandela.server.entity.User;
 
 @Repository
 public interface UserDao extends JpaRepository<User, UUID> {
-	Optional<User> findByEmail(String email);
+	public Optional<User> findByEmail(String email);
+	public List<User> findByNewsletter(boolean newsletter);
 }

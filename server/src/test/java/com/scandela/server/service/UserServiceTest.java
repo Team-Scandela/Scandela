@@ -122,6 +122,25 @@ public class UserServiceTest {
 		verify(userDaoMock, times(1)).findAll();
 		assertThat(result).isEmpty();
 	}
+	
+	@Test
+	public void testGetAllForNewsletter() {
+		when(userDaoMock.findByNewsletter(true)).thenReturn(Arrays.asList(User.builder().newsletter(true).build()));
+		
+		List<User> result = testedObject.getAllForNewsletter();
+		
+		assertThat(result).hasSize(1);
+		assertThat(result.get(0).isNewsletter()).isTrue();
+	}
+	
+	@Test
+	public void testGetAllForNewsletter_whenNoUser_thenReturnEmptyList() {
+		when(userDaoMock.findByNewsletter(true)).thenReturn(null);
+		
+		List<User> result = testedObject.getAllForNewsletter();
+		
+		assertThat(result).isEmpty();
+	}
 
 	@Test
 	public void testGet() {
