@@ -114,7 +114,8 @@ public class BulbServiceTest {
 
 		when(bulbDaoMock.findAll()).thenReturn(Arrays.asList(bulb, bulb2));
 
-		List<Bulb> result = testedObject.getAll(null);
+		String arg = null;
+		List<Bulb> result = testedObject.getAll(arg);
 
 		verify(bulbDaoMock, times(1)).findAll();
 		verify(bulbDaoMock, never()).findByName(Mockito.anyString());
