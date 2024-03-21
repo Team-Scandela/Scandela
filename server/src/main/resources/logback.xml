@@ -5,15 +5,15 @@
         </encoder>
     </appender>
 
-    <logger name="com.example.controllers" level="info" additivity="false">
-        <appender-ref ref="CONSOLE" />
-    </logger>
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>audit.log</file>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
 
-    <logger name="com.example.services" level="debug" additivity="false">
+    <root level="INFO">
         <appender-ref ref="CONSOLE" />
-    </logger>
-
-    <root level="warn">
-        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="FILE" />
     </root>
 </configuration>
