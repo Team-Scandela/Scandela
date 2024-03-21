@@ -74,12 +74,10 @@ public class UserController extends AbstractController<User> {
 				newUser.getEmail() + "\n\nTeam Scandela");
 		return super.create(newUser);
 	}
-	
+
 	@PostMapping("/signin")
-	public Map<String, UUID> signIn(@RequestBody User user) throws UserException {
-		UUID id = ((IUserService) service).signIn(user.getEmail(), user.getPassword());
-		
-		return Map.of("id", id);
+	public User signIn(@RequestBody User user) throws UserException {
+		return ((IUserService) service).signIn(user.getEmail(), user.getPassword());
 	}
 
 	/**

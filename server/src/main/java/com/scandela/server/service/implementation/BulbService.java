@@ -42,12 +42,12 @@ public class BulbService extends AbstractService<Bulb> implements IBulbService {
 
 	@Override
 	@Transactional(readOnly = true, rollbackFor = { Exception.class })
-	public List<Bulb> getAll(String name) {
-		if (name == null || name.isBlank()) {
+	public List<Bulb> getAll(String reference) {
+		if (reference == null || reference.isBlank()) {
 			return super.getAll();
 		}
 		
-		return ((BulbDao) dao).findByName(name);
+		return ((BulbDao) dao).findByReference(reference);
 	}
 	
 	@Override
