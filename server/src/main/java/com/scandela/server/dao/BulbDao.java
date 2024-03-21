@@ -11,5 +11,5 @@ import com.scandela.server.entity.Bulb;
 
 @Repository
 public interface BulbDao extends JpaRepository<Bulb, UUID> {
-	public List<Bulb> findByName(String name);
+	public List<Bulb> findByReference(String reference);
 }
