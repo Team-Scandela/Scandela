@@ -7,6 +7,6 @@ import com.scandela.server.entity.User;
 import com.scandela.server.exception.UserException;
 
 public interface IUserService extends IService<User> {
-	public UUID signIn(String email, String password) throws UserException;
+	public User signIn(String email, String password) throws UserException;
 	public List<User> getAllForNewsletter();
 }
