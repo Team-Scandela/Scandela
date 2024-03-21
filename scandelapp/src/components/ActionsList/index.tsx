@@ -105,8 +105,8 @@ const ActionsList: React.FC<ActionsListProps> = ({
                         isLumi={false}
                         level={80}
                         oldLevel={50}
-                        top={315}
-                        left={470}
+                        top={70}
+                        left={57}
                     />
                     <PersonnalizedGauge
                         id={'BioGaugesComponentId'}
@@ -116,8 +116,8 @@ const ActionsList: React.FC<ActionsListProps> = ({
                         isLumi={false}
                         level={65}
                         oldLevel={85}
-                        top={315}
-                        left={570}
+                        top={70}
+                        left={71}
                     />
                     <PersonnalizedGauge
                         id={'LumiGaugesComponentId'}
@@ -127,8 +127,8 @@ const ActionsList: React.FC<ActionsListProps> = ({
                         isLumi={true}
                         level={40}
                         oldLevel={20}
-                        top={315}
-                        left={670}
+                        top={70}
+                        left={85}
                     />
                 </GaugesContainer>
             </ActionsListPanel>

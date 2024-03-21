@@ -22,23 +22,21 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-@Table(name = "whileaway")
-public class WhileAway implements Serializable {
+@Table(name = "electricityPrice")
+public class ElectricityPrice implements Serializable {
 
-	// Attributes \\
-		// Private \\
-	private static final long serialVersionUID = 1L;
-
-	@Id
+    @Id
 	@GenericGenerator(name = "UUIDGenerator", strategy = "uuid2")
     @GeneratedValue(generator = "UUIDGenerator")
 	@Column(name = "id", updatable = false, nullable = false)
 	private UUID id;
 
-	@Column(name = "updatedUuid", updatable = true, nullable = true)
-	private String updatedUuid;
+    @Column(name = "startDate", updatable = false)
+    private String startDate;
 
-	@Column(name = "updatedData", updatable = true, nullable = true)
-	private String updatedData;
+    @Column(name = "endDate", updatable = false)
+    private String endDate;
 
+    @Column(name = "price", updatable = false)
+    private Double price;
 }
