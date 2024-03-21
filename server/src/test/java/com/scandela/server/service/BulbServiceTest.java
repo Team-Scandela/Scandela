@@ -93,12 +93,12 @@ public class BulbServiceTest {
 	
 	@Test
 	public void testGetAll_withName() {
-		when(bulbDaoMock.findByName(bulb.getReference())).thenReturn(Arrays.asList(bulb));
+		when(bulbDaoMock.findByReference(bulb.getReference())).thenReturn(Arrays.asList(bulb));
 
 		List<Bulb> result = testedObject.getAll(bulb.getReference());
 
 		verify(bulbDaoMock, never()).findAll();
-		verify(bulbDaoMock, times(1)).findByName(bulb.getReference());
+		verify(bulbDaoMock, times(1)).findByReference(bulb.getReference());
 		assertThat(result).isNotEmpty();
 		assertThat(result.get(0).getId()).isEqualTo(bulb.getId());
 	}
@@ -118,7 +118,7 @@ public class BulbServiceTest {
 		List<Bulb> result = testedObject.getAll(arg);
 
 		verify(bulbDaoMock, times(1)).findAll();
-		verify(bulbDaoMock, never()).findByName(Mockito.anyString());
+		verify(bulbDaoMock, never()).findByReference(Mockito.anyString());
 		assertThat(result).hasSize(2);
 	}
 
@@ -136,7 +136,7 @@ public class BulbServiceTest {
 		List<Bulb> result = testedObject.getAll("      ");
 
 		verify(bulbDaoMock, times(1)).findAll();
-		verify(bulbDaoMock, never()).findByName(Mockito.anyString());
+		verify(bulbDaoMock, never()).findByReference(Mockito.anyString());
 		assertThat(result).hasSize(2);
 	}
 
