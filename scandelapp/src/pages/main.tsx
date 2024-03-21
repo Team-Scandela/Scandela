@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import FilterMenu from '../components/FilterMenu';
 import Map from '../components/Map';
 import SearchBar from '../components/SearchBar';
@@ -11,12 +11,12 @@ import SettingsButton from '../components/SettingsButton';
 import LogoutButton from '../components/LogoutButton';
 import Toastr from '../components/Toastr';
 import { Gauges } from '../components/Gauges';
-import Lasso from '../components/Lasso';
 import CityButton from '../components/CityButton';
 import AbsencePannel from '../components/AbsencePannel';
 import SmallLampInfosPopup from '../components/SmallLampInfosPopup';
 // import MapDB from '../components/MapDB';
 import FilterSearch from '../components/FilterSearch';
+import TrafficTime from '../components/TrafficTime';
 
 export enum Filters {
     pin = 'pin',
@@ -29,13 +29,12 @@ export enum Filters {
 }
 
 interface MainProps {
-    isPremiumActivated: boolean;
+    userInfo: any;
 }
 
 /** Main page of the app */
-const Main: React.FC<MainProps> = ({ isPremiumActivated }) => {
+const Main: React.FC<MainProps> = ({ userInfo }) => {
     const [isDark, setIsDark] = useState<boolean>(true);
-    const [isLassoActive, setIsLassoActive] = useState(false);
     const [filter, setFilter] = useState<Filters>(Filters.none);
     const [lat, setLat] = useState<number>(47.218371);
     const [lng, setLng] = useState<number>(-1.553621);
@@ -55,12 +54,14 @@ const Main: React.FC<MainProps> = ({ isPremiumActivated }) => {
     const [search, setSearch] = useState<string>('');
     const [selected, setSelected] = useState<string>('Lamp');
 
+    const [trafficTimeValue, setTrafficTimeValue] = useState<string>('00:00');
+
     const getUser = async () => {
         const username = 'tester';
         const password = 'T&st';
         try {
             const response = await fetch(
-                'http://app.scandela.fr:2001/users/183e5775-6d38-4d0b-95b4-6f4c7bbb0597',
+                'https://serverdela.onrender.com/users/183e5775-6d38-4d0b-95b4-6f4c7bbb0597',
                 {
                     method: 'GET',
                     headers: {
@@ -79,7 +80,10 @@ const Main: React.FC<MainProps> = ({ isPremiumActivated }) => {
         }
     };
 
-    getUser();
+    useEffect(() => {
+        console.log('here!');
+        getUser();
+    }, []);
 
     const [optimisationTemplateData, setOptimisationTemplateData] = useState([
         {
@@ -195,10 +199,6 @@ const Main: React.FC<MainProps> = ({ isPremiumActivated }) => {
         setCurrentSelected(data);
     };
 
-    const handleLassoActivation = (isActive: boolean) => {
-        setIsLassoActive(isActive);
-    };
-
     const addNotificationToList = (description: string) => {
         const date = new Date();
 
@@ -225,7 +225,6 @@ const Main: React.FC<MainProps> = ({ isPremiumActivated }) => {
                 lat={lat}
                 lng={lng}
                 zoom={zoom}
-                isLassoActive={isLassoActive}
                 selectedFilter={selected}
                 searchFilter={search}
             />
@@ -239,7 +238,6 @@ const Main: React.FC<MainProps> = ({ isPremiumActivated }) => {
                 filter={filter}
                 setFilter={setFilter}
                 isDark={isDark}
-                isLassoActive={isLassoActive}
             />
             <LogoutButton id={'logoutButtonId'} isDark={isDark} />
             <CityButton id={'cityButtonId'} isDark={isDark} />
@@ -255,8 +253,18 @@ const Main: React.FC<MainProps> = ({ isPremiumActivated }) => {
                     />
                 </>
             )}
+            {filter === Filters.traffic && (
+                <>
+                    <TrafficTime
+                        id={'trafficTimeComponentId'}
+                        isDark={isDark}
+                        trafficTime={trafficTimeValue}
+                        setTrafficTime={setTrafficTimeValue}
+                    />
+                </>
+            )}
 
-            {isPremiumActivated && (
+            {userInfo.isPremiumActivated && (
                 <>
                     <ToastHistory
                         id={'toastHistoryId'}
@@ -282,11 +290,6 @@ const Main: React.FC<MainProps> = ({ isPremiumActivated }) => {
                         notificationsPreference={notificationsPreference}
                         setNotificationsPreference={setNotificationsPreference}
                         addNotificationToList={addNotificationToList}
-                    />
-                    <Lasso
-                        id={'LassoComponentId'}
-                        isDark={isDark}
-                        onLassoActivation={handleLassoActivation}
                     />
                     <DecisionMenu
                         id={'decisionMenuComponentId'}

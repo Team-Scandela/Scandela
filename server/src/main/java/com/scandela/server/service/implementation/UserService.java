@@ -1,6 +1,8 @@
 package com.scandela.server.service.implementation;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -68,6 +70,32 @@ public class UserService extends AbstractService<User> implements IUserService {
 			throw e;
 		}
     }
+	
+	@Override
+	@Transactional(readOnly = true, rollbackFor = { Exception.class })
+	public UUID signIn(String email, String password) throws UserException {
+		Optional<User> user = ((UserDao) dao).findByEmail(email);
+		
+		if (user.isEmpty()) {
+			throw new UserException(UserException.NO_CORRESPONDING_EMAIL);
+		}
+		
+		if (!passwordEncoder.matches("scan" + password + "dela", user.get().getPassword())) {
+			throw new UserException(UserException.WRONG_PASSWORD);
+		}
+		
+		return user.get().getId();
+	}
+	
+	public List<User> getAllForNewsletter() {
+		List<User> users = ((UserDao) dao).findByNewsletter(true);
+		
+		if (users == null || users.isEmpty()) {
+			return new ArrayList<>();
+		}
+		
+		return users;
+	}
 
 	// Private \\
 	private void loadTown(User newUser) throws UserException {

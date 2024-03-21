@@ -4,10 +4,20 @@ import { useState, useEffect, useRef, useMemo } from 'react';
 import { Filters } from '../../pages/main';
 import { Yellow } from '../../colors';
 import LampInfosPopup from '../LampInfosPopup';
+import Lasso from '../Lasso';
 import { LassoOverlay } from './elements';
+import loadMap from './loadMap';
+//import TimePicker from '../TimePicker';
+import React from 'react';
 
 // Load geographical data of Nantes from a local JSON file
 let nantesData = require('../../assets/nantesData.json');
+
+function getRandomColor() {
+    const colors = ['#00FF00', '#FFA500', '#FF0000'];
+    const randomIndex = Math.floor(Math.random() * colors.length);
+    return colors[randomIndex];
+}
 
 // Set Mapbox access token
 Object.getOwnPropertyDescriptor(mapboxgl, 'accessToken').set(
@@ -21,7 +31,6 @@ interface MapProps {
     lat: number;
     lng: number;
     zoom: number;
-    isLassoActive: boolean;
     selectedFilter: string;
     searchFilter: string;
 }
@@ -34,7 +43,6 @@ const Map: React.FC<MapProps> = ({
     lat,
     lng,
     zoom,
-    isLassoActive,
     selectedFilter,
     searchFilter,
 }) => {
@@ -57,6 +65,10 @@ const Map: React.FC<MapProps> = ({
     const [selectedLampFeature, setSelectedLampFeature] =
         useState<mapboxgl.MapboxGeoJSONFeature | null>(null);
 
+    const [isLassoActive, setIsLassoActive] = useState(false);
+
+    const [lassoSelectedLamps, setLassoSelectedLamps] = useState([]);
+
     interface geojson {
         type: string;
         features: feature[];
@@ -75,6 +87,22 @@ const Map: React.FC<MapProps> = ({
             hat: string;
         };
     }
+
+    const handleLassoActivation = (isActive: boolean) => {
+        if (!isActive && lassoSelectedLamps[0]) {
+            if (map.current) {
+                map.current.setPaintProperty('lamp', 'circle-color', [
+                    'match',
+                    ['get', 'name'],
+                    lassoSelectedLamps,
+                    '#FAC710',
+                    '#FAC710',
+                ]);
+            }
+        }
+        setLassoSelectedLamps([]);
+        setIsLassoActive(isActive);
+    };
 
     // Crée les données géoJSON à partir des données de Nantes
     const geojsonData = useMemo(() => {
@@ -108,17 +136,29 @@ const Map: React.FC<MapProps> = ({
     const handleFilterChange = () => {
         if (map.current) {
             if (filter === 'pin') {
-                // Show layers when the filter is "pin"
                 setLayoutVisibility('visible');
-
-                setLayoutVisibilityFilter('none');
-            } else if (filter === ('filter' as Filters)) {
-                // Show layers when the filter is "pin"
-            } else {
-                // Hide layers when the filter is not "pin"
+                setLayoutVisibilityFilter('visible');
+            }
+            if (filter === 'zone') {
                 setLayoutVisibility('none');
-
                 setLayoutVisibilityFilter('none');
+                setLayoutVisibilityHeat('visible');
+            }
+            if (filter === 'filter') {
+                setLayoutVisibilityHeat('none');
+                setLayoutVisibilityFilters('visible');
+            }
+            if (filter === 'pinColor') {
+                setLayoutVisibilityFilters('none');
+                setLayoutVisibilityPinColor('visible');
+            }
+            if (filter === 'traffic') {
+                setLayoutVisibilityPinColor('none');
+                setLayoutVisibilityTraffic('visible');
+            }
+            if (filter === 'cabinet') {
+                setLayoutVisibilityTraffic('none');
+                setLayoutVisibilityCabinet('visible');
             }
         }
     };
@@ -138,6 +178,26 @@ const Map: React.FC<MapProps> = ({
         );
         map.current.setLayoutProperty('lamp', 'visibility', visibility);
     };
+
+    const setLayoutVisibilityHeat = (visibility: string) => {
+        map.current.setLayoutProperty('zone', 'visibility', visibility);
+    };
+
+    const setLayoutVisibilityCabinet = (visibility: string) => {
+        map.current.setLayoutProperty('cabinet', 'visibility', visibility);
+    };
+
+    const setLayoutVisibilityTraffic = (visibility: string) => {
+        map.current.setLayoutProperty('traffic', 'visibility', visibility);
+    };
+
+    const setLayoutVisibilityPinColor = (visibility: string) => {
+        map.current.setLayoutProperty('pinColor', 'visibility', visibility);
+    };
+
+    const setLayoutVisibilityFilters = (visibility: string) => {
+        map.current.setLayoutProperty('filter', 'visibility', visibility);
+    }
 
     const setLayoutVisibilityFilter = (visibility: string) => {
         map.current.setLayoutProperty(
@@ -335,6 +395,222 @@ const Map: React.FC<MapProps> = ({
                     'none'
                 );
                 map.current.setLayoutProperty('lamp', 'visibility', 'none');
+
+                // Heatmap Layer toujours optimisable
+            map.current.addLayer(
+                {
+                    id: 'zone',
+                    type: 'heatmap',
+                    source: 'points',
+                    layout: {
+                        visibility: 'none',
+                    },
+                    maxzoom: 23,
+                    paint: {
+                        'heatmap-weight': {
+                            property: 'dbh',
+                            type: 'exponential',
+                            stops: [
+                                [1, 0],
+                                [62, 1],
+                            ],
+                        },
+                        'heatmap-intensity': {
+                            stops: [
+                                [11, 1],
+                                [15, 3],
+                            ],
+                        },
+                        'heatmap-color': [
+                            'interpolate',
+                            ['linear'],
+                            ['heatmap-density'],
+                            0,
+                            'rgba(236,222,239,0)',
+                            0.2,
+                            'rgb(3,2,230)',
+                            0.4,
+                            'rgb(3,230,2)',
+                            0.6,
+                            'rgb(178,123,130)',
+                            0.8,
+                            'rgb(234,1,3)',
+                        ],
+                        'heatmap-radius': {
+                            stops: [
+                                [11, 15],
+                                [15, 20],
+                            ],
+                        },
+                        'heatmap-opacity': {
+                            default: 0.6,
+                            stops: [
+                                [14, 0.2],
+                                [15, 0.2],
+                            ],
+                        },
+                    },
+                },
+                'waterway-label'
+            );
+            
+            //ColoredPin filter
+            map.current.addLayer({
+                id: 'pinColor',
+                type: 'circle',
+                source: 'points',
+                layout: {
+                    visibility: 'none',
+                },
+                paint: {
+                    'circle-radius': 6,
+                    'circle-color': getRandomColor(),
+                    'circle-stroke-color': '#FFFFFF',
+                    'circle-stroke-width': 2,
+                },
+            });
+            
+            // // Filtre pour les points avec des halos de lumière sur les pins
+            map.current.addLayer({
+                id: 'filter',
+                type: 'circle',
+                source: 'points',
+                layout: {
+                    visibility: 'none',
+                },
+                paint: {
+                    'circle-radius': [
+                        'case',
+                        ['<=', ['get', 'hauteur_support'], 1], 8,
+                        ['<=', ['get', 'hauteur_support'], 2], 9,
+                        ['<=', ['get', 'hauteur_support'], 3], 10,
+                        ['<=', ['get', 'hauteur_support'], 4], 12,
+                        14
+                    ],
+                    'circle-color': '#FAC710',
+                    'circle-opacity': [
+                        'case',
+                        ['<=', ['get', 'hauteur_support'], 1], 0.1,
+                        ['<=', ['get', 'hauteur_support'], 2], 0.2,
+                        ['<=', ['get', 'hauteur_support'], 3], 0.4,
+                        ['<=', ['get', 'hauteur_support'], 4], 0.5,
+                        0.55
+                    ],
+                    'circle-stroke-color': '#FAC710',
+                    'circle-stroke-width': 0,
+                },
+            });
+            map.current.loadImage(
+                'https://img.icons8.com/?size=256&id=UnYwluJUelEQ&format=png',
+                (error, image) => {
+                    if (error) throw error;
+                    
+                    // image de l'éclair
+                    map.current.addImage('lightning', image);            
+                });
+    
+                map.current.loadImage(
+                    'https://icones.pro/wp-content/uploads/2022/07/symbole-d-eclair-bleu.png',
+                    (error, image) => {
+                        if (error) throw error;
+                        
+                        map.current.addImage('lightning2', image);            
+                    });
+    
+                map.current.addLayer({
+                    id: 'cabinet',
+                    type: 'symbol',
+                    source: 'points',
+                    layout: {
+                        'icon-image': 'lightning',
+                        'icon-size': 0.1, // Ajustement de la taille de l'image
+                        'visibility': 'none',
+                    },
+                    paint: {
+                        'icon-color': '#FFFF00',
+                    },
+                });
+    
+                map.current.on('mouseenter', 'cabinet', () => {
+                    map.current.getCanvas().style.cursor = 'pointer';
+                });
+                
+                map.current.on('mouseleave', 'cabinet', () => {
+                    map.current.getCanvas().style.cursor = '';
+                });
+                
+                const lightningState: Record<string, boolean> = {};
+    
+                map.current.on('click', 'cabinet', (event) => {
+                    const features = map.current.queryRenderedFeatures(event.point, {
+                        layers: ['cabinet'],
+                    });
+                
+                    if (features.length > 0) {
+                        const clickedFeature = features[0];
+                        const clickedLightningID = clickedFeature.properties.id;
+                
+                        // Inversement l'état de l'éclair cliqué
+                        lightningState[clickedLightningID] = !lightningState[clickedLightningID];
+                
+                        // Changement de la couleur de l'icône de l'éclair cliqué en bleu ou jaune selon l'état
+                        map.current.setPaintProperty('cabinet', 'icon-color', [
+                            'case',
+                            ['==', ['get', 'id'], clickedLightningID],
+                            lightningState[clickedLightningID] ? '#0000FF' : '#FFFF00', // Bleu ou Jaune
+                            '#FFFF00', // Jaune (pour les autres éclairs)
+                        ]);
+                
+                        map.current.setLayoutProperty('cabinet', 'icon-image', [
+                            'case',
+                            ['==', ['get', 'id'], clickedLightningID],
+                            lightningState[clickedLightningID] ? 'lightning2' : 'lightning', 
+                            'lightning',
+                        ]);
+    
+                        map.current.setLayoutProperty('cabinet', 'icon-size', [
+                            'case',
+                            ['==', ['get', 'id'], clickedLightningID],
+                            lightningState[clickedLightningID] ? 0.05 : 0.1, // Taille différente pour l'éclair sélectionné
+                            0.1, // Taille par défaut pour les autres éclairs
+                        ]);
+    
+                        const visibilityState = Object.keys(lightningState).reduce((acc, id) => {
+                            acc[id] = lightningState[id] ? 'visible' : 'none';
+                            return acc;
+                        }, {} as Record<string, string>);
+    
+                        map.current.setFilter('cabinet', ['in', ['get', 'id'], ...Object.keys(visibilityState)]);
+                    }
+                });
+            }
+
+            if (!map.current?.getSource('mapbox-traffic')) {
+                map.current.addSource('mapbox-traffic', {
+                    type: 'vector',
+                    url: 'mapbox://mapbox.mapbox-traffic-v1',
+                });
+                map.current.addLayer({
+                    id: 'traffic',
+                    type: 'line',
+                    source: 'mapbox-traffic',
+                    'source-layer': 'traffic',
+                    layout: {
+                        visibility: 'none',
+                    },
+                    paint: {
+                        'line-width': 2,
+                        'line-color': [
+                            'case',
+                            ['==', 'low', ['get', 'congestion']], '#3054A4',
+                            ['==', 'moderate', ['get', 'congestion']], '#5474E8',
+                            ['==', 'heavy', ['get', 'congestion']], '#C16C9B',
+                            ['==', 'severe', ['get', 'congestion']], '#A3577D',
+                            '#000000',
+                        ],
+                    },
+                    minzoom: 0,
+                });
             }
         });
     };
@@ -353,6 +629,7 @@ const Map: React.FC<MapProps> = ({
 
             if (features && features.length > 0) {
                 const selectedFeature = features[0];
+                console.log(selectedFeature);
                 setSelectedLampId(selectedFeature.properties.id);
 
                 // Mettre à jour la couleur du lampadaire sélectionné en utilisant un filtre
@@ -511,6 +788,49 @@ const Map: React.FC<MapProps> = ({
         }
     }, [selectedFilter, searchFilter]);
 
+    const handleLassoValidation = () => {
+        const queryString = clickedPoints
+            .map(
+                (point) =>
+                    `coordinate=${point.lat.toFixed(5)},${point.lng.toFixed(5)}`
+            )
+            .join('&');
+        const url = `https://serverdela.onrender.com/lamps/coordinates?${queryString}`;
+
+        const encodedCredentials = btoa('tester:T&st');
+
+        const headers = new Headers({
+            Authorization: `Basic ${encodedCredentials}`,
+        });
+
+        fetch(url, { method: 'GET', headers: headers })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then((data) => {
+                const lampIds = data.map((lamp: any) => lamp.name);
+                setLassoSelectedLamps(lampIds);
+                if (map.current) {
+                    map.current.setPaintProperty('lamp', 'circle-color', [
+                        'match',
+                        ['get', 'name'],
+                        lampIds,
+                        '#48187b',
+                        '#FAC710',
+                    ]);
+                }
+            })
+            .catch((error) => {
+                console.error(
+                    'There has been a problem with your fetch operation:',
+                    error
+                );
+            });
+    };
+
     useEffect(() => {
         if (map.current) {
             if (isLassoActive) {
@@ -615,7 +935,6 @@ const Map: React.FC<MapProps> = ({
                         },
                     });
                 }
-
                 map.current.addLayer({
                     id: 'clickedPointsLayer',
                     type: 'circle',
@@ -693,6 +1012,12 @@ const Map: React.FC<MapProps> = ({
     // Render the map component
     return (
         <div id={id} style={{ overflow: 'hidden' }}>
+            <Lasso
+                id={'LassoComponentId'}
+                isDark={isDark}
+                onLassoActivation={handleLassoActivation}
+                onLassoValidation={handleLassoValidation}
+            />
             <LassoOverlay isLassoActive={isLassoActive} />
             <div
                 style={{ ...styleMap, cursor: cursorStyle }}

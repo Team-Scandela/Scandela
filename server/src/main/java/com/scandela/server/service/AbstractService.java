@@ -7,6 +7,8 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +31,18 @@ public abstract class AbstractService<T> implements IService<T> {
 	@Transactional(readOnly = true)
 	public List<T> getAll() {
 		return dao.findAll();
+	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public List<T> getAll(Integer pageNumber) {
+		if (pageNumber == null) {
+			return getAll();
+		}
+		
+		Page<T> page = dao.findAll(PageRequest.of(pageNumber, 10));
+		
+		return page.getContent();
 	}
 
 	@Override

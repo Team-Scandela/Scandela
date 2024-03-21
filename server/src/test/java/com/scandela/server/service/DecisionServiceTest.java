@@ -20,6 +20,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 
 import com.scandela.server.dao.DecisionDao;
 import com.scandela.server.dao.DecisionTypeDao;
@@ -361,6 +362,24 @@ public class DecisionServiceTest {
 		verify(decisionDaoMock, never()).saveAll(Mockito.any());
 		verify(lampDecisionDaoMock, never()).saveAll(Mockito.any());
 		assertThat(result.getMessage()).isEqualTo(DecisionException.DECISIONTYPE_LOADING);
+	}
+	
+	@Test
+	public void testAlgoRetirerLampadaire() throws Exception {
+		Lamp lamp1 = Lamp.builder()
+				.address("AAA")
+				.name("NAME1")
+				.build();
+		Lamp lamp2 = Lamp.builder()
+				.address("BBB")
+				.name("NAME2")
+				.build();
+		
+		when(lampDaoMock.findAll(PageRequest.of(0, 100))).thenReturn(new PageImpl<>(Arrays.asList(lamp1, lamp2)));
+		
+		List<Decision> result = testedObject.algoRetirerLampadaire();
+		
+		assertThat(result).hasSize(2);
 	}
 	
 }
