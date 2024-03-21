@@ -184,7 +184,8 @@ public class LampServiceTest {
 		
 		when(lampDaoMock.findAll()).thenReturn(Arrays.asList(lamp, lamp2));
 		
-		List<Lamp> result = testedObject.getAll(null);
+		String arg = null;
+		List<Lamp> result = testedObject.getAll(arg);
 		
 		verify(lampDaoMock, times(1)).findAll();
 		verify(lampDaoMock, never()).findByName(Mockito.anyString());
