@@ -2,6 +2,7 @@ package com.scandela.server.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertThrows;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -88,6 +89,55 @@ public class BulbServiceTest {
 
 		verify(bulbDaoMock, times(1)).findAll();
 		assertThat(result).isEmpty();
+	}
+	
+	@Test
+	public void testGetAll_withName() {
+		when(bulbDaoMock.findByReference(bulb.getReference())).thenReturn(Arrays.asList(bulb));
+
+		List<Bulb> result = testedObject.getAll(bulb.getReference());
+
+		verify(bulbDaoMock, never()).findAll();
+		verify(bulbDaoMock, times(1)).findByReference(bulb.getReference());
+		assertThat(result).isNotEmpty();
+		assertThat(result.get(0).getId()).isEqualTo(bulb.getId());
+	}
+
+	@Test
+	public void testGetAll_withName_whenNameIsNull_thenReturnAllLamps() {
+		Bulb bulb2 = Bulb.builder()
+				.id(UUID.randomUUID())
+				.intensity(intensity)
+				.consommation(consommation)
+				.reference(reference)
+				.build();
+
+		when(bulbDaoMock.findAll()).thenReturn(Arrays.asList(bulb, bulb2));
+
+		String arg = null;
+		List<Bulb> result = testedObject.getAll(arg);
+
+		verify(bulbDaoMock, times(1)).findAll();
+		verify(bulbDaoMock, never()).findByReference(Mockito.anyString());
+		assertThat(result).hasSize(2);
+	}
+
+	@Test
+	public void testGetAll_withName_whenNameIsBlank_thenReturnAllLamps() {
+		Bulb bulb2 = Bulb.builder()
+				.id(UUID.randomUUID())
+				.intensity(intensity)
+				.consommation(consommation)
+				.reference(reference)
+				.build();
+
+		when(bulbDaoMock.findAll()).thenReturn(Arrays.asList(bulb, bulb2));
+
+		List<Bulb> result = testedObject.getAll("      ");
+
+		verify(bulbDaoMock, times(1)).findAll();
+		verify(bulbDaoMock, never()).findByReference(Mockito.anyString());
+		assertThat(result).hasSize(2);
 	}
 
 	@Test

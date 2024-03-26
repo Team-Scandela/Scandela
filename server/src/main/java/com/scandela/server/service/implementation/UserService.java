@@ -1,6 +1,10 @@
 package com.scandela.server.service.implementation;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -9,10 +13,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.scandela.server.dao.SubscriptionDao;
 import com.scandela.server.dao.TownDao;
 import com.scandela.server.dao.UserDao;
+import com.scandela.server.dao.WhileAwayDao;
+import com.scandela.server.entity.JwtGenerator;
+import com.scandela.server.entity.Subscription;
 import com.scandela.server.entity.Town;
 import com.scandela.server.entity.User;
+import com.scandela.server.entity.WhileAway;
 import com.scandela.server.exception.UserException;
 import com.scandela.server.service.AbstractService;
 import com.scandela.server.service.IUserService;
@@ -26,11 +35,15 @@ public class UserService extends AbstractService<User> implements IUserService {
 	private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 	private TownDao townDao;
+	private WhileAwayDao whileAwayDao;
+	private SubscriptionDao subscriptionDao;
 
 	// Constructors \\
-	protected UserService(UserDao userDao, TownDao townDao) {
+	protected UserService(UserDao userDao, TownDao townDao, WhileAwayDao whileAwayDao, SubscriptionDao subscriptionDao) {
 		super(userDao);
 		this.townDao = townDao;
+		this.whileAwayDao = whileAwayDao;
+		this.subscriptionDao = subscriptionDao;
 	}
 
 	// Methods \\
@@ -71,18 +84,63 @@ public class UserService extends AbstractService<User> implements IUserService {
 	
 	@Override
 	@Transactional(readOnly = true, rollbackFor = { Exception.class })
-	public UUID signIn(String email, String password) throws UserException {
+	public User signIn(String email, String password) throws UserException {
 		Optional<User> user = ((UserDao) dao).findByEmail(email);
-		
+
 		if (user.isEmpty()) {
 			throw new UserException(UserException.NO_CORRESPONDING_EMAIL);
 		}
-		
+
 		if (!passwordEncoder.matches("scan" + password + "dela", user.get().getPassword())) {
 			throw new UserException(UserException.WRONG_PASSWORD);
 		}
+
+		List<String> moreInfos = new ArrayList<>();
+
+                try {
+
+                    JwtGenerator generator = new JwtGenerator();
+
+                    Map<String, String> claims = new HashMap<>();
+
+                    claims.put("action", "read");
+
+                    String token = generator.generateJwt(claims);
+                    System.out.println(token);
+                    moreInfos.add(token);
+
+                    List<WhileAway> whileAways = whileAwayDao.findAll();
+
+                    moreInfos.add(whileAways.toString());
+
+                    whileAwayDao.deleteAll();
+
+                    /* Check for premium */
+                    String isSubbed = "false";
+					Optional<Subscription> subscription = subscriptionDao.findByUserid(user.get().getId().toString());
+
+					if (subscription.isPresent()) {
+						isSubbed = "true";
+					}
+
+
+                    moreInfos.add(isSubbed);
+					user.get().setMoreInformations(moreInfos);
+
+                } catch (Exception e) {
+					e.printStackTrace();
+                }
+		return user.get();
+	}
+	
+	public List<User> getAllForNewsletter() {
+		List<User> users = ((UserDao) dao).findByNewsletter(true);
 		
-		return user.get().getId();
+		if (users == null || users.isEmpty()) {
+			return new ArrayList<>();
+		}
+		
+		return users;
 	}
 
 	// Private \\

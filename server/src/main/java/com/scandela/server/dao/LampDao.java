@@ -40,4 +40,6 @@ public interface LampDao extends JpaRepository<Lamp, UUID> {
 	public Page<Lamp> findByLightOn2SuperiorAndLampDecisionsContains(@Param("lightOn") LocalTime lightOn, @Param("decisionSolution") String decisionSolution, Pageable pageable);
 	
 	public List<Lamp> findByLatitudeBetweenAndLongitudeBetween(double latitudeMin, double latitudeMax, double longitudeMin, double longitudeMax);
+	
+	public List<Lamp> findByName(String name);
 }
