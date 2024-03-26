@@ -53,6 +53,7 @@ const ActionHistory: React.FC<ActionHistoryProps> = ({ id, isDark }) => {
 
     const parseDecisions = (decisions: any) => {
         const actionHistoryData: any = [];
+        if (decisions === null) return;
         decisions.forEach((decision: any) => {
             if (decisions.done === true) {
                 const action = {
