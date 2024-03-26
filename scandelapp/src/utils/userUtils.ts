@@ -8,7 +8,6 @@ export const setUserId = (newId: any) => {
 export const getUser = async () => {
     const username = 'tester';
     const password = 'T&st';
-    console.log(userId);
     try {
         const responseUser = await fetch(
             `https://serverdela.onrender.com/users/${userId}`,

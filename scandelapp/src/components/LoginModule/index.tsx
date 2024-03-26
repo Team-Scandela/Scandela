@@ -65,9 +65,9 @@ const LoginModule: React.FC<LoginModuleProps> = ({ addItemToOptimisationTemplate
 
     const handleValidLogin = (data: any) => {
         setUserId(data.id)
+        navigate('/landingpage');
         getUserData();
         getDecisions();
-        navigate('/landingpage');
     };
 
     const handleSubmitSignIn = async (event: any) => {

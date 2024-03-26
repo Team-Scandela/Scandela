@@ -85,6 +85,7 @@ const Main: React.FC<MainProps> = ({ optimisationTemplateData, setOptimisationTe
     };
 
     const handleButtonSelectAllClick = () => {
+        console.log("here");
         const updatedData = [...optimisationTemplateData];
         updatedData.forEach((item: any) => {
             if (
@@ -129,6 +130,7 @@ const Main: React.FC<MainProps> = ({ optimisationTemplateData, setOptimisationTe
                 zoom={zoom}
                 selectedFilter={selected}
                 searchFilter={search}
+                optimisationTemplateData={optimisationTemplateData}
             />
             <SearchBar
                 id={'searchBarComponentId'}

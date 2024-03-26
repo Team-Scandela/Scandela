@@ -33,6 +33,7 @@ interface MapProps {
     zoom: number;
     selectedFilter: string;
     searchFilter: string;
+    optimisationTemplateData: any;
 }
 
 // Map component
@@ -45,6 +46,7 @@ const Map: React.FC<MapProps> = ({
     zoom,
     selectedFilter,
     searchFilter,
+    optimisationTemplateData,
 }) => {
     // Reference to the map container element
     const mapContainer = useRef<HTMLDivElement | null>(null);
@@ -68,6 +70,8 @@ const Map: React.FC<MapProps> = ({
     const [isLassoActive, setIsLassoActive] = useState(false);
 
     const [lassoSelectedLamps, setLassoSelectedLamps] = useState([]);
+
+    const [lastFilterActivated, setLastFilterActivated] = useState("");
 
     interface geojson {
         type: string;
@@ -132,33 +136,75 @@ const Map: React.FC<MapProps> = ({
         return geoJSON;
     }, []);
 
+    const closeLastFilter = () => {
+        switch (lastFilterActivated) {
+            case "":
+                return;
+            case "pin":
+                setLayoutVisibility('none');
+                setLayoutVisibilityFilter('none');
+                break;
+            case "zone":
+                setLayoutVisibilityHeat('none');
+                break;
+            case "filter":
+                setLayoutVisibilityFilters('none');
+                break;
+            case "pinColor":
+                setLayoutVisibilityPinColor('none');
+                break;
+            case "traffic":
+                setLayoutVisibilityTraffic('none');
+                break;
+            case "cabinet":
+                setLayoutVisibilityCabinet('none');
+                break;
+            default:
+                break;
+        }
+    }
+
     // Function to handle filter changes
     const handleFilterChange = () => {
         if (map.current) {
-            if (filter === 'pin') {
-                setLayoutVisibility('visible');
-                setLayoutVisibilityFilter('visible');
-            }
-            if (filter === 'zone') {
-                setLayoutVisibility('none');
-                setLayoutVisibilityFilter('none');
-                setLayoutVisibilityHeat('visible');
-            }
-            if (filter === 'filter') {
-                setLayoutVisibilityHeat('none');
-                setLayoutVisibilityFilters('visible');
-            }
-            if (filter === 'pinColor') {
-                setLayoutVisibilityFilters('none');
-                setLayoutVisibilityPinColor('visible');
-            }
-            if (filter === 'traffic') {
-                setLayoutVisibilityPinColor('none');
-                setLayoutVisibilityTraffic('visible');
-            }
-            if (filter === 'cabinet') {
-                setLayoutVisibilityTraffic('none');
-                setLayoutVisibilityCabinet('visible');
+            switch (filter) {
+                case "pin":
+                    closeLastFilter();
+                    setLayoutVisibility('visible');
+                    setLayoutVisibilityFilter('visible');
+                    setLastFilterActivated("pin");
+                    break;
+                case "zone":
+                    closeLastFilter();
+                    setLayoutVisibilityHeat('visible');
+                    setLastFilterActivated("zone");
+                    break;
+                case "filter":
+                    closeLastFilter();
+                    setLayoutVisibilityFilters('visible');
+                    setLastFilterActivated("filter");
+                    break;
+                case "pinColor":
+                    closeLastFilter();
+                    setLayoutVisibilityPinColor('visible');
+                    setLastFilterActivated("pinColor");
+                    break;
+                case "traffic":
+                    closeLastFilter();
+                    setLayoutVisibilityTraffic('visible');
+                    setLastFilterActivated("traffic");
+                    break;
+                case "cabinet":
+                    closeLastFilter();
+                    setLayoutVisibilityCabinet('visible');
+                    setLastFilterActivated("cabinet");
+                    break;
+                case "none":
+                    closeLastFilter();
+                    setLastFilterActivated("");
+                    break;
+                default:
+                    break;
             }
         }
     };
@@ -223,11 +269,33 @@ const Map: React.FC<MapProps> = ({
         map.current.setLayoutProperty('lampFilter', 'visibility', visibility);
     };
 
+    const setLayoutVisibilitySelected = (visibility: string) => {
+        // map.current.setLayoutProperty(
+        //     'cluster-textSelected',
+        //     'visibility',
+        //     visibility
+        // );
+        // map.current.setLayoutProperty(
+        //     'clustersSelected',
+        //     'visibility',
+        //     visibility
+        // );
+        // map.current.setLayoutProperty(
+        //     'cluster-markers',
+        //     'visibility',
+        //     visibility
+        // );
+        // map.current.setLayoutProperty(
+        //     'cluster-borderSelected',
+        //     'visibility',
+        //     visibility
+        // );
+        // map.current.setLayoutProperty('lampSelected', 'visibility', visibility);
+    };
+
     // Initialise la carte
     const initializeMap = (data: any) => {
-        console.log('initializeMap before');
         if (!map.current) {
-            console.log('initializeMap after');
             cluster.current = new Supercluster({
                 radius: 100,
                 maxZoom: 17,
@@ -629,7 +697,6 @@ const Map: React.FC<MapProps> = ({
 
             if (features && features.length > 0) {
                 const selectedFeature = features[0];
-                console.log(selectedFeature);
                 setSelectedLampId(selectedFeature.properties.id);
 
                 // Mettre à jour la couleur du lampadaire sélectionné en utilisant un filtre
@@ -655,7 +722,6 @@ const Map: React.FC<MapProps> = ({
             }
         });
 
-        console.log('load');
         map.current.on('mouseenter', 'lampFilter', () => {
             if (map.current) {
                 map.current.getCanvas().style.cursor = 'pointer';
@@ -669,7 +735,6 @@ const Map: React.FC<MapProps> = ({
         });
 
         if (!map.current?.getSource('pointsFilter')) {
-            console.log('add source');
             map.current.addSource('pointsFilter', {
                 type: 'geojson',
                 data: data as GeoJSON.FeatureCollection,
@@ -758,6 +823,92 @@ const Map: React.FC<MapProps> = ({
         setLayoutVisibilityFilter('visible');
     };
 
+    const initializeMapLampsSelected = (data: any) => {
+        if (map.current) {
+            const setupInteractions = () => {
+                map.current.on('click', 'lampSelected', (e) => {
+                    const features = map.current?.queryRenderedFeatures(e.point, {
+                        layers: ['lampSelected'],
+                    });
+
+                    if (features && features.length > 0) {
+                        const selectedFeature = features[0];
+                        setSelectedLampId(selectedFeature.properties.id);
+
+                        map.current?.setPaintProperty('lampSelected', 'circle-color', [
+                            'case',
+                            ['==', ['get', 'id'], selectedFeature.properties.id],
+                            '#000000',
+                            '#FAC710',
+                        ]);
+                        map.current?.setPaintProperty(
+                            'lampSelected',
+                            'circle-stroke-color',
+                            [
+                                'case',
+                                ['==', ['get', 'id'], selectedFeature.properties.id],
+                                '#FAC710',
+                                '#F9F9F9',
+                            ]
+                        );
+
+                        setSelectedLampFeature(selectedFeature);
+                    }
+                });
+
+                map.current.on('mouseenter', 'lampSelected', () => {
+                    if (map.current) {
+                        map.current.getCanvas().style.cursor = 'pointer';
+                    }
+                });
+
+                map.current.on('mouseleave', 'lampSelected', () => {
+                    if (map.current) {
+                        map.current.getCanvas().style.cursor = '';
+                    }
+                });
+            };
+
+            const updateOrAddSourceAndLayer = () => {
+                const source = map.current.getSource('pointsSelected');
+                if (source) {
+                    const geojsonSource = source as mapboxgl.GeoJSONSource;
+                    geojsonSource.setData(data);
+                } else {
+                    map.current.addSource('pointsSelected', {
+                        type: 'geojson',
+                        data: data,
+                    });
+
+                    if (!map.current.getLayer('lampSelected')) {
+                        map.current.addLayer({
+                            id: 'lampSelected',
+                            type: 'circle',
+                            source: 'pointsSelected',
+                            filter: ['!', ['has', 'point_count']],
+                            paint: {
+                                'circle-radius': 6,
+                                'circle-color': '#FAC710',
+                                'circle-stroke-color': '#F9F9F9',
+                                'circle-stroke-width': 2,
+                            },
+                        });
+                    }
+                }
+            };
+
+            if (map.current.isStyleLoaded()) {
+                setupInteractions();
+                updateOrAddSourceAndLayer();
+            } else {
+                map.current.on('load', () => {
+                    setupInteractions();
+                    updateOrAddSourceAndLayer();
+                });
+            }
+        }
+    };
+
     // Initialize the map on the first render
     useEffect(() => {
         initializeMap(geojsonData);
@@ -781,12 +932,25 @@ const Map: React.FC<MapProps> = ({
                 (feature: any) => feature.properties.hat === searchFilter
             );
         }
-        console.log(sortedData);
         if (searchFilter != '') {
-            console.log('new data');
             initializeMapFilter(sortedData);
         }
     }, [selectedFilter, searchFilter]);
+
+    useEffect(() => {
+        if (!optimisationTemplateData)
+            return;
+        let filteredData: geojson = {
+            type: 'FeatureCollection',
+            features: [],
+        };
+        filteredData.features = geojsonData.features.filter((feature: any) =>
+            optimisationTemplateData.some((item: any) => 
+                feature.properties.name === item.name && item.selected
+            )
+        );
+        initializeMapLampsSelected(filteredData);
+    }, [optimisationTemplateData, geojsonData]);
 
     const handleLassoValidation = () => {
         const queryString = clickedPoints

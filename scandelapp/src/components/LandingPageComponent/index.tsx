@@ -41,7 +41,7 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({}) => {
 
     useEffect(() => {
         const getUserData = async () => {
-            const user = await getUser();
+            // const user = await getUser();
             // setIsPremiumActivated(user.isPremiumActivated);
         }
 

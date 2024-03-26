@@ -142,7 +142,7 @@ export default async function loadMap(map: mapboxgl.Map | undefined) {
                 },
                 'waterway-label'
             );
-            
+
             // ColoredPin filter
             map.addLayer({
                 id: 'pinColor',
@@ -158,7 +158,7 @@ export default async function loadMap(map: mapboxgl.Map | undefined) {
                     'circle-stroke-width': 2,
                 },
             });
-            
+
             // Second layer - Security layer
             // map.addLayer({
             //     id: 'pin',
@@ -174,7 +174,7 @@ export default async function loadMap(map: mapboxgl.Map | undefined) {
             //         'circle-stroke-width': 2,
             //     },
             // });
-            
+
             // Filtre pour les points avec des halos de lumière sur les pins
             map.addLayer({
                 id: 'filter',
@@ -238,7 +238,7 @@ export default async function loadMap(map: mapboxgl.Map | undefined) {
             map.addSource('lightning', {
                 type: 'geojson',
                 data: 'https://docs.mapbox.com/mapbox-gl-js/assets/earthquakes.geojson',
-            });    
+            });
 
             map.loadImage(
             'https://img.icons8.com/?size=256&id=UnYwluJUelEQ&format=png',

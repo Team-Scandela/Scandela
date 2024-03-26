@@ -22,18 +22,16 @@ const App: React.FC = () => {
     }, [optimisationTemplateData]);
 
     const addItemToOptimisationTemplate = (data: any) => {
-        const newItems = data.map((item: any) => ({
-            id: optimisationTemplateData.length > 0
-                ? Math.max(...optimisationTemplateData.map((item: any) => item.id)) + 1
-                : 0,
+        const newItems = data.map((item: any, index: number) => ({
+            id: index,
             saved: false,
             selected: false,
             type: item.type.title,
             location: item.location,
             description: item.description,
             solution: item.solution,
+            name: item.lampDecision.lamp.name,
         }));
-
         setOptimisationTemplateData([...optimisationTemplateData, ...newItems]);
     }
 
