@@ -52,6 +52,9 @@ public class Decision implements Serializable {
 	@Column(name = "solution", nullable = false)
 	private String solution;
 
+	@Column(name = "done")
+	private boolean done;
+
 	@OneToOne(mappedBy = "decision", cascade = CascadeType.REMOVE)
 	private LampDecision lampDecision;
 }
