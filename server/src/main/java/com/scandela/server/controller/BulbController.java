@@ -36,7 +36,7 @@ public class BulbController extends AbstractController<Bulb> {
 	 * @return allBulbs
 	 */
 	@GetMapping
-	public List<Bulb> getBulbs(@RequestParam("name") String name) {
+	public List<Bulb> getBulbs(@RequestParam(name = "name", defaultValue = "") String name) {
 		return ((IBulbService) service).getAll(name);
 	}
 
