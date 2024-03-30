@@ -9,7 +9,7 @@ import {
     SubmitButton,
     ReturnButtonContainer,
 } from './elements';
-import { userId } from '../../../utils/userUtils'
+import { userId } from '../../../utils/userUtils';
 
 /** Premium page component
  * @param {function} handlePremiumButtonClicked - Function to show/hide premium page

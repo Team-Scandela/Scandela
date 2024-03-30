@@ -16,14 +16,16 @@ import {
     GhostButton,
 } from './elements';
 import { useNavigate } from 'react-router-dom';
-import { setUserId, getUser }  from '../../utils/userUtils'
+import { setUserId, getUser } from '../../utils/userUtils';
 
 interface LoginModuleProps {
     addItemToOptimisationTemplate: (data: any) => void;
 }
 
 /** Login module who allow to sign in up. You can slide the overlay from left to right (or the opposite) to acess to the side wanted */
-const LoginModule: React.FC<LoginModuleProps> = ({ addItemToOptimisationTemplate }) => {
+const LoginModule: React.FC<LoginModuleProps> = ({
+    addItemToOptimisationTemplate,
+}) => {
     const [signInPage, setSignInPage] = useState(true);
 
     const [usernameSignUp, setUsernameSignUp] = useState('');
@@ -39,32 +41,27 @@ const LoginModule: React.FC<LoginModuleProps> = ({ addItemToOptimisationTemplate
         const username = 'tester';
         const password = 'T&st';
         try {
-            const response = await fetch(
-                'http://localhost:8080/decisions',
-                {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Basic ${btoa(
-                            `${username}:${password}`
-                        )}`,
-                    },
-                }
-            );
+            const response = await fetch('http://localhost:8080/decisions', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Basic ${btoa(`${username}:${password}`)}`,
+                },
+            });
             const data = await response.json();
             addItemToOptimisationTemplate(data);
         } catch (error) {
             console.log('ERROR GET DECISIONS = ' + error);
         }
-    }
+    };
 
     const getUserData = async () => {
         const user = await getUser();
         localStorage.setItem('isDark', JSON.stringify(user.darkmode));
-    }
+    };
 
     const handleValidLogin = (data: any) => {
-        setUserId(data.id)
+        setUserId(data.id);
         navigate('/landingpage');
         getUserData();
         getDecisions();

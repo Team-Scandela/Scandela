@@ -11,7 +11,9 @@ const Login: React.FC<LoginProps> = ({ addItemToOptimisationTemplate }) => {
             id={'loginPage'}
             style={{ backgroundColor: '#444444', height: '100vh' }}
         >
-            <LoginModule addItemToOptimisationTemplate={addItemToOptimisationTemplate}/>
+            <LoginModule
+                addItemToOptimisationTemplate={addItemToOptimisationTemplate}
+            />
         </div>
     );
 };

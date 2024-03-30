@@ -33,7 +33,9 @@ const LampInfosPopup: React.FC<LampInfosPopupProps> = ({
     selectedLampData,
     onClosePopup,
 }) => {
-    const [isLampHavingDecision, setIsLampHavingDecision] = useState(!!optimisationTemplateData);
+    const [isLampHavingDecision, setIsLampHavingDecision] = useState(
+        !!optimisationTemplateData
+    );
     const [isDragging, setIsDragging] = useState(false);
     const [position, setPosition] = useState({ x: 600, y: 50 });
     const [startPosition, setStartPosition] = useState({ x: 0, y: 0 });
@@ -45,17 +47,17 @@ const LampInfosPopup: React.FC<LampInfosPopupProps> = ({
     const startDragging = (e: any) => {
         setIsDragging(true);
         setStartPosition({
-        x: e.clientX - position.x,
-        y: e.clientY - position.y,
+            x: e.clientX - position.x,
+            y: e.clientY - position.y,
         });
     };
 
     const onDragging = (e: any) => {
         if (isDragging) {
-        setPosition({
-            x: e.clientX - startPosition.x,
-            y: e.clientY - startPosition.y,
-        });
+            setPosition({
+                x: e.clientX - startPosition.x,
+                y: e.clientY - startPosition.y,
+            });
         }
     };
 
@@ -65,23 +67,27 @@ const LampInfosPopup: React.FC<LampInfosPopupProps> = ({
 
     useEffect(() => {
         if (isDragging) {
-        window.addEventListener('mousemove', onDragging);
-        window.addEventListener('mouseup', stopDragging);
+            window.addEventListener('mousemove', onDragging);
+            window.addEventListener('mouseup', stopDragging);
         } else {
-        window.removeEventListener('mousemove', onDragging);
-        window.removeEventListener('mouseup', stopDragging);
+            window.removeEventListener('mousemove', onDragging);
+            window.removeEventListener('mouseup', stopDragging);
         }
         return () => {
-        window.removeEventListener('mousemove', onDragging);
-        window.removeEventListener('mouseup', stopDragging);
+            window.removeEventListener('mousemove', onDragging);
+            window.removeEventListener('mouseup', stopDragging);
         };
     }, [isDragging, onDragging]);
 
     return (
         <div id={id}>
-            <PannelContainer isDark={isDark} isLampHavingDecision={isLampHavingDecision} onMouseDown={startDragging}
-            left={position.x}
-                top={position.y}>
+            <PannelContainer
+                isDark={isDark}
+                isLampHavingDecision={isLampHavingDecision}
+                onMouseDown={startDragging}
+                left={position.x}
+                top={position.y}
+            >
                 <CloseIcon isDark={isDark} onClick={closePopup}></CloseIcon>
                 <PopupTextLampName isDark={isDark}>
                     Lampadaire {selectedLampData.fields.numero}

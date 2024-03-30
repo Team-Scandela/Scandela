@@ -3,7 +3,7 @@ export let userId = localStorage.getItem('userId') || 0;
 export const setUserId = (newId: any) => {
     userId = newId;
     localStorage.setItem('userId', newId);
-}
+};
 
 export const getUser = async () => {
     const username = 'tester';
@@ -25,7 +25,7 @@ export const getUser = async () => {
     } catch (error) {
         console.log('ERROR GET USER = ' + error);
     }
-}
+};
 
 export const putUser = async (updatedUserData: any) => {
     const username = 'tester';
@@ -37,9 +37,7 @@ export const putUser = async (updatedUserData: any) => {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: `Basic ${btoa(
-                        `${username}:${password}`
-                    )}`,
+                    Authorization: `Basic ${btoa(`${username}:${password}`)}`,
                 },
                 body: JSON.stringify(updatedUserData),
             }
@@ -47,4 +45,4 @@ export const putUser = async (updatedUserData: any) => {
     } catch (error) {
         console.log('ERROR UPDATE USER = ' + error);
     }
-}
+};

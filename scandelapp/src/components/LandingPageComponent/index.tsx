@@ -27,8 +27,7 @@ import { getUser } from '../../utils/userUtils';
 /** Landing component page
  */
 
-interface LandingPageComponentProps {
-}
+interface LandingPageComponentProps {}
 
 const LandingPageComponent: React.FC<LandingPageComponentProps> = ({}) => {
     const navigate = useNavigate();
@@ -43,7 +42,7 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({}) => {
         const getUserData = async () => {
             // const user = await getUser();
             // setIsPremiumActivated(user.isPremiumActivated);
-        }
+        };
 
         getUserData();
     }, []);

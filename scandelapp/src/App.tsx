@@ -12,13 +12,18 @@ import { Helmet } from 'react-helmet';
 
 /** Route page */
 const App: React.FC = () => {
-    const [optimisationTemplateData, setOptimisationTemplateData] = useState(() => {
-        const savedData = localStorage.getItem('optimisationTemplateData');
-        return savedData ? JSON.parse(savedData) : [];
-    });
+    const [optimisationTemplateData, setOptimisationTemplateData] = useState(
+        () => {
+            const savedData = localStorage.getItem('optimisationTemplateData');
+            return savedData ? JSON.parse(savedData) : [];
+        }
+    );
 
     useEffect(() => {
-        localStorage.setItem('optimisationTemplateData', JSON.stringify(optimisationTemplateData));
+        localStorage.setItem(
+            'optimisationTemplateData',
+            JSON.stringify(optimisationTemplateData)
+        );
     }, [optimisationTemplateData]);
 
     const addItemToOptimisationTemplate = (data: any) => {
@@ -37,7 +42,7 @@ const App: React.FC = () => {
         }));
         setOptimisationTemplateData([...optimisationTemplateData, ...newItems]);
         console.log(optimisationTemplateData);
-    }
+    };
 
     return (
         <div>
@@ -61,15 +66,27 @@ const App: React.FC = () => {
                 <Routes>
                     <Route
                         path="/"
-                        element={<Login addItemToOptimisationTemplate={addItemToOptimisationTemplate}/>}
+                        element={
+                            <Login
+                                addItemToOptimisationTemplate={
+                                    addItemToOptimisationTemplate
+                                }
+                            />
+                        }
                     />
-                    <Route
-                        path="/landingpage"
-                        element={<LandingPage/>}
-                    />
+                    <Route path="/landingpage" element={<LandingPage />} />
                     <Route
                         path="/scandela"
-                        element={<Main optimisationTemplateData={optimisationTemplateData} setOptimisationTemplateData={setOptimisationTemplateData}/>}
+                        element={
+                            <Main
+                                optimisationTemplateData={
+                                    optimisationTemplateData
+                                }
+                                setOptimisationTemplateData={
+                                    setOptimisationTemplateData
+                                }
+                            />
+                        }
                     />
                     <Route path="/redirect" element={<Redirect />} />
                     <Route path="/admin" element={<Admin />} />

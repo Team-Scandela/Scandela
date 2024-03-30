@@ -33,7 +33,10 @@ interface MainProps {
 }
 
 /** Main page of the app */
-const Main: React.FC<MainProps> = ({ optimisationTemplateData, setOptimisationTemplateData }) => {
+const Main: React.FC<MainProps> = ({
+    optimisationTemplateData,
+    setOptimisationTemplateData,
+}) => {
     const [isDark, setIsDark] = useState(() => {
         const savedIsDark = localStorage.getItem('isDark');
         return JSON.parse(savedIsDark);

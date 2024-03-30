@@ -28,18 +28,21 @@ const InfoIconPopup: React.FC<InfoIconPopupProps> = ({ isDark }) => {
         const url = process.env.REACT_APP_BACKEND_URL + '/bulbs/create';
 
         try {
-            const response = await fetch('https://serverdela.onrender.com/bulbs/create', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Basic ${btoa(`${username}:${password}`)}`,
-                },
-                body: JSON.stringify({
-                    intensity: 0,
-                    consommation: parseInt(bulbValue, 10),
-                    reference: bulbID,
-                }),
-            });
+            const response = await fetch(
+                'https://serverdela.onrender.com/bulbs/create',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Basic ${btoa(`${username}:${password}`)}`,
+                    },
+                    body: JSON.stringify({
+                        intensity: 0,
+                        consommation: parseInt(bulbValue, 10),
+                        reference: bulbID,
+                    }),
+                }
+            );
         } catch (error) {
             console.log('ERROR CREATE BULB = ' + error);
         }

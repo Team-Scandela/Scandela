@@ -9,7 +9,7 @@ export const PannelContainer = styled.div`
     align-items: center;
     justify-content: center;
     width: 400px;
-    height: ${(props) => props.isLampHavingDecision ? "670px" : "450px"};
+    height: ${(props) => (props.isLampHavingDecision ? '670px' : '450px')};
     left: ${(props) => props.left}px;
     top: ${(props) => props.top}px;
     background-color: ${(props) =>
