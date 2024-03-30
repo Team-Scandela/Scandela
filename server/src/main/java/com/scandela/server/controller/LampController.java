@@ -40,8 +40,8 @@ public class LampController extends AbstractController<Lamp> {
 	 * @return allLamps
 	 */
 	@GetMapping
-	public List<LampDto> getLamps() {
-		List<Lamp> lamps = super.getAll();
+	public List<LampDto> getLamps(@RequestParam(name = "name", defaultValue = "") String name) {
+		List<Lamp> lamps = ((ILampService) service).getAll(name);
 		
 		return lamps.stream().map(lamp -> LampDto.from(lamp)).collect(Collectors.toList());
 	}

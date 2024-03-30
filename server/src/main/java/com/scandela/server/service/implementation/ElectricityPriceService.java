@@ -72,6 +72,21 @@ public class ElectricityPriceService extends AbstractService<ElectricityPrice> i
     }
 
 	public ElectricityPrice getLastElectricityPrice(String accessToken) {
+
+		/* Tester la connexion à l'API (parfois down)*/
+		try {
+			URL url = new URL("https://digital.iservices.rte-france.com/open_api");
+			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("HEAD");
+			int responseCode = connection.getResponseCode();
+			if (responseCode > 300) {
+				return null;
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+
 		URL obj;
 		try {
 			obj = new URL("https://digital.iservices.rte-france.com/open_api/wholesale_market/v2/france_power_exchanges");

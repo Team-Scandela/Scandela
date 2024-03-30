@@ -72,6 +72,6 @@ public class User implements Serializable {
 	private LocalDateTime lastConnexion;
 	
 	@Builder.Default
-	@Column(name = "newsletter", nullable = false)
-	private Boolean newletter = false;
+	@Column(name = "newsletter")
+	private boolean newsletter = false;
 }
