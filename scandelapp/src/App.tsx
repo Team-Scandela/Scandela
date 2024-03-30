@@ -26,13 +26,17 @@ const App: React.FC = () => {
             id: index,
             saved: false,
             selected: false,
+            name: item.lampDecision.lamp.name,
             type: item.type.title,
             location: item.location,
             description: item.description,
             solution: item.solution,
-            name: item.lampDecision.lamp.name,
+            lampType: item.lampDecision.lamp.lampType,
+            foyerType: item.lampDecision.lamp.foyerType,
+            height: item.lampDecision.lamp.height,
         }));
         setOptimisationTemplateData([...optimisationTemplateData, ...newItems]);
+        console.log(optimisationTemplateData);
     }
 
     return (

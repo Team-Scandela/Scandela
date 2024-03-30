@@ -15,7 +15,7 @@ export const ActionsListButton = styled(PiListChecksDuotone)`
     width: 50px;
     height: 40px;
     top: 25px;
-    left: 1190px;
+    right: 295px;
     user-select: none;
     opacity: 0.9;
     background-color: ${(props) =>

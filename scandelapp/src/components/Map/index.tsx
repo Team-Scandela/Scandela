@@ -269,30 +269,6 @@ const Map: React.FC<MapProps> = ({
         map.current.setLayoutProperty('lampFilter', 'visibility', visibility);
     };
 
-    const setLayoutVisibilitySelected = (visibility: string) => {
-        // map.current.setLayoutProperty(
-        //     'cluster-textSelected',
-        //     'visibility',
-        //     visibility
-        // );
-        // map.current.setLayoutProperty(
-        //     'clustersSelected',
-        //     'visibility',
-        //     visibility
-        // );
-        // map.current.setLayoutProperty(
-        //     'cluster-markers',
-        //     'visibility',
-        //     visibility
-        // );
-        // map.current.setLayoutProperty(
-        //     'cluster-borderSelected',
-        //     'visibility',
-        //     visibility
-        // );
-        // map.current.setLayoutProperty('lampSelected', 'visibility', visibility);
-    };
-
     // Initialise la carte
     const initializeMap = (data: any) => {
         if (!map.current) {
@@ -690,37 +666,37 @@ const Map: React.FC<MapProps> = ({
         });
         cluster.current.load(data.features);
 
-        map.current.on('click', 'lampFilter', (e) => {
-            const features = map.current?.queryRenderedFeatures(e.point, {
-                layers: ['lampFilter'],
-            });
+        // map.current.on('click', 'lampFilter', (e) => {
+        //     const features = map.current?.queryRenderedFeatures(e.point, {
+        //         layers: ['lampFilter'],
+        //     });
 
-            if (features && features.length > 0) {
-                const selectedFeature = features[0];
-                setSelectedLampId(selectedFeature.properties.id);
+        //     if (features && features.length > 0) {
+        //         const selectedFeature = features[0];
+        //         setSelectedLampId(selectedFeature.properties.id);
 
-                // Mettre à jour la couleur du lampadaire sélectionné en utilisant un filtre
-                map.current?.setPaintProperty('lampFilter', 'circle-color', [
-                    'case',
-                    ['==', ['get', 'id'], selectedFeature.properties.id],
-                    '#000000',
-                    '#FAC710',
-                ]);
-                map.current?.setPaintProperty(
-                    'lampFilter',
-                    'circle-stroke-color',
-                    [
-                        'case',
-                        ['==', ['get', 'id'], selectedFeature.properties.id],
-                        '#FAC710',
-                        '#F9F9F9',
-                    ]
-                );
+        //         // Mettre à jour la couleur du lampadaire sélectionné en utilisant un filtre
+        //         map.current?.setPaintProperty('lampFilter', 'circle-color', [
+        //             'case',
+        //             ['==', ['get', 'id'], selectedFeature.properties.id],
+        //             '#000000',
+        //             '#FAC710',
+        //         ]);
+        //         map.current?.setPaintProperty(
+        //             'lampFilter',
+        //             'circle-stroke-color',
+        //             [
+        //                 'case',
+        //                 ['==', ['get', 'id'], selectedFeature.properties.id],
+        //                 '#FAC710',
+        //                 '#F9F9F9',
+        //             ]
+        //         );
 
-                // Conserver une référence au lampadaire sélectionné
-                setSelectedLampFeature(selectedFeature);
-            }
-        });
+        //         // Conserver une référence au lampadaire sélectionné
+        //         setSelectedLampFeature(selectedFeature);
+        //     }
+        // });
 
         map.current.on('mouseenter', 'lampFilter', () => {
             if (map.current) {
@@ -1158,20 +1134,8 @@ const Map: React.FC<MapProps> = ({
 
     // Trouver l'objet correspondant au selectedLampId dans nantesData
     const selectedLampData = nantesData.find(
-        (lamp: any) => lamp.fields.numero === selectedLampId
+        (lamp: any) => lamp.recordid === selectedLampId
     );
-
-    // Extraire les informations à afficher
-    const address = selectedLampData ? selectedLampData.fields.nom_voie : '';
-    const typeLampe = selectedLampData
-        ? selectedLampData.fields.designation
-        : '';
-    const typeFoyer = selectedLampData
-        ? selectedLampData.fields.type_foyer
-        : '';
-    const hauteur = selectedLampData
-        ? selectedLampData.fields.hauteur_support
-        : '';
 
     // Render the map component
     return (
@@ -1201,10 +1165,8 @@ const Map: React.FC<MapProps> = ({
                     id={'LampInfosPopupComponentId'}
                     isDark={isDark}
                     selectedLampId={selectedLampId}
-                    address={address}
-                    typeLampe={typeLampe}
-                    typeFoyer={typeFoyer}
-                    hauteur={hauteur}
+                    optimisationTemplateData={optimisationTemplateData.find((item: any) => item.name === selectedLampFeature.properties.name)}
+                    selectedLampData={selectedLampData}
                     onClosePopup={() => {
                         setSelectedLampId(null);
 
@@ -1220,10 +1182,19 @@ const Map: React.FC<MapProps> = ({
                                 'circle-stroke-color',
                                 '#F9F9F9'
                             );
+                            map.current?.setPaintProperty(
+                                'lampSelected',
+                                'circle-color',
+                                '#FAC710'
+                            );
+                            map.current?.setPaintProperty(
+                                'lampSelected',
+                                'circle-stroke-color',
+                                '#F9F9F9'
+                            );
                             setSelectedLampFeature(null);
                         }
                     }}
-                    selectedLampFeature={selectedLampFeature} // Passer l'état du lampadaire sélectionné
                 />
             )}
         </div>

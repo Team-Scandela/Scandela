@@ -9,7 +9,7 @@ export const SettingsButtonContainer = styled(IoMdSettings)`
     width: 50px;
     height: 40px;
     top: 25px;
-    left: 1255px;
+    right: 230px;
     user-select: none;
     opacity: 0.9;
     background-color: ${(props) =>

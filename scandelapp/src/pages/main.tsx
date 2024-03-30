@@ -13,7 +13,6 @@ import Toastr from '../components/Toastr';
 import { Gauges } from '../components/Gauges';
 import CityButton from '../components/CityButton';
 import AbsencePannel from '../components/AbsencePannel';
-import SmallLampInfosPopup from '../components/SmallLampInfosPopup';
 // import MapDB from '../components/MapDB';
 import FilterSearch from '../components/FilterSearch';
 import TrafficTime from '../components/TrafficTime';
@@ -85,7 +84,6 @@ const Main: React.FC<MainProps> = ({ optimisationTemplateData, setOptimisationTe
     };
 
     const handleButtonSelectAllClick = () => {
-        console.log("here");
         const updatedData = [...optimisationTemplateData];
         updatedData.forEach((item: any) => {
             if (
