@@ -26,10 +26,39 @@ const ActionHistory: React.FC<ActionHistoryProps> = ({ id, isDark }) => {
 
     const [actionHistoryData, setActionHistoryData] = useState([
         {
-            title: 'User has been created',
+            title: "Changer l'ampoule \"SHP\" en ampoule \"LED\".",
             time: '18/03 12:00',
-            description: 'A new user has been created through the admin panel',
+            description: "Ampoule LED moins consommatrice à à Rue de Solay",
         },
+        {
+            title: "Éteindre le lampadaire EPNA156026",
+            time: '18/03 12:00',
+            description: "Lever du soleil à 08:42 à Rue Dos d'Ane",
+        },
+        {
+            title: "Allumer le lampadaire EPNA090113",
+            time: '18/03 12:00',
+            description: "Coucher du soleil à 17:56 à Rue Urbain Le Verrier",
+        },
+        {
+            title: "Changer l'ampoule \"IM\" en ampoule \"LED\".",
+            time: '18/03 12:00',
+            description: "Ampoule LED moins consommatrice à à Rue de Bignon",
+        },
+        {
+            title: "Éteindre le lampadaire EPSH192055",
+            time: '18/03 12:00',
+            description: "Lever du soleil à 08:42 à Rue Edith Piaf",
+        },
+        {
+            title: "Éteindre le lampadaire EPBR003001",
+            time: '18/03 12:00',
+            description: "Lever du soleil à 08:42 à CR 7",
+        },        {
+            title: "Changer l'ampoule \"SHP\" en ampoule \"LED\".",
+            time: '18/03 12:00',
+            description: "Ampoule LED moins consommatrice à à Rue de la Chaussée",
+        }
     ]);
 
     const getDecision = async () => {
@@ -54,17 +83,21 @@ const ActionHistory: React.FC<ActionHistoryProps> = ({ id, isDark }) => {
     const parseDecisions = (decisions: any) => {
         const actionHistoryData: any = [];
         if (decisions === null) return;
-        decisions.forEach((decision: any) => {
-            if (decisions.done === true) {
-                const action = {
-                    title: decision.solution,
-                    time: '18/03 12:00',
-                    description: decision.description,
-                };
-                actionHistoryData.push(action);
-            }
-        });
-        setActionHistoryData(actionHistoryData);
+        if (Array.isArray(decisions)) {
+            console.log(decisions);
+            decisions.forEach((decision: any) => {
+                if (decision.done === true) {
+                    const action = {
+                        title: decision.solution,
+                        time: '18/03 12:00',
+                        description: decision.description,
+                    };
+                    actionHistoryData.push(action);
+                }
+            });
+            setActionHistoryData(actionHistoryData);
+            return;
+        }
     };
 
     useEffect(() => {

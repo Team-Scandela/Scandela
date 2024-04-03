@@ -163,7 +163,7 @@ export const PopUpTitle = styled.div`
     position: absolute;
     top: 20px;
     left: 20px;
-    font-size: 40px;
+    font-size: 32px;
     color: ${(props) => (props.isDark ? Yellow : Black)};
     font-weight: 550;
     user-select: none;
