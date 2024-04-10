@@ -41,6 +41,7 @@ export const TypeText = styled.p`
     max-width: 195px;
     overflow-wrap: break-word;
 `;
+
 /** Style for the optimisation location text */
 export const LocationText = styled.p`
     position: absolute;

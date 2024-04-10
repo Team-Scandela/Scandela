@@ -68,7 +68,7 @@ export const ScrollableOptimisationsContainer = styled.div`
         props.isDark ? Black + 'FF' : Yellow + 'FF'};
 `;
 
-/** Container of the optimisation template */
+/** Container of the scrollable optimisation template */
 export const OptimisationTemplateContainer = styled.div`
     display: flex;
     position: absolute;
@@ -83,7 +83,8 @@ export const OptimisationTemplateContainer = styled.div`
     border: 2px solid ${Black};
 `;
 
-/** Style of the optimisation type text */
+
+/** Style of the scrollableoptimisation type text */
 export const TypeText = styled.p`
     position: relative;
     top: 8px;
@@ -92,13 +93,65 @@ export const TypeText = styled.p`
     user-select: none;
     color: ${(props) => (props.isDark ? Black : Black)};
     font-weight: 500;
+    `;
+
+/** Style for the scrollable optimisation location text */
+export const LocationText = styled.p`
+    position: absolute;
+    top: 30px;
+    left: 10px;
+    font-size: 14px;
+    user-select: none;
+    color: ${(props) => (props.isDark ? Black : Black)};
+    font-weight: 500;
+    max-width: 195px;
+    overflow-wrap: break-word;
+`;
+
+/** Style for the scrollable optimisation description text */
+export const DescriptionText = styled.p`
+    position: absolute;
+    top: 50px;
+    left: 10px;
+    font-size: 14px;
+    user-select: none;
+    color: ${(props) => (props.isDark ? Black : Black)};
+    font-weight: 500;
+    font-style: italic;
+    max-width: 195px;
+    overflow-wrap: break-word;
+`;
+
+/** Container for the solution text **/
+export const SolutionTextContainer = styled.div`
+    display: flex;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    width: 140px;
+    height: 84px;
+    top: 4px;
+    right: 45px;
+    background-color: rgb(42, 43, 42);
+    border-radius: 10px;
+`;
+
+/** Style for the scrollable optimisation solution text */
+export const SolutionText = styled.p`
+    position: relative;
+    font-size: 14px;
+    user-select: none;
+    color: ${(props) => (props.isDark ? Yellow : Black)};
+    font-weight: bold;
+    padding: 8px;
+    overflow-wrap: break-word;
 `;
 
 /**  Trash Icon**/
 export const TrashIcon = styled(BsFillTrash3Fill)`
     display: flex;
     position: absolute;
-    right: 10px;
+    right: 7px;
     top: 6px;
     color: ${(props) => (props.isDark ? Black : Yellow)};
     cursor: pointer;
@@ -112,7 +165,7 @@ export const TrashIcon = styled(BsFillTrash3Fill)`
 export const GoToIcon = styled(AiOutlineSend)`
     display: flex;
     position: absolute;
-    right: 10px;
+    right: 7px;
     top: 50px;
     color: ${(props) => (props.isDark ? Black : Yellow)};
     cursor: pointer;

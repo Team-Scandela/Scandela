@@ -6,6 +6,10 @@ import {
     ScrollableOptimisationsContainer,
     OptimisationTemplateContainer,
     TypeText,
+    LocationText,
+    DescriptionText,
+    SolutionTextContainer,
+    SolutionText,
     TrashIcon,
     GoToIcon,
     TimeIcon,
@@ -79,6 +83,11 @@ const ActionsList: React.FC<ActionsListProps> = ({
                                 y={100 * i}
                             >
                                 <TypeText isDark={isDark}>{item.type}</TypeText>
+                                <LocationText isDark={isDark}>{item.location}</LocationText>
+                                <DescriptionText isDark={isDark}>{item.description}</DescriptionText>
+                                <SolutionTextContainer isDark={isDark}>
+                                    <SolutionText isDark={isDark}>{item.solution}</SolutionText>
+                                </SolutionTextContainer>
                                 <TrashIcon
                                     isDark={isDark}
                                     size={30}
