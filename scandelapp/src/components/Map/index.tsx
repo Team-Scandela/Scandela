@@ -872,7 +872,7 @@ const Map: React.FC<MapProps> = ({
                                     selectedFeature.properties.id,
                                 ],
                                 '#FAC710',
-                                '#F9F9F9',
+                                '#000000',
                             ]
                         );
 
@@ -913,7 +913,7 @@ const Map: React.FC<MapProps> = ({
                             paint: {
                                 'circle-radius': 6,
                                 'circle-color': '#FAC710',
-                                'circle-stroke-color': '#F9F9F9',
+                                'circle-stroke-color': '#000000',
                                 'circle-stroke-width': 2,
                             },
                         });
@@ -986,7 +986,7 @@ const Map: React.FC<MapProps> = ({
             const newItem = getNewItemClicked(filteredData);
             if (newItem) {
                 map.current.setCenter([newItem.geometry.coordinates[0], newItem.geometry.coordinates[1]])
-                map.current.setZoom(14);
+                map.current.setZoom(13);
             }
         }
         setLastFilteredData(filteredData.features);
@@ -1258,7 +1258,7 @@ const Map: React.FC<MapProps> = ({
                             map.current?.setPaintProperty(
                                 'lampSelected',
                                 'circle-stroke-color',
-                                '#F9F9F9'
+                                '#000000'
                             );
                             setSelectedLampFeature(null);
                         }

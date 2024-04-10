@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Black, Grey, Yellow, Green } from '../../colors';
+import { Black, Grey, Yellow, Green, Red } from '../../colors';
 
 /** Container of the optimisation template */
 export const OptimisationTemplateContainer = styled.div`
@@ -13,13 +13,7 @@ export const OptimisationTemplateContainer = styled.div`
     border-radius: 5px;
     overflow: hidden;
     background-color: ${(props) =>
-        props.isDark && props.checked
-            ? Green + 'FF'
-            : props.isDark && !props.checked
-              ? Grey + 'FF'
-              : !props.isDark && props.checked
-                ? Green + 'FF'
-                : Grey + 'FF'};
+        props.isDark ? Grey + 'FF' : Grey + 'FF'};
     margin: 6px;
     border: 2px solid ${Black};
     cursor: pointer;
@@ -29,11 +23,31 @@ export const OptimisationTemplateContainer = styled.div`
     }
 `;
 
+export const SelectionIndicator = styled.div`
+    display: flex;
+    position: absolute;
+    width: 6px;
+    height: 80px;
+    top: 5px;
+    left: 5px;
+    user-select: none;
+    background-color: ${(props) =>
+        props.isDark && props.checked
+            ? Green + 'FF'
+            : props.isDark && !props.checked
+              ? Red + 'FF'
+              : !props.isDark && props.checked
+                ? Green + 'FF'
+                : Red + 'FF'};
+    border-radius: 10px;
+`;
+
+
 /** Style for the optimisation type text */
 export const TypeText = styled.p`
     position: absolute;
     top: 8px;
-    left: 10px;
+    left: 17px;
     font-size: 16px;
     user-select: none;
     color: ${(props) => (props.isDark ? Black : Black)};
@@ -46,7 +60,7 @@ export const TypeText = styled.p`
 export const LocationText = styled.p`
     position: absolute;
     top: 30px;
-    left: 10px;
+    left: 17px;
     font-size: 14px;
     user-select: none;
     color: ${(props) => (props.isDark ? Black : Black)};
@@ -59,7 +73,7 @@ export const LocationText = styled.p`
 export const DescriptionText = styled.p`
     position: absolute;
     top: 50px;
-    left: 10px;
+    left: 17px;
     font-size: 14px;
     user-select: none;
     color: ${(props) => (props.isDark ? Black : Black)};
