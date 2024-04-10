@@ -41,7 +41,7 @@ const LoginModule: React.FC<LoginModuleProps> = ({
         const username = 'tester';
         const password = 'T&st';
         try {
-            const response = await fetch('http://localhost:8080/decisions', {
+            const response = await fetch('https://serverdela.onrender.com/decisions', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
