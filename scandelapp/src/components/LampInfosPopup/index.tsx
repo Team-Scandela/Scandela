@@ -146,7 +146,6 @@ const LampInfosPopup: React.FC<LampInfosPopupProps> = ({
                     {' '}
                     50 kW/h{' '}
                 </PopupText>
-                <MissingLampPopup isDark={isDark} />
                 <img
                     src={images.leaf}
                     alt="Flash"
@@ -163,6 +162,7 @@ const LampInfosPopup: React.FC<LampInfosPopupProps> = ({
                     {' '}
                     20g de CO/h{' '}
                 </PopupText>
+                <MissingLampPopup isDark={isDark} />
                 {isLampHavingDecision && (
                     <div>
                         <ListDetailContainer isDark={isDark}>
