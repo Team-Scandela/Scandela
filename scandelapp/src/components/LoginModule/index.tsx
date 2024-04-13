@@ -116,7 +116,7 @@ const LoginModule: React.FC<LoginModuleProps> = ({
                         method: 'POST',
                         headers: headers,
                         body: JSON.stringify({
-                            town: { id: 1 },
+                            town: 1,
                             email: emailSignUp,
                             username: usernameSignUp,
                             password: passwordSignUp,
