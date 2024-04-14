@@ -1,10 +1,6 @@
 import styled from 'styled-components';
 import { Yellow, Black, White } from '../../colors';
 
-export const IconContainer = styled.div`
-    z-index: 6;
-`;
-
 export const PopupWindow = styled.div`
     position: absolute;
     top: 50%;
@@ -15,14 +11,12 @@ export const PopupWindow = styled.div`
     background-color: ${(props) =>
         props.isDark ? Black + 'FF' : Yellow + 'FF'};
     border-radius: 30px;
-    z-index: 5;
     display: flex;
     flex-direction: column;
 `;
 
 export const PopupTextInfoTitle = styled.div`
   text-align: center;
-1
 `;
 
 export const TextInput = styled.div`

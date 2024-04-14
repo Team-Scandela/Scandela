@@ -9,21 +9,16 @@ import {
     SubmitButton,
     ReturnButtonContainer,
 } from './elements';
+import { userId } from '../../../utils/userUtils';
 
 /** Premium page component
- * @param {boolean} userInfo - Infos about the current user
- * @param {function} updateUserInfo - Function to update the user infos
  * @param {function} handlePremiumButtonClicked - Function to show/hide premium page
  */
 interface PremiumPageProps {
-    userInfo: any;
-    updateUserInfo: (newInfo: any) => void;
     handlePremiumButtonClicked: () => void;
 }
 
 const PremiumPage: React.FC<PremiumPageProps> = ({
-    userInfo,
-    updateUserInfo,
     handlePremiumButtonClicked,
 }) => {
     const [showForm, setShowForm] = useState(false);
@@ -77,7 +72,7 @@ const PremiumPage: React.FC<PremiumPageProps> = ({
                     method: 'POST',
                     headers: headers,
                     body: JSON.stringify({
-                        userid: userInfo.id,
+                        userid: userId,
                         ...formValues,
                     }),
                 }

@@ -16,13 +16,16 @@ import {
     GhostButton,
 } from './elements';
 import { useNavigate } from 'react-router-dom';
+import { setUserId, getUser } from '../../utils/userUtils';
 
 interface LoginModuleProps {
-    updateUserInfo: (newInfo: any) => void;
+    addItemToOptimisationTemplate: (data: any) => void;
 }
 
 /** Login module who allow to sign in up. You can slide the overlay from left to right (or the opposite) to acess to the side wanted */
-const LoginModule: React.FC<LoginModuleProps> = ({ updateUserInfo }) => {
+const LoginModule: React.FC<LoginModuleProps> = ({
+    addItemToOptimisationTemplate,
+}) => {
     const [signInPage, setSignInPage] = useState(true);
 
     const [usernameSignUp, setUsernameSignUp] = useState('');
@@ -34,8 +37,34 @@ const LoginModule: React.FC<LoginModuleProps> = ({ updateUserInfo }) => {
     const [passwordSignIn, setPasswordSignIn] = useState('');
     const navigate = useNavigate();
 
-    const handleValidLogin = () => {
-        navigate('/');
+    const getDecisions = async () => {
+        const username = 'tester';
+        const password = 'T&st';
+        try {
+            const response = await fetch('https://serverdela.onrender.com/decisions', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Basic ${btoa(`${username}:${password}`)}`,
+                },
+            });
+            const data = await response.json();
+            addItemToOptimisationTemplate(data);
+        } catch (error) {
+            console.log('ERROR GET DECISIONS = ' + error);
+        }
+    };
+
+    const getUserData = async () => {
+        const user = await getUser();
+        localStorage.setItem('isDark', JSON.stringify(user.darkmode));
+    };
+
+    const handleValidLogin = (data: any) => {
+        setUserId(data.id);
+        navigate('/landingpage');
+        getUserData();
+        getDecisions();
     };
 
     const handleSubmitSignIn = async (event: any) => {
@@ -63,22 +92,8 @@ const LoginModule: React.FC<LoginModuleProps> = ({ updateUserInfo }) => {
             if (!response.ok) {
                 throw new Error('La connexion a échoué');
             }
-
             const data = await response.json();
-            // console.log(data);
-            updateUserInfo({
-                id: data.id,
-                town: data.town,
-                email: data.email,
-                username: data.username,
-                password: data.password,
-                role: data.role,
-                moreInformations: data.moreInformations,
-                darkmode: data.darmode,
-                lastConnexion: data.lastConnexion,
-                decisions: data.decisions,
-            });
-            handleValidLogin();
+            handleValidLogin(data);
         } catch (error) {
             console.error('Erreur lors de la connexion', error);
         }
@@ -101,7 +116,7 @@ const LoginModule: React.FC<LoginModuleProps> = ({ updateUserInfo }) => {
                         method: 'POST',
                         headers: headers,
                         body: JSON.stringify({
-                            town: { id: 1 },
+                            town: 1,
                             email: emailSignUp,
                             username: usernameSignUp,
                             password: passwordSignUp,
@@ -114,20 +129,7 @@ const LoginModule: React.FC<LoginModuleProps> = ({ updateUserInfo }) => {
                 }
 
                 const data = await response.json();
-                // console.log(data);
-                updateUserInfo({
-                    id: data.id,
-                    town: data.town,
-                    email: data.email,
-                    username: data.username,
-                    password: data.password,
-                    role: data.role,
-                    moreInformations: data.moreInformations,
-                    darkmode: data.darmode,
-                    lastConnexion: data.lastConnexion,
-                    decisions: data.decisions,
-                });
-                handleValidLogin();
+                handleValidLogin(data);
             } catch (error) {
                 console.error("Erreur lors de l'inscription", error);
             }
