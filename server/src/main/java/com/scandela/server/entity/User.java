@@ -57,7 +57,7 @@ public class User implements Serializable {
 	@Column(name = "password", nullable = false)
 	private String password;
 	
-	@Column(name = "rights", nullable = false)
+	@Column(name = "rights", nullable = true)
 	private Integer rights;
 
 	@JdbcTypeCode(SqlTypes.JSON)

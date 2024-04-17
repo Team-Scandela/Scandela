@@ -55,7 +55,6 @@ public class UserService extends AbstractService<User> implements IUserService {
 			loadTown(newUser);
 
 			if (newUser.getPassword() == null) {
-				System.err.println("No password");
 				throw new UserException(UserException.INCOMPLETE_INFORMATIONS);
 			}
 			newUser.setPassword(passwordEncoder.encode("scan" + newUser.getPassword() + "dela"));
