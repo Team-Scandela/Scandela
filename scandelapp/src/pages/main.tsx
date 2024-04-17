@@ -8,6 +8,8 @@ import DecisionMenu from '../components/DecisionMenu';
 import EditInPdfPannel from '../components/EditInPdfPannel';
 import ActionsList from '../components/ActionsList';
 import SettingsButton from '../components/SettingsButton';
+import AddEntityButton from '../components/AddEntityButton';
+import ModifyEntityButton from '../components/ModifyEntityButton';
 import LogoutButton from '../components/LogoutButton';
 import Toastr from '../components/Toastr';
 import { Gauges } from '../components/Gauges';
@@ -195,6 +197,14 @@ const Main: React.FC<MainProps> = ({
                         notificationsPreference={notificationsPreference}
                         setNotificationsPreference={setNotificationsPreference}
                         addNotificationToList={addNotificationToList}
+                    />
+                    <AddEntityButton
+                        isDark={isDark}
+                        decisionPanelExtended={decisionPanelExtended}
+                    />
+                    <ModifyEntityButton
+                        isDark={isDark}
+                        decisionPanelExtended={decisionPanelExtended}
                     />
                     <DecisionMenu
                         id={'decisionMenuComponentId'}
