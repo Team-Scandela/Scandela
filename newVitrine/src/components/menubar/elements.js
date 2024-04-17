@@ -3,8 +3,8 @@ import { Yellow, Black, White } from '../../colors';
 
 export const MenubarContainer = styled.div`
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: center;
     height: 100px;
     padding: 0 10px;
     background-color: ${Black};
@@ -48,5 +48,6 @@ export const MenubarMenuItem = styled.div`
     &:hover {
         color: ${Yellow};
     }
+    font-size: 20px;
 `;
 
