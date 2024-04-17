@@ -41,7 +41,6 @@ const App: React.FC = () => {
             height: item.lampDecision.lamp.height,
         }));
         setOptimisationTemplateData([...optimisationTemplateData, ...newItems]);
-        console.log(optimisationTemplateData);
     };
 
     return (
