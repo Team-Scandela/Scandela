@@ -41,7 +41,7 @@ const LoginModule: React.FC<LoginModuleProps> = ({
         const username = 'tester';
         const password = 'T&st';
         try {
-            const response = await fetch('https://serverdela.onrender.com/decisions', {
+            const response = await fetch('https://serverdela.onrender.com/decisions?pageNumber=0', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -116,7 +116,7 @@ const LoginModule: React.FC<LoginModuleProps> = ({
                         method: 'POST',
                         headers: headers,
                         body: JSON.stringify({
-                            town: 1,
+                            town: {id: "2dac2740-1d45-42d7-af5e-13b98cdf3af4"},
                             email: emailSignUp,
                             username: usernameSignUp,
                             password: passwordSignUp,

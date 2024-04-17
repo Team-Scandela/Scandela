@@ -45,7 +45,7 @@ public class Town implements Serializable {
 
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@OneToMany(mappedBy = "town", cascade = CascadeType.REMOVE)
-	private User user;
+	private List<User> users;
 
 	@OneToMany(mappedBy = "town", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	private List<Hood> hoods;
