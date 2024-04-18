@@ -16,7 +16,7 @@ const Timeline = () => {
                 >
                     <h3 className="vertical-timeline-element-title">Launch & Metrics</h3>
                     <p>
-                        Lancement du projet, msie en place des outils nécessaires au suivi d'un projet en production
+                        Lancement du projet, mise en place des outils nécessaires au suivi d'un projet en production
                     </p>
                 </VerticalTimelineElement>
                 <VerticalTimelineElement

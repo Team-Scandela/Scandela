@@ -26,13 +26,10 @@ const Menubar = () => {
                     <Link to="/about" style={{ textDecoration: 'none', color: 'inherit' }}>A propos</Link>
                 </MenubarItem>
                 <MenubarItem>
-                    <Link to="/us" style={{ textDecoration: 'none', color: 'inherit' }}>Qui sommes nous</Link>
-                </MenubarItem>
-                <MenubarItem>
                     <Link to="/offers" style={{ textDecoration: 'none', color: 'inherit' }}>Nos offres</Link>
                 </MenubarItem>
                 <MenubarItem>
-                    <Link to="/tools" style={{ textDecoration: 'none', color: 'inherit' }}>Nos outils</Link>
+                    <Link to="/tools" style={{ textDecoration: 'none', color: 'inherit' }}>Notre solution</Link>
                 </MenubarItem>
                 <MenubarButton>
                     <Link to="/contact" style={{ textDecoration: 'none', color: 'inherit' }}>Contact</Link>

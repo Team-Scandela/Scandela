@@ -17,7 +17,6 @@ const Footer = () => {
                 <FooterTitle>Scandela</FooterTitle>
                 <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}><FooterText>Accueil</FooterText></Link>
                 <Link to="/about" style={{ textDecoration: 'none', color: 'inherit' }}><FooterText>A propos</FooterText></Link>
-                <Link to="/us" style={{ textDecoration: 'none', color: 'inherit' }}><FooterText>Qui sommes nous</FooterText></Link>
                 <Link to="/offers" style={{ textDecoration: 'none', color: 'inherit' }}><FooterText>Nos offres</FooterText></Link>
                 <Link to="/tools" style={{ textDecoration: 'none', color: 'inherit' }}><FooterText>Nos outils</FooterText></Link>
             </FooterColumn>
