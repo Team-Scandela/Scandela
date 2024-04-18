@@ -18,7 +18,6 @@ export const HomeHeadTitle = styled.h1`
     font-size: 80px;
     font-weight: 700;
     margin-top: 60px;
-    margin-bottom: 60px;
     user-select: none;
     z-index: 2;
 `;
@@ -27,6 +26,7 @@ export const HomeHeadSubtitle = styled.h2`
     color: ${White};
     font-size: 20px;
     font-weight: 400;
+    margin-top: 60px;
     user-select: none;
     z-index: 2;
 `;
