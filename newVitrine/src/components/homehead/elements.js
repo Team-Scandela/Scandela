@@ -12,8 +12,6 @@ export const HomeHeadContainer = styled.div`
 
 `;
 
-
-
 export const HomeHeadTitle = styled.h1`
     color: ${Yellow};
     font-size: 80px;

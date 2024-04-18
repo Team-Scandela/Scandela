@@ -32,6 +32,9 @@ export const MenubarLogo = styled.div`
     }
     z-index: 101;
     user-select: none;
+    &:hover {
+        color: ${Yellow};
+    }
 `;
 
 export const MenubarMenu = styled.div`
