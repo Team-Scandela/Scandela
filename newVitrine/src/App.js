@@ -3,6 +3,7 @@ import About from './pages/about';
 import Us from './pages/us';
 import Offers from './pages/offers';
 import Tools from './pages/tools';
+import Contact from './pages/contact';
 
 import './App.css';
 import {Routes, Route, BrowserRouter} from 'react-router-dom';
@@ -16,6 +17,7 @@ function App() {
             <Route path='/us' element={<Us />} />
             <Route path='/offers' element={<Offers />} />
             <Route path='/tools' element={<Tools />} />
+            <Route path='/contact' element={<Contact />} />
         </Routes>
     </BrowserRouter>
     );

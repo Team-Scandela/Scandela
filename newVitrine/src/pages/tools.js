@@ -1,10 +1,8 @@
-import HomeHead from '../components/homehead';
 import Page from './page';
 
 const Tools = () => {
     return (
         <Page>
-            <HomeHead />
             <h1>Welcome to the Tools Page!</h1>
             <h1>Welcome to the Tools Page!</h1>
             <h1>Welcome to the Tools Page!</h1>

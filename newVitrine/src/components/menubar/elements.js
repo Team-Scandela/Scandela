@@ -42,7 +42,7 @@ export const MenubarMenu = styled.div`
     align-items: center;
 `;
 
-export const MenubarMenuItem = styled.div`
+export const MenubarItem = styled.div`
     display: flex;
     align-items: center;
     margin: 0 10px;
@@ -54,3 +54,22 @@ export const MenubarMenuItem = styled.div`
     font-size: 20px;
 `;
 
+export const MenubarButton = styled.button`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    margin: 0 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    user-select: none;
+    background-color: ${Yellow};
+    color: ${Black};
+    font-size: 16px;
+    font-weight: 600;
+    &:hover {
+        background-color: ${White};
+        color: ${Black};
+    }
+`;
