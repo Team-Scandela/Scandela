@@ -11,7 +11,7 @@ export const MenubarContainer = styled.div`
     color: ${White};
     font-size: 14px;
     font-weight: 600;
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     right: 0;
