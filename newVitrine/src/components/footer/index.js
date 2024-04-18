@@ -1,7 +1,16 @@
-import { FooterContainer, FooterColumn, FooterTitle, FooterText } from './elements';
+import { FooterContainer, FooterColumn, FooterTitle, FooterText, FooterButton } from './elements';
 import { Link } from 'react-router-dom';
+import { FaArrowUp } from 'react-icons/fa';
 
 const Footer = () => {
+
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    };
+
     return (
         <FooterContainer>
             <FooterColumn>
@@ -20,6 +29,15 @@ const Footer = () => {
                         Mail
                     </a>
                 </FooterText>
+                <FooterText>
+                    <a href="https://www.instagram.com/victorharri_/" target="_blank" style={{ textDecoration: 'none', color: 'inherit' }}>
+                        Le support technique
+                    </a>
+                </FooterText>
+            </FooterColumn>
+            <FooterColumn>
+                <a href="https://app.scandela.fr" target="_blank" style={{ textDecoration: 'none', color: 'inherit' }}><FooterButton>Connexion</FooterButton></a>
+                <FooterButton onClick={scrollToTop}><FaArrowUp /></FooterButton>
             </FooterColumn>
         </FooterContainer>
     );
