@@ -61,3 +61,8 @@ export const FooterButton = styled.button`
         color: ${Black};
     }
 `;
+
+export const FooterLogo = styled.div`
+    margin: 10px;
+    user-select: none;
+`;

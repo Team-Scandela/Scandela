@@ -1,6 +1,7 @@
-import { FooterContainer, FooterColumn, FooterTitle, FooterText, FooterButton } from './elements';
+import { FooterContainer, FooterColumn, FooterTitle, FooterText, FooterButton, FooterLogo } from './elements';
 import { Link } from 'react-router-dom';
 import { FaArrowUp } from 'react-icons/fa';
+import logo from "../../assets/logo-128x128-white.png";
 
 const Footer = () => {
 
@@ -13,6 +14,12 @@ const Footer = () => {
 
     return (
         <FooterContainer>
+            <FooterColumn>
+                <FooterLogo>
+                    <Link to="/"><img src={logo} alt="Logo" /></Link>
+                </FooterLogo>
+            </FooterColumn>
+
             <FooterColumn>
                 <FooterTitle>Scandela</FooterTitle>
                 <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}><FooterText>Accueil</FooterText></Link>
