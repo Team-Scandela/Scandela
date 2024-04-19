@@ -1,17 +1,19 @@
 import Page from './page';
+import Card from '../components/card';
 
 const Contact = () => {
     return (
         <Page>
-            <h1>Welcome to the Contact Page!</h1>
-            <h1>Welcome to the Contact Page!</h1>
-            <h1>Welcome to the Contact Page!</h1>
-            <h1>Welcome to the Contact Page!</h1>
-            <h1>Welcome to the Contact Page!</h1>
-            <h1>Welcome to the Contact Page!</h1>
-            <h1>Welcome to the Contact Page!</h1>
-            <h1>Welcome to the Contact Page!</h1>
-            <h1>Welcome to the Contact Page!</h1>
+            <Card
+                title="WORK IN PROGRESS"
+                description="You can contact us by sending an email to"
+                pic=""
+            />
+            <Card
+                title="Contact Us"
+                description="You can contact us by sending an email to"
+                pic=""
+            />
         </Page>
     );
 };
