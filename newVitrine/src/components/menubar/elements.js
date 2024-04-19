@@ -54,6 +54,7 @@ export const MenubarItem = styled.div`
         color: ${Yellow};
     }
     font-size: 20px;
+    transition: 0.3s;
 `;
 
 export const MenubarButton = styled.button`
@@ -75,4 +76,5 @@ export const MenubarButton = styled.button`
         color: ${Black};
     }
     right: 0;
+    transition: 0.3s;
 `;

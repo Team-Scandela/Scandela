@@ -60,6 +60,7 @@ export const FooterButton = styled.button`
         background-color: ${White};
         color: ${Black};
     }
+    transition: 0.3s;
 `;
 
 export const FooterLogo = styled.div`
