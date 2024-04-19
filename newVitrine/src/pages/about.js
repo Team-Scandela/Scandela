@@ -1,6 +1,7 @@
 import Page from './page';
 import Timeline from '../components/timeline';
 import DuoRect from '../components/duorect';
+import Album from '../components/album';
 import logo from '../assets/logo-128x128-yellow.png';
 
 const About = () => {
@@ -13,6 +14,7 @@ const About = () => {
                 switchValue={false}
             />
             <Timeline />
+            <Album />
         </Page>
     );
 };

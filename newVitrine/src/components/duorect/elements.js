@@ -9,7 +9,6 @@ export const DuoRectContainer = styled.div`
     padding: 20px;
     background-color: ${White};
     border-radius: 10px;
-    transition: 0.3s;
     height: 500px;
     text-align: center;
 `;
