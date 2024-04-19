@@ -1,17 +1,10 @@
 import Page from './page';
+import OfferCards from '../components/offercards';
 
 const Offers = () => {
     return (
         <Page>
-            <h1>Welcome to the Offers Page!</h1>
-            <h1>Welcome to the Offers Page!</h1>
-            <h1>Welcome to the Offers Page!</h1>
-            <h1>Welcome to the Offers Page!</h1>
-            <h1>Welcome to the Offers Page!</h1>
-            <h1>Welcome to the Offers Page!</h1>
-            <h1>Welcome to the Offers Page!</h1>
-            <h1>Welcome to the Offers Page!</h1>
-            <h1>Welcome to the Offers Page!</h1>
+            <OfferCards />
         </Page>
     );
 };
