@@ -6,6 +6,8 @@ export const Yellow = '#FAC710';
 export const Grey = '#D9D9D9';
 export const Green = '#8CC63F';
 export const Red = '#ED1C24';
+export const DarkGrey = '#A5A5A5';
+export const DarkerGrey = '#7A7A7A';
 
 /* for the opacity: 
   100%: add + 'FF'

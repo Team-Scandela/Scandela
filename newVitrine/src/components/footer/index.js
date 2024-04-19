@@ -1,16 +1,8 @@
 import { FooterContainer, FooterColumn, FooterTitle, FooterText, FooterButton, FooterLogo } from './elements';
 import { Link } from 'react-router-dom';
-import { FaArrowUp } from 'react-icons/fa';
 import logo from "../../assets/logo-128x128-white.png";
 
 const Footer = () => {
-
-    const scrollToTop = () => {
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
-    };
 
     return (
         <FooterContainer>
@@ -42,8 +34,11 @@ const Footer = () => {
                 </FooterText>
             </FooterColumn>
             <FooterColumn>
+                <FooterText/> {/* empty line don't remove */}
+                <FooterText/>
+                <FooterText/>
+                <FooterText/>
                 <a href="https://app.scandela.fr" target="_blank" style={{ textDecoration: 'none', color: 'inherit' }}><FooterButton>Connexion</FooterButton></a>
-                <FooterButton onClick={scrollToTop}><FaArrowUp /></FooterButton>
             </FooterColumn>
         </FooterContainer>
     );

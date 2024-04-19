@@ -32,8 +32,10 @@ export const MenubarLogo = styled.div`
     }
     z-index: 101;
     user-select: none;
+    transition: 0.3s;
     &:hover {
-        color: ${Yellow};
+        width: 55px;
+        height: 55px;
     }
 `;
 
@@ -72,4 +74,5 @@ export const MenubarButton = styled.button`
         background-color: ${White};
         color: ${Black};
     }
+    right: 0;
 `;

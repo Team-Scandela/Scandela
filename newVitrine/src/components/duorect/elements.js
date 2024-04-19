@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { White, Black, Grey, Yellow } from '../../colors';
+import { White, Black, Grey, Yellow, DarkGrey } from '../../colors';
 
 export const DuoRectContainer = styled.div`
     display: flex;
@@ -40,5 +40,5 @@ export const RectTitle = styled.h3`
 export const RectText = styled.p`
     font-size: 20px;
     padding-top: 20px;
-    color: ${Grey};
+    color: ${DarkGrey};
 `;

@@ -31,13 +31,13 @@ const Menubar = () => {
                 <MenubarItem>
                     <Link to="/tools" style={{ textDecoration: 'none', color: 'inherit' }}>Notre solution</Link>
                 </MenubarItem>
-                <MenubarButton>
-                    <Link to="/contact" style={{ textDecoration: 'none', color: 'inherit' }}>Contact</Link>
-                </MenubarButton>
-                <MenubarButton>
-                    <a href="https://app.scandela.fr" target="_blank" style={{ textDecoration: 'none', color: 'inherit' }}>Connexion</a>
-                </MenubarButton>
+                <MenubarItem>
+                    <Link to="/contact" style={{ textDecoration: 'none', color: 'inherit' }}>Nous contacter</Link>
+                </MenubarItem>
             </MenubarMenu>
+            <MenubarButton>
+                <a href="https://app.scandela.fr" target="_blank" style={{ textDecoration: 'none', color: 'inherit' }}>Connexion</a>
+            </MenubarButton>
         </MenubarContainer>
     );
 };

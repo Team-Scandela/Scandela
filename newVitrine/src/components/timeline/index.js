@@ -34,6 +34,7 @@ const Timeline = () => {
                     contentStyle={{ background: Yellow, color: White }}
                     contentArrowStyle={{ borderRight: '7px solid' +  Yellow }}
                     date="Février - Mai 2024"
+                    // how to change the style of the date text ?
                     iconStyle={{ background: Yellow, color: White }}
                 >
                     <h3 className="vertical-timeline-element-title">Beta</h3>

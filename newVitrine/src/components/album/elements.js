@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Black, Grey, Yellow, White } from '../../colors';
+import { Black, Grey, Yellow, White, DarkGrey } from '../../colors';
 
 export const AlbumContainer = styled.div`
     display: flex;
@@ -47,5 +47,5 @@ export const AlbumTitle = styled.h3`
 export const AlbumText = styled.p`
     font-size: 20px;
     padding-top: 10px;
-    color: ${Grey};
+    color: ${DarkGrey};
 `;

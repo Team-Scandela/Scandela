@@ -1,5 +1,6 @@
 import Menubar from '../components/menubar';
 import Footer from '../components/footer';
+import BackToTop from '../components/backtotop';
 import {White} from '../colors';
 
 const Page = ({ children }) => {
@@ -11,6 +12,7 @@ const Page = ({ children }) => {
                 {children}
             </div>
             <Footer/>
+            <BackToTop/>
         </div>
     );
 };

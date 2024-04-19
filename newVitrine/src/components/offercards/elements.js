@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { White, Black, Grey, Yellow } from '../../colors';
+import { White, Black, Grey, Yellow, DarkGrey} from '../../colors';
 
 export const OfferCardsContainer = styled.div`
     display: flex;
@@ -9,6 +9,7 @@ export const OfferCardsContainer = styled.div`
     padding: 20px;
     border-radius: 10px;
     gap : 50px;
+    background-color: ${White};
 `;
 
 export const OfferCard = styled.div`
@@ -16,7 +17,7 @@ export const OfferCard = styled.div`
     background-color: ${props => (props.alt ? Black : White)};
     border-radius: 10px;
     transition: 0.3s;
-    height: 630px;
+    height: 660px;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     transition: 0.3s;
     width: 500px;
@@ -36,7 +37,7 @@ export const OfferSubtitle = styled.h4`
 export const OfferText = styled.p`
     font-size: 20px;
     padding-top: 20px;
-    color: ${props => (!props.alt ? Grey : White)};
+    color: ${props => (!props.alt ? DarkGrey : Grey)};
 `;
 
 export const OfferButton = styled.button`
@@ -64,5 +65,6 @@ export const OfferItem = styled.div`
     width: 100%;
     text-align: center;
     gap : 10px;
-    color: ${props => (!props.alt ? Grey : Grey)};
+    color: ${props => (!props.alt ? DarkGrey : Grey)};
+    font-size: 18px;
 `;
