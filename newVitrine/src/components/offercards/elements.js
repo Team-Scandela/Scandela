@@ -6,7 +6,7 @@ export const OfferCardsContainer = styled.div`
     flex-direction: line;
     align-items: center;
     justify-content: center;
-    padding: 20px;
+    padding: 50px;
     border-radius: 10px;
     gap : 50px;
     background-color: ${White};

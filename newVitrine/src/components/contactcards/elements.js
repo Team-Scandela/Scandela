@@ -1,0 +1,39 @@
+import styled  from 'styled-components';
+import { Black, White, Yellow, Grey, DarkerGrey } from '../../colors';
+
+export const CardsContainer = styled.div`
+    display: flex;
+    flex-direction: line;
+    justify-content: center;
+    padding: 50px;
+    border-radius: 10px;
+    background-color: ${White};
+    gap : 50px;
+`;
+
+export const Card = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: ${White};
+    height: 200px;
+    width: 300px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+`;
+
+export const CardPic = styled.div`
+    font-size: 25px;
+`;
+
+export const CardTitle = styled.h3`
+    font-size: 30px;
+    color: ${Black};
+`;
+
+export const CardText = styled.p`
+    font-size: 20px;
+    padding-top: 10px;
+    color: ${DarkerGrey};
+`;
