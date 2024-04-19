@@ -6,7 +6,7 @@ import logo from '../assets/logo-128x128-yellow.png';
 
 const About = () => {
     return (
-        <Page>
+        <Page title="A propos" text="Découvrez l'histoire de Scandela et de son équipe.">
             <DuoRect
                 img={logo}
                 title="L'histoire de Scandela"

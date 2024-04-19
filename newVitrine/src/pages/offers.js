@@ -3,7 +3,7 @@ import OfferCards from '../components/offercards';
 
 const Offers = () => {
     return (
-        <Page>
+        <Page title="Nos offres" text="Découvrez nos offres et trouvez celle qui vous convient le mieux.">
             <OfferCards />
         </Page>
     );
