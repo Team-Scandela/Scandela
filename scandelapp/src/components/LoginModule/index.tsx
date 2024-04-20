@@ -16,14 +16,17 @@ import {
     GhostButton,
 } from './elements';
 import { useNavigate } from 'react-router-dom';
-import { setUserId, getUser } from '../../utils/userUtils';
+import { setUserId } from '../../utils/userUtils';
+import { optimisationTemplateDataBackup } from './backup_decisions';
 
 interface LoginModuleProps {
+    setOptimisationTemplateData: (data: any) => void;
     addItemToOptimisationTemplate: (data: any) => void;
 }
 
 /** Login module who allow to sign in up. You can slide the overlay from left to right (or the opposite) to acess to the side wanted */
 const LoginModule: React.FC<LoginModuleProps> = ({
+    setOptimisationTemplateData,
     addItemToOptimisationTemplate,
 }) => {
     const [signInPage, setSignInPage] = useState(true);
@@ -37,34 +40,26 @@ const LoginModule: React.FC<LoginModuleProps> = ({
     const [passwordSignIn, setPasswordSignIn] = useState('');
     const navigate = useNavigate();
 
-    const getDecisions = async () => {
-        const username = 'tester';
-        const password = 'T&st';
-        try {
-            const response = await fetch('https://serverdela.onrender.com/decisions?pageNumber=0', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Basic ${btoa(`${username}:${password}`)}`,
-                },
-            });
-            const data = await response.json();
-            addItemToOptimisationTemplate(data);
-        } catch (error) {
-            console.log('ERROR GET DECISIONS = ' + error);
+    const initUserSetup = async (data: any) => {
+        localStorage.setItem('isDark', JSON.stringify(data.darkmode));
+        if (data.moreInformations[2] === 'true') {
+            localStorage.setItem('premium', JSON.stringify(true));
+        } else {
+            localStorage.setItem('premium', JSON.stringify(false));
         }
-    };
-
-    const getUserData = async () => {
-        const user = await getUser();
-        localStorage.setItem('isDark', JSON.stringify(user.darkmode));
+        if (data.rights === 2) {
+            localStorage.setItem('token', JSON.stringify(true));
+            setOptimisationTemplateData(optimisationTemplateDataBackup);
+        } else {
+            localStorage.setItem('token', JSON.stringify(false));
+            getDecisions();
+        }
     };
 
     const handleValidLogin = (data: any) => {
         setUserId(data.id);
         navigate('/landingpage');
-        getUserData();
-        getDecisions();
+        initUserSetup(data);
     };
 
     const handleSubmitSignIn = async (event: any) => {
@@ -100,7 +95,7 @@ const LoginModule: React.FC<LoginModuleProps> = ({
     };
 
     const handleSubmitSignUp = async (event: any) => {
-        if (passwordSignUp != '' && passwordSignUp == passwordConfirmSignUp) {
+        if (passwordSignUp !== '' && passwordSignUp === passwordConfirmSignUp) {
             event.preventDefault();
 
             const encodedCredentials = btoa('tester:T&st');
@@ -116,7 +111,9 @@ const LoginModule: React.FC<LoginModuleProps> = ({
                         method: 'POST',
                         headers: headers,
                         body: JSON.stringify({
-                            town: {id: "2dac2740-1d45-42d7-af5e-13b98cdf3af4"},
+                            town: {
+                                id: '2dac2740-1d45-42d7-af5e-13b98cdf3af4',
+                            },
                             email: emailSignUp,
                             username: usernameSignUp,
                             password: passwordSignUp,
@@ -133,6 +130,28 @@ const LoginModule: React.FC<LoginModuleProps> = ({
             } catch (error) {
                 console.error("Erreur lors de l'inscription", error);
             }
+        }
+    };
+
+    const getDecisions = async () => {
+        const username = 'tester';
+        const password = 'T&st';
+
+        try {
+            const response = await fetch(
+                'https://serverdela.onrender.com/decisions?pageNumber=0',
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Basic ${btoa(`${username}:${password}`)}`,
+                    },
+                }
+            );
+            const data = await response.json();
+            addItemToOptimisationTemplate(data);
+        } catch (error) {
+            console.log('ERROR GET DECISIONS = ' + error);
         }
     };
 

@@ -40,7 +40,7 @@ const App: React.FC = () => {
             foyerType: item.lampDecision.lamp.foyerType,
             height: item.lampDecision.lamp.height,
         }));
-        setOptimisationTemplateData([...optimisationTemplateData, ...newItems]);
+        setOptimisationTemplateData(newItems);
     };
 
     return (
@@ -67,6 +67,9 @@ const App: React.FC = () => {
                         path="/"
                         element={
                             <Login
+                                setOptimisationTemplateData={
+                                    setOptimisationTemplateData
+                                }
                                 addItemToOptimisationTemplate={
                                     addItemToOptimisationTemplate
                                 }

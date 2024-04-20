@@ -12,8 +12,7 @@ export const OptimisationTemplateContainer = styled.div`
     top: ${(props) => props.y}px;
     border-radius: 5px;
     overflow: hidden;
-    background-color: ${(props) =>
-        props.isDark ? Grey + 'FF' : Grey + 'FF'};
+    background-color: ${(props) => (props.isDark ? Grey + 'FF' : Grey + 'FF')};
     margin: 6px;
     border: 2px solid ${Black};
     cursor: pointer;
@@ -41,7 +40,6 @@ export const SelectionIndicator = styled.div`
                 : Red + 'FF'};
     border-radius: 10px;
 `;
-
 
 /** Style for the optimisation type text */
 export const TypeText = styled.p`
