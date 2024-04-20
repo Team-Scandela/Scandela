@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
 import { InputWrapper } from '../SearchBar/elements';
 
-import {
-    PopupWindow,
-    TextInput,
-    PopupTextInfoTitle,
-} from './elements';
+import { PopupWindow, TextInput, PopupTextInfoTitle } from './elements';
 
 import * as images from './ficheImports';
 

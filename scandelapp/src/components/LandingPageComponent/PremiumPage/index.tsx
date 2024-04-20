@@ -7,6 +7,7 @@ import {
     PremiumButtonOnOffText,
     FormField,
     SubmitButton,
+    AdminButton,
     ReturnButtonContainer,
 } from './elements';
 import { userId } from '../../../utils/userUtils';
@@ -79,15 +80,21 @@ const PremiumPage: React.FC<PremiumPageProps> = ({
             );
 
             if (!response.ok) {
-                throw new Error('La connexion a échoué');
+                throw new Error("L'achat a échoué");
             }
 
             const data = await response.json();
-            // console.log(data);
             // updateUserInfo({ isPremiumActivated: true }); idée du résultat
         } catch (error) {
             console.error("Erreur lors de l'achat", error);
         }
+    };
+
+    const handleAdminPremium = () => {
+        if (localStorage.getItem('premium') === 'true')
+            localStorage.setItem('premium', 'false');
+        else if (localStorage.getItem('premium') === 'false')
+            localStorage.setItem('premium', 'true');
     };
 
     return (
@@ -159,6 +166,11 @@ const PremiumPage: React.FC<PremiumPageProps> = ({
                         <SubmitButton onClick={handleFormSubmit}>
                             Soumettre
                         </SubmitButton>
+                        {localStorage.getItem('token') === 'true' && (
+                            <AdminButton onClick={handleAdminPremium}>
+                                Admin premium
+                            </AdminButton>
+                        )}
                     </div>
                 )}
             </PremiumPageContainer>

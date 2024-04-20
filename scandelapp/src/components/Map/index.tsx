@@ -962,12 +962,15 @@ const Map: React.FC<MapProps> = ({
     }, [selectedFilter, searchFilter]);
 
     const getNewItemClicked = (filteredData: geojson) => {
-        const oldIds = new Set(lastFilteredData.map((item: any) => item.properties.id));
-        const newItem = filteredData.features.filter(item => !oldIds.has(item.properties.id));
-        if (newItem[0])
-            return newItem[0];
+        const oldIds = new Set(
+            lastFilteredData.map((item: any) => item.properties.id)
+        );
+        const newItem = filteredData.features.filter(
+            (item) => !oldIds.has(item.properties.id)
+        );
+        if (newItem[0]) return newItem[0];
         return;
-    }
+    };
 
     const [lastFilteredData, setLastFilteredData] = useState([]);
     useEffect(() => {
@@ -985,7 +988,10 @@ const Map: React.FC<MapProps> = ({
         if (filteredData.features.length > 0) {
             const newItem = getNewItemClicked(filteredData);
             if (newItem) {
-                map.current.setCenter([newItem.geometry.coordinates[0], newItem.geometry.coordinates[1]])
+                map.current.setCenter([
+                    newItem.geometry.coordinates[0],
+                    newItem.geometry.coordinates[1],
+                ]);
                 map.current.setZoom(13);
             }
         }

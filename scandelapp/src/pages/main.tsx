@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import FilterMenu from '../components/FilterMenu';
 import Map from '../components/Map';
 import SearchBar from '../components/SearchBar';
@@ -6,14 +6,9 @@ import ToastHistory from '../components/ToastHistory';
 import { handleSearchUtils } from '../utils/searchUtils';
 import DecisionMenu from '../components/DecisionMenu';
 import EditInPdfPannel from '../components/EditInPdfPannel';
-import ActionsList from '../components/ActionsList';
-import SettingsButton from '../components/SettingsButton';
-import AddEntityButton from '../components/AddEntityButton';
-import ModifyEntityButton from '../components/ModifyEntityButton';
-import LogoutButton from '../components/LogoutButton';
+import TopRightButtonsPannel from '../components/TopRightButtonsPannel';
 import Toastr from '../components/Toastr';
 import { Gauges } from '../components/Gauges';
-import CityButton from '../components/CityButton';
 import AbsencePannel from '../components/AbsencePannel';
 // import MapDB from '../components/MapDB';
 import FilterSearch from '../components/FilterSearch';
@@ -43,7 +38,6 @@ const Main: React.FC<MainProps> = ({
         const savedIsDark = localStorage.getItem('isDark');
         return JSON.parse(savedIsDark);
     });
-    const [isPremiumActivated, setIsPremiumActivated] = useState<boolean>(true);
     const [filter, setFilter] = useState<Filters>(Filters.none);
     const [lat, setLat] = useState<number>(47.218371);
     const [lng, setLng] = useState<number>(-1.553621);
@@ -146,8 +140,19 @@ const Main: React.FC<MainProps> = ({
                 setFilter={setFilter}
                 isDark={isDark}
             />
-            <LogoutButton id={'logoutButtonId'} isDark={isDark} />
-            <CityButton id={'cityButtonId'} isDark={isDark} />
+            <TopRightButtonsPannel
+                id={'topRightButtonsPannelId'}
+                isDark={isDark}
+                setIsDark={setIsDark}
+                actionsListExtended={actionsListExtended}
+                setActionsListExtended={setActionsListExtended}
+                decisionPanelExtended={decisionPanelExtended}
+                optimisationTemplateData={optimisationTemplateData}
+                setOptimisationTemplateData={setOptimisationTemplateData}
+                notificationsPreference={notificationsPreference}
+                setNotificationsPreference={setNotificationsPreference}
+                addNotificationToList={addNotificationToList}
+            />
             {filter === Filters.filter && (
                 <>
                     <FilterSearch
@@ -171,40 +176,12 @@ const Main: React.FC<MainProps> = ({
                 </>
             )}
 
-            {isPremiumActivated && (
+            {localStorage.getItem('premium') === 'true' && (
                 <>
                     <ToastHistory
                         id={'toastHistoryId'}
                         isDark={isDark}
                         toastHistoryData={toastHistoryData}
-                    />
-                    <ActionsList
-                        id={'actionsListComponentId'}
-                        isDark={isDark}
-                        actionsListExtended={actionsListExtended}
-                        setActionsListExtended={setActionsListExtended}
-                        decisionPanelExtended={decisionPanelExtended}
-                        optimisationTemplateData={optimisationTemplateData}
-                        setOptimisationTemplateData={
-                            setOptimisationTemplateData
-                        }
-                    />
-                    <SettingsButton
-                        id={'settingsButtonId'}
-                        isDark={isDark}
-                        setIsDark={setIsDark}
-                        decisionPanelExtended={decisionPanelExtended}
-                        notificationsPreference={notificationsPreference}
-                        setNotificationsPreference={setNotificationsPreference}
-                        addNotificationToList={addNotificationToList}
-                    />
-                    <AddEntityButton
-                        isDark={isDark}
-                        decisionPanelExtended={decisionPanelExtended}
-                    />
-                    <ModifyEntityButton
-                        isDark={isDark}
-                        decisionPanelExtended={decisionPanelExtended}
                     />
                     <DecisionMenu
                         id={'decisionMenuComponentId'}
