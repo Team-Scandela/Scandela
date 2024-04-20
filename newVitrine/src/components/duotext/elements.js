@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { DarkGrey, Black } from '../../colors';
+import { DarkGrey, Black, White } from '../../colors';
 
 export const DuoTextContainer = styled.div`
     display: flex;
@@ -7,10 +7,11 @@ export const DuoTextContainer = styled.div`
     align-items: center;
     justify-content: center;
     margin: 50px 0;
+    background-color: ${White};
 `;
 
 export const DuoTextTitle = styled.h1`
-    font-size: 30px;
+    font-size: 35px;
     font-weight: bold;
     margin-bottom: 20px;
     color: ${Black};

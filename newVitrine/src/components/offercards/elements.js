@@ -22,6 +22,11 @@ export const OfferCard = styled.div`
     transition: 0.3s;
     width: 500px;
     margin : 20px 0;
+    transition: 0.3s;
+
+    &:hover {
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    }
 `;
 
 export const OfferTitle = styled.h3`

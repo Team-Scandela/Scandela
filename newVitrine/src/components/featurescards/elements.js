@@ -1,7 +1,7 @@
-import styled  from 'styled-components';
-import { White } from '../../colors';
+import styled from 'styled-components';
+import { White, Black, DarkGrey } from '../../colors';
 
-export const CardsContainer = styled.div`
+export const FeaturesCardsContainer = styled.div`
     display: flex;
     flex-direction: line;
     justify-content: center;
