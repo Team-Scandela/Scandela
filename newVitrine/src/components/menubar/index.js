@@ -29,7 +29,7 @@ const Menubar = () => {
                     <Link to="/offers" style={{ textDecoration: 'none', color: 'inherit' }}>Nos offres</Link>
                 </MenubarItem>
                 <MenubarItem>
-                    <Link to="/tools" style={{ textDecoration: 'none', color: 'inherit' }}>Notre solution</Link>
+                    <Link to="/features" style={{ textDecoration: 'none', color: 'inherit' }}>Notre solution</Link>
                 </MenubarItem>
                 <MenubarItem>
                     <Link to="/contact" style={{ textDecoration: 'none', color: 'inherit' }}>Nous contacter</Link>

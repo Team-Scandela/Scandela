@@ -1,7 +1,7 @@
 import Home from './pages/home';
 import About from './pages/about';
 import Offers from './pages/offers';
-import Tools from './pages/tools';
+import Features from './pages/features';
 import Contact from './pages/contact';
 
 import './App.css';
@@ -14,7 +14,7 @@ function App() {
             <Route path='/' element={<Home />} />
             <Route path='/about' element={<About />} />
             <Route path='/offers' element={<Offers />} />
-            <Route path='/tools' element={<Tools />} />
+            <Route path='/features' element={<Features />} />
             <Route path='/contact' element={<Contact />} />
         </Routes>
     </BrowserRouter>
