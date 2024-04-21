@@ -6,7 +6,7 @@ import FeaturesCardsDetail from '../components/featuresdetailscard';
 
 const Features = () => {
     return (
-        <Page title="Ce que peut faire Scandela" text="Découvrez les outils et fonctionnalités de notre solution.">
+        <Page title="Ce que peut faire Scandela" text="Découvrez les outils et fonctionnalités de notre solution." header={true}>
             <Duotext
                 title={<span dangerouslySetInnerHTML={{__html: "Optimisez la gestion et la maintenance <br/>de votre parc d'éclairage public"}} />}
                 text="Economosez du temps et de l'argent en utilisant Scandela."

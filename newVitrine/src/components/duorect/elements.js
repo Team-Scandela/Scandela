@@ -1,16 +1,17 @@
 import styled from 'styled-components';
-import { White, Black, Grey, Yellow, DarkGrey } from '../../colors';
+import { White, Black, Grey, DarkerGrey, DarkGrey } from '../../colors';
 
 export const DuoRectContainer = styled.div`
     display: flex;
     flex-direction: line;
     align-items: center;
     justify-content: center;
-    padding: 20px;
     background-color: ${White};
     border-radius: 10px;
-    height: 500px;
+    height: 400px;
     text-align: center;
+    padding-top: 100px;
+    padding-bottom: 100px;
 `;
 
 export const RectColumn = styled.div`
@@ -18,9 +19,7 @@ export const RectColumn = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 20px;
-    background-color: ${White};
-    border-radius: 10px;
+    background-color: ${props => props.altBckg ? Grey : White};
     transition: 0.3s;
     width: 100%;
     height: 400px;
@@ -40,5 +39,5 @@ export const RectTitle = styled.h3`
 export const RectText = styled.p`
     font-size: 20px;
     padding-top: 20px;
-    color: ${DarkGrey};
+    color: ${props => props.altBckg ? DarkerGrey : DarkGrey};
 `;

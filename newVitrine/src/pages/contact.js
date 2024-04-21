@@ -5,7 +5,7 @@ import ContactButton from '../components/contactbutton';
 
 const Contact = () => {
     return (
-        <Page title="Contactez-nous" text="Nous sommes à votre disposition pour répondre à vos questions et vous aider dans vos démarches.">
+        <Page title="Contactez-nous" text="Nous sommes à votre disposition pour répondre à vos questions et vous aider dans vos démarches." header={true}>
             <ContactCards />
             <ContactButton />
         </Page>

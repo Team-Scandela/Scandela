@@ -1,32 +1,32 @@
 import { DuoRectContainer, RectPic, RectTitle, RectText, RectColumn } from './elements';
 
-const DuoRect = ({ img, title, text, switchValue }) => {
+const DuoRect = ({ img, title, text, switchValue, altBckg}) => {
     return (
         <DuoRectContainer>
             {!switchValue && (
                 <>
-                    <RectColumn />
-                    <RectColumn>
+                    <RectColumn altBckg={altBckg} />
+                    <RectColumn altBckg={altBckg}>
                         <RectPic src={img} alt=""/>
                     </RectColumn>
-                    <RectColumn>
+                    <RectColumn altBckg={altBckg}>
                         <RectTitle>{title}</RectTitle>
-                        <RectText>{text}</RectText>
+                        <RectText altBckg={altBckg}>{text}</RectText>
                     </RectColumn>
-                    <RectColumn />
+                    <RectColumn altBckg={altBckg}/>
                 </>
             )}
             {switchValue && (
                 <>
-                    <RectColumn />
-                    <RectColumn>
+                    <RectColumn altBckg={altBckg}/>
+                    <RectColumn altBckg={altBckg}>
                         <RectTitle>{title}</RectTitle>
-                        <RectText>{text}</RectText>
+                        <RectText altBckg={altBckg}>{text}</RectText>
                     </RectColumn>
-                    <RectColumn>
+                    <RectColumn altBckg={altBckg}>
                         <RectPic src={img} alt=""/>
                     </RectColumn>
-                    <RectColumn />
+                    <RectColumn altBckg={altBckg}/>
                 </>
             )}
         </DuoRectContainer>
