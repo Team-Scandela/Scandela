@@ -52,7 +52,7 @@ const ModifyLamp: React.FC<ModifyLampProps> = ({ isDark }) => {
     const password = 'T&st';
 
     const modifyLamp = async () => {
-        const urlmodification = 'https://serverdela.onrender.com/lamps/' + name;
+        const urlmodification = 'https://api.scandela.fr/lamps/' + name;
         try {
             const response = await fetch(urlmodification, {
                 method: 'PUT',
@@ -95,7 +95,7 @@ const ModifyLamp: React.FC<ModifyLampProps> = ({ isDark }) => {
         // const username = process.env.SPRING_USER;
         // const password = process.env.SPRING_PASSWORD;
 
-        const urlLamp = 'https://serverdela.onrender.com/lamps/' + name;
+        const urlLamp = 'https://api.scandela.fr/lamps/' + name;
         console.log(urlLamp);
 
         try {

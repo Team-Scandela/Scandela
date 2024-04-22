@@ -25,7 +25,7 @@ const Admin: React.FC = () => {
         const username = 'tester';
         const password = 'T&st';
         const response = await fetch(
-            'https://serverdela.onrender.com/tickets',
+            'https://api.scandela.fr/tickets',
             {
                 method: 'GET',
                 headers: {
