@@ -73,7 +73,7 @@ const LoginModule: React.FC<LoginModuleProps> = ({
 
         try {
             const response = await fetch(
-                'https://serverdela.onrender.com/users/signin',
+                'https://api.scandela.fr/users/signin',
                 {
                     method: 'POST',
                     headers: headers,
@@ -106,7 +106,7 @@ const LoginModule: React.FC<LoginModuleProps> = ({
 
             try {
                 const response = await fetch(
-                    'https://serverdela.onrender.com/users/create',
+                    'https://api.scandela.fr/users/create',
                     {
                         method: 'POST',
                         headers: headers,
@@ -139,7 +139,7 @@ const LoginModule: React.FC<LoginModuleProps> = ({
 
         try {
             const response = await fetch(
-                'https://serverdela.onrender.com/decisions?pageNumber=0',
+                'https://api.scandela.fr/decisions?pageNumber=0',
                 {
                     method: 'GET',
                     headers: {

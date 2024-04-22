@@ -10,7 +10,7 @@ export const getUser = async () => {
     const password = 'T&st';
     try {
         const responseUser = await fetch(
-            `https://serverdela.onrender.com/users/${userId}`,
+            `https://api.scandela.fr/users/${userId}`,
             {
                 method: 'GET',
                 headers: {
@@ -32,7 +32,7 @@ export const putUser = async (updatedUserData: any) => {
     const password = 'T&st';
     try {
         const response = await fetch(
-            `https://serverdela.onrender.com/users/${userId}`,
+            `https://api.scandela.fr/users/${userId}`,
             {
                 method: 'PUT',
                 headers: {

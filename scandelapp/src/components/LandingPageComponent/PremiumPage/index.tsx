@@ -68,7 +68,7 @@ const PremiumPage: React.FC<PremiumPageProps> = ({
 
         try {
             const response = await fetch(
-                'https://serverdela.onrender.com/subscription',
+                'https://api.scandela.fr/subscription',
                 {
                     method: 'POST',
                     headers: headers,
