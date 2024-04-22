@@ -27,11 +27,6 @@ const Footer = () => {
                         Mail
                     </a>
                 </FooterText>
-                <FooterText>
-                    <a href="https://www.instagram.com/victorharri_/" target="_blank" style={{ textDecoration: 'none', color: 'inherit' }}>
-                        Le support technique
-                    </a>
-                </FooterText>
             </FooterColumn>
             <FooterColumn>
                 <FooterText/> {/* empty line don't remove */}
