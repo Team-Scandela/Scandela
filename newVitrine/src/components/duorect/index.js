@@ -1,13 +1,13 @@
 import { DuoRectContainer, RectPic, RectTitle, RectText, RectColumn } from './elements';
 
-const DuoRect = ({ img, title, text, switchValue, altBckg}) => {
+const DuoRect = ({ img, imgSize, title, text, switchValue, altBckg}) => {
     return (
         <DuoRectContainer>
             {!switchValue && (
                 <>
                     <RectColumn altBckg={altBckg} />
                     <RectColumn altBckg={altBckg}>
-                        <RectPic src={img} alt=""/>
+                        <RectPic src={img} size={imgSize} alt=""/>
                     </RectColumn>
                     <RectColumn altBckg={altBckg}>
                         <RectTitle>{title}</RectTitle>
@@ -24,7 +24,7 @@ const DuoRect = ({ img, title, text, switchValue, altBckg}) => {
                         <RectText altBckg={altBckg}>{text}</RectText>
                     </RectColumn>
                     <RectColumn altBckg={altBckg}>
-                        <RectPic src={img} alt=""/>
+                        <RectPic src={img} size={imgSize} alt=""/>
                     </RectColumn>
                     <RectColumn altBckg={altBckg}/>
                 </>

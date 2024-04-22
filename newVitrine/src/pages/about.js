@@ -9,6 +9,7 @@ const About = () => {
         <Page title="A propos" text="Découvrez l'histoire de Scandela et de son équipe." header={true}>
             <DuoRect
                 img={logo}
+                imgSize={'300px'}
                 title="L'histoire de Scandela"
                 text="Nous sommes un groupe de 7 étudiants nantais, passionnés par le développement web et le design. Pour notre projet de fin d'études, nous avons décidé de créer Scandela, un logiciel de visualisation et d'aide à la décision destiné aux professionels de l'éclairage public."
                 switchValue={false}

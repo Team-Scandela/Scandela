@@ -24,10 +24,11 @@ export const RectColumn = styled.div`
     width: 100%;
     height: 400px;
     text-align: center;
+    padding: 50px;
 `;
 
 export const RectPic = styled.img`
-    width: 200px;
+    width: ${props => props.size};
     border-radius: 10px;
 `;
 

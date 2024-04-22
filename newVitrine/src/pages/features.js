@@ -3,6 +3,8 @@ import Duotext from '../components/duotext';
 import DuoRect from '../components/duorect';
 import FeaturesCards from '../components/featurescards';
 import FeaturesCardsDetail from '../components/featuresdetailscard';
+import decisionPannelImg from '../assets/aide-a-la-decision.PNG';
+import pinFilterImg from '../assets/pin-filter.PNG';
 
 const Features = () => {
     return (
@@ -15,13 +17,15 @@ const Features = () => {
             <DuoRect
                 title="Aide à la décision"
                 text="Scandela vous aide à prendre les bonnes décisions pour votre parc d'éclairage public grâce à des recommandations spécifiques et personnalisées."
-                img="https://via.placeholder.com/500"
+                img={decisionPannelImg}
+                imgSize={'800px'}
                 switchValue={true}
             />
             <DuoRect
                 title="Filtres de visualisation"
                 text="Grâce à des filtres, vous pouvez afficher uniquement les données qui vous intéressent et avoir des vues détaillées de votre parc d'éclairage public."
-                img="https://via.placeholder.com/500"
+                img={pinFilterImg}
+                imgSize={'800px'}
                 switchValue={false}
             />
             <FeaturesCardsDetail />
