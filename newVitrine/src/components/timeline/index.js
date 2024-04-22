@@ -77,7 +77,7 @@ const Timeline = () => {
                     date="Décembre 2022"
                     iconStyle={{ background: Yellow, color: White }}
                 >
-                    <h3 className="vertical-timeline-element-title">Pisicne Forward</h3>
+                    <h3 className="vertical-timeline-element-title">Piscine Forward</h3>
                     <p>
                         Elaboration d'un plan de recherche sur les besoins des utilisateurs et les solutions à apporter, les concuurent sur le marché, développement du buisness plan et création d'un premier MVP
                     </p>
@@ -87,7 +87,7 @@ const Timeline = () => {
                     date="Septembre 2022"
                     iconStyle={{ background: Yellow, color: White }}
                 >
-                    <h3 className="vertical-timeline-element-title">Pisicne Moonshot</h3>
+                    <h3 className="vertical-timeline-element-title">Piscine Moonshot</h3>
                     <p>
                         Création et imagination du projet, recherche de solutions innovantes et de valeur ajoutée
                     </p>

@@ -10,9 +10,9 @@ const ContactCards = () => {
     return (
         <CardsContainer>
             <Card icon={<FaFileAlt color={Yellow} />} title="Support client" text="Des questions à propos de votre compte, de vos accès ou de vos factures ? L'équipe de support client est là pour vous aider." />
-            <Card icon={<FaGear color={Grey}/>} title="Support Technique" text="Il y a un problème technique avec notre outil. Nous sommes là pour les résoudre" />
+            <Card icon={<FaGear color={Grey}/>} title="Support Technique" text="Un problème technique ? Vous pouvez directement nous contacter depuis notre application." />
             <Card icon={<MdFeedback color={Green}/>} title="Feedback" text="Votre avis est important pour nous. N'hésitez pas à nous faire part de vos retours sur notre outil." />
-            <Card icon={<FaHandshake color={Red}/>} title="Partenariat" text="Vous souhaitez devenir partenaire de notre outil ? Contactez-nous pour en discuter." />
+            <Card icon={<FaHandshake color={Red}/>} title="Partenariat" text="Vous souhaitez devenir partenaire de Scandela ? Contactez-nous pour en discuter !" />
         </CardsContainer>
     );
 };

@@ -48,6 +48,7 @@ export const OfferText = styled.p`
 export const OfferButton = styled.button`
     font-size: 20px;
     margin-top: 20px;
+    margin-left: 35%;
     color: ${Black};
     background-color: ${Yellow};
     border: none;

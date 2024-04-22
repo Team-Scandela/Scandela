@@ -6,10 +6,10 @@ import FeaturesCardsDetail from '../components/featuresdetailscard';
 
 const Features = () => {
     return (
-        <Page title="Ce que peut faire Scandela" text="Découvrez les outils et fonctionnalités de notre solution.">
+        <Page title="Qu'est-ce que Scandela ?" text="Découvrez la plus-value et les fonctionnalités de notre solution.">
             <Duotext
                 title={<span dangerouslySetInnerHTML={{__html: "Optimisez la gestion et la maintenance <br/>de votre parc d'éclairage public"}} />}
-                text="Economosez du temps et de l'argent en utilisant Scandela."
+                text="Economisez du temps et de l'argent en utilisant Scandela."
             />
             <FeaturesCards />
             <DuoRect
@@ -20,7 +20,7 @@ const Features = () => {
             />
             <DuoRect
                 title="Filtres de visualisation"
-                text="Grâce à des filtres, vous pouvez afficher uniquement les données qui vous intéressent et avoir des vues détaillés de votre parc d'éclairage public."
+                text="Grâce à des filtres, vous pouvez afficher uniquement les données qui vous intéressent et avoir des vues détaillées de votre parc d'éclairage public."
                 img="https://via.placeholder.com/500"
                 switchValue={false}
             />

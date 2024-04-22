@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Black, White, DarkerGrey } from '../../colors';
+import { Black, White, Yellow, DarkerGrey } from '../../colors';
 
 export const CardContainer = styled.div`
     display: flex;
