@@ -16,7 +16,7 @@ export const PopupWindow = styled.div`
 `;
 
 export const PopupTextInfoTitle = styled.div`
-  text-align: center;
+    text-align: center;
 `;
 
 export const TextInput = styled.div`

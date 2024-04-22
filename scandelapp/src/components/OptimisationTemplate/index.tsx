@@ -46,7 +46,10 @@ const OptimisationTemplate: React.FC<OptimisationTemplateProps> = ({
             y={y}
             onClick={() => handleTemplateClick()}
         >
-            <SelectionIndicator isDark={isDark} checked={isChecked}></SelectionIndicator>
+            <SelectionIndicator
+                isDark={isDark}
+                checked={isChecked}
+            ></SelectionIndicator>
             <TypeText isDark={isDark}>{optimisationTemplateData.type}</TypeText>
             <LocationText isDark={isDark}>
                 {optimisationTemplateData.location}
