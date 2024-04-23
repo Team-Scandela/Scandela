@@ -38,7 +38,7 @@ const ModifyBulb: React.FC<ModifyBulbProps> = ({ isDark }) => {
         // const password = process.env.SPRING_PASSWORD;
 
         const urlmodification =
-            'https://serverdela.onrender.com/bulbs/' + reference;
+            'https://api.scandela.fr/bulbs/' + reference;
 
         console.log('URL DE MODIFICATION = ' + urlmodification);
         try {
@@ -72,7 +72,7 @@ const ModifyBulb: React.FC<ModifyBulbProps> = ({ isDark }) => {
         // const username = process.env.SPRING_USER;
         // const password = process.env.SPRING_PASSWORD;
 
-        const urlBulb = 'https://serverdela.onrender.com/bulbs/' + reference;
+        const urlBulb = 'https://api.scandela.fr/bulbs/' + reference;
 
         console.log(urlBulb);
 

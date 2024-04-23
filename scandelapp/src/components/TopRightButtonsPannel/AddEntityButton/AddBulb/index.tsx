@@ -35,7 +35,7 @@ const AddBulb: React.FC<AddBulbProps> = ({ isDark }) => {
         const password = 'T&st';
         try {
             const response = await fetch(
-                'https://serverdela.onrender.com/bulbs/create',
+                'https://api.scandela.fr/bulbs/create',
                 {
                     method: 'POST',
                     headers: {

@@ -24,7 +24,7 @@ const InfoIconPopup: React.FC<InfoIconPopupProps> = ({ isDark }) => {
 
         try {
             const response = await fetch(
-                'https://serverdela.onrender.com/bulbs/create',
+                'https://api.scandela.fr/bulbs/create',
                 {
                     method: 'POST',
                     headers: {
