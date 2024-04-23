@@ -31,8 +31,10 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
     useEffect(() => {
         const fetchUserData = async () => {
             const user = await getUser();
-            setName(user.username);
-            setEmail(user.email);
+            if (user) {
+                setName(user.username);
+                setEmail(user.email);
+            }
         };
 
         fetchUserData();
