@@ -7,7 +7,6 @@ export const DuoRectContainer = styled.div`
     align-items: center;
     justify-content: center;
     background-color: ${White};
-    border-radius: 10px;
     height: 400px;
     text-align: center;
     padding-top: 100px;
@@ -21,7 +20,6 @@ export const RectColumn = styled.div`
     justify-content: center;
     background-color: ${props => props.altBckg ? Grey : White};
     transition: 0.3s;
-    width: 100%;
     height: 400px;
     text-align: center;
     padding: 50px;
