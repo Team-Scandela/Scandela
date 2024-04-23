@@ -42,11 +42,6 @@ const LoginModule: React.FC<LoginModuleProps> = ({
 
     const initUserSetup = async (data: any) => {
         localStorage.setItem('isDark', JSON.stringify(data.darkmode));
-        if (data.moreInformations[2] === 'true') {
-            localStorage.setItem('premium', JSON.stringify(true));
-        } else {
-            localStorage.setItem('premium', JSON.stringify(false));
-        }
         if (data.rights === 2) {
             localStorage.setItem('token', JSON.stringify(true));
             setOptimisationTemplateData(optimisationTemplateDataBackup);
@@ -54,12 +49,17 @@ const LoginModule: React.FC<LoginModuleProps> = ({
             localStorage.setItem('token', JSON.stringify(false));
             getDecisions();
         }
+        if ((data.moreInformations[2] && data.moreInformations[2] === 'true') || (localStorage.getItem('token') === "true")) {
+            localStorage.setItem('premium', JSON.stringify(true));
+        } else {
+            localStorage.setItem('premium', JSON.stringify(false));
+        }
     };
 
     const handleValidLogin = (data: any) => {
         setUserId(data.id);
-        navigate('/landingpage');
         initUserSetup(data);
+        navigate('/landingpage');
     };
 
     const handleSubmitSignIn = async (event: any) => {
