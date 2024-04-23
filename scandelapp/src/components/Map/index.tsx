@@ -1211,12 +1211,14 @@ const Map: React.FC<MapProps> = ({
     // Render the map component
     return (
         <div id={id} style={{ overflow: 'hidden' }}>
-            <Lasso
-                id={'LassoComponentId'}
-                isDark={isDark}
-                onLassoActivation={handleLassoActivation}
-                onLassoValidation={handleLassoValidation}
-            />
+            {localStorage.getItem('token') === "true" && (
+                <Lasso
+                    id={'LassoComponentId'}
+                    isDark={isDark}
+                    onLassoActivation={handleLassoActivation}
+                    onLassoValidation={handleLassoValidation}
+                />
+            )}
             <LassoOverlay isLassoActive={isLassoActive} />
             <div
                 style={{ ...styleMap, cursor: cursorStyle }}
