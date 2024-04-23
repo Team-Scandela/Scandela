@@ -17,6 +17,8 @@ import SmallLampInfosPopup from '../components/SmallLampInfosPopup';
 // import MapDB from '../components/MapDB';
 import FilterSearch from '../components/FilterSearch';
 import TrafficTime from '../components/TrafficTime';
+import { GaugesContainer } from '../components/ActionsList/elements';
+import { PersonnalizedGauge } from '../components/Gauges';
 
 export enum Filters {
     pin = 'pin',
@@ -91,6 +93,43 @@ const Main: React.FC<MainProps> = ({ userInfo }) => {
             location: '13 Rue Pierrick Guyard',
             description: 'Passage peu fréquent',
             solution: 'Off: 18h-10h',
+            gauges: (
+                <GaugesContainer>
+                    <PersonnalizedGauge
+                        id={'ElecGaugesComponentId'}
+                        isDark={isDark}
+                        isElec={true}
+                        isBio={false}
+                        isLumi={false}
+                        level={80}
+                        oldLevel={50}
+                        top={51}
+                        left={74}
+                    />
+                    <PersonnalizedGauge
+                        id={'BioGaugesComponentId'}
+                        isDark={isDark}
+                        isElec={false}
+                        isBio={true}
+                        isLumi={false}
+                        level={65}
+                        oldLevel={85}
+                        top={51}
+                        left={80}
+                    />
+                    <PersonnalizedGauge
+                        id={'LumiGaugesComponentId'}
+                        isDark={isDark}
+                        isElec={false}
+                        isBio={false}
+                        isLumi={true}
+                        level={40}
+                        oldLevel={20}
+                        top={51}
+                        left={86}
+                    />
+                </GaugesContainer>
+            ),       
         },
         {
             id: 1,
@@ -100,6 +139,43 @@ const Main: React.FC<MainProps> = ({ userInfo }) => {
             location: '14 Rue Pierrick Guyard',
             description: 'Passage peu fréquent',
             solution: 'Off: 18h-10h',
+            gauges: (
+                <GaugesContainer>
+                    <PersonnalizedGauge
+                        id={'ElecGaugesComponentId'}
+                        isDark={isDark}
+                        isElec={true}
+                        isBio={false}
+                        isLumi={false}
+                        level={80}
+                        oldLevel={50}
+                        top={51}
+                        left={74}
+                    />
+                    <PersonnalizedGauge
+                        id={'BioGaugesComponentId'}
+                        isDark={isDark}
+                        isElec={false}
+                        isBio={true}
+                        isLumi={false}
+                        level={65}
+                        oldLevel={85}
+                        top={51}
+                        left={80}
+                    />
+                    <PersonnalizedGauge
+                        id={'LumiGaugesComponentId'}
+                        isDark={isDark}
+                        isElec={false}
+                        isBio={false}
+                        isLumi={true}
+                        level={40}
+                        oldLevel={20}
+                        top={51}
+                        left={86}
+                    />
+                </GaugesContainer>
+            ),       
         },
         {
             id: 2,
@@ -109,6 +185,43 @@ const Main: React.FC<MainProps> = ({ userInfo }) => {
             location: '15 Rue Pierrick Guyard',
             description: 'Passage peu fréquent',
             solution: 'Off: 18h-10h',
+            gauges: (
+                <GaugesContainer>
+                    <PersonnalizedGauge
+                        id={'ElecGaugesComponentId'}
+                        isDark={isDark}
+                        isElec={true}
+                        isBio={false}
+                        isLumi={false}
+                        level={80}
+                        oldLevel={50}
+                        top={51}
+                        left={74}
+                    />
+                    <PersonnalizedGauge
+                        id={'BioGaugesComponentId'}
+                        isDark={isDark}
+                        isElec={false}
+                        isBio={true}
+                        isLumi={false}
+                        level={65}
+                        oldLevel={85}
+                        top={51}
+                        left={80}
+                    />
+                    <PersonnalizedGauge
+                        id={'LumiGaugesComponentId'}
+                        isDark={isDark}
+                        isElec={false}
+                        isBio={false}
+                        isLumi={true}
+                        level={40}
+                        oldLevel={20}
+                        top={51}
+                        left={86}
+                    />
+                </GaugesContainer>
+            ),       
         },
         {
             id: 3,
@@ -118,6 +231,43 @@ const Main: React.FC<MainProps> = ({ userInfo }) => {
             location: '16 Rue Pierrick Guyard',
             description: 'Passage peu fréquent',
             solution: 'Off: 18h-10h',
+            gauges: (
+                <GaugesContainer>
+                    <PersonnalizedGauge
+                        id={'ElecGaugesComponentId'}
+                        isDark={isDark}
+                        isElec={true}
+                        isBio={false}
+                        isLumi={false}
+                        level={80}
+                        oldLevel={50}
+                        top={51}
+                        left={74}
+                    />
+                    <PersonnalizedGauge
+                        id={'BioGaugesComponentId'}
+                        isDark={isDark}
+                        isElec={false}
+                        isBio={true}
+                        isLumi={false}
+                        level={65}
+                        oldLevel={85}
+                        top={51}
+                        left={80}
+                    />
+                    <PersonnalizedGauge
+                        id={'LumiGaugesComponentId'}
+                        isDark={isDark}
+                        isElec={false}
+                        isBio={false}
+                        isLumi={true}
+                        level={40}
+                        oldLevel={20}
+                        top={51}
+                        left={86}
+                    />
+                </GaugesContainer>
+            ),       
         },
         {
             id: 4,
@@ -127,6 +277,43 @@ const Main: React.FC<MainProps> = ({ userInfo }) => {
             location: '17 Rue Pierrick Guyard',
             description: 'Passage peu fréquent',
             solution: 'Off: 18h-10h',
+            gauges: (
+                <GaugesContainer>
+                    <PersonnalizedGauge
+                        id={'ElecGaugesComponentId'}
+                        isDark={isDark}
+                        isElec={true}
+                        isBio={false}
+                        isLumi={false}
+                        level={80}
+                        oldLevel={50}
+                        top={51}
+                        left={74}
+                    />
+                    <PersonnalizedGauge
+                        id={'BioGaugesComponentId'}
+                        isDark={isDark}
+                        isElec={false}
+                        isBio={true}
+                        isLumi={false}
+                        level={65}
+                        oldLevel={85}
+                        top={51}
+                        left={80}
+                    />
+                    <PersonnalizedGauge
+                        id={'LumiGaugesComponentId'}
+                        isDark={isDark}
+                        isElec={false}
+                        isBio={false}
+                        isLumi={true}
+                        level={40}
+                        oldLevel={20}
+                        top={51}
+                        left={86}
+                    />
+                </GaugesContainer>
+            ),       
         },
         {
             id: 5,
@@ -136,6 +323,43 @@ const Main: React.FC<MainProps> = ({ userInfo }) => {
             location: '18 Rue Pierrick Guyard',
             description: 'Passage peu fréquent',
             solution: 'Off: 18h-10h',
+            gauges: (
+                <GaugesContainer>
+                    <PersonnalizedGauge
+                        id={'ElecGaugesComponentId'}
+                        isDark={isDark}
+                        isElec={true}
+                        isBio={false}
+                        isLumi={false}
+                        level={80}
+                        oldLevel={50}
+                        top={51}
+                        left={74}
+                    />
+                    <PersonnalizedGauge
+                        id={'BioGaugesComponentId'}
+                        isDark={isDark}
+                        isElec={false}
+                        isBio={true}
+                        isLumi={false}
+                        level={65}
+                        oldLevel={85}
+                        top={51}
+                        left={80}
+                    />
+                    <PersonnalizedGauge
+                        id={'LumiGaugesComponentId'}
+                        isDark={isDark}
+                        isElec={false}
+                        isBio={false}
+                        isLumi={true}
+                        level={40}
+                        oldLevel={20}
+                        top={51}
+                        left={86}
+                    />
+                </GaugesContainer>
+            ),       
         },
         {
             id: 6,
@@ -145,6 +369,43 @@ const Main: React.FC<MainProps> = ({ userInfo }) => {
             location: '19 Rue Pierrick Guyard',
             description: 'Passage peu fréquent',
             solution: 'Off: 18h-10h',
+            gauges: (
+                <GaugesContainer>
+                    <PersonnalizedGauge
+                        id={'ElecGaugesComponentId'}
+                        isDark={isDark}
+                        isElec={true}
+                        isBio={false}
+                        isLumi={false}
+                        level={80}
+                        oldLevel={50}
+                        top={51}
+                        left={74}
+                    />
+                    <PersonnalizedGauge
+                        id={'BioGaugesComponentId'}
+                        isDark={isDark}
+                        isElec={false}
+                        isBio={true}
+                        isLumi={false}
+                        level={65}
+                        oldLevel={85}
+                        top={51}
+                        left={80}
+                    />
+                    <PersonnalizedGauge
+                        id={'LumiGaugesComponentId'}
+                        isDark={isDark}
+                        isElec={false}
+                        isBio={false}
+                        isLumi={true}
+                        level={40}
+                        oldLevel={20}
+                        top={51}
+                        left={86}
+                    />
+                </GaugesContainer>
+            ),       
         },
         {
             id: 7,
@@ -154,6 +415,43 @@ const Main: React.FC<MainProps> = ({ userInfo }) => {
             location: '20 Rue Pierrick Guyard',
             description: 'Passage peu fréquent',
             solution: 'Off: 18h-10h',
+            gauges: (
+                <GaugesContainer>
+                    <PersonnalizedGauge
+                        id={'ElecGaugesComponentId'}
+                        isDark={isDark}
+                        isElec={true}
+                        isBio={false}
+                        isLumi={false}
+                        level={80}
+                        oldLevel={50}
+                        top={51}
+                        left={74}
+                    />
+                    <PersonnalizedGauge
+                        id={'BioGaugesComponentId'}
+                        isDark={isDark}
+                        isElec={false}
+                        isBio={true}
+                        isLumi={false}
+                        level={65}
+                        oldLevel={85}
+                        top={51}
+                        left={80}
+                    />
+                    <PersonnalizedGauge
+                        id={'LumiGaugesComponentId'}
+                        isDark={isDark}
+                        isElec={false}
+                        isBio={false}
+                        isLumi={true}
+                        level={40}
+                        oldLevel={20}
+                        top={51}
+                        left={86}
+                    />
+                </GaugesContainer>
+            ),       
         },
     ]);
     const [toastHistoryData, setToastHistoryData] = useState([]);

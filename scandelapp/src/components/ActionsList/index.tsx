@@ -45,16 +45,6 @@ const ActionsList: React.FC<ActionsListProps> = ({
 }) => {
     const { t } = useTranslation();
 
-    const RandomNumberLine: React.FC<{ isDark: boolean; label: string; min: number; max: number }> = ({ isDark, label, min, max }) => {
-        const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
-    
-        return (
-            <div style={{ color: isDark ? '#FAC710' : '#FAC710', fontSize: '0.8em', marginTop: '50px', marginLeft: '5px', textAlign: 'left'}}>
-                {label} {randomNumber}
-            </div>
-        );
-    };
-
     useEffect(() => {
         if (decisionPanelExtended && actionsListExtended)
             handleToggleActionsListExpend();
@@ -102,19 +92,25 @@ const ActionsList: React.FC<ActionsListProps> = ({
                         ))}
                 </ScrollableOptimisationsContainer>
                 <TotalContainer isDark={isDark}>
-                    <TotalTitleText isDark={isDark} style={{ fontSize: '0.9em', marginBottom: '10px'}}>
+                    <TotalTitleText isDark={isDark}>
                         {t('economicImpact')}
                     </TotalTitleText>
                     {/* Utiliser le composant pour les coûts des actions */}
-                    <RandomNumberLine isDark={isDark} label="Coûts des actions (en euro):" min={1000} max={5000} />
+                    <div style={{ fontSize: '0.5em', color: isDark ? '#FAC710' : '#FAC710', marginLeft: '10px', textAlign: 'left', marginTop: '14px' }}>
+                        Coûts des actions (en euro):{' '}
+                        {Math.floor(Math.random() * (5000 - 1000 + 1)) + 1000}
+                    </div>
                     {/* Utiliser le composant pour le nombre économisé d'ici 1 an */}
-                    <RandomNumberLine isDark={isDark} label="économisé d'ici 1 an (en euro):" min={50000} max={200000} />
+                    <div style={{ fontSize: '0.5em', color: isDark ? '#FAC710' : '#FAC710', marginLeft: '10px', textAlign: 'left', marginTop: '12px' }}>
+                        économisé d'ici 1 an (en euro):{' '}
+                        {Math.floor(Math.random() * (200000 - 50000 + 1)) + 50000}
+                    </div>
                     {/* Ajouter les boutons */}
-                    <div style={{ display: 'flex', marginTop: '5px', alignContent: 'center', marginBottom: '2px'}}>
-                        <button style={{ padding: '10px', cursor: 'pointer', backgroundColor: '#FAC710', color: '#2A2B2A', border: 'none', borderRadius: '10px', marginLeft: '60px'}}>
+                    <div style={{ display: 'flex', marginTop: '10px', alignContent: 'center', marginBottom: '1px'}}>
+                        <button style={{ padding: '5px', cursor: 'pointer', backgroundColor: '#FAC710', color: '#2A2B2A', border: 'none', borderRadius: '10px', marginLeft: '98px', marginBottom: '2px'}}>
                             Exécuter
                         </button>
-                        <button style={{ padding: '10px', cursor: 'pointer', backgroundColor: '#FAC710', color: '#2A2B2A', border: 'none', borderRadius: '10px', marginLeft: '80px' }}>
+                        <button style={{ padding: '5px', cursor: 'pointer', backgroundColor: '#FAC710', color: '#2A2B2A', border: 'none', borderRadius: '10px', marginLeft: '100px', marginBottom: '2px'}}>
                             Annuler
                         </button>
                     </div>
@@ -129,8 +125,8 @@ const ActionsList: React.FC<ActionsListProps> = ({
                         isLumi={false}
                         level={80}
                         oldLevel={50}
-                        top={70}
-                        left={57}
+                        top={51}
+                        left={74}
                     />
                     <PersonnalizedGauge
                         id={'BioGaugesComponentId'}
@@ -140,8 +136,8 @@ const ActionsList: React.FC<ActionsListProps> = ({
                         isLumi={false}
                         level={65}
                         oldLevel={85}
-                        top={70}
-                        left={71}
+                        top={51}
+                        left={80}
                     />
                     <PersonnalizedGauge
                         id={'LumiGaugesComponentId'}
@@ -151,8 +147,8 @@ const ActionsList: React.FC<ActionsListProps> = ({
                         isLumi={true}
                         level={40}
                         oldLevel={20}
-                        top={70}
-                        left={85}
+                        top={51}
+                        left={86}
                     />
                 </GaugesContainer>
             </ActionsListPanel>

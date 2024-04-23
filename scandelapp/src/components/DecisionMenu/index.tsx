@@ -24,6 +24,8 @@ import logoDark from '../../assets/logo-128x128-yellow.png';
 import OptimisationTemplate from '../OptimisationTemplate';
 import { showToast } from '../Toastr';
 import { useTranslation } from 'react-i18next';
+import { PersonnalizedGauge } from '../Gauges';
+import { GaugesContainer } from '../ActionsList/elements';
 
 /** Props of the decision pannel
  * @param {boolean} isDark - If the map is in dark mode or not
