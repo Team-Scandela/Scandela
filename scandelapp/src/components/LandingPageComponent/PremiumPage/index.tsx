@@ -11,6 +11,7 @@ import {
     ReturnButtonContainer,
 } from './elements';
 import { userId } from '../../../utils/userUtils';
+import { useNavigate } from 'react-router-dom';
 
 /** Premium page component
  * @param {function} handlePremiumButtonClicked - Function to show/hide premium page
@@ -22,6 +23,7 @@ interface PremiumPageProps {
 const PremiumPage: React.FC<PremiumPageProps> = ({
     handlePremiumButtonClicked,
 }) => {
+    const navigate = useNavigate();
     const [showForm, setShowForm] = useState(false);
     const [formValues, setFormValues] = useState({
         fullName: '',
@@ -95,6 +97,7 @@ const PremiumPage: React.FC<PremiumPageProps> = ({
             localStorage.setItem('premium', 'false');
         else if (localStorage.getItem('premium') === 'false')
             localStorage.setItem('premium', 'true');
+        navigate('/scandela');
     };
 
     return (
