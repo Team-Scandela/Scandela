@@ -150,7 +150,7 @@ export const DownloadButton = styled.div`
     }
 `;
 
-export const NotificationButton = styled.div`
+export const ElectricityPriceButton = styled.div`
     display: flex;
     position: absolute;
     align-items: center;
@@ -172,6 +172,30 @@ export const NotificationButton = styled.div`
         cursor: pointer;
     }
 `;
+
+export const NotificationButton = styled.div`
+    display: flex;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 70px;
+    background-color: ${(props) => (props.isDark ? DarkYellow : White)};
+    color: ${(props) => (props.isDark ? Black : Black)};
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+    top: 325px;
+    left: 5px;
+    border-radius: 10px;
+    transition: all 0.2s ease-in-out;
+    overflow: hidden;
+
+    &:hover {
+        background-color: ${(props) => (props.isDark ? DarkGrey : Black)};
+        color: ${(props) => (props.isDark ? DarkYellow : White)};
+        cursor: pointer;
+    }
+`;
+
 
 /** Main title on the content container */
 export const TitleText = styled.div`

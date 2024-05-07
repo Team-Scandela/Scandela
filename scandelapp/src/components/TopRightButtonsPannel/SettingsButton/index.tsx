@@ -8,15 +8,17 @@ import {
     LanguageButton,
     DownloadButton,
     NotificationButton,
+    ElectricityPriceButton,
     TitleText,
 } from './elements';
 import LightDark from './LightDark';
 import Language from './Language';
 import Download from './Download';
+import EletricityPrice from './ElectricityPrice';
 import Notifications from './Notifications';
 import { FiSun } from 'react-icons/fi';
 import { MdOutlineLanguage } from 'react-icons/md';
-import { MdDownload } from 'react-icons/md';
+import { MdDownload, MdElectricBolt } from 'react-icons/md';
 import { IoNotifications } from 'react-icons/io5';
 import { useTranslation } from 'react-i18next';
 
@@ -79,6 +81,14 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({
                         >
                             <MdDownload size={50} />
                         </DownloadButton>
+                        <ElectricityPriceButton
+                            isDark={isDark}
+                            onClick={() =>
+                                setCurrentOptionSeleted('electricityprice')
+                            }
+                        >
+                            <MdElectricBolt size={50} />
+                        </ElectricityPriceButton>
                         <NotificationButton
                             isDark={isDark}
                             onClick={() =>
@@ -134,6 +144,16 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({
                                     {t('loadData')}
                                 </TitleText>
                                 <Download isDark={isDark} />
+                            </div>
+                        )}
+                        {currentOptionSelected === 'electricityprice' && (
+                            <div>
+                                <TitleText isDark={isDark}>
+                                    {t('electricityPrice')}
+                                </TitleText>
+                                <EletricityPrice
+                                    isDark={isDark}
+                                />
                             </div>
                         )}
                         {currentOptionSelected === 'notification' && (
