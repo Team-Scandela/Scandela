@@ -1,9 +1,9 @@
 {
     "apps": [
-      {
-        "name": "vitrine",
-        "script": "serve -s build -l 5000",
-        "restart": true
-      }
+        {
+            "name": "vitrine",
+            "script": "serve -s build -l 5000",
+            "restart": true
+        }
     ]
-  }
+}
