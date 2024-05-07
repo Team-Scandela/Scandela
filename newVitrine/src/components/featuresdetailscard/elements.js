@@ -8,5 +8,5 @@ export const FeaturesCardsDetailContainer = styled.div`
     padding: 50px;
     border-radius: 10px;
     background-color: ${White};
-    gap : 50px;
+    gap: 50px;
 `;

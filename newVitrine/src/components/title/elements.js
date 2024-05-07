@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { White, Black, Grey, Yellow, DarkGrey } from "../../colors";
+import styled from 'styled-components';
+import { White, Black, Grey, Yellow, DarkGrey } from '../../colors';
 
 export const TitleContainer = styled.div`
     display: flex;

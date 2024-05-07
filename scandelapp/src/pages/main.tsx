@@ -66,16 +66,18 @@ const Main: React.FC<MainProps> = ({
         ['languageUpdate', false],
     ]);
 
-    const handleSearch = (value: string, valueLng: number, valueLat: number) => {
-        console.log("value =" + value);
-        if (value === 'ZOOM ON LAMP')
-            zoomOnLampByCoord(valueLat, valueLng);
-        else
-            handleSearchUtils(value, lat, setLat, lng, setLng, zoom, setZoom);
+    const handleSearch = (
+        value: string,
+        valueLng: number,
+        valueLat: number
+    ) => {
+        console.log('value =' + value);
+        if (value === 'ZOOM ON LAMP') zoomOnLampByCoord(valueLat, valueLng);
+        else handleSearchUtils(value, lat, setLat, lng, setLng, zoom, setZoom);
     };
 
     const zoomOnLampByCoord = (valueLat: number, valueLng: number) => {
-        console.log("ZOOM on coord = " + valueLat + " / " + valueLng);
+        console.log('ZOOM on coord = ' + valueLat + ' / ' + valueLng);
         setLat(valueLat);
         setLng(valueLng);
         setZoom(13);
