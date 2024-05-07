@@ -33,10 +33,11 @@ const ModifyBulb: React.FC<ModifyBulbProps> = ({ isDark }) => {
 
     const username = 'tester';
     const password = 'T&st';
-    const modifyBulb = async () => {
-        // const username = process.env.SPRING_USER;
-        // const password = process.env.SPRING_PASSWORD;
+    //const username = process.env.SPRING_USER;
+    //const password = process.env.SPRING_PASSWORD;
 
+    const modifyBulb = async () => {
+        
         const urlmodification =
             'https://api.scandela.fr/bulbs/' + reference;
 

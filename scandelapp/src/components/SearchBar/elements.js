@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import { Yellow, Black, White } from '../../colors';
 import { MdSearch } from 'react-icons/md';
+import {FaStreetView} from "react-icons/fa";
+import { GiStreetLight } from "react-icons/gi";
 
 /** Container for the background of the searchbar **/
 export const SearchBarContainer = styled.div`
@@ -40,6 +42,28 @@ export const InputWrapper = styled.input`
 
     &:focus {
         outline: none;
+    }
+`;
+
+export const SwitchSearchIcon = styled(FaStreetView)`
+    position: absolute;
+    right: 40px;
+    font-size: 28px;
+
+    color: ${(props) => (props.isdark ? Yellow : Black)};
+    &:hover {
+        cursor: pointer;
+    }
+`;
+
+export const SwitchSearchIconTwo = styled(GiStreetLight)`
+    position: absolute;
+    right: 40px;
+    font-size: 28px;
+
+    color: ${(props) => (props.isdark ? Yellow : Black)};
+    &:hover {
+        cursor: pointer;
     }
 `;
 
