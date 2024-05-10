@@ -1,6 +1,6 @@
-import { CardContainer, CardPic, CardText, CardTitle } from "./elements";
+import { CardContainer, CardPic, CardText, CardTitle } from './elements';
 
-const Card = ({icon, title, text}) => {
+const Card = ({ icon, title, text }) => {
     return (
         <CardContainer>
             <CardPic>{icon}</CardPic>
@@ -8,6 +8,6 @@ const Card = ({icon, title, text}) => {
             <CardText>{text}</CardText>
         </CardContainer>
     );
-}
+};
 
 export default Card;

@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import { Yellow, Black, White } from '../../colors';
 import { MdSearch } from 'react-icons/md';
-import {FaStreetView} from "react-icons/fa";
-import { GiStreetLight } from "react-icons/gi";
+import { FaStreetView } from 'react-icons/fa';
+import { GiStreetLight } from 'react-icons/gi';
 
 /** Container for the background of the searchbar **/
 export const SearchBarContainer = styled.div`

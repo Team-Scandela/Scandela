@@ -8,7 +8,7 @@ export const HeaderContainer = styled.div`
     align-items: center;
     padding: 60px;
     background-color: ${Black};
-    gap : 20px;
+    gap: 20px;
 `;
 
 export const HeaderTitle = styled.h1`

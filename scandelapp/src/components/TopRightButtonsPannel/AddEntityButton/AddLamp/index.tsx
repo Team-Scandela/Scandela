@@ -46,29 +46,27 @@ const AddLamp: React.FC<AddLampProps> = ({ isDark }) => {
     const { t } = useTranslation();
     const createLamp = async () => {
         try {
-            const username = 'tester';
-            const password = 'T&st';
-            const response = await fetch(
-                'https://api.scandela.fr/lamps/create',
-                {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Basic ${btoa(
-                            `${username}:${password}`
-                        )}`,
-                    },
-                    body: JSON.stringify({
-                        name: name,
-                        address: address,
-                        lat: latitude,
-                        long: longitude,
-                        height: height,
-                        lamptype: lamptype,
-                        foyertype: foyertype,
-                    }),
-                }
-            );
+            const username = process.env.REACT_APP_REQUEST_USER;
+            const password = process.env.REACT_APP_REQUEST_PASSWORD;
+            const urlRequest =
+                process.env.REACT_APP_BACKEND_URL + 'lamps/create';
+
+            const response = await fetch(urlRequest, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Basic ${btoa(`${username}:${password}`)}`,
+                },
+                body: JSON.stringify({
+                    name: name,
+                    address: address,
+                    lat: latitude,
+                    long: longitude,
+                    height: height,
+                    lamptype: lamptype,
+                    foyertype: foyertype,
+                }),
+            });
             const responsebody = await response.text();
             console.log(responsebody);
             console.log(response);

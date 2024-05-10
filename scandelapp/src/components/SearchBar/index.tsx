@@ -12,7 +12,7 @@ import logoDark from '../../assets/logo-128x128-yellow.png';
 import logoLight from '../../assets/logo-128x128.png';
 import { useTranslation } from 'react-i18next';
 import LoadingSpinner from '../LoadingSpinner';
-import {handleSearchUtils} from '../../utils/searchUtils';
+import { handleSearchUtils } from '../../utils/searchUtils';
 
 /** SearchBar of the main page Scandela
  * This SearchBar allow the user to search a precise street or city in the Scandel'App
@@ -55,12 +55,13 @@ const SearchBar: React.FC<SearchBarProps> = ({ id, isDark, onSubmit }) => {
         } else {
             getLamp();
         }
-    }
+    };
 
     const getLamp = async () => {
         const username = process.env.REACT_APP_REQUEST_USER;
         const password = process.env.REACT_APP_REQUEST_PASSWORD;
-        const urlLamp = process.env.REACT_APP_BACKEND_URL + 'lamps/' + searchValue;
+        const urlLamp =
+            process.env.REACT_APP_BACKEND_URL + 'lamps/' + searchValue;
 
         try {
             const response = await fetch(urlLamp, {
@@ -77,7 +78,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ id, isDark, onSubmit }) => {
                 setLat(lampData.latitude);
                 setLong(lampData.longitude);
             } else {
-                console.log("GET LAMP FAILED, status = " + response.status);
+                console.log('GET LAMP FAILED, status = ' + response.status);
                 setIsLamp(false);
             }
         } catch (error) {
@@ -96,14 +97,15 @@ const SearchBar: React.FC<SearchBarProps> = ({ id, isDark, onSubmit }) => {
         <div id={id}>
             <SearchBarContainer id="searchbar-container" isdark={isDark}>
                 <LogoContainer src={isDark ? logoDark : logoLight} />
-                {isStreetSearch ? (<SwitchSearchIcon
-                    isdark={isDark}
-                    onClick={handleSwitchSearch}
-                />
+                {isStreetSearch ? (
+                    <SwitchSearchIcon
+                        isdark={isDark}
+                        onClick={handleSwitchSearch}
+                    />
                 ) : (
                     <SwitchSearchIconTwo
-                    isdark={isDark}
-                    onClick={handleSwitchSearch}
+                        isdark={isDark}
+                        onClick={handleSwitchSearch}
                     />
                 )}
                 <InputWrapper

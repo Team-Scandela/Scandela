@@ -1,4 +1,4 @@
-import {TitleContainer, TitleText} from './elements';
+import { TitleContainer, TitleText } from './elements';
 
 const Title = ({ title }) => {
     return (
@@ -6,6 +6,6 @@ const Title = ({ title }) => {
             <TitleText>{title}</TitleText>
         </TitleContainer>
     );
-}
+};
 
 export default Title;
