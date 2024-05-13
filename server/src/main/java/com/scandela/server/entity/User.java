@@ -60,8 +60,8 @@ public class User implements Serializable {
 	@Column(name = "rights", nullable = false)
 	private Integer rights;
 
-	@JdbcTypeCode(SqlTypes.JSON)
-	@Column(name = "moreinfo", nullable = true)
+	// @JdbcTypeCode(SqlTypes.JSON)
+	@Column(name = "moreinformations", nullable = true)
 	private List<String> moreInformations;
 	
 	@Builder.Default

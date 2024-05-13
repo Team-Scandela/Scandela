@@ -1,7 +1,8 @@
 package com.scandela.server.entity;
 
 import java.io.Serializable;
-import java.security.Timestamp;
+import java.sql.Timestamp;
+import java.util.List;
 import java.util.UUID;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -36,7 +37,7 @@ public class AuditEntry implements Serializable {
 	private UUID id;
 
     @Column(name = "userId", nullable = false, unique = true)
-    private Long userId;
+    private UUID userId;
 
     @Column(name = "action", nullable = false, unique = true)
     private String action;
@@ -45,5 +46,5 @@ public class AuditEntry implements Serializable {
     private Timestamp timestamp;
 
     @Column(name = "data", unique = true)
-    private Timestamp data;
+    private List<String> data;
 }
