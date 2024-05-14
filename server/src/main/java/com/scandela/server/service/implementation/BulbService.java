@@ -1,5 +1,6 @@
 package com.scandela.server.service.implementation;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -39,6 +40,16 @@ public class BulbService extends AbstractService<Bulb> implements IBulbService {
 		}
 	}
 
+	@Override
+	@Transactional(readOnly = true, rollbackFor = { Exception.class })
+	public List<Bulb> getAll(String reference) {
+		if (reference == null || reference.isBlank()) {
+			return super.getAll();
+		}
+		
+		return ((BulbDao) dao).findByReference(reference);
+	}
+	
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
     public Bulb update(UUID id, Bulb update, String... ignoredProperties) throws Exception {

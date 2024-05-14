@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.scandela.server.entity.Decision;
@@ -35,8 +36,8 @@ public class DecisionController extends AbstractController<Decision> {
 	 * @return allDecisions
 	 */
 	@GetMapping
-	public List<Decision> getDecisions() {
-		return super.getAll();
+	public List<Decision> getDecisions(@RequestParam(name = "pageNumber", defaultValue = "0") Integer pageNumber) {
+		return ((IDecisionService) service).getAll(pageNumber);
 	}
 
 	/**
@@ -93,5 +94,10 @@ public class DecisionController extends AbstractController<Decision> {
 	@PostMapping("/algoReductionConsoHoraire")
 	public List<Decision> algoReductionConsoHoraire() throws Exception {
 		return ((IDecisionService) service).algoReductionConsoHoraire();
+	}
+	
+	@PostMapping("algoRetirerLampadaire")
+	public List<Decision> algoRetirerLampadaire() throws Exception {
+		return ((IDecisionService) service).algoRetirerLampadaire();
 	}
 }
