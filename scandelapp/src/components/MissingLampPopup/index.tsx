@@ -1,12 +1,7 @@
 import React, { useState } from 'react';
 import { InputWrapper } from '../SearchBar/elements';
 
-import {
-    PopupWindow,
-    IconContainer,
-    TextInput,
-    PopupTextInfoTitle,
-} from './elements';
+import { PopupWindow, TextInput, PopupTextInfoTitle } from './elements';
 
 import * as images from './ficheImports';
 
@@ -21,34 +16,36 @@ const InfoIconPopup: React.FC<InfoIconPopupProps> = ({ isDark }) => {
     const [bulbValue, setBulbValue] = React.useState<string>('');
 
     const createBulb = async () => {
-        const username = process.env.SPRING_USER;
-        const password = process.env.SPRING_PASSWORD;
+        const username = process.env.REACT_APP_REQUEST_USER;
+        const password = process.env.REACT_APP_REQUEST_PASSWORD;
+        const urlRequest = process.env.REACT_APP_BACKEND_URL + '/bulbs/create';
+
         try {
-            const response = await fetch(
-                '${process.env.REACT_APP_BACKEND_URL}/bulbs/create',
-                {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Basic ${btoa(
-                            `${username}:${password}`
-                        )}`,
-                    },
-                    body: JSON.stringify({
-                        intensity: 0,
-                        consommation: parseInt(bulbValue, 10),
-                        reference: bulbID,
-                    }),
-                }
-            );
+            const response = await fetch(urlRequest, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Basic ${btoa(`${username}:${password}`)}`,
+                },
+                body: JSON.stringify({
+                    intensity: 0,
+                    consommation: parseInt(bulbValue, 10),
+                    reference: bulbID,
+                }),
+            });
         } catch (error) {
             console.log('ERROR CREATE BULB = ' + error);
         }
     };
 
-    const handleInfoIconClick = () => {
-        setPopupVisible(!isPopupVisible);
+    const handleInfoIconOpen = () => {
+        setPopupVisible(true);
         setEnteringID(true);
+    };
+
+    const handleInfoIconClose = () => {
+        setPopupVisible(false);
+        setEnteringID(false);
     };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -72,21 +69,19 @@ const InfoIconPopup: React.FC<InfoIconPopupProps> = ({ isDark }) => {
 
     return (
         <>
-            <IconContainer>
-                <img
-                    src={images.switch_off}
-                    alt="Flash"
-                    draggable="false"
-                    style={{
-                        position: 'absolute',
-                        top: '350px',
-                        left: '350px',
-                        width: '20px',
-                        userSelect: 'none',
-                    }}
-                    onClick={handleInfoIconClick}
-                />
-            </IconContainer>
+            <img
+                src={images.switch_off}
+                alt="Flash"
+                draggable="false"
+                style={{
+                    position: 'absolute',
+                    top: '350px',
+                    left: '350px',
+                    width: '20px',
+                    userSelect: 'none',
+                }}
+                onClick={handleInfoIconOpen}
+            />
             {isPopupVisible && (
                 <PopupWindow>
                     <PopupTextInfoTitle>
@@ -102,6 +97,19 @@ const InfoIconPopup: React.FC<InfoIconPopupProps> = ({ isDark }) => {
                             onKeyDown={handleInputKeyDown}
                         />
                     </TextInput>
+                    <img
+                        src={images.switch_off}
+                        alt="Flash"
+                        draggable="false"
+                        style={{
+                            position: 'absolute',
+                            top: '15px',
+                            right: '21px',
+                            width: '20px',
+                            userSelect: 'none',
+                        }}
+                        onClick={handleInfoIconClose}
+                    />
                 </PopupWindow>
             )}
         </>

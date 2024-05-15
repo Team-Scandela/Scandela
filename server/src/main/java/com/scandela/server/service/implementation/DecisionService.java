@@ -170,6 +170,35 @@ public class DecisionService extends AbstractService<Decision> implements IDecis
 		return decisions;
 	}
 
+	@Override
+	@Transactional(readOnly = true, rollbackFor = { Exception.class })
+	public List<Decision> algoRetirerLampadaire() throws Exception {
+		List<Decision> decisions = new ArrayList<>();
+		
+		Page<Lamp> lampPages = lampDao.findAll(PageRequest.of(0, 100));
+		List<Lamp> lamps = lampPages.getContent();
+		
+		DecisionType decisionType = DecisionType.builder()
+				.id(UUID.randomUUID())
+				.title("Retirer lampadaire")
+				.build();
+		
+		lamps.forEach(lamp -> {
+			decisions.add(Decision.builder()
+					.description("Lampadaire trop proche d'un autre lampadaire.")
+					.type(decisionType)
+					.solution("Retirer ce lampadaire")
+					.location(lamp.getAddress())
+					.lampDecision(LampDecision.builder()
+							.id(UUID.randomUUID())
+							.lamp(lamp)
+							.build())
+					.build());
+		});
+		
+		return decisions;
+	}
+
 		// Private \\
 	private void loadDecisionType(Decision newDecision) throws DecisionException {
 		if (newDecision.getType() == null) {

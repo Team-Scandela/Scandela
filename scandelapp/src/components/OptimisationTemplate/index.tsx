@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import {
     OptimisationTemplateContainer,
+    SelectionIndicator,
     TypeText,
     LocationText,
     DescriptionText,
@@ -44,8 +45,11 @@ const OptimisationTemplate: React.FC<OptimisationTemplateProps> = ({
             isDark={isDark}
             y={y}
             onClick={() => handleTemplateClick()}
-            checked={isChecked}
         >
+            <SelectionIndicator
+                isDark={isDark}
+                checked={isChecked}
+            ></SelectionIndicator>
             <TypeText isDark={isDark}>{optimisationTemplateData.type}</TypeText>
             <LocationText isDark={isDark}>
                 {optimisationTemplateData.location}

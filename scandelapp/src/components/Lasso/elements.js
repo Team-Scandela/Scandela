@@ -8,11 +8,11 @@ export const LassoButton = styled.div`
     width: 40px;
     height: 40px;
     border-radius: 10px;
-    cursor: pointer;
     transition: all 0.2s ease-in-out;
     overflow: hidden;
     user-select: none;
     font-size: 25px;
+    opacity: 0.9;
 
     /* Définissez les couleurs en fonction des props isDark et isOn */
     background-color: ${(props) =>
@@ -36,6 +36,11 @@ export const LassoButton = styled.div`
     position: fixed;
     bottom: 100px;
     left: 30px;
+
+    &:hover {
+        opacity: 1;
+        cursor: pointer;
+    }
 `;
 
 export const ValidateButton = styled.div`
