@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.Random;
 
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
@@ -283,6 +284,156 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
 		}
 	
 		newLamp.setLampShade(lampShade.orElseGet(() -> { return null; }));
+	}
+
+	public float computeGlobalEnergyConsumption() {
+
+		List<Lamp> lamps = super.getAll();
+
+		Random rand = new Random();
+
+		int globalEnergyConsumption = 0;
+		int[] lampsWithLessConsumption = new int[3];
+		for (int i = 0; i < lampsWithLessConsumption.length; i++) {
+			lampsWithLessConsumption[i] = 100000;
+		}
+		int[] lampsWithWorstConsumption = new int[3];
+		for (int i = 0; i < lampsWithWorstConsumption.length; i++) {
+			lampsWithWorstConsumption[i] = 0;
+		}
+
+		int SHP = 50;
+		int IMC = 40;
+		int LED = 3;
+		int TF = 10;
+		int IM = 35;
+		int MBF = 50;
+		int FC = 22;
+		int SBP = 18;
+		int HAL = 10;
+		int TL = 8;
+		int IC = 40;
+		int DIC = 70;
+		int other = rand.nextInt(68) + 3;
+
+		for (Lamp lamp : lamps) {
+
+			int energyConsumption = 0;
+			int timeOfUse = 7;
+
+			if (lamp.getLampType() == null) {
+				energyConsumption = other * timeOfUse;
+				globalEnergyConsumption += energyConsumption;
+				for (int i = 0; i < lampsWithLessConsumption.length; i++) {
+					if (lampsWithLessConsumption[i] == energyConsumption) {
+						break;
+					}
+					if (energyConsumption < lampsWithLessConsumption[i]) {
+						lampsWithLessConsumption[i] = energyConsumption;
+						break;
+					}
+				}
+				for (int i = 0; i < lampsWithWorstConsumption.length; i++) {
+					if (lampsWithWorstConsumption[i] == energyConsumption) {
+						break;
+					}
+					if (energyConsumption > lampsWithWorstConsumption[i]) {
+						lampsWithWorstConsumption[i] = energyConsumption;
+						break;
+					}
+				}
+				continue;
+			}
+
+			switch (lamp.getLampType().toString()) {
+				case "SHP":
+					energyConsumption = SHP * timeOfUse;
+					break;
+				case "IMC":
+					energyConsumption = IMC * timeOfUse;
+					break;
+				case "LED":
+					energyConsumption = LED * timeOfUse;
+					break;
+				case "TF":
+					energyConsumption = TF * timeOfUse;
+					break;
+				case "IM":
+					energyConsumption = IM * timeOfUse;
+					break;
+				case "MBF":
+					energyConsumption = MBF * timeOfUse;
+					break;
+				case "FC":
+					energyConsumption = FC * timeOfUse;
+					break;
+				case "SBP":
+					energyConsumption = SBP * timeOfUse;
+					break;
+				case "HAL":
+					energyConsumption = HAL * timeOfUse;
+					break;
+				case "TL":
+					energyConsumption = TL * timeOfUse;
+					break;
+				case "IC":
+					energyConsumption = IC * timeOfUse;
+					break;
+				case "DIC":
+					energyConsumption = DIC * timeOfUse;
+					break;
+				default:
+					energyConsumption = other * timeOfUse;
+					break;
+			}
+
+			for (int i = 0; i < lampsWithLessConsumption.length; i++) {
+				if (lampsWithLessConsumption[i] == energyConsumption) {
+					break;
+				}
+				if (energyConsumption < lampsWithLessConsumption[i]) {
+					lampsWithLessConsumption[i] = energyConsumption;
+					break;
+				}
+			}
+			for (int i = 0; i < lampsWithWorstConsumption.length; i++) {
+				if (lampsWithWorstConsumption[i] == energyConsumption) {
+					break;
+				}
+				if (energyConsumption > lampsWithWorstConsumption[i]) {
+					lampsWithWorstConsumption[i] = energyConsumption;
+					break;
+				}
+			}
+			globalEnergyConsumption += energyConsumption;
+		}
+
+		float meanGlobalEnergyConsumption = globalEnergyConsumption / lamps.size();
+
+		float lampswithLessConsumption = 0;
+		for (int i = 0; i < lampsWithLessConsumption.length; i++) {
+			lampswithLessConsumption += lampsWithLessConsumption[i];
+			System.out.println("Lamp with less consumption: " + lampsWithLessConsumption[i]);
+		}
+		lampswithLessConsumption = lampswithLessConsumption / lampsWithLessConsumption.length;
+
+		float lampswithWorstConsumption = 0;
+		for (int i = 0; i < lampsWithWorstConsumption.length; i++) {
+			lampswithWorstConsumption += lampsWithWorstConsumption[i];
+			System.out.println("Lamp with worst consumption: " + lampsWithWorstConsumption[i]);
+		}
+		float minimumGlobalEnergyConsumption = lampswithLessConsumption;
+		float maximumGlobalEnergyConsumption = lampswithWorstConsumption;
+
+		float consumptionScore = 100 - ((meanGlobalEnergyConsumption - maximumGlobalEnergyConsumption) / (minimumGlobalEnergyConsumption - maximumGlobalEnergyConsumption) * 100);
+
+		System.out.println("Global energy consumption: " + globalEnergyConsumption);
+		System.out.println("Mean global energy consumption: " + meanGlobalEnergyConsumption);
+		System.out.println("Minimum global energy consumption: " + minimumGlobalEnergyConsumption);
+		System.out.println("Maximum global energy consumption: " + maximumGlobalEnergyConsumption);
+		System.out.println("Consumption score: " + consumptionScore);
+
+		return consumptionScore;
 	}
 
 }

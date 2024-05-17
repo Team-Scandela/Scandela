@@ -105,4 +105,9 @@ public class LampController extends AbstractController<Lamp> {
 		return ((ILampService) service).getAllByCoordinates(coordinatePairs);
 	}
 
+	@GetMapping("/energy")
+	public float computeGlobalEnergyConsumption() {
+		return ((ILampService) service).computeGlobalEnergyConsumption();
+	}
+
 }
