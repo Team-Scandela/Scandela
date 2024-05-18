@@ -17,6 +17,7 @@ import {
     TotalTitleText,
     GaugesContainer,
     ValidateButton,
+    PDFButton,
 } from './elements';
 import { PersonnalizedGauge } from '../../Gauges';
 import { useTranslation } from 'react-i18next';
@@ -65,21 +66,23 @@ const ActionsList: React.FC<ActionsListProps> = ({
     };
 
     const handleValidateButtonClick = () => {
-        console.log('validate');
         console.log(optimisationTemplateData.length)
         for (let i = 0; i < optimisationTemplateData.length; i++) {
             if (optimisationTemplateData[i].selected) {
                 console.log('selected');
                 // console.log(optimisationTemplateData[i]);
                 updateValidateData(optimisationTemplateData[i]);
+                // enlever de la liste
+                optimisationTemplateData[i].saved = false;
             }
         }
-        console.log('validate end');
+        setOptimisationTemplateData(optimisationTemplateData);
+        handleToggleActionsListExpend();
     };
 
 
     const  updateValidateData = async ( dataDecision : any) => {
-        const timestamp = new Date().getTime();
+        const timestamp = new Date().toISOString();
 
         const encodedCredentials = btoa(
             `${process.env.REACT_APP_REQUEST_USER}:${process.env.REACT_APP_REQUEST_PASSWORD}`
@@ -199,8 +202,11 @@ const ActionsList: React.FC<ActionsListProps> = ({
                     />
                 </GaugesContainer>
                 <ValidateButton isDark={isDark} onClick={handleValidateButtonClick}>
-                    {t('valider')}
+                    {t('Valider')}
                 </ValidateButton>
+                <PDFButton isDark={isDark} onClick={handleValidateButtonClick}>
+                    {t('Export en PDF')}
+                </PDFButton>
             </ActionsListPanel>
         </ActionsListContainer>
     );

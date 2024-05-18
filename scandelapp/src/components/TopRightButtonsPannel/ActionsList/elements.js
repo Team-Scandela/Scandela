@@ -75,7 +75,7 @@ export const ScrollableOptimisationsContainer = styled.div`
     left: 1%;
     top: 2%;
     width: 400px;
-    height: 430px;
+    height: 380px;
     overflow-y: scroll;
     border-radius: 5px;
     background-color: ${(props) =>
@@ -237,19 +237,46 @@ export const GaugesContainer = styled.div`
         props.isDark ? Black + 'FF' : Black + 'FF'};
 `;
 
-export const ValidateButton = styled.button`
+export const ValidateButton = styled.div`
     display: flex;
     position: absolute;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
     width: 100px;
     height: 40px;
-    left: 20%;
-    top: 90%;
+    left: 10%;
+    top: 88.5%;
     user-select: none;
-    background-color: ${(props) => (props.isDark ? Yellow : Black)};
-    color: ${(props) => (props.isDark ? Black : White)};
+    background-color: ${(props) => (props.isDark ? Black : Black)};
+    color: ${(props) => (props.isDark ? Yellow : Yellow)};
     border-radius: 10px;
     font-weight: bold;
-    font-size: 18px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+        opacity: 0.7;
+    }
+`;
+
+export const PDFButton = styled.div`
+    display: flex;
+    position: absolute;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 40px;
+    left: 30%;
+    top: 88.5%;
+    user-select: none;
+    background-color: ${(props) => (props.isDark ? Black : Black)};
+    color: ${(props) => (props.isDark ? Yellow : Yellow)};
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 16px;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
 
