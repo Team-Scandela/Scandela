@@ -16,6 +16,7 @@ import {
     TotalContainer,
     TotalTitleText,
     GaugesContainer,
+    ValidateButton,
 } from './elements';
 import { PersonnalizedGauge } from '../../Gauges';
 import { useTranslation } from 'react-i18next';
@@ -62,6 +63,58 @@ const ActionsList: React.FC<ActionsListProps> = ({
 
         setOptimisationTemplateData(updatedItems);
     };
+
+    const handleValidateButtonClick = () => {
+        console.log('validate');
+        console.log(optimisationTemplateData.length)
+        for (let i = 0; i < optimisationTemplateData.length; i++) {
+            if (optimisationTemplateData[i].selected) {
+                console.log('selected');
+                // console.log(optimisationTemplateData[i]);
+                updateValidateData(optimisationTemplateData[i]);
+            }
+        }
+        console.log('validate end');
+    };
+
+
+    const  updateValidateData = async ( dataDecision : any) => {
+        const timestamp = new Date().getTime();
+
+        const encodedCredentials = btoa(
+            `${process.env.REACT_APP_REQUEST_USER}:${process.env.REACT_APP_REQUEST_PASSWORD}`
+        );
+        const headers = new Headers({
+            'Content-Type': 'application/json',
+            Authorization: `Basic ${encodedCredentials}`,
+        });
+
+        const urlRequest = process.env.REACT_APP_BACKEND_URL + 'decisions/' + dataDecision.uuid
+
+        try {
+            const response = await fetch(urlRequest, {
+                method: 'PUT',
+                headers: headers,
+                body: JSON.stringify({
+                    validate : timestamp,
+                    description : dataDecision.description,
+                    location : dataDecision.location,
+                    solution : dataDecision.solution,
+                }),
+            });
+
+            if (response.status === 200) {
+                console.log('MODIFICATION applied');
+            }
+
+            const data = response.json();
+            console.log(data);
+        } catch (error) {
+            console.error("Erreur", error);
+        }
+
+    }
+
 
     return (
         <ActionsListContainer>
@@ -145,6 +198,9 @@ const ActionsList: React.FC<ActionsListProps> = ({
                         left={85}
                     />
                 </GaugesContainer>
+                <ValidateButton isDark={isDark} onClick={handleValidateButtonClick}>
+                    {t('valider')}
+                </ValidateButton>
             </ActionsListPanel>
         </ActionsListContainer>
     );

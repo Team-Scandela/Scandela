@@ -236,3 +236,24 @@ export const GaugesContainer = styled.div`
     background-color: ${(props) =>
         props.isDark ? Black + 'FF' : Black + 'FF'};
 `;
+
+export const ValidateButton = styled.button`
+    display: flex;
+    position: absolute;
+    width: 100px;
+    height: 40px;
+    left: 20%;
+    top: 90%;
+    user-select: none;
+    background-color: ${(props) => (props.isDark ? Yellow : Black)};
+    color: ${(props) => (props.isDark ? Black : White)};
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+        opacity: 0.7;
+    }
+`;
