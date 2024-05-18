@@ -1,0 +1,9 @@
+{
+    "apps": [
+        {
+            "name": "api",
+            "script": "mvn spring-boot:run -Dspring-boot.run.arguments='--server.port=2001'",
+            "restart": true
+        }
+    ]
+}

@@ -242,19 +242,19 @@ public class UserServiceTest {
 		assertThat(result.getMessage()).isEqualTo(UserException.INCOMPLETE_INFORMATIONS);
 	}
 	
-	@Test
-	public void testCreate_whenRoleIsNull_thenThrowUserException() {
-		user.setRights(null);
-
-		when(userDaoMock.save(Mockito.any(User.class))).thenThrow(DataIntegrityViolationException.class);
-		when(townDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(town));
-		
-		UserException result = assertThrows(UserException.class, () -> testedObject.create(user));
-
-		verify(userDaoMock, times(1)).save(Mockito.any(User.class));
-		verify(townDaoMock, times(1)).findById(Mockito.any());
-		assertThat(result.getMessage()).isEqualTo(UserException.INCOMPLETE_INFORMATIONS);
-	}
+//	@Test
+//	public void testCreate_whenRoleIsNull_thenThrowUserException() {
+//		user.setRights(null);
+//
+//		when(userDaoMock.save(Mockito.any(User.class))).thenThrow(DataIntegrityViolationException.class);
+//		when(townDaoMock.findById(Mockito.any())).thenReturn(Optional.ofNullable(town));
+//		
+//		UserException result = assertThrows(UserException.class, () -> testedObject.create(user));
+//
+//		verify(userDaoMock, times(1)).save(Mockito.any(User.class));
+//		verify(townDaoMock, times(1)).findById(Mockito.any());
+//		assertThat(result.getMessage()).isEqualTo(UserException.INCOMPLETE_INFORMATIONS);
+//	}
 	
 	@Test
 	public void testCreate_whenTownNotFound_thenThrowUserException() throws UserException {

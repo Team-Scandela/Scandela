@@ -16,7 +16,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -44,7 +44,7 @@ public class User implements Serializable {
 	@Column(name = "uuid", updatable = false, nullable = false)
 	private UUID id;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "uuidtown", nullable = false)
 	private Town town;
 	
@@ -57,7 +57,7 @@ public class User implements Serializable {
 	@Column(name = "password", nullable = false)
 	private String password;
 	
-	@Column(name = "rights", nullable = false)
+	@Column(name = "rights", nullable = true)
 	private Integer rights;
 
 	@JdbcTypeCode(SqlTypes.JSON)

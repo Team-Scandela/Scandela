@@ -1,6 +1,7 @@
 package com.scandela.server.entity;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -52,8 +53,8 @@ public class Decision implements Serializable {
 	@Column(name = "solution", nullable = false)
 	private String solution;
 
-	@Column(name = "done")
-	private boolean done;
+	@Column(name = "validate")
+	private LocalDateTime validate;
 
 	@OneToOne(mappedBy = "decision", cascade = CascadeType.REMOVE)
 	private LampDecision lampDecision;

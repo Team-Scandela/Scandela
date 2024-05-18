@@ -9,10 +9,10 @@ export const FilterMenuButton = styled.div`
     width: 40px;
     height: 40px;
     border-radius: 10px;
-    cursor: pointer;
     transition: all 0.2s ease-in-out;
     overflow: hidden;
     font-size: 25px;
+    opacity: 0.9;
 
     background-color: ${(props) =>
         props.isDark ? Black + 'CC' : White + 'CC'};
@@ -22,6 +22,11 @@ export const FilterMenuButton = styled.div`
     position: fixed;
     bottom: 30px;
     left: 30px;
+
+    &:hover {
+        opacity: 1;
+        cursor: pointer;
+    }
 `;
 
 /** Conatainer of map filters */

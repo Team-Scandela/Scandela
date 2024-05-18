@@ -31,6 +31,7 @@ const AbsencePannel: React.FC<AbsencePannelProps> = ({ id, isDark }) => {
         <div>
             <AbsencePannelButtonContainer
                 isDark={isDark}
+                isOn={isAbsencePannelOpen}
                 onClick={handleToggleAbsencePannel}
             >
                 <GoInfo size={35} />
