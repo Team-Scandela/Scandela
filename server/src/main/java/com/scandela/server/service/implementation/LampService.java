@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.Random;
+import java.util.PriorityQueue;
+import java.util.Comparator;
 
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
@@ -286,64 +288,40 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
 		newLamp.setLampShade(lampShade.orElseGet(() -> { return null; }));
 	}
 
-	public float computeGlobalEnergyConsumption() {
+	private double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
+		return Math.sqrt(Math.pow(lat1 - lat2, 2) + Math.pow(lon1 - lon2, 2));
+	}
+	
+	class LampDistance {
+		Lamp lamp;
+		double distance;
+	
+		LampDistance(Lamp lamp, double distance) {
+			this.lamp = lamp;
+			this.distance = distance;
+		}
+	}
+
+	public double computeGlobalEnergyConsumption() {
 
 		List<Lamp> lamps = super.getAll();
 
-		Random rand = new Random();
+		double globalEnergyConsumption = 0;
+		int timeOfUse = 7;
 
-		int globalEnergyConsumption = 0;
-		int[] lampsWithLessConsumption = new int[3];
-		for (int i = 0; i < lampsWithLessConsumption.length; i++) {
-			lampsWithLessConsumption[i] = 100000;
-		}
-		int[] lampsWithWorstConsumption = new int[3];
-		for (int i = 0; i < lampsWithWorstConsumption.length; i++) {
-			lampsWithWorstConsumption[i] = 0;
-		}
+		int SHP = 50, IMC = 40, LED = 3, TF = 10, IM = 35, MBF = 50, FC = 22, SBP = 18, HAL = 10, TL = 8, IC = 40, DIC = 70;
 
-		int SHP = 50;
-		int IMC = 40;
-		int LED = 3;
-		int TF = 10;
-		int IM = 35;
-		int MBF = 50;
-		int FC = 22;
-		int SBP = 18;
-		int HAL = 10;
-		int TL = 8;
-		int IC = 40;
-		int DIC = 70;
-		int other = rand.nextInt(68) + 3;
+		PriorityQueue<Integer> leastConsumption = new PriorityQueue<>(Comparator.reverseOrder());
+		PriorityQueue<Integer> worstConsumption = new PriorityQueue<>();
+
+		int countValidLamps = 0;
 
 		for (Lamp lamp : lamps) {
-
-			int energyConsumption = 0;
-			int timeOfUse = 7;
-
-			if (lamp.getLampType() == null) {
-				energyConsumption = other * timeOfUse;
-				globalEnergyConsumption += energyConsumption;
-				for (int i = 0; i < lampsWithLessConsumption.length; i++) {
-					if (lampsWithLessConsumption[i] == energyConsumption) {
-						break;
-					}
-					if (energyConsumption < lampsWithLessConsumption[i]) {
-						lampsWithLessConsumption[i] = energyConsumption;
-						break;
-					}
-				}
-				for (int i = 0; i < lampsWithWorstConsumption.length; i++) {
-					if (lampsWithWorstConsumption[i] == energyConsumption) {
-						break;
-					}
-					if (energyConsumption > lampsWithWorstConsumption[i]) {
-						lampsWithWorstConsumption[i] = energyConsumption;
-						break;
-					}
-				}
+			if (lamp == null || lamp.getLampType() == null) {
 				continue;
 			}
+
+			int energyConsumption = 0;
 
 			switch (lamp.getLampType().toString()) {
 				case "SHP":
@@ -383,57 +361,172 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
 					energyConsumption = DIC * timeOfUse;
 					break;
 				default:
-					energyConsumption = other * timeOfUse;
-					break;
+					continue;
 			}
 
-			for (int i = 0; i < lampsWithLessConsumption.length; i++) {
-				if (lampsWithLessConsumption[i] == energyConsumption) {
-					break;
-				}
-				if (energyConsumption < lampsWithLessConsumption[i]) {
-					lampsWithLessConsumption[i] = energyConsumption;
-					break;
-				}
+			leastConsumption.offer(energyConsumption);
+			if (leastConsumption.size() > 3) {
+				leastConsumption.poll();
 			}
-			for (int i = 0; i < lampsWithWorstConsumption.length; i++) {
-				if (lampsWithWorstConsumption[i] == energyConsumption) {
-					break;
-				}
-				if (energyConsumption > lampsWithWorstConsumption[i]) {
-					lampsWithWorstConsumption[i] = energyConsumption;
-					break;
-				}
+
+			worstConsumption.offer(energyConsumption);
+			if (worstConsumption.size() > 3) {
+				worstConsumption.poll();
 			}
+
 			globalEnergyConsumption += energyConsumption;
+			countValidLamps++;
 		}
 
-		float meanGlobalEnergyConsumption = globalEnergyConsumption / lamps.size();
-
-		float lampswithLessConsumption = 0;
-		for (int i = 0; i < lampsWithLessConsumption.length; i++) {
-			lampswithLessConsumption += lampsWithLessConsumption[i];
-			System.out.println("Lamp with less consumption: " + lampsWithLessConsumption[i]);
+		if (countValidLamps == 0) {
+			return 0;
 		}
-		lampswithLessConsumption = lampswithLessConsumption / lampsWithLessConsumption.length;
 
-		float lampswithWorstConsumption = 0;
-		for (int i = 0; i < lampsWithWorstConsumption.length; i++) {
-			lampswithWorstConsumption += lampsWithWorstConsumption[i];
-			System.out.println("Lamp with worst consumption: " + lampsWithWorstConsumption[i]);
-		}
-		float minimumGlobalEnergyConsumption = lampswithLessConsumption;
-		float maximumGlobalEnergyConsumption = lampswithWorstConsumption;
+		double meanGlobalEnergyConsumption = globalEnergyConsumption / countValidLamps;
 
-		float consumptionScore = 100 - ((meanGlobalEnergyConsumption - maximumGlobalEnergyConsumption) / (minimumGlobalEnergyConsumption - maximumGlobalEnergyConsumption) * 100);
+		double minConsumption = leastConsumption.stream().mapToInt(Integer::intValue).average().orElse(0);
+		double maxConsumption = worstConsumption.stream().mapToInt(Integer::intValue).average().orElse(0);
+
+		double consumptionScore = 100 - ((meanGlobalEnergyConsumption - maxConsumption) / (minConsumption - maxConsumption) * 100);
 
 		System.out.println("Global energy consumption: " + globalEnergyConsumption);
 		System.out.println("Mean global energy consumption: " + meanGlobalEnergyConsumption);
-		System.out.println("Minimum global energy consumption: " + minimumGlobalEnergyConsumption);
-		System.out.println("Maximum global energy consumption: " + maximumGlobalEnergyConsumption);
+		System.out.println("Minimum global energy consumption: " + minConsumption);
+		System.out.println("Maximum global energy consumption: " + maxConsumption);
 		System.out.println("Consumption score: " + consumptionScore);
 
 		return consumptionScore;
 	}
+
+	public double computeGlobalDistanceVegetalZone() {
+
+		List<Lamp> lamps = super.getAll();
+	
+		double[][] vegetalZones = { 
+			{ 48.9126, 1.9931 }, 
+			{ 48.1231, 2.3422 }, 
+			{ 47.9226, 2.5312 }, 
+			{ 49.1491, 2.3521 } 
+		};
+		double totalScore = 0;
+	
+		for (double[] vegetalZone : vegetalZones) {
+			PriorityQueue<LampDistance> nearestLamps = new PriorityQueue<>(100, Comparator.comparingDouble(ld -> ld.distance));
+	
+			for (Lamp lamp : lamps) {
+				if (lamp == null || lamp.getLongitude() == null || lamp.getLatitude() == null) {
+					continue;
+				}
+	
+				double distance = calculateDistance(lamp.getLatitude(), lamp.getLongitude(), vegetalZone[0], vegetalZone[1]);
+	
+				if (nearestLamps.size() < 100) {
+					nearestLamps.add(new LampDistance(lamp, distance));
+				} else if (distance < nearestLamps.peek().distance) {
+					nearestLamps.poll();
+					nearestLamps.add(new LampDistance(lamp, distance));
+				}
+			}
+	
+			double sumDistances = 0;
+			for (LampDistance ld : nearestLamps) {
+				sumDistances += ld.distance;
+			}
+	
+			double meanDistance = sumDistances / nearestLamps.size();
+			double lightingScore = 100 - meanDistance; // Adjust this formula based on your scoring criteria
+			totalScore += lightingScore;
+	
+			System.out.println("Zone (" + vegetalZone[0] + ", " + vegetalZone[1] + ") - Mean Distance: " + meanDistance + ", Lighting Score: " + lightingScore);
+		}
+	
+		double averageScore = totalScore / vegetalZones.length;
+	
+		System.out.println("Average Vegetal Zone Lighting Score: " + averageScore);
+	
+		return averageScore;
+	}
+
+	// public int computeGlobalLightIndicator(List<Lamp> lamps) {
+
+	// for (Lamp lamp : lamps) {
+	// 	int intensity = 0;
+	// 	int timeOfUse = rand.nextInt(4) + 7; // 7 to 10 hours
+	// 	int bulbwithLessConsumption = 0;
+
+	// 	switch (lamp.getBulb().getType()) {
+	// 		case LED:
+	// 			intensity = LED * timeOfUse; // 7 to 10 hours
+	// 			break;
+	// 		case HALOGENE:
+	// 			intensity = halogene * timeOfUse; // 7 to 10 hours
+	// 			break;
+	// 		case SODIUM:
+	// 			intensity = sodium * timeOfUse; // 7 to 10 hours
+	// 			break;
+	// 		case NEON:
+	// 			intensity = neon * timeOfUse; // 7 to 10 hours
+	// 			break;
+	// 		case INCANDESCENT:
+	// 			intensity = incandescent * timeOfUse; // 7 to 10 hours
+	// 			break;
+	// 		default:
+	// 			break;
+	// 	}
+
+	// 	if (intensity < bulbwithLessConsumption) {
+	// 		bulbwithLessConsumption = intensity;
+	// 	}
+
+	// 	globalIntensity += intensity;
+
+	// meanGlobalComsuption = globalIntensity / lamps.size();
+
+	// for (Lamp lamp : lamps) {
+	// 	double distance = 0;
+	// 	for (Lamp otherLamp : lamps) {
+	// 		if (lamp.getId() != otherLamp.getId()) {
+	// 			distance = Math.sqrt(Math.pow(lamp.getLatitude() - otherLamp.getLatitude(), 2)
+	// 					+ Math.pow(lamp.getLongitude() - otherLamp.getLongitude(), 2));
+	// 		}
+	// 		globalDistance += distance;
+	// }
+	// meanGlobalDistance = globalDistance / lamps.size();
+
+
+	// for (Lamp lamp : lamps) {
+	// 	durabilityScore += lamp.getAge();
+	// meanDurabilityScore = durabilityScore / lamps.size();
+
+	// // adaptability score : 0 (nous ne pouvons pas encore le calculer)
+	// adaptableScore = 0;	
+
+	// lightIndicator = (meanGlobalComsuption + meanGlobalDistance + meanDurabilityScore + adaptableScore) / 4;
+
+	// }
+	// }
+
+	// @Override
+	// @Transactional(rollbackFor = { Exception.class })
+	// public int recalculateIndicator(List<Lamp> lamps, List<Lamp> lampsToUpdate, int indicator) {
+	// 	int indicatorScore = 0;
+
+	// 	switch (indicator) {
+	// 		case 1:
+	// 			indicatorScore = computeGlobalEnergyConsumption(lampsToUpdate);
+	// 			break;
+	// 		case 2:
+	// 			indicatorScore = computeGlobalDistanceVegetalZone(lampsToUpdate);
+	// 			break;
+	// 		case 3:
+	// 			indicatorScore = computeGlobalLightIndicator(lampsToUpdate);
+	// 			break;
+	// 		default:
+	// 			break;
+	// 	}
+
+	// 	return indicatorScore;
+	// }
+	// }
 
 }

@@ -12,5 +12,6 @@ public interface ILampService extends IService<Lamp> {
 	public List<Lamp> getAll(String name);
     public Lamp computeOptimisations(UUID id) throws LampException;
     public List<Lamp> getAllByCoordinates(List<Pair<Double, Double>> coordinates);
-    public float computeGlobalEnergyConsumption();
+    public double computeGlobalEnergyConsumption();
+    public double computeGlobalDistanceVegetalZone();
 }
