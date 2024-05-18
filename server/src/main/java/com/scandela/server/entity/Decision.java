@@ -53,7 +53,7 @@ public class Decision implements Serializable {
 	@Column(name = "solution", nullable = false)
 	private String solution;
 
-	@Column(name = "validate", nullable = false)
+	@Column(name = "validate")
 	private LocalDateTime validate;
 
 	@OneToOne(mappedBy = "decision", cascade = CascadeType.REMOVE)
