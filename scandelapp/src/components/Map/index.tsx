@@ -452,11 +452,15 @@ const Map: React.FC<MapProps> = ({
                         maxzoom: 23,
                         paint: {
                             'heatmap-weight': {
-                                property: 'dbh',
-                                type: 'exponential',
+                                property: 'hauteur_support', // j'utilise hauteur support pour le moment, quand il y aura possibilité d'avoir de vrai data sur la qualité ce sera mieux
+                                type: 'interval',
                                 stops: [
-                                    [1, 0],
-                                    [62, 1],
+                                    [1, 0.2],  // Léger pour une hauteur entre 1 et 2
+                                    [2, 0.2],
+                                    [3, 0.5],  // Moyen pour une hauteur entre 3 et 4
+                                    [4, 0.5],
+                                    [5, 0.8],  // Assez fort pour une hauteur entre 4 et 5
+                                    [6, 1],    // Très fort pour une hauteur supérieure à 5
                                 ],
                             },
                             'heatmap-intensity': {
@@ -481,9 +485,15 @@ const Map: React.FC<MapProps> = ({
                                 'rgb(234,1,3)',
                             ],
                             'heatmap-radius': {
+                                property: 'hauteur_support',
+                                type: 'interval',
                                 stops: [
-                                    [11, 15],
-                                    [15, 20],
+                                    [1, 10],  // Petite taille pour une hauteur entre 1 et 2
+                                    [2, 10],
+                                    [3, 15],  // Taille moyenne pour une hauteur entre 3 et 4
+                                    [4, 15],
+                                    [5, 20],  // Grande taille pour une hauteur entre 4 et 5
+                                    [6, 25],  // Très grande taille pour une hauteur supérieure à 5
                                 ],
                             },
                             'heatmap-opacity': {
@@ -508,7 +518,19 @@ const Map: React.FC<MapProps> = ({
                     },
                     paint: {
                         'circle-radius': 6,
-                        'circle-color': getRandomColor(),
+                        'circle-color': [
+                            'match',
+                            ['get', 'type_lampe'],
+                            'SHP', 'red',  // Rouge pour SHP
+                            'MBF', 'red',  // Rouge pour MBF
+                            'DIC', 'red',  // Rouge pour DIC
+                            'IMC', 'orange',  // Orange pour IMC
+                            'IC', 'orange',  // Orange pour IC
+                            'HAL', 'orange',  // Orange pour HAL
+                            'IM', 'orange',  // Orange pour IM
+                            'SBP', 'orange',  // Orange pour SBP
+                            'green'  // Vert par défaut
+                        ],
                         'circle-stroke-color': '#FFFFFF',
                         'circle-stroke-width': 2,
                     },
