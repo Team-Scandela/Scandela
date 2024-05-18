@@ -166,7 +166,7 @@ export const PopUpTitle = styled.div`
     font-size: 32px;
     color: ${(props) => (props.isDark ? Yellow : Black)};
     font-weight: 550;
-    user-select: none;
+    /* user-select: none; */
 `;
 
 /** Style of the pop-up text for the time */
@@ -177,7 +177,7 @@ export const PopUpTime = styled.div`
     font-size: 25px;
     color: ${(props) => (props.isDark ? Yellow : Black)};
     font-weight: 400;
-    user-select: none;
+    /* user-select: none; */
 `;
 
 export const PopUpDescriptionContainer = styled.div`
@@ -199,5 +199,5 @@ export const PopUpDescriptionText = styled.p`
     font-size: 25px;
     color: ${(props) => (props.isDark ? Yellow : Black)};
     font-weight: 400;
-    user-select: none;
+    /* user-select: none; */
 `;

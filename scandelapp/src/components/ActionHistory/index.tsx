@@ -24,60 +24,28 @@ interface ActionHistoryProps {
 const ActionHistory: React.FC<ActionHistoryProps> = ({ id, isDark }) => {
     const [dataReceived, setDataReceived] = useState(false);
 
-    const [actionHistoryData, setActionHistoryData] = useState([
-        {
-            title: "Changer l'ampoule \"SHP\" en ampoule \"LED\".",
-            time: '18/03 12:00',
-            description: "Ampoule LED moins consommatrice à à Rue de Solay",
-        },
-        {
-            title: "Éteindre le lampadaire EPNA156026",
-            time: '18/03 12:00',
-            description: "Lever du soleil à 08:42 à Rue Dos d'Ane",
-        },
-        {
-            title: "Allumer le lampadaire EPNA090113",
-            time: '18/03 12:00',
-            description: "Coucher du soleil à 17:56 à Rue Urbain Le Verrier",
-        },
-        {
-            title: "Changer l'ampoule \"IM\" en ampoule \"LED\".",
-            time: '18/03 12:00',
-            description: "Ampoule LED moins consommatrice à à Rue de Bignon",
-        },
-        {
-            title: "Éteindre le lampadaire EPSH192055",
-            time: '18/03 12:00',
-            description: "Lever du soleil à 08:42 à Rue Edith Piaf",
-        },
-        {
-            title: "Éteindre le lampadaire EPBR003001",
-            time: '18/03 12:00',
-            description: "Lever du soleil à 08:42 à CR 7",
-        },        {
-            title: "Changer l'ampoule \"SHP\" en ampoule \"LED\".",
-            time: '18/03 12:00',
-            description: "Ampoule LED moins consommatrice à à Rue de la Chaussée",
-        }
-    ]);
+    const [actionHistoryData, setActionHistoryData] = useState([]);
 
-    const getDecision = async () => {
-        const username = 'tester';
-        const password = 'T&st';
-        const response = await fetch(
-            'https://serverdela.onrender.com/decisions',
-            {
+    const getDecisions = async () => {
+        const username = process.env.REACT_APP_REQUEST_USER;
+        const password = process.env.REACT_APP_REQUEST_PASSWORD;
+        const urlRequest =
+            process.env.REACT_APP_BACKEND_URL + 'decisions?pageNumber=0';
+
+        try {
+            const response = await fetch(urlRequest, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Basic ${btoa(`${username}:${password}`)}`,
                 },
-            }
-        );
-        const decisions = await response.json();
-        console.log(decisions);
-        setDataReceived(true);
-        parseDecisions(decisions);
+            });
+            const data = await response.json();
+            setDataReceived(true);
+            parseDecisions(data);
+        } catch (error) {
+            console.log('ERROR GET DECISIONS = ' + error);
+        }
     };
 
     const parseDecisions = (decisions: any) => {
@@ -86,10 +54,10 @@ const ActionHistory: React.FC<ActionHistoryProps> = ({ id, isDark }) => {
         if (Array.isArray(decisions)) {
             console.log(decisions);
             decisions.forEach((decision: any) => {
-                if (decision.done === true) {
+                if (decision.validate !== null) {
                     const action = {
                         title: decision.solution,
-                        time: '18/03 12:00',
+                        time: arrayToISOString(decision.validate),
                         description: decision.description,
                     };
                     actionHistoryData.push(action);
@@ -100,8 +68,20 @@ const ActionHistory: React.FC<ActionHistoryProps> = ({ id, isDark }) => {
         }
     };
 
+    function arrayToISOString(array : number[]) : string {
+        const year = array[0];
+        const month = array[1] - 1;
+        const day = array[2];
+        const hours = array[3];
+        const minutes = array[4];
+
+        const date = new Date(Date.UTC(year, month, day, hours, minutes));
+
+        return date.toLocaleDateString('fr-FR') + ' ' + date.toLocaleTimeString('fr-FR');
+    }
+
     useEffect(() => {
-        if (!dataReceived) getDecision();
+        if (!dataReceived) getDecisions();
     }, []);
 
     const [actionHistoryExtended, setActionHistoryExtended] = useState(false);
