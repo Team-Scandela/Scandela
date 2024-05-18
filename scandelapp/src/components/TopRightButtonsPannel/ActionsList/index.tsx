@@ -79,7 +79,7 @@ const ActionsList: React.FC<ActionsListProps> = ({
 
 
     const  updateValidateData = async ( dataDecision : any) => {
-        const timestamp = new Date().getTime();
+        const timestamp = new Date().toISOString();
 
         const encodedCredentials = btoa(
             `${process.env.REACT_APP_REQUEST_USER}:${process.env.REACT_APP_REQUEST_PASSWORD}`
