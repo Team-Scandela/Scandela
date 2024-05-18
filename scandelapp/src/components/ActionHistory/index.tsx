@@ -68,7 +68,7 @@ const ActionHistory: React.FC<ActionHistoryProps> = ({ id, isDark }) => {
         }
     };
 
-    function arrayToISOString(array : number[]) : string {
+    function arrayToISOString(array: number[]): string {
         const year = array[0];
         const month = array[1] - 1;
         const day = array[2];
@@ -77,7 +77,11 @@ const ActionHistory: React.FC<ActionHistoryProps> = ({ id, isDark }) => {
 
         const date = new Date(Date.UTC(year, month, day, hours, minutes));
 
-        return date.toLocaleDateString('fr-FR') + ' ' + date.toLocaleTimeString('fr-FR');
+        return (
+            date.toLocaleDateString('fr-FR') +
+            ' ' +
+            date.toLocaleTimeString('fr-FR')
+        );
     }
 
     useEffect(() => {

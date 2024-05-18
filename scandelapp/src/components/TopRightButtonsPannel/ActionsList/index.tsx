@@ -66,13 +66,9 @@ const ActionsList: React.FC<ActionsListProps> = ({
     };
 
     const handleValidateButtonClick = () => {
-        console.log(optimisationTemplateData.length)
         for (let i = 0; i < optimisationTemplateData.length; i++) {
             if (optimisationTemplateData[i].selected) {
-                console.log('selected');
-                // console.log(optimisationTemplateData[i]);
                 updateValidateData(optimisationTemplateData[i]);
-                // enlever de la liste
                 optimisationTemplateData[i].saved = false;
             }
         }
@@ -80,8 +76,7 @@ const ActionsList: React.FC<ActionsListProps> = ({
         handleToggleActionsListExpend();
     };
 
-
-    const  updateValidateData = async ( dataDecision : any) => {
+    const updateValidateData = async (dataDecision: any) => {
         const timestamp = new Date().toISOString();
 
         const encodedCredentials = btoa(
@@ -92,17 +87,20 @@ const ActionsList: React.FC<ActionsListProps> = ({
             Authorization: `Basic ${encodedCredentials}`,
         });
 
-        const urlRequest = process.env.REACT_APP_BACKEND_URL + 'decisions/' + dataDecision.uuid
+        const urlRequest =
+            process.env.REACT_APP_BACKEND_URL +
+            'decisions/' +
+            dataDecision.uuid;
 
         try {
             const response = await fetch(urlRequest, {
                 method: 'PUT',
                 headers: headers,
                 body: JSON.stringify({
-                    validate : timestamp,
-                    description : dataDecision.description,
-                    location : dataDecision.location,
-                    solution : dataDecision.solution,
+                    validate: timestamp,
+                    description: dataDecision.description,
+                    location: dataDecision.location,
+                    solution: dataDecision.solution,
                 }),
             });
 
@@ -111,13 +109,10 @@ const ActionsList: React.FC<ActionsListProps> = ({
             }
 
             const data = response.json();
-            console.log(data);
         } catch (error) {
-            console.error("Erreur", error);
+            console.error('Erreur', error);
         }
-
-    }
-
+    };
 
     return (
         <ActionsListContainer>
@@ -201,7 +196,10 @@ const ActionsList: React.FC<ActionsListProps> = ({
                         left={85}
                     />
                 </GaugesContainer>
-                <ValidateButton isDark={isDark} onClick={handleValidateButtonClick}>
+                <ValidateButton
+                    isDark={isDark}
+                    onClick={handleValidateButtonClick}
+                >
                     {t('Valider')}
                 </ValidateButton>
                 <PDFButton isDark={isDark} onClick={handleValidateButtonClick}>
