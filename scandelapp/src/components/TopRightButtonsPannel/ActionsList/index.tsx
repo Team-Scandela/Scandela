@@ -17,6 +17,7 @@ import {
     TotalTitleText,
     GaugesContainer,
     ValidateButton,
+    PDFButton,
 } from './elements';
 import { PersonnalizedGauge } from '../../Gauges';
 import { useTranslation } from 'react-i18next';
@@ -199,8 +200,11 @@ const ActionsList: React.FC<ActionsListProps> = ({
                     />
                 </GaugesContainer>
                 <ValidateButton isDark={isDark} onClick={handleValidateButtonClick}>
-                    {t('valider')}
+                    {t('Valider')}
                 </ValidateButton>
+                <PDFButton isDark={isDark} onClick={handleValidateButtonClick}>
+                    {t('Export en PDF')}
+                </PDFButton>
             </ActionsListPanel>
         </ActionsListContainer>
     );
