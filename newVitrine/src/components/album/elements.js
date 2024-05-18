@@ -22,7 +22,7 @@ export const AlbumLine = styled.div`
     border-radius: 10px;
     height: 500px;
     text-align: center;
-    gap	: 50px;
+    gap: 50px;
 `;
 
 export const AlbumBox = styled.div`

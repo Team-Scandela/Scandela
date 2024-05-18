@@ -1,4 +1,4 @@
-import styled  from 'styled-components';
+import styled from 'styled-components';
 import { White } from '../../colors';
 
 export const CardsContainer = styled.div`
@@ -8,5 +8,5 @@ export const CardsContainer = styled.div`
     padding: 50px;
     border-radius: 10px;
     background-color: ${White};
-    gap : 50px;
+    gap: 50px;
 `;

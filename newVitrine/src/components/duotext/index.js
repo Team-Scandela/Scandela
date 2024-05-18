@@ -1,4 +1,4 @@
-import { DuoTextContainer, DuoTextText, DuoTextTitle } from "./elements";
+import { DuoTextContainer, DuoTextText, DuoTextTitle } from './elements';
 
 const Duotext = ({ title, text }) => {
     return (
@@ -7,6 +7,6 @@ const Duotext = ({ title, text }) => {
             <DuoTextText>{text}</DuoTextText>
         </DuoTextContainer>
     );
-}
+};
 
 export default Duotext;

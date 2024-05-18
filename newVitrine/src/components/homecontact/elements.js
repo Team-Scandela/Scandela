@@ -21,7 +21,7 @@ export const HomeContactCard = styled.div`
     padding: 50px;
     border-radius: 10px;
     background-color: ${Black};
-    width : 50%;
+    width: 50%;
     height: 200px;
 `;
 
@@ -50,9 +50,9 @@ export const HomeContactButton = styled.button`
     display: flex;
     justify-content: center;
     flex-direction: column;
-    gap : 10px;
+    gap: 10px;
     background-color: ${Yellow};
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 
     &:hover {
         background-color: ${Grey};
