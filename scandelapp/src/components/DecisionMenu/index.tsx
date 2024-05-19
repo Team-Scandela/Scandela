@@ -176,11 +176,11 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
                 </DecisionMenuButton>
                 <DecisionPanel isDark={isDark} show={decisionPanelExtended}>
                     <ScandelaText isDark={isDark}> Scandela </ScandelaText>
-                    <ButtonEditInPdf
+                    {/* <ButtonEditInPdf
                         isDark={isDark}
                         handleClick={handleButtonEditInPdfClick}
                         isClicked={isButtonEditInPdfClicked}
-                    />
+                    /> */}
                     <ButtonSelectAll
                         isDark={isDark}
                         handleButtonSelectAllClick={handleButtonSelectAllClick}
