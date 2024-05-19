@@ -6,18 +6,13 @@ import { Yellow } from '../../colors';
 import LampInfosPopup from '../LampInfosPopup';
 import Lasso from '../Lasso';
 import { LassoOverlay } from './elements';
-import loadMap from './loadMap';
+//import loadMap from './loadMap';
 //import TimePicker from '../TimePicker';
 import React from 'react';
 
 // Load geographical data of Nantes from a local JSON file
 let nantesData = require('../../assets/nantesData.json');
-
-function getRandomColor() {
-    const colors = ['#00FF00', '#FFA500', '#FF0000'];
-    const randomIndex = Math.floor(Math.random() * colors.length);
-    return colors[randomIndex];
-}
+let nantesArmoires = require('../../assets/armoires_electriques_nantes.json');
 
 // Set Mapbox access token
 Object.getOwnPropertyDescriptor(mapboxgl, 'accessToken').set(
@@ -92,21 +87,24 @@ const Map: React.FC<MapProps> = ({
         };
     }
 
-    const handleLassoActivation = (isActive: boolean) => {
-        if (!isActive && lassoSelectedLamps[0]) {
-            if (map.current) {
-                map.current.setPaintProperty('lamp', 'circle-color', [
-                    'match',
-                    ['get', 'name'],
-                    lassoSelectedLamps,
-                    '#FAC710',
-                    '#FAC710',
-                ]);
-            }
-        }
-        setLassoSelectedLamps([]);
-        setIsLassoActive(isActive);
-    };
+    interface GeoJSON {
+        type: string;
+        features: Feature[];
+    }
+
+    interface Feature {
+        type: string;
+        geometry: {
+            type: string;
+            coordinates: number[];
+        };
+        properties: {
+            id: string;
+            numero_armoire: string;
+            consommation_globale: number;
+            num_lampadaires: string[];
+        };
+    }
 
     // Crée les données géoJSON à partir des données de Nantes
     const geojsonData = useMemo(() => {
@@ -135,6 +133,50 @@ const Map: React.FC<MapProps> = ({
         });
         return geoJSON;
     }, []);
+
+    const geoData = useMemo(() => {
+        let jsonArmoire = {
+            type: 'FeatureCollection',
+            features: [] as any[],
+        };
+        nantesArmoires.forEach((obj: any) => {
+            const feature: Feature = {
+                type: 'Feature',
+                geometry: {
+                    type: obj.geometry.type,
+                    coordinates: [
+                        obj.geometry.coordinates[0],
+                        obj.geometry.coordinates[1],
+                    ],
+                },
+                properties: {
+                    id: obj.recordid,
+                    numero_armoire: obj.fields.numero_armoire,
+                    consommation_globale: obj.fields.consommation_globale,
+                    num_lampadaires: obj.fields.num_lampadaires,
+                },
+            };
+            jsonArmoire.features.push(feature);
+        });
+
+        return jsonArmoire;
+    }, [nantesArmoires]);
+
+    const handleLassoActivation = (isActive: boolean) => {
+        if (!isActive && lassoSelectedLamps[0]) {
+            if (map.current) {
+                map.current.setPaintProperty('lamp', 'circle-color', [
+                    'match',
+                    ['get', 'name'],
+                    lassoSelectedLamps,
+                    '#FAC710',
+                    '#FAC710',
+                ]);
+            }
+        }
+        setLassoSelectedLamps([]);
+        setIsLassoActive(isActive);
+    };
 
     const closeLastFilter = () => {
         switch (lastFilterActivated) {
@@ -346,6 +388,22 @@ const Map: React.FC<MapProps> = ({
                     clusterMaxZoom: 16,
                 });
 
+                if (!map.current?.getSource('points-unclustered')) {
+                    // à utiliser pour les filtres qui n'ont pas besoin de cluster
+                    map.current.addSource('points-unclustered', {
+                        type: 'geojson',
+                        data: data as GeoJSON.FeatureCollection,
+                    });
+                }
+
+                if (!map.current?.getSource('armoires')) {
+                    // pour les amoires elec uniquement
+                    map.current.addSource('armoires', {
+                        type: 'geojson',
+                        //data: data as jsonArmoire.FeatureCollection, chargement de ce jeu de données
+                    });
+                }
+
                 // Définit les couleurs en format RGBA avec une opacité de 0.6
                 const greenRGBA = 'rgba(0, 128, 0, 0.6)';
                 const yellowRGBA = 'rgba(255, 255, 0, 0.6)';
@@ -445,22 +503,22 @@ const Map: React.FC<MapProps> = ({
                     {
                         id: 'zone',
                         type: 'heatmap',
-                        source: 'points',
+                        source: 'points-unclustered',
                         layout: {
                             visibility: 'none',
                         },
                         maxzoom: 23,
                         paint: {
                             'heatmap-weight': {
-                                property: 'hauteur_support', // j'utilise hauteur support pour le moment, quand il y aura possibilité d'avoir de vrai data sur la qualité ce sera mieux
+                                property: 'hauteur_support',
                                 type: 'interval',
                                 stops: [
-                                    [1, 0.2],  // Léger pour une hauteur entre 1 et 2
+                                    [1, 0.2], // Léger pour une hauteur entre 1 et 2
                                     [2, 0.2],
-                                    [3, 0.5],  // Moyen pour une hauteur entre 3 et 4
+                                    [3, 0.5], // Moyen pour une hauteur entre 3 et 4
                                     [4, 0.5],
-                                    [5, 0.8],  // Assez fort pour une hauteur entre 4 et 5
-                                    [6, 1],    // Très fort pour une hauteur supérieure à 5
+                                    [5, 0.8], // Assez fort pour une hauteur entre 4 et 5
+                                    [6, 1], // Très fort pour une hauteur supérieure à 5
                                 ],
                             },
                             'heatmap-intensity': {
@@ -488,12 +546,12 @@ const Map: React.FC<MapProps> = ({
                                 property: 'hauteur_support',
                                 type: 'interval',
                                 stops: [
-                                    [1, 10],  // Petite taille pour une hauteur entre 1 et 2
+                                    [1, 10], // Petite taille pour une hauteur entre 1 et 2
                                     [2, 10],
-                                    [3, 15],  // Taille moyenne pour une hauteur entre 3 et 4
+                                    [3, 15], // Taille moyenne pour une hauteur entre 3 et 4
                                     [4, 15],
-                                    [5, 20],  // Grande taille pour une hauteur entre 4 et 5
-                                    [6, 25],  // Très grande taille pour une hauteur supérieure à 5
+                                    [5, 20], // Grande taille pour une hauteur entre 4 et 5
+                                    [6, 25], // Très grande taille pour une hauteur supérieure à 5
                                 ],
                             },
                             'heatmap-opacity': {
@@ -512,25 +570,41 @@ const Map: React.FC<MapProps> = ({
                 map.current.addLayer({
                     id: 'pinColor',
                     type: 'circle',
-                    source: 'points',
+                    source: 'points-unclustered',
                     layout: {
                         visibility: 'none',
                     },
                     paint: {
-                        'circle-radius': 6,
                         'circle-color': [
                             'match',
-                            ['get', 'type_lampe'],
-                            'SHP', 'red',  // Rouge pour SHP
-                            'MBF', 'red',  // Rouge pour MBF
-                            'DIC', 'red',  // Rouge pour DIC
-                            'IMC', 'orange',  // Orange pour IMC
-                            'IC', 'orange',  // Orange pour IC
-                            'HAL', 'orange',  // Orange pour HAL
-                            'IM', 'orange',  // Orange pour IM
-                            'SBP', 'orange',  // Orange pour SBP
-                            'green'  // Vert par défaut
+                            ['get', 'type_lampe'], // Correction ici
+                            'SHP',
+                            '#FF0000', // Rouge pour SHP
+                            'MBF',
+                            '#FFA500', // Orange pour MBF
+                            'DIC',
+                            '#FFA500', // Vert pour DIC
+                            'IMC',
+                            '#FF0000', // Rouge pour IMC
+                            'IC',
+                            '#FFA500', // Orange pour IC
+                            'HAL',
+                            '#FFA500', // Vert pour HAL
+                            'IM',
+                            '#FF0000', // Rouge pour IM
+                            'SBP',
+                            '#FFA500', // Orange pour SBP
+                            'LED',
+                            '#00FF00', // Vert pour LED
+                            'TL',
+                            '#00FF00', // Vert pour TL
+                            'TF',
+                            '#00FF00', // Vert pour TF
+                            'FC',
+                            '#00FF00', // Vert pour FC
+                            '#808080', // Gris pour toutes les autres valeurs de type_lampe
                         ],
+                        'circle-opacity': 0.7,
                         'circle-stroke-color': '#FFFFFF',
                         'circle-stroke-width': 2,
                     },
@@ -540,7 +614,7 @@ const Map: React.FC<MapProps> = ({
                 map.current.addLayer({
                     id: 'filter',
                     type: 'circle',
-                    source: 'points',
+                    source: 'points-unclustered',
                     layout: {
                         visibility: 'none',
                     },
