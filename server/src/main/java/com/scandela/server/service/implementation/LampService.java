@@ -1,17 +1,24 @@
 package com.scandela.server.service.implementation;
 
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
-import java.util.Random;
 import java.util.PriorityQueue;
-import java.util.Comparator;
+import java.util.UUID;
+import java.util.Collections;
 
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
+import com.opencsv.CSVReaderBuilder;
+import com.opencsv.CSVParserBuilder;
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvValidationException;
 import com.scandela.server.dao.BulbDao;
 import com.scandela.server.dao.CabinetDao;
 import com.scandela.server.dao.LampDao;
@@ -398,54 +405,127 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
 		return consumptionScore;
 	}
 
-	public double computeGlobalDistanceVegetalZone() {
 
+	public class VegetalZonesExtractor {
+		public static double[][] getVegetalZonesFromCSV(String filePath) throws IOException, CsvValidationException {
+			List<double[]> vegetalZones = new ArrayList<>();
+
+			try (CSVReader reader = new CSVReaderBuilder(new FileReader(filePath))
+					.withCSVParser(new CSVParserBuilder().withSeparator(';').build())
+					.build()) {
+				String[] nextLine;
+				int lineNumber = 0;
+
+				while ((nextLine = reader.readNext()) != null) {
+					lineNumber++;
+					if (lineNumber == 1) {
+						// Skip the header
+						continue;
+					}
+
+					// Check if the line has the correct number of columns
+					if (nextLine.length < 12) {
+						System.err.println("Skipping invalid line " + lineNumber + " (not enough columns): " + String.join(";", nextLine));
+						continue;
+					}
+
+					String geoColumn = nextLine[11];
+					if (geoColumn == null || geoColumn.isEmpty()) {
+						System.err.println("Skipping invalid line " + lineNumber + " (geolocation column is empty): " + String.join(";", nextLine));
+						continue;
+					}
+
+					String[] geolocation = geoColumn.split(",");
+					if (geolocation.length == 2) {
+						try {
+							double latitude = Double.parseDouble(geolocation[0].trim());
+							double longitude = Double.parseDouble(geolocation[1].trim());
+							vegetalZones.add(new double[]{latitude, longitude});
+							System.out.println("Read vegetal zone: " + latitude + ", " + longitude);
+						} catch (NumberFormatException e) {
+							System.err.println("Invalid number format at line " + lineNumber + ": " + geoColumn);
+						}
+					} else {
+						System.err.println("Invalid geolocation format at line " + lineNumber + ": " + geoColumn);
+					}
+				}
+			}
+
+			return vegetalZones.toArray(new double[0][]);
+		}
+	}
+
+	public static double haversineDistance(double lat1, double lon1, double lat2, double lon2) {
+		// Rayon de la Terre en mètres
+		final int R = 6371000; 
+
+		// Conversion des latitudes et longitudes en radians
+		double latDistance = Math.toRadians(lat2 - lat1);
+		double lonDistance = Math.toRadians(lon2 - lon1);
+		double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
+				+ Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
+				* Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
+		double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+		double distance = R * c; // Distance en mètres
+	
+		return distance;
+	}
+
+	public double computeGlobalDistanceVegetalZone() throws IOException, CsvValidationException {
+		double[][] vegetalZones = VegetalZonesExtractor.getVegetalZonesFromCSV("collectionVegetale.csv");
 		List<Lamp> lamps = super.getAll();
-	
-		double[][] vegetalZones = { 
-			{ 48.9126, 1.9931 }, 
-			{ 48.1231, 2.3422 }, 
-			{ 47.9226, 2.5312 }, 
-			{ 49.1491, 2.3521 } 
-		};
-		double totalScore = 0;
-	
+
+		double totalDistance = 0;
+		int validZonesCount = 0;
+		int count = 0;
+
 		for (double[] vegetalZone : vegetalZones) {
-			PriorityQueue<LampDistance> nearestLamps = new PriorityQueue<>(100, Comparator.comparingDouble(ld -> ld.distance));
-	
+
+			PriorityQueue<Double> nearestDistances = new PriorityQueue<>(Collections.reverseOrder());
+
+			System.out.println(count);
+			count++;	
 			for (Lamp lamp : lamps) {
 				if (lamp == null || lamp.getLongitude() == null || lamp.getLatitude() == null) {
 					continue;
 				}
-	
-				double distance = calculateDistance(lamp.getLatitude(), lamp.getLongitude(), vegetalZone[0], vegetalZone[1]);
-	
-				if (nearestLamps.size() < 100) {
-					nearestLamps.add(new LampDistance(lamp, distance));
-				} else if (distance < nearestLamps.peek().distance) {
-					nearestLamps.poll();
-					nearestLamps.add(new LampDistance(lamp, distance));
+
+				double distance = haversineDistance(lamp.getLatitude(), lamp.getLongitude(), vegetalZone[0], vegetalZone[1]);
+				
+				if (nearestDistances.size() < 50) {
+					nearestDistances.add(distance);
+				} else if (distance < nearestDistances.peek()) {
+					nearestDistances.poll();
+					nearestDistances.add(distance);
 				}
 			}
-	
-			double sumDistances = 0;
-			for (LampDistance ld : nearestLamps) {
-				sumDistances += ld.distance;
+
+			if (!nearestDistances.isEmpty()) {
+				double sumDistances = 0;
+				for (double dist : nearestDistances) {
+					sumDistances += dist;
+				}
+				double averageDistance = sumDistances / nearestDistances.size();
+				totalDistance += averageDistance;
+				validZonesCount++;
+			} else {
 			}
-	
-			double meanDistance = sumDistances / nearestLamps.size();
-			double lightingScore = 100 - meanDistance; // Adjust this formula based on your scoring criteria
-			totalScore += lightingScore;
-	
-			System.out.println("Zone (" + vegetalZone[0] + ", " + vegetalZone[1] + ") - Mean Distance: " + meanDistance + ", Lighting Score: " + lightingScore);
 		}
-	
-		double averageScore = totalScore / vegetalZones.length;
-	
-		System.out.println("Average Vegetal Zone Lighting Score: " + averageScore);
-	
-		return averageScore;
+
+		double meanGlobalDistanceVegetalZone = validZonesCount > 0 ? totalDistance / validZonesCount : 0;
+
+		System.out.println("Total valid zones: " + validZonesCount);
+		System.out.println("Total distance: " + totalDistance);
+		System.out.println("mean GlobalDistanceVegetalZone: " + meanGlobalDistanceVegetalZone);
+
+		double distanceMin = 30;
+		double distanceMax = 300;
+
+		double score = 100 - (((meanGlobalDistanceVegetalZone - distanceMin) / (distanceMax - distanceMin)) * 100);
+
+		return score;
 	}
+
 
 	// public int computeGlobalLightIndicator(List<Lamp> lamps) {
 

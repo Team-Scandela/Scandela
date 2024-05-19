@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import java.io.IOException;
+import com.opencsv.exceptions.CsvValidationException;
+
 import org.springframework.data.util.Pair;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -111,7 +114,7 @@ public class LampController extends AbstractController<Lamp> {
 	}
 
 	@GetMapping("/vegetalScore")
-	public double computeGlobalDistanceVegetalZone() {
+	public double computeGlobalDistanceVegetalZone() throws IOException, CsvValidationException {
 		return ((ILampService) service).computeGlobalDistanceVegetalZone();
 	}
 
