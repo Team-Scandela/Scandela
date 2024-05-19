@@ -1,0 +1,3 @@
+# Compilation
+
+npm run package
