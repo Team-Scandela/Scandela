@@ -16,7 +16,7 @@ import {
     GhostButton,
 } from './elements';
 import { useNavigate } from 'react-router-dom';
-import { setUserId } from '../../utils/userUtils';
+import { setUserId, getUser, putUser } from '../../utils/userUtils';
 import { optimisationTemplateDataBackup } from './backup_decisions';
 
 interface LoginModuleProps {
@@ -40,6 +40,21 @@ const LoginModule: React.FC<LoginModuleProps> = ({
     const [passwordSignIn, setPasswordSignIn] = useState('');
     const navigate = useNavigate();
 
+    const updateUser = async () => {
+        const user = await getUser();
+        const updatedUserData = {
+            town: user.town,
+            email: user.email,
+            username: user.username,
+            password: user.password,
+            rights: user.rights,
+            moreInformations: user.moreInformations,
+            darkmode: !user.darkmode,
+            lastConnexion: new Date().toISOString(),
+        };
+        putUser(updatedUserData);
+    };
+
     const initUserSetup = async (data: any) => {
         localStorage.setItem('isDark', JSON.stringify(data.darkmode));
         if (data.rights === 2) {
@@ -62,6 +77,7 @@ const LoginModule: React.FC<LoginModuleProps> = ({
     const handleValidLogin = (data: any) => {
         setUserId(data.id);
         initUserSetup(data);
+        updateUser();
         navigate('/landingpage');
     };
 
