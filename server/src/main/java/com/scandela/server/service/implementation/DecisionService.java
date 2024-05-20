@@ -299,17 +299,17 @@ public class DecisionService extends AbstractService<Decision> implements IDecis
 		for (Lamp lamp : lamps) {
 			if (lamp.getHeight() != null) {
 				List<Lamp> results = lampDao.findByLatitudeBetweenAndLongitudeBetween(
-						addMetersToLatitude(lamp.getLatitude(), -lamp.getHeight() * 3),
-						addMetersToLatitude(lamp.getLatitude(), lamp.getHeight() * 3),
-						addMetersToLongitude(lamp.getLongitude(), lamp.getLatitude(), -lamp.getHeight() * 3),
-						addMetersToLongitude(lamp.getLongitude(), lamp.getLatitude(), lamp.getHeight() * 3));
+						addMetersToLatitude(lamp.getLatitude(), -lamp.getHeight() * 2.5),
+						addMetersToLatitude(lamp.getLatitude(), lamp.getHeight() * 2.5),
+						addMetersToLongitude(lamp.getLongitude(), lamp.getLatitude(), -lamp.getHeight() * 2.5),
+						addMetersToLongitude(lamp.getLongitude(), lamp.getLatitude(), lamp.getHeight() * 2.5));
 				
 				if (!results.isEmpty() && (lamp.getLampDecisions() == null ||
 					lamp.getLampDecisions().stream().map(LampDecision::getDecision).filter(decision -> decision.getType().getTitle().contains(decisionType.get().getTitle())).count() == 0)) {
 					Decision decision = Decision.builder()
 							.type(decisionType.get())
 							.location(lamp.getAddress())
-							.description("Le lampdaire est entouré par " + results.size() + " dans un rayon de " + lamp.getHeight() * 3 + "m.")
+							.description("Le lampdaire est entouré par " + results.size() + " lampadaire(s) dans un rayon de " + lamp.getHeight() * 2.5 + "m.")
 							.solution("Réduire l'intensité du lampadaire de " + (results.size() > 4 ? 20 : 5 * results.size()) + "% afin d'économiser de l'énergie.")
 							.build();
 					LampDecision lampDecision = LampDecision.builder()
@@ -350,18 +350,18 @@ public class DecisionService extends AbstractService<Decision> implements IDecis
 		for (Lamp lamp : lamps) {
 			if (lamp.getHeight() != null) {
 				List<Lamp> results = lampDao.findByLatitudeBetweenAndLongitudeBetween(
-						addMetersToLatitude(lamp.getLatitude(), -lamp.getHeight() * 2.5),
-						addMetersToLatitude(lamp.getLatitude(), lamp.getHeight() * 2.5),
-						addMetersToLongitude(lamp.getLongitude(), lamp.getLatitude(), -lamp.getHeight() * 2.5),
-						addMetersToLongitude(lamp.getLongitude(), lamp.getLatitude(), lamp.getHeight() * 2.5));
+						addMetersToLatitude(lamp.getLatitude(), -lamp.getHeight() * 3),
+						addMetersToLatitude(lamp.getLatitude(), lamp.getHeight() * 3),
+						addMetersToLongitude(lamp.getLongitude(), lamp.getLatitude(), -lamp.getHeight() * 3),
+						addMetersToLongitude(lamp.getLongitude(), lamp.getLatitude(), lamp.getHeight() * 3));
 				
 				if (results.size() < 4 && (lamp.getLampDecisions() == null ||
 					lamp.getLampDecisions().stream().map(LampDecision::getDecision).filter(decision -> decision.getType().getTitle().contains(decisionType.get().getTitle())).count() == 0)) {
 					Decision decision = Decision.builder()
 							.type(decisionType.get())
 							.location(lamp.getAddress())
-							.description("Le lampdaire est entouré par " + results.size() + " dans un rayon de " + lamp.getHeight() * 2.5 + "m.")
-							.solution("Réduire l'intensité du lampadaire de " + (20 - (5 * (4 - results.size()))) + "% afin d'économiser de l'énergie.")
+							.description("Le lampdaire est entouré par " + results.size() + " dans un rayon de " + lamp.getHeight() * 3 + "m.")
+							.solution("Augmenter l'intensité du lampadaire de " + (5 * (4 - results.size())) + "% afin d'assurer la sécurité.")
 							.build();
 					LampDecision lampDecision = LampDecision.builder()
 							.decision(decision)
