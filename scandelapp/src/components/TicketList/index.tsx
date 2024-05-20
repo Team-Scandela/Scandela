@@ -122,7 +122,8 @@ const TicketList: React.FC<TicketListProps> = ({ data }) => {
 
     const updateStatusInDB = async (ticketId: number, status: number) => {
         // try {
-        //     const response = await fetch('https://api.scandela.fr/tickets/update', {
+        // const urlRequest = process.env.REACT_APP_BACKEND_URL + 'tickets/update';
+        //     const response = await fetch(urlRequest, {
         //         method: 'PUT',
         //         headers: {
         //             'Content-Type': 'application/json',

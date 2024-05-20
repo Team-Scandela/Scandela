@@ -48,11 +48,12 @@ const ModifyLamp: React.FC<ModifyLampProps> = ({ isDark }) => {
 
     const { t } = useTranslation();
 
-    const username = 'tester';
-    const password = 'T&st';
+    const username = process.env.REACT_APP_REQUEST_USER;
+    const password = process.env.REACT_APP_REQUEST_PASSWORD;
 
     const modifyLamp = async () => {
-        const urlmodification = 'https://api.scandela.fr/lamps/' + name;
+        const urlmodification =
+            process.env.REACT_APP_BACKEND_URL + 'lamps/' + name;
         try {
             const response = await fetch(urlmodification, {
                 method: 'PUT',
@@ -92,11 +93,7 @@ const ModifyLamp: React.FC<ModifyLampProps> = ({ isDark }) => {
     };
 
     const getLamp = async () => {
-        // const username = process.env.SPRING_USER;
-        // const password = process.env.SPRING_PASSWORD;
-
-        const urlLamp = 'https://api.scandela.fr/lamps/' + name;
-        console.log(urlLamp);
+        const urlLamp = process.env.REACT_APP_BACKEND_URL + 'lamps/' + name;
 
         try {
             const response = await fetch(urlLamp, {

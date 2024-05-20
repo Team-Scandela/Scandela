@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { Black, Yellow, White } from "../../colors";
+import styled from 'styled-components';
+import { Black, Yellow, White } from '../../colors';
 
 export const BackToTopButton = styled.button`
     display: fixed;

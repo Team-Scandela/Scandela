@@ -25,29 +25,29 @@ const Download: React.FC<DownloadProps> = ({ isDark }) => {
     const addToDB = async (data: Lamp[]) => {
         for (const lamp of data) {
             try {
-                const username = 'tester';
-                const password = 'T&st';
-                const response = await fetch(
-                    'https://api.scandela.fr/lamps/create',
-                    {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            Authorization: `Basic ${btoa(
-                                `${username}:${password}`
-                            )}`,
-                        },
-                        body: JSON.stringify({
-                            name: lamp.name,
-                            address: lamp.address,
-                            lat: lamp.lat,
-                            long: lamp.long,
-                            height: lamp.height,
-                            lamptype: lamp.lamptype,
-                            foyertype: lamp.foyertype,
-                        }),
-                    }
-                );
+                const username = process.env.REACT_APP_REQUEST_USER;
+                const password = process.env.REACT_APP_REQUEST_PASSWORD;
+                const urlRequest =
+                    process.env.REACT_APP_BACKEND_URL + 'lamps/create';
+
+                const response = await fetch(urlRequest, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Basic ${btoa(
+                            `${username}:${password}`
+                        )}`,
+                    },
+                    body: JSON.stringify({
+                        name: lamp.name,
+                        address: lamp.address,
+                        lat: lamp.lat,
+                        long: lamp.long,
+                        height: lamp.height,
+                        lamptype: lamp.lamptype,
+                        foyertype: lamp.foyertype,
+                    }),
+                });
                 const responsebody = await response.text();
                 console.log(responsebody);
                 console.log(response);

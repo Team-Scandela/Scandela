@@ -1,4 +1,4 @@
-import {HomeHeadContainer, HomeHeadTitle, HomeHeadSubtitle} from './elements';
+import { HomeHeadContainer, HomeHeadTitle, HomeHeadSubtitle } from './elements';
 
 const HomeHead = () => {
     return (
