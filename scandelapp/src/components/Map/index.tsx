@@ -1006,9 +1006,13 @@ const Map: React.FC<MapProps> = ({
                     `coordinate=${point.lat.toFixed(5)},${point.lng.toFixed(5)}`
             )
             .join('&');
-        const url = `https://api.scandela.fr/lamps/coordinates?${queryString}`;
+        const url =
+            process.env.REACT_APP_BACKEND_URL +
+            `lamps/coordinates?${queryString}`;
 
-        const encodedCredentials = btoa('tester:T&st');
+        const encodedCredentials = btoa(
+            `${process.env.REACT_APP_REQUEST_USER}:${process.env.REACT_APP_REQUEST_PASSWORD}`
+        );
 
         const headers = new Headers({
             Authorization: `Basic ${encodedCredentials}`,
@@ -1211,7 +1215,7 @@ const Map: React.FC<MapProps> = ({
     // Render the map component
     return (
         <div id={id} style={{ overflow: 'hidden' }}>
-            {localStorage.getItem('token') === "true" && (
+            {localStorage.getItem('token') === 'true' && (
                 <Lasso
                     id={'LassoComponentId'}
                     isDark={isDark}

@@ -1,0 +1,21 @@
+{
+  "name": "executable",
+  "version": "1.0.0",
+  "main": "Main.js",
+  "icon": "logo-256x256.ico",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron .",
+    "package": "electron-packager . Scandela --overwrite --icon=./logo-256x256.ico"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "electron": "^30.0.1"
+  },
+  "dependencies": {
+    "electron-packager": "^17.1.2"
+  }
+}

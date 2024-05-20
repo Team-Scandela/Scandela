@@ -18,7 +18,7 @@ export const RectColumn = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: ${props => props.altBckg ? Grey : White};
+    background-color: ${(props) => (props.altBckg ? Grey : White)};
     transition: 0.3s;
     height: 400px;
     text-align: center;
@@ -26,7 +26,7 @@ export const RectColumn = styled.div`
 `;
 
 export const RectPic = styled.img`
-    width: ${props => props.size};
+    width: ${(props) => props.size};
     border-radius: 10px;
 `;
 
@@ -38,5 +38,5 @@ export const RectTitle = styled.h3`
 export const RectText = styled.p`
     font-size: 20px;
     padding-top: 20px;
-    color: ${props => props.altBckg ? DarkerGrey : DarkGrey};
+    color: ${(props) => (props.altBckg ? DarkerGrey : DarkGrey)};
 `;

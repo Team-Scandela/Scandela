@@ -13,7 +13,7 @@ export const ContactButtonContainer = styled.div`
     left: 0;
     right: 0;
     z-index: 100;
-    padding-bottom : 30px;
+    padding-bottom: 30px;
 `;
 
 export const ContactButtonMain = styled.button`
@@ -29,9 +29,9 @@ export const ContactButtonMain = styled.button`
     display: flex;
     justify-content: center;
     flex-direction: column;
-    gap : 10px;
+    gap: 10px;
     background-color: ${White};
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 
     &:hover {
         background-color: ${Grey};

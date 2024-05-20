@@ -29,26 +29,23 @@ const AddBulb: React.FC<AddBulbProps> = ({ isDark }) => {
     const { t } = useTranslation();
 
     const createBulb = async () => {
-        // const username = process.env.SPRING_USER;
-        // const password = process.env.SPRING_PASSWORD;
-        const username = 'tester';
-        const password = 'T&st';
+        const username = process.env.REACT_APP_REQUEST_USER;
+        const password = process.env.REACT_APP_REQUEST_PASSWORD;
+        const urlRequest = process.env.REACT_APP_BACKEND_URL + 'bulbs/create';
+
         try {
-            const response = await fetch(
-                'https://api.scandela.fr/bulbs/create',
-                {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Basic ${btoa(`${username}:${password}`)}`,
-                    },
-                    body: JSON.stringify({
-                        intensity: parseInt(intensity, 10),
-                        consommation: parseInt(consommation, 10),
-                        reference: reference,
-                    }),
-                }
-            );
+            const response = await fetch(urlRequest, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Basic ${btoa(`${username}:${password}`)}`,
+                },
+                body: JSON.stringify({
+                    intensity: parseInt(intensity, 10),
+                    consommation: parseInt(consommation, 10),
+                    reference: reference,
+                }),
+            });
             console.log('code de response = ' + response.status);
             if (response.status === 200) {
                 setIsRequestOk(true);

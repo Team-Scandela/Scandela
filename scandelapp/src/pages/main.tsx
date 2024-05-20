@@ -13,6 +13,7 @@ import AbsencePannel from '../components/AbsencePannel';
 // import MapDB from '../components/MapDB';
 import FilterSearch from '../components/FilterSearch';
 import TrafficTime from '../components/TrafficTime';
+import ActionHistory from '../components/ActionHistory';
 
 export enum Filters {
     pin = 'pin',
@@ -66,8 +67,21 @@ const Main: React.FC<MainProps> = ({
         ['languageUpdate', false],
     ]);
 
-    const handleSearch = (value: string) => {
-        handleSearchUtils(value, lat, setLat, lng, setLng, zoom, setZoom);
+    const handleSearch = (
+        value: string,
+        valueLng: number,
+        valueLat: number
+    ) => {
+        console.log('value =' + value);
+        if (value === 'ZOOM ON LAMP') zoomOnLampByCoord(valueLat, valueLng);
+        else handleSearchUtils(value, lat, setLat, lng, setLng, zoom, setZoom);
+    };
+
+    const zoomOnLampByCoord = (valueLat: number, valueLng: number) => {
+        console.log('ZOOM on coord = ' + valueLat + ' / ' + valueLng);
+        setLat(valueLat);
+        setLng(valueLng);
+        setZoom(13);
     };
 
     const handleButtonEditInPdfClick = () => {
@@ -183,6 +197,7 @@ const Main: React.FC<MainProps> = ({
                         isDark={isDark}
                         toastHistoryData={toastHistoryData}
                     />
+                    <ActionHistory id={'actionHistoryId'} isDark={isDark} />
                     <DecisionMenu
                         id={'decisionMenuComponentId'}
                         isDark={isDark}

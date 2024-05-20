@@ -31,16 +31,12 @@ const ModifyBulb: React.FC<ModifyBulbProps> = ({ isDark }) => {
 
     const { t } = useTranslation();
 
-    const username = 'tester';
-    const password = 'T&st';
+    const username = process.env.REACT_APP_REQUEST_USER;
+    const password = process.env.REACT_APP_REQUEST_PASSWORD;
+
     const modifyBulb = async () => {
-        // const username = process.env.SPRING_USER;
-        // const password = process.env.SPRING_PASSWORD;
-
         const urlmodification =
-            'https://api.scandela.fr/bulbs/' + reference;
-
-        console.log('URL DE MODIFICATION = ' + urlmodification);
+            process.env.REACT_APP_BACKEND_URL + 'bulbs/' + reference;
         try {
             const response = await fetch(urlmodification, {
                 method: 'PUT',
@@ -69,10 +65,8 @@ const ModifyBulb: React.FC<ModifyBulbProps> = ({ isDark }) => {
     };
 
     const getBulb = async () => {
-        // const username = process.env.SPRING_USER;
-        // const password = process.env.SPRING_PASSWORD;
-
-        const urlBulb = 'https://api.scandela.fr/bulbs/' + reference;
+        const urlBulb =
+            process.env.REACT_APP_BACKEND_URL + 'bulbs/' + reference;
 
         console.log(urlBulb);
 

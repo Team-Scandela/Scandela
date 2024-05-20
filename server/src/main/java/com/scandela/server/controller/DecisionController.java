@@ -1,5 +1,6 @@
 package com.scandela.server.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -50,6 +51,11 @@ public class DecisionController extends AbstractController<Decision> {
 	public Decision getDecision(@PathVariable UUID id) {
 		return super.get(id);
 	}
+
+	@GetMapping("/{id}/validate")
+    public LocalDateTime getValidateField(@PathVariable UUID id) {
+        return super.get(id).getValidate();
+    }
 
 	/**
 	 * Create new decision

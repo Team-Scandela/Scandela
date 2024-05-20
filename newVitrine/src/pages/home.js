@@ -29,7 +29,6 @@ const Home = () => {
                 altBckg={true}
             />
             <HomeContact />
-
         </Page>
     );
 };

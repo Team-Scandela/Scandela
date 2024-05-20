@@ -6,19 +6,19 @@ export const setUserId = (newId: any) => {
 };
 
 export const getUser = async () => {
-    const username = 'tester';
-    const password = 'T&st';
+    const username = process.env.REACT_APP_REQUEST_USER;
+    const password = process.env.REACT_APP_REQUEST_PASSWORD;
+
     try {
-        const responseUser = await fetch(
-            `https://api.scandela.fr/users/${userId}`,
-            {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Basic ${btoa(`${username}:${password}`)}`,
-                },
-            }
-        );
+        const urlRequest =
+            process.env.REACT_APP_BACKEND_URL + `users/${userId}`;
+        const responseUser = await fetch(urlRequest, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Basic ${btoa(`${username}:${password}`)}`,
+            },
+        });
 
         const user = await responseUser.json();
         return user;
@@ -28,20 +28,19 @@ export const getUser = async () => {
 };
 
 export const putUser = async (updatedUserData: any) => {
-    const username = 'tester';
-    const password = 'T&st';
+    const username = process.env.REACT_APP_REQUEST_USER;
+    const password = process.env.REACT_APP_REQUEST_PASSWORD;
     try {
-        const response = await fetch(
-            `https://api.scandela.fr/users/${userId}`,
-            {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Basic ${btoa(`${username}:${password}`)}`,
-                },
-                body: JSON.stringify(updatedUserData),
-            }
-        );
+        const urlRequest =
+            process.env.REACT_APP_BACKEND_URL + `users/${userId}`;
+        const response = await fetch(urlRequest, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Basic ${btoa(`${username}:${password}`)}`,
+            },
+            body: JSON.stringify(updatedUserData),
+        });
     } catch (error) {
         console.log('ERROR UPDATE USER = ' + error);
     }
