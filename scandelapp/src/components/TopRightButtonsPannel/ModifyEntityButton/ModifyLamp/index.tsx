@@ -51,17 +51,12 @@ const ModifyLamp: React.FC<ModifyLampProps> = ({ isDark }) => {
 
     const username = process.env.REACT_APP_REQUEST_USER;
     const password = process.env.REACT_APP_REQUEST_PASSWORD;
-
+    const toNbrLat = parseFloat(latitude);
+    const toNbrLong = parseFloat(longitude);
+    const toNbrHeight = parseFloat(height);
     const modifyLamp = async () => {
         const urlmodification =
             process.env.REACT_APP_BACKEND_URL + 'lamps/' + id;
-        console.log('name = ' + name);
-        console.log('address = ' + address);
-        console.log('latitude = ' + parseFloat(latitude));
-        console.log('longitude = ' + parseFloat(longitude));
-        console.log('height = ' + parseInt(height, 10));
-        console.log('foyertype = ' + foyertype);
-        console.log('lamptype = ' + lamptype);
         try {
             const response = await fetch(urlmodification, {
                 method: 'PUT',
@@ -72,11 +67,11 @@ const ModifyLamp: React.FC<ModifyLampProps> = ({ isDark }) => {
                 body: JSON.stringify({
                     name: name,
                     address: address,
-                    lat: parseFloat(latitude),
-                    long: parseFloat(longitude),
-                    height: parseInt(height, 10),
-                    lamptype: lamptype,
-                    foyertype: foyertype,
+                    latitude: toNbrLat,
+                    longitude: toNbrLong,
+                    height: toNbrHeight,
+                    lampType: lamptype,
+                    foyerType: foyertype,
                 }),
             });
             const responsebody = await response.text();

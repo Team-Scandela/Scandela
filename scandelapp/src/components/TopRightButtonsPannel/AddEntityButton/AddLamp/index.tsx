@@ -18,21 +18,6 @@ interface AddLampProps {
     isDark: boolean;
 }
 
-interface Bulb {
-    name: string;
-    intensity: number;
-}
-
-interface Lamp {
-    name: string;
-    address: string;
-    lat: number;
-    long: number;
-    height: number;
-    lamptype: string;
-    foyertype: string;
-}
-
 const AddLamp: React.FC<AddLampProps> = ({ isDark }) => {
     const [name, setName] = useState('');
     const [address, setAddress] = useState('');
@@ -48,6 +33,9 @@ const AddLamp: React.FC<AddLampProps> = ({ isDark }) => {
         try {
             const username = process.env.REACT_APP_REQUEST_USER;
             const password = process.env.REACT_APP_REQUEST_PASSWORD;
+            const toNbrLat = parseFloat(latitude);
+            const toNbrLong = parseFloat(longitude);
+            const toNbrHeight = parseFloat(height);
             const urlRequest =
                 process.env.REACT_APP_BACKEND_URL + 'lamps/create';
 
@@ -60,11 +48,11 @@ const AddLamp: React.FC<AddLampProps> = ({ isDark }) => {
                 body: JSON.stringify({
                     name: name,
                     address: address,
-                    lat: latitude,
-                    long: longitude,
-                    height: height,
-                    lamptype: lamptype,
-                    foyertype: foyertype,
+                    latitude: toNbrLat,
+                    longitude: toNbrLong,
+                    height: toNbrHeight,
+                    lampType: lamptype,
+                    foyerType: foyertype,
                 }),
             });
             const responsebody = await response.text();
