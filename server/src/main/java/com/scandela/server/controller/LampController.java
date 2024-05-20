@@ -40,8 +40,8 @@ public class LampController extends AbstractController<Lamp> {
 	 * @return allLamps
 	 */
 	@GetMapping
-	public List<LampDto> getLamps(@RequestParam(name = "name", defaultValue = "") String name) {
-		List<Lamp> lamps = ((ILampService) service).getAll(name);
+	public List<LampDto> getLamps() {
+		List<Lamp> lamps = ((ILampService) service).getAll();
 		
 		return lamps.stream().map(lamp -> LampDto.from(lamp)).collect(Collectors.toList());
 	}
@@ -56,6 +56,19 @@ public class LampController extends AbstractController<Lamp> {
 	public Lamp getLamp(@PathVariable UUID id) throws Exception {
 		return super.get(id);
 //        return ((ILampService) service).computeOptimisations(id);//Il me semble que c'est pour les tests
+	}
+
+	/**
+	 * Get lamp by id
+	 * 
+	 * @param id
+	 * @return lamp
+	 */
+	@GetMapping("/name/{name}")
+	public Lamp getLamp(@PathVariable String name) throws Exception {
+		List<Lamp> lamps = ((ILampService) service).getAll(name);
+		
+		return lamps.isEmpty() ? null : lamps.get(0);
 	}
 
 	/**
