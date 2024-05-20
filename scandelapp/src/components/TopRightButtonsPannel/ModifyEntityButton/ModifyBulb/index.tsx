@@ -25,7 +25,7 @@ const ModifyBulb: React.FC<ModifyBulbProps> = ({ isDark }) => {
     const [reference, setReference] = useState('');
     const [intensity, setIntensity] = useState('');
     const [consommation, setConsommation] = useState('');
-
+    const [id, setId] = useState('');
     const [isRequestOk, setIsRequestOk] = useState(true);
     const [isReferenceOk, setIsReferenceOk] = useState(false);
 
@@ -36,7 +36,7 @@ const ModifyBulb: React.FC<ModifyBulbProps> = ({ isDark }) => {
 
     const modifyBulb = async () => {
         const urlmodification =
-            process.env.REACT_APP_BACKEND_URL + 'bulbs/' + reference;
+            process.env.REACT_APP_BACKEND_URL + 'bulbs/' + id;
         try {
             const response = await fetch(urlmodification, {
                 method: 'PUT',
@@ -66,10 +66,7 @@ const ModifyBulb: React.FC<ModifyBulbProps> = ({ isDark }) => {
 
     const getBulb = async () => {
         const urlBulb =
-            process.env.REACT_APP_BACKEND_URL + 'bulbs/' + reference;
-
-        console.log(urlBulb);
-
+            process.env.REACT_APP_BACKEND_URL + 'bulbs?name=' + reference;
         try {
             const response = await fetch(urlBulb, {
                 method: 'GET',
@@ -81,18 +78,20 @@ const ModifyBulb: React.FC<ModifyBulbProps> = ({ isDark }) => {
 
             console.log('code de response = ' + response.status);
             const bulbData = await response.json();
-
+            console.log(bulbData[0]);
             if (response.status === 200) {
+                setConsommation(bulbData[0].consommation);
+                setIntensity(bulbData[0].intensity);
+                setId(bulbData[0].id);
                 setIsRequestOk(true);
                 setIsReferenceOk(true);
-                setConsommation(bulbData.consommation);
-                setIntensity(bulbData.intensity);
+                
             } else {
                 setIsRequestOk(false);
                 setIsReferenceOk(false);
             }
         } catch (error) {
-            console.log('ERROR CREATE BULB = ' + error);
+            console.log('ERROR GET BULB = ' + error);
             setIsRequestOk(false);
             setIsReferenceOk(false);
         }

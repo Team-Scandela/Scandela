@@ -80,7 +80,7 @@ const Main: React.FC<MainProps> = ({
         console.log('ZOOM on coord = ' + valueLat + ' / ' + valueLng);
         setLat(valueLat);
         setLng(valueLng);
-        setZoom(13);
+        setZoom(18);
     };
 
     const handleButtonEditInPdfClick = () => {

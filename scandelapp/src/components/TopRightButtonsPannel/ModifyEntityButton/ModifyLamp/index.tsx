@@ -35,6 +35,7 @@ interface Lamp {
 }
 
 const ModifyLamp: React.FC<ModifyLampProps> = ({ isDark }) => {
+    const [id, setId] = useState('');
     const [name, setName] = useState('');
     const [address, setAddress] = useState('');
     const [latitude, setLatitude] = useState('');
@@ -53,7 +54,7 @@ const ModifyLamp: React.FC<ModifyLampProps> = ({ isDark }) => {
 
     const modifyLamp = async () => {
         const urlmodification =
-            process.env.REACT_APP_BACKEND_URL + 'lamps/' + name;
+            process.env.REACT_APP_BACKEND_URL + 'lamps/' + id;
         try {
             const response = await fetch(urlmodification, {
                 method: 'PUT',
@@ -93,7 +94,7 @@ const ModifyLamp: React.FC<ModifyLampProps> = ({ isDark }) => {
     };
 
     const getLamp = async () => {
-        const urlLamp = process.env.REACT_APP_BACKEND_URL + 'lamps/' + name;
+        const urlLamp = process.env.REACT_APP_BACKEND_URL + 'lamps?name=' + name;
 
         try {
             const response = await fetch(urlLamp, {
@@ -106,17 +107,19 @@ const ModifyLamp: React.FC<ModifyLampProps> = ({ isDark }) => {
 
             console.log('code de response = ' + response.status);
             const lampData = await response.json();
-
+            console.log(lampData[0]);
             if (response.status === 200) {
                 console.log('SUCCES TO GET LAMP, status = ', response.status);
+                setId(lampData[0].id);
+                setAddress(lampData[0].address);
+                setLatitude(lampData[0].latitude);
+                setLongitude(lampData[0].longitude);
+                setHeight(lampData[0].height);
+                setLamptype(lampData[0].lamptype);
+                setFoyertype(lampData[0].foyertype);
                 setIsRequestOk(true);
                 setIsNameOk(true);
-                setAddress(lampData.address);
-                setLatitude(lampData.latitude);
-                setLongitude(lampData.longitude);
-                setHeight(lampData.height);
-                setLamptype(lampData.lamptype);
-                setFoyertype(lampData.foyertype);
+
             } else {
                 setIsRequestOk(false);
                 setIsNameOk(false);
