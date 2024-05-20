@@ -4,6 +4,7 @@ import com.scandela.server.entity.PriceLimit;
 import com.scandela.server.entity.Town;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.CrossOrigin;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.scandela.server.service.IPriceLimitService;
 
@@ -34,14 +38,48 @@ public class PriceLimitController extends AbstractController<PriceLimit> {
 		return super.getAll();
 	}
 
-	@GetMapping("/{id}")
-	public PriceLimit getPriceLimit(@PathVariable UUID id) {
-		return super.get(id);
+	@GetMapping("/{userId}")
+	public PriceLimit getPriceLimit(@PathVariable String userId) {
+		Optional<PriceLimit> priceLimitOptional = findPriceLimitByUserId(userId);
+
+		if (priceLimitOptional.isPresent()) {
+			return priceLimitOptional.get();
+		} else {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "PriceLimit not found for user ID: " + userId);
+		}
 	}
+
+	// @PostMapping("/create")
+	// public PriceLimit createPriceLimit(@RequestBody PriceLimit newPriceLimit) throws Exception {
+	// 	// if (getPriceLimit(newPriceLimit.getUserId()))
+	// 	return super.create(newPriceLimit);
+	// }
 
 	@PostMapping("/create")
 	public PriceLimit createPriceLimit(@RequestBody PriceLimit newPriceLimit) throws Exception {
-		return super.create(newPriceLimit);
+		String userId = newPriceLimit.getUserId();
+
+		Optional<PriceLimit> existingPriceLimitOptional = findPriceLimitByUserId(userId);
+
+		if (existingPriceLimitOptional.isPresent()) {
+			// System.out.println("d");
+			// // Option 1: Update the existing PriceLimit
+			// PriceLimit existingPriceLimit = existingPriceLimitOptional.get();
+			// existingPriceLimit.setUserId(userId);
+			// existingPriceLimit.setValue((newPriceLimit.getValue()));
+			// existingPriceLimit.setLimitside(newPriceLimit.getLimitside());
+			// existingPriceLimit.setTriggeredstate(false);
+
+			// System.out.println("e -> updated UserId " + existingPriceLimit.getUserId());
+
+			// return super.update(existingPriceLimit.getId(), existingPriceLimit);
+
+			// Option 2: Return an error response
+			throw new ResponseStatusException(HttpStatus.CONFLICT, "A PriceLimit already exists for user ID: " + userId);
+		} else {
+			// No PriceLimit exists for the user, create a new one
+			return super.create(newPriceLimit);
+		}
 	}
 
 	@PutMapping("/{id}")
@@ -52,5 +90,12 @@ public class PriceLimitController extends AbstractController<PriceLimit> {
 	@DeleteMapping("/delete/{id}")
 	public void deletePriceLimit(@PathVariable UUID id) {
 		super.delete(id);
+	}
+
+	private Optional<PriceLimit> findPriceLimitByUserId(String userId) {
+		List<PriceLimit> priceLimits = super.getAll();
+		return priceLimits.stream()
+				.filter(priceLimit -> priceLimit.getUserId().equals(userId))
+				.findFirst();
 	}
 }
