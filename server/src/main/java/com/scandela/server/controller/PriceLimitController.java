@@ -57,7 +57,7 @@ public class PriceLimitController extends AbstractController<PriceLimit> {
 
 	@PostMapping("/create")
 	public PriceLimit createPriceLimit(@RequestBody PriceLimit newPriceLimit) throws Exception {
-		String userId = newPriceLimit.getUserId();
+		String userId = newPriceLimit.getUserid();
 
 		Optional<PriceLimit> existingPriceLimitOptional = findPriceLimitByUserId(userId);
 
@@ -95,7 +95,7 @@ public class PriceLimitController extends AbstractController<PriceLimit> {
 	private Optional<PriceLimit> findPriceLimitByUserId(String userId) {
 		List<PriceLimit> priceLimits = super.getAll();
 		return priceLimits.stream()
-				.filter(priceLimit -> priceLimit.getUserId().equals(userId))
+				.filter(priceLimit -> priceLimit.getUserid().equals(userId))
 				.findFirst();
 	}
 }
