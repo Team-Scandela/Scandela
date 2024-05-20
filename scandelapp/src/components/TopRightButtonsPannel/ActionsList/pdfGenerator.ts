@@ -20,7 +20,11 @@ import base64code from './templateB64';
 // const date = '20/04/2021';
 // const place = 'Paris';
 
-export async function generatePDFDocument( data : any[], author : string, place : string) {
+export async function generatePDFDocument(
+    data: any[],
+    author: string,
+    place: string
+) {
     var doc = new jsPDF();
 
     const base64Str = base64code;

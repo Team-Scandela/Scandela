@@ -42,6 +42,7 @@ const LoginModule: React.FC<LoginModuleProps> = ({
 
     const updateUser = async () => {
         const user = await getUser();
+        localStorage.setItem('previousLastConnexion', user.lastConnexion);
         const updatedUserData = {
             town: user.town,
             email: user.email,
@@ -49,7 +50,7 @@ const LoginModule: React.FC<LoginModuleProps> = ({
             password: user.password,
             rights: user.rights,
             moreInformations: user.moreInformations,
-            darkmode: !user.darkmode,
+            darkmode: user.darkmode,
             lastConnexion: new Date().toISOString(),
         };
         putUser(updatedUserData);
