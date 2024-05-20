@@ -52,7 +52,6 @@ const ActionHistory: React.FC<ActionHistoryProps> = ({ id, isDark }) => {
         const actionHistoryData: any = [];
         if (decisions === null) return;
         if (Array.isArray(decisions)) {
-            console.log(decisions);
             decisions.forEach((decision: any) => {
                 if (decision.validate !== null) {
                     const action = {

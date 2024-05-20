@@ -21,6 +21,7 @@ import {
 } from './elements';
 import { PersonnalizedGauge } from '../../Gauges';
 import { useTranslation } from 'react-i18next';
+import { generatePDFDocument } from './pdfGenerator';
 
 /** Menu of the decision pannel
  * @param {boolean} isDark - If the map is in dark mode or not
@@ -72,6 +73,21 @@ const ActionsList: React.FC<ActionsListProps> = ({
                 optimisationTemplateData[i].saved = false;
             }
         }
+        setOptimisationTemplateData(optimisationTemplateData);
+        handleToggleActionsListExpend();
+    };
+
+    const handlePDFButtonClick = () => {
+        const validateData = optimisationTemplateData.filter(
+            (item: any) => item.selected
+        );
+        for (let i = 0; i < optimisationTemplateData.length; i++) {
+            if (optimisationTemplateData[i].selected) {
+                updateValidateData(optimisationTemplateData[i]);
+                optimisationTemplateData[i].saved = false;
+            }
+        }
+        generatePDFDocument(validateData, 'author', 'place');
         setOptimisationTemplateData(optimisationTemplateData);
         handleToggleActionsListExpend();
     };
@@ -202,8 +218,8 @@ const ActionsList: React.FC<ActionsListProps> = ({
                 >
                     {t('Valider')}
                 </ValidateButton>
-                <PDFButton isDark={isDark} onClick={handleValidateButtonClick}>
-                    {t('Export en PDF')}
+                <PDFButton isDark={isDark} onClick={handlePDFButtonClick}>
+                    {t('PDF')}
                 </PDFButton>
             </ActionsListPanel>
         </ActionsListContainer>
