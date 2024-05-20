@@ -160,6 +160,17 @@ export const SolutionText = styled.p`
     overflow-wrap: break-word;
 `;
 
+/** Style of the optimisation type text */
+export const CoûtText = styled.p`
+    position: absolute;
+    top: 30px;
+    left: 10px;
+    font-size: 18px;
+    user-select: none;
+    color: ${(props) => (props.isDark ? Black : Black)};
+    font-weight: 500;
+`;
+
 /**  Trash Icon**/
 export const TrashIcon = styled(BsFillTrash3Fill)`
     display: flex;

@@ -10,6 +10,7 @@ import {
     DescriptionText,
     SolutionTextContainer,
     SolutionText,
+    CoûtText,
     TrashIcon,
     GoToIcon,
     TimeIcon,
@@ -93,6 +94,7 @@ const ActionsList: React.FC<ActionsListProps> = ({
                                         {item.solution}
                                     </SolutionText>
                                 </SolutionTextContainer>
+                                <CoûtText isDark={isDark}>{item.coût}</CoûtText>
                                 <TrashIcon
                                     isDark={isDark}
                                     size={30}

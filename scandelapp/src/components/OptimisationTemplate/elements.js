@@ -105,3 +105,14 @@ export const SolutionText = styled.p`
     padding: 8px;
     overflow-wrap: break-word;
 `;
+
+// Création de l'élément coûtText
+export const CoûtText = styled.p`
+    position: absolute;
+    font-size: 12px;
+    user-select: none;
+    color: ${(props) => (props.isDark ? Yellow : Black)};
+    font-weight: bold;
+    top: 60px;
+    right: 50px;
+`;
