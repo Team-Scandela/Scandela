@@ -101,9 +101,24 @@ public class DecisionController extends AbstractController<Decision> {
 	public List<Decision> algoReductionConsoHoraire() throws Exception {
 		return ((IDecisionService) service).algoReductionConsoHoraire();
 	}
+
+	@PostMapping("/algoAjouterLampadaire")
+	public List<Decision> algoAjouterLampadaire() throws Exception {
+		return ((IDecisionService) service).algoAjouterLampadaire();
+	}
 	
-	@PostMapping("algoRetirerLampadaire")
+	@PostMapping("/algoRetirerLampadaire")
 	public List<Decision> algoRetirerLampadaire() throws Exception {
 		return ((IDecisionService) service).algoRetirerLampadaire();
+	}
+	
+	@PostMapping("/algoReduireIntensiteLampadaire")
+	public List<Decision> algoReduireIntensiteLampadaire() throws Exception {
+		return ((IDecisionService) service).algoReduireIntensiteLampadaire();
+	}
+	
+	@PostMapping("/algoAugmenterIntensiteLampadaire")
+	public List<Decision> algoAugmenterIntensiteLampadaire() throws Exception {
+		return ((IDecisionService) service).algoAugmenterIntensiteLampadaire();
 	}
 }
