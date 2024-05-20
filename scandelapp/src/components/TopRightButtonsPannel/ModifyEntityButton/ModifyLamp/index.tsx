@@ -55,6 +55,13 @@ const ModifyLamp: React.FC<ModifyLampProps> = ({ isDark }) => {
     const modifyLamp = async () => {
         const urlmodification =
             process.env.REACT_APP_BACKEND_URL + 'lamps/' + id;
+        console.log('name = ' + name);
+        console.log('address = ' + address);
+        console.log('latitude = ' + parseFloat(latitude));
+        console.log('longitude = ' + parseFloat(longitude));
+        console.log('height = ' + parseInt(height, 10));
+        console.log('foyertype = ' + foyertype);
+        console.log('lamptype = ' + lamptype);
         try {
             const response = await fetch(urlmodification, {
                 method: 'PUT',
@@ -73,6 +80,7 @@ const ModifyLamp: React.FC<ModifyLampProps> = ({ isDark }) => {
                 }),
             });
             const responsebody = await response.text();
+            console.log(responsebody);
             if (response.status === 200) {
                 console.log(
                     'MODIFICATION APPLIED, status code: ' + response.status
@@ -94,8 +102,9 @@ const ModifyLamp: React.FC<ModifyLampProps> = ({ isDark }) => {
     };
 
     const getLamp = async () => {
-        const urlLamp = process.env.REACT_APP_BACKEND_URL + 'lamps?name=' + name;
-
+        const urlLamp =
+            process.env.REACT_APP_BACKEND_URL + 'lamps/name/' + name;
+        console.log(urlLamp);
         try {
             const response = await fetch(urlLamp, {
                 method: 'GET',
@@ -107,19 +116,18 @@ const ModifyLamp: React.FC<ModifyLampProps> = ({ isDark }) => {
 
             console.log('code de response = ' + response.status);
             const lampData = await response.json();
-            console.log(lampData[0]);
+            console.log(lampData);
             if (response.status === 200) {
                 console.log('SUCCES TO GET LAMP, status = ', response.status);
-                setId(lampData[0].id);
-                setAddress(lampData[0].address);
-                setLatitude(lampData[0].latitude);
-                setLongitude(lampData[0].longitude);
-                setHeight(lampData[0].height);
-                setLamptype(lampData[0].lamptype);
-                setFoyertype(lampData[0].foyertype);
+                setId(lampData.id);
+                setAddress(lampData.address);
+                setLatitude(lampData.latitude);
+                setLongitude(lampData.longitude);
+                setHeight(lampData.height);
+                setLamptype(lampData.lampType);
+                setFoyertype(lampData.foyerType);
                 setIsRequestOk(true);
                 setIsNameOk(true);
-
             } else {
                 setIsRequestOk(false);
                 setIsNameOk(false);

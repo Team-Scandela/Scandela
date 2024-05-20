@@ -85,7 +85,6 @@ const ModifyBulb: React.FC<ModifyBulbProps> = ({ isDark }) => {
                 setId(bulbData[0].id);
                 setIsRequestOk(true);
                 setIsReferenceOk(true);
-                
             } else {
                 setIsRequestOk(false);
                 setIsReferenceOk(false);
