@@ -310,9 +310,7 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
 		}
 	}
 
-	public double computeGlobalEnergyConsumption() {
-
-		List<Lamp> lamps = super.getAll();
+	public double computeGlobalEnergyConsumption(List<Lamp> lamps) {
 
 		double globalEnergyConsumption = 0;
 		int timeOfUse = 7;
@@ -397,16 +395,8 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
 
 		double consumptionScore = 100 - ((meanGlobalEnergyConsumption - maxConsumption) / (minConsumption - maxConsumption) * 100);
 
-		System.out.println("Global energy consumption: " + globalEnergyConsumption);
-		System.out.println("Mean global energy consumption: " + meanGlobalEnergyConsumption);
-		System.out.println("Minimum global energy consumption: " + minConsumption);
-		System.out.println("Maximum global energy consumption: " + maxConsumption);
-		System.out.println("Consumption score: " + consumptionScore);
-
 		return consumptionScore;
 	}
-
-
 	public class VegetalZonesExtractor {
 		public static double[][] getVegetalZonesFromCSV(String filePath) throws IOException, CsvValidationException {
 			List<double[]> vegetalZones = new ArrayList<>();
@@ -426,13 +416,11 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
 
 					// Check if the line has the correct number of columns
 					if (nextLine.length < 12) {
-						System.err.println("Skipping invalid line " + lineNumber + " (not enough columns): " + String.join(";", nextLine));
 						continue;
 					}
 
 					String geoColumn = nextLine[11];
 					if (geoColumn == null || geoColumn.isEmpty()) {
-						System.err.println("Skipping invalid line " + lineNumber + " (geolocation column is empty): " + String.join(";", nextLine));
 						continue;
 					}
 
@@ -442,7 +430,6 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
 							double latitude = Double.parseDouble(geolocation[0].trim());
 							double longitude = Double.parseDouble(geolocation[1].trim());
 							vegetalZones.add(new double[]{latitude, longitude});
-							System.out.println("Read vegetal zone: " + latitude + ", " + longitude);
 						} catch (NumberFormatException e) {
 							System.err.println("Invalid number format at line " + lineNumber + ": " + geoColumn);
 						}
@@ -472,20 +459,16 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
 		return distance;
 	}
 
-	public double computeGlobalDistanceVegetalZone() throws IOException, CsvValidationException {
+	public double computeGlobalDistanceVegetalZone(List<Lamp> lamps) throws IOException, CsvValidationException {
 		double[][] vegetalZones = VegetalZonesExtractor.getVegetalZonesFromCSV("collectionVegetale.csv");
-		List<Lamp> lamps = super.getAll();
 
 		double totalDistance = 0;
 		int validZonesCount = 0;
-		int count = 0;
 
 		for (double[] vegetalZone : vegetalZones) {
 
 			PriorityQueue<Double> nearestDistances = new PriorityQueue<>(Collections.reverseOrder());
 
-			System.out.println(count);
-			count++;	
 			for (Lamp lamp : lamps) {
 				if (lamp == null || lamp.getLongitude() == null || lamp.getLatitude() == null) {
 					continue;
@@ -514,11 +497,6 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
 		}
 
 		double meanGlobalDistanceVegetalZone = validZonesCount > 0 ? totalDistance / validZonesCount : 0;
-
-		System.out.println("Total valid zones: " + validZonesCount);
-		System.out.println("Total distance: " + totalDistance);
-		System.out.println("mean GlobalDistanceVegetalZone: " + meanGlobalDistanceVegetalZone);
-
 		double distanceMin = 30;
 		double distanceMax = 300;
 
@@ -526,7 +504,6 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
 
 		return score;
 	}
-
 
 	public double calculateArea(Area area, List<Lamp> lamps) {
 		Rectangle2D bounds = area.getBounds2D();
@@ -554,9 +531,6 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
 								break; // Pas besoin de vérifier les autres lampadaires
 							}
 						}
-						else {
-							System.out.println("Coordonnées du lampadaire nulles.");
-						}
 					}
 					
 					if (cellFilledByLamp) {
@@ -570,12 +544,10 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
 	
 		return lampFilledCount * cellArea;
 	}
-	
 
 	private static final double LAMP_RADIUS = 50.0;
 
-	public double computeGlobalLightIndicator() {
-    List<Lamp> lamps = super.getAll();
+	public double computeGlobalLightIndicator(List<Lamp> lamps) {
     if (lamps.isEmpty()) {
         throw new IllegalStateException("No lamps available to calculate light coverage.");
     }
@@ -602,8 +574,6 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
                 if (latitude > maxY) maxY = latitude;
                 if (longitude < minX) minX = longitude;
                 if (longitude > maxX) maxX = longitude;
-            } else {
-                System.err.println("Skipping incoherent coordinates: (" + latitude + ", " + longitude + ")");
             }
         }
     }
@@ -616,14 +586,8 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
 
     double coverageScore = (illuminatedArea / totalArea) * 100;
 
-    System.out.println("illuminatedArea: " + illuminatedArea);
-    System.out.println("totalArea: " + totalArea);
-    System.out.println("coverage Score: " + coverageScore);
-
     return coverageScore;
 }
-
-
 
 	// @Override
 	// @Transactional(rollbackFor = { Exception.class })
