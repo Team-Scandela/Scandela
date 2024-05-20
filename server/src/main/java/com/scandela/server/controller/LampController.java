@@ -118,4 +118,9 @@ public class LampController extends AbstractController<Lamp> {
 		return ((ILampService) service).computeGlobalDistanceVegetalZone();
 	}
 
+	@GetMapping("/lightScore")
+	public double computeGlobalLightIndicator() {
+		return ((ILampService) service).computeGlobalLightIndicator();
+	}
+
 }

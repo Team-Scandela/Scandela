@@ -1,23 +1,24 @@
 package com.scandela.server.service.implementation;
 
+import java.awt.geom.Area;
+import java.awt.geom.Rectangle2D;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.PriorityQueue;
 import java.util.UUID;
-import java.util.Collections;
 
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
-import com.opencsv.CSVReaderBuilder;
 import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvValidationException;
 import com.scandela.server.dao.BulbDao;
 import com.scandela.server.dao.CabinetDao;
@@ -527,64 +528,102 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
 	}
 
 
-	// public int computeGlobalLightIndicator(List<Lamp> lamps) {
+	public double calculateArea(Area area, List<Lamp> lamps) {
+		Rectangle2D bounds = area.getBounds2D();
+		double minX = bounds.getMinX();
+		double minY = bounds.getMinY();
+		double maxX = bounds.getMaxX();
+		double maxY = bounds.getMaxY();
+	
+		int gridResolution = 10;
+		double cellWidth = (maxX - minX) / gridResolution;
+		double cellHeight = (maxY - minY) / gridResolution;
+	
+		int lampFilledCount = 0;
+		for (int i = 0; i < gridResolution; i++) {
+			for (int j = 0; j < gridResolution; j++) {
+				double x = minX + i * cellWidth + cellWidth / 2;
+				double y = minY + j * cellHeight + cellHeight / 2;
+				if (area.contains(x, y)) {
+					boolean cellFilledByLamp = false;
+					for (Lamp lamp : lamps) {
+						if (lamp.getLatitude() != null && lamp.getLongitude() != null) {
+							double distance = haversineDistance(y, x, lamp.getLatitude(), lamp.getLongitude());
+							if (distance <= LAMP_RADIUS) {
+								cellFilledByLamp = true;
+								break; // Pas besoin de vérifier les autres lampadaires
+							}
+						}
+						else {
+							System.out.println("Coordonnées du lampadaire nulles.");
+						}
+					}
+					
+					if (cellFilledByLamp) {
+						lampFilledCount++;
+					}
+				}
+			}
+		}
+	
+		double cellArea = cellWidth * cellHeight;
+	
+		return lampFilledCount * cellArea;
+	}
+	
 
-	// for (Lamp lamp : lamps) {
-	// 	int intensity = 0;
-	// 	int timeOfUse = rand.nextInt(4) + 7; // 7 to 10 hours
-	// 	int bulbwithLessConsumption = 0;
+	private static final double LAMP_RADIUS = 50.0;
 
-	// 	switch (lamp.getBulb().getType()) {
-	// 		case LED:
-	// 			intensity = LED * timeOfUse; // 7 to 10 hours
-	// 			break;
-	// 		case HALOGENE:
-	// 			intensity = halogene * timeOfUse; // 7 to 10 hours
-	// 			break;
-	// 		case SODIUM:
-	// 			intensity = sodium * timeOfUse; // 7 to 10 hours
-	// 			break;
-	// 		case NEON:
-	// 			intensity = neon * timeOfUse; // 7 to 10 hours
-	// 			break;
-	// 		case INCANDESCENT:
-	// 			intensity = incandescent * timeOfUse; // 7 to 10 hours
-	// 			break;
-	// 		default:
-	// 			break;
-	// 	}
+	public double computeGlobalLightIndicator() {
+    List<Lamp> lamps = super.getAll();
+    if (lamps.isEmpty()) {
+        throw new IllegalStateException("No lamps available to calculate light coverage.");
+    }
 
-	// 	if (intensity < bulbwithLessConsumption) {
-	// 		bulbwithLessConsumption = intensity;
-	// 	}
+    double MIN_LATITUDE = -90.0;
+    double MAX_LATITUDE = 90.0;
+    double MIN_LONGITUDE = -180.0;
+    double MAX_LONGITUDE = 180.0;
 
-	// 	globalIntensity += intensity;
+    double minX = Double.POSITIVE_INFINITY;
+    double minY = Double.POSITIVE_INFINITY;
+    double maxX = Double.NEGATIVE_INFINITY;
+    double maxY = Double.NEGATIVE_INFINITY;
 
-	// meanGlobalComsuption = globalIntensity / lamps.size();
+    for (Lamp lamp : lamps) {
+        if (lamp.getLatitude() != null && lamp.getLongitude() != null) {
+            double latitude = lamp.getLatitude();
+            double longitude = lamp.getLongitude();
+        
+            // Vérifier si les coordonnées sont dans une plage acceptable
+            if (latitude >= MIN_LATITUDE && latitude <= MAX_LATITUDE &&
+                longitude >= MIN_LONGITUDE && longitude <= MAX_LONGITUDE) {
+                if (latitude < minY) minY = latitude;
+                if (latitude > maxY) maxY = latitude;
+                if (longitude < minX) minX = longitude;
+                if (longitude > maxX) maxX = longitude;
+            } else {
+                System.err.println("Skipping incoherent coordinates: (" + latitude + ", " + longitude + ")");
+            }
+        }
+    }
 
-	// for (Lamp lamp : lamps) {
-	// 	double distance = 0;
-	// 	for (Lamp otherLamp : lamps) {
-	// 		if (lamp.getId() != otherLamp.getId()) {
-	// 			distance = Math.sqrt(Math.pow(lamp.getLatitude() - otherLamp.getLatitude(), 2)
-	// 					+ Math.pow(lamp.getLongitude() - otherLamp.getLongitude(), 2));
-	// 		}
-	// 		globalDistance += distance;
-	// }
-	// meanGlobalDistance = globalDistance / lamps.size();
+    double totalArea = (maxX - minX) * (maxY - minY);
+
+    Area totalAreaShape = new Area(new Rectangle2D.Double(minX, minY, maxX - minX, maxY - minY));
+
+    double illuminatedArea = calculateArea(totalAreaShape, lamps);
+
+    double coverageScore = (illuminatedArea / totalArea) * 100;
+
+    System.out.println("illuminatedArea: " + illuminatedArea);
+    System.out.println("totalArea: " + totalArea);
+    System.out.println("coverage Score: " + coverageScore);
+
+    return coverageScore;
+}
 
 
-	// for (Lamp lamp : lamps) {
-	// 	durabilityScore += lamp.getAge();
-	// meanDurabilityScore = durabilityScore / lamps.size();
-
-	// // adaptability score : 0 (nous ne pouvons pas encore le calculer)
-	// adaptableScore = 0;	
-
-	// lightIndicator = (meanGlobalComsuption + meanGlobalDistance + meanDurabilityScore + adaptableScore) / 4;
-
-	// }
-	// }
 
 	// @Override
 	// @Transactional(rollbackFor = { Exception.class })
