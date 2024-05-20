@@ -13,10 +13,9 @@ export const getElectricityPrice = async () => {
 
     try {
         const response = await fetch(urlRequest, {
-                method: 'GET',
-                headers: headers,
-            }
-        );
+            method: 'GET',
+            headers: headers,
+        });
 
         const price = await response.json();
         return price.price;
@@ -36,16 +35,15 @@ export const getAllPriceLimit = async () => {
     const urlRequest = process.env.REACT_APP_BACKEND_URL + 'pricelimits';
     try {
         const response = await fetch(urlRequest, {
-                method: 'GET',
-                headers: headers,
-            }
-        );
+            method: 'GET',
+            headers: headers,
+        });
         const priceLimit = await response.json();
         return priceLimit;
     } catch (error) {
         console.log('ERROR GET PRICE LIMIT = ' + error);
     }
-}
+};
 
 export const getPriceLimit = async () => {
     const encodedCredentials = btoa(
@@ -55,19 +53,21 @@ export const getPriceLimit = async () => {
         'Content-Type': 'application/json',
         Authorization: `Basic ${encodedCredentials}`,
     });
-    const urlRequest = process.env.REACT_APP_BACKEND_URL + 'pricelimits/' + localStorage.getItem("userId");
+    const urlRequest =
+        process.env.REACT_APP_BACKEND_URL +
+        'pricelimits/' +
+        localStorage.getItem('userId');
     try {
         const response = await fetch(urlRequest, {
-                method: 'GET',
-                headers: headers,
-            }
-        );
+            method: 'GET',
+            headers: headers,
+        });
         const priceLimit = await response.json();
         return priceLimit;
     } catch (error) {
         console.log('ERROR GET PRICE LIMIT = ' + error);
     }
-}
+};
 
 export const createPriceLimit = async (priceLimit: any, limitside: string) => {
     const encodedCredentials = btoa(
@@ -80,20 +80,19 @@ export const createPriceLimit = async (priceLimit: any, limitside: string) => {
     const urlRequest = process.env.REACT_APP_BACKEND_URL + 'pricelimits/create';
     try {
         const response = await fetch(urlRequest, {
-                method: 'POST',
-                headers: headers,
-                body: JSON.stringify({
-                    userId: localStorage.getItem('userId'),
-                    triggeredstate: true,
-                    value: priceLimit,
-                    limitside: limitside,
-                }),
-            }
-        );
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify({
+                userid: localStorage.getItem('userId'),
+                triggeredstate: true,
+                value: priceLimit,
+                limitside: limitside,
+            }),
+        });
     } catch (error) {
         console.log('ERROR POST CREATE PRICE LIMIT = ' + error);
     }
-}
+};
 
 export const updatePriceLimit = async (id: any, priceLimit: any) => {
     const encodedCredentials = btoa(
@@ -106,15 +105,14 @@ export const updatePriceLimit = async (id: any, priceLimit: any) => {
     const urlRequest = process.env.REACT_APP_BACKEND_URL + 'pricelimits/' + id;
     try {
         const response = await fetch(urlRequest, {
-                method: 'PUT',
-                headers: headers,
-                body: JSON.stringify(id, priceLimit),
-            }
-        );
+            method: 'PUT',
+            headers: headers,
+            body: JSON.stringify(id, priceLimit),
+        });
     } catch (error) {
         console.log('ERROR UPDATE PRICE LIMIT = ' + error);
     }
-}
+};
 
 export const deletePriceLimit = async (id: any) => {
     const encodedCredentials = btoa(
@@ -124,14 +122,14 @@ export const deletePriceLimit = async (id: any) => {
         'Content-Type': 'application/json',
         Authorization: `Basic ${encodedCredentials}`,
     });
-    const urlRequest = process.env.REACT_APP_BACKEND_URL + 'pricelimits/delete/' + id;
+    const urlRequest =
+        process.env.REACT_APP_BACKEND_URL + 'pricelimits/delete/' + id;
     try {
         const response = await fetch(urlRequest, {
-                method: 'DELETE',
-                headers: headers,
-            }
-        );
+            method: 'DELETE',
+            headers: headers,
+        });
     } catch (error) {
         console.log('ERROR DELETE PRICE LIMIT = ' + error);
     }
-}
+};

@@ -151,9 +151,7 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({
                                 <TitleText isDark={isDark}>
                                     {t('electricityPrice')}
                                 </TitleText>
-                                <EletricityPrice
-                                    isDark={isDark}
-                                />
+                                <EletricityPrice isDark={isDark} />
                             </div>
                         )}
                         {currentOptionSelected === 'notification' && (

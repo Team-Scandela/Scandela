@@ -87,7 +87,7 @@ const resources = {
             foyertype: 'Type de foyer',
             titleModifyBulbPannel: 'Modifier ampoule',
             titleModifyLampPannel: 'Modifier lampadaire',
-            electricityPrice: 'Prix de l\'éléctricité',
+            electricityPrice: "Prix de l'éléctricité",
         },
     },
 };

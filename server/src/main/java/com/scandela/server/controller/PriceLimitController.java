@@ -95,7 +95,7 @@ public class PriceLimitController extends AbstractController<PriceLimit> {
 	private Optional<PriceLimit> findPriceLimitByUserId(String userId) {
 		List<PriceLimit> priceLimits = super.getAll();
 		return priceLimits.stream()
-				.filter(priceLimit -> priceLimit.getUserid().equals(userId))
+				.filter(priceLimit -> userId.equals(priceLimit.getUserid()))
 				.findFirst();
 	}
 }

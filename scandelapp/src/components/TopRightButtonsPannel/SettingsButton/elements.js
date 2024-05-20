@@ -196,7 +196,6 @@ export const NotificationButton = styled.div`
     }
 `;
 
-
 /** Main title on the content container */
 export const TitleText = styled.div`
     position: relative;
