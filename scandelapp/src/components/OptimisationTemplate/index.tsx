@@ -63,9 +63,7 @@ const OptimisationTemplate: React.FC<OptimisationTemplateProps> = ({
                     {optimisationTemplateData.solution}
                 </SolutionText>
             </SolutionTextContainer>
-            <CoûtText isDark={isDark}>
-                {optimisationTemplateData.coût}
-            </CoûtText>
+            <CoûtText isDark={isDark}>{optimisationTemplateData.coût}</CoûtText>
         </OptimisationTemplateContainer>
     );
 };

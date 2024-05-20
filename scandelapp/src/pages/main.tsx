@@ -95,7 +95,7 @@ const Main: React.FC<MainProps> = ({
             location: '13 Rue Pierrick Guyard',
             description: 'Passage peu fréquent',
             solution: 'Off: 18h-10h',
-            coût: 'coût : 0.40€', 
+            coût: 'coût : 0.40€',
         },
         {
             id: 1,
