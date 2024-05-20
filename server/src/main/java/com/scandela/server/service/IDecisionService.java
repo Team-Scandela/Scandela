@@ -8,4 +8,7 @@ public interface IDecisionService extends IService<Decision> {
 	public List<Decision> algoChangementBulb() throws Exception;
 	public List<Decision> algoReductionConsoHoraire() throws Exception;
 	public List<Decision> algoRetirerLampadaire() throws Exception;
+	public List<Decision> algoAjouterLampadaire() throws Exception;
+	public List<Decision> algoReduireIntensiteLampadaire() throws Exception;
+	public List<Decision> algoAugmenterIntensiteLampadaire() throws Exception;
 }

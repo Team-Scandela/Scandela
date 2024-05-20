@@ -95,7 +95,7 @@ public class PriceLimitService extends AbstractService<PriceLimit> implements IP
 	}
 
 	private void checkLimit(PriceLimit limit, Double currentPrice) {
-		Optional<User> user = userDao.findById(UUID.fromString(limit.getUserId()));
+		Optional<User> user = userDao.findById(UUID.fromString(limit.getUserid()));
 
 		if (limit.getTriggeredstate() == true)
 			return;

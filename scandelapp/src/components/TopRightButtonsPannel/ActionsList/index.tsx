@@ -17,6 +17,8 @@ import {
     TotalContainer,
     TotalTitleText,
     GaugesContainer,
+    ValidateButton,
+    PDFButton,
 } from './elements';
 import { PersonnalizedGauge } from '../../Gauges';
 import { useTranslation } from 'react-i18next';
@@ -62,6 +64,55 @@ const ActionsList: React.FC<ActionsListProps> = ({
         );
 
         setOptimisationTemplateData(updatedItems);
+    };
+
+    const handleValidateButtonClick = () => {
+        for (let i = 0; i < optimisationTemplateData.length; i++) {
+            if (optimisationTemplateData[i].selected) {
+                updateValidateData(optimisationTemplateData[i]);
+                optimisationTemplateData[i].saved = false;
+            }
+        }
+        setOptimisationTemplateData(optimisationTemplateData);
+        handleToggleActionsListExpend();
+    };
+
+    const updateValidateData = async (dataDecision: any) => {
+        const timestamp = new Date().toISOString();
+
+        const encodedCredentials = btoa(
+            `${process.env.REACT_APP_REQUEST_USER}:${process.env.REACT_APP_REQUEST_PASSWORD}`
+        );
+        const headers = new Headers({
+            'Content-Type': 'application/json',
+            Authorization: `Basic ${encodedCredentials}`,
+        });
+
+        const urlRequest =
+            process.env.REACT_APP_BACKEND_URL +
+            'decisions/' +
+            dataDecision.uuid;
+
+        try {
+            const response = await fetch(urlRequest, {
+                method: 'PUT',
+                headers: headers,
+                body: JSON.stringify({
+                    validate: timestamp,
+                    description: dataDecision.description,
+                    location: dataDecision.location,
+                    solution: dataDecision.solution,
+                }),
+            });
+
+            if (response.status === 200) {
+                console.log('MODIFICATION applied');
+            }
+
+            const data = response.json();
+        } catch (error) {
+            console.error('Erreur', error);
+        }
     };
 
     return (
@@ -147,6 +198,15 @@ const ActionsList: React.FC<ActionsListProps> = ({
                         left={85}
                     />
                 </GaugesContainer>
+                <ValidateButton
+                    isDark={isDark}
+                    onClick={handleValidateButtonClick}
+                >
+                    {t('Valider')}
+                </ValidateButton>
+                <PDFButton isDark={isDark} onClick={handleValidateButtonClick}>
+                    {t('Export en PDF')}
+                </PDFButton>
             </ActionsListPanel>
         </ActionsListContainer>
     );
