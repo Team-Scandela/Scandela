@@ -4,7 +4,9 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -173,28 +175,208 @@ public class DecisionService extends AbstractService<Decision> implements IDecis
 	@Override
 	@Transactional(readOnly = true, rollbackFor = { Exception.class })
 	public List<Decision> algoRetirerLampadaire() throws Exception {
+		Optional<DecisionType> decisionType = decisionTypeDao.findByTitleContains("Retirer lampadaire");
+		
+		if (decisionType.isEmpty()) {
+			throw new DecisionException(DecisionException.DECISIONTYPE_LOADING);
+		}
+		
+		Random rand = new Random();
+		long lampCount = lampDao.count();
+		int pageNumbers = lampCount > 50 ?  Math.toIntExact(lampCount / 50) + 1 : 1;
+		Page<Lamp> lampPage = lampDao.findAll(PageRequest.of(rand.nextInt(pageNumbers), 20));
+		List<Lamp> lamps = lampPage.getContent();
 		List<Decision> decisions = new ArrayList<>();
+		List<LampDecision> lampDecisions = new ArrayList<>();
 		
-		Page<Lamp> lampPages = lampDao.findAll(PageRequest.of(0, 100));
-		List<Lamp> lamps = lampPages.getContent();
-		
-		DecisionType decisionType = DecisionType.builder()
-				.id(UUID.randomUUID())
-				.title("Retirer lampadaire")
-				.build();
-		
-		lamps.forEach(lamp -> {
-			decisions.add(Decision.builder()
-					.description("Lampadaire trop proche d'un autre lampadaire.")
-					.type(decisionType)
-					.solution("Retirer ce lampadaire")
-					.location(lamp.getAddress())
-					.lampDecision(LampDecision.builder()
-							.id(UUID.randomUUID())
+		for (Lamp lamp : lamps) {
+			if (lamp.getHeight() != null) {
+				List<Lamp> results = lampDao.findByLatitudeBetweenAndLongitudeBetween(
+						addMetersToLatitude(lamp.getLatitude(), -lamp.getHeight() * 1.5),
+						addMetersToLatitude(lamp.getLatitude(), lamp.getHeight() * 1.5),
+						addMetersToLongitude(lamp.getLongitude(), lamp.getLatitude(), -lamp.getHeight() * 1.5),
+						addMetersToLongitude(lamp.getLongitude(), lamp.getLatitude(), lamp.getHeight() * 1.5));
+				
+				if (results.size() > 1 && (lamp.getLampDecisions() == null ||
+					lamp.getLampDecisions().stream().map(LampDecision::getDecision).filter(decision -> decision.getType().getTitle().contains(decisionType.get().getTitle())).count() == 0)) {
+					Decision decision = Decision.builder()
+							.type(decisionType.get())
+							.location(lamp.getAddress())
+							.description("La distance entre les lampadaires n'est pas optimale.")
+							.solution("Retirer le lampadaire " + lamp.getName() + " car trop proche des lampadaires " +
+									  results.stream().map(Lamp::getName).collect(Collectors.joining(", ")))
+							.build();
+					LampDecision lampDecision = LampDecision.builder()
+							.decision(decision)
 							.lamp(lamp)
-							.build())
-					.build());
-		});
+							.build();
+					decision.setLampDecision(lampDecision);
+	
+					decisions.add(decision);
+					lampDecisions.add(lampDecision);
+				}
+			}
+		}
+		
+		dao.saveAll(decisions);
+		lampDecisionDao.saveAll(lampDecisions);
+		
+		return decisions;
+	}
+
+	@Override
+	@Transactional(readOnly = true, rollbackFor = { Exception.class })
+	public List<Decision> algoAjouterLampadaire() throws Exception {
+		Optional<DecisionType> decisionType = decisionTypeDao.findByTitleContains("Ajouter lampadaire");
+		
+		if (decisionType.isEmpty()) {
+			throw new DecisionException(DecisionException.DECISIONTYPE_LOADING);
+		}
+		
+		Random rand = new Random();
+		long lampCount = lampDao.count();
+		int pageNumbers = lampCount > 50 ?  Math.toIntExact(lampCount / 50) + 1 : 1;
+		Page<Lamp> lampPage = lampDao.findAll(PageRequest.of(rand.nextInt(pageNumbers), 20));
+		List<Lamp> lamps = lampPage.getContent();
+		List<Decision> decisions = new ArrayList<>();
+		List<LampDecision> lampDecisions = new ArrayList<>();
+		
+		for (Lamp lamp : lamps) {
+			if (lamp.getHeight() != null) {
+				List<Lamp> results = lampDao.findByLatitudeBetweenAndLongitudeBetween(
+						addMetersToLatitude(lamp.getLatitude(), -lamp.getHeight() * 3),
+						addMetersToLatitude(lamp.getLatitude(), lamp.getHeight() * 3),
+						addMetersToLongitude(lamp.getLongitude(), lamp.getLatitude(), -lamp.getHeight() * 3),
+						addMetersToLongitude(lamp.getLongitude(), lamp.getLatitude(), lamp.getHeight() * 3));
+				
+				if (results.size() < 2 && (lamp.getLampDecisions() == null ||
+					lamp.getLampDecisions().stream().map(LampDecision::getDecision).filter(decision -> decision.getType().getTitle().contains(decisionType.get().getTitle())).count() == 0)) {
+					Decision decision = Decision.builder()
+							.type(decisionType.get())
+							.location(lamp.getAddress())
+							.description("La distance entre 2 lampadaire (2.5 à 3x la hauteur du lampadaire) n'est pas respectée.")
+							.solution("Ajouter un lampadaire dans le rayon de coordonnée: " +
+									  "{LatitudeMin = " + addMetersToLatitude(lamp.getLatitude(), -lamp.getHeight() * 3) +
+									  " ; LatitudeMax = " + addMetersToLatitude(lamp.getLatitude(), lamp.getHeight() * 3) + "} " +
+									  "{LongitudeMin = " + addMetersToLongitude(lamp.getLongitude(), lamp.getLatitude(), -lamp.getHeight() * 3) +
+									  " ; LongitudeMax = " + addMetersToLongitude(lamp.getLongitude(), lamp.getLatitude(), lamp.getHeight() * 3) + "}")
+							.build();
+					LampDecision lampDecision = LampDecision.builder()
+							.decision(decision)
+							.lamp(lamp)
+							.build();
+					decision.setLampDecision(lampDecision);
+	
+					decisions.add(decision);
+					lampDecisions.add(lampDecision);
+				}
+			}
+		}
+		
+		dao.saveAll(decisions);
+		lampDecisionDao.saveAll(lampDecisions);
+		
+		return decisions;
+	}
+
+	@Override
+	@Transactional(readOnly = true, rollbackFor = { Exception.class })
+	public List<Decision> algoReduireIntensiteLampadaire() throws Exception {
+		Optional<DecisionType> decisionType = decisionTypeDao.findByTitleContains("Réduire intensité lampadaire");
+		
+		if (decisionType.isEmpty()) {
+			throw new DecisionException(DecisionException.DECISIONTYPE_LOADING);
+		}
+		
+		Random rand = new Random();
+		long lampCount = lampDao.count();
+		int pageNumbers = lampCount > 50 ?  Math.toIntExact(lampCount / 50) + 1 : 1;
+		Page<Lamp> lampPage = lampDao.findAll(PageRequest.of(rand.nextInt(pageNumbers), 20));
+		List<Lamp> lamps = lampPage.getContent();
+		List<Decision> decisions = new ArrayList<>();
+		List<LampDecision> lampDecisions = new ArrayList<>();
+		
+		for (Lamp lamp : lamps) {
+			if (lamp.getHeight() != null) {
+				List<Lamp> results = lampDao.findByLatitudeBetweenAndLongitudeBetween(
+						addMetersToLatitude(lamp.getLatitude(), -lamp.getHeight() * 3),
+						addMetersToLatitude(lamp.getLatitude(), lamp.getHeight() * 3),
+						addMetersToLongitude(lamp.getLongitude(), lamp.getLatitude(), -lamp.getHeight() * 3),
+						addMetersToLongitude(lamp.getLongitude(), lamp.getLatitude(), lamp.getHeight() * 3));
+				
+				if (!results.isEmpty() && (lamp.getLampDecisions() == null ||
+					lamp.getLampDecisions().stream().map(LampDecision::getDecision).filter(decision -> decision.getType().getTitle().contains(decisionType.get().getTitle())).count() == 0)) {
+					Decision decision = Decision.builder()
+							.type(decisionType.get())
+							.location(lamp.getAddress())
+							.description("Le lampdaire est entouré par " + results.size() + " dans un rayon de " + lamp.getHeight() * 3 + "m.")
+							.solution("Réduire l'intensité du lampadaire de " + (results.size() > 4 ? 20 : 5 * results.size()) + "% afin d'économiser de l'énergie.")
+							.build();
+					LampDecision lampDecision = LampDecision.builder()
+							.decision(decision)
+							.lamp(lamp)
+							.build();
+					decision.setLampDecision(lampDecision);
+	
+					decisions.add(decision);
+					lampDecisions.add(lampDecision);
+				}
+			}
+		}
+		
+		dao.saveAll(decisions);
+		lampDecisionDao.saveAll(lampDecisions);
+		
+		return decisions;
+	}
+
+	@Override
+	@Transactional(readOnly = true, rollbackFor = { Exception.class })
+	public List<Decision> algoAugmenterIntensiteLampadaire() throws Exception {
+		Optional<DecisionType> decisionType = decisionTypeDao.findByTitleContains("Augmenter intensité lampadaire");
+		
+		if (decisionType.isEmpty()) {
+			throw new DecisionException(DecisionException.DECISIONTYPE_LOADING);
+		}
+		
+		Random rand = new Random();
+		long lampCount = lampDao.count();
+		int pageNumbers = lampCount > 50 ?  Math.toIntExact(lampCount / 50) + 1 : 1;
+		Page<Lamp> lampPage = lampDao.findAll(PageRequest.of(rand.nextInt(pageNumbers), 20));
+		List<Lamp> lamps = lampPage.getContent();
+		List<Decision> decisions = new ArrayList<>();
+		List<LampDecision> lampDecisions = new ArrayList<>();
+		
+		for (Lamp lamp : lamps) {
+			if (lamp.getHeight() != null) {
+				List<Lamp> results = lampDao.findByLatitudeBetweenAndLongitudeBetween(
+						addMetersToLatitude(lamp.getLatitude(), -lamp.getHeight() * 2.5),
+						addMetersToLatitude(lamp.getLatitude(), lamp.getHeight() * 2.5),
+						addMetersToLongitude(lamp.getLongitude(), lamp.getLatitude(), -lamp.getHeight() * 2.5),
+						addMetersToLongitude(lamp.getLongitude(), lamp.getLatitude(), lamp.getHeight() * 2.5));
+				
+				if (results.size() < 4 && (lamp.getLampDecisions() == null ||
+					lamp.getLampDecisions().stream().map(LampDecision::getDecision).filter(decision -> decision.getType().getTitle().contains(decisionType.get().getTitle())).count() == 0)) {
+					Decision decision = Decision.builder()
+							.type(decisionType.get())
+							.location(lamp.getAddress())
+							.description("Le lampdaire est entouré par " + results.size() + " dans un rayon de " + lamp.getHeight() * 2.5 + "m.")
+							.solution("Réduire l'intensité du lampadaire de " + (20 - (5 * (4 - results.size()))) + "% afin d'économiser de l'énergie.")
+							.build();
+					LampDecision lampDecision = LampDecision.builder()
+							.decision(decision)
+							.lamp(lamp)
+							.build();
+					decision.setLampDecision(lampDecision);
+	
+					decisions.add(decision);
+					lampDecisions.add(lampDecision);
+				}
+			}
+		}
+		
+		dao.saveAll(decisions);
+		lampDecisionDao.saveAll(lampDecisions);
 		
 		return decisions;
 	}
@@ -213,6 +395,23 @@ public class DecisionService extends AbstractService<Decision> implements IDecis
 		}
 	
 		newDecision.setType(type.orElseGet(() -> { return null; }));
+	}
+	
+	private double addMetersToLongitude(double longitude, double latitude, double meters) {
+		double radiusAtLatitude = 6371e3 * Math.cos(Math.toRadians(latitude));
+        double delta = meters / radiusAtLatitude;
+
+        delta = Math.toDegrees(delta);
+
+        return longitude + delta;
+	}
+	
+	private double addMetersToLatitude(double latitude, double meters) {
+		double delta = meters / 6371e3;
+
+        delta = Math.toDegrees(delta);
+
+        return latitude + delta;
 	}
 
 }
