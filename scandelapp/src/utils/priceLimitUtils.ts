@@ -25,7 +25,7 @@ export const getElectricityPrice = async () => {
     }
 };
 
-export const getPriceLimit = async () => {
+export const getAllPriceLimit = async () => {
     const encodedCredentials = btoa(
         `${process.env.REACT_APP_REQUEST_USER}:${process.env.REACT_APP_REQUEST_PASSWORD}`
     );
@@ -47,7 +47,29 @@ export const getPriceLimit = async () => {
     }
 }
 
-export const createPriceLimit = async (priceLimit: any) => {
+export const getPriceLimit = async () => {
+    const encodedCredentials = btoa(
+        `${process.env.REACT_APP_REQUEST_USER}:${process.env.REACT_APP_REQUEST_PASSWORD}`
+    );
+    const headers = new Headers({
+        'Content-Type': 'application/json',
+        Authorization: `Basic ${encodedCredentials}`,
+    });
+    const urlRequest = process.env.REACT_APP_BACKEND_URL + 'pricelimits/' + localStorage.getItem("userId");
+    try {
+        const response = await fetch(urlRequest, {
+                method: 'GET',
+                headers: headers,
+            }
+        );
+        const priceLimit = await response.json();
+        return priceLimit;
+    } catch (error) {
+        console.log('ERROR GET PRICE LIMIT = ' + error);
+    }
+}
+
+export const createPriceLimit = async (priceLimit: any, limitside: string) => {
     const encodedCredentials = btoa(
         `${process.env.REACT_APP_REQUEST_USER}:${process.env.REACT_APP_REQUEST_PASSWORD}`
     );
@@ -60,7 +82,12 @@ export const createPriceLimit = async (priceLimit: any) => {
         const response = await fetch(urlRequest, {
                 method: 'POST',
                 headers: headers,
-                body: JSON.stringify(priceLimit),
+                body: JSON.stringify({
+                    userId: localStorage.getItem('userId'),
+                    triggeredstate: true,
+                    value: priceLimit,
+                    limitside: limitside,
+                }),
             }
         );
     } catch (error) {
@@ -102,7 +129,6 @@ export const deletePriceLimit = async (id: any) => {
         const response = await fetch(urlRequest, {
                 method: 'DELETE',
                 headers: headers,
-                body: JSON.stringify(id),
             }
         );
     } catch (error) {
