@@ -58,11 +58,29 @@ const LoginModule: React.FC<LoginModuleProps> = ({
     };
 
     const setUpDecisions = async () => {
-        const [dataChangementBulb, dataReductionConsoHoraire] = await Promise.all([
+        const [
+            dataChangementBulb,
+            dataReductionConsoHoraire,
+            dataAjouterLampadaire,
+            dataRetirerLampadaire,
+            dataReduireIntensiteLampadaire,
+            dataAugmenterIntensiteLampadaire
+        ] = await Promise.all([
+            getDecisionsSpecificAlgo('algoChangementBulb'),
+            getDecisionsSpecificAlgo('algoReductionConsoHoraire'),
             getDecisionsSpecificAlgo('algoAjouterLampadaire'),
-            getDecisionsSpecificAlgo('algoReductionConsoHoraire')
+            getDecisionsSpecificAlgo('algoRetirerLampadaire'),
+            getDecisionsSpecificAlgo('algoReduireIntensiteLampadaire'),
+            getDecisionsSpecificAlgo('algoAugmenterIntensiteLampadaire')
         ]);
-        const data = dataChangementBulb.concat(dataReductionConsoHoraire);
+        const data = [].concat(
+            dataChangementBulb,
+            dataReductionConsoHoraire,
+            dataAjouterLampadaire,
+            dataRetirerLampadaire,
+            dataReduireIntensiteLampadaire,
+            dataAugmenterIntensiteLampadaire
+        );
         addItemToOptimisationTemplate(data);
     };
 
