@@ -39,7 +39,7 @@ public class AuditService extends AbstractService<AuditEntry> implements IAuditS
 
     public void sendPostToCreate(AuditEntry newAuditEntry) {
         try {
-            URL url = new URL("http://localhost:8080/audit/create");
+            URL url = new URL("https://api.scandela.fr/audit/create");
 
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("POST");
