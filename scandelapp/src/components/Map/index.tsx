@@ -13,6 +13,35 @@ import React from 'react';
 // Load geographical data of Nantes from a local JSON file
 let nantesData = require('../../assets/nantesData.json');
 
+const getLamp = async () => {
+    const username = process.env.REACT_APP_REQUEST_USER;
+    const password = process.env.REACT_APP_REQUEST_PASSWORD;
+    const urlLamp =
+        process.env.REACT_APP_BACKEND_URL + 'lamps';
+    try {
+        const response = await fetch(urlLamp, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Basic ${btoa(`${username}:${password}`)}`,
+            },
+        });
+
+        const lampsData = await response.json();
+        if (response.status === 200) {
+
+        } else {
+            console.log('GET LAMP FAILED, status = ' + response.status);
+        }
+    } catch (error) {
+        console.log('ERROR GET LAMP = ' + error);
+    }
+
+    return true;
+};
+
+let x = getLamp();
+
 function getRandomColor() {
     const colors = ['#00FF00', '#FFA500', '#FF0000'];
     const randomIndex = Math.floor(Math.random() * colors.length);
