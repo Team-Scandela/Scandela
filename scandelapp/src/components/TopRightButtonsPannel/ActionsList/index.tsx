@@ -210,14 +210,14 @@ const ActionsList: React.FC<ActionsListProps> = ({
             ></ActionsListButton>
             <ActionsListPanel isDark={isDark} show={actionsListExtended}>
                 <ScrollableOptimisationsContainer isDark={isDark}>
-                    <TimeIcon isDark={isDark} size={150}></TimeIcon>
+                    <TimeIcon isDark={isDark} size={150}/>
                     {optimisationTemplateData
                         .filter((item: any) => item.saved)
                         .map((item: any, i: number) => (
                             <OptimisationTemplateContainer
                                 key={i}
                                 isDark={isDark}
-                                y={100 * i}
+                                y={125 * i}
                             >
                                 <TypeText isDark={isDark}>{item.type}</TypeText>
                                 <LocationText isDark={isDark}>
