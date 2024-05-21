@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useEffect } from 'react';
 import {
     GaugeContainerLeft,
     GaugeContainerMiddle,
@@ -39,13 +40,13 @@ export const Gauges: React.FC<GaugesProps> = ({
     decisionPanelExtended,
     actionsListExtended,
 }) => {
-    const [levelElec, setLevelElec] = React.useState<number>(50);
-    const [levelBio, setLevelBio] = React.useState<number>(25);
-    const [levelLumi, setLevelLumi] = React.useState<number>(75);
+    const [levelElec, setLevelElec] = React.useState<number>(0);
+    const [levelBio, setLevelBio] = React.useState<number>(0);
+    const [levelLumi, setLevelLumi] = React.useState<number>(0);
 
-    const [oldLevelElec, setOldLevelElec] = React.useState<number>(25);
-    const [oldLevelBio, setOldLevelBio] = React.useState<number>(50);
-    const [oldLevelLumi, setOldLevelLumi] = React.useState<number>(75);
+    const [oldLevelElec, setOldLevelElec] = React.useState<number>(0);
+    const [oldLevelBio, setOldLevelBio] = React.useState<number>(0);
+    const [oldLevelLumi, setOldLevelLumi] = React.useState<number>(0);
 
     const [diffLevelElec, setDiffLevelElec] = React.useState<number>(
         oldLevelElec - levelElec
@@ -61,6 +62,70 @@ export const Gauges: React.FC<GaugesProps> = ({
     const [showPupLeft, setShowPupLeft] = React.useState<boolean>(false);
     const [showPupMiddle, setShowPupMiddle] = React.useState<boolean>(false);
     const [showPupRight, setShowPupRight] = React.useState<boolean>(false);
+
+    function parseFloatSafe(input: string): number {
+        const trimmedInput = input.trim();
+    
+        const isValidNumber = /^[0-9]*\.?[0-9]+$/.test(trimmedInput);
+        if (!isValidNumber) {
+            return NaN;
+        }
+
+        return parseFloat(trimmedInput);
+    }
+
+    useEffect(() => {
+        const checkScore = () => {
+            const vegetalScore = localStorage.getItem('vegetalScore');
+            const lightScore = localStorage.getItem('lightScore');
+            const consumptionScore = localStorage.getItem('consumptionScore');
+
+            let allScoresDefined = true;
+
+            if (vegetalScore) {
+                const parsedScore = parseFloatSafe(vegetalScore);
+                if (!isNaN(parsedScore)) {
+                    setLevelBio(parsedScore);
+                } else {
+                    allScoresDefined = false;
+                }
+            } else {
+                allScoresDefined = false;
+            }
+
+            if (lightScore) {
+                const parsedScore = parseFloatSafe(lightScore);
+                if (!isNaN(parsedScore)) {
+                    setLevelLumi(parsedScore);
+                } else {
+                    allScoresDefined = false;
+                }
+            } else {
+                allScoresDefined = false;
+            }
+
+            if (consumptionScore) {
+                const parsedScore = parseFloatSafe(consumptionScore);
+                if (!isNaN(parsedScore)) {
+                    setLevelElec(parsedScore);
+                } else {
+                    allScoresDefined = false;
+                }
+            } else {
+                allScoresDefined = false;
+            }
+
+            return allScoresDefined;
+        };
+
+        const intervalId = setInterval(() => {
+            if (checkScore()) {
+                clearInterval(intervalId);
+            }
+        }, 1000); // Vérifiez les scores toutes les secondes
+
+        return () => clearInterval(intervalId);
+    }, []);
 
     return (
         <div id={id}>
@@ -92,9 +157,9 @@ export const Gauges: React.FC<GaugesProps> = ({
                             <GaugePupText>
                                 {t('energyConsumption')}
                                 <br />
-                                <b>30 GW/h</b>
+                                à un score
                                 <br />
-                                40% {t('ofTheObjective')}
+                                de <b>{levelElec}%</b>
                             </GaugePupText>
                         </GaugePupLeft>
                     </GaugeContainerLeft>
@@ -122,11 +187,11 @@ export const Gauges: React.FC<GaugesProps> = ({
                         />
                         <GaugePupMiddle show={showPupMiddle} isDark={isDark}>
                             <GaugePupText>
-                                {t('impactOnTheEnvironment')}
+                                Impact environnemental
                                 <br />
-                                <b>350g CO2/h</b>
+                                à un score
                                 <br />
-                                80% {t('ofTheObjective')}
+                                de <b>{levelBio}%</b>
                             </GaugePupText>
                         </GaugePupMiddle>
                     </GaugeContainerMiddle>
@@ -157,7 +222,7 @@ export const Gauges: React.FC<GaugesProps> = ({
                             <GaugePupText>
                             {t('lightingQuality')}
                                 <br />
-                                20% {t('OfTheAreasHaveGoodLighting')}
+                                <b>{levelElec}%</b> des zones disposent d'un bon éclairage
                             </GaugePupText>
                         </GaugePupRight>
                     </GaugeContainerRight>
@@ -207,16 +272,16 @@ export const PersonnalizedGauge: React.FC<PersonnalizedGaugeProps> = ({
             ? images.elec
             : images.elecLight
         : isBio
-          ? isDark
-              ? images.bio
-              : images.bioLight
-          : isLumi
             ? isDark
-                ? images.lumi
-                : images.lumiLight
-            : isDark
-              ? images.elec
-              : images.elecLight;
+                ? images.bio
+                : images.bioLight
+            : isLumi
+                ? isDark
+                    ? images.lumi
+                    : images.lumiLight
+                : isDark
+                    ? images.elec
+                    : images.elecLight;
     const diffLevel = oldLevel - level;
 
     return (

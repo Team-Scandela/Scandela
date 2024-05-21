@@ -22,7 +22,9 @@ import PremiumPage from './PremiumPage';
 import TicketSenderPage from './TicketSenderPage';
 import ProfilePage from './ProfilePage';
 import FAQPage from './FAQPage';
+
 import { useTranslation } from 'react-i18next';
+
 /** Landing component page
  */
 
@@ -35,7 +37,9 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({}) => {
     const [isTicketPageDisplayed, setIsTicketPageDisplayed] = useState(false);
     const [isProfilePageDisplayed, setIsProfilePageDisplayed] = useState(false);
     const [isFAQPageDisplayed, setIsFAQPageDisplayed] = useState(false);
+
     const { t } = useTranslation();
+
     const handleLogScandela = () => {
         navigate('/scandela');
     };

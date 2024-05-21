@@ -1,14 +1,25 @@
 package com.scandela.server.service.implementation;
 
+import java.awt.geom.Area;
+import java.awt.geom.Rectangle2D;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.PriorityQueue;
 import java.util.UUID;
 
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.opencsv.CSVParserBuilder;
+import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
+import com.opencsv.exceptions.CsvValidationException;
 import com.scandela.server.dao.BulbDao;
 import com.scandela.server.dao.CabinetDao;
 import com.scandela.server.dao.LampDao;
@@ -285,4 +296,309 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
 		newLamp.setLampShade(lampShade.orElseGet(() -> { return null; }));
 	}
 
+	private double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
+		return Math.sqrt(Math.pow(lat1 - lat2, 2) + Math.pow(lon1 - lon2, 2));
+	}
+	
+	class LampDistance {
+		Lamp lamp;
+		double distance;
+	
+		LampDistance(Lamp lamp, double distance) {
+			this.lamp = lamp;
+			this.distance = distance;
+		}
+	}
+
+	public double computeGlobalEnergyConsumption(List<Lamp> lamps) {
+
+		double globalEnergyConsumption = 0;
+		int timeOfUse = 7;
+
+		int SHP = 50, IMC = 40, LED = 3, TF = 10, IM = 35, MBF = 50, FC = 22, SBP = 18, HAL = 10, TL = 8, IC = 40, DIC = 70;
+
+		PriorityQueue<Integer> leastConsumption = new PriorityQueue<>(Comparator.reverseOrder());
+		PriorityQueue<Integer> worstConsumption = new PriorityQueue<>();
+
+		int countValidLamps = 0;
+
+		for (Lamp lamp : lamps) {
+			if (lamp == null || lamp.getLampType() == null) {
+				continue;
+			}
+
+			int energyConsumption = 0;
+
+			switch (lamp.getLampType().toString()) {
+				case "SHP":
+					energyConsumption = SHP * timeOfUse;
+					break;
+				case "IMC":
+					energyConsumption = IMC * timeOfUse;
+					break;
+				case "LED":
+					energyConsumption = LED * timeOfUse;
+					break;
+				case "TF":
+					energyConsumption = TF * timeOfUse;
+					break;
+				case "IM":
+					energyConsumption = IM * timeOfUse;
+					break;
+				case "MBF":
+					energyConsumption = MBF * timeOfUse;
+					break;
+				case "FC":
+					energyConsumption = FC * timeOfUse;
+					break;
+				case "SBP":
+					energyConsumption = SBP * timeOfUse;
+					break;
+				case "HAL":
+					energyConsumption = HAL * timeOfUse;
+					break;
+				case "TL":
+					energyConsumption = TL * timeOfUse;
+					break;
+				case "IC":
+					energyConsumption = IC * timeOfUse;
+					break;
+				case "DIC":
+					energyConsumption = DIC * timeOfUse;
+					break;
+				default:
+					continue;
+			}
+
+			leastConsumption.offer(energyConsumption);
+			if (leastConsumption.size() > 3) {
+				leastConsumption.poll();
+			}
+
+			worstConsumption.offer(energyConsumption);
+			if (worstConsumption.size() > 3) {
+				worstConsumption.poll();
+			}
+
+			globalEnergyConsumption += energyConsumption;
+			countValidLamps++;
+		}
+
+		if (countValidLamps == 0) {
+			return 0;
+		}
+
+		double meanGlobalEnergyConsumption = globalEnergyConsumption / countValidLamps;
+
+		double minConsumption = leastConsumption.stream().mapToInt(Integer::intValue).average().orElse(0);
+		double maxConsumption = worstConsumption.stream().mapToInt(Integer::intValue).average().orElse(0);
+
+		double consumptionScore = 100 - ((meanGlobalEnergyConsumption - maxConsumption) / (minConsumption - maxConsumption) * 100);
+
+		return consumptionScore;
+	}
+	public class VegetalZonesExtractor {
+		public static double[][] getVegetalZonesFromCSV(String filePath) throws IOException, CsvValidationException {
+			List<double[]> vegetalZones = new ArrayList<>();
+
+			try (CSVReader reader = new CSVReaderBuilder(new FileReader(filePath))
+					.withCSVParser(new CSVParserBuilder().withSeparator(';').build())
+					.build()) {
+				String[] nextLine;
+				int lineNumber = 0;
+
+				while ((nextLine = reader.readNext()) != null) {
+					lineNumber++;
+					if (lineNumber == 1) {
+						// Skip the header
+						continue;
+					}
+
+					// Check if the line has the correct number of columns
+					if (nextLine.length < 12) {
+						continue;
+					}
+
+					String geoColumn = nextLine[11];
+					if (geoColumn == null || geoColumn.isEmpty()) {
+						continue;
+					}
+
+					String[] geolocation = geoColumn.split(",");
+					if (geolocation.length == 2) {
+						try {
+							double latitude = Double.parseDouble(geolocation[0].trim());
+							double longitude = Double.parseDouble(geolocation[1].trim());
+							vegetalZones.add(new double[]{latitude, longitude});
+						} catch (NumberFormatException e) {
+							System.err.println("Invalid number format at line " + lineNumber + ": " + geoColumn);
+						}
+					} else {
+						System.err.println("Invalid geolocation format at line " + lineNumber + ": " + geoColumn);
+					}
+				}
+			}
+
+			return vegetalZones.toArray(new double[0][]);
+		}
+	}
+
+	public static double haversineDistance(double lat1, double lon1, double lat2, double lon2) {
+		// Rayon de la Terre en mètres
+		final int R = 6371000; 
+
+		// Conversion des latitudes et longitudes en radians
+		double latDistance = Math.toRadians(lat2 - lat1);
+		double lonDistance = Math.toRadians(lon2 - lon1);
+		double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
+				+ Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
+				* Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
+		double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+		double distance = R * c; // Distance en mètres
+
+		return distance;
+	}
+
+	public double computeGlobalDistanceVegetalZone(List<Lamp> lamps) throws IOException, CsvValidationException {
+		double[][] vegetalZones = VegetalZonesExtractor.getVegetalZonesFromCSV("collectionVegetale.csv");
+
+		double totalDistance = 0;
+		int validZonesCount = 0;
+
+		for (double[] vegetalZone : vegetalZones) {
+
+			PriorityQueue<Double> nearestDistances = new PriorityQueue<>(Collections.reverseOrder());
+
+			for (Lamp lamp : lamps) {
+				if (lamp == null || lamp.getLongitude() == null || lamp.getLatitude() == null) {
+					continue;
+				}
+
+				double distance = haversineDistance(lamp.getLatitude(), lamp.getLongitude(), vegetalZone[0], vegetalZone[1]);
+				
+				if (nearestDistances.size() < 50) {
+					nearestDistances.add(distance);
+				} else if (distance < nearestDistances.peek()) {
+					nearestDistances.poll();
+					nearestDistances.add(distance);
+				}
+			}
+
+			if (!nearestDistances.isEmpty()) {
+				double sumDistances = 0;
+				for (double dist : nearestDistances) {
+					sumDistances += dist;
+				}
+				double averageDistance = sumDistances / nearestDistances.size();
+				totalDistance += averageDistance;
+				validZonesCount++;
+			} else {
+			}
+		}
+
+		double meanGlobalDistanceVegetalZone = validZonesCount > 0 ? totalDistance / validZonesCount : 0;
+		double distanceMin = 30;
+		double distanceMax = 300;
+
+		double score = 100 - (((meanGlobalDistanceVegetalZone - distanceMin) / (distanceMax - distanceMin)) * 100);
+
+		return score;
+	}
+
+	private static final double LAMP_RADIUS = 120000.0;
+
+	private boolean isValidCoordinate(double latitude, double longitude) {
+		return latitude >= -90 && latitude <= 90 && longitude >= -180 && longitude <= 180;
+	}
+
+	public double calculateArea(Area area, List<double[]> lampCoordinates) {
+        Rectangle2D bounds = area.getBounds2D();
+        double minX = bounds.getMinX();
+        double minY = bounds.getMinY();
+        double maxX = bounds.getMaxX();
+        double maxY = bounds.getMaxY();
+
+        int gridResolution = 10; // Augmenter la résolution pour plus de précision
+        double cellWidth = (maxX - minX) / gridResolution;
+        double cellHeight = (maxY - minY) / gridResolution;
+
+        int lampFilledCount = 0;
+        for (int i = 0; i < gridResolution; i++) {
+            for (int j = 0; j < gridResolution; j++) {
+                double x = minX + i * cellWidth + cellWidth / 2; // Longitude
+                double y = minY + j * cellHeight + cellHeight / 2; // Latitude
+                if (area.contains(x, y)) {
+                    boolean cellFilledByLamp = false;
+                    for (double[] coords : lampCoordinates) {
+                        double lampLatitude = coords[0];
+                        double lampLongitude = coords[1];
+                        double distance = haversineDistance(y, x, lampLatitude, lampLongitude);
+                        if (distance <= LAMP_RADIUS) {
+                            cellFilledByLamp = true;
+                            break;
+                        }
+                    }
+                    if (cellFilledByLamp) {
+                        lampFilledCount++;
+                    }
+                }
+            }
+        }
+
+        double cellArea = cellWidth * cellHeight; // en degrés carrés
+
+        return lampFilledCount * cellArea;
+    }
+
+
+	public double computeGlobalLightIndicator(List<Lamp> lamps) {
+        if (lamps.isEmpty()) {
+            throw new IllegalStateException("No lamps available to calculate light coverage.");
+        }
+
+        double minX = Double.POSITIVE_INFINITY;
+        double minY = Double.POSITIVE_INFINITY;
+        double maxX = Double.NEGATIVE_INFINITY;
+        double maxY = Double.NEGATIVE_INFINITY;
+
+        List<double[]> lampCoordinates = new ArrayList<>();
+
+        for (Lamp lamp : lamps) {
+			if (lamp.getLatitude() != null && lamp.getLongitude() != null) {
+				double latitude = lamp.getLatitude();
+				double longitude = lamp.getLongitude();
+				// Vérification de la validité des coordonnées
+				if (isValidCoordinate(latitude, longitude)) {
+					lampCoordinates.add(new double[]{latitude, longitude});
+					
+					if (latitude < minY) minY = latitude;
+					if (latitude > maxY) maxY = latitude;
+					if (longitude < minX) minX = longitude;
+					if (longitude > maxX) maxX = longitude;
+				} else {
+					System.out.println("Invalid coordinates for lamp: Latitude=" + latitude + ", Longitude=" + longitude);
+				}
+			}
+		}
+
+        double width = maxX - minX;
+        double height = maxY - minY;
+        double totalArea = width * height; // en degrés carrés
+
+        Area totalAreaShape = new Area(new Rectangle2D.Double(minX, minY, width, height));
+
+		// System.out.println("List of Lamp Coordinates:");
+    	// for (double[] coord : lampCoordinates) {
+    	//     System.out.println("Latitude: " + coord[0] + ", Longitude: " + coord[1]);
+    	// }
+
+        double illuminatedArea = calculateArea(totalAreaShape, lampCoordinates);
+
+        double coverageScore = (illuminatedArea / totalArea) * 100;
+		System.out.println("illuminatedArea:" + illuminatedArea);
+		System.out.println("totalArea:" + totalArea);
+		System.out.println("coverageScore:" + coverageScore);
+
+        return coverageScore;
+    }
 }

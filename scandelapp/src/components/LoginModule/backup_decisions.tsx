@@ -10,6 +10,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'ELIPT II 55',
+        validate: null as null,
         height: 6,
     },
     {
@@ -23,6 +24,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'PAGODE',
+        validate: null as null,
         height: 3.5,
     },
     {
@@ -36,6 +38,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'INDICE LYRE 500',
+        validate: null as null,
         height: 0,
     },
     {
@@ -49,6 +52,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'BOULE Ø570 STRIEE',
+        validate: null as null,
         height: 3.5,
     },
     {
@@ -62,6 +66,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'BTX 183',
+        validate: null as null,
         height: 10,
     },
     {
@@ -75,6 +80,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'MODULA G',
+        validate: null as null,
         height: 7,
     },
     {
@@ -88,6 +94,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "IMC" en ampoule "LED".',
         lampType: 'IMC',
         foyerType: 'LTN1',
+        validate: null as null,
         height: 8,
     },
     {
@@ -101,6 +108,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'ESTORIL P',
+        validate: null as null,
         height: null,
     },
     {
@@ -114,6 +122,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "TF" en ampoule "LED".',
         lampType: 'TF',
         foyerType: 'HAVANE',
+        validate: null as null,
         height: 0,
     },
     {
@@ -127,6 +136,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'MURENA',
+        validate: null as null,
         height: 7,
     },
     {
@@ -140,6 +150,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "IMC" en ampoule "LED".',
         lampType: 'IMC',
         foyerType: 'METRONOMIS ANNECY',
+        validate: null as null,
         height: 4,
     },
     {
@@ -153,6 +164,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'PESCADOR',
+        validate: null as null,
         height: 3.5,
     },
     {
@@ -166,6 +178,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "IM" en ampoule "LED".',
         lampType: 'IM',
         foyerType: 'MODENA P',
+        validate: null as null,
         height: 9,
     },
     {
@@ -179,6 +192,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'HARMONY',
+        validate: null as null,
         height: 8,
     },
     {
@@ -192,6 +206,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'SAPHIR 2',
+        validate: null as null,
         height: 8,
     },
     {
@@ -205,6 +220,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'MURENA',
+        validate: null as null,
         height: 9,
     },
     {
@@ -218,6 +234,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'KIO',
+        validate: null as null,
         height: 3.5,
     },
     {
@@ -231,6 +248,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'IJB',
+        validate: null as null,
         height: 3.5,
     },
     {
@@ -244,6 +262,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'IRIDIUM 10',
+        validate: null as null,
         height: 9,
     },
     {
@@ -257,6 +276,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'IRIDIUM 9',
+        validate: null as null,
         height: 9,
     },
     {
@@ -270,6 +290,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'IRIDIUM 10',
+        validate: null as null,
         height: 9,
     },
     {
@@ -283,6 +304,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "IMC" en ampoule "LED".',
         lampType: 'IMC',
         foyerType: 'METRONOMIS BERLIN',
+        validate: null as null,
         height: 4.5,
     },
     {
@@ -296,6 +318,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'PALLAS 400',
+        validate: null as null,
         height: 4,
     },
     {
@@ -309,6 +332,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "IMC" en ampoule "LED".',
         lampType: 'IMC',
         foyerType: 'NANTUA',
+        validate: null as null,
         height: 8,
     },
     {
@@ -322,6 +346,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'LB 60',
+        validate: null as null,
         height: 6,
     },
     {
@@ -335,6 +360,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "IM" en ampoule "LED".',
         lampType: 'IM',
         foyerType: null,
+        validate: null as null,
         height: 3.700000047683716,
     },
     {
@@ -348,6 +374,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'IRIDIUM 10',
+        validate: null as null,
         height: 0,
     },
     {
@@ -361,6 +388,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'TRANSCUBE',
+        validate: null as null,
         height: 3.5,
     },
     {
@@ -374,6 +402,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'DISCERA 600',
+        validate: null as null,
         height: 6,
     },
     {
@@ -387,6 +416,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'IRIDIUM 10',
+        validate: null as null,
         height: 9,
     },
     {
@@ -400,6 +430,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'SWAP 2 STORIA',
+        validate: null as null,
         height: 3.5,
     },
     {
@@ -413,6 +444,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'CYCLONE',
+        validate: null as null,
         height: 6,
     },
     {
@@ -426,6 +458,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'SAPHIR',
+        validate: null as null,
         height: 7,
     },
     {
@@ -439,6 +472,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "IMC" en ampoule "LED".',
         lampType: 'IMC',
         foyerType: 'MINI CITYSOUL',
+        validate: null as null,
         height: 5,
     },
     {
@@ -452,6 +486,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'IRIDIUM',
+        validate: null as null,
         height: 0,
     },
     {
@@ -465,6 +500,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'MURENA',
+        validate: null as null,
         height: 7,
     },
     {
@@ -478,6 +514,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'EUROPA',
+        validate: null as null,
         height: 6,
     },
     {
@@ -491,6 +528,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "MBF" en ampoule "LED".',
         lampType: 'MBF',
         foyerType: 'POLYCUBE OR',
+        validate: null as null,
         height: 3.5,
     },
     {
@@ -504,6 +542,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'BTX 183 LYRE',
+        validate: null as null,
         height: 8,
     },
     {
@@ -517,6 +556,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'IRIDIUM 9',
+        validate: null as null,
         height: 8,
     },
     {
@@ -530,6 +570,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'THAIS',
+        validate: null as null,
         height: 9,
     },
     {
@@ -543,6 +584,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'PILOTE T2',
+        validate: null as null,
         height: 8,
     },
     {
@@ -556,6 +598,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'KIO',
+        validate: null as null,
         height: 4,
     },
     {
@@ -569,6 +612,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'BTX',
+        validate: null as null,
         height: 6,
     },
     {
@@ -582,6 +626,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "IMC" en ampoule "LED".',
         lampType: 'IMC',
         foyerType: 'OLIVIO 300',
+        validate: null as null,
         height: 10.600000381469727,
     },
     {
@@ -595,6 +640,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'SAPHIR',
+        validate: null as null,
         height: 9,
     },
     {
@@ -608,6 +654,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "IMC" en ampoule "LED".',
         lampType: 'IMC',
         foyerType: 'GENERATEUR FIBRE OPTIQUE BL2',
+        validate: null as null,
         height: 0,
     },
     {
@@ -621,6 +668,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'IRIDIUM 10',
+        validate: null as null,
         height: 6,
     },
     {
@@ -634,6 +682,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'KIO',
+        validate: null as null,
         height: 4,
     },
     {
@@ -647,6 +696,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'PFL 240',
+        validate: null as null,
         height: 9,
     },
     {
@@ -660,6 +710,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'IRIDIUM',
+        validate: null as null,
         height: 0,
     },
     {
@@ -673,6 +724,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'ESTORIL P',
+        validate: null as null,
         height: 9,
     },
     {
@@ -686,6 +738,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'IRIDIUM 9',
+        validate: null as null,
         height: 5,
     },
     {
@@ -699,6 +752,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'SAPHIR',
+        validate: null as null,
         height: 8.600000381469727,
     },
     {
@@ -712,6 +766,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'IRIDIUM 10',
+        validate: null as null,
         height: 10,
     },
     {
@@ -725,6 +780,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'MODULA',
+        validate: null as null,
         height: 5,
     },
     {
@@ -738,6 +794,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'ELIPT 55',
+        validate: null as null,
         height: 8,
     },
     {
@@ -751,6 +808,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'IRIDIUM 10',
+        validate: null as null,
         height: 9,
     },
     {
@@ -764,6 +822,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'KIO',
+        validate: null as null,
         height: 3.5,
     },
     {
@@ -777,6 +836,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'IRIDIUM 10',
+        validate: null as null,
         height: 8,
     },
     {
@@ -790,6 +850,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'MURENA',
+        validate: null as null,
         height: 10,
     },
     {
@@ -803,6 +864,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "IMC" en ampoule "LED".',
         lampType: 'IMC',
         foyerType: 'MURENA',
+        validate: null as null,
         height: 6,
     },
     {
@@ -816,6 +878,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'KIO',
+        validate: null as null,
         height: 4.5,
     },
     {
@@ -829,6 +892,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'ESTORIL P',
+        validate: null as null,
         height: 10,
     },
     {
@@ -842,6 +906,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'IRIDIUM 10',
+        validate: null as null,
         height: null,
     },
     {
@@ -855,6 +920,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'ALURA DIRECT',
+        validate: null as null,
         height: 3.5999999046325684,
     },
     {
@@ -868,6 +934,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'IRIDIUM 9',
+        validate: null as null,
         height: 6,
     },
     {
@@ -881,6 +948,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'IRIDIUM 9',
+        validate: null as null,
         height: 8,
     },
     {
@@ -894,6 +962,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'CITYSOUL MINI',
+        validate: null as null,
         height: 5,
     },
     {
@@ -907,6 +976,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "IMC" en ampoule "LED".',
         lampType: 'IMC',
         foyerType: 'NEOS 1',
+        validate: null as null,
         height: 7,
     },
     {
@@ -920,6 +990,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'IRIDIUM 10',
+        validate: null as null,
         height: 10,
     },
     {
@@ -933,6 +1004,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "IM" en ampoule "LED".',
         lampType: 'IM',
         foyerType: 'LEMNIS',
+        validate: null as null,
         height: 7,
     },
     {
@@ -946,6 +1018,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'MODULA P',
+        validate: null as null,
         height: 6,
     },
     {
@@ -959,6 +1032,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'EUROPA',
+        validate: null as null,
         height: 8,
     },
     {
@@ -972,6 +1046,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'ELIPT II 55',
+        validate: null as null,
         height: 6,
     },
     {
@@ -985,6 +1060,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'MODULA G',
+        validate: null as null,
         height: 10,
     },
     {
@@ -998,6 +1074,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'PIXEL',
+        validate: null as null,
         height: 9,
     },
     {
@@ -1011,6 +1088,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'KIO',
+        validate: null as null,
         height: 4,
     },
     {
@@ -1024,6 +1102,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "IM" en ampoule "LED".',
         lampType: 'IM',
         foyerType: 'METRONOMIS ANNECY',
+        validate: null as null,
         height: 3.5,
     },
     {
@@ -1037,6 +1116,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "IM" en ampoule "LED".',
         lampType: 'IM',
         foyerType: 'BERLIN CDS 570',
+        validate: null as null,
         height: 4.5,
     },
     {
@@ -1050,6 +1130,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'IRIDIUM 10',
+        validate: null as null,
         height: 8,
     },
     {
@@ -1063,6 +1144,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'AUSTRALE 73',
+        validate: null as null,
         height: 10,
     },
     {
@@ -1076,6 +1158,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "IM" en ampoule "LED".',
         lampType: 'IM',
         foyerType: 'MAYA MIDI',
+        validate: null as null,
         height: 8,
     },
     {
@@ -1089,6 +1172,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'IJB',
+        validate: null as null,
         height: 9,
     },
     {
@@ -1102,6 +1186,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'RIVIERA 2',
+        validate: null as null,
         height: 8,
     },
     {
@@ -1115,6 +1200,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'ESTORIL P',
+        validate: null as null,
         height: 8,
     },
     {
@@ -1128,6 +1214,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "IMC" en ampoule "LED".',
         lampType: 'IMC',
         foyerType: 'NEOS 2',
+        validate: null as null,
         height: 7.599999904632568,
     },
     {
@@ -1141,6 +1228,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'IRIDIUM 9',
+        validate: null as null,
         height: 7,
     },
     {
@@ -1154,6 +1242,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'IRIDIUM 10',
+        validate: null as null,
         height: 9,
     },
     {
@@ -1167,6 +1256,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'ORACLE T1',
+        validate: null as null,
         height: 8,
     },
     {
@@ -1180,6 +1270,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'MODENA P',
+        validate: null as null,
         height: null,
     },
     {
@@ -1193,6 +1284,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'AVENUE F',
+        validate: null as null,
         height: 3.5999999046325684,
     },
     {
@@ -1206,6 +1298,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'SAPHIR',
+        validate: null as null,
         height: 0,
     },
     {
@@ -1219,6 +1312,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'MODULA P',
+        validate: null as null,
         height: 9,
     },
     {
@@ -1232,6 +1326,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'THAIS',
+        validate: null as null,
         height: 9,
     },
     {
@@ -1245,6 +1340,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Changer l\'ampoule "SHP" en ampoule "LED".',
         lampType: 'SHP',
         foyerType: 'IRIDIUM 9',
+        validate: null as null,
         height: 5,
     },
     {
@@ -1258,6 +1354,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Allumer le lampadaire EPCH144022 à partir de 17:56',
         lampType: 'SHP',
         foyerType: 'DECOSTREET 1',
+        validate: null as null,
         height: 4,
     },
     {
@@ -1271,6 +1368,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Allumer le lampadaire EPSH132079 à partir de 17:56',
         lampType: 'SHP',
         foyerType: 'ELYXE',
+        validate: null as null,
         height: 4,
     },
     {
@@ -1284,6 +1382,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Allumer le lampadaire EPOR088035 à partir de 17:56',
         lampType: 'IMC',
         foyerType: 'HESTIA MIDI',
+        validate: null as null,
         height: 8,
     },
     {
@@ -1297,6 +1396,7 @@ export let optimisationTemplateDataBackup = [
         solution: 'Allumer le lampadaire EPOR089104 à partir de 17:56',
         lampType: 'SHP',
         foyerType: 'ORIENT',
+        validate: null as null,
         height: 3.5,
     },
 ];

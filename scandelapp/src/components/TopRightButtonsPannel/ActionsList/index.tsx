@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import {
     ActionsListContainer,
     ActionsListButton,
@@ -21,6 +21,8 @@ import {
 } from './elements';
 import { PersonnalizedGauge } from '../../Gauges';
 import { useTranslation } from 'react-i18next';
+import { getAllScores } from '../../../utils/gaugesUtils'
+import { generatePDFDocument } from './pdfGenerator';
 
 /** Menu of the decision pannel
  * @param {boolean} isDark - If the map is in dark mode or not
@@ -47,6 +49,74 @@ const ActionsList: React.FC<ActionsListProps> = ({
     optimisationTemplateData,
     setOptimisationTemplateData,
 }) => {
+    const [levelElec, setLevelElec] = useState<number>(0);
+    const [levelBio, setLevelBio] = useState<number>(0);
+    const [levelLumi, setLevelLumi] = useState<number>(0);
+
+    function parseFloatSafe(input: string): number {
+        const trimmedInput = input.trim();
+    
+        const isValidNumber = /^[0-9]*\.?[0-9]+$/.test(trimmedInput);
+        if (!isValidNumber) {
+            return NaN;
+        }
+
+        return parseFloat(trimmedInput);
+    }
+
+    useEffect(() => {
+        const checkScore = () => {
+            const vegetalScore = localStorage.getItem('vegetalScore');
+            const lightScore = localStorage.getItem('lightScore');
+            const consumptionScore = localStorage.getItem('consumptionScore');
+
+            let allScoresDefined = true;
+
+            if (vegetalScore) {
+                const parsedScore = parseFloatSafe(vegetalScore);
+                if (!isNaN(parsedScore)) {
+                    setLevelBio(parsedScore);
+                } else {
+                    allScoresDefined = false;
+                }
+            } else {
+                allScoresDefined = false;
+            }
+
+            if (lightScore) {
+                const parsedScore = parseFloatSafe(lightScore);
+                if (!isNaN(parsedScore)) {
+                    setLevelLumi(parsedScore);
+                } else {
+                    allScoresDefined = false;
+                }
+            } else {
+                allScoresDefined = false;
+            }
+
+            if (consumptionScore) {
+                const parsedScore = parseFloatSafe(consumptionScore);
+                if (!isNaN(parsedScore)) {
+                    setLevelElec(parsedScore);
+                } else {
+                    allScoresDefined = false;
+                }
+            } else {
+                allScoresDefined = false;
+            }
+
+            return allScoresDefined;
+        };
+
+        const intervalId = setInterval(() => {
+            if (checkScore()) {
+                clearInterval(intervalId);
+            }
+        }, 1000); // Vérifiez les scores toutes les secondes
+
+        return () => clearInterval(intervalId);
+    }, []);
+
     const { t } = useTranslation();
     useEffect(() => {
         if (decisionPanelExtended && actionsListExtended)
@@ -72,6 +142,21 @@ const ActionsList: React.FC<ActionsListProps> = ({
                 optimisationTemplateData[i].saved = false;
             }
         }
+        setOptimisationTemplateData(optimisationTemplateData);
+        handleToggleActionsListExpend();
+    };
+
+    const handlePDFButtonClick = () => {
+        const validateData = optimisationTemplateData.filter(
+            (item: any) => item.selected
+        );
+        for (let i = 0; i < optimisationTemplateData.length; i++) {
+            if (optimisationTemplateData[i].selected) {
+                updateValidateData(optimisationTemplateData[i]);
+                optimisationTemplateData[i].saved = false;
+            }
+        }
+        generatePDFDocument(validateData, 'author', 'place');
         setOptimisationTemplateData(optimisationTemplateData);
         handleToggleActionsListExpend();
     };
@@ -113,6 +198,8 @@ const ActionsList: React.FC<ActionsListProps> = ({
             console.error('Erreur', error);
         }
     };
+
+    // console.log(parseFloat(levelElec.toString().replace(",", ".")) + (optimisationTemplateData.filter((item: any) => item.saved).length / 10))
 
     return (
         <ActionsListContainer>
@@ -168,10 +255,10 @@ const ActionsList: React.FC<ActionsListProps> = ({
                         isElec={true}
                         isBio={false}
                         isLumi={false}
-                        level={80}
-                        oldLevel={50}
-                        top={70}
-                        left={57}
+                        level={parseFloat(levelElec.toString().replace(",", ".")) + (optimisationTemplateData.filter((item: any) => item.saved).length / 10)}
+                        oldLevel={levelElec}
+                        top={15}
+                        left={15}
                     />
                     <PersonnalizedGauge
                         id={'BioGaugesComponentId'}
@@ -179,10 +266,10 @@ const ActionsList: React.FC<ActionsListProps> = ({
                         isElec={false}
                         isBio={true}
                         isLumi={false}
-                        level={65}
-                        oldLevel={85}
-                        top={70}
-                        left={71}
+                        level={parseFloat(levelBio.toString().replace(",", ".")) + (optimisationTemplateData.filter((item: any) => item.saved).length / 20)}
+                        oldLevel={levelBio}
+                        top={15}
+                        left={40}
                     />
                     <PersonnalizedGauge
                         id={'LumiGaugesComponentId'}
@@ -190,10 +277,10 @@ const ActionsList: React.FC<ActionsListProps> = ({
                         isElec={false}
                         isBio={false}
                         isLumi={true}
-                        level={40}
-                        oldLevel={20}
-                        top={70}
-                        left={85}
+                        level={parseFloat(levelLumi.toString().replace(",", ".")) + (optimisationTemplateData.filter((item: any) => item.saved).length / 20)}
+                        oldLevel={levelLumi}
+                        top={15}
+                        left={65}
                     />
                 </GaugesContainer>
                 <ValidateButton
@@ -202,8 +289,8 @@ const ActionsList: React.FC<ActionsListProps> = ({
                 >
                     {t('Valider')}
                 </ValidateButton>
-                <PDFButton isDark={isDark} onClick={handleValidateButtonClick}>
-                    {t('Export en PDF')}
+                <PDFButton isDark={isDark} onClick={handlePDFButtonClick}>
+                    {t('PDF')}
                 </PDFButton>
             </ActionsListPanel>
         </ActionsListContainer>

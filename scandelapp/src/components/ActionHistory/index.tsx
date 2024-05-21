@@ -27,32 +27,35 @@ const ActionHistory: React.FC<ActionHistoryProps> = ({ id, isDark }) => {
     const [actionHistoryData, setActionHistoryData] = useState([]);
 
     const getDecisions = async () => {
-        const username = process.env.REACT_APP_REQUEST_USER;
-        const password = process.env.REACT_APP_REQUEST_PASSWORD;
-        const urlRequest =
-            process.env.REACT_APP_BACKEND_URL + 'decisions?pageNumber=0';
+        // const username = process.env.REACT_APP_REQUEST_USER;
+        // const password = process.env.REACT_APP_REQUEST_PASSWORD;
+        // const urlRequest =
+        //     process.env.REACT_APP_BACKEND_URL + 'decisions?pageNumber=0';
 
-        try {
-            const response = await fetch(urlRequest, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Basic ${btoa(`${username}:${password}`)}`,
-                },
-            });
-            const data = await response.json();
-            setDataReceived(true);
-            parseDecisions(data);
-        } catch (error) {
-            console.log('ERROR GET DECISIONS = ' + error);
-        }
+        // try {
+        //     const response = await fetch(urlRequest, {
+        //         method: 'GET',
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //             Authorization: `Basic ${btoa(`${username}:${password}`)}`,
+        //         },
+        //     });
+        //     const data = await response.json();
+        //     setDataReceived(true);
+        //     parseDecisions(data);
+        // } catch (error) {
+        //     console.log('ERROR GET DECISIONS = ' + error);
+        // }
+        const data = localStorage.getItem('optimisationTemplateData');
+        if (data === null) return;
+        setDataReceived(true);
+        parseDecisions(JSON.parse(data));
     };
 
     const parseDecisions = (decisions: any) => {
         const actionHistoryData: any = [];
         if (decisions === null) return;
         if (Array.isArray(decisions)) {
-            console.log(decisions);
             decisions.forEach((decision: any) => {
                 if (decision.validate !== null) {
                     const action = {

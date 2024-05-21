@@ -61,8 +61,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ id, isDark, onSubmit }) => {
         const username = process.env.REACT_APP_REQUEST_USER;
         const password = process.env.REACT_APP_REQUEST_PASSWORD;
         const urlLamp =
-            process.env.REACT_APP_BACKEND_URL + 'lamps/' + searchValue;
-
+            process.env.REACT_APP_BACKEND_URL + 'lamps/name/' + searchValue;
         try {
             const response = await fetch(urlLamp, {
                 method: 'GET',
@@ -73,10 +72,14 @@ const SearchBar: React.FC<SearchBarProps> = ({ id, isDark, onSubmit }) => {
             });
 
             const lampData = await response.json();
-
             if (response.status === 200) {
                 setLat(lampData.latitude);
                 setLong(lampData.longitude);
+                onSubmit(
+                    'ZOOM ON LAMP',
+                    lampData.longitude,
+                    lampData.latitude
+                );
             } else {
                 console.log('GET LAMP FAILED, status = ' + response.status);
                 setIsLamp(false);
