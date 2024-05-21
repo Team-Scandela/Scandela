@@ -587,10 +587,10 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
 
         Area totalAreaShape = new Area(new Rectangle2D.Double(minX, minY, width, height));
 
-		System.out.println("List of Lamp Coordinates:");
-    	for (double[] coord : lampCoordinates) {
-    	    System.out.println("Latitude: " + coord[0] + ", Longitude: " + coord[1]);
-    	}
+		// System.out.println("List of Lamp Coordinates:");
+    	// for (double[] coord : lampCoordinates) {
+    	//     System.out.println("Latitude: " + coord[0] + ", Longitude: " + coord[1]);
+    	// }
 
         double illuminatedArea = calculateArea(totalAreaShape, lampCoordinates);
 
