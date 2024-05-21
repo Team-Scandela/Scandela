@@ -2,6 +2,7 @@ package com.scandela.server.service.implementation;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,21 +27,16 @@ public class TicketService extends AbstractService<Ticket> implements ITicketSer
 	@Override
 	public Ticket create(Ticket newTicket) {
 		/* Entrée d'audit - Creation de ticket */
-		// AuditEntry auditEntry = new AuditEntry();
+		AuditEntry auditEntry = new AuditEntry();
 
-		// auditEntry.setData(new ArrayList<>());
+		auditEntry.setData(new ArrayList<>());
 
-		// auditEntry.setUserId(newTicket. .get().getId());
-		// auditEntry.setAction("USER_SIGNIN");
-		// auditEntry.setTimestamp(new Timestamp(System.currentTimeMillis()));
+		auditEntry.setUserid(UUID.fromString(newTicket.getAuthor()));
+		auditEntry.setAction("TICKET_CREATED");
+		auditEntry.setTimestamp(new Timestamp(System.currentTimeMillis()));
 
-		// if (user.get().getUsername() != null) {
-		// auditEntry.getData().add(user.get().getUsername());
-		// } else {
-		// auditEntry.getData().add(user.get().getEmail());
-		// }
+		auditService.sendPostToCreate(auditEntry);
 
-		// auditService.create(auditEntry);
 		return dao.save(newTicket);
 	}
 }

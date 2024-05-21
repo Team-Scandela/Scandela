@@ -36,15 +36,15 @@ public class AuditEntry implements Serializable {
 	@Column(name = "uuid", updatable = false, nullable = false)
 	private UUID id;
 
-    @Column(name = "userId", nullable = false, unique = true)
-    private UUID userId;
+    @Column(name = "userid", nullable = false)
+    private UUID userid;
 
-    @Column(name = "action", nullable = false, unique = true)
+    @Column(name = "action", nullable = false)
     private String action;
 
-    @Column(name = "timestamp", nullable = false, unique = true)
+    @Column(name = "timestamp", nullable = false)
     private Timestamp timestamp;
 
-    @Column(name = "data", unique = true)
+    @Column(name = "data")
     private List<String> data;
 }

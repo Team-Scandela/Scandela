@@ -139,17 +139,19 @@ public class UserService extends AbstractService<User> implements IUserService {
 
 					auditEntry.setData(new ArrayList<>());
 
-					auditEntry.setUserId(user.get().getId());
+					auditEntry.setUserid(user.get().getId());
 					auditEntry.setAction("USER_SIGNIN");
 					auditEntry.setTimestamp(new Timestamp(System.currentTimeMillis()));
 
 					if (user.get().getUsername() != null) {
-					auditEntry.getData().add(user.get().getUsername());
+						auditEntry.getData().add(user.get().getUsername());
 					} else {
-					auditEntry.getData().add(user.get().getEmail());
+						auditEntry.getData().add(user.get().getEmail());
 					}
 
-					auditService.create(auditEntry);
+					auditService.sendPostToCreate(auditEntry);
+
+					// System.out.println("test Audit -> " + test);
 
                 } catch (Exception e) {
 					e.printStackTrace();

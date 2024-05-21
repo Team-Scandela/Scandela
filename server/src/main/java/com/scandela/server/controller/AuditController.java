@@ -3,6 +3,7 @@ package com.scandela.server.controller;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +22,7 @@ import com.scandela.server.service.IAuditService;
 @CrossOrigin(origins = "*")
 public class AuditController extends AbstractController<AuditEntry> {
 
+    @Autowired
     public AuditController(IAuditService auditService) {
         super(auditService);
     }
@@ -36,7 +38,7 @@ public class AuditController extends AbstractController<AuditEntry> {
     }
 
     @PostMapping("/create")
-	public AuditEntry createBulb(@RequestBody AuditEntry newAuditEntry) throws Exception {
+	public AuditEntry createAuditEntry(@RequestBody AuditEntry newAuditEntry) throws Exception {
 		return super.create(newAuditEntry);
 	}
 
@@ -46,7 +48,7 @@ public class AuditController extends AbstractController<AuditEntry> {
     }
 
     @DeleteMapping("/delete/{id}")
-	public void deleteBulb(@PathVariable UUID id) {
+	public void deleteAuditEntry(@PathVariable UUID id) {
 		super.delete(id);
 	}
 }

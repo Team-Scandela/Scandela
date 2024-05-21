@@ -55,16 +55,21 @@ public class AuditAspect {
         String userId = "tmpUserId";
         if (userId != null && !userId.isEmpty()) {
             try {
-                auditEntry.setUserId(UUID.fromString(userId));
+                auditEntry.setUserid(UUID.fromString(userId));
             } catch (IllegalArgumentException e) {
                 logger.error("Invalid UUID string: " + userId, e);
-                auditEntry.setUserId(null);
+                auditEntry.setUserid(null);
             }
         } else {
             logger.warn("User ID is null or empty for the audit entry");
-            auditEntry.setUserId(null);
+            auditEntry.setUserid(null);
         }
 
-        auditService.create(auditEntry);
+        try {
+            auditService.create(auditEntry);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 }
