@@ -25,7 +25,7 @@ import OptimisationTemplate from '../OptimisationTemplate';
 import { showToast } from '../Toastr';
 import { useTranslation } from 'react-i18next';
 import { PersonnalizedGauge } from '../Gauges';
-import { GaugesContainer } from '../ActionsList/elements';
+import { GaugesContainer } from '../TopRightButtonsPannel/ActionsList/elements';
 
 /** Props of the decision pannel
  * @param {boolean} isDark - If the map is in dark mode or not
