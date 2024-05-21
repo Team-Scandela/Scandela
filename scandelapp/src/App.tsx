@@ -27,6 +27,7 @@ const App: React.FC = () => {
     }, [optimisationTemplateData]);
 
     const addItemToOptimisationTemplate = (data: any) => {
+        console.log(data);
         const newItems = data.map((item: any, index: number) => ({
             id: index,
             saved: false,
@@ -40,6 +41,7 @@ const App: React.FC = () => {
             foyerType: item.lampDecision.lamp.foyerType,
             height: item.lampDecision.lamp.height,
             uuid: item.id,
+            validate: item.validate,
         }));
         setOptimisationTemplateData(newItems);
     };

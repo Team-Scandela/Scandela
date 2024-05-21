@@ -7,7 +7,7 @@ export const OptimisationTemplateContainer = styled.div`
     position: absolute;
     width: 370px;
     min-height: 95px;
-    height: 95px;
+    height: 120px;
     left: 0px;
     top: ${(props) => props.y}px;
     border-radius: 5px;
@@ -26,7 +26,7 @@ export const SelectionIndicator = styled.div`
     display: flex;
     position: absolute;
     width: 6px;
-    height: 80px;
+    height: 105px;
     top: 5px;
     left: 5px;
     user-select: none;
@@ -46,7 +46,7 @@ export const TypeText = styled.p`
     position: absolute;
     top: 8px;
     left: 17px;
-    font-size: 16px;
+    font-size: 13px;
     user-select: none;
     color: ${(props) => (props.isDark ? Black : Black)};
     font-weight: 500;
@@ -77,7 +77,7 @@ export const DescriptionText = styled.p`
     color: ${(props) => (props.isDark ? Black : Black)};
     font-weight: 500;
     font-style: italic;
-    max-width: 195px;
+    max-width: 185px;
     overflow-wrap: break-word;
 `;
 
@@ -88,7 +88,7 @@ export const SolutionTextContainer = styled.div`
     align-items: center;
     justify-content: center;
     width: 155px;
-    height: 84px;
+    height: 109px;
     top: 4px;
     right: 6px;
     background-color: rgb(42, 43, 42);
@@ -98,7 +98,7 @@ export const SolutionTextContainer = styled.div`
 /** Style for the optimisation solution text */
 export const SolutionText = styled.p`
     position: relative;
-    font-size: 14px;
+    font-size: 10px;
     user-select: none;
     color: ${(props) => (props.isDark ? Yellow : Black)};
     font-weight: bold;

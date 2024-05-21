@@ -53,25 +53,68 @@ const ActionsList: React.FC<ActionsListProps> = ({
     const [levelBio, setLevelBio] = useState<number>(0);
     const [levelLumi, setLevelLumi] = useState<number>(0);
 
-    const [oldLevelElec, setOldLevelElec] = useState<number>(0);
-    const [oldLevelBio, setOldLevelBio] = useState<number>(0);
-    const [oldLevelLumi, setOldLevelLumi] = useState<number>(0);
-    useEffect(() => {
-        const fetchUserData = async () => {
-            const AllScores = await getAllScores();
-            if (AllScores) {
-                // Formatez les scores avec deux chiffres après la virgule
-                const vegetalScore = AllScores.vegetalScore.toFixed(2);
-                const consumptionScore = AllScores.consumptionScore.toFixed(2);
-                const lightScore = AllScores.lightScore.toFixed(2);
+    function parseFloatSafe(input: string): number {
+        const trimmedInput = input.trim();
+    
+        const isValidNumber = /^[0-9]*\.?[0-9]+$/.test(trimmedInput);
+        if (!isValidNumber) {
+            return NaN;
+        }
 
-                setLevelBio(vegetalScore)
-                setLevelElec(consumptionScore)
-                setLevelLumi(lightScore)
+        return parseFloat(trimmedInput);
+    }
+
+    useEffect(() => {
+        const checkScore = () => {
+            const vegetalScore = localStorage.getItem('vegetalScore');
+            const lightScore = localStorage.getItem('lightScore');
+            const consumptionScore = localStorage.getItem('consumptionScore');
+
+            let allScoresDefined = true;
+
+            if (vegetalScore) {
+                const parsedScore = parseFloatSafe(vegetalScore);
+                if (!isNaN(parsedScore)) {
+                    setLevelBio(parsedScore);
+                } else {
+                    allScoresDefined = false;
+                }
+            } else {
+                allScoresDefined = false;
             }
+
+            if (lightScore) {
+                const parsedScore = parseFloatSafe(lightScore);
+                if (!isNaN(parsedScore)) {
+                    setLevelLumi(parsedScore);
+                } else {
+                    allScoresDefined = false;
+                }
+            } else {
+                allScoresDefined = false;
+            }
+
+            if (consumptionScore) {
+                const parsedScore = parseFloatSafe(consumptionScore);
+                if (!isNaN(parsedScore)) {
+                    setLevelElec(parsedScore);
+                } else {
+                    allScoresDefined = false;
+                }
+            } else {
+                allScoresDefined = false;
+            }
+
+            return allScoresDefined;
         };
 
-        fetchUserData();
+        const intervalId = setInterval(() => {
+            if (checkScore()) {
+                clearInterval(intervalId);
+            }
+        }, 1000); // Vérifiez les scores toutes les secondes
+
+        return () => clearInterval(intervalId);
     }, []);
 
     const { t } = useTranslation();
@@ -156,7 +199,7 @@ const ActionsList: React.FC<ActionsListProps> = ({
         }
     };
 
-    console.log(parseFloat(levelElec.toString().replace(",", ".")) + (optimisationTemplateData.filter((item: any) => item.saved).length / 10))
+    // console.log(parseFloat(levelElec.toString().replace(",", ".")) + (optimisationTemplateData.filter((item: any) => item.saved).length / 10))
 
     return (
         <ActionsListContainer>
@@ -167,14 +210,14 @@ const ActionsList: React.FC<ActionsListProps> = ({
             ></ActionsListButton>
             <ActionsListPanel isDark={isDark} show={actionsListExtended}>
                 <ScrollableOptimisationsContainer isDark={isDark}>
-                    <TimeIcon isDark={isDark} size={150}></TimeIcon>
+                    <TimeIcon isDark={isDark} size={150}/>
                     {optimisationTemplateData
                         .filter((item: any) => item.saved)
                         .map((item: any, i: number) => (
                             <OptimisationTemplateContainer
                                 key={i}
                                 isDark={isDark}
-                                y={100 * i}
+                                y={125 * i}
                             >
                                 <TypeText isDark={isDark}>{item.type}</TypeText>
                                 <LocationText isDark={isDark}>
@@ -214,8 +257,8 @@ const ActionsList: React.FC<ActionsListProps> = ({
                         isLumi={false}
                         level={parseFloat(levelElec.toString().replace(",", ".")) + (optimisationTemplateData.filter((item: any) => item.saved).length / 10)}
                         oldLevel={levelElec}
-                        top={70}
-                        left={57}
+                        top={15}
+                        left={15}
                     />
                     <PersonnalizedGauge
                         id={'BioGaugesComponentId'}
@@ -225,8 +268,8 @@ const ActionsList: React.FC<ActionsListProps> = ({
                         isLumi={false}
                         level={parseFloat(levelBio.toString().replace(",", ".")) + (optimisationTemplateData.filter((item: any) => item.saved).length / 20)}
                         oldLevel={levelBio}
-                        top={70}
-                        left={71}
+                        top={15}
+                        left={40}
                     />
                     <PersonnalizedGauge
                         id={'LumiGaugesComponentId'}
@@ -236,8 +279,8 @@ const ActionsList: React.FC<ActionsListProps> = ({
                         isLumi={true}
                         level={parseFloat(levelLumi.toString().replace(",", ".")) + (optimisationTemplateData.filter((item: any) => item.saved).length / 20)}
                         oldLevel={levelLumi}
-                        top={70}
-                        left={85}
+                        top={15}
+                        left={65}
                     />
                 </GaugesContainer>
                 <ValidateButton

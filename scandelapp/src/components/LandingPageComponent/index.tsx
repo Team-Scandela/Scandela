@@ -77,7 +77,7 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({}) => {
 
     return (
         <div>
-            <ScandelaText>ScandeMenu</ScandelaText>
+            <ScandelaText>{t('scandeMenu')}</ScandelaText>
             <LogoContainer src={logoYellow} />
             <TriangleContainerLeft />
             <TriangleContainerRight />
@@ -96,7 +96,9 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({}) => {
                         onClick={handlePremiumButtonClicked}
                     >
                         <PremiumImgBg />
-                        <PortalTitle fontSize={'1.5rem'}>Premium</PortalTitle>
+                        <PortalTitle fontSize={'1.5rem'}>
+                            {t('premium')}
+                        </PortalTitle>
                     </PortalLinkContainer>
                     <PortalLinkContainer
                         top={'21%'}
@@ -108,7 +110,9 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({}) => {
                         onClick={handleLogScandela}
                     >
                         <ScandelaImgBg />
-                        <PortalTitle fontSize={'3rem'}>Scandela</PortalTitle>
+                        <PortalTitle fontSize={'3rem'}>
+                            {t('scandela')}
+                        </PortalTitle>
                     </PortalLinkContainer>
                     <PortalLinkContainer
                         top={'21%'}
@@ -121,7 +125,9 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({}) => {
                         onClick={handleProfileButtonClicked}
                     >
                         <ProfilImgBg />
-                        <PortalTitle fontSize={'1.5rem'}>Profil</PortalTitle>
+                        <PortalTitle fontSize={'1.5rem'}>
+                            {t('profile')}
+                        </PortalTitle>
                     </PortalLinkContainer>
                     <PortalLinkContainer
                         top={'54%'}
@@ -137,7 +143,9 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({}) => {
                         {localStorage.getItem('premium') === 'false' && (
                             <LockIcon />
                         )}
-                        <PortalTitle fontSize={'1.5rem'}>Tickets</PortalTitle>
+                        <PortalTitle fontSize={'1.5rem'}>
+                            {t('tickets')}
+                        </PortalTitle>
                     </PortalLinkContainer>
                     <PortalLinkContainer
                         top={'72%'}
@@ -150,7 +158,7 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({}) => {
                     >
                         <LogoutImgBg />
                         <PortalTitle fontSize={'1rem'}>
-                            Déconnection
+                            {t('signOut')}
                         </PortalTitle>
                     </PortalLinkContainer>
                     <PortalLinkContainer
@@ -163,11 +171,13 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({}) => {
                         onClick={handleFAQButtonClicked}
                     >
                         <FAQImgBg />
-                        <PortalTitle fontSize={'1.5rem'}>FAQ</PortalTitle>
+                        <PortalTitle fontSize={'1.5rem'}>
+                            {t('faq')}
+                        </PortalTitle>
                     </PortalLinkContainer>
                     {localStorage.getItem('token') === 'true' && (
                         <PortalLinkAdmin onClick={handleLogAdmin}>
-                            Admin
+                            {t('admin')}
                         </PortalLinkAdmin>
                     )}
                 </div>

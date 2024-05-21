@@ -17,7 +17,9 @@ import {
 } from './elements';
 import { useNavigate } from 'react-router-dom';
 import { setUserId, getUser, putUser } from '../../utils/userUtils';
+import { getDecisionsSpecificAlgo } from '../../utils/decisionsUtils';
 import { optimisationTemplateDataBackup } from './backup_decisions';
+import { getAllScores } from '../../utils/gaugesUtils'
 
 interface LoginModuleProps {
     setOptimisationTemplateData: (data: any) => void;
@@ -56,14 +58,45 @@ const LoginModule: React.FC<LoginModuleProps> = ({
         putUser(updatedUserData);
     };
 
+    const setUpDecisions = async () => {
+        const [
+            dataChangementBulb,
+            dataReductionConsoHoraire,
+            dataAjouterLampadaire,
+            dataRetirerLampadaire,
+            dataReduireIntensiteLampadaire,
+            dataAugmenterIntensiteLampadaire
+        ] = await Promise.all([
+            getDecisionsSpecificAlgo('algoChangementBulb'),
+            getDecisionsSpecificAlgo('algoReductionConsoHoraire'),
+            getDecisionsSpecificAlgo('algoAjouterLampadaire'),
+            getDecisionsSpecificAlgo('algoRetirerLampadaire'),
+            getDecisionsSpecificAlgo('algoReduireIntensiteLampadaire'),
+            getDecisionsSpecificAlgo('algoAugmenterIntensiteLampadaire')
+        ]);
+        const data = [].concat(
+            dataChangementBulb,
+            dataReductionConsoHoraire,
+            dataAjouterLampadaire,
+            dataRetirerLampadaire,
+            dataReduireIntensiteLampadaire,
+            dataAugmenterIntensiteLampadaire
+        );
+        addItemToOptimisationTemplate(data);
+    };
+
     const initUserSetup = async (data: any) => {
         localStorage.setItem('isDark', JSON.stringify(data.darkmode));
+        localStorage.setItem('vegetalScore', JSON.stringify(false));
+        localStorage.setItem('consumptionScore', JSON.stringify(false));
+        localStorage.setItem('lightScore', JSON.stringify(false));
+        getAllScores();
         if (data.rights === 2) {
             localStorage.setItem('token', JSON.stringify(true));
             setOptimisationTemplateData(optimisationTemplateDataBackup);
         } else {
             localStorage.setItem('token', JSON.stringify(false));
-            getDecisions();
+            setUpDecisions();
         }
         if (
             (data.moreInformations[2] && data.moreInformations[2] === 'true') ||
@@ -152,27 +185,6 @@ const LoginModule: React.FC<LoginModuleProps> = ({
             } catch (error) {
                 console.error("Erreur lors de l'inscription", error);
             }
-        }
-    };
-
-    const getDecisions = async () => {
-        const username = process.env.REACT_APP_REQUEST_USER;
-        const password = process.env.REACT_APP_REQUEST_PASSWORD;
-        const urlRequest =
-            process.env.REACT_APP_BACKEND_URL + 'decisions?pageNumber=0';
-
-        try {
-            const response = await fetch(urlRequest, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Basic ${btoa(`${username}:${password}`)}`,
-                },
-            });
-            const data = await response.json();
-            addItemToOptimisationTemplate(data);
-        } catch (error) {
-            console.log('ERROR GET DECISIONS = ' + error);
         }
     };
 

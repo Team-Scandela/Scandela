@@ -10,10 +10,11 @@ import {
     EventDescription,
     EventTitle,
     EventLocation,
+    TimeIcon,
 } from './elements';
 import { PersonnalizedGauge } from '../Gauges';
 import { GoInfo } from 'react-icons/go';
-import { getAllScores } from '../../utils/gaugesUtils'
+import { useTranslation } from 'react-i18next';
 
 interface AbsencePannelProps {
     id: string;
@@ -24,6 +25,8 @@ const AbsencePannel: React.FC<AbsencePannelProps> = ({ id, isDark }) => {
     const [isAbsencePannelOpen, setIsAbsencePannelOpen] = useState(true);
     const [dataReceived, setDataReceived] = useState(false);
     const [absenceData, setAbsenceData] = useState([]);
+
+    const { t } = useTranslation();
 
     const handleToggleAbsencePannel = () => {
         setIsAbsencePannelOpen(!isAbsencePannelOpen);
@@ -37,22 +40,68 @@ const AbsencePannel: React.FC<AbsencePannelProps> = ({ id, isDark }) => {
     const [oldLevelBio, setOldLevelBio] = useState<number>(0);
     const [oldLevelLumi, setOldLevelLumi] = useState<number>(0);
 
-    useEffect(() => {
-        const fetchUserData = async () => {
-            const AllScores = await getAllScores();
-            if (AllScores) {
-                // Formatez les scores avec deux chiffres après la virgule
-                const vegetalScore = AllScores.vegetalScore.toFixed(2);
-                const consumptionScore = AllScores.consumptionScore.toFixed(2);
-                const lightScore = AllScores.lightScore.toFixed(2);
-
-                setLevelBio(vegetalScore)
-                setLevelElec(consumptionScore)
-                setLevelLumi(lightScore)
-            }
-        };
+    function parseFloatSafe(input: string): number {
+        const trimmedInput = input.trim();
     
-        fetchUserData();
+        const isValidNumber = /^[0-9]*\.?[0-9]+$/.test(trimmedInput);
+        if (!isValidNumber) {
+            return NaN;
+        }
+
+        return parseFloat(trimmedInput);
+    }
+
+    useEffect(() => {
+        const checkScore = () => {
+            const vegetalScore = localStorage.getItem('vegetalScore');
+            const lightScore = localStorage.getItem('lightScore');
+            const consumptionScore = localStorage.getItem('consumptionScore');
+
+            let allScoresDefined = true;
+
+            if (vegetalScore) {
+                const parsedScore = parseFloatSafe(vegetalScore);
+                if (!isNaN(parsedScore)) {
+                    setLevelBio(parsedScore);
+                } else {
+                    allScoresDefined = false;
+                }
+            } else {
+                allScoresDefined = false;
+            }
+
+            if (lightScore) {
+                const parsedScore = parseFloatSafe(lightScore);
+                if (!isNaN(parsedScore)) {
+                    setLevelLumi(parsedScore);
+                } else {
+                    allScoresDefined = false;
+                }
+            } else {
+                allScoresDefined = false;
+            }
+
+            if (consumptionScore) {
+                const parsedScore = parseFloatSafe(consumptionScore);
+                if (!isNaN(parsedScore)) {
+                    setLevelElec(parsedScore);
+                } else {
+                    allScoresDefined = false;
+                }
+            } else {
+                allScoresDefined = false;
+            }
+
+            return allScoresDefined;
+        };
+
+        const intervalId = setInterval(() => {
+            if (checkScore()) {
+                clearInterval(intervalId);
+            }
+        }, 1000); // Vérifiez les scores toutes les secondes
+
+        return () => clearInterval(intervalId);
     }, []);
 
     function arrayToISOString(array: number[]): string {
@@ -92,7 +141,7 @@ const AbsencePannel: React.FC<AbsencePannelProps> = ({ id, isDark }) => {
 
     const getLastActions = async () => {
         setDataReceived(true);
-        getDecisions();
+        // getDecisions();
     };
 
     const filterDecisions = (decisions: any) => {
@@ -112,24 +161,10 @@ const AbsencePannel: React.FC<AbsencePannelProps> = ({ id, isDark }) => {
     };
 
     const getDecisions = async () => {
-        const username = process.env.REACT_APP_REQUEST_USER;
-        const password = process.env.REACT_APP_REQUEST_PASSWORD;
-        const urlRequest =
-            process.env.REACT_APP_BACKEND_URL + 'decisions?pageNumber=0';
-
-        try {
-            const response = await fetch(urlRequest, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Basic ${btoa(`${username}:${password}`)}`,
-                },
-            });
-            const data = await response.json();
-            filterDecisions(data);
-        } catch (error) {
-            console.log('ERROR GET DECISIONS = ' + error);
-        }
+        const data = localStorage.getItem('optimisationTemplateData');
+        if (data === null) return;
+        setDataReceived(true);
+        filterDecisions(JSON.parse(data));
     };
 
     return (
@@ -144,9 +179,10 @@ const AbsencePannel: React.FC<AbsencePannelProps> = ({ id, isDark }) => {
             {isAbsencePannelOpen && (
                 <PannelContainer isDark={isDark}>
                     <PannelText isDark={isDark}>
-                        Pendant votre absence
+                        {t('WhileYouWereAway')}
                     </PannelText>
                     <ListDetailContainer isDark={isDark}>
+                    <TimeIcon isDark={isDark} size={200}/>
                         {absenceData.map((item: any, i: number) => (
                             <EventContainer isDark={isDark} key={i}>
                                 <EventDate>
@@ -169,8 +205,8 @@ const AbsencePannel: React.FC<AbsencePannelProps> = ({ id, isDark }) => {
                         isLumi={false}
                         level={levelElec}
                         oldLevel={levelElec}
-                        top={30}
-                        left={63.5}
+                        top={23}
+                        left={85}
                     />
                     <PersonnalizedGauge
                         id={'BioGaugesComponentId'}
@@ -180,8 +216,8 @@ const AbsencePannel: React.FC<AbsencePannelProps> = ({ id, isDark }) => {
                         isLumi={false}
                         level={levelBio}
                         oldLevel={levelBio}
-                        top={44}
-                        left={63.5}
+                        top={45}
+                        left={85}
                     />
                     <PersonnalizedGauge
                         id={'LumiGaugesComponentId'}
@@ -191,8 +227,8 @@ const AbsencePannel: React.FC<AbsencePannelProps> = ({ id, isDark }) => {
                         isLumi={true}
                         level={levelLumi}
                         oldLevel={levelLumi}
-                        top={58}
-                        left={63.5}
+                        top={68}
+                        left={85}
                     />
                     <CloseIcon
                         isDark={isDark}
