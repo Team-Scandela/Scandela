@@ -157,9 +157,9 @@ export const Gauges: React.FC<GaugesProps> = ({
                             <GaugePupText>
                                 {t('energyConsumption')}
                                 <br />
-                                à un score
+                                {t('hasaScore')}
                                 <br />
-                                de <b>{levelElec}%</b>
+                                {t('of')} <b>{levelElec}%</b>
                             </GaugePupText>
                         </GaugePupLeft>
                     </GaugeContainerLeft>
@@ -187,11 +187,11 @@ export const Gauges: React.FC<GaugesProps> = ({
                         />
                         <GaugePupMiddle show={showPupMiddle} isDark={isDark}>
                             <GaugePupText>
-                                Impact environnemental
+                                {t('environmentalImpact')}
                                 <br />
-                                à un score
+                                {t('hasaScore')}
                                 <br />
-                                de <b>{levelBio}%</b>
+                                {t('of')} <b>{levelBio}%</b>
                             </GaugePupText>
                         </GaugePupMiddle>
                     </GaugeContainerMiddle>
@@ -222,7 +222,7 @@ export const Gauges: React.FC<GaugesProps> = ({
                             <GaugePupText>
                             {t('lightingQuality')}
                                 <br />
-                                <b>{levelElec}%</b> des zones disposent d'un bon éclairage
+                                <b>{levelElec}%</b> {t('OfTheAreasHaveGoodLighting')}
                             </GaugePupText>
                         </GaugePupRight>
                     </GaugeContainerRight>

@@ -112,6 +112,9 @@ const resources = {
             languageUpdate: 'Language update',
             theThemeHasBeenSuccessfullyUpdated: 'The theme has been successfully updated"',
             themeUpdate: "Theme update",
+            of: 'of',
+            hasaScore: 'has a score',
+            environmentalImpact: 'Environmental impact',
         },
     },
 
@@ -226,6 +229,9 @@ const resources = {
             languageUpdate: 'Mise à jour de la langue',
             theThemeHasBeenSuccessfullyUpdated: 'Le thème a bien été mis à jour',
             themeUpdate: 'Mise à jour du thème',
+            of: 'de',
+            hasaScore: 'à un score',
+            environmentalImpact: 'Impact environnemental',
         },
     },
 };
