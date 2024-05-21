@@ -225,7 +225,7 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
                                               <OptimisationTemplate
                                                   key={i}
                                                   isDark={isDark}
-                                                  y={100 * i}
+                                                  y={125 * i}
                                                   optimisationTemplateData={
                                                       item
                                                   }
@@ -249,7 +249,7 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
                                               <OptimisationTemplate
                                                   key={i}
                                                   isDark={isDark}
-                                                  y={100 * i}
+                                                  y={125 * i}
                                                   optimisationTemplateData={
                                                       item
                                                   }

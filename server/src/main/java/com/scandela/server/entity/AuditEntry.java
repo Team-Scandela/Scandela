@@ -1,7 +1,8 @@
 package com.scandela.server.entity;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
+import java.util.List;
 import java.util.UUID;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -12,8 +13,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,19 +26,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-@Table(name = "notification")
-public class Notification implements Serializable {
+@Table(name = "auditentry")
+public class AuditEntry implements Serializable {
 
-	// Attributes \\
-		// Private \\
-	private static final long serialVersionUID = 1L;
-
-	@JsonDeserialize(using = UUIDDeserializer.class)
+    @JsonDeserialize(using = UUIDDeserializer.class)
 	@Id
 	@GenericGenerator(name = "UUIDGenerator", strategy = "uuid2")
     @GeneratedValue(generator = "UUIDGenerator")
 	@Column(name = "uuid", updatable = false, nullable = false)
 	private UUID id;
+<<<<<<< HEAD:server/src/main/java/com/scandela/server/entity/Notification.java
 	
 	@ManyToOne
 	@JoinColumn(name = "uuiduser", nullable = false)
@@ -50,4 +46,18 @@ public class Notification implements Serializable {
 	
 	@Column(name = "time")
 	private LocalDateTime time;
+=======
+
+    @Column(name = "userid", nullable = false)
+    private UUID userid;
+
+    @Column(name = "action", nullable = false)
+    private String action;
+
+    @Column(name = "timestamp", nullable = false)
+    private Timestamp timestamp;
+
+    @Column(name = "data")
+    private List<String> data;
+>>>>>>> master:server/src/main/java/com/scandela/server/entity/AuditEntry.java
 }

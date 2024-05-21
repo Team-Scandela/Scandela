@@ -14,6 +14,10 @@ import {
 } from './elements';
 import { PersonnalizedGauge } from '../Gauges';
 import { GoInfo } from 'react-icons/go';
+<<<<<<< HEAD
+=======
+import { useTranslation } from 'react-i18next';
+>>>>>>> master
 
 interface AbsencePannelProps {
     id: string;
@@ -24,6 +28,8 @@ const AbsencePannel: React.FC<AbsencePannelProps> = ({ id, isDark }) => {
     const [isAbsencePannelOpen, setIsAbsencePannelOpen] = useState(true);
     const [dataReceived, setDataReceived] = useState(false);
     const [absenceData, setAbsenceData] = useState([]);
+
+    const { t } = useTranslation();
 
     const handleToggleAbsencePannel = () => {
         setIsAbsencePannelOpen(!isAbsencePannelOpen);
@@ -138,7 +144,7 @@ const AbsencePannel: React.FC<AbsencePannelProps> = ({ id, isDark }) => {
 
     const getLastActions = async () => {
         setDataReceived(true);
-        getDecisions();
+        // getDecisions();
     };
 
     const filterDecisions = (decisions: any) => {
@@ -176,7 +182,7 @@ const AbsencePannel: React.FC<AbsencePannelProps> = ({ id, isDark }) => {
             {isAbsencePannelOpen && (
                 <PannelContainer isDark={isDark}>
                     <PannelText isDark={isDark}>
-                        Pendant votre absence
+                        {t('WhileYouWereAway')}
                     </PannelText>
                     <ListDetailContainer isDark={isDark}>
                     <TimeIcon isDark={isDark} size={200}/>

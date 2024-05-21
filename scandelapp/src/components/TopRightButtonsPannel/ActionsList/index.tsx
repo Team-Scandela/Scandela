@@ -53,6 +53,7 @@ const ActionsList: React.FC<ActionsListProps> = ({
     const [levelBio, setLevelBio] = useState<number>(0);
     const [levelLumi, setLevelLumi] = useState<number>(0);
 
+<<<<<<< HEAD
     const [oldLevelElec, setOldLevelElec] = useState<number>(0);
     const [oldLevelBio, setOldLevelBio] = useState<number>(0);
     const [oldLevelLumi, setOldLevelLumi] = useState<number>(0);
@@ -102,6 +103,37 @@ const ActionsList: React.FC<ActionsListProps> = ({
             } else {
                 allScoresDefined = false;
             }
+=======
+    function parseFloatSafe(input: string): number {
+        const trimmedInput = input.trim();
+    
+        const isValidNumber = /^[0-9]*\.?[0-9]+$/.test(trimmedInput);
+        if (!isValidNumber) {
+            return NaN;
+        }
+
+        return parseFloat(trimmedInput);
+    }
+
+    useEffect(() => {
+        const checkScore = () => {
+            const vegetalScore = localStorage.getItem('vegetalScore');
+            const lightScore = localStorage.getItem('lightScore');
+            const consumptionScore = localStorage.getItem('consumptionScore');
+
+            let allScoresDefined = true;
+
+            if (vegetalScore) {
+                const parsedScore = parseFloatSafe(vegetalScore);
+                if (!isNaN(parsedScore)) {
+                    setLevelBio(parsedScore);
+                } else {
+                    allScoresDefined = false;
+                }
+            } else {
+                allScoresDefined = false;
+            }
+>>>>>>> master
 
             if (lightScore) {
                 const parsedScore = parseFloatSafe(lightScore);
@@ -214,10 +246,13 @@ const ActionsList: React.FC<ActionsListProps> = ({
         }
     };
 
+<<<<<<< HEAD
     console.log(
         parseFloat(levelElec.toString().replace(',', '.')) +
             optimisationTemplateData.filter((item: any) => item.saved).length / 10
     );
+=======
+>>>>>>> master
     // console.log(parseFloat(levelElec.toString().replace(",", ".")) + (optimisationTemplateData.filter((item: any) => item.saved).length / 10))
 
     return (
@@ -229,11 +264,19 @@ const ActionsList: React.FC<ActionsListProps> = ({
             ></ActionsListButton>
             <ActionsListPanel isDark={isDark} show={actionsListExtended}>
                 <ScrollableOptimisationsContainer isDark={isDark}>
-                    <TimeIcon isDark={isDark} size={150}></TimeIcon>
+                    <TimeIcon isDark={isDark} size={150}/>
                     {optimisationTemplateData
                         .filter((item: any) => item.saved)
                         .map((item: any, i: number) => (
+<<<<<<< HEAD
                             <OptimisationTemplateContainer key={i} isDark={isDark} y={100 * i}>
+=======
+                            <OptimisationTemplateContainer
+                                key={i}
+                                isDark={isDark}
+                                y={125 * i}
+                            >
+>>>>>>> master
                                 <TypeText isDark={isDark}>{item.type}</TypeText>
                                 <LocationText isDark={isDark}>{item.location}</LocationText>
                                 <DescriptionText isDark={isDark}>{item.description}</DescriptionText>
@@ -325,8 +368,13 @@ const ActionsList: React.FC<ActionsListProps> = ({
                             optimisationTemplateData.filter((item: any) => item.saved).length / 10
                         }
                         oldLevel={levelElec}
+<<<<<<< HEAD
                         top={52}
                         left={70}
+=======
+                        top={15}
+                        left={15}
+>>>>>>> master
                     />
                     <PersonnalizedGauge
                         id={'BioGaugesComponentId'}
@@ -339,8 +387,13 @@ const ActionsList: React.FC<ActionsListProps> = ({
                             optimisationTemplateData.filter((item: any) => item.saved).length / 20
                         }
                         oldLevel={levelBio}
+<<<<<<< HEAD
                         top={52}
                         left={80}
+=======
+                        top={15}
+                        left={40}
+>>>>>>> master
                     />
                     <PersonnalizedGauge
                         id={'LumiGaugesComponentId'}
@@ -353,8 +406,13 @@ const ActionsList: React.FC<ActionsListProps> = ({
                             optimisationTemplateData.filter((item: any) => item.saved).length / 20
                         }
                         oldLevel={levelLumi}
+<<<<<<< HEAD
                         top={52}
                         left={90}
+=======
+                        top={15}
+                        left={65}
+>>>>>>> master
                     />
                 </GaugesContainer>
                 <ValidateButton isDark={isDark} onClick={handleValidateButtonClick}>

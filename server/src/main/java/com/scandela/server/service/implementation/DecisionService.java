@@ -84,7 +84,7 @@ public class DecisionService extends AbstractService<Decision> implements IDecis
 			throw new DecisionException(DecisionException.DECISIONTYPE_LOADING);
 		}
 		
-		Page<Lamp> lampsPage = lampDao.findByTypeIsNotAndLampDecisionsContains("LED", "Changer l'ampoule", PageRequest.of(0, 100));
+		Page<Lamp> lampsPage = lampDao.findByTypeIsNotAndLampDecisionsContains("LED", "Changer l'ampoule", PageRequest.of(0, 20));
 		List<Lamp> lamps = lampsPage.getContent();
 		List<Decision> decisions = new ArrayList<>();
 		List<LampDecision> lampDecisions = new ArrayList<>();
@@ -125,8 +125,8 @@ public class DecisionService extends AbstractService<Decision> implements IDecis
 		LocalTime sunrise = TimeHelper.getSunriseTime(47.2173, -1.5534);//lighOff1 avec coord de nantes
 		LocalTime sunset = TimeHelper.getSunsetTime(47.2173, -1.5534);//LightOn2 avec coord de nantes
 
-		Page<Lamp> lampsPageAllumer = lampDao.findByLightOn2SuperiorAndLampDecisionsContains(sunset, "Allumer le lampdaire", PageRequest.of(0, 25));
-		Page<Lamp> lampsPageEteindre = lampDao.findByLightOffInferiorAndLampDecisionsContains(sunrise, "Éteindre le lampdaire", PageRequest.of(0, 25));
+		Page<Lamp> lampsPageAllumer = lampDao.findByLightOn2SuperiorAndLampDecisionsContains(sunset, "Allumer le lampdaire", PageRequest.of(0, 20));
+		Page<Lamp> lampsPageEteindre = lampDao.findByLightOffInferiorAndLampDecisionsContains(sunrise, "Éteindre le lampdaire", PageRequest.of(0, 20));
 		List<Lamp> lampsEteindre = lampsPageEteindre.getContent();
 		List<Lamp> lampsAllumer = lampsPageAllumer.getContent();
 		List<Decision> decisions = new ArrayList<>();
@@ -254,12 +254,12 @@ public class DecisionService extends AbstractService<Decision> implements IDecis
 					Decision decision = Decision.builder()
 							.type(decisionType.get())
 							.location(lamp.getAddress())
-							.description("La distance entre 2 lampadaire (2.5 à 3x la hauteur du lampadaire) n'est pas respectée.")
-							.solution("Ajouter un lampadaire dans le rayon de coordonnée: " +
-									  "{LatitudeMin = " + addMetersToLatitude(lamp.getLatitude(), -lamp.getHeight() * 3) +
-									  " ; LatitudeMax = " + addMetersToLatitude(lamp.getLatitude(), lamp.getHeight() * 3) + "} " +
-									  "{LongitudeMin = " + addMetersToLongitude(lamp.getLongitude(), lamp.getLatitude(), -lamp.getHeight() * 3) +
-									  " ; LongitudeMax = " + addMetersToLongitude(lamp.getLongitude(), lamp.getLatitude(), lamp.getHeight() * 3) + "}")
+							.description("La distance entre 2 lampadaire n'est pas respectée.")
+							.solution("Ajouter un lampadaire dans le rayon: " +
+									  "{LatMin: " + addMetersToLatitude(lamp.getLatitude(), -lamp.getHeight() * 3) +
+									  " ; LatMax: " + addMetersToLatitude(lamp.getLatitude(), lamp.getHeight() * 3) + "} " +
+									  "{LongMin: " + addMetersToLongitude(lamp.getLongitude(), lamp.getLatitude(), -lamp.getHeight() * 3) +
+									  " ; LongMax: " + addMetersToLongitude(lamp.getLongitude(), lamp.getLatitude(), lamp.getHeight() * 3) + "}")
 							.build();
 					LampDecision lampDecision = LampDecision.builder()
 							.decision(decision)
