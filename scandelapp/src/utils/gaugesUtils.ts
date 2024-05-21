@@ -70,7 +70,7 @@ export const getAllScores = async () => {
 
     try {
         const urlRequest =
-            process.env.REACT_APP_BACKEND_URL + `lamps/allScores`;
+            process.env.REACT_APP_BACKEND_URL + `lamps/allScore`;
         const response = await fetch(urlRequest, {
             method: 'GET',
             headers: {
@@ -80,6 +80,17 @@ export const getAllScores = async () => {
         });
 
         const allScores = await response.json();
+
+        if (allScores) {
+            const vegetalScore = allScores.vegetalScore.toFixed(2);
+            const consumptionScore = allScores.consumptionScore.toFixed(2);
+            const lightScore = allScores.lightScore.toFixed(2);
+
+            localStorage.setItem('vegetalScore', vegetalScore);
+            localStorage.setItem('consumptionScore', consumptionScore);
+            localStorage.setItem('lightScore', lightScore);
+        }
+
         return allScores;
     } catch (error) {
         console.log('ERROR GET allScores = ' + error);

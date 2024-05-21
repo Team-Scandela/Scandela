@@ -53,25 +53,81 @@ const ActionsList: React.FC<ActionsListProps> = ({
     const [levelBio, setLevelBio] = useState<number>(0);
     const [levelLumi, setLevelLumi] = useState<number>(0);
 
-    const [oldLevelElec, setOldLevelElec] = useState<number>(0);
-    const [oldLevelBio, setOldLevelBio] = useState<number>(0);
-    const [oldLevelLumi, setOldLevelLumi] = useState<number>(0);
-    useEffect(() => {
-        const fetchUserData = async () => {
-            const AllScores = await getAllScores();
-            if (AllScores) {
-                // Formatez les scores avec deux chiffres après la virgule
-                const vegetalScore = AllScores.vegetalScore.toFixed(2);
-                const consumptionScore = AllScores.consumptionScore.toFixed(2);
-                const lightScore = AllScores.lightScore.toFixed(2);
+    function parseFloatSafe(input: string): number {
+        const trimmedInput = input.trim();
+    
+        const isValidNumber = /^[0-9]*\.?[0-9]+$/.test(trimmedInput);
+        if (!isValidNumber) {
+            console.log("Error: input contains invalid characters.");
+            return NaN;
+        }
 
-                setLevelBio(vegetalScore)
-                setLevelElec(consumptionScore)
-                setLevelLumi(lightScore)
+        return parseFloat(trimmedInput);
+    }
+
+    useEffect(() => {
+        const checkScore = () => {
+            const vegetalScore = localStorage.getItem('vegetalScore');
+            const lightScore = localStorage.getItem('lightScore');
+            const consumptionScore = localStorage.getItem('consumptionScore');
+
+            let allScoresDefined = true;
+
+            if (vegetalScore) {
+                const parsedScore = parseFloatSafe(vegetalScore);
+                if (!isNaN(parsedScore)) {
+                    setLevelBio(parsedScore);
+                    console.log("vegetalScore: " + vegetalScore);
+                    console.log("levelBio (after update): " + parsedScore);
+                } else {
+                    console.log("Error: vegetalScore could not be parsed to a float.");
+                    allScoresDefined = false;
+                }
+            } else {
+                console.log("vegetalScore is not defined.");
+                allScoresDefined = false;
             }
+
+            if (lightScore) {
+                const parsedScore = parseFloatSafe(lightScore);
+                if (!isNaN(parsedScore)) {
+                    setLevelLumi(parsedScore);
+                    console.log("lightScore: " + lightScore);
+                    console.log("levelLumi (after update): " + parsedScore);
+                } else {
+                    console.log("Error: lightScore could not be parsed to a float.");
+                    allScoresDefined = false;
+                }
+            } else {
+                console.log("lightScore is not defined.");
+                allScoresDefined = false;
+            }
+
+            if (consumptionScore) {
+                const parsedScore = parseFloatSafe(consumptionScore);
+                if (!isNaN(parsedScore)) {
+                    setLevelElec(parsedScore);
+                    console.log("consumptionScore: " + consumptionScore);
+                    console.log("levelElec (after update): " + parsedScore);
+                } else {
+                    console.log("Error: consumptionScore could not be parsed to a float.");
+                    allScoresDefined = false;
+                }
+            } else {
+                console.log("consumptionScore is not defined.");
+                allScoresDefined = false;
+            }
+
+            return allScoresDefined;
         };
 
-        fetchUserData();
+        const intervalId = setInterval(() => {
+            if (checkScore()) {
+                clearInterval(intervalId);
+            }
+        }, 1000); // Vérifiez les scores toutes les secondes
+
+        return () => clearInterval(intervalId);
     }, []);
 
     const { t } = useTranslation();

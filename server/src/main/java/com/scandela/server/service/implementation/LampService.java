@@ -601,28 +601,4 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
 
         return coverageScore;
     }
-
-	// @Override
-	// @Transactional(rollbackFor = { Exception.class })
-	// public int recalculateIndicator(List<Lamp> lamps, List<Lamp> lampsToUpdate, int indicator) {
-	// 	int indicatorScore = 0;
-
-	// 	switch (indicator) {
-	// 		case 1:
-	// 			indicatorScore = computeGlobalEnergyConsumption(lampsToUpdate);
-	// 			break;
-	// 		case 2:
-	// 			indicatorScore = computeGlobalDistanceVegetalZone(lampsToUpdate);
-	// 			break;
-	// 		case 3:
-	// 			indicatorScore = computeGlobalLightIndicator(lampsToUpdate);
-	// 			break;
-	// 		default:
-	// 			break;
-	// 	}
-
-	// 	return indicatorScore;
-	// }
-	// }
-
 }
