@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import {
     ActionsListContainer,
     ActionsListButton,
@@ -21,6 +21,7 @@ import {
 } from './elements';
 import { PersonnalizedGauge } from '../../Gauges';
 import { useTranslation } from 'react-i18next';
+import { getAllScores } from '../../../utils/gaugesUtils'
 
 /** Menu of the decision pannel
  * @param {boolean} isDark - If the map is in dark mode or not
@@ -47,6 +48,31 @@ const ActionsList: React.FC<ActionsListProps> = ({
     optimisationTemplateData,
     setOptimisationTemplateData,
 }) => {
+    const [levelElec, setLevelElec] = useState<number>(0);
+    const [levelBio, setLevelBio] = useState<number>(0);
+    const [levelLumi, setLevelLumi] = useState<number>(0);
+
+    const [oldLevelElec, setOldLevelElec] = useState<number>(0);
+    const [oldLevelBio, setOldLevelBio] = useState<number>(0);
+    const [oldLevelLumi, setOldLevelLumi] = useState<number>(0);
+    useEffect(() => {
+        const fetchUserData = async () => {
+            const AllScores = await getAllScores();
+            if (AllScores) {
+                // Formatez les scores avec deux chiffres après la virgule
+                const vegetalScore = AllScores.vegetalScore.toFixed(2);
+                const consumptionScore = AllScores.consumptionScore.toFixed(2);
+                const lightScore = AllScores.lightScore.toFixed(2);
+
+                setLevelBio(vegetalScore)
+                setLevelElec(consumptionScore)
+                setLevelLumi(lightScore)
+            }
+        };
+
+        fetchUserData();
+    }, []);
+
     const { t } = useTranslation();
     useEffect(() => {
         if (decisionPanelExtended && actionsListExtended)
@@ -114,6 +140,8 @@ const ActionsList: React.FC<ActionsListProps> = ({
         }
     };
 
+    console.log(parseFloat(levelElec.toString().replace(",", ".")) + (optimisationTemplateData.filter((item: any) => item.saved).length / 10))
+
     return (
         <ActionsListContainer>
             <ActionsListButton
@@ -168,8 +196,8 @@ const ActionsList: React.FC<ActionsListProps> = ({
                         isElec={true}
                         isBio={false}
                         isLumi={false}
-                        level={80}
-                        oldLevel={50}
+                        level={parseFloat(levelElec.toString().replace(",", ".")) + (optimisationTemplateData.filter((item: any) => item.saved).length / 10)}
+                        oldLevel={levelElec}
                         top={70}
                         left={57}
                     />
@@ -179,8 +207,8 @@ const ActionsList: React.FC<ActionsListProps> = ({
                         isElec={false}
                         isBio={true}
                         isLumi={false}
-                        level={65}
-                        oldLevel={85}
+                        level={parseFloat(levelBio.toString().replace(",", ".")) + (optimisationTemplateData.filter((item: any) => item.saved).length / 20)}
+                        oldLevel={levelBio}
                         top={70}
                         left={71}
                     />
@@ -190,8 +218,8 @@ const ActionsList: React.FC<ActionsListProps> = ({
                         isElec={false}
                         isBio={false}
                         isLumi={true}
-                        level={40}
-                        oldLevel={20}
+                        level={parseFloat(levelLumi.toString().replace(",", ".")) + (optimisationTemplateData.filter((item: any) => item.saved).length / 20)}
+                        oldLevel={levelLumi}
                         top={70}
                         left={85}
                     />

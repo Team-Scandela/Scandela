@@ -455,7 +455,7 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
 				* Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
 		double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 		double distance = R * c; // Distance en mètres
-	
+
 		return distance;
 	}
 
@@ -505,89 +505,102 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
 		return score;
 	}
 
-	public double calculateArea(Area area, List<Lamp> lamps) {
-		Rectangle2D bounds = area.getBounds2D();
-		double minX = bounds.getMinX();
-		double minY = bounds.getMinY();
-		double maxX = bounds.getMaxX();
-		double maxY = bounds.getMaxY();
-	
-		int gridResolution = 10;
-		double cellWidth = (maxX - minX) / gridResolution;
-		double cellHeight = (maxY - minY) / gridResolution;
-	
-		int lampFilledCount = 0;
-		for (int i = 0; i < gridResolution; i++) {
-			for (int j = 0; j < gridResolution; j++) {
-				double x = minX + i * cellWidth + cellWidth / 2;
-				double y = minY + j * cellHeight + cellHeight / 2;
-				if (area.contains(x, y)) {
-					boolean cellFilledByLamp = false;
-					for (Lamp lamp : lamps) {
-						if (lamp.getLatitude() != null && lamp.getLongitude() != null) {
-							double distance = haversineDistance(y, x, lamp.getLatitude(), lamp.getLongitude());
-							if (distance <= LAMP_RADIUS) {
-								cellFilledByLamp = true;
-								break; // Pas besoin de vérifier les autres lampadaires
-							}
-						}
-					}
+	private static final double LAMP_RADIUS = 120000.0;
+
+	private boolean isValidCoordinate(double latitude, double longitude) {
+		return latitude >= -90 && latitude <= 90 && longitude >= -180 && longitude <= 180;
+	}
+
+	public double calculateArea(Area area, List<double[]> lampCoordinates) {
+        Rectangle2D bounds = area.getBounds2D();
+        double minX = bounds.getMinX();
+        double minY = bounds.getMinY();
+        double maxX = bounds.getMaxX();
+        double maxY = bounds.getMaxY();
+
+        int gridResolution = 10; // Augmenter la résolution pour plus de précision
+        double cellWidth = (maxX - minX) / gridResolution;
+        double cellHeight = (maxY - minY) / gridResolution;
+
+        int lampFilledCount = 0;
+        for (int i = 0; i < gridResolution; i++) {
+            for (int j = 0; j < gridResolution; j++) {
+                double x = minX + i * cellWidth + cellWidth / 2; // Longitude
+                double y = minY + j * cellHeight + cellHeight / 2; // Latitude
+                if (area.contains(x, y)) {
+                    boolean cellFilledByLamp = false;
+                    for (double[] coords : lampCoordinates) {
+                        double lampLatitude = coords[0];
+                        double lampLongitude = coords[1];
+                        double distance = haversineDistance(y, x, lampLatitude, lampLongitude);
+                        if (distance <= LAMP_RADIUS) {
+                            cellFilledByLamp = true;
+                            break;
+                        }
+                    }
+                    if (cellFilledByLamp) {
+                        lampFilledCount++;
+                    }
+                }
+            }
+        }
+
+        double cellArea = cellWidth * cellHeight; // en degrés carrés
+
+        return lampFilledCount * cellArea;
+    }
+
+
+	public double computeGlobalLightIndicator(List<Lamp> lamps) {
+        if (lamps.isEmpty()) {
+            throw new IllegalStateException("No lamps available to calculate light coverage.");
+        }
+
+        double minX = Double.POSITIVE_INFINITY;
+        double minY = Double.POSITIVE_INFINITY;
+        double maxX = Double.NEGATIVE_INFINITY;
+        double maxY = Double.NEGATIVE_INFINITY;
+
+        List<double[]> lampCoordinates = new ArrayList<>();
+
+        for (Lamp lamp : lamps) {
+			if (lamp.getLatitude() != null && lamp.getLongitude() != null) {
+				double latitude = lamp.getLatitude();
+				double longitude = lamp.getLongitude();
+				// Vérification de la validité des coordonnées
+				if (isValidCoordinate(latitude, longitude)) {
+					lampCoordinates.add(new double[]{latitude, longitude});
 					
-					if (cellFilledByLamp) {
-						lampFilledCount++;
-					}
+					if (latitude < minY) minY = latitude;
+					if (latitude > maxY) maxY = latitude;
+					if (longitude < minX) minX = longitude;
+					if (longitude > maxX) maxX = longitude;
+				} else {
+					System.out.println("Invalid coordinates for lamp: Latitude=" + latitude + ", Longitude=" + longitude);
 				}
 			}
 		}
-	
-		double cellArea = cellWidth * cellHeight;
-	
-		return lampFilledCount * cellArea;
-	}
 
-	private static final double LAMP_RADIUS = 50.0;
+        double width = maxX - minX;
+        double height = maxY - minY;
+        double totalArea = width * height; // en degrés carrés
 
-	public double computeGlobalLightIndicator(List<Lamp> lamps) {
-    if (lamps.isEmpty()) {
-        throw new IllegalStateException("No lamps available to calculate light coverage.");
+        Area totalAreaShape = new Area(new Rectangle2D.Double(minX, minY, width, height));
+
+		System.out.println("List of Lamp Coordinates:");
+    	for (double[] coord : lampCoordinates) {
+    	    System.out.println("Latitude: " + coord[0] + ", Longitude: " + coord[1]);
+    	}
+
+        double illuminatedArea = calculateArea(totalAreaShape, lampCoordinates);
+
+        double coverageScore = (illuminatedArea / totalArea) * 100;
+		System.out.println("illuminatedArea:" + illuminatedArea);
+		System.out.println("totalArea:" + totalArea);
+		System.out.println("coverageScore:" + coverageScore);
+
+        return coverageScore;
     }
-
-    double MIN_LATITUDE = -90.0;
-    double MAX_LATITUDE = 90.0;
-    double MIN_LONGITUDE = -180.0;
-    double MAX_LONGITUDE = 180.0;
-
-    double minX = Double.POSITIVE_INFINITY;
-    double minY = Double.POSITIVE_INFINITY;
-    double maxX = Double.NEGATIVE_INFINITY;
-    double maxY = Double.NEGATIVE_INFINITY;
-
-    for (Lamp lamp : lamps) {
-        if (lamp.getLatitude() != null && lamp.getLongitude() != null) {
-            double latitude = lamp.getLatitude();
-            double longitude = lamp.getLongitude();
-        
-            // Vérifier si les coordonnées sont dans une plage acceptable
-            if (latitude >= MIN_LATITUDE && latitude <= MAX_LATITUDE &&
-                longitude >= MIN_LONGITUDE && longitude <= MAX_LONGITUDE) {
-                if (latitude < minY) minY = latitude;
-                if (latitude > maxY) maxY = latitude;
-                if (longitude < minX) minX = longitude;
-                if (longitude > maxX) maxX = longitude;
-            }
-        }
-    }
-
-    double totalArea = (maxX - minX) * (maxY - minY);
-
-    Area totalAreaShape = new Area(new Rectangle2D.Double(minX, minY, maxX - minX, maxY - minY));
-
-    double illuminatedArea = calculateArea(totalAreaShape, lamps);
-
-    double coverageScore = (illuminatedArea / totalArea) * 100;
-
-    return coverageScore;
-}
 
 	// @Override
 	// @Transactional(rollbackFor = { Exception.class })
