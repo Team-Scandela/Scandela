@@ -1,7 +1,9 @@
 package com.scandela.server.service;
 
+import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
+
 import com.scandela.server.entity.Notification;
 
 public interface INotificationService extends IService<Notification> {
