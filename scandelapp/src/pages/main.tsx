@@ -195,8 +195,9 @@ const Main: React.FC<MainProps> = ({
                     {/* <ToastHistory
                         id={'toastHistoryId'}
                         isDark={isDark}
-                        //toastHistoryData={toastHistoryData}
-                    /> */}
+                        userId={userId.toString()} // Utilisation de userId depuis userUtils
+                        // toastHistoryData={toastHistoryData}
+                    />
                     <ActionHistory id={'actionHistoryId'} isDark={isDark} />
                     <DecisionMenu
                         id={'decisionMenuComponentId'}

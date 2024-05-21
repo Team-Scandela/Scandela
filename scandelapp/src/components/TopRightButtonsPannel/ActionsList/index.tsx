@@ -69,9 +69,70 @@ const ActionsList: React.FC<ActionsListProps> = ({
                 setLevelElec(consumptionScore);
                 setLevelLumi(lightScore);
             }
+        });
+
+    function parseFloatSafe(input: string): number {
+        const trimmedInput = input.trim();
+    
+        const isValidNumber = /^[0-9]*\.?[0-9]+$/.test(trimmedInput);
+        if (!isValidNumber) {
+            return NaN;
+        }
+
+        return parseFloat(trimmedInput);
+    }
+
+    useEffect(() => {
+        const checkScore = () => {
+            const vegetalScore = localStorage.getItem('vegetalScore');
+            const lightScore = localStorage.getItem('lightScore');
+            const consumptionScore = localStorage.getItem('consumptionScore');
+
+            let allScoresDefined = true;
+
+            if (vegetalScore) {
+                const parsedScore = parseFloatSafe(vegetalScore);
+                if (!isNaN(parsedScore)) {
+                    setLevelBio(parsedScore);
+                } else {
+                    allScoresDefined = false;
+                }
+            } else {
+                allScoresDefined = false;
+            }
+
+            if (lightScore) {
+                const parsedScore = parseFloatSafe(lightScore);
+                if (!isNaN(parsedScore)) {
+                    setLevelLumi(parsedScore);
+                } else {
+                    allScoresDefined = false;
+                }
+            } else {
+                allScoresDefined = false;
+            }
+
+            if (consumptionScore) {
+                const parsedScore = parseFloatSafe(consumptionScore);
+                if (!isNaN(parsedScore)) {
+                    setLevelElec(parsedScore);
+                } else {
+                    allScoresDefined = false;
+                }
+            } else {
+                allScoresDefined = false;
+            }
+
+            return allScoresDefined;
         };
 
-        fetchUserData();
+        const intervalId = setInterval(() => {
+            if (checkScore()) {
+                clearInterval(intervalId);
+            }
+        }, 1000); // Vérifiez les scores toutes les secondes
+
+        return () => clearInterval(intervalId);
     }, []);
 
     const { t } = useTranslation();
@@ -155,6 +216,7 @@ const ActionsList: React.FC<ActionsListProps> = ({
         parseFloat(levelElec.toString().replace(',', '.')) +
             optimisationTemplateData.filter((item: any) => item.saved).length / 10
     );
+    // console.log(parseFloat(levelElec.toString().replace(",", ".")) + (optimisationTemplateData.filter((item: any) => item.saved).length / 10))
 
     return (
         <ActionsListContainer>
