@@ -587,10 +587,10 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
 
         Area totalAreaShape = new Area(new Rectangle2D.Double(minX, minY, width, height));
 
-		System.out.println("List of Lamp Coordinates:");
-    	for (double[] coord : lampCoordinates) {
-    	    System.out.println("Latitude: " + coord[0] + ", Longitude: " + coord[1]);
-    	}
+		// System.out.println("List of Lamp Coordinates:");
+    	// for (double[] coord : lampCoordinates) {
+    	//     System.out.println("Latitude: " + coord[0] + ", Longitude: " + coord[1]);
+    	// }
 
         double illuminatedArea = calculateArea(totalAreaShape, lampCoordinates);
 
@@ -601,28 +601,4 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
 
         return coverageScore;
     }
-
-	// @Override
-	// @Transactional(rollbackFor = { Exception.class })
-	// public int recalculateIndicator(List<Lamp> lamps, List<Lamp> lampsToUpdate, int indicator) {
-	// 	int indicatorScore = 0;
-
-	// 	switch (indicator) {
-	// 		case 1:
-	// 			indicatorScore = computeGlobalEnergyConsumption(lampsToUpdate);
-	// 			break;
-	// 		case 2:
-	// 			indicatorScore = computeGlobalDistanceVegetalZone(lampsToUpdate);
-	// 			break;
-	// 		case 3:
-	// 			indicatorScore = computeGlobalLightIndicator(lampsToUpdate);
-	// 			break;
-	// 		default:
-	// 			break;
-	// 	}
-
-	// 	return indicatorScore;
-	// }
-	// }
-
 }
