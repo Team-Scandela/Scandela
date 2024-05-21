@@ -17,6 +17,7 @@ import {
 } from './elements';
 import { useNavigate } from 'react-router-dom';
 import { setUserId, getUser, putUser } from '../../utils/userUtils';
+import { getDecisionsSpecificAlgo } from '../../utils/decisionsUtils';
 import { optimisationTemplateDataBackup } from './backup_decisions';
 
 interface LoginModuleProps {
@@ -56,6 +57,15 @@ const LoginModule: React.FC<LoginModuleProps> = ({
         putUser(updatedUserData);
     };
 
+    const setUpDecisions = async () => {
+        const [dataChangementBulb, dataReductionConsoHoraire] = await Promise.all([
+            getDecisionsSpecificAlgo('algoAjouterLampadaire'),
+            getDecisionsSpecificAlgo('algoReductionConsoHoraire')
+        ]);
+        const data = dataChangementBulb.concat(dataReductionConsoHoraire);
+        addItemToOptimisationTemplate(data);
+    };
+
     const initUserSetup = async (data: any) => {
         localStorage.setItem('isDark', JSON.stringify(data.darkmode));
         if (data.rights === 2) {
@@ -63,7 +73,7 @@ const LoginModule: React.FC<LoginModuleProps> = ({
             setOptimisationTemplateData(optimisationTemplateDataBackup);
         } else {
             localStorage.setItem('token', JSON.stringify(false));
-            getDecisions();
+            setUpDecisions();
         }
         if (
             (data.moreInformations[2] && data.moreInformations[2] === 'true') ||
@@ -152,27 +162,6 @@ const LoginModule: React.FC<LoginModuleProps> = ({
             } catch (error) {
                 console.error("Erreur lors de l'inscription", error);
             }
-        }
-    };
-
-    const getDecisions = async () => {
-        const username = process.env.REACT_APP_REQUEST_USER;
-        const password = process.env.REACT_APP_REQUEST_PASSWORD;
-        const urlRequest =
-            process.env.REACT_APP_BACKEND_URL + 'decisions';
-
-        try {
-            const response = await fetch(urlRequest, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Basic ${btoa(`${username}:${password}`)}`,
-                },
-            });
-            const data = await response.json();
-            addItemToOptimisationTemplate(data);
-        } catch (error) {
-            console.log('ERROR GET DECISIONS = ' + error);
         }
     };
 
