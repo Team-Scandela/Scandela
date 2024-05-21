@@ -58,7 +58,6 @@ const ActionsList: React.FC<ActionsListProps> = ({
     
         const isValidNumber = /^[0-9]*\.?[0-9]+$/.test(trimmedInput);
         if (!isValidNumber) {
-            console.log("Error: input contains invalid characters.");
             return NaN;
         }
 
