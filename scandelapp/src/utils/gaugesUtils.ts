@@ -1,3 +1,5 @@
+import { showToast } from '../components/Toastr';
+
 export const getLightScore = async () => {
     const username = process.env.REACT_APP_REQUEST_USER;
     const password = process.env.REACT_APP_REQUEST_PASSWORD;
@@ -64,8 +66,6 @@ export const getVegetalScore = async () => {
     }
 };
 
-
-import { showToast } from '../components/Toastr';
 export const getAllScores = async () => {
     const username = process.env.REACT_APP_REQUEST_USER;
     const password = process.env.REACT_APP_REQUEST_PASSWORD;
