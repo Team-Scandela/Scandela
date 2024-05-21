@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -69,6 +70,23 @@ public class UserService extends AbstractService<User> implements IUserService {
 			throw e;
 		}
 	}
+
+	public User setUserRole(UUID userId, String role) {
+		System.out.println("b -> " + userId + " and " + role);
+        User user = null;
+		try {
+			System.out.println("c");
+			user = ((UserDao) dao).findById(userId).orElseThrow(() -> new NotFoundException());
+			System.out.println("d ---> " + user.getEmail());
+			user.setRole(role);
+			System.out.println("e");
+			return dao.save(user);
+		} catch (NotFoundException e) {
+			e.printStackTrace();
+		}
+		System.out.println("f + ");
+		return null;
+    }
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
