@@ -18,6 +18,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { setUserId, getUser, putUser } from '../../utils/userUtils';
 import { optimisationTemplateDataBackup } from './backup_decisions';
+import { getAllScores } from '../../utils/gaugesUtils'
 
 interface LoginModuleProps {
     setOptimisationTemplateData: (data: any) => void;
@@ -58,6 +59,10 @@ const LoginModule: React.FC<LoginModuleProps> = ({
 
     const initUserSetup = async (data: any) => {
         localStorage.setItem('isDark', JSON.stringify(data.darkmode));
+        localStorage.setItem('vegetalScore', JSON.stringify(false));
+        localStorage.setItem('consumptionScore', JSON.stringify(false));
+        localStorage.setItem('lightScore', JSON.stringify(false));
+        getAllScores();
         if (data.rights === 2) {
             localStorage.setItem('token', JSON.stringify(true));
             setOptimisationTemplateData(optimisationTemplateDataBackup);
