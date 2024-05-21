@@ -102,7 +102,7 @@ export const TypeText = styled.p`
     position: relative;
     top: 8px;
     left: 8px;
-    font-size: 13px;
+    font-size: 12px;
     user-select: none;
     color: ${(props) => (props.isDark ? Black : Black)};
     font-weight: 500;
