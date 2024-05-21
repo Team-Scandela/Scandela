@@ -142,6 +142,7 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
                     (item: any) => item[0] === 'actionListUpdate'
                 )[1]
             )
+            console.log(itemsUpdated)
                 showToast(
                     'success',
                     'La liste des actions a bien été mise à jour',
