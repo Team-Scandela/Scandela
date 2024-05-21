@@ -156,7 +156,7 @@ const ActionsList: React.FC<ActionsListProps> = ({
         }
     };
 
-    console.log(parseFloat(levelElec.toString().replace(",", ".")) + (optimisationTemplateData.filter((item: any) => item.saved).length / 10))
+    // console.log(parseFloat(levelElec.toString().replace(",", ".")) + (optimisationTemplateData.filter((item: any) => item.saved).length / 10))
 
     return (
         <ActionsListContainer>
