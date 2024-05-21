@@ -35,11 +35,16 @@ public class NotificationService extends AbstractService<Notification> implement
 	// Public \\
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
-	public List<Notification> getAll(UUID idUser) {
-//		List<Notification> notifications = ((NotificationDao) dao).findLast10ByUuiduser(idUser);
+	public List<Notification> getAll(UUID idUser) throws NotificationException {
+		Optional<User> user = userDao.findById(idUser);
 		
-//		return notifications;
-		return null;
+		if (user.isEmpty()) {
+			throw new NotificationException(NotificationException.USER_LOADING);
+		}
+		
+		List<Notification> notifications = ((NotificationDao) dao).findTop10ByUserOrderByTimeDesc(user.get());
+		
+		return notifications;
 	}
 	
 	@Override

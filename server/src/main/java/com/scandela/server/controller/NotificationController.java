@@ -34,9 +34,10 @@ public class NotificationController extends AbstractController<Notification> {
 	 * Get all notifications
 	 * 
 	 * @return allNotifications
+	 * @throws NotificationException 
 	 */
 	@GetMapping
-	public List<Notification> getNotifications(@RequestParam UUID idUser) {
+	public List<Notification> getNotifications(@RequestParam UUID idUser) throws Exception {
 		return ((INotificationService) service).getAll(idUser);
 	}
 
