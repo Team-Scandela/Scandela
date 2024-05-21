@@ -14,6 +14,7 @@ import AbsencePannel from '../components/AbsencePannel';
 import FilterSearch from '../components/FilterSearch';
 import TrafficTime from '../components/TrafficTime';
 import ActionHistory from '../components/ActionHistory';
+import { userId } from '../utils/userUtils';
 
 export enum Filters {
     pin = 'pin',
@@ -195,7 +196,8 @@ const Main: React.FC<MainProps> = ({
                     <ToastHistory
                         id={'toastHistoryId'}
                         isDark={isDark}
-                        toastHistoryData={toastHistoryData}
+                        userId={userId.toString()} // Utilisation de userId depuis userUtils
+                        // toastHistoryData={toastHistoryData}
                     />
                     <ActionHistory id={'actionHistoryId'} isDark={isDark} />
                     <DecisionMenu
