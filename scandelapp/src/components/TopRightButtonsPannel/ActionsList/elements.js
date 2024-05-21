@@ -271,8 +271,8 @@ export const ValidateButton = styled.div`
     justify-content: center;
     width: 100px;
     height: 40px;
-    left: 15%;
-    top: 86.5%;
+    left: 10%;
+    top: 88.5%;
     user-select: none;
     background-color: ${(props) => (props.isDark ? Black : Black)};
     color: ${(props) => (props.isDark ? Yellow : Yellow)};
@@ -295,8 +295,8 @@ export const PDFButton = styled.div`
     justify-content: center;
     width: 100px;
     height: 40px;
-    left: 38%;
-    top: 86.5%;
+    left: 30%;
+    top: 88.5%;
     user-select: none;
     background-color: ${(props) => (props.isDark ? Black : Black)};
     color: ${(props) => (props.isDark ? Yellow : Yellow)};

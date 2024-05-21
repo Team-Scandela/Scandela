@@ -69,7 +69,9 @@ const ActionsList: React.FC<ActionsListProps> = ({
                 setLevelElec(consumptionScore);
                 setLevelLumi(lightScore);
             }
-        });
+        }
+        fetchUserData();
+    });
 
     function parseFloatSafe(input: string): number {
         const trimmedInput = input.trim();
