@@ -159,7 +159,7 @@ const LoginModule: React.FC<LoginModuleProps> = ({
         const username = process.env.REACT_APP_REQUEST_USER;
         const password = process.env.REACT_APP_REQUEST_PASSWORD;
         const urlRequest =
-            process.env.REACT_APP_BACKEND_URL + 'decisions?pageNumber=0';
+            process.env.REACT_APP_BACKEND_URL + 'decisions';
 
         try {
             const response = await fetch(urlRequest, {

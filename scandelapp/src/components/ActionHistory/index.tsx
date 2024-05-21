@@ -84,7 +84,7 @@ const ActionHistory: React.FC<ActionHistoryProps> = ({ id, isDark }) => {
     }
 
     useEffect(() => {
-        if (!dataReceived) getDecisions();
+        // if (!dataReceived) getDecisions();
     }, []);
 
     const [actionHistoryExtended, setActionHistoryExtended] = useState(false);

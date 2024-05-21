@@ -37,9 +37,10 @@ public class DecisionController extends AbstractController<Decision> {
 	 * @return allDecisions
 	 */
 	@GetMapping
-	public List<Decision> getDecisions(@RequestParam(name = "pageNumber", defaultValue = "0") Integer pageNumber) {
-		return ((IDecisionService) service).getAll(pageNumber);
+	public List<Decision> getDecisions(@RequestParam(name = "pageNumber", required = false) Integer pageNumber) {
+    	return ((IDecisionService) service).getAll(pageNumber);
 	}
+
 
 	/**
 	 * Get decision by id

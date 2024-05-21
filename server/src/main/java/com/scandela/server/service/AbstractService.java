@@ -40,7 +40,7 @@ public abstract class AbstractService<T> implements IService<T> {
 			return getAll();
 		}
 		
-		Page<T> page = dao.findAll(PageRequest.of(pageNumber, 100));
+		Page<T> page = dao.findAll(PageRequest.of(pageNumber, 200));
 		
 		return page.getContent();
 	}
