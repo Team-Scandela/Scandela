@@ -40,6 +40,7 @@ const App: React.FC = () => {
             foyerType: item.lampDecision.lamp.foyerType,
             height: item.lampDecision.lamp.height,
             uuid: item.id,
+            validate: item.validate,
         }));
         setOptimisationTemplateData(newItems);
     };
