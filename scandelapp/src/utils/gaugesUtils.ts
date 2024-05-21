@@ -64,6 +64,8 @@ export const getVegetalScore = async () => {
     }
 };
 
+
+import { showToast } from '../components/Toastr';
 export const getAllScores = async () => {
     const username = process.env.REACT_APP_REQUEST_USER;
     const password = process.env.REACT_APP_REQUEST_PASSWORD;
@@ -89,7 +91,18 @@ export const getAllScores = async () => {
             localStorage.setItem('vegetalScore', vegetalScore);
             localStorage.setItem('consumptionScore', consumptionScore);
             localStorage.setItem('lightScore', lightScore);
+            showToast(
+                'success',
+                'Les jauges ont bien été mises à jour',
+                'top-left',
+                5000,
+                false,
+                true,
+                false,
+                true
+            );
         }
+
 
         return allScores;
     } catch (error) {

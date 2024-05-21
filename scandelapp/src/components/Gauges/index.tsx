@@ -18,7 +18,6 @@ import {
 } from './elements';
 import * as images from './gaugesImports';
 import { Green, Red } from '../../colors';
-import { getAllScores } from '../../utils/gaugesUtils'
 
 /** Props of the gauges
  * @param {boolean} isDark - If the map is in dark mode or not
@@ -62,24 +61,6 @@ export const Gauges: React.FC<GaugesProps> = ({
     const [showPupMiddle, setShowPupMiddle] = React.useState<boolean>(false);
     const [showPupRight, setShowPupRight] = React.useState<boolean>(false);
 
-    // React.useEffect(() => {
-    //     const fetchUserData = async () => {
-    //         const AllScores = await getAllScores();
-    //         if (AllScores) {
-    //             // Formatez les scores avec deux chiffres après la virgule
-    //             const vegetalScore = AllScores.vegetalScore.toFixed(2);
-    //             const consumptionScore = AllScores.consumptionScore.toFixed(2);
-    //             const lightScore = AllScores.lightScore.toFixed(2);
-
-    //             setLevelBio(vegetalScore)
-    //             setLevelElec(consumptionScore)
-    //             setLevelLumi(lightScore)
-    //         }
-    //     };
-
-    //     fetchUserData();
-    // }, []);
-
     function parseFloatSafe(input: string): number {
         const trimmedInput = input.trim();
     
@@ -104,14 +85,10 @@ export const Gauges: React.FC<GaugesProps> = ({
                 const parsedScore = parseFloatSafe(vegetalScore);
                 if (!isNaN(parsedScore)) {
                     setLevelBio(parsedScore);
-                    console.log("vegetalScore: " + vegetalScore);
-                    console.log("levelBio (after update): " + parsedScore);
                 } else {
-                    console.log("Error: vegetalScore could not be parsed to a float.");
                     allScoresDefined = false;
                 }
             } else {
-                console.log("vegetalScore is not defined.");
                 allScoresDefined = false;
             }
 
@@ -119,14 +96,10 @@ export const Gauges: React.FC<GaugesProps> = ({
                 const parsedScore = parseFloatSafe(lightScore);
                 if (!isNaN(parsedScore)) {
                     setLevelLumi(parsedScore);
-                    console.log("lightScore: " + lightScore);
-                    console.log("levelLumi (after update): " + parsedScore);
                 } else {
-                    console.log("Error: lightScore could not be parsed to a float.");
                     allScoresDefined = false;
                 }
             } else {
-                console.log("lightScore is not defined.");
                 allScoresDefined = false;
             }
 
@@ -134,14 +107,10 @@ export const Gauges: React.FC<GaugesProps> = ({
                 const parsedScore = parseFloatSafe(consumptionScore);
                 if (!isNaN(parsedScore)) {
                     setLevelElec(parsedScore);
-                    console.log("consumptionScore: " + consumptionScore);
-                    console.log("levelElec (after update): " + parsedScore);
                 } else {
-                    console.log("Error: consumptionScore could not be parsed to a float.");
                     allScoresDefined = false;
                 }
             } else {
-                console.log("consumptionScore is not defined.");
                 allScoresDefined = false;
             }
 

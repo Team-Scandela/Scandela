@@ -60,14 +60,10 @@ const AbsencePannel: React.FC<AbsencePannelProps> = ({ id, isDark }) => {
                 const parsedScore = parseFloatSafe(vegetalScore);
                 if (!isNaN(parsedScore)) {
                     setLevelBio(parsedScore);
-                    console.log("vegetalScore: " + vegetalScore);
-                    console.log("levelBio (after update): " + parsedScore);
                 } else {
-                    console.log("Error: vegetalScore could not be parsed to a float.");
                     allScoresDefined = false;
                 }
             } else {
-                console.log("vegetalScore is not defined.");
                 allScoresDefined = false;
             }
 
@@ -75,14 +71,10 @@ const AbsencePannel: React.FC<AbsencePannelProps> = ({ id, isDark }) => {
                 const parsedScore = parseFloatSafe(lightScore);
                 if (!isNaN(parsedScore)) {
                     setLevelLumi(parsedScore);
-                    console.log("lightScore: " + lightScore);
-                    console.log("levelLumi (after update): " + parsedScore);
                 } else {
-                    console.log("Error: lightScore could not be parsed to a float.");
                     allScoresDefined = false;
                 }
             } else {
-                console.log("lightScore is not defined.");
                 allScoresDefined = false;
             }
 
@@ -90,14 +82,10 @@ const AbsencePannel: React.FC<AbsencePannelProps> = ({ id, isDark }) => {
                 const parsedScore = parseFloatSafe(consumptionScore);
                 if (!isNaN(parsedScore)) {
                     setLevelElec(parsedScore);
-                    console.log("consumptionScore: " + consumptionScore);
-                    console.log("levelElec (after update): " + parsedScore);
                 } else {
-                    console.log("Error: consumptionScore could not be parsed to a float.");
                     allScoresDefined = false;
                 }
             } else {
-                console.log("consumptionScore is not defined.");
                 allScoresDefined = false;
             }
 
