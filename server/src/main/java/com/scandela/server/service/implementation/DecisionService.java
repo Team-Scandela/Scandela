@@ -256,10 +256,10 @@ public class DecisionService extends AbstractService<Decision> implements IDecis
 							.location(lamp.getAddress())
 							.description("La distance entre 2 lampadaire n'est pas respectée.")
 							.solution("Ajouter un lampadaire dans le rayon: " +
-									  "{LatMin: " + addMetersToLatitude(lamp.getLatitude(), -lamp.getHeight() * 3) +
-									  " ; LatMax: " + addMetersToLatitude(lamp.getLatitude(), lamp.getHeight() * 3) + "} " +
-									  "{LongMin: " + addMetersToLongitude(lamp.getLongitude(), lamp.getLatitude(), -lamp.getHeight() * 3) +
-									  " ; LongMax: " + addMetersToLongitude(lamp.getLongitude(), lamp.getLatitude(), lamp.getHeight() * 3) + "}")
+									  "LatMin: " + String.format("%.3f", addMetersToLatitude(lamp.getLatitude(), -lamp.getHeight() * 3)) +
+									  " ; LatMax: " + String.format("%.3f", addMetersToLatitude(lamp.getLatitude(), lamp.getHeight() * 3)) + " ; " +
+									  "LongMin: " + String.format("%.3f", addMetersToLongitude(lamp.getLongitude(), lamp.getLatitude(), -lamp.getHeight() * 3)) +
+									  " ; LongMax: " + String.format("%.3f", addMetersToLongitude(lamp.getLongitude(), lamp.getLatitude(), lamp.getHeight() * 3)))
 							.build();
 					LampDecision lampDecision = LampDecision.builder()
 							.decision(decision)
