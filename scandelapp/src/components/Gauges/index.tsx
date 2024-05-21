@@ -17,6 +17,7 @@ import {
 } from './elements';
 import * as images from './gaugesImports';
 import { Green, Red } from '../../colors';
+import { getAllScores } from '../../utils/gaugesUtils'
 
 /** Props of the gauges
  * @param {boolean} isDark - If the map is in dark mode or not
@@ -38,13 +39,13 @@ export const Gauges: React.FC<GaugesProps> = ({
     decisionPanelExtended,
     actionsListExtended,
 }) => {
-    const [levelElec, setLevelElec] = React.useState<number>(50);
-    const [levelBio, setLevelBio] = React.useState<number>(25);
-    const [levelLumi, setLevelLumi] = React.useState<number>(75);
+    const [levelElec, setLevelElec] = React.useState<number>(0);
+    const [levelBio, setLevelBio] = React.useState<number>(0);
+    const [levelLumi, setLevelLumi] = React.useState<number>(0);
 
-    const [oldLevelElec, setOldLevelElec] = React.useState<number>(25);
-    const [oldLevelBio, setOldLevelBio] = React.useState<number>(50);
-    const [oldLevelLumi, setOldLevelLumi] = React.useState<number>(75);
+    const [oldLevelElec, setOldLevelElec] = React.useState<number>(0);
+    const [oldLevelBio, setOldLevelBio] = React.useState<number>(0);
+    const [oldLevelLumi, setOldLevelLumi] = React.useState<number>(0);
 
     const [diffLevelElec, setDiffLevelElec] = React.useState<number>(
         oldLevelElec - levelElec
@@ -59,6 +60,24 @@ export const Gauges: React.FC<GaugesProps> = ({
     const [showPupLeft, setShowPupLeft] = React.useState<boolean>(false);
     const [showPupMiddle, setShowPupMiddle] = React.useState<boolean>(false);
     const [showPupRight, setShowPupRight] = React.useState<boolean>(false);
+
+    React.useEffect(() => {
+        const fetchUserData = async () => {
+            const AllScores = await getAllScores();
+            if (AllScores) {
+                // Formatez les scores avec deux chiffres après la virgule
+                const vegetalScore = AllScores.vegetalScore.toFixed(2);
+                const consumptionScore = AllScores.consumptionScore.toFixed(2);
+                const lightScore = AllScores.lightScore.toFixed(2);
+
+                setLevelBio(vegetalScore)
+                setLevelElec(consumptionScore)
+                setLevelLumi(lightScore)
+            }
+        };
+    
+        fetchUserData();
+    }, []);
 
     return (
         <div id={id}>

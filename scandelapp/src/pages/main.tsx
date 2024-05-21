@@ -5,7 +5,7 @@ import SearchBar from '../components/SearchBar';
 import ToastHistory from '../components/ToastHistory';
 import { handleSearchUtils } from '../utils/searchUtils';
 import DecisionMenu from '../components/DecisionMenu';
-import EditInPdfPannel from '../components/EditInPdfPannel';
+// import EditInPdfPannel from '../components/EditInPdfPannel';
 import TopRightButtonsPannel from '../components/TopRightButtonsPannel';
 import Toastr from '../components/Toastr';
 import { Gauges } from '../components/Gauges';
@@ -14,6 +14,7 @@ import AbsencePannel from '../components/AbsencePannel';
 import FilterSearch from '../components/FilterSearch';
 import TrafficTime from '../components/TrafficTime';
 import ActionHistory from '../components/ActionHistory';
+import { userId } from '../utils/userUtils';
 
 export enum Filters {
     pin = 'pin',
@@ -107,7 +108,7 @@ const Main: React.FC<MainProps> = ({
         console.log('ZOOM on coord = ' + valueLat + ' / ' + valueLng);
         setLat(valueLat);
         setLng(valueLng);
-        setZoom(13);
+        setZoom(18);
     };
 
     const handleButtonEditInPdfClick = () => {
@@ -221,7 +222,8 @@ const Main: React.FC<MainProps> = ({
                     <ToastHistory
                         id={'toastHistoryId'}
                         isDark={isDark}
-                        toastHistoryData={toastHistoryData}
+                        userId={userId.toString()} // Utilisation de userId depuis userUtils
+                        // toastHistoryData={toastHistoryData}
                     />
                     <ActionHistory id={'actionHistoryId'} isDark={isDark} />
                     <DecisionMenu
@@ -245,13 +247,13 @@ const Main: React.FC<MainProps> = ({
                         addNotificationToList={addNotificationToList}
                         notificationsPreference={notificationsPreference}
                     />
-                    <EditInPdfPannel
+                    {/* <EditInPdfPannel
                         id={'editinPdfPannelComponentId'}
                         isDark={isDark}
                         isButtonEditInPdfClicked={isButtonEditInPdfClicked}
                         decisionPanelExtended={decisionPanelExtended}
                         handleButtonEditInPdfClick={handleButtonEditInPdfClick}
-                    />
+                    /> */}
                     <Gauges
                         id={'gaugesComponentId'}
                         isDark={isDark}

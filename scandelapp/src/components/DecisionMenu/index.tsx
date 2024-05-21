@@ -142,6 +142,7 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
                     (item: any) => item[0] === 'actionListUpdate'
                 )[1]
             )
+            console.log(itemsUpdated)
                 showToast(
                     'success',
                     'La liste des actions a bien été mise à jour',
@@ -176,11 +177,11 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
                 </DecisionMenuButton>
                 <DecisionPanel isDark={isDark} show={decisionPanelExtended}>
                     <ScandelaText isDark={isDark}> Scandela </ScandelaText>
-                    <ButtonEditInPdf
+                    {/* <ButtonEditInPdf
                         isDark={isDark}
                         handleClick={handleButtonEditInPdfClick}
                         isClicked={isButtonEditInPdfClicked}
-                    />
+                    /> */}
                     <ButtonSelectAll
                         isDark={isDark}
                         handleButtonSelectAllClick={handleButtonSelectAllClick}
