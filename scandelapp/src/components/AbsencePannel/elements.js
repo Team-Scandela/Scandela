@@ -1,10 +1,11 @@
 import styled from 'styled-components';
 import { Yellow, Black, White, Grey } from '../../colors';
+import { GiSandsOfTime } from 'react-icons/gi';
 import {
     AiFillCloseCircle,
     AiOutlineWarning,
     AiOutlineSend,
-} from 'react-icons/ai';
+} from 'react-icons/ai'
 
 /** Container for the absence pannel button **/
 export const AbsencePannelButtonContainer = styled.div`
@@ -148,4 +149,14 @@ export const EventLocation = styled.div`
     height: 100%;
     color: ${(props) => (props.isDark ? Black : White)};
     font-size: 20px;
+`;
+
+/**  Time Icon**/
+export const TimeIcon = styled(GiSandsOfTime)`
+    display: flex;
+    position: relative;
+    align-items: center;
+    left: 31%;
+    top: 24%;
+    color: ${(props) => (props.isDark ? Black: Yellow)};
 `;
