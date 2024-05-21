@@ -257,8 +257,8 @@ const ActionsList: React.FC<ActionsListProps> = ({
                         isLumi={false}
                         level={parseFloat(levelElec.toString().replace(",", ".")) + (optimisationTemplateData.filter((item: any) => item.saved).length / 10)}
                         oldLevel={levelElec}
-                        top={70}
-                        left={57}
+                        top={15}
+                        left={15}
                     />
                     <PersonnalizedGauge
                         id={'BioGaugesComponentId'}
@@ -268,8 +268,8 @@ const ActionsList: React.FC<ActionsListProps> = ({
                         isLumi={false}
                         level={parseFloat(levelBio.toString().replace(",", ".")) + (optimisationTemplateData.filter((item: any) => item.saved).length / 20)}
                         oldLevel={levelBio}
-                        top={70}
-                        left={71}
+                        top={15}
+                        left={40}
                     />
                     <PersonnalizedGauge
                         id={'LumiGaugesComponentId'}
@@ -279,8 +279,8 @@ const ActionsList: React.FC<ActionsListProps> = ({
                         isLumi={true}
                         level={parseFloat(levelLumi.toString().replace(",", ".")) + (optimisationTemplateData.filter((item: any) => item.saved).length / 20)}
                         oldLevel={levelLumi}
-                        top={70}
-                        left={85}
+                        top={15}
+                        left={65}
                     />
                 </GaugesContainer>
                 <ValidateButton

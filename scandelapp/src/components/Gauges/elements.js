@@ -32,6 +32,8 @@ export const GaugeContainerRight = styled(GaugeContainer)`
 `;
 
 export const GaugeContainerPersonnalized = styled(GaugeContainer)`
+    display: flex;
+    position: absolute;
     top: ${(props) => props.top}%;
     left: ${(props) => props.left}%;
 `;
