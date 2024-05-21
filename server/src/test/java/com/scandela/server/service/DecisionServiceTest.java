@@ -598,11 +598,11 @@ public class DecisionServiceTest {
 		verify(lampDecisionDaoMock, times(1)).saveAll(Mockito.any());
 		assertThat(result).hasSize(1);
 		assertThat(result.get(0).getType()).isEqualTo(decisionType);
-		assertThat(result.get(0).getDescription()).contains("La distance entre 2 lampadaire (2.5 à 3x la hauteur du lampadaire) n'est pas respectée.");
-		assertThat(result.get(0).getSolution()).contains("LatitudeMin");
-		assertThat(result.get(0).getSolution()).contains("LatitudeMax");
-		assertThat(result.get(0).getSolution()).contains("LongitudeMin");
-		assertThat(result.get(0).getSolution()).contains("LongitudeMax");
+		assertThat(result.get(0).getDescription()).contains("La distance entre 2 lampadaire n'est pas respectée.");
+		assertThat(result.get(0).getSolution()).contains("LatMin");
+		assertThat(result.get(0).getSolution()).contains("LatMax");
+		assertThat(result.get(0).getSolution()).contains("LongMin");
+		assertThat(result.get(0).getSolution()).contains("LongMax");
 		assertThat(result.get(0).getLampDecision().getLamp()).isEqualTo(lamp);
 	}
 	
@@ -639,11 +639,11 @@ public class DecisionServiceTest {
 		verify(lampDecisionDaoMock, times(1)).saveAll(Mockito.any());
 		assertThat(result).hasSize(1);
 		assertThat(result.get(0).getType()).isEqualTo(decisionType);
-		assertThat(result.get(0).getDescription()).contains("La distance entre 2 lampadaire (2.5 à 3x la hauteur du lampadaire) n'est pas respectée.");
-		assertThat(result.get(0).getSolution()).contains("LatitudeMin");
-		assertThat(result.get(0).getSolution()).contains("LatitudeMax");
-		assertThat(result.get(0).getSolution()).contains("LongitudeMin");
-		assertThat(result.get(0).getSolution()).contains("LongitudeMax");
+		assertThat(result.get(0).getDescription()).contains("La distance entre 2 lampadaire n'est pas respectée.");
+		assertThat(result.get(0).getSolution()).contains("LatMin");
+		assertThat(result.get(0).getSolution()).contains("LatMax");
+		assertThat(result.get(0).getSolution()).contains("LongMin");
+		assertThat(result.get(0).getSolution()).contains("LongMax");
 		assertThat(result.get(0).getLampDecision().getLamp()).isEqualTo(lamp);
 	}
 	
