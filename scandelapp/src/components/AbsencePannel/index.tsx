@@ -10,6 +10,7 @@ import {
     EventDescription,
     EventTitle,
     EventLocation,
+    TimeIcon,
 } from './elements';
 import { PersonnalizedGauge } from '../Gauges';
 import { GoInfo } from 'react-icons/go';
@@ -51,7 +52,7 @@ const AbsencePannel: React.FC<AbsencePannelProps> = ({ id, isDark }) => {
                 setLevelLumi(lightScore)
             }
         };
-    
+
         fetchUserData();
     }, []);
 
@@ -133,6 +134,7 @@ const AbsencePannel: React.FC<AbsencePannelProps> = ({ id, isDark }) => {
                         Pendant votre absence
                     </PannelText>
                     <ListDetailContainer isDark={isDark}>
+                    <TimeIcon isDark={isDark} size={200}/>
                         {absenceData.map((item: any, i: number) => (
                             <EventContainer isDark={isDark} key={i}>
                                 <EventDate>
@@ -155,8 +157,8 @@ const AbsencePannel: React.FC<AbsencePannelProps> = ({ id, isDark }) => {
                         isLumi={false}
                         level={levelElec}
                         oldLevel={levelElec}
-                        top={30}
-                        left={63.5}
+                        top={23}
+                        left={85}
                     />
                     <PersonnalizedGauge
                         id={'BioGaugesComponentId'}
@@ -166,8 +168,8 @@ const AbsencePannel: React.FC<AbsencePannelProps> = ({ id, isDark }) => {
                         isLumi={false}
                         level={levelBio}
                         oldLevel={levelBio}
-                        top={44}
-                        left={63.5}
+                        top={45}
+                        left={85}
                     />
                     <PersonnalizedGauge
                         id={'LumiGaugesComponentId'}
@@ -177,8 +179,8 @@ const AbsencePannel: React.FC<AbsencePannelProps> = ({ id, isDark }) => {
                         isLumi={true}
                         level={levelLumi}
                         oldLevel={levelLumi}
-                        top={58}
-                        left={63.5}
+                        top={68}
+                        left={85}
                     />
                     <CloseIcon
                         isDark={isDark}
