@@ -14,6 +14,7 @@ import {
 } from './elements';
 import { PersonnalizedGauge } from '../Gauges';
 import { GoInfo } from 'react-icons/go';
+import { useTranslation } from 'react-i18next';
 
 interface AbsencePannelProps {
     id: string;
@@ -22,6 +23,8 @@ interface AbsencePannelProps {
 
 const AbsencePannel: React.FC<AbsencePannelProps> = ({ id, isDark }) => {
     const [isAbsencePannelOpen, setIsAbsencePannelOpen] = useState(true);
+
+    const { t } = useTranslation();
 
     const handleToggleAbsencePannel = () => {
         setIsAbsencePannelOpen(!isAbsencePannelOpen);
@@ -39,7 +42,7 @@ const AbsencePannel: React.FC<AbsencePannelProps> = ({ id, isDark }) => {
             {isAbsencePannelOpen && (
                 <PannelContainer isDark={isDark}>
                     <PannelText isDark={isDark}>
-                        Pendant votre absence
+                        {t('WhileYouWereAway')}
                     </PannelText>
 
                     <ListDetailContainer isDark={isDark}>
@@ -48,7 +51,7 @@ const AbsencePannel: React.FC<AbsencePannelProps> = ({ id, isDark }) => {
 
                             <EventTextContainer isDark={isDark}>
                                 <EventText isDark={isDark}>
-                                    Dérèglement du lampadaire 86 Rue Henri IV
+                                    {t('placeholderWhileYouWereAway')}
                                 </EventText>
                             </EventTextContainer>
 

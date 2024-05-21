@@ -10,6 +10,8 @@ import {
     ReturnButtonContainer,
 } from './elements';
 
+import { useTranslation } from 'react-i18next';
+
 /** FAQ page component
  * @param {function} handleFAQButtonClicked - Function to show/hide premium page
  */
@@ -19,6 +21,8 @@ interface FAQPagePros {
 }
 
 const FAQPage: React.FC<FAQPagePros> = ({ handleFAQButtonClicked }) => {
+    const { t } = useTranslation();
+
     const [faqData, setFaqData] = useState([
         {
             id: 1,

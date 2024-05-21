@@ -8,6 +8,8 @@ import {
     ReturnButtonContainer,
 } from './elements';
 import { getUser } from '../../../utils/userUtils';
+import { useTranslation } from 'react-i18next';
+
 /** Profile page component
  */
 
@@ -28,6 +30,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
     const [password, setPassword] = useState('');
     const [kwH, setKwH] = useState('600');
 
+    const { t } = useTranslation();
     useEffect(() => {
         const fetchUserData = async () => {
             const user = await getUser();
@@ -100,7 +103,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
         <div>
             <ProfilePageContainer>
                 <ProfileField top={'7%'}>
-                    Nom :{' '}
+                    {t('name')} :{' '}
                     {isEditingName ? (
                         <input
                             type="text"
@@ -121,7 +124,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
                     )}
                 </ProfileField>
                 <ProfileField top={'17%'}>
-                    Email :{' '}
+                    {t('email')} :{' '}
                     {isEditingEmail ? (
                         <input
                             type="text"
@@ -142,7 +145,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
                     )}
                 </ProfileField>
                 <ProfileField top={'27%'}>
-                    Mot de passe : {renderPasswordField()}
+                    {t('password')} : {renderPasswordField()}
                     {isEditingPassword ? (
                         <EditButton onClick={() => handleSaveClick('password')}>
                             <ValidateIcon></ValidateIcon>
@@ -154,7 +157,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
                     )}
                 </ProfileField>
                 <ProfileField top={'37%'}>
-                    Kw/h de la ville :{' '}
+                    {t('KWhOfTheCity')} :{' '}
                     {isEditingKwH ? (
                         <input
                             type="text"

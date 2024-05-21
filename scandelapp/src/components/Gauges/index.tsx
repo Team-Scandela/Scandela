@@ -17,6 +17,7 @@ import {
 } from './elements';
 import * as images from './gaugesImports';
 import { Green, Red } from '../../colors';
+import { useTranslation } from 'react-i18next';
 
 /** Props of the gauges
  * @param {boolean} isDark - If the map is in dark mode or not
@@ -55,6 +56,7 @@ export const Gauges: React.FC<GaugesProps> = ({
     const [diffLevelLumi, setDiffLevelLumi] = React.useState<number>(
         oldLevelLumi - levelLumi
     );
+    const { t } = useTranslation();
 
     const [showPupLeft, setShowPupLeft] = React.useState<boolean>(false);
     const [showPupMiddle, setShowPupMiddle] = React.useState<boolean>(false);
@@ -88,11 +90,11 @@ export const Gauges: React.FC<GaugesProps> = ({
 
                         <GaugePupLeft show={showPupLeft} isDark={isDark}>
                             <GaugePupText>
-                                Consommation énergétique
+                                {t('energyConsumption')}
                                 <br />
                                 <b>30 GW/h</b>
                                 <br />
-                                40% de l\'objectif
+                                40% {t('ofTheObjective')}
                             </GaugePupText>
                         </GaugePupLeft>
                     </GaugeContainerLeft>
@@ -120,11 +122,11 @@ export const Gauges: React.FC<GaugesProps> = ({
                         />
                         <GaugePupMiddle show={showPupMiddle} isDark={isDark}>
                             <GaugePupText>
-                                Impact sur l\'environnement
+                                {t('impactOnTheEnvironment')}
                                 <br />
-                                <b>350g de CO2/heure</b>
+                                <b>350g CO2/h</b>
                                 <br />
-                                80% de l\'objectif
+                                80% {t('ofTheObjective')}
                             </GaugePupText>
                         </GaugePupMiddle>
                     </GaugeContainerMiddle>
@@ -153,9 +155,9 @@ export const Gauges: React.FC<GaugesProps> = ({
 
                         <GaugePupRight show={showPupRight} isDark={isDark}>
                             <GaugePupText>
-                                Qualité de l'éclairage
+                            {t('lightingQuality')}
                                 <br />
-                                20% des zones disposent d'un bon éclairage
+                                20% {t('OfTheAreasHaveGoodLighting')}
                             </GaugePupText>
                         </GaugePupRight>
                     </GaugeContainerRight>

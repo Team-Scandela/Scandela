@@ -27,7 +27,8 @@ const Language: React.FC<LanguageProps> = ({
     addNotificationToList,
 }) => {
     const { i18n } = useTranslation();
-
+    const { t } = useTranslation();
+    
     const changeLanguage = (lng: string) => {
         i18n.changeLanguage(lng);
     };
@@ -43,7 +44,7 @@ const Language: React.FC<LanguageProps> = ({
         )
             showToast(
                 'success',
-                'La langue a bien été mise à jour',
+                t('theLanguageHasBeenSuccessfullyUpdated'),
                 'top-left',
                 5000,
                 false,
@@ -51,7 +52,7 @@ const Language: React.FC<LanguageProps> = ({
                 false,
                 true
             );
-        addNotificationToList('Mise à jour de la langue');
+        addNotificationToList(t('languageUpdate'));
     };
 
     return (

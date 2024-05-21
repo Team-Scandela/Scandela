@@ -12,6 +12,7 @@ import {
 } from './elements';
 import { userId } from '../../../utils/userUtils';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 /** Premium page component
  * @param {function} handlePremiumButtonClicked - Function to show/hide premium page
@@ -32,6 +33,8 @@ const PremiumPage: React.FC<PremiumPageProps> = ({
         cardExpYear: '',
         cardCVC: '',
     });
+
+    const { t } = useTranslation();
 
     const handleFormChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
@@ -104,34 +107,15 @@ const PremiumPage: React.FC<PremiumPageProps> = ({
             <PremiumPageContainer>
                 {!showForm && (
                     <div>
-                        <MainTitle>
-                            Pourquoi choisir la version premium ?
-                        </MainTitle>
-                        <MainText>
-                            Accédez à des conseils exclusifs qui vont bien au
-                            delà de l'ordinaire !
-                        </MainText>
-                        <MainText>
-                            Nos algorithmes perfectionnés analysent en
-                            profondeur les données de votre parc lumineux afin
-                            de vous offrir les conseils d'optimisation les plus
-                            pointus.
-                        </MainText>
-                        <MainText>
-                            Notre version premium déverouille de nouvelles
-                            fonctionnalités avancées telles que les algorithmes
-                            d'optimisations ou les indicateurs de performances.
-                            Boostez votre capacité à prendre des décisions
-                            éclairées pour l'éclairage public !
-                        </MainText>
-                        <MainTitle>Comment passer à Premium ?</MainTitle>
-                        <MainText>
-                            Cliquez simplement sur le bouton ci-dessous pour
-                            passer à la version premium dès maintenant !
-                        </MainText>
+                        <MainTitle>{t('titleBuyAdmin')}</MainTitle>
+                        <MainText>{t('title2BuyAdmin')}</MainText>
+                        <MainText>{t('title3BuyAdmin')}</MainText>
+                        <MainText>{t('title4BuyAdmin')}</MainText>
+                        <MainTitle>{t('title5BuyAdmin')}</MainTitle>
+                        <MainText>{t('title6BuyAdmin')}</MainText>
                         <PremiumButtonOnOffStyle onClick={handleToggleForm}>
                             <PremiumButtonOnOffText>
-                                Acheter
+                                {t('buy')}
                             </PremiumButtonOnOffText>
                         </PremiumButtonOnOffStyle>
                     </div>
@@ -141,14 +125,14 @@ const PremiumPage: React.FC<PremiumPageProps> = ({
                         <FormField
                             type="text"
                             name="fullName"
-                            placeholder="Nom sur la carte"
+                            placeholder={t('nameOnTheMap')}
                             value={formValues.fullName}
                             onChange={handleFormChange}
                         />
                         <FormField
                             type="number"
                             name="cardNumber"
-                            placeholder="Numéro de carte"
+                            placeholder={t('cardNumber')}
                             value={formValues.cardNumber}
                             onChange={handleFormChange}
                         />
@@ -161,16 +145,16 @@ const PremiumPage: React.FC<PremiumPageProps> = ({
                         <FormField
                             type="number"
                             name="cardCVC"
-                            placeholder="CVC"
+                            placeholder={t('cvc')}
                             value={formValues.cardCVC}
                             onChange={handleFormChange}
                         />
                         <SubmitButton onClick={handleFormSubmit}>
-                            Soumettre
+                        {t('send')}
                         </SubmitButton>
                         {localStorage.getItem('token') === 'true' && (
                             <AdminButton onClick={handleAdminPremium}>
-                                Admin premium
+                                {t('adminPremium')}
                             </AdminButton>
                         )}
                     </div>
