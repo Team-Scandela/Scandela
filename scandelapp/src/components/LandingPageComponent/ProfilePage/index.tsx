@@ -7,7 +7,8 @@ import {
     ValidateIcon,
     ReturnButtonContainer,
 } from './elements';
-import { getUser } from '../../../utils/userUtils';
+import { getUser, putUser } from '../../../utils/userUtils';
+
 /** Profile page component
  */
 
@@ -66,9 +67,11 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
     const handleSaveClick = (field: string) => {
         switch (field) {
             case 'name':
+                updateUserName();
                 setIsEditingName(false);
                 break;
             case 'email':
+                updateUserEmail();
                 setIsEditingEmail(false);
                 break;
             case 'password':
@@ -94,6 +97,36 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
         } else {
             return <span>{'*'.repeat(password.length)}</span>;
         }
+    };
+
+    const updateUserName = async () => {
+        const user = await getUser();
+        const updatedUserData = {
+            town: user.town,
+            email: user.email,
+            username: name,
+            password: user.password,
+            rights: user.rights,
+            moreInformations: user.moreInformations,
+            darkmode: user.darkmode,
+            lastConnexion: user.lastConnexion,
+        };
+        putUser(updatedUserData);
+    };
+
+    const updateUserEmail = async () => {
+        const user = await getUser();
+        const updatedUserData = {
+            town: user.town,
+            email: email,
+            username: user.username,
+            password: user.password,
+            rights: user.rights,
+            moreInformations: user.moreInformations,
+            darkmode: user.darkmode,
+            lastConnexion: user.lastConnexion,
+        };
+        putUser(updatedUserData);
     };
 
     return (
