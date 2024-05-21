@@ -13,6 +13,7 @@ import {
 } from './elements';
 import { PersonnalizedGauge } from '../Gauges';
 import { GoInfo } from 'react-icons/go';
+import { getAllScores } from '../../utils/gaugesUtils'
 
 interface AbsencePannelProps {
     id: string;
@@ -27,6 +28,32 @@ const AbsencePannel: React.FC<AbsencePannelProps> = ({ id, isDark }) => {
     const handleToggleAbsencePannel = () => {
         setIsAbsencePannelOpen(!isAbsencePannelOpen);
     };
+
+    const [levelElec, setLevelElec] = useState<number>(0);
+    const [levelBio, setLevelBio] = useState<number>(0);
+    const [levelLumi, setLevelLumi] = useState<number>(0);
+
+    const [oldLevelElec, setOldLevelElec] = useState<number>(0);
+    const [oldLevelBio, setOldLevelBio] = useState<number>(0);
+    const [oldLevelLumi, setOldLevelLumi] = useState<number>(0);
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+            const AllScores = await getAllScores();
+            if (AllScores) {
+                // Formatez les scores avec deux chiffres après la virgule
+                const vegetalScore = AllScores.vegetalScore.toFixed(2);
+                const consumptionScore = AllScores.consumptionScore.toFixed(2);
+                const lightScore = AllScores.lightScore.toFixed(2);
+
+                setLevelBio(vegetalScore)
+                setLevelElec(consumptionScore)
+                setLevelLumi(lightScore)
+            }
+        };
+    
+        fetchUserData();
+    }, []);
 
     function arrayToISOString(array: number[]): string {
         const year = array[0];
@@ -85,24 +112,10 @@ const AbsencePannel: React.FC<AbsencePannelProps> = ({ id, isDark }) => {
     };
 
     const getDecisions = async () => {
-        const username = process.env.REACT_APP_REQUEST_USER;
-        const password = process.env.REACT_APP_REQUEST_PASSWORD;
-        const urlRequest =
-            process.env.REACT_APP_BACKEND_URL + 'decisions?pageNumber=0';
-
-        try {
-            const response = await fetch(urlRequest, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Basic ${btoa(`${username}:${password}`)}`,
-                },
-            });
-            const data = await response.json();
-            filterDecisions(data);
-        } catch (error) {
-            console.log('ERROR GET DECISIONS = ' + error);
-        }
+        const data = localStorage.getItem('optimisationTemplateData');
+        if (data === null) return;
+        setDataReceived(true);
+        filterDecisions(JSON.parse(data));
     };
 
     return (
@@ -140,8 +153,8 @@ const AbsencePannel: React.FC<AbsencePannelProps> = ({ id, isDark }) => {
                         isElec={true}
                         isBio={false}
                         isLumi={false}
-                        level={70}
-                        oldLevel={50}
+                        level={levelElec}
+                        oldLevel={levelElec}
                         top={30}
                         left={63.5}
                     />
@@ -151,8 +164,8 @@ const AbsencePannel: React.FC<AbsencePannelProps> = ({ id, isDark }) => {
                         isElec={false}
                         isBio={true}
                         isLumi={false}
-                        level={75}
-                        oldLevel={85}
+                        level={levelBio}
+                        oldLevel={levelBio}
                         top={44}
                         left={63.5}
                     />
@@ -162,8 +175,8 @@ const AbsencePannel: React.FC<AbsencePannelProps> = ({ id, isDark }) => {
                         isElec={false}
                         isBio={false}
                         isLumi={true}
-                        level={30}
-                        oldLevel={20}
+                        level={levelLumi}
+                        oldLevel={levelLumi}
                         top={58}
                         left={63.5}
                     />
