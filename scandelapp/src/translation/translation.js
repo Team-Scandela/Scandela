@@ -110,6 +110,8 @@ const resources = {
             loading: 'loading ...',
             theLanguageHasBeenSuccessfullyUpdated: 'The language has been successfully updated',
             languageUpdate: 'Language update',
+            theThemeHasBeenSuccessfullyUpdated: 'The theme has been successfully updated"',
+            themeUpdate: "Theme update",
         },
     },
 
@@ -222,6 +224,8 @@ const resources = {
             loading: 'Chargement ...',
             theLanguageHasBeenSuccessfullyUpdated: 'La langue a bien été mise à jour',
             languageUpdate: 'Mise à jour de la langue',
+            theThemeHasBeenSuccessfullyUpdated: 'Le thème a bien été mis à jour',
+            themeUpdate: 'Mise à jour du thème',
         },
     },
 };

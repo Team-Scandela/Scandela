@@ -3,6 +3,7 @@ import RadioButton from '../../../RadioButton';
 import { showToast } from '../../../Toastr';
 import { getUser } from '../../../../utils/userUtils';
 import { putUser } from '../../../../utils/userUtils';
+import { useTranslation } from 'react-i18next';
 
 /** Ligth / Dark mode button
  * @param {boolean} isDark - If the mode is dark or not
@@ -40,6 +41,8 @@ const LightDark: React.FC<LightDarkProps> = ({
     addNotificationToList,
 }) => {
     /** Handle the click on the button and switch to the other mode */
+    const { t } = useTranslation();
+
     const handleToggleLightDark = () => {
         setIsDark(!isDark);
         localStorage.setItem('isDark', JSON.stringify(!isDark));
@@ -53,7 +56,7 @@ const LightDark: React.FC<LightDarkProps> = ({
         )
             showToast(
                 'success',
-                'Le thème a bien été mis à jour',
+                t('theThemeHasBeenSuccessfullyUpdated'),
                 'top-left',
                 5000,
                 false,
@@ -61,7 +64,7 @@ const LightDark: React.FC<LightDarkProps> = ({
                 false,
                 true
             );
-        addNotificationToList('Mise à jour du thème');
+        addNotificationToList(t('themeUpdate'));
     };
 
     return (
