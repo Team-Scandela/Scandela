@@ -1,5 +1,6 @@
 package com.scandela.server.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -36,7 +37,7 @@ public class DecisionController extends AbstractController<Decision> {
 	 * @return allDecisions
 	 */
 	@GetMapping
-	public List<Decision> getDecisions(@RequestParam("pageNumber") Integer pageNumber) {
+	public List<Decision> getDecisions(@RequestParam(name = "pageNumber", defaultValue = "0") Integer pageNumber) {
 		return ((IDecisionService) service).getAll(pageNumber);
 	}
 
@@ -50,6 +51,11 @@ public class DecisionController extends AbstractController<Decision> {
 	public Decision getDecision(@PathVariable UUID id) {
 		return super.get(id);
 	}
+
+	@GetMapping("/{id}/validate")
+    public LocalDateTime getValidateField(@PathVariable UUID id) {
+        return super.get(id).getValidate();
+    }
 
 	/**
 	 * Create new decision
@@ -95,9 +101,24 @@ public class DecisionController extends AbstractController<Decision> {
 	public List<Decision> algoReductionConsoHoraire() throws Exception {
 		return ((IDecisionService) service).algoReductionConsoHoraire();
 	}
+
+	@PostMapping("/algoAjouterLampadaire")
+	public List<Decision> algoAjouterLampadaire() throws Exception {
+		return ((IDecisionService) service).algoAjouterLampadaire();
+	}
 	
-	@PostMapping("algoRetirerLampadaire")
+	@PostMapping("/algoRetirerLampadaire")
 	public List<Decision> algoRetirerLampadaire() throws Exception {
 		return ((IDecisionService) service).algoRetirerLampadaire();
+	}
+	
+	@PostMapping("/algoReduireIntensiteLampadaire")
+	public List<Decision> algoReduireIntensiteLampadaire() throws Exception {
+		return ((IDecisionService) service).algoReduireIntensiteLampadaire();
+	}
+	
+	@PostMapping("/algoAugmenterIntensiteLampadaire")
+	public List<Decision> algoAugmenterIntensiteLampadaire() throws Exception {
+		return ((IDecisionService) service).algoAugmenterIntensiteLampadaire();
 	}
 }

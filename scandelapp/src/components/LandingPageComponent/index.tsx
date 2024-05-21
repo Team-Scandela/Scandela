@@ -23,26 +23,22 @@ import TicketSenderPage from './TicketSenderPage';
 import ProfilePage from './ProfilePage';
 import FAQPage from './FAQPage';
 
+import { useTranslation } from 'react-i18next';
+
 /** Landing component page
- * @param {boolean} userInfo - Infos about the current user
- * @param {function} updateUserInfo - Function to update user infos
  */
 
-interface LandingPageComponentProps {
-    userInfo: any;
-    updateUserInfo: (newInfo: any) => void;
-}
+interface LandingPageComponentProps {}
 
-const LandingPageComponent: React.FC<LandingPageComponentProps> = ({
-    userInfo,
-    updateUserInfo,
-}) => {
+const LandingPageComponent: React.FC<LandingPageComponentProps> = ({}) => {
     const navigate = useNavigate();
     const [isMenuPageDisplayed, setIsMenuPageDisplayed] = useState(true);
     const [isPremiumPageDisplayed, setIsPremiumPageDisplayed] = useState(false);
     const [isTicketPageDisplayed, setIsTicketPageDisplayed] = useState(false);
     const [isProfilePageDisplayed, setIsProfilePageDisplayed] = useState(false);
     const [isFAQPageDisplayed, setIsFAQPageDisplayed] = useState(false);
+
+    const { t } = useTranslation();
 
     const handleLogScandela = () => {
         navigate('/scandela');
@@ -58,7 +54,7 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({
     };
 
     const handleTicketButtonClicked = () => {
-        if (userInfo.isPremiumActivated) {
+        if (localStorage.getItem('premium') === 'true') {
             setIsMenuPageDisplayed(!isMenuPageDisplayed);
             setIsTicketPageDisplayed(!isTicketPageDisplayed);
         }
@@ -75,7 +71,8 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({
     };
 
     const handleLogout = () => {
-        navigate('/login');
+        localStorage.clear();
+        navigate('/');
     };
 
     return (
@@ -86,7 +83,9 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({
             <TriangleContainerRight />
             {isMenuPageDisplayed && (
                 <div>
-                    {userInfo.isPremiumActivated && <CrownIcon />}
+                    {localStorage.getItem('premium') === 'true' && (
+                        <CrownIcon />
+                    )}
                     <PortalLinkContainer
                         top={'21%'}
                         left={'25%'}
@@ -135,7 +134,9 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({
                         onClick={handleTicketButtonClicked}
                     >
                         <TicketsImgBg />
-                        {!userInfo.isPremiumActivated && <LockIcon />}
+                        {localStorage.getItem('premium') === 'false' && (
+                            <LockIcon />
+                        )}
                         <PortalTitle fontSize={'1.5rem'}>Tickets</PortalTitle>
                     </PortalLinkContainer>
                     <PortalLinkContainer
@@ -164,16 +165,16 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({
                         <FAQImgBg />
                         <PortalTitle fontSize={'1.5rem'}>FAQ</PortalTitle>
                     </PortalLinkContainer>
-                    <PortalLinkAdmin onClick={handleLogAdmin}>
-                        Admin
-                    </PortalLinkAdmin>
+                    {localStorage.getItem('token') === 'true' && (
+                        <PortalLinkAdmin onClick={handleLogAdmin}>
+                            Admin
+                        </PortalLinkAdmin>
+                    )}
                 </div>
             )}
             {isPremiumPageDisplayed && (
                 <div>
                     <PremiumPage
-                        userInfo={userInfo}
-                        updateUserInfo={updateUserInfo}
                         handlePremiumButtonClicked={handlePremiumButtonClicked}
                     ></PremiumPage>
                 </div>

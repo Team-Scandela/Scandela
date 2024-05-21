@@ -1,22 +1,20 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import FilterMenu from '../components/FilterMenu';
 import Map from '../components/Map';
 import SearchBar from '../components/SearchBar';
 import ToastHistory from '../components/ToastHistory';
 import { handleSearchUtils } from '../utils/searchUtils';
 import DecisionMenu from '../components/DecisionMenu';
-import EditInPdfPannel from '../components/EditInPdfPannel';
-import ActionsList from '../components/ActionsList';
-import SettingsButton from '../components/SettingsButton';
-import LogoutButton from '../components/LogoutButton';
+// import EditInPdfPannel from '../components/EditInPdfPannel';
+import TopRightButtonsPannel from '../components/TopRightButtonsPannel';
 import Toastr from '../components/Toastr';
 import { Gauges } from '../components/Gauges';
-import CityButton from '../components/CityButton';
 import AbsencePannel from '../components/AbsencePannel';
-import SmallLampInfosPopup from '../components/SmallLampInfosPopup';
 // import MapDB from '../components/MapDB';
 import FilterSearch from '../components/FilterSearch';
 import TrafficTime from '../components/TrafficTime';
+import ActionHistory from '../components/ActionHistory';
+import { userId } from '../utils/userUtils';
 
 export enum Filters {
     pin = 'pin',
@@ -29,12 +27,19 @@ export enum Filters {
 }
 
 interface MainProps {
-    userInfo: any;
+    optimisationTemplateData: any;
+    setOptimisationTemplateData: (data: any) => void;
 }
 
 /** Main page of the app */
-const Main: React.FC<MainProps> = ({ userInfo }) => {
-    const [isDark, setIsDark] = useState<boolean>(true);
+const Main: React.FC<MainProps> = ({
+    optimisationTemplateData,
+    setOptimisationTemplateData,
+}) => {
+    const [isDark, setIsDark] = useState(() => {
+        const savedIsDark = localStorage.getItem('isDark');
+        return JSON.parse(savedIsDark);
+    });
     const [filter, setFilter] = useState<Filters>(Filters.none);
     const [lat, setLat] = useState<number>(47.218371);
     const [lng, setLng] = useState<number>(-1.553621);
@@ -56,109 +61,6 @@ const Main: React.FC<MainProps> = ({ userInfo }) => {
 
     const [trafficTimeValue, setTrafficTimeValue] = useState<string>('00:00');
 
-    const getUser = async () => {
-        const username = 'tester';
-        const password = 'T&st';
-        try {
-            const response = await fetch(
-                'https://serverdela.onrender.com/users/183e5775-6d38-4d0b-95b4-6f4c7bbb0597',
-                {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Basic ${btoa(
-                            `${username}:${password}`
-                        )}`,
-                    },
-                }
-            );
-
-            const user = await response.json();
-            setIsDark(user.darkmode);
-        } catch (error) {
-            console.log('ERROR GET USER = ' + error);
-        }
-    };
-
-    useEffect(() => {
-        console.log('here!');
-        getUser();
-    }, []);
-
-    const [optimisationTemplateData, setOptimisationTemplateData] = useState([
-        {
-            id: 0,
-            saved: false,
-            selected: false,
-            type: 'Éteindre lampadaire',
-            location: '13 Rue Pierrick Guyard',
-            description: 'Passage peu fréquent',
-            solution: 'Off: 18h-10h',
-        },
-        {
-            id: 1,
-            saved: false,
-            selected: false,
-            type: 'Éteindre lampadaire',
-            location: '14 Rue Pierrick Guyard',
-            description: 'Passage peu fréquent',
-            solution: 'Off: 18h-10h',
-        },
-        {
-            id: 2,
-            saved: false,
-            selected: false,
-            type: 'Allumer lampadaire',
-            location: '15 Rue Pierrick Guyard',
-            description: 'Passage peu fréquent',
-            solution: 'Off: 18h-10h',
-        },
-        {
-            id: 3,
-            saved: false,
-            selected: false,
-            type: 'Augmenter intensité',
-            location: '16 Rue Pierrick Guyard',
-            description: 'Passage peu fréquent',
-            solution: 'Off: 18h-10h',
-        },
-        {
-            id: 4,
-            saved: false,
-            selected: false,
-            type: 'Réduire intensité',
-            location: '17 Rue Pierrick Guyard',
-            description: 'Passage peu fréquent',
-            solution: 'Off: 18h-10h',
-        },
-        {
-            id: 5,
-            saved: false,
-            selected: false,
-            type: 'Changer ampoule',
-            location: '18 Rue Pierrick Guyard',
-            description: 'Passage peu fréquent',
-            solution: 'Off: 18h-10h',
-        },
-        {
-            id: 6,
-            saved: false,
-            selected: false,
-            type: 'Ajouter lampadaire',
-            location: '19 Rue Pierrick Guyard',
-            description: 'Passage peu fréquent',
-            solution: 'Off: 18h-10h',
-        },
-        {
-            id: 7,
-            saved: false,
-            selected: false,
-            type: 'Retirer lampadaire',
-            location: '20 Rue Pierrick Guyard',
-            description: 'Passage peu fréquent',
-            solution: 'Off: 18h-10h',
-        },
-    ]);
     const [toastHistoryData, setToastHistoryData] = useState([]);
     const [notificationsPreference, setNotificationsPreference] = useState([
         ['actionListUpdate', false],
@@ -166,8 +68,21 @@ const Main: React.FC<MainProps> = ({ userInfo }) => {
         ['languageUpdate', false],
     ]);
 
-    const handleSearch = (value: string) => {
-        handleSearchUtils(value, lat, setLat, lng, setLng, zoom, setZoom);
+    const handleSearch = (
+        value: string,
+        valueLng: number,
+        valueLat: number
+    ) => {
+        console.log('value =' + value);
+        if (value === 'ZOOM ON LAMP') zoomOnLampByCoord(valueLat, valueLng);
+        else handleSearchUtils(value, lat, setLat, lng, setLng, zoom, setZoom);
+    };
+
+    const zoomOnLampByCoord = (valueLat: number, valueLng: number) => {
+        console.log('ZOOM on coord = ' + valueLat + ' / ' + valueLng);
+        setLat(valueLat);
+        setLng(valueLng);
+        setZoom(18);
     };
 
     const handleButtonEditInPdfClick = () => {
@@ -227,6 +142,7 @@ const Main: React.FC<MainProps> = ({ userInfo }) => {
                 zoom={zoom}
                 selectedFilter={selected}
                 searchFilter={search}
+                optimisationTemplateData={optimisationTemplateData}
             />
             <SearchBar
                 id={'searchBarComponentId'}
@@ -239,8 +155,19 @@ const Main: React.FC<MainProps> = ({ userInfo }) => {
                 setFilter={setFilter}
                 isDark={isDark}
             />
-            <LogoutButton id={'logoutButtonId'} isDark={isDark} />
-            <CityButton id={'cityButtonId'} isDark={isDark} />
+            <TopRightButtonsPannel
+                id={'topRightButtonsPannelId'}
+                isDark={isDark}
+                setIsDark={setIsDark}
+                actionsListExtended={actionsListExtended}
+                setActionsListExtended={setActionsListExtended}
+                decisionPanelExtended={decisionPanelExtended}
+                optimisationTemplateData={optimisationTemplateData}
+                setOptimisationTemplateData={setOptimisationTemplateData}
+                notificationsPreference={notificationsPreference}
+                setNotificationsPreference={setNotificationsPreference}
+                addNotificationToList={addNotificationToList}
+            />
             {filter === Filters.filter && (
                 <>
                     <FilterSearch
@@ -264,33 +191,15 @@ const Main: React.FC<MainProps> = ({ userInfo }) => {
                 </>
             )}
 
-            {userInfo.isPremiumActivated && (
+            {localStorage.getItem('premium') === 'true' && (
                 <>
                     <ToastHistory
                         id={'toastHistoryId'}
                         isDark={isDark}
-                        toastHistoryData={toastHistoryData}
+                        userId={userId.toString()} // Utilisation de userId depuis userUtils
+                        // toastHistoryData={toastHistoryData}
                     />
-                    <ActionsList
-                        id={'actionsListComponentId'}
-                        isDark={isDark}
-                        actionsListExtended={actionsListExtended}
-                        setActionsListExtended={setActionsListExtended}
-                        decisionPanelExtended={decisionPanelExtended}
-                        optimisationTemplateData={optimisationTemplateData}
-                        setOptimisationTemplateData={
-                            setOptimisationTemplateData
-                        }
-                    />
-                    <SettingsButton
-                        id={'settingsButtonId'}
-                        isDark={isDark}
-                        setIsDark={setIsDark}
-                        decisionPanelExtended={decisionPanelExtended}
-                        notificationsPreference={notificationsPreference}
-                        setNotificationsPreference={setNotificationsPreference}
-                        addNotificationToList={addNotificationToList}
-                    />
+                    <ActionHistory id={'actionHistoryId'} isDark={isDark} />
                     <DecisionMenu
                         id={'decisionMenuComponentId'}
                         isDark={isDark}
@@ -312,13 +221,13 @@ const Main: React.FC<MainProps> = ({ userInfo }) => {
                         addNotificationToList={addNotificationToList}
                         notificationsPreference={notificationsPreference}
                     />
-                    <EditInPdfPannel
+                    {/* <EditInPdfPannel
                         id={'editinPdfPannelComponentId'}
                         isDark={isDark}
                         isButtonEditInPdfClicked={isButtonEditInPdfClicked}
                         decisionPanelExtended={decisionPanelExtended}
                         handleButtonEditInPdfClick={handleButtonEditInPdfClick}
-                    />
+                    /> */}
                     <Gauges
                         id={'gaugesComponentId'}
                         isDark={isDark}

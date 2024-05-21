@@ -85,6 +85,23 @@ export const SubmitButton = styled.button`
     }
 `;
 
+export const AdminButton = styled.button`
+    display: flex;
+    position: absolute;
+    background-color: ${Yellow};
+    color: ${Black};
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    margin-left: 8%;
+    top: 340px;
+    left: 24%;
+    &:hover {
+        cursor: pointer;
+        opacity: 0.9;
+    }
+`;
+
 export const ReturnButtonContainer = styled(IoIosReturnLeft)`
     display: flex;
     position: fixed;

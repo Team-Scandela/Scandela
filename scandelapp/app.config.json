@@ -1,0 +1,9 @@
+{
+    "apps": [
+        {
+            "name": "scandelapp",
+            "script": "serve -s build -l 2000",
+            "restart": true
+        }
+    ]
+}

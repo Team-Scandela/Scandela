@@ -7,25 +7,23 @@ import {
     PremiumButtonOnOffText,
     FormField,
     SubmitButton,
+    AdminButton,
     ReturnButtonContainer,
 } from './elements';
+import { userId } from '../../../utils/userUtils';
+import { useNavigate } from 'react-router-dom';
 
 /** Premium page component
- * @param {boolean} userInfo - Infos about the current user
- * @param {function} updateUserInfo - Function to update the user infos
  * @param {function} handlePremiumButtonClicked - Function to show/hide premium page
  */
 interface PremiumPageProps {
-    userInfo: any;
-    updateUserInfo: (newInfo: any) => void;
     handlePremiumButtonClicked: () => void;
 }
 
 const PremiumPage: React.FC<PremiumPageProps> = ({
-    userInfo,
-    updateUserInfo,
     handlePremiumButtonClicked,
 }) => {
+    const navigate = useNavigate();
     const [showForm, setShowForm] = useState(false);
     const [formValues, setFormValues] = useState({
         fullName: '',
@@ -64,35 +62,41 @@ const PremiumPage: React.FC<PremiumPageProps> = ({
     const handleFormSubmit = async (event: any) => {
         event.preventDefault();
 
-        const encodedCredentials = btoa('tester:T&st');
+        const encodedCredentials = btoa(
+            `${process.env.REACT_APP_REQUEST_USER}:${process.env.REACT_APP_REQUEST_PASSWORD}`
+        );
         const headers = new Headers({
             'Content-Type': 'application/json',
             Authorization: `Basic ${encodedCredentials}`,
         });
-
+        const urlRequest = process.env.REACT_APP_BACKEND_URL + 'subscription';
         try {
-            const response = await fetch(
-                'https://serverdela.onrender.com/subscription',
-                {
-                    method: 'POST',
-                    headers: headers,
-                    body: JSON.stringify({
-                        userid: userInfo.id,
-                        ...formValues,
-                    }),
-                }
-            );
+            const response = await fetch(urlRequest, {
+                method: 'POST',
+                headers: headers,
+                body: JSON.stringify({
+                    userid: userId,
+                    ...formValues,
+                }),
+            });
 
             if (!response.ok) {
-                throw new Error('La connexion a échoué');
+                throw new Error("L'achat a échoué");
             }
 
             const data = await response.json();
-            // console.log(data);
             // updateUserInfo({ isPremiumActivated: true }); idée du résultat
         } catch (error) {
             console.error("Erreur lors de l'achat", error);
         }
+    };
+
+    const handleAdminPremium = () => {
+        if (localStorage.getItem('premium') === 'true')
+            localStorage.setItem('premium', 'false');
+        else if (localStorage.getItem('premium') === 'false')
+            localStorage.setItem('premium', 'true');
+        navigate('/scandela');
     };
 
     return (
@@ -164,6 +168,11 @@ const PremiumPage: React.FC<PremiumPageProps> = ({
                         <SubmitButton onClick={handleFormSubmit}>
                             Soumettre
                         </SubmitButton>
+                        {localStorage.getItem('token') === 'true' && (
+                            <AdminButton onClick={handleAdminPremium}>
+                                Admin premium
+                            </AdminButton>
+                        )}
                     </div>
                 )}
             </PremiumPageContainer>

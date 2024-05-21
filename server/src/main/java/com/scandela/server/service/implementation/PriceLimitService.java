@@ -56,7 +56,7 @@ public class PriceLimitService extends AbstractService<PriceLimit> implements IP
 		String encodedKey = Base64.getEncoder().encodeToString(credentials.getBytes(StandardCharsets.UTF_8));
 
 		try {
-			obj = new URL("https://serverdela.onrender.com/electricityPrice");
+			obj = new URL("https://api.scandela.fr/electricityPrice");
 			HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
 			if (con != null) {
@@ -95,7 +95,7 @@ public class PriceLimitService extends AbstractService<PriceLimit> implements IP
 	}
 
 	private void checkLimit(PriceLimit limit, Double currentPrice) {
-		Optional<User> user = userDao.findById(UUID.fromString(limit.getUserId()));
+		Optional<User> user = userDao.findById(UUID.fromString(limit.getUserid()));
 
 		if (limit.getTriggeredstate() == true)
 			return;

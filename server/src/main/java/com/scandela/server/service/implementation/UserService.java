@@ -70,7 +70,7 @@ public class UserService extends AbstractService<User> implements IUserService {
 			return dao.save(newUser);
 		} catch (Exception e) {
 			if (newUser.getTown() == null || newUser.getEmail() == null ||
-				newUser.getUsername() == null || newUser.getRights() == null) {
+				newUser.getUsername() == null) {
 				throw new UserException(UserException.INCOMPLETE_INFORMATIONS);
 			}
 			throw e;

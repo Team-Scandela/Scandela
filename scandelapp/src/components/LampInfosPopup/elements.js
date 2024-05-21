@@ -9,9 +9,9 @@ export const PannelContainer = styled.div`
     align-items: center;
     justify-content: center;
     width: 400px;
-    height: 670px;
-    top: 25%;
-    left: 40%;
+    height: ${(props) => (props.isLampHavingDecision ? '670px' : '450px')};
+    left: ${(props) => props.left}px;
+    top: ${(props) => props.top}px;
     background-color: ${(props) =>
         props.isDark ? Black + 'FF' : White + 'FF'};
     border-radius: 30px;
@@ -22,6 +22,7 @@ export const PannelContainer = styled.div`
     box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
     transform-origin: center;
     overflow: hidden;
+    z-index: 5;
 `;
 
 export const PopupTextLampName = styled.div`
@@ -128,25 +129,4 @@ export const ListDetailContainer = styled.div`
     background-color: ${(props) =>
         props.isDark ? Yellow + 'FF' : Black + 'FF'};
     border-radius: 30px;
-`;
-
-export const ButtonOptimise = styled.div`
-    display: flex;
-    position: absolute;
-    align-items: center;
-    justify-content: center;
-    width: 60px;
-    height: 60px;
-    top: 145px;
-    left: 300px;
-    background-color: ${(props) =>
-        props.isDark ? Black + 'FF' : White + 'FF'};
-    border-radius: 15px;
-    opacity: 1;
-    transition: opacity 0.1s;
-
-    &:hover {
-        cursor: pointer;
-        opacity: 0.7;
-    }
 `;

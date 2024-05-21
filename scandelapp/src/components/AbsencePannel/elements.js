@@ -19,10 +19,24 @@ export const AbsencePannelButtonContainer = styled.div`
     user-select: none;
     opacity: 0.9;
     background-color: ${(props) =>
-        props.isDark ? Black + 'CC' : White + 'CC'};
-    color: ${(props) => (props.isDark ? Yellow : Black)};
+        props.isOn
+            ? props.isDark
+                ? Yellow
+                : Black
+            : props.isDark
+              ? Black + 'CC'
+              : White + 'CC'};
+    color: ${(props) =>
+        props.isOn
+            ? props.isDark
+                ? Black
+                : White
+            : props.isDark
+              ? Yellow
+              : Black};
     box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
     border-radius: 10px;
+    transition: all 0.2s ease-in-out;
 
     &:hover {
         opacity: 1;
@@ -74,8 +88,7 @@ export const CloseIcon = styled(AiFillCloseCircle)`
 export const ListDetailContainer = styled.div`
     display: flex;
     position: absolute;
-    align-items: center;
-    justify-content: center;
+    flex-direction: column;
     left: 30px;
     width: 600px;
     height: 380px;
@@ -83,67 +96,56 @@ export const ListDetailContainer = styled.div`
     background-color: ${(props) =>
         props.isDark ? Yellow + 'FF' : Black + 'FF'};
     border-radius: 30px;
+    padding: 20px;
+    gap: 10px;
 `;
 
 export const EventContainer = styled.div`
     display: flex;
-    position: absolute;
-    align-items: center;
-    justify-content: center;
-    left: 3%;
-    width: 90%;
-    height: 80px;
-    top: ${(props) => props.top};
+    position: relative;
+    width: 100%;
+    height: 100px;
+    border-radius: 10px;
+    background-color: ${(props) => (props.isDark ? Black : White)};
 `;
 
-export const WarningIcon = styled(AiOutlineWarning)`
+export const EventDate = styled.div`
     position: absolute;
-    left: 0px;
-    top: 15px;
-    font-size: 70px;
-    color: Red;
-`;
-
-export const ArrowIcon = styled(AiOutlineSend)`
-    position: absolute;
-    right: 0px;
-    top: 15px;
-    font-size: 60px;
+    top: 65px;
+    left: 365px;
+    width: 100%;
+    height: 100%;
     color: ${(props) => (props.isDark ? Black : White)};
-    opacity: 1;
-    transition: opacity 0.1s;
-
-    &:hover {
-        cursor: pointer;
-        opacity: 0.5;
-    }
+    font-size: 20px;
 `;
 
-export const EventTextContainer = styled.div`
-    display: flex;
+export const EventDescription = styled.div`
     position: absolute;
-    align-items: center;
-    justify-content: center;
-    left: 15%;
-    width: 70%;
-    height: 80px;
-    top: 10%;
+    top: 40px;
+    left: 10px;
+    width: 100%;
+    height: 100%;
+    color: ${(props) => (props.isDark ? Black : White)};
+    font-size: 20px;
 `;
 
-export const EventText = styled.div`
+export const EventTitle = styled.div`
     position: absolute;
     top: 5px;
-    left: 0px;
-    font-size: 30px;
-    user-select: none;
+    left: 10px;
+    width: 100%;
+    height: 100%;
     color: ${(props) => (props.isDark ? Black : White)};
-    font-weight: 550;
+    font-size: 25px;
+    font-weight: 500;
 `;
 
-export const IndicatorsImage = styled.img`
+export const EventLocation = styled.div`
     position: absolute;
-    right: 50px;
-    top: 125px;
-    width: 100px;
-    height: auto;
+    top: 65px;
+    left: 10px;
+    width: 100%;
+    height: 100%;
+    color: ${(props) => (props.isDark ? Black : White)};
+    font-size: 20px;
 `;

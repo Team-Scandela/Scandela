@@ -42,6 +42,7 @@ export const ToastHistoryPannel = styled.div`
     top: 300px;
     left: ${(props) => (props.show ? '0%' : '-210px')};
     border-radius: 0px 8px 8px 0px;
+    z-index: 100;
 
     background-color: ${(props) => (props.isDark ? Black : White)};
     color: ${(props) => (props.isDark ? DarkYellow : Black)};
@@ -53,7 +54,7 @@ export const ToastHistoryPannel = styled.div`
 `;
 
 /** Main text on the toast history pannel */
-export const NotificationsText = styled.div`
+export const NotificationsTitle = styled.div`
     position: fixed;
     top: 2px;
     left: 5px;
@@ -121,4 +122,46 @@ export const TimeText = styled.p`
     user-select: none;
     color: ${(props) => (props.isDark ? Black : Black)};
     font-weight: 700;
+`;
+
+export const Checkbox = styled.input`
+    margin-right: 10px;
+`;
+
+export const DeleteButton = styled.button`
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: red;
+    color: white;
+    border: none;
+    cursor: pointer;
+    &:disabled {
+        background-color: grey;
+        cursor: not-allowed;
+    }
+`;
+
+export const Popup = styled.div`
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;
+
+export const PopupContent = styled.div`
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+`;
+
+export const PopupButton = styled.button`
+    margin: 10px;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
 `;

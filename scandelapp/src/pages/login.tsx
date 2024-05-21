@@ -1,17 +1,24 @@
 import LoginModule from '../components/LoginModule';
 
 interface LoginProps {
-    updateUserInfo: (newInfo: any) => void;
+    setOptimisationTemplateData: (data: any) => void;
+    addItemToOptimisationTemplate: (data: any) => void;
 }
 
 /** Login page of the app */
-const Login: React.FC<LoginProps> = ({ updateUserInfo }) => {
+const Login: React.FC<LoginProps> = ({
+    setOptimisationTemplateData,
+    addItemToOptimisationTemplate,
+}) => {
     return (
         <div
             id={'loginPage'}
             style={{ backgroundColor: '#444444', height: '100vh' }}
         >
-            <LoginModule updateUserInfo={updateUserInfo} />
+            <LoginModule
+                setOptimisationTemplateData={setOptimisationTemplateData}
+                addItemToOptimisationTemplate={addItemToOptimisationTemplate}
+            />
         </div>
     );
 };

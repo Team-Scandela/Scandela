@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
     ProfilePageContainer,
     ProfileField,
@@ -7,6 +7,7 @@ import {
     ValidateIcon,
     ReturnButtonContainer,
 } from './elements';
+import { getUser, putUser } from '../../../utils/userUtils';
 
 /** Profile page component
  */
@@ -23,10 +24,22 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
     const [isEditingPassword, setIsEditingPassword] = useState(false);
     const [isEditingKwH, setIsEditingKwH] = useState(false);
 
-    const [name, setName] = useState('Victor Harri-Chal');
-    const [email, setEmail] = useState('victor.harrichal@epitech.eu');
-    const [password, setPassword] = useState('scandevloppeur');
+    const [name, setName] = useState('Chargement...');
+    const [email, setEmail] = useState('Chargement...');
+    const [password, setPassword] = useState('');
     const [kwH, setKwH] = useState('600');
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+            const user = await getUser();
+            if (user) {
+                setName(user.username);
+                setEmail(user.email);
+            }
+        };
+
+        fetchUserData();
+    }, []);
 
     const handleReturnButtonClicked = () => {
         handleProfileButtonClicked();
@@ -54,9 +67,11 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
     const handleSaveClick = (field: string) => {
         switch (field) {
             case 'name':
+                updateUserName();
                 setIsEditingName(false);
                 break;
             case 'email':
+                updateUserEmail();
                 setIsEditingEmail(false);
                 break;
             case 'password':
@@ -82,6 +97,36 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
         } else {
             return <span>{'*'.repeat(password.length)}</span>;
         }
+    };
+
+    const updateUserName = async () => {
+        const user = await getUser();
+        const updatedUserData = {
+            town: user.town,
+            email: user.email,
+            username: name,
+            password: user.password,
+            rights: user.rights,
+            moreInformations: user.moreInformations,
+            darkmode: user.darkmode,
+            lastConnexion: user.lastConnexion,
+        };
+        putUser(updatedUserData);
+    };
+
+    const updateUserEmail = async () => {
+        const user = await getUser();
+        const updatedUserData = {
+            town: user.town,
+            email: email,
+            username: user.username,
+            password: user.password,
+            rights: user.rights,
+            moreInformations: user.moreInformations,
+            darkmode: user.darkmode,
+            lastConnexion: user.lastConnexion,
+        };
+        putUser(updatedUserData);
     };
 
     return (
