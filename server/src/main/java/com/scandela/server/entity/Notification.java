@@ -1,29 +1,25 @@
 package com.scandela.server.entity;
 
 import java.io.Serializable;
-import java.util.List;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-
 
 @Entity
 @Builder
@@ -44,13 +40,14 @@ public class Notification implements Serializable {
     @GeneratedValue(generator = "UUIDGenerator")
 	@Column(name = "uuid", updatable = false, nullable = false)
 	private UUID id;
-
-	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-	@OneToOne(mappedBy = "notification", cascade = CascadeType.REMOVE)
+	
+	@ManyToOne
+	@JoinColumn(name = "uuiduser", nullable = false)
 	private User user;
-
-	@Column(name = "description", nullable = false, unique = true)
+	
+	@Column(name = "description")
 	private String description;
-
-	@Column(name = "time", updatable = false)
-    private Integer time;
+	
+	@Column(name = "time")
+	private LocalDateTime time;
+}

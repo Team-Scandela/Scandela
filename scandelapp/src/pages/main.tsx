@@ -5,20 +5,18 @@ import SearchBar from '../components/SearchBar';
 import ToastHistory from '../components/ToastHistory';
 import { handleSearchUtils } from '../utils/searchUtils';
 import DecisionMenu from '../components/DecisionMenu';
-import EditInPdfPannel from '../components/EditInPdfPannel';
-import ActionsList from '../components/ActionsList';
-import SettingsButton from '../components/SettingsButton';
-import LogoutButton from '../components/LogoutButton';
+// import EditInPdfPannel from '../components/EditInPdfPannel';
+import TopRightButtonsPannel from '../components/TopRightButtonsPannel';
 import Toastr from '../components/Toastr';
 import { Gauges } from '../components/Gauges';
-import CityButton from '../components/CityButton';
 import AbsencePannel from '../components/AbsencePannel';
-import SmallLampInfosPopup from '../components/SmallLampInfosPopup';
 // import MapDB from '../components/MapDB';
 import FilterSearch from '../components/FilterSearch';
 import TrafficTime from '../components/TrafficTime';
 import { GaugesContainer } from '../components/ActionsList/elements';
 import { PersonnalizedGauge } from '../components/Gauges';
+import ActionHistory from '../components/ActionHistory';
+import { userId } from '../utils/userUtils';
 
 export enum Filters {
     pin = 'pin',
@@ -31,12 +29,19 @@ export enum Filters {
 }
 
 interface MainProps {
-    userInfo: any;
+    optimisationTemplateData: any;
+    setOptimisationTemplateData: (data: any) => void;
 }
 
 /** Main page of the app */
-const Main: React.FC<MainProps> = ({ userInfo }) => {
-    const [isDark, setIsDark] = useState<boolean>(true);
+const Main: React.FC<MainProps> = ({
+    optimisationTemplateData,
+    setOptimisationTemplateData,
+}) => {
+    const [isDark, setIsDark] = useState(() => {
+        const savedIsDark = localStorage.getItem('isDark');
+        return JSON.parse(savedIsDark);
+    });
     const [filter, setFilter] = useState<Filters>(Filters.none);
     const [lat, setLat] = useState<number>(47.218371);
     const [lng, setLng] = useState<number>(-1.553621);
@@ -461,8 +466,21 @@ const Main: React.FC<MainProps> = ({ userInfo }) => {
         ['languageUpdate', false],
     ]);
 
-    const handleSearch = (value: string) => {
-        handleSearchUtils(value, lat, setLat, lng, setLng, zoom, setZoom);
+    const handleSearch = (
+        value: string,
+        valueLng: number,
+        valueLat: number
+    ) => {
+        console.log('value =' + value);
+        if (value === 'ZOOM ON LAMP') zoomOnLampByCoord(valueLat, valueLng);
+        else handleSearchUtils(value, lat, setLat, lng, setLng, zoom, setZoom);
+    };
+
+    const zoomOnLampByCoord = (valueLat: number, valueLng: number) => {
+        console.log('ZOOM on coord = ' + valueLat + ' / ' + valueLng);
+        setLat(valueLat);
+        setLng(valueLng);
+        setZoom(18);
     };
 
     const handleButtonEditInPdfClick = () => {
@@ -522,6 +540,7 @@ const Main: React.FC<MainProps> = ({ userInfo }) => {
                 zoom={zoom}
                 selectedFilter={selected}
                 searchFilter={search}
+                optimisationTemplateData={optimisationTemplateData}
             />
             <SearchBar
                 id={'searchBarComponentId'}
@@ -534,8 +553,19 @@ const Main: React.FC<MainProps> = ({ userInfo }) => {
                 setFilter={setFilter}
                 isDark={isDark}
             />
-            <LogoutButton id={'logoutButtonId'} isDark={isDark} />
-            <CityButton id={'cityButtonId'} isDark={isDark} />
+            <TopRightButtonsPannel
+                id={'topRightButtonsPannelId'}
+                isDark={isDark}
+                setIsDark={setIsDark}
+                actionsListExtended={actionsListExtended}
+                setActionsListExtended={setActionsListExtended}
+                decisionPanelExtended={decisionPanelExtended}
+                optimisationTemplateData={optimisationTemplateData}
+                setOptimisationTemplateData={setOptimisationTemplateData}
+                notificationsPreference={notificationsPreference}
+                setNotificationsPreference={setNotificationsPreference}
+                addNotificationToList={addNotificationToList}
+            />
             {filter === Filters.filter && (
                 <>
                     <FilterSearch
@@ -559,33 +589,15 @@ const Main: React.FC<MainProps> = ({ userInfo }) => {
                 </>
             )}
 
-            {userInfo.isPremiumActivated && (
+            {localStorage.getItem('premium') === 'true' && (
                 <>
                     <ToastHistory
                         id={'toastHistoryId'}
                         isDark={isDark}
-                        toastHistoryData={toastHistoryData}
+                        userId={userId.toString()} // Utilisation de userId depuis userUtils
+                        // toastHistoryData={toastHistoryData}
                     />
-                    <ActionsList
-                        id={'actionsListComponentId'}
-                        isDark={isDark}
-                        actionsListExtended={actionsListExtended}
-                        setActionsListExtended={setActionsListExtended}
-                        decisionPanelExtended={decisionPanelExtended}
-                        optimisationTemplateData={optimisationTemplateData}
-                        setOptimisationTemplateData={
-                            setOptimisationTemplateData
-                        }
-                    />
-                    <SettingsButton
-                        id={'settingsButtonId'}
-                        isDark={isDark}
-                        setIsDark={setIsDark}
-                        decisionPanelExtended={decisionPanelExtended}
-                        notificationsPreference={notificationsPreference}
-                        setNotificationsPreference={setNotificationsPreference}
-                        addNotificationToList={addNotificationToList}
-                    />
+                    <ActionHistory id={'actionHistoryId'} isDark={isDark} />
                     <DecisionMenu
                         id={'decisionMenuComponentId'}
                         isDark={isDark}
@@ -607,13 +619,13 @@ const Main: React.FC<MainProps> = ({ userInfo }) => {
                         addNotificationToList={addNotificationToList}
                         notificationsPreference={notificationsPreference}
                     />
-                    <EditInPdfPannel
+                    {/* <EditInPdfPannel
                         id={'editinPdfPannelComponentId'}
                         isDark={isDark}
                         isButtonEditInPdfClicked={isButtonEditInPdfClicked}
                         decisionPanelExtended={decisionPanelExtended}
                         handleButtonEditInPdfClick={handleButtonEditInPdfClick}
-                    />
+                    /> */}
                     <Gauges
                         id={'gaugesComponentId'}
                         isDark={isDark}

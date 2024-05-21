@@ -11,72 +11,82 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.scandela.server.entity.Town;
-import com.scandela.server.exception.TownException;
-import com.scandela.server.service.ITownService;
+import com.scandela.server.entity.Notification;
+import com.scandela.server.exception.NotificationException;
+import com.scandela.server.service.INotificationService;
 
-@CrossOrigin(origins = "*")
 @RestController
-@RequestMapping(value = "/notification")
-public class TownController extends AbstractController<Town> {
+@RequestMapping(value = "/notifications")
+@CrossOrigin(origins = "*")
+public class NotificationController extends AbstractController<Notification> {
 
 	// Constructors \\
-	protected NotificationController(ITownService townService) {
+	protected NotificationController(INotificationService notificationService) {
 		super(notificationService);
 	}
 
 	// Methods \\
 	// Public \\
 	/**
-	 * Get all towns
+	 * Get all notifications
 	 * 
-	 * @return allTowns
+	 * @return allNotifications
 	 */
 	@GetMapping
-	public List<Town> getNotification() {
-		return super.getAll();
+	public List<Notification> getNotifications(@RequestParam UUID idUser) {
+		return ((INotificationService) service).getAll(idUser);
 	}
 
 	/**
-	 * Get town by id
+	 * Get notification by id
 	 * 
 	 * @param id
-	 * @return town
+	 * @return notification
 	 */
 	@GetMapping("/{id}")
-	public Town getNotification(@PathVariable UUID id) {
+	public Notification getNotification(@PathVariable UUID id) {
 		return super.get(id);
 	}
 
+    /** 
+     * Get latest notifications by 10
+     * 
+     */
+    @GetMapping("/latest")
+    public List<Notification> getLatestNotifications(@RequestParam UUID idUser) {
+        return ((INotificationService) service).getLatest(idUser, 10);
+    }
+
 	/**
-	 * Create new town
+	 * Create new notification
 	 * 
-	 * @param newTown
-	 * @return newTown
-	 * @throws TownException
+	 * @param newNotification
+	 * @return newNotification
+	 * @throws NotificationException 
 	 */
 	@PostMapping("/create")
-	public Town createNotification(@RequestBody Town newTown) throws Exception {
-		return super.create(newTown);
+	public Notification createNotification(@RequestBody Notification newNotification) throws Exception {
+		return super.create(newNotification);
 	}
 
 	/**
-	 * Update town by id
+	 * Update notification by id
 	 * 
 	 * @param id
 	 * @param update
 	 * @return
 	 * @throws Exception
 	 */
-	@PutMapping("/{id}")
-	public Town updateNotification(@PathVariable UUID id, @RequestBody Town update) throws Exception {
-		return super.update(id, update);
-	}
+    @PutMapping("/{id}")
+    public Notification updateNotification(@PathVariable UUID id, @RequestBody Notification update) throws Exception {
+        return super.update(id, update);
+    }
 
 	/**
-	 * Delete town
+	 * Delete notification
 	 * 
 	 * @param id
 	 */

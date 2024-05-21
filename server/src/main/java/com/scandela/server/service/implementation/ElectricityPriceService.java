@@ -72,6 +72,7 @@ public class ElectricityPriceService extends AbstractService<ElectricityPrice> i
     }
 
 	public ElectricityPrice getLastElectricityPrice(String accessToken) {
+
 		URL obj;
 		try {
 			obj = new URL("https://digital.iservices.rte-france.com/open_api/wholesale_market/v2/france_power_exchanges");

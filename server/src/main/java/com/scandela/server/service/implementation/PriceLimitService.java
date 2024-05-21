@@ -56,31 +56,36 @@ public class PriceLimitService extends AbstractService<PriceLimit> implements IP
 		String encodedKey = Base64.getEncoder().encodeToString(credentials.getBytes(StandardCharsets.UTF_8));
 
 		try {
-			obj = new URL("http://localhost:8080/electricityPrice");
+			obj = new URL("https://api.scandela.fr/electricityPrice");
 			HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
-			con.setRequestMethod("GET");
-			con.setRequestProperty("Authorization", "Basic " + encodedKey);
+			if (con != null) {
 
-			try (BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()))) {
-				StringBuilder response = new StringBuilder();
-				String inputLine;
+				if (con.getResponseCode() < 300) {
+					con.setRequestMethod("GET");
+					con.setRequestProperty("Authorization", "Basic " + encodedKey);
 
-				while ((inputLine = in.readLine()) != null) {
-					response.append(inputLine);
+					try (BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()))) {
+						StringBuilder response = new StringBuilder();
+						String inputLine;
+
+						while ((inputLine = in.readLine()) != null) {
+							response.append(inputLine);
+						}
+
+						String jsonResponse = response.toString();
+						ObjectMapper objectMapper = new ObjectMapper();
+						JsonNode jsonNode = objectMapper.readTree(jsonResponse);
+						double priceValue = jsonNode.get("price").asDouble();
+
+						Double value = Double.valueOf(priceValue);
+
+						for (PriceLimit limit : priceLimits) {
+							checkLimit(limit, value);
+						}
+					}
 				}
 
-
-				String jsonResponse = response.toString();
-				ObjectMapper objectMapper = new ObjectMapper();
-				JsonNode jsonNode = objectMapper.readTree(jsonResponse);
-				double priceValue = jsonNode.get("price").asDouble();
-
-				Double value = Double.valueOf(priceValue);
-
-				for (PriceLimit limit : priceLimits) {
-					checkLimit(limit, value);
-				}
 			}
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
@@ -90,7 +95,7 @@ public class PriceLimitService extends AbstractService<PriceLimit> implements IP
 	}
 
 	private void checkLimit(PriceLimit limit, Double currentPrice) {
-		Optional<User> user = userDao.findById(UUID.fromString(limit.getUserId()));
+		Optional<User> user = userDao.findById(UUID.fromString(limit.getUserid()));
 
 		if (limit.getTriggeredstate() == true)
 			return;

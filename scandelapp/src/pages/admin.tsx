@@ -22,18 +22,17 @@ const Admin: React.FC = () => {
     const [tickets, setTickets] = useState<Ticket[]>([]);
 
     const getTicket = async () => {
-        const username = 'tester';
-        const password = 'T&st';
-        const response = await fetch(
-            'https://serverdela.onrender.com/tickets',
-            {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Basic ${btoa(`${username}:${password}`)}`,
-                },
-            }
-        );
+        const username = process.env.REACT_APP_REQUEST_USER;
+        const password = process.env.REACT_APP_REQUEST_PASSWORD;
+        const urlRequest = process.env.REACT_APP_BACKEND_URL + 'tickets';
+
+        const response = await fetch(urlRequest, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Basic ${btoa(`${username}:${password}`)}`,
+            },
+        });
         const tickets = await response.json();
         setTickets(tickets);
     };

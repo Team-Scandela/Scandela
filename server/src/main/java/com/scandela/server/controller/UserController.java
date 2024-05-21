@@ -74,12 +74,10 @@ public class UserController extends AbstractController<User> {
 				newUser.getEmail() + "\n\nTeam Scandela");
 		return super.create(newUser);
 	}
-	
+
 	@PostMapping("/signin")
-	public Map<String, UUID> signIn(@RequestBody User user) throws UserException {
-		UUID id = ((IUserService) service).signIn(user.getEmail(), user.getPassword());
-		
-		return Map.of("id", id);
+	public User signIn(@RequestBody User user) throws UserException {
+		return ((IUserService) service).signIn(user.getEmail(), user.getPassword());
 	}
 
 	/**
@@ -107,7 +105,11 @@ public class UserController extends AbstractController<User> {
 	
 	@PostMapping("/newsletter")
 	public void newsletter(@RequestBody Map<String, String> mailInfos) throws Exception {
-		emailService.sendMail(mailInfos.get("email"), "Scandela Newsletter - " + mailInfos.get("subject"), mailInfos.get("body") + "\n\nTeam Scandela");
+		List<User> users = ((IUserService) service).getAllForNewsletter();
+		
+		for (User user : users) {
+			emailService.sendMail(user.getEmail(), "Scandela Newsletter - " + mailInfos.get("subject"), mailInfos.get("body") + "\n\nTeam Scandela");
+		}
 	}
 
 }

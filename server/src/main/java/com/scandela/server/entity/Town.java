@@ -16,7 +16,6 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -45,8 +44,8 @@ public class Town implements Serializable {
 	private UUID id;
 
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-	@OneToOne(mappedBy = "town", cascade = CascadeType.REMOVE)
-	private User user;
+	@OneToMany(mappedBy = "town", cascade = CascadeType.REMOVE)
+	private List<User> users;
 
 	@OneToMany(mappedBy = "town", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	private List<Hood> hoods;
