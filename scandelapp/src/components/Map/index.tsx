@@ -127,8 +127,10 @@ const Map: React.FC<MapProps> = ({
                     hat: obj.fields.type_foyer,
                 },
             };
+            console.log('Feature:', feature); // Afficher le feature dans la console
             geoJSON.features.push(feature);
         });
+        console.log('GeoJSON:', geoJSON);
         return geoJSON;
     }, []);
 
@@ -398,118 +400,165 @@ const Map: React.FC<MapProps> = ({
                 map.current.setLayoutProperty('lamp', 'visibility', 'none');
 
                 // Heatmap Layer toujours optimisable
-            map.current.addLayer(
-                {
-                    id: 'zone',
-                    type: 'heatmap',
-                    source: 'points',
+                map.current.addLayer(
+                    {
+                        id: 'zone',
+                        type: 'heatmap',
+                        source: 'points-unclustered',
+                        layout: {
+                            visibility: 'none',
+                        },
+                        maxzoom: 23,
+                        paint: {
+                            'heatmap-weight': {
+                                property: 'hauteur_support',
+                                type: 'interval',
+                                stops: [
+                                    [1, 0.2], // Léger pour une hauteur entre 1 et 2
+                                    [2, 0.2],
+                                    [3, 0.5], // Moyen pour une hauteur entre 3 et 4
+                                    [4, 0.5],
+                                    [5, 0.8], // Assez fort pour une hauteur entre 4 et 5
+                                    [6, 1], // Très fort pour une hauteur supérieure à 5
+                                ],
+                            },
+                            'heatmap-intensity': {
+                                stops: [
+                                    [11, 1],
+                                    [15, 3],
+                                ],
+                            },
+                            'heatmap-color': [
+                                'interpolate',
+                                ['linear'],
+                                ['heatmap-density'],
+                                0,
+                                'rgba(236,222,239,0)',
+                                0.2,
+                                'rgb(3,2,230)',
+                                0.4,
+                                'rgb(3,230,2)',
+                                0.6,
+                                'rgb(178,123,130)',
+                                0.8,
+                                'rgb(234,1,3)',
+                            ],
+                            'heatmap-radius': {
+                                property: 'hauteur_support',
+                                type: 'interval',
+                                stops: [
+                                    [1, 10], // Petite taille pour une hauteur entre 1 et 2
+                                    [2, 10],
+                                    [3, 15], // Taille moyenne pour une hauteur entre 3 et 4
+                                    [4, 15],
+                                    [5, 20], // Grande taille pour une hauteur entre 4 et 5
+                                    [6, 25], // Très grande taille pour une hauteur supérieure à 5
+                                ],
+                            },
+                            'heatmap-opacity': {
+                                default: 0.6,
+                                stops: [
+                                    [14, 0.2],
+                                    [15, 0.2],
+                                ],
+                            },
+                        },
+                    },
+                    'waterway-label'
+                );
+
+                //ColoredPin filter
+                map.current.addLayer({
+                    id: 'pinColor',
+                    type: 'circle',
+                    source: 'points-unclustered',
                     layout: {
                         visibility: 'none',
                     },
-                    maxzoom: 23,
                     paint: {
-                        'heatmap-weight': {
-                            property: 'dbh',
-                            type: 'exponential',
-                            stops: [
-                                [1, 0],
-                                [62, 1],
-                            ],
-                        },
-                        'heatmap-intensity': {
-                            stops: [
-                                [11, 1],
-                                [15, 3],
-                            ],
-                        },
-                        'heatmap-color': [
-                            'interpolate',
-                            ['linear'],
-                            ['heatmap-density'],
-                            0,
-                            'rgba(236,222,239,0)',
-                            0.2,
-                            'rgb(3,2,230)',
-                            0.4,
-                            'rgb(3,230,2)',
-                            0.6,
-                            'rgb(178,123,130)',
-                            0.8,
-                            'rgb(234,1,3)',
+                        'circle-color': [
+                            'match',
+                            ['get', 'type_lampe'], // Correction ici
+                            'SHP',
+                            '#FF0000', // Rouge pour SHP
+                            'MBF',
+                            '#FFA500', // Orange pour MBF
+                            'DIC',
+                            '#FFA500', // Vert pour DIC
+                            'IMC',
+                            '#FF0000', // Rouge pour IMC
+                            'IC',
+                            '#FFA500', // Orange pour IC
+                            'HAL',
+                            '#FFA500', // Vert pour HAL
+                            'IM',
+                            '#FF0000', // Rouge pour IM
+                            'SBP',
+                            '#FFA500', // Orange pour SBP
+                            'LED',
+                            '#00FF00', // Vert pour LED
+                            'TL',
+                            '#00FF00', // Vert pour TL
+                            'TF',
+                            '#00FF00', // Vert pour TF
+                            'FC',
+                            '#00FF00', // Vert pour FC
+                            '#808080', // Gris pour toutes les autres valeurs de type_lampe
                         ],
-                        'heatmap-radius': {
-                            stops: [
-                                [11, 15],
-                                [15, 20],
-                            ],
-                        },
-                        'heatmap-opacity': {
-                            default: 0.6,
-                            stops: [
-                                [14, 0.2],
-                                [15, 0.2],
-                            ],
-                        },
+                        'circle-opacity': 0.7,
+                        'circle-stroke-color': '#FFFFFF',
+                        'circle-stroke-width': 2,
                     },
-                },
-                'waterway-label'
-            );
-            
-            //ColoredPin filter
-            map.current.addLayer({
-                id: 'pinColor',
-                type: 'circle',
-                source: 'points',
-                layout: {
-                    visibility: 'none',
-                },
-                paint: {
-                    'circle-radius': 6,
-                    'circle-color': getRandomColor(),
-                    'circle-stroke-color': '#FFFFFF',
-                    'circle-stroke-width': 2,
-                },
-            });
-            
-            // // Filtre pour les points avec des halos de lumière sur les pins
-            map.current.addLayer({
-                id: 'filter',
-                type: 'circle',
-                source: 'points',
-                layout: {
-                    visibility: 'none',
-                },
-                paint: {
-                    'circle-radius': [
-                        'case',
-                        ['<=', ['get', 'hauteur_support'], 1], 8,
-                        ['<=', ['get', 'hauteur_support'], 2], 9,
-                        ['<=', ['get', 'hauteur_support'], 3], 10,
-                        ['<=', ['get', 'hauteur_support'], 4], 12,
-                        14
-                    ],
-                    'circle-color': '#FAC710',
-                    'circle-opacity': [
-                        'case',
-                        ['<=', ['get', 'hauteur_support'], 1], 0.1,
-                        ['<=', ['get', 'hauteur_support'], 2], 0.2,
-                        ['<=', ['get', 'hauteur_support'], 3], 0.4,
-                        ['<=', ['get', 'hauteur_support'], 4], 0.5,
-                        0.55
-                    ],
-                    'circle-stroke-color': '#FAC710',
-                    'circle-stroke-width': 0,
-                },
-            });
-            map.current.loadImage(
-                'https://img.icons8.com/?size=256&id=UnYwluJUelEQ&format=png',
-                (error, image) => {
-                    if (error) throw error;
-                    
-                    // image de l'éclair
-                    map.current.addImage('lightning', image);            
                 });
-    
+
+                // // Filtre pour les points avec des halos de lumière sur les pins
+                map.current.addLayer({
+                    id: 'filter',
+                    type: 'circle',
+                    source: 'points-unclustered',
+                    layout: {
+                        visibility: 'none',
+                    },
+                    paint: {
+                        'circle-radius': [
+                            'case',
+                            ['<=', ['get', 'hauteur_support'], 1],
+                            8,
+                            ['<=', ['get', 'hauteur_support'], 2],
+                            9,
+                            ['<=', ['get', 'hauteur_support'], 3],
+                            10,
+                            ['<=', ['get', 'hauteur_support'], 4],
+                            12,
+                            14,
+                        ],
+                        'circle-color': '#FAC710',
+                        'circle-opacity': [
+                            'case',
+                            ['<=', ['get', 'hauteur_support'], 1],
+                            0.1,
+                            ['<=', ['get', 'hauteur_support'], 2],
+                            0.2,
+                            ['<=', ['get', 'hauteur_support'], 3],
+                            0.4,
+                            ['<=', ['get', 'hauteur_support'], 4],
+                            0.5,
+                            0.55,
+                        ],
+                        'circle-stroke-color': '#FAC710',
+                        'circle-stroke-width': 0,
+                    },
+                });
+                map.current.loadImage(
+                    'https://img.icons8.com/?size=256&id=UnYwluJUelEQ&format=png',
+                    (error, image) => {
+                        if (error) throw error;
+
+                        // image de l'éclair
+                        map.current.addImage('lightning', image);
+                    }
+                );
+
                 map.current.loadImage(
                     'https://icones.pro/wp-content/uploads/2022/07/symbole-d-eclair-bleu.png',
                     (error, image) => {
