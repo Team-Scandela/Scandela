@@ -5,6 +5,7 @@ import {
     ActionsListPanel,
     ScrollableOptimisationsContainer,
     OptimisationTemplateContainer,
+    TextContainer,
     TypeText,
     LocationText,
     DescriptionText,
@@ -21,7 +22,7 @@ import {
 } from './elements';
 import { PersonnalizedGauge } from '../../Gauges';
 import { useTranslation } from 'react-i18next';
-import { getAllScores } from '../../../utils/gaugesUtils'
+import { getAllScores } from '../../../utils/gaugesUtils';
 import { generatePDFDocument } from './pdfGenerator';
 
 /** Menu of the decision pannel
@@ -55,7 +56,7 @@ const ActionsList: React.FC<ActionsListProps> = ({
 
     function parseFloatSafe(input: string): number {
         const trimmedInput = input.trim();
-    
+
         const isValidNumber = /^[0-9]*\.?[0-9]+$/.test(trimmedInput);
         if (!isValidNumber) {
             return NaN;
@@ -156,7 +157,7 @@ const ActionsList: React.FC<ActionsListProps> = ({
                 optimisationTemplateData[i].saved = false;
             }
         }
-        generatePDFDocument(validateData, 'author', 'place');
+        generatePDFDocument(validateData, 'Auteur', 'Nantes');
         setOptimisationTemplateData(optimisationTemplateData);
         handleToggleActionsListExpend();
     };
@@ -210,7 +211,7 @@ const ActionsList: React.FC<ActionsListProps> = ({
             ></ActionsListButton>
             <ActionsListPanel isDark={isDark} show={actionsListExtended}>
                 <ScrollableOptimisationsContainer isDark={isDark}>
-                    <TimeIcon isDark={isDark} size={150}/>
+                    <TimeIcon isDark={isDark} size={150} />
                     {optimisationTemplateData
                         .filter((item: any) => item.saved)
                         .map((item: any, i: number) => (
@@ -219,13 +220,17 @@ const ActionsList: React.FC<ActionsListProps> = ({
                                 isDark={isDark}
                                 y={125 * i}
                             >
-                                <TypeText isDark={isDark}>{item.type}</TypeText>
-                                <LocationText isDark={isDark}>
-                                    {item.location}
-                                </LocationText>
-                                <DescriptionText isDark={isDark}>
-                                    {item.description}
-                                </DescriptionText>
+                                <TextContainer>
+                                    <TypeText isDark={isDark}>
+                                        {item.type}
+                                    </TypeText>
+                                    <LocationText isDark={isDark}>
+                                        {item.location}
+                                    </LocationText>
+                                    <DescriptionText isDark={isDark}>
+                                        {item.description}
+                                    </DescriptionText>
+                                </TextContainer>
                                 <SolutionTextContainer isDark={isDark}>
                                     <SolutionText isDark={isDark}>
                                         {item.solution}
@@ -255,7 +260,13 @@ const ActionsList: React.FC<ActionsListProps> = ({
                         isElec={true}
                         isBio={false}
                         isLumi={false}
-                        level={parseFloat(levelElec.toString().replace(",", ".")) + (optimisationTemplateData.filter((item: any) => item.saved).length / 10)}
+                        level={
+                            parseFloat(levelElec.toString().replace(',', '.')) +
+                            optimisationTemplateData.filter(
+                                (item: any) => item.saved
+                            ).length /
+                                10
+                        }
                         oldLevel={levelElec}
                         top={15}
                         left={15}
@@ -266,7 +277,13 @@ const ActionsList: React.FC<ActionsListProps> = ({
                         isElec={false}
                         isBio={true}
                         isLumi={false}
-                        level={parseFloat(levelBio.toString().replace(",", ".")) + (optimisationTemplateData.filter((item: any) => item.saved).length / 20)}
+                        level={
+                            parseFloat(levelBio.toString().replace(',', '.')) +
+                            optimisationTemplateData.filter(
+                                (item: any) => item.saved
+                            ).length /
+                                20
+                        }
                         oldLevel={levelBio}
                         top={15}
                         left={40}
@@ -277,7 +294,13 @@ const ActionsList: React.FC<ActionsListProps> = ({
                         isElec={false}
                         isBio={false}
                         isLumi={true}
-                        level={parseFloat(levelLumi.toString().replace(",", ".")) + (optimisationTemplateData.filter((item: any) => item.saved).length / 20)}
+                        level={
+                            parseFloat(levelLumi.toString().replace(',', '.')) +
+                            optimisationTemplateData.filter(
+                                (item: any) => item.saved
+                            ).length /
+                                20
+                        }
                         oldLevel={levelLumi}
                         top={15}
                         left={65}

@@ -22,8 +22,7 @@ export const getDecisions = async () => {
 export const getDecisionsSpecificAlgo = async (url: string) => {
     const username = process.env.REACT_APP_REQUEST_USER;
     const password = process.env.REACT_APP_REQUEST_PASSWORD;
-    const urlRequest =
-        process.env.REACT_APP_BACKEND_URL + 'decisions/' + url;
+    const urlRequest = process.env.REACT_APP_BACKEND_URL + 'decisions/' + url;
 
     try {
         const response = await fetch(urlRequest, {

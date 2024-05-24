@@ -41,43 +41,41 @@ export const SelectionIndicator = styled.div`
     border-radius: 10px;
 `;
 
+export const TextContainer = styled.div`
+    display: flex;
+    position: relative;
+    top: 10px;
+    flex-direction: column;
+    padding-left: 17px;
+    gap: 3px;
+    max-width: 200px;
+`;
+
 /** Style for the optimisation type text */
 export const TypeText = styled.p`
-    position: absolute;
-    top: 8px;
-    left: 17px;
-    font-size: 13px;
+    font-size: 14px;
     user-select: none;
     color: ${(props) => (props.isDark ? Black : Black)};
     font-weight: 500;
-    max-width: 195px;
     overflow-wrap: break-word;
 `;
 
 /** Style for the optimisation location text */
 export const LocationText = styled.p`
-    position: absolute;
-    top: 30px;
-    left: 17px;
-    font-size: 14px;
+    font-size: 13px;
     user-select: none;
     color: ${(props) => (props.isDark ? Black : Black)};
     font-weight: 500;
-    max-width: 195px;
     overflow-wrap: break-word;
 `;
 
 /** Style for the optimisation description text */
 export const DescriptionText = styled.p`
-    position: absolute;
-    top: 50px;
-    left: 17px;
-    font-size: 14px;
+    font-size: 13px;
     user-select: none;
     color: ${(props) => (props.isDark ? Black : Black)};
     font-weight: 500;
     font-style: italic;
-    max-width: 185px;
     overflow-wrap: break-word;
 `;
 
@@ -98,7 +96,7 @@ export const SolutionTextContainer = styled.div`
 /** Style for the optimisation solution text */
 export const SolutionText = styled.p`
     position: relative;
-    font-size: 10px;
+    font-size: 12px;
     user-select: none;
     color: ${(props) => (props.isDark ? Yellow : Black)};
     font-weight: bold;

@@ -1,9 +1,9 @@
 import styled from 'styled-components';
-import { Yellow, Black, White, Grey } from '../../colors';
-import { BsListCheck } from 'react-icons/bs';
+import { Yellow, Black, Grey } from '../../../colors';
+import { CgPlayListRemove } from 'react-icons/cg';
 
-/** Container for the background of the searchbar **/
-export const ButtonEditContainer = styled.div`
+/** Container for the deselect all button **/
+export const ButtonDeselectAllContainer = styled.div`
     display: flex;
     position: absolute;
     align-items: center;
@@ -23,11 +23,12 @@ export const ButtonEditContainer = styled.div`
     }
 `;
 
-/**  Export Icon**/
-export const SelectIcon = styled(BsListCheck)`
-    position: absolute;
+/**  Deselect All Icon**/
+export const DeselectAllIcon = styled(CgPlayListRemove)`
+    display: flex;
     align-items: center;
-    right: 10px;
     font-size: 40px;
+    height: 50px;
+    width: 50px;
     color: ${(props) => (props.isDark ? Black : Yellow)};
 `;

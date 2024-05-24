@@ -65,7 +65,7 @@ export const Gauges: React.FC<GaugesProps> = ({
 
     function parseFloatSafe(input: string): number {
         const trimmedInput = input.trim();
-    
+
         const isValidNumber = /^[0-9]*\.?[0-9]+$/.test(trimmedInput);
         if (!isValidNumber) {
             return NaN;
@@ -220,9 +220,10 @@ export const Gauges: React.FC<GaugesProps> = ({
 
                         <GaugePupRight show={showPupRight} isDark={isDark}>
                             <GaugePupText>
-                            {t('lightingQuality')}
+                                {t('lightingQuality')}
                                 <br />
-                                <b>{levelElec}%</b> {t('OfTheAreasHaveGoodLighting')}
+                                <b>{levelElec}%</b>{' '}
+                                {t('OfTheAreasHaveGoodLighting')}
                             </GaugePupText>
                         </GaugePupRight>
                     </GaugeContainerRight>
@@ -272,16 +273,16 @@ export const PersonnalizedGauge: React.FC<PersonnalizedGaugeProps> = ({
             ? images.elec
             : images.elecLight
         : isBio
+          ? isDark
+              ? images.bio
+              : images.bioLight
+          : isLumi
             ? isDark
-                ? images.bio
-                : images.bioLight
-            : isLumi
-                ? isDark
-                    ? images.lumi
-                    : images.lumiLight
-                : isDark
-                    ? images.elec
-                    : images.elecLight;
+                ? images.lumi
+                : images.lumiLight
+            : isDark
+              ? images.elec
+              : images.elecLight;
     const diffLevel = oldLevel - level;
 
     return (
