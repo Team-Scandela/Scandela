@@ -81,11 +81,10 @@ export const GaugeOldLevel = styled.div`
               } + 4px)`};
 
     height: calc(
-        (100% - 8px) *
-            ${(props) =>
+        (100% - 8px) * ${(props) =>
                 props.diffLevel >= 0
-                    ? props.diffLevel / 100
-                    : -props.diffLevel / 100}
+                    ? (props.diffLevel / 100)
+                    : (-props.diffLevel / 100)}
     );
 
     left: 4px;
