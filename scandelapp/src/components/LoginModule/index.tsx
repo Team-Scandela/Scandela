@@ -19,7 +19,7 @@ import { useNavigate } from 'react-router-dom';
 import { setUserId, getUser, putUser } from '../../utils/userUtils';
 import { getDecisionsSpecificAlgo } from '../../utils/decisionsUtils';
 import { optimisationTemplateDataBackup } from './backup_decisions';
-import { getAllScores } from '../../utils/gaugesUtils'
+import { getAllScores } from '../../utils/gaugesUtils';
 
 interface LoginModuleProps {
     setOptimisationTemplateData: (data: any) => void;
@@ -65,14 +65,14 @@ const LoginModule: React.FC<LoginModuleProps> = ({
             dataAjouterLampadaire,
             dataRetirerLampadaire,
             dataReduireIntensiteLampadaire,
-            dataAugmenterIntensiteLampadaire
+            dataAugmenterIntensiteLampadaire,
         ] = await Promise.all([
             getDecisionsSpecificAlgo('algoChangementBulb'),
             getDecisionsSpecificAlgo('algoReductionConsoHoraire'),
             getDecisionsSpecificAlgo('algoAjouterLampadaire'),
             getDecisionsSpecificAlgo('algoRetirerLampadaire'),
             getDecisionsSpecificAlgo('algoReduireIntensiteLampadaire'),
-            getDecisionsSpecificAlgo('algoAugmenterIntensiteLampadaire')
+            getDecisionsSpecificAlgo('algoAugmenterIntensiteLampadaire'),
         ]);
         const data = [].concat(
             dataChangementBulb,
@@ -98,9 +98,10 @@ const LoginModule: React.FC<LoginModuleProps> = ({
             localStorage.setItem('token', JSON.stringify(false));
             setUpDecisions();
         }
+        console.log(data);
         if (
-            (data.moreInformations[2] && data.moreInformations[2] === 'true') ||
-            localStorage.getItem('token') === 'true'
+            localStorage.getItem('token') === 'true' ||
+            (data.moreInformations[2] && data.moreInformations[2] === 'true')
         ) {
             localStorage.setItem('premium', JSON.stringify(true));
         } else {

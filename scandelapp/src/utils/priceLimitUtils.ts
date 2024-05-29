@@ -1,5 +1,3 @@
-import * as React from 'react';
-
 export const getElectricityPrice = async () => {
     const encodedCredentials = btoa(
         `${process.env.REACT_APP_REQUEST_USER}:${process.env.REACT_APP_REQUEST_PASSWORD}`

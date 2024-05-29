@@ -75,11 +75,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ id, isDark, onSubmit }) => {
             if (response.status === 200) {
                 setLat(lampData.latitude);
                 setLong(lampData.longitude);
-                onSubmit(
-                    'ZOOM ON LAMP',
-                    lampData.longitude,
-                    lampData.latitude
-                );
+                onSubmit('ZOOM ON LAMP', lampData.longitude, lampData.latitude);
             } else {
                 console.log('GET LAMP FAILED, status = ' + response.status);
                 setIsLamp(false);

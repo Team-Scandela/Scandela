@@ -47,7 +47,7 @@ export const InputWrapper = styled.input`
 
 export const SwitchSearchIcon = styled(FaStreetView)`
     position: absolute;
-    right: 40px;
+    right: 45px;
     font-size: 28px;
 
     color: ${(props) => (props.isdark ? Yellow : Black)};
@@ -58,7 +58,7 @@ export const SwitchSearchIcon = styled(FaStreetView)`
 
 export const SwitchSearchIconTwo = styled(GiStreetLight)`
     position: absolute;
-    right: 40px;
+    right: 45px;
     font-size: 28px;
 
     color: ${(props) => (props.isdark ? Yellow : Black)};

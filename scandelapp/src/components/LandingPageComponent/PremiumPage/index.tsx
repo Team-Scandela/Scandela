@@ -150,7 +150,7 @@ const PremiumPage: React.FC<PremiumPageProps> = ({
                             onChange={handleFormChange}
                         />
                         <SubmitButton onClick={handleFormSubmit}>
-                        {t('send')}
+                            {t('send')}
                         </SubmitButton>
                         {localStorage.getItem('token') === 'true' && (
                             <AdminButton onClick={handleAdminPremium}>

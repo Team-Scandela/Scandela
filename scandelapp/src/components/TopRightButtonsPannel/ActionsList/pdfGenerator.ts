@@ -37,7 +37,7 @@ export async function generatePDFDocument(
         doc = setFontNormal(doc);
         doc.text(addBackLineIfNeeded(element.name, 10), 8, 77 + index * 21.5);
         doc.text(
-            addBackLineIfNeeded(element.solution, 25),
+            addBackLineIfNeeded(element.solution, 38),
             42,
             77 + index * 21.5
         );
@@ -71,7 +71,7 @@ export async function generatePDFDocument(
 }
 
 function setFontNormal(doc: jsPDF): jsPDF {
-    doc.setFontSize(13);
+    doc.setFontSize(9);
     doc.setTextColor(0, 0, 0);
     doc.setFont('helvetica', 'normal');
     return doc;

@@ -699,38 +699,6 @@ const Map: React.FC<MapProps> = ({
         });
         cluster.current.load(data.features);
 
-        // map.current.on('click', 'lampFilter', (e) => {
-        //     const features = map.current?.queryRenderedFeatures(e.point, {
-        //         layers: ['lampFilter'],
-        //     });
-
-        //     if (features && features.length > 0) {
-        //         const selectedFeature = features[0];
-        //         setSelectedLampId(selectedFeature.properties.id);
-
-        //         // Mettre à jour la couleur du lampadaire sélectionné en utilisant un filtre
-        //         map.current?.setPaintProperty('lampFilter', 'circle-color', [
-        //             'case',
-        //             ['==', ['get', 'id'], selectedFeature.properties.id],
-        //             '#000000',
-        //             '#FAC710',
-        //         ]);
-        //         map.current?.setPaintProperty(
-        //             'lampFilter',
-        //             'circle-stroke-color',
-        //             [
-        //                 'case',
-        //                 ['==', ['get', 'id'], selectedFeature.properties.id],
-        //                 '#FAC710',
-        //                 '#F9F9F9',
-        //             ]
-        //         );
-
-        //         // Conserver une référence au lampadaire sélectionné
-        //         setSelectedLampFeature(selectedFeature);
-        //     }
-        // });
-
         map.current.on('mouseenter', 'lampFilter', () => {
             if (map.current) {
                 map.current.getCanvas().style.cursor = 'pointer';
