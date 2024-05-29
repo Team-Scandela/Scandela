@@ -34,11 +34,14 @@ const TicketSender: React.FC<TicketSenderPageProps> = ({
     };
 
     const sendTicket = async () => {
+        console.log('send ticket')
         try {
             const username = process.env.REACT_APP_REQUEST_USER;
             const password = process.env.REACT_APP_REQUEST_PASSWORD;
             const urlRequest =
                 process.env.REACT_APP_BACKEND_URL + 'tickets/create';
+
+            const userId = localStorage.getItem('userId');
 
             const response = await fetch(urlRequest, {
                 method: 'POST',
@@ -47,7 +50,7 @@ const TicketSender: React.FC<TicketSenderPageProps> = ({
                     Authorization: `Basic ${btoa(`${username}:${password}`)}`,
                 },
                 body: JSON.stringify({
-                    author: '',
+                    author: userId,
                     title: title,
                     content: description,
                     date: new Date().toISOString(),
@@ -55,17 +58,10 @@ const TicketSender: React.FC<TicketSenderPageProps> = ({
                     category: choosenItem,
                 }),
             });
+            console.log(response);
         } catch (error) {
             console.log(error);
         }
-    };
-
-    const getTicket = async () => {
-        const response = await fetch(
-            process.env.REACT_APP_BACKEND_URL + 'tickets'
-        );
-        const tickets = await response.json();
-        console.log(tickets);
     };
 
     return (
