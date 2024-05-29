@@ -12,6 +12,7 @@ import AbsencePannel from '../components/AbsencePannel';
 // import MapDB from '../components/MapDB';
 import FilterSearch from '../components/FilterSearch';
 import TrafficTime from '../components/TrafficTime';
+import ActionHistory from '../components/ActionHistory';
 
 export enum Filters {
     pin = 'pin',
@@ -188,6 +189,10 @@ const Main: React.FC<MainProps> = ({
                         id={'toastHistoryId'}
                         isDark={isDark}
                         toastHistoryData={toastHistoryData}
+                    />
+                    <ActionHistory
+                        id={'actionHistoryComponentId'}
+                        isDark={isDark}
                     />
                     <DecisionMenu
                         id={'decisionMenuComponentId'}
