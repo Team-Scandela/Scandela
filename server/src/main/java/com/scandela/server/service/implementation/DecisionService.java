@@ -75,6 +75,17 @@ public class DecisionService extends AbstractService<Decision> implements IDecis
 		}
     }
 	
+
+	@Override
+	@Transactional(readOnly = true, rollbackFor = { Exception.class })
+	public List<Decision> getAllByDecisionTypes(List<DecisionType> types) {
+		if (types == null) {
+			return new ArrayList<>();
+		}
+		
+		return ((DecisionDao) dao).findByTypeIn(types);
+	}
+	
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
 	public List<Decision> algoChangementBulb() throws Exception {
@@ -173,7 +184,7 @@ public class DecisionService extends AbstractService<Decision> implements IDecis
 	}
 
 	@Override
-	@Transactional(readOnly = true, rollbackFor = { Exception.class })
+	@Transactional(rollbackFor = { Exception.class })
 	public List<Decision> algoRetirerLampadaire() throws Exception {
 		Optional<DecisionType> decisionType = decisionTypeDao.findByTitleContains("Retirer lampadaire");
 		
@@ -225,7 +236,7 @@ public class DecisionService extends AbstractService<Decision> implements IDecis
 	}
 
 	@Override
-	@Transactional(readOnly = true, rollbackFor = { Exception.class })
+	@Transactional(rollbackFor = { Exception.class })
 	public List<Decision> algoAjouterLampadaire() throws Exception {
 		Optional<DecisionType> decisionType = decisionTypeDao.findByTitleContains("Ajouter lampadaire");
 		
@@ -280,7 +291,7 @@ public class DecisionService extends AbstractService<Decision> implements IDecis
 	}
 
 	@Override
-	@Transactional(readOnly = true, rollbackFor = { Exception.class })
+	@Transactional(rollbackFor = { Exception.class })
 	public List<Decision> algoReduireIntensiteLampadaire() throws Exception {
 		Optional<DecisionType> decisionType = decisionTypeDao.findByTitleContains("Réduire intensité lampadaire");
 		
@@ -331,7 +342,7 @@ public class DecisionService extends AbstractService<Decision> implements IDecis
 	}
 
 	@Override
-	@Transactional(readOnly = true, rollbackFor = { Exception.class })
+	@Transactional(rollbackFor = { Exception.class })
 	public List<Decision> algoAugmenterIntensiteLampadaire() throws Exception {
 		Optional<DecisionType> decisionType = decisionTypeDao.findByTitleContains("Augmenter intensité lampadaire");
 		
