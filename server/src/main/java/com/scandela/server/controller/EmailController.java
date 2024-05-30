@@ -14,14 +14,13 @@ import com.scandela.server.service.IEmailService;
 @RequestMapping(value = "/emailConfirmation")
 public class EmailController {
 
-    // Attributes \\
+	// Attributes \\
 	// Private \\
 
 	@Autowired
 	private IEmailService emailService;
 
-
-    // Methods \\
+	// Methods \\
 	// Public \\
 
 	/**
@@ -31,7 +30,7 @@ public class EmailController {
 	 * @return newUser
 	 */
 	@PostMapping
-    public void confirmEmailActivation(@RequestBody String email) {
+	public void confirmEmailActivation(@RequestBody String email) {
 		;
 	}
 }
