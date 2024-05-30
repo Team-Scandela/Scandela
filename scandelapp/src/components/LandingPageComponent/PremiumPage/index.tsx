@@ -10,7 +10,7 @@ import {
     AdminButton,
     ReturnButtonContainer,
 } from './elements';
-import { userId } from '../../../utils/userUtils';
+import { subscription } from '../../../utils/subscriptionUtils';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
@@ -65,33 +65,7 @@ const PremiumPage: React.FC<PremiumPageProps> = ({
     const handleFormSubmit = async (event: any) => {
         event.preventDefault();
 
-        const encodedCredentials = btoa(
-            `${process.env.REACT_APP_REQUEST_USER}:${process.env.REACT_APP_REQUEST_PASSWORD}`
-        );
-        const headers = new Headers({
-            'Content-Type': 'application/json',
-            Authorization: `Basic ${encodedCredentials}`,
-        });
-        const urlRequest = process.env.REACT_APP_BACKEND_URL + 'subscription';
-        try {
-            const response = await fetch(urlRequest, {
-                method: 'POST',
-                headers: headers,
-                body: JSON.stringify({
-                    userid: userId,
-                    ...formValues,
-                }),
-            });
-
-            if (!response.ok) {
-                throw new Error("L'achat a échoué");
-            }
-
-            const data = await response.json();
-            // updateUserInfo({ isPremiumActivated: true }); idée du résultat
-        } catch (error) {
-            console.error("Erreur lors de l'achat", error);
-        }
+        const response = await subscription(formValues);
     };
 
     const handleAdminPremium = () => {

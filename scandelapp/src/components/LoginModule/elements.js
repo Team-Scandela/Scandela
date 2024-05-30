@@ -100,6 +100,12 @@ export const Anchor = styled.a`
     color: #333;
     font-size: 14px;
     text-decoration: underline;
+    margin-top: 15px;
+`;
+
+export const ErrorMessage = styled.span`
+    color: #F00020;
+    font-size: 16px;
     margin: 15px 0;
 `;
 

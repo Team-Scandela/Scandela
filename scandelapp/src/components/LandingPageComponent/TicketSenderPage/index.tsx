@@ -10,6 +10,7 @@ import {
     ReturnButtonContainer,
 } from './elements';
 import { useTranslation } from 'react-i18next';
+import { sendTicket } from '../../../utils/ticketUtils';
 
 interface TicketSenderPageProps {
     handleTicketButtonClicked: () => void;
@@ -33,31 +34,8 @@ const TicketSender: React.FC<TicketSenderPageProps> = ({
         handleTicketButtonClicked();
     };
 
-    const sendTicket = async () => {
-        try {
-            const username = process.env.REACT_APP_REQUEST_USER;
-            const password = process.env.REACT_APP_REQUEST_PASSWORD;
-            const urlRequest =
-                process.env.REACT_APP_BACKEND_URL + 'tickets/create';
-
-            const response = await fetch(urlRequest, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Basic ${btoa(`${username}:${password}`)}`,
-                },
-                body: JSON.stringify({
-                    author: '',
-                    title: title,
-                    content: description,
-                    date: new Date().toISOString(),
-                    status: 0,
-                    category: choosenItem,
-                }),
-            });
-        } catch (error) {
-            console.log(error);
-        }
+    const handleSendTicket = async () => {
+        sendTicket(title, description, choosenItem);
     };
 
     const getTicket = async () => {
@@ -122,7 +100,7 @@ const TicketSender: React.FC<TicketSenderPageProps> = ({
                     value={description}
                     onChange={(e: any) => setDescription(e.target.value)}
                 />
-                <SendButton onClick={sendTicket}>{t('send')}</SendButton>
+                <SendButton onClick={handleSendTicket}>{t('send')}</SendButton>
                 <ReturnButtonContainer onClick={handleReturnButtonClicked}>
                     Return
                 </ReturnButtonContainer>
