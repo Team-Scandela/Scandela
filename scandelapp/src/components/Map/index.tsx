@@ -134,33 +134,33 @@ const Map: React.FC<MapProps> = ({
         return geoJSON;
     }, []);
 
-    const geoData = useMemo(() => {
-        let jsonArmoire = {
-            type: 'FeatureCollection',
-            features: [] as any[],
-        };
-        nantesArmoires.forEach((obj: any) => {
-            const feature: Feature = {
-                type: 'Feature',
-                geometry: {
-                    type: obj.geometry.type,
-                    coordinates: [
-                        obj.geometry.coordinates[0],
-                        obj.geometry.coordinates[1],
-                    ],
-                },
-                properties: {
-                    id: obj.recordid,
-                    numero_armoire: obj.fields.numero_armoire,
-                    consommation_globale: obj.fields.consommation_globale,
-                    num_lampadaires: obj.fields.num_lampadaires,
-                },
-            };
-            jsonArmoire.features.push(feature);
-        });
+    // const geoData = useMemo(() => {
+    //     let jsonArmoire = {
+    //         type: 'FeatureCollection',
+    //         features: [] as any[],
+    //     };
+    //     nantesArmoires.forEach((obj: any) => {
+    //         const feature: Feature = {
+    //             type: 'Feature',
+    //             geometry: {
+    //                 type: obj.geometry.type,
+    //                 coordinates: [
+    //                     obj.geometry.coordinates[0],
+    //                     obj.geometry.coordinates[1],
+    //                 ],
+    //             },
+    //             properties: {
+    //                 id: obj.recordid,
+    //                 numero_armoire: obj.fields.numero_armoire,
+    //                 consommation_globale: obj.fields.consommation_globale,
+    //                 num_lampadaires: obj.fields.num_lampadaires,
+    //             },
+    //         };
+    //         jsonArmoire.features.push(feature);
+    //     });
 
-        return jsonArmoire;
-    }, [nantesArmoires]);
+    //     return jsonArmoire;
+    // }, [nantesArmoires]);
 
     const handleLassoActivation = (isActive: boolean) => {
         if (!isActive && lassoSelectedLamps[0]) {
@@ -567,17 +567,18 @@ const Map: React.FC<MapProps> = ({
                 );
 
                 //ColoredPin filter
+                console.log()
                 map.current.addLayer({
                     id: 'pinColor',
                     type: 'circle',
-                    source: 'points-unclustered',
+                    source: 'points',
                     layout: {
                         visibility: 'none',
                     },
                     paint: {
                         'circle-color': [
                             'match',
-                            ['get', 'type_lampe'], // Correction ici
+                            ['get', 'lamp'], // Correction ici
                             'SHP',
                             '#FF0000', // Rouge pour SHP
                             'MBF',
