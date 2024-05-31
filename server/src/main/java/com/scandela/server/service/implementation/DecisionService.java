@@ -94,27 +94,33 @@ public class DecisionService extends AbstractService<Decision> implements IDecis
 		if (decisionType.isEmpty()) {
 			throw new DecisionException(DecisionException.DECISIONTYPE_LOADING);
 		}
-		
-		Page<Lamp> lampsPage = lampDao.findByTypeIsNotAndLampDecisionsContains("LED", "Changer l'ampoule", PageRequest.of(0, 20));
+
+		Random rand = new Random();
+		long lampCount = lampDao.count();
+		int pageNumbers = lampCount > 20 ?  Math.toIntExact(lampCount / 20) + 1 : 1;
+		Page<Lamp> lampsPage = lampDao.findByLampTypeIsNot("LED", PageRequest.of(rand.nextInt(pageNumbers), 20));
 		List<Lamp> lamps = lampsPage.getContent();
 		List<Decision> decisions = new ArrayList<>();
 		List<LampDecision> lampDecisions = new ArrayList<>();
 		
 		lamps.forEach(lamp -> {
-			Decision decision = Decision.builder()
-					.type(decisionType.get())
-					.location(lamp.getAddress())
-					.description("Ampoule LED moins consommatrice.")
-					.solution("Changer l'ampoule \"" + lamp.getLampType() + "\" en ampoule \"LED\".")
-					.build();
-			LampDecision lampDecision = LampDecision.builder()
-					.decision(decision)
-					.lamp(lamp)
-					.build();
-			decision.setLampDecision(lampDecision);
-			
-			decisions.add(decision);
-			lampDecisions.add(lampDecision);
+			if (lamp.getLampDecisions() == null ||
+				lamp.getLampDecisions().stream().map(LampDecision::getDecision).filter(decision -> decision.getType().getTitle().contains(decisionType.get().getTitle())).count() == 0) {
+				Decision decision = Decision.builder()
+						.type(decisionType.get())
+						.location(lamp.getAddress())
+						.description("Ampoule LED moins consommatrice.")
+						.solution("Changer l'ampoule \"" + lamp.getLampType() + "\" en ampoule \"LED\".")
+						.build();
+				LampDecision lampDecision = LampDecision.builder()
+						.decision(decision)
+						.lamp(lamp)
+						.build();
+				decision.setLampDecision(lampDecision);
+				
+				decisions.add(decision);
+				lampDecisions.add(lampDecision);
+			}
 		});
 		
 		dao.saveAll(decisions);
@@ -136,45 +142,54 @@ public class DecisionService extends AbstractService<Decision> implements IDecis
 		LocalTime sunrise = TimeHelper.getSunriseTime(47.2173, -1.5534);//lighOff1 avec coord de nantes
 		LocalTime sunset = TimeHelper.getSunsetTime(47.2173, -1.5534);//LightOn2 avec coord de nantes
 
-		Page<Lamp> lampsPageAllumer = lampDao.findByLightOn2SuperiorAndLampDecisionsContains(sunset, "Allumer le lampdaire", PageRequest.of(0, 20));
-		Page<Lamp> lampsPageEteindre = lampDao.findByLightOffInferiorAndLampDecisionsContains(sunrise, "Éteindre le lampdaire", PageRequest.of(0, 20));
+		Random rand = new Random();
+		long lampCount = lampDao.count();
+		int pageNumbers = lampCount > 20 ?  Math.toIntExact(lampCount / 20) + 1 : 1;
+		Page<Lamp> lampsPageAllumer = lampDao.findByLightOn2IsNullOrLightOn2After(sunset, PageRequest.of(rand.nextInt(pageNumbers), 20));
+		Page<Lamp> lampsPageEteindre = lampDao.findByLightOffIsNullOrLightOffBefore(sunrise, PageRequest.of(rand.nextInt(pageNumbers), 20));
 		List<Lamp> lampsEteindre = lampsPageEteindre.getContent();
 		List<Lamp> lampsAllumer = lampsPageAllumer.getContent();
 		List<Decision> decisions = new ArrayList<>();
 		List<LampDecision> lampDecisions = new ArrayList<>();
 
 		lampsAllumer.forEach(lamp -> {
-			Decision decisionAllumer = Decision.builder()
-					.type(decisionTypeAllumer.get())
-					.location(lamp.getAddress())
-					.description("Coucher du soleil à " + sunset.toString())
-					.solution("Allumer le lampadaire " + lamp.getName() + " à partir de " + sunset.toString())//TODO changer les solution en comparant les anciennes plages et nouvelles proposées
-					.build();
-			LampDecision lampDecisionAllumer = LampDecision.builder()
-					.decision(decisionAllumer)
-					.lamp(lamp)
-					.build();
-			decisionAllumer.setLampDecision(lampDecisionAllumer);
-
-			decisions.add(decisionAllumer);
-			lampDecisions.add(lampDecisionAllumer);
+			if (lamp.getLampDecisions() == null ||
+				lamp.getLampDecisions().stream().map(LampDecision::getDecision).filter(decision -> decision.getType().getTitle().contains(decisionTypeAllumer.get().getTitle())).count() == 0) {
+				Decision decisionAllumer = Decision.builder()
+						.type(decisionTypeAllumer.get())
+						.location(lamp.getAddress())
+						.description("Coucher du soleil à " + sunset.toString())
+						.solution("Allumer le lampadaire " + lamp.getName() + " à partir de " + sunset.toString())//TODO changer les solution en comparant les anciennes plages et nouvelles proposées
+						.build();
+				LampDecision lampDecisionAllumer = LampDecision.builder()
+						.decision(decisionAllumer)
+						.lamp(lamp)
+						.build();
+				decisionAllumer.setLampDecision(lampDecisionAllumer);
+	
+				decisions.add(decisionAllumer);
+				lampDecisions.add(lampDecisionAllumer);
+			}
 		});
 		
 		lampsEteindre.forEach(lamp -> {
-			Decision decisionEteindre = Decision.builder()
-					.type(decisionTypeEteindre.get())
-					.location(lamp.getAddress())
-					.description("Lever du soleil à " + sunrise.toString())
-					.solution("Éteindre le lampadaire " + lamp.getName() + " à partir de " + sunrise.toString())//TODO changer les solution en comparant les anciennes plages et nouvelles proposées
-					.build();
-			LampDecision lampDecisionEteindre = LampDecision.builder()
-					.decision(decisionEteindre)
-					.lamp(lamp)
-					.build();
-			decisionEteindre.setLampDecision(lampDecisionEteindre);
-
-			decisions.add(decisionEteindre);
-			lampDecisions.add(lampDecisionEteindre);
+			if (lamp.getLampDecisions() == null ||
+				lamp.getLampDecisions().stream().map(LampDecision::getDecision).filter(decision -> decision.getType().getTitle().contains(decisionTypeEteindre.get().getTitle())).count() == 0) {
+				Decision decisionEteindre = Decision.builder()
+						.type(decisionTypeEteindre.get())
+						.location(lamp.getAddress())
+						.description("Lever du soleil à " + sunrise.toString())
+						.solution("Éteindre le lampadaire " + lamp.getName() + " à partir de " + sunrise.toString())//TODO changer les solution en comparant les anciennes plages et nouvelles proposées
+						.build();
+				LampDecision lampDecisionEteindre = LampDecision.builder()
+						.decision(decisionEteindre)
+						.lamp(lamp)
+						.build();
+				decisionEteindre.setLampDecision(lampDecisionEteindre);
+	
+				decisions.add(decisionEteindre);
+				lampDecisions.add(lampDecisionEteindre);
+			}
 		});
 		
 		dao.saveAll(decisions);
@@ -194,7 +209,7 @@ public class DecisionService extends AbstractService<Decision> implements IDecis
 		
 		Random rand = new Random();
 		long lampCount = lampDao.count();
-		int pageNumbers = lampCount > 50 ?  Math.toIntExact(lampCount / 50) + 1 : 1;
+		int pageNumbers = lampCount > 20 ?  Math.toIntExact(lampCount / 20) + 1 : 1;
 		Page<Lamp> lampPage = lampDao.findAll(PageRequest.of(rand.nextInt(pageNumbers), 20));
 		List<Lamp> lamps = lampPage.getContent();
 		List<Decision> decisions = new ArrayList<>();
@@ -246,7 +261,7 @@ public class DecisionService extends AbstractService<Decision> implements IDecis
 		
 		Random rand = new Random();
 		long lampCount = lampDao.count();
-		int pageNumbers = lampCount > 50 ?  Math.toIntExact(lampCount / 50) + 1 : 1;
+		int pageNumbers = lampCount > 20 ?  Math.toIntExact(lampCount / 20) + 1 : 1;
 		Page<Lamp> lampPage = lampDao.findAll(PageRequest.of(rand.nextInt(pageNumbers), 20));
 		List<Lamp> lamps = lampPage.getContent();
 		List<Decision> decisions = new ArrayList<>();
@@ -301,7 +316,7 @@ public class DecisionService extends AbstractService<Decision> implements IDecis
 		
 		Random rand = new Random();
 		long lampCount = lampDao.count();
-		int pageNumbers = lampCount > 50 ?  Math.toIntExact(lampCount / 50) + 1 : 1;
+		int pageNumbers = lampCount > 20 ?  Math.toIntExact(lampCount / 20) + 1 : 1;
 		Page<Lamp> lampPage = lampDao.findAll(PageRequest.of(rand.nextInt(pageNumbers), 20));
 		List<Lamp> lamps = lampPage.getContent();
 		List<Decision> decisions = new ArrayList<>();
@@ -352,7 +367,7 @@ public class DecisionService extends AbstractService<Decision> implements IDecis
 		
 		Random rand = new Random();
 		long lampCount = lampDao.count();
-		int pageNumbers = lampCount > 50 ?  Math.toIntExact(lampCount / 50) + 1 : 1;
+		int pageNumbers = lampCount > 20 ?  Math.toIntExact(lampCount / 20) + 1 : 1;
 		Page<Lamp> lampPage = lampDao.findAll(PageRequest.of(rand.nextInt(pageNumbers), 20));
 		List<Lamp> lamps = lampPage.getContent();
 		List<Decision> decisions = new ArrayList<>();
