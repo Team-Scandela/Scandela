@@ -124,9 +124,7 @@ const EletricityPrice: React.FC<EletricityPriceProps> = ({ isDark }) => {
                     </PriceLimitDeleteButton>
                 </div>
             )}
-            <DescriptionText>
-                {t('priceLimitDescription')}
-            </DescriptionText>
+            <DescriptionText>{t('priceLimitDescription')}</DescriptionText>
         </div>
     );
 };

@@ -1,6 +1,14 @@
+import React, { useEffect, useState } from 'react';
 import { NotificationTitle } from './elements';
 import RadioButton from '../../../RadioButton';
 import { useTranslation } from 'react-i18next';
+import {
+    getNotifications,
+    createNotification,
+    updateNotification,
+    deleteNotification
+} from '../../../../utils/notificationUtils';
+import {Button, Modal, Spinner } from 'react-bootstrap';
 
 /** Notifications setting component props
  * @param {boolean} isDark - If the mode is dark or not

@@ -27,7 +27,7 @@ const FAQPage: React.FC<FAQPagePros> = ({ handleFAQButtonClicked }) => {
         {
             id: 1,
             title: t('faqTitle'),
-            description: t('faqDescription')
+            description: t('faqDescription'),
         },
         {
             id: 2,

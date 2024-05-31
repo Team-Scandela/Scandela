@@ -71,7 +71,7 @@ const TicketSender: React.FC<TicketSenderPageProps> = ({
     return (
         <div>
             <TicketSenderContainer>
-                <Title>{t("sendATicket")}</Title>
+                <Title>{t('sendATicket')}</Title>
                 <DropdownContainer onClick={handleDropdownToggle}>
                     {choosenItem}
                     {showDropdown && (
@@ -81,48 +81,48 @@ const TicketSender: React.FC<TicketSenderPageProps> = ({
                                     setChoosenItem('Problème technique')
                                 }
                             >
-                                {t("technicalIssue")}
+                                {t('technicalIssue')}
                             </DropdownItem>
                             <DropdownItem
                                 onClick={() =>
                                     setChoosenItem('Accès et Authentification')
                                 }
                             >
-                                {t("accessAndAuthentication")}
+                                {t('accessAndAuthentication')}
                             </DropdownItem>
                             <DropdownItem
                                 onClick={() =>
                                     setChoosenItem('Demande de Mise à Jour')
                                 }
                             >
-                                {t("updateRequest")}
+                                {t('updateRequest')}
                             </DropdownItem>
                             <DropdownItem
                                 onClick={() =>
                                     setChoosenItem('Feedback et Suggestions')
                                 }
                             >
-                                {t("feedbackAndSuggestions")}
+                                {t('feedbackAndSuggestions')}
                             </DropdownItem>
                             <DropdownItem
                                 onClick={() => setChoosenItem('Autre')}
                             >
-                                {t("others")}
+                                {t('others')}
                             </DropdownItem>
                         </>
                     )}
                 </DropdownContainer>
                 <TicketTitleInput
-                    placeholder={t("ticketTitle")}
+                    placeholder={t('ticketTitle')}
                     value={title}
                     onChange={(e: any) => setTitle(e.target.value)}
                 />
                 <TicketDescriptionInput
-                    placeholder={t("ticketDescpription")}
+                    placeholder={t('ticketDescpription')}
                     value={description}
                     onChange={(e: any) => setDescription(e.target.value)}
                 />
-                <SendButton onClick={sendTicket}>{t("send")}</SendButton>
+                <SendButton onClick={sendTicket}>{t('send')}</SendButton>
                 <ReturnButtonContainer onClick={handleReturnButtonClicked}>
                     Return
                 </ReturnButtonContainer>

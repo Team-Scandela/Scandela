@@ -5,6 +5,7 @@ import {
     ActionsListPanel,
     ScrollableOptimisationsContainer,
     OptimisationTemplateContainer,
+    TextContainer,
     TypeText,
     LocationText,
     DescriptionText,
@@ -55,7 +56,7 @@ const ActionsList: React.FC<ActionsListProps> = ({
 
     function parseFloatSafe(input: string): number {
         const trimmedInput = input.trim();
-    
+
         const isValidNumber = /^[0-9]*\.?[0-9]+$/.test(trimmedInput);
         if (!isValidNumber) {
             return NaN;
@@ -154,7 +155,7 @@ const ActionsList: React.FC<ActionsListProps> = ({
                 optimisationTemplateData[i].saved = false;
             }
         }
-        generatePDFDocument(validateData, 'author', 'place');
+        generatePDFDocument(validateData, 'Auteur', 'Nantes');
         setOptimisationTemplateData(optimisationTemplateData);
         handleToggleActionsListExpend();
     };
@@ -205,7 +206,7 @@ const ActionsList: React.FC<ActionsListProps> = ({
             ></ActionsListButton>
             <ActionsListPanel isDark={isDark} show={actionsListExtended}>
                 <ScrollableOptimisationsContainer isDark={isDark}>
-                    <TimeIcon isDark={isDark} size={150}/>
+                    <TimeIcon isDark={isDark} size={150} />
                     {optimisationTemplateData
                         .filter((item: any) => item.saved)
                         .map((item: any, i: number) => (
@@ -214,9 +215,17 @@ const ActionsList: React.FC<ActionsListProps> = ({
                                 isDark={isDark}
                                 y={125 * i}
                             >
-                                <TypeText isDark={isDark}>{item.type}</TypeText>
-                                <LocationText isDark={isDark}>{item.location}</LocationText>
-                                <DescriptionText isDark={isDark}>{item.description}</DescriptionText>
+                                <TextContainer>
+                                    <TypeText isDark={isDark}>
+                                        {item.type}
+                                    </TypeText>
+                                    <LocationText isDark={isDark}>
+                                        {item.location}
+                                    </LocationText>
+                                    <DescriptionText isDark={isDark}>
+                                        {item.description}
+                                    </DescriptionText>
+                                </TextContainer>
                                 <SolutionTextContainer isDark={isDark}>
                                     <SolutionText isDark={isDark}>{item.solution}</SolutionText>
                                 </SolutionTextContainer>
@@ -302,11 +311,14 @@ const ActionsList: React.FC<ActionsListProps> = ({
                         isLumi={false}
                         level={
                             parseFloat(levelElec.toString().replace(',', '.')) +
-                            optimisationTemplateData.filter((item: any) => item.saved).length / 10
+                            optimisationTemplateData.filter(
+                                (item: any) => item.saved
+                            ).length /
+                                10
                         }
                         oldLevel={levelElec}
-                        top={52}
-                        left={70}
+                        top={15}
+                        left={13}
                     />
                     <PersonnalizedGauge
                         id={'BioGaugesComponentId'}
@@ -316,11 +328,14 @@ const ActionsList: React.FC<ActionsListProps> = ({
                         isLumi={false}
                         level={
                             parseFloat(levelBio.toString().replace(',', '.')) +
-                            optimisationTemplateData.filter((item: any) => item.saved).length / 20
+                            optimisationTemplateData.filter(
+                                (item: any) => item.saved
+                            ).length /
+                                20
                         }
                         oldLevel={levelBio}
-                        top={52}
-                        left={80}
+                        top={15}
+                        left={43}
                     />
                     <PersonnalizedGauge
                         id={'LumiGaugesComponentId'}
@@ -330,11 +345,14 @@ const ActionsList: React.FC<ActionsListProps> = ({
                         isLumi={true}
                         level={
                             parseFloat(levelLumi.toString().replace(',', '.')) +
-                            optimisationTemplateData.filter((item: any) => item.saved).length / 20
+                            optimisationTemplateData.filter(
+                                (item: any) => item.saved
+                            ).length /
+                                20
                         }
                         oldLevel={levelLumi}
-                        top={52}
-                        left={90}
+                        top={15}
+                        left={73}
                     />
                 </GaugesContainer>
                 <ValidateButton isDark={isDark} onClick={handleValidateButtonClick}>

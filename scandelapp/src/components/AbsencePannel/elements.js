@@ -5,7 +5,7 @@ import {
     AiFillCloseCircle,
     AiOutlineWarning,
     AiOutlineSend,
-} from 'react-icons/ai'
+} from 'react-icons/ai';
 
 /** Container for the absence pannel button **/
 export const AbsencePannelButtonContainer = styled.div`
@@ -158,5 +158,5 @@ export const TimeIcon = styled(GiSandsOfTime)`
     align-items: center;
     left: 31%;
     top: 24%;
-    color: ${(props) => (props.isDark ? Black: Yellow)};
+    color: ${(props) => (props.isDark ? Black : Yellow)};
 `;
