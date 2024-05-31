@@ -34,7 +34,6 @@ const TicketSender: React.FC<TicketSenderPageProps> = ({
     };
 
     const sendTicket = async () => {
-        console.log('send ticket')
         try {
             const username = process.env.REACT_APP_REQUEST_USER;
             const password = process.env.REACT_APP_REQUEST_PASSWORD;
