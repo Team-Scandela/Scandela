@@ -1,51 +1,101 @@
 import styled from 'styled-components';
 import { Yellow, Black } from '../../../../colors';
 
+export const SendReferenceButtonContainer = styled.div`
+    display: flex;
+    position: absolute;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 40px;
+    left: 38%;
+    top: 85.5%;
+    user-select: none;
+    background-color: ${(props) => (props.isDark ? Yellow : Black)};
+    color: ${(props) => (props.isDark ? Black : Yellow)};
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+        opacity: 0.7;
+    }
+`;
+
 export const ReferenceInputContainer = styled.input`
-    position: fixed;
+    display: flex;
+    position: absolute;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
     width: 300px;
     height: 25px;
-    top: 170px;
-    left: 650px;
+    top: 20%;
+    left: 18%;
+
+    border-radius: 6px;
 
     color: ${(props) => (props.isdark ? Yellow : Black)};
     background-color: ${(props) => (props.isdark ? Black : Yellow)};
 `;
 
-export const SendReferenceButtonContainer = styled.div`
-    position: fixed;
-    width: 300px;
-    height: 25px;
-    top: 170px;
-    left: 1000px;
-`;
-
 export const IntensityInputContainer = styled.input`
-    position: fixed;
+    display: flex;
+    position: absolute;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
     width: 300px;
     height: 25px;
-    top: 200px;
-    left: 650px;
+    top: 29%;
+    left: 18%;
+
+    border-radius: 6px;
 
     color: ${(props) => (props.isdark ? Yellow : Black)};
     background-color: ${(props) => (props.isdark ? Black : Yellow)};
 `;
 
 export const ConsommationInputContainer = styled.input`
-    position: fixed;
+    display: flex;
+    position: absolute;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
     width: 300px;
     height: 25px;
-    top: 230px;
-    left: 650px;
+    top: 38%;
+    left: 18%;
+
+    border-radius: 6px;
 
     color: ${(props) => (props.isdark ? Yellow : Black)};
     background-color: ${(props) => (props.isdark ? Black : Yellow)};
 `;
 
 export const ValidateButtonContainer = styled.div`
-    position: fixed;
-    width: 300px;
-    height: 25px;
-    top: 400px;
-    left: 650px;
+    display: flex;
+    position: absolute;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 40px;
+    left: 38%;
+    top: 85.5%;
+    user-select: none;
+    background-color: ${(props) => (props.isDark ? Yellow : Black)};
+    color: ${(props) => (props.isDark ? Black : Yellow)};
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+        opacity: 0.7;
+    }
 `;
