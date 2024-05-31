@@ -127,6 +127,8 @@ const Map: React.FC<MapProps> = ({
                     name: obj.fields.numero,
                     lamp: obj.fields.type_lampe,
                     hat: obj.fields.type_foyer,
+                    lum: obj.fields.nb_lampes,
+                    height: obj.fields.hauteur_support,
                 },
             };
             geoJSON.features.push(feature);
@@ -510,7 +512,7 @@ const Map: React.FC<MapProps> = ({
                         maxzoom: 23,
                         paint: {
                             'heatmap-weight': {
-                                property: 'hauteur_support',
+                                property: 'height',
                                 type: 'interval',
                                 stops: [
                                     [1, 0.2], // Léger pour une hauteur entre 1 et 2
@@ -543,7 +545,7 @@ const Map: React.FC<MapProps> = ({
                                 'rgb(234,1,3)',
                             ],
                             'heatmap-radius': {
-                                property: 'hauteur_support',
+                                property: 'height',
                                 type: 'interval',
                                 stops: [
                                     [1, 10], // Petite taille pour une hauteur entre 1 et 2
@@ -615,33 +617,33 @@ const Map: React.FC<MapProps> = ({
                 map.current.addLayer({
                     id: 'filter',
                     type: 'circle',
-                    source: 'points-unclustered',
+                    source: 'points',
                     layout: {
                         visibility: 'none',
                     },
                     paint: {
                         'circle-radius': [
                             'case',
-                            ['<=', ['get', 'hauteur_support'], 1],
+                            ['<=', ['get', 'lum'], 1],
                             8,
-                            ['<=', ['get', 'hauteur_support'], 2],
+                            ['<=', ['get', 'lum'], 2],
                             9,
-                            ['<=', ['get', 'hauteur_support'], 3],
+                            ['<=', ['get', 'lum'], 3],
                             10,
-                            ['<=', ['get', 'hauteur_support'], 4],
+                            ['<=', ['get', 'lum'], 4],
                             12,
                             14,
                         ],
                         'circle-color': '#FAC710',
                         'circle-opacity': [
                             'case',
-                            ['<=', ['get', 'hauteur_support'], 1],
+                            ['<=', ['get', 'lum'], 1],
                             0.1,
-                            ['<=', ['get', 'hauteur_support'], 2],
+                            ['<=', ['get', 'lum'], 2],
                             0.2,
-                            ['<=', ['get', 'hauteur_support'], 3],
+                            ['<=', ['get', 'lum'], 3],
                             0.4,
-                            ['<=', ['get', 'hauteur_support'], 4],
+                            ['<=', ['get', 'lum'], 4],
                             0.5,
                             0.55,
                         ],
