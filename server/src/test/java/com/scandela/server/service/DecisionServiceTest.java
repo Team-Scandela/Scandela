@@ -112,6 +112,35 @@ public class DecisionServiceTest {
 		verify(decisionDaoMock, times(1)).findAll();
 		assertThat(result).isEmpty();
 	}
+	
+	@Test
+	public void testGetAllByDecisionTypes() {
+		when(decisionDaoMock.findByTypeIn(Arrays.asList(decisionType))).thenReturn(Arrays.asList(decision));
+		
+		List<Decision> result = testedObject.getAllByDecisionTypes(Arrays.asList(decisionType));
+		
+		verify(decisionDaoMock, times(1)).findByTypeIn(Mockito.anyList());
+		assertThat(result).hasSize(1);
+		assertThat(result.get(0).getType().getId()).isEqualTo(decisionType.getId());
+	}
+	
+	@Test
+	public void testGetAllByDecisionTypes_whenDecisionTypesIsNull_thenReturnEmpty() {
+		List<Decision> result = testedObject.getAllByDecisionTypes(null);
+		
+		verify(decisionDaoMock, never()).findByTypeIn(Mockito.anyList());
+		assertThat(result).hasSize(0);
+	}
+	
+	@Test
+	public void testGetAllByDecisionTypes_whenDecisionTypesIsEmpty_thenReturnEmpty() {
+		when(decisionDaoMock.findByTypeIn(new ArrayList<>())).thenReturn(new ArrayList<>());
+		
+		List<Decision> result = testedObject.getAllByDecisionTypes(new ArrayList<>());
+		
+		verify(decisionDaoMock, times(1)).findByTypeIn(Mockito.anyList());
+		assertThat(result).hasSize(0);
+	}
 
 	@Test
 	public void testGet() {
