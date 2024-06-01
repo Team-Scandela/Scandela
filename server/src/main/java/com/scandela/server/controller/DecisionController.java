@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.scandela.server.entity.Decision;
+import com.scandela.server.entity.DecisionType;
 import com.scandela.server.exception.DecisionException;
 import com.scandela.server.service.IDecisionService;
 
@@ -94,31 +95,49 @@ public class DecisionController extends AbstractController<Decision> {
 	
 	@PostMapping("/algoChangementBulb")
 	public List<Decision> algoChangementBulb() throws Exception {
-		return ((IDecisionService) service).algoChangementBulb();
+		List<Decision> decisions = ((IDecisionService) service).algoChangementBulb();
+		
+		return getAllByDecisionTypes(decisions);
 	}
 	
 	@PostMapping("/algoReductionConsoHoraire")
 	public List<Decision> algoReductionConsoHoraire() throws Exception {
-		return ((IDecisionService) service).algoReductionConsoHoraire();
+		List<Decision> decisions = ((IDecisionService) service).algoReductionConsoHoraire();
+		
+		return getAllByDecisionTypes(decisions);
 	}
 
 	@PostMapping("/algoAjouterLampadaire")
 	public List<Decision> algoAjouterLampadaire() throws Exception {
-		return ((IDecisionService) service).algoAjouterLampadaire();
+		List<Decision> decisions = ((IDecisionService) service).algoAjouterLampadaire();
+		
+		return getAllByDecisionTypes(decisions);
 	}
 	
 	@PostMapping("/algoRetirerLampadaire")
 	public List<Decision> algoRetirerLampadaire() throws Exception {
-		return ((IDecisionService) service).algoRetirerLampadaire();
+		List<Decision> decisions = ((IDecisionService) service).algoRetirerLampadaire();
+		
+		return getAllByDecisionTypes(decisions);
 	}
 	
 	@PostMapping("/algoReduireIntensiteLampadaire")
 	public List<Decision> algoReduireIntensiteLampadaire() throws Exception {
-		return ((IDecisionService) service).algoReduireIntensiteLampadaire();
+		List<Decision> decisions = ((IDecisionService) service).algoReduireIntensiteLampadaire();
+		
+		return getAllByDecisionTypes(decisions);
 	}
 	
 	@PostMapping("/algoAugmenterIntensiteLampadaire")
 	public List<Decision> algoAugmenterIntensiteLampadaire() throws Exception {
-		return ((IDecisionService) service).algoAugmenterIntensiteLampadaire();
+		List<Decision> decisions = ((IDecisionService) service).algoAugmenterIntensiteLampadaire();
+		
+		return getAllByDecisionTypes(decisions);
+	}
+	
+	private List<Decision> getAllByDecisionTypes(List<Decision> decisions) {
+		List<DecisionType> decisionTypes = decisions.stream().map(Decision::getType).distinct().toList();
+		
+		return ((IDecisionService) service).getAllByDecisionTypes(decisionTypes);
 	}
 }
