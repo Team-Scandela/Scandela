@@ -19,7 +19,7 @@ interface LightDarkProps {
     addNotificationToList: (description: string) => void;
 }
 
-const updateUser = async (isDark: boolean) => {
+const updateUser = async () => {
     const user = await getUser();
     const updatedUserData = {
         town: user.town,
@@ -30,6 +30,7 @@ const updateUser = async (isDark: boolean) => {
         moreInformations: user.moreInformations,
         darkmode: !user.darkmode,
         lastConnexion: user.lastConnexion,
+        newsletter: user.newsletter,
     };
     putUser(updatedUserData);
 };
@@ -47,13 +48,13 @@ const LightDark: React.FC<LightDarkProps> = ({
         setIsDark(!isDark);
         localStorage.setItem('isDark', JSON.stringify(!isDark));
         try {
-            updateUser(isDark);
+            updateUser();
         } catch (error) {}
         if (
-            !notificationsPreference.find(
+            notificationsPreference.find(
                 (item: any) => item[0] === 'lightDarkModeUpdate'
             )[1]
-        )
+        ) {
             showToast(
                 'success',
                 t('theThemeHasBeenSuccessfullyUpdated'),
@@ -64,6 +65,7 @@ const LightDark: React.FC<LightDarkProps> = ({
                 false,
                 true
             );
+        }
         addNotificationToList(t('themeUpdate'));
     };
 

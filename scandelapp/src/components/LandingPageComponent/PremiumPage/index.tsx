@@ -10,7 +10,7 @@ import {
     AdminButton,
     ReturnButtonContainer,
 } from './elements';
-import { userId } from '../../../utils/userUtils';
+import { subscription } from '../../../utils/subscriptionUtils';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
@@ -36,24 +36,6 @@ const PremiumPage: React.FC<PremiumPageProps> = ({
 
     const { t } = useTranslation();
 
-    const handleFormChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = event.target;
-
-        if (name === 'cardExpirationDate') {
-            const [year, month] = value.split('-');
-            setFormValues((prev) => ({
-                ...prev,
-                cardExpMonth: month,
-                cardExpYear: year,
-            }));
-        } else {
-            setFormValues((prev) => ({
-                ...prev,
-                [name]: value,
-            }));
-        }
-    };
-
     const handleReturnButtonClicked = () => {
         handlePremiumButtonClicked();
     };
@@ -65,32 +47,11 @@ const PremiumPage: React.FC<PremiumPageProps> = ({
     const handleFormSubmit = async (event: any) => {
         event.preventDefault();
 
-        const encodedCredentials = btoa(
-            `${process.env.REACT_APP_REQUEST_USER}:${process.env.REACT_APP_REQUEST_PASSWORD}`
-        );
-        const headers = new Headers({
-            'Content-Type': 'application/json',
-            Authorization: `Basic ${encodedCredentials}`,
-        });
-        const urlRequest = process.env.REACT_APP_BACKEND_URL + 'subscription';
         try {
-            const response = await fetch(urlRequest, {
-                method: 'POST',
-                headers: headers,
-                body: JSON.stringify({
-                    userid: userId,
-                    ...formValues,
-                }),
-            });
-
-            if (!response.ok) {
-                throw new Error("L'achat a échoué");
-            }
-
-            const data = await response.json();
-            // updateUserInfo({ isPremiumActivated: true }); idée du résultat
+            const response = await subscription();
+            window.open(response.url);
         } catch (error) {
-            console.error("Erreur lors de l'achat", error);
+            console.log(error);
         }
     };
 
@@ -115,42 +76,15 @@ const PremiumPage: React.FC<PremiumPageProps> = ({
                         <MainText>{t('title6BuyAdmin')}</MainText>
                         <PremiumButtonOnOffStyle onClick={handleToggleForm}>
                             <PremiumButtonOnOffText>
-                                {t('buy')}
+                                {t('handleSubscription')}
                             </PremiumButtonOnOffText>
                         </PremiumButtonOnOffStyle>
                     </div>
                 )}
                 {showForm && (
                     <div>
-                        <FormField
-                            type="text"
-                            name="fullName"
-                            placeholder={t('nameOnTheMap')}
-                            value={formValues.fullName}
-                            onChange={handleFormChange}
-                        />
-                        <FormField
-                            type="number"
-                            name="cardNumber"
-                            placeholder={t('cardNumber')}
-                            value={formValues.cardNumber}
-                            onChange={handleFormChange}
-                        />
-                        <FormField
-                            type="month"
-                            name="cardExpirationDate"
-                            placeholder="Date d'expiration"
-                            onChange={handleFormChange}
-                        />
-                        <FormField
-                            type="number"
-                            name="cardCVC"
-                            placeholder={t('cvc')}
-                            value={formValues.cardCVC}
-                            onChange={handleFormChange}
-                        />
                         <SubmitButton onClick={handleFormSubmit}>
-                            {t('send')}
+                            {t('buy')}
                         </SubmitButton>
                         {localStorage.getItem('token') === 'true' && (
                             <AdminButton onClick={handleAdminPremium}>

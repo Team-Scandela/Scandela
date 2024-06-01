@@ -8,6 +8,7 @@ import {
     Input,
     Button,
     Anchor,
+    ErrorMessage,
     OverlayContainer,
     Overlay,
     LeftOverlayPanel,
@@ -20,6 +21,7 @@ import { setUserId, getUser, putUser } from '../../utils/userUtils';
 import { getDecisionsSpecificAlgo } from '../../utils/decisionsUtils';
 import { optimisationTemplateDataBackup } from './backup_decisions';
 import { getAllScores } from '../../utils/gaugesUtils';
+import { signUp, signIn } from '../../utils/loginUtils';
 
 interface LoginModuleProps {
     setOptimisationTemplateData: (data: any) => void;
@@ -41,6 +43,8 @@ const LoginModule: React.FC<LoginModuleProps> = ({
     const [emailSignIn, setEmailSignIn] = useState('');
     const [passwordSignIn, setPasswordSignIn] = useState('');
     const navigate = useNavigate();
+
+    const [error, setError] = useState('');
 
     const updateUser = async () => {
         const user = await getUser();
@@ -98,7 +102,6 @@ const LoginModule: React.FC<LoginModuleProps> = ({
             localStorage.setItem('token', JSON.stringify(false));
             setUpDecisions();
         }
-        console.log(data);
         if (
             localStorage.getItem('token') === 'true' ||
             (data.moreInformations[2] && data.moreInformations[2] === 'true')
@@ -118,34 +121,11 @@ const LoginModule: React.FC<LoginModuleProps> = ({
 
     const handleSubmitSignIn = async (event: any) => {
         event.preventDefault();
-
-        const encodedCredentials = btoa(
-            `${process.env.REACT_APP_REQUEST_USER}:${process.env.REACT_APP_REQUEST_PASSWORD}`
-        );
-        const headers = new Headers({
-            'Content-Type': 'application/json',
-            Authorization: `Basic ${encodedCredentials}`,
-        });
-
-        const urlRequest = process.env.REACT_APP_BACKEND_URL + 'users/signin';
-
         try {
-            const response = await fetch(urlRequest, {
-                method: 'POST',
-                headers: headers,
-                body: JSON.stringify({
-                    email: emailSignIn,
-                    password: passwordSignIn,
-                }),
-            });
-
-            if (!response.ok) {
-                throw new Error('La connexion a échoué');
-            }
-            const data = await response.json();
-            handleValidLogin(data);
+            const response = await signIn(emailSignIn, passwordSignIn);
+            handleValidLogin(response);
         } catch (error) {
-            console.error('Erreur lors de la connexion', error);
+            if (error) setError('Identifiants incorrects ou inexistants.');
         }
     };
 
@@ -153,39 +133,12 @@ const LoginModule: React.FC<LoginModuleProps> = ({
         if (passwordSignUp !== '' && passwordSignUp === passwordConfirmSignUp) {
             event.preventDefault();
 
-            const encodedCredentials = btoa(
-                `${process.env.REACT_APP_REQUEST_USER}:${process.env.REACT_APP_REQUEST_PASSWORD}`
+            const response = await signUp(
+                emailSignUp,
+                usernameSignUp,
+                passwordSignUp
             );
-            const headers = new Headers({
-                'Content-Type': 'application/json',
-                Authorization: `Basic ${encodedCredentials}`,
-            });
-            const urlRequest =
-                process.env.REACT_APP_BACKEND_URL + 'users/create';
-
-            try {
-                const response = await fetch(urlRequest, {
-                    method: 'POST',
-                    headers: headers,
-                    body: JSON.stringify({
-                        town: {
-                            id: '2dac2740-1d45-42d7-af5e-13b98cdf3af4',
-                        },
-                        email: emailSignUp,
-                        username: usernameSignUp,
-                        password: passwordSignUp,
-                    }),
-                });
-
-                if (!response.ok) {
-                    throw new Error("L'inscription a échoué");
-                }
-
-                const data = await response.json();
-                handleValidLogin(data);
-            } catch (error) {
-                console.error("Erreur lors de l'inscription", error);
-            }
+            handleValidLogin(response);
         }
     };
 
@@ -257,6 +210,7 @@ const LoginModule: React.FC<LoginModuleProps> = ({
                     />
                     <Anchor href="#">Forgot your password?</Anchor>
                     <Button onClick={handleSubmitSignIn}> Sign In </Button>
+                    {error && <ErrorMessage>{error}</ErrorMessage>}
                 </Form>
             </SignInContainer>
 
