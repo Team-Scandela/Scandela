@@ -125,7 +125,7 @@ const LoginModule: React.FC<LoginModuleProps> = ({
             const response = await signIn(emailSignIn, passwordSignIn);
             handleValidLogin(response);
         } catch (error) {
-            if (error.message === "La connexion a échoué")
+            if (error)
                 setError("Identifiants incorrects ou inexistants.");
         }
     };

@@ -119,10 +119,10 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
         handleOptimisationTemplateDataChange(updatedData);
         if (itemsUpdated === 0) {
             if (
-                !notificationsPreference.find(
+                notificationsPreference.find(
                     (item: any) => item[0] === 'actionListUpdate'
                 )[1]
-            )
+            ) {
                 showToast(
                     'error',
                     "Il n'y a rien à ajouter dans la liste d'action",
@@ -133,24 +133,25 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
                     false,
                     true
                 );
+            }
             addNotificationToList("Echec de modification de la liste d'action");
         } else if (itemsUpdated > 0) {
             if (
-                !notificationsPreference.find(
+                notificationsPreference.find(
                     (item: any) => item[0] === 'actionListUpdate'
                 )[1]
-            )
-                console.log(itemsUpdated);
-            showToast(
-                'success',
-                'La liste des actions a bien été mise à jour',
-                'top-left',
-                5000,
-                false,
-                true,
-                false,
-                true
-            );
+            ) {
+                showToast(
+                    'success',
+                    'La liste des actions a bien été mise à jour',
+                    'top-left',
+                    5000,
+                    false,
+                    true,
+                    false,
+                    true
+                );
+            }
             addNotificationToList("Mise à jour de la liste d'action");
         }
         setIsOnCooldown(true);

@@ -1,6 +1,8 @@
-import { NotificationTitle } from './elements';
+import { useState, useEffect } from 'react';
+import { LoadingTitle, NotificationTitle } from './elements';
 import RadioButton from '../../../RadioButton';
 import { useTranslation } from 'react-i18next';
+import { getUser, putUser } from '../../../../utils/userUtils';
 
 /** Notifications setting component props
  * @param {boolean} isDark - If the mode is dark or not
@@ -19,7 +21,18 @@ const Notifications: React.FC<NotificationsProps> = ({
     notificationsPreference,
     setNotificationsPreference,
 }) => {
+    const [newsletter, setNewsletter] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const { t } = useTranslation();
+
+    useEffect(() => {
+        const getUserInfoAsync = async () => {
+            const userInfos = await getUser();
+            setNewsletter(userInfos.newsletter);
+            setIsLoading(false);
+        };
+        getUserInfoAsync();
+    }, []);
 
     const handleToggleActionListUpdate = () => {
         const index = notificationsPreference.findIndex(
@@ -72,50 +85,92 @@ const Notifications: React.FC<NotificationsProps> = ({
         }
     };
 
+    const updateUser = async () => {
+        const user = await getUser();
+        const updatedUserData = {
+            town: user.town,
+            email: user.email,
+            username: user.username,
+            password: user.password,
+            rights: user.rights,
+            moreInformations: user.moreInformations,
+            darkmode: user.darkmode,
+            lastConnexion: user.lastConnexion,
+            newsletter: !user.newsletter,
+        };
+        putUser(updatedUserData);
+    };
+
+    const handleToggleNewsletterUpdate = () => {
+        setNewsletter(!newsletter);
+        try {
+            updateUser();
+        } catch (error) {}
+    };
+
     return (
         <div>
-            <NotificationTitle isDark={isDark} top={'140px'} left={'40px'}>
-                {t('actionListUpdates')}
-            </NotificationTitle>
-            <RadioButton
-                isDark={isDark}
-                top={'130px'}
-                left={'350px'}
-                trigger={
-                    notificationsPreference.find(
-                        (item: any) => item[0] === 'actionListUpdate'
-                    )[1]
-                }
-                setTrigger={handleToggleActionListUpdate}
-            />
-            <NotificationTitle isDark={isDark} top={'200px'} left={'40px'}>
-                {t('lightDarkModeUpdates')}
-            </NotificationTitle>
-            <RadioButton
-                isDark={isDark}
-                top={'190px'}
-                left={'350px'}
-                trigger={
-                    notificationsPreference.find(
-                        (item: any) => item[0] === 'lightDarkModeUpdate'
-                    )[1]
-                }
-                setTrigger={handleToggleLightDarkModeUpdate}
-            />
-            <NotificationTitle isDark={isDark} top={'260px'} left={'40px'}>
-                {t('languageUpdates')}
-            </NotificationTitle>
-            <RadioButton
-                isDark={isDark}
-                top={'250px'}
-                left={'350px'}
-                trigger={
-                    notificationsPreference.find(
-                        (item: any) => item[0] === 'languageUpdate'
-                    )[1]
-                }
-                setTrigger={handleToggleLanguageUpdate}
-            />
+            {isLoading && (
+                <div>
+                    <LoadingTitle isDark={isDark}>{t('loadOfYourPreferences')}</LoadingTitle>
+                </div>
+            )}
+            {!isLoading && (
+                <div>
+                    <NotificationTitle isDark={isDark} top={'130px'} left={'40px'}>
+                        {t('actionListUpdates')}
+                    </NotificationTitle>
+                    <RadioButton
+                        isDark={isDark}
+                        top={'120px'}
+                        left={'350px'}
+                        trigger={
+                            notificationsPreference.find(
+                                (item: any) => item[0] === 'actionListUpdate'
+                            )[1]
+                        }
+                        setTrigger={handleToggleActionListUpdate}
+                    />
+                    <NotificationTitle isDark={isDark} top={'190px'} left={'40px'}>
+                        {t('lightDarkModeUpdates')}
+                    </NotificationTitle>
+                    <RadioButton
+                        isDark={isDark}
+                        top={'180px'}
+                        left={'350px'}
+                        trigger={
+                            notificationsPreference.find(
+                                (item: any) => item[0] === 'lightDarkModeUpdate'
+                            )[1]
+                        }
+                        setTrigger={handleToggleLightDarkModeUpdate}
+                    />
+                    <NotificationTitle isDark={isDark} top={'250px'} left={'40px'}>
+                        {t('languageUpdates')}
+                    </NotificationTitle>
+                    <RadioButton
+                        isDark={isDark}
+                        top={'240px'}
+                        left={'350px'}
+                        trigger={
+                            notificationsPreference.find(
+                                (item: any) => item[0] === 'languageUpdate'
+                            )[1]
+                        }
+                        setTrigger={handleToggleLanguageUpdate}
+                    />
+                    <NotificationTitle isDark={isDark} top={'310px'} left={'40px'}>
+                        {t('newsletterUpdates')}
+                    </NotificationTitle>
+                    <RadioButton
+                        isDark={isDark}
+                        top={'300px'}
+                        left={'350px'}
+                        trigger={newsletter}
+                        setTrigger={handleToggleNewsletterUpdate}
+                    />
+                </div>
+            )}
         </div>
     );
 };
