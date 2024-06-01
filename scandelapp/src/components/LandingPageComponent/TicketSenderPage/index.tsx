@@ -10,6 +10,7 @@ import {
     ReturnButtonContainer,
 } from './elements';
 import { useTranslation } from 'react-i18next';
+import { sendTicket } from '../../../utils/ticketUtils';
 
 interface TicketSenderPageProps {
     handleTicketButtonClicked: () => void;
@@ -61,6 +62,8 @@ const TicketSender: React.FC<TicketSenderPageProps> = ({
         } catch (error) {
             console.log(error);
         }
+    const handleSendTicket = async () => {
+        sendTicket(title, description, choosenItem);
     };
 
     return (
@@ -117,7 +120,7 @@ const TicketSender: React.FC<TicketSenderPageProps> = ({
                     value={description}
                     onChange={(e: any) => setDescription(e.target.value)}
                 />
-                <SendButton onClick={sendTicket}>{t('send')}</SendButton>
+                <SendButton onClick={handleSendTicket}>{t('send')}</SendButton>
                 <ReturnButtonContainer onClick={handleReturnButtonClicked}>
                     Return
                 </ReturnButtonContainer>

@@ -72,13 +72,14 @@ export const FormField = styled.input`
 
 export const SubmitButton = styled.button`
     display: flex;
-    position: fixed;
+    position: absolute;
     background-color: ${Yellow};
     color: ${Black};
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
     margin-left: 8%;
+    left: 28%;
     &:hover {
         cursor: pointer;
         opacity: 0.9;
@@ -94,7 +95,7 @@ export const AdminButton = styled.button`
     border: none;
     border-radius: 5px;
     margin-left: 8%;
-    top: 340px;
+    bottom: 50px;
     left: 24%;
     &:hover {
         cursor: pointer;

@@ -59,9 +59,9 @@ const Main: React.FC<MainProps> = ({
 
     const [toastHistoryData, setToastHistoryData] = useState([]);
     const [notificationsPreference, setNotificationsPreference] = useState([
-        ['actionListUpdate', false],
-        ['lightDarkModeUpdate', false],
-        ['languageUpdate', false],
+        ['actionListUpdate', true],
+        ['lightDarkModeUpdate', true],
+        ['languageUpdate', true],
     ]);
 
     const handleSearch = (value: string) => {

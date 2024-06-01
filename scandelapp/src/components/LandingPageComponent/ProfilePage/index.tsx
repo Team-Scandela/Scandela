@@ -112,6 +112,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
             moreInformations: user.moreInformations,
             darkmode: user.darkmode,
             lastConnexion: user.lastConnexion,
+            newsletter: user.newsletter,
         };
         putUser(updatedUserData);
     };
@@ -127,6 +128,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
             moreInformations: user.moreInformations,
             darkmode: user.darkmode,
             lastConnexion: user.lastConnexion,
+            newsletter: user.newsletter,
         };
         putUser(updatedUserData);
     };

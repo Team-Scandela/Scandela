@@ -19,7 +19,7 @@ export const ButtonContainer = styled.div`
     height: 36px;
     width: 36px;
     top: 2px;
-    left: ${(props) => (props.trigger ? '3px' : '31px')};
+    left: ${(props) => (props.trigger ? '31px' : '3px')};
     background-color: ${(props) => (props.isDark ? Grey + 'CC' : White + 'CC')};
     border-radius: 25px;
 
