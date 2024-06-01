@@ -54,6 +54,7 @@ const resources = {
             tickets: 'Tickets',
             faq: 'FAQ',
             buy: 'Buy',
+            handleSubscription: 'Handle my subscription',
             titleBuyAdmin: 'Why choose the premium version?',
             title2BuyAdmin:
                 'Access exclusive tips that go far beyond the ordinary!',
@@ -191,6 +192,7 @@ const resources = {
             tickets: 'Tickets',
             faq: 'FAQ',
             buy: 'Acheter',
+            handleSubscription: 'Gérer mon abonnement',
             titleBuyAdmin: 'Pourquoi choisir la version premium ?',
             title2BuyAdmin:
                 "Accédez à des conseils exclusifs qui vont bien au delà de l'ordinaire !",

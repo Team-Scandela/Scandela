@@ -1,6 +1,6 @@
 import { userId } from '../utils/userUtils';
 
-export const subscription = async (formValues: any) => {
+export const subscription = async () => {
     const encodedCredentials = btoa(
         `${process.env.REACT_APP_REQUEST_USER}:${process.env.REACT_APP_REQUEST_PASSWORD}`
     );
@@ -15,7 +15,6 @@ export const subscription = async (formValues: any) => {
             headers: headers,
             body: JSON.stringify({
                 userid: userId,
-                ...formValues,
             }),
         });
 

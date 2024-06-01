@@ -36,24 +36,6 @@ const PremiumPage: React.FC<PremiumPageProps> = ({
 
     const { t } = useTranslation();
 
-    const handleFormChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = event.target;
-
-        if (name === 'cardExpirationDate') {
-            const [year, month] = value.split('-');
-            setFormValues((prev) => ({
-                ...prev,
-                cardExpMonth: month,
-                cardExpYear: year,
-            }));
-        } else {
-            setFormValues((prev) => ({
-                ...prev,
-                [name]: value,
-            }));
-        }
-    };
-
     const handleReturnButtonClicked = () => {
         handlePremiumButtonClicked();
     };
@@ -65,7 +47,12 @@ const PremiumPage: React.FC<PremiumPageProps> = ({
     const handleFormSubmit = async (event: any) => {
         event.preventDefault();
 
-        const response = await subscription(formValues);
+        try {
+            const response = await subscription();
+            window.open(response.url);
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     const handleAdminPremium = () => {
@@ -89,42 +76,15 @@ const PremiumPage: React.FC<PremiumPageProps> = ({
                         <MainText>{t('title6BuyAdmin')}</MainText>
                         <PremiumButtonOnOffStyle onClick={handleToggleForm}>
                             <PremiumButtonOnOffText>
-                                {t('buy')}
+                                {t('handleSubscription')}
                             </PremiumButtonOnOffText>
                         </PremiumButtonOnOffStyle>
                     </div>
                 )}
                 {showForm && (
                     <div>
-                        <FormField
-                            type="text"
-                            name="fullName"
-                            placeholder={t('nameOnTheMap')}
-                            value={formValues.fullName}
-                            onChange={handleFormChange}
-                        />
-                        <FormField
-                            type="number"
-                            name="cardNumber"
-                            placeholder={t('cardNumber')}
-                            value={formValues.cardNumber}
-                            onChange={handleFormChange}
-                        />
-                        <FormField
-                            type="month"
-                            name="cardExpirationDate"
-                            placeholder="Date d'expiration"
-                            onChange={handleFormChange}
-                        />
-                        <FormField
-                            type="number"
-                            name="cardCVC"
-                            placeholder={t('cvc')}
-                            value={formValues.cardCVC}
-                            onChange={handleFormChange}
-                        />
                         <SubmitButton onClick={handleFormSubmit}>
-                            {t('send')}
+                            {t('buy')}
                         </SubmitButton>
                         {localStorage.getItem('token') === 'true' && (
                             <AdminButton onClick={handleAdminPremium}>
