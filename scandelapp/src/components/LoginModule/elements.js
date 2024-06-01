@@ -104,7 +104,7 @@ export const Anchor = styled.a`
 `;
 
 export const ErrorMessage = styled.span`
-    color: #F00020;
+    color: #f00020;
     font-size: 16px;
     margin: 15px 0;
 `;

@@ -1,9 +1,12 @@
-export const sendTicket = async (title: string, description: string, choosenItem: string) => {
+export const sendTicket = async (
+    title: string,
+    description: string,
+    choosenItem: string
+) => {
     try {
         const username = process.env.REACT_APP_REQUEST_USER;
         const password = process.env.REACT_APP_REQUEST_PASSWORD;
-        const urlRequest =
-            process.env.REACT_APP_BACKEND_URL + 'tickets/create';
+        const urlRequest = process.env.REACT_APP_BACKEND_URL + 'tickets/create';
 
         const response = await fetch(urlRequest, {
             method: 'POST',

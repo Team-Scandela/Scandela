@@ -1,4 +1,8 @@
-export const signUp = async(email: string, username: string, password: string) => {
+export const signUp = async (
+    email: string,
+    username: string,
+    password: string
+) => {
     const encodedCredentials = btoa(
         `${process.env.REACT_APP_REQUEST_USER}:${process.env.REACT_APP_REQUEST_PASSWORD}`
     );
@@ -6,8 +10,7 @@ export const signUp = async(email: string, username: string, password: string) =
         'Content-Type': 'application/json',
         Authorization: `Basic ${encodedCredentials}`,
     });
-    const urlRequest =
-        process.env.REACT_APP_BACKEND_URL + 'users/create';
+    const urlRequest = process.env.REACT_APP_BACKEND_URL + 'users/create';
 
     try {
         const response = await fetch(urlRequest, {

@@ -125,8 +125,7 @@ const LoginModule: React.FC<LoginModuleProps> = ({
             const response = await signIn(emailSignIn, passwordSignIn);
             handleValidLogin(response);
         } catch (error) {
-            if (error)
-                setError("Identifiants incorrects ou inexistants.");
+            if (error) setError('Identifiants incorrects ou inexistants.');
         }
     };
 
@@ -134,7 +133,11 @@ const LoginModule: React.FC<LoginModuleProps> = ({
         if (passwordSignUp !== '' && passwordSignUp === passwordConfirmSignUp) {
             event.preventDefault();
 
-            const response = await signUp(emailSignUp, usernameSignUp, passwordSignUp);
+            const response = await signUp(
+                emailSignUp,
+                usernameSignUp,
+                passwordSignUp
+            );
             handleValidLogin(response);
         }
     };
@@ -207,9 +210,7 @@ const LoginModule: React.FC<LoginModuleProps> = ({
                     />
                     <Anchor href="#">Forgot your password?</Anchor>
                     <Button onClick={handleSubmitSignIn}> Sign In </Button>
-                    {error && (
-                        <ErrorMessage>{error}</ErrorMessage>
-                    )}
+                    {error && <ErrorMessage>{error}</ErrorMessage>}
                 </Form>
             </SignInContainer>
 

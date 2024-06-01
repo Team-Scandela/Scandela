@@ -112,12 +112,18 @@ const Notifications: React.FC<NotificationsProps> = ({
         <div>
             {isLoading && (
                 <div>
-                    <LoadingTitle isDark={isDark}>{t('loadOfYourPreferences')}</LoadingTitle>
+                    <LoadingTitle isDark={isDark}>
+                        {t('loadOfYourPreferences')}
+                    </LoadingTitle>
                 </div>
             )}
             {!isLoading && (
                 <div>
-                    <NotificationTitle isDark={isDark} top={'130px'} left={'40px'}>
+                    <NotificationTitle
+                        isDark={isDark}
+                        top={'130px'}
+                        left={'40px'}
+                    >
                         {t('actionListUpdates')}
                     </NotificationTitle>
                     <RadioButton
@@ -131,7 +137,11 @@ const Notifications: React.FC<NotificationsProps> = ({
                         }
                         setTrigger={handleToggleActionListUpdate}
                     />
-                    <NotificationTitle isDark={isDark} top={'190px'} left={'40px'}>
+                    <NotificationTitle
+                        isDark={isDark}
+                        top={'190px'}
+                        left={'40px'}
+                    >
                         {t('lightDarkModeUpdates')}
                     </NotificationTitle>
                     <RadioButton
@@ -145,7 +155,11 @@ const Notifications: React.FC<NotificationsProps> = ({
                         }
                         setTrigger={handleToggleLightDarkModeUpdate}
                     />
-                    <NotificationTitle isDark={isDark} top={'250px'} left={'40px'}>
+                    <NotificationTitle
+                        isDark={isDark}
+                        top={'250px'}
+                        left={'40px'}
+                    >
                         {t('languageUpdates')}
                     </NotificationTitle>
                     <RadioButton
@@ -159,7 +173,11 @@ const Notifications: React.FC<NotificationsProps> = ({
                         }
                         setTrigger={handleToggleLanguageUpdate}
                     />
-                    <NotificationTitle isDark={isDark} top={'310px'} left={'40px'}>
+                    <NotificationTitle
+                        isDark={isDark}
+                        top={'310px'}
+                        left={'40px'}
+                    >
                         {t('newsletterUpdates')}
                     </NotificationTitle>
                     <RadioButton

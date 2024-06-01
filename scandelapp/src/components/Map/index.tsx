@@ -569,7 +569,7 @@ const Map: React.FC<MapProps> = ({
                 );
 
                 //ColoredPin filter
-                console.log()
+                console.log();
                 map.current.addLayer({
                     id: 'pinColor',
                     type: 'circle',
