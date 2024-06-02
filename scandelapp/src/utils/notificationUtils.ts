@@ -7,7 +7,7 @@ const headers = new Headers({
 });
 
 export const getNotifications = async (idUser: string) => {
-    const urlRequest = `${process.env.REACT_APP_BACKEND_URL}/notifications?idUser=${idUser}`;
+    const urlRequest = `${process.env.REACT_APP_BACKEND_URL}notifications?idUser=${idUser}`;
     try {
         const response = await fetch(urlRequest, {
             method: 'GET',
@@ -21,7 +21,7 @@ export const getNotifications = async (idUser: string) => {
 };
 
 export const getNotification = async (id: string) => {
-    const urlRequest = `${process.env.REACT_APP_BACKEND_URL}/notifications/${id}`;
+    const urlRequest = `${process.env.REACT_APP_BACKEND_URL}notifications/${id}`;
     try {
         const response = await fetch(urlRequest, {
             method: 'GET',
@@ -35,7 +35,7 @@ export const getNotification = async (id: string) => {
 };
 
 export const createNotification = async (newNotification: any) => {
-    const urlRequest = `${process.env.REACT_APP_BACKEND_URL}/notifications/create`;
+    const urlRequest = `${process.env.REACT_APP_BACKEND_URL}notifications/create`;
     try {
         const response = await fetch(urlRequest, {
             method: 'POST',
@@ -50,7 +50,7 @@ export const createNotification = async (newNotification: any) => {
 };
 
 export const updateNotification = async (id: string, update: any) => {
-    const urlRequest = `${process.env.REACT_APP_BACKEND_URL}/notifications/${id}`;
+    const urlRequest = `${process.env.REACT_APP_BACKEND_URL}notifications/${id}`;
     try {
         const response = await fetch(urlRequest, {
             method: 'PUT',
@@ -65,7 +65,7 @@ export const updateNotification = async (id: string, update: any) => {
 };
 
 export const deleteNotification = async (id: string) => {
-    const urlRequest = `${process.env.REACT_APP_BACKEND_URL}/notifications/delete/${id}`;
+    const urlRequest = `${process.env.REACT_APP_BACKEND_URL}notifications/delete/${id}`;
     try {
         const response = await fetch(urlRequest, {
             method: 'DELETE',

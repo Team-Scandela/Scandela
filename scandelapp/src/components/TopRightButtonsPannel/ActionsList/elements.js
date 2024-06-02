@@ -128,7 +128,7 @@ export const TextContainer = styled.div`
     flex-direction: column;
     padding-left: 17px;
     gap: 3px;
-    max-width: 178px;
+    max-width: 378px;
 `;
 
 /** Style of the scrollableoptimisation type text */
@@ -158,6 +158,17 @@ export const DescriptionText = styled.p`
     font-style: italic;
     overflow-wrap: break-word;
 `;
+
+/** Style for the price text */
+export const PriceText = styled.p`
+    font-size: 13px;
+    user-select: none;
+    color: ${(props) => (props.isDark ? Black : Black)};
+    font-weight: 500;
+    overflow-wrap: break-word;
+    margin-top: 5px; /* Optional: Adds some space above the price text */
+`;
+
 
 /** Container for the solution text **/
 export const SolutionTextContainer = styled.div`
@@ -229,7 +240,8 @@ export const TotalContainer = styled.div`
     left: 825px;
     top: 5px;
     width: 420px;
-    max-height: 100px; /* Définissez une hauteur maximale de 100 pixels */
+    height: 100px;
+    max-height: 110px; /* Définissez une hauteur maximale de 100 pixels */
     overflow-y: auto; /* Activez le défilement vertical si le contenu dépasse la hauteur maximale */
     border-radius: 5px;
     background-color: ${(props) =>

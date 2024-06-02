@@ -4,6 +4,7 @@ import { showToast } from '../../../Toastr';
 import { getUser } from '../../../../utils/userUtils';
 import { putUser } from '../../../../utils/userUtils';
 import { useTranslation } from 'react-i18next';
+import { createNotification } from '../../../../utils/notificationUtils';
 
 /** Ligth / Dark mode button
  * @param {boolean} isDark - If the mode is dark or not
@@ -43,7 +44,7 @@ const LightDark: React.FC<LightDarkProps> = ({
     /** Handle the click on the button and switch to the other mode */
     const { t } = useTranslation();
 
-    const handleToggleLightDark = () => {
+    const handleToggleLightDark = async () => {
         setIsDark(!isDark);
         localStorage.setItem('isDark', JSON.stringify(!isDark));
         try {
@@ -64,7 +65,17 @@ const LightDark: React.FC<LightDarkProps> = ({
                 false,
                 true
             );
-        addNotificationToList(t('themeUpdate'));
+
+        const userId = localStorage.getItem('userId');
+        if (userId) {
+            await createNotification({
+                userId,
+                title: t('themeUpdate'),
+                description: t('theThemeHasBeenSuccessfullyUpdated'),
+                triggered: true,
+            });
+        }
+        // addNotificationToList(t('themeUpdate'));
     };
 
     return (

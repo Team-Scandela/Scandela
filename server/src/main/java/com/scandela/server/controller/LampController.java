@@ -201,7 +201,7 @@ public class LampController extends AbstractController<Lamp> {
         put("FC", new String[]{"Fluorescent Circulaire", "10"});
         put("SBP", new String[]{"Sodium Basse pression", "20"});
         put("HAL", new String[]{"Halogènes", "3"});
-        put("TL", new String[]{"Tube luminescent", "5-"});
+        put("TL", new String[]{"Tube luminescent", "5"});
         put("IC", new String[]{"Ampoules à incandescence", "2"});
         put("DIC", new String[]{"Double Iodures métalliques", "30"});
     }};

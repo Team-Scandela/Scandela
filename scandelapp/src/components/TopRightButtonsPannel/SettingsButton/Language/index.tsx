@@ -2,6 +2,7 @@ import { FranceFlag, EnglishFlag } from './elements';
 import RadioButton from '../../../RadioButton';
 import { useTranslation } from 'react-i18next';
 import { showToast } from '../../../Toastr';
+import { createNotification } from '../../../../utils/notificationUtils';
 
 /** Language setting component props
  * @param {boolean} isDark - If the mode is dark or not
@@ -33,7 +34,7 @@ const Language: React.FC<LanguageProps> = ({
         i18n.changeLanguage(lng);
     };
 
-    const handleToggleLanguage = () => {
+    const handleToggleLanguage = async () => {
         setCurrentLanguage(!currentLanguage);
         if (currentLanguage) changeLanguage('en');
         else changeLanguage('fr');
@@ -52,7 +53,18 @@ const Language: React.FC<LanguageProps> = ({
                 false,
                 true
             );
-        addNotificationToList(t('languageUpdate'));
+
+        const userId = localStorage.getItem('userId');
+        console.log(userId);
+        if (userId) {
+            await createNotification({
+                user: { id: userId },
+                title: t('languageUpdate'),
+                description: t('theLanguageHasBeenSuccessfullyUpdated'),
+                triggered: true,
+            });
+        }
+        //addNotificationToList(t('languageUpdate'));
     };
 
     return (

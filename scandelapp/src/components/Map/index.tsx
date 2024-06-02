@@ -131,10 +131,8 @@ const Map: React.FC<MapProps> = ({
                     hat: obj.fields.type_foyer,
                 },
             };
-            console.log('Feature:', feature); // Afficher le feature dans la console
             geoJSON.features.push(feature);
         });
-        console.log('GeoJSON:', geoJSON);
         return geoJSON;
     }, []);
 
@@ -514,14 +512,14 @@ const Map: React.FC<MapProps> = ({
                 map.current.addLayer({
                     id: 'pinColor',
                     type: 'circle',
-                    source: 'points-unclustered',
+                    source: 'points',
                     layout: {
                         visibility: 'none',
                     },
                     paint: {
                         'circle-color': [
                             'match',
-                            ['get', 'type_lampe'], // Correction ici
+                            ['get', 'Object.features.properties.lamp'], // Correction ici
                             'SHP',
                             '#FF0000', // Rouge pour SHP
                             'MBF',
@@ -546,7 +544,7 @@ const Map: React.FC<MapProps> = ({
                             '#00FF00', // Vert pour TF
                             'FC',
                             '#00FF00', // Vert pour FC
-                            '#808080', // Gris pour toutes les autres valeurs de type_lampe
+                            '#00FF00', // Vert par défaut
                         ],
                         'circle-opacity': 0.7,
                         'circle-stroke-color': '#FFFFFF',
@@ -558,7 +556,7 @@ const Map: React.FC<MapProps> = ({
                 map.current.addLayer({
                     id: 'filter',
                     type: 'circle',
-                    source: 'points-unclustered',
+                    source: 'points',
                     layout: {
                         visibility: 'none',
                     },

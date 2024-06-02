@@ -45,6 +45,9 @@ public class Notification implements Serializable {
 	@JoinColumn(name = "uuiduser", nullable = false)
 	private User user;
 
+	@Column(name = "title")
+    private String title;
+
 	@Column(name = "description")
 	private String description;
 

@@ -79,6 +79,15 @@ export const DescriptionText = styled.p`
     overflow-wrap: break-word;
 `;
 
+/** Style for the price text */
+export const PriceText = styled.p`
+    font-size: 13px;
+    user-select: none;
+    color: ${(props) => (props.isDark ? Black : Black)};
+    font-weight: 500;
+    overflow-wrap: break-word;
+`;
+
 /** Container for the solution text **/
 export const SolutionTextContainer = styled.div`
     display: flex;

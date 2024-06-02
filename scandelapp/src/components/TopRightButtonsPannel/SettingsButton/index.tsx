@@ -22,6 +22,8 @@ import { MdDownload, MdElectricBolt } from 'react-icons/md';
 import { IoNotifications } from 'react-icons/io5';
 import { useTranslation } from 'react-i18next';
 
+const userId = localStorage.getItem('userId');
+
 interface SettingsButtonProps {
     isDark: boolean;
     setIsDark: (isDark: boolean) => void;
@@ -155,21 +157,18 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({
                             </div>
                         )}
                         {currentOptionSelected === 'notification' && (
-                            <div>
-                                <TitleText isDark={isDark}>
-                                    {t('notifications')}
-                                </TitleText>
-                                <Notifications
-                                    isDark={isDark}
-                                    notificationsPreference={
-                                        notificationsPreference
-                                    }
-                                    setNotificationsPreference={
-                                        setNotificationsPreference
-                                    }
-                                />
-                            </div>
-                        )}
+                <div>
+                 <TitleText isDark={isDark}>
+                        {t('notifications')}
+                    </TitleText>
+                       <Notifications
+                          isDark={isDark}
+                          notificationsPreference={notificationsPreference}
+                         setNotificationsPreference={setNotificationsPreference}
+                         userId={userId} // Transmettez userId à Notifications
+                       />
+                     </div>
+                )}
                     </ContentContainer>
                 </SettingsPannelContainer>
             )}

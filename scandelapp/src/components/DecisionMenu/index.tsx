@@ -27,6 +27,7 @@ import { showToast } from '../Toastr';
 import { useTranslation } from 'react-i18next';
 import { PersonnalizedGauge } from '../Gauges';
 import { GaugesContainer } from '../TopRightButtonsPannel/ActionsList/elements';
+import { createNotification } from '../../utils/notificationUtils';
 
 /** Props of the decision pannel
  * @param {boolean} isDark - If the map is in dark mode or not
@@ -108,7 +109,7 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
         handleToggleDropdownExpend();
     };
 
-    const handleActionsListButtonClick = () => {
+    const handleActionsListButtonClick = async () => {
         let itemsUpdated = 0;
         if (isOnCooldown) return;
         const updatedData = [...optimisationTemplateData];
@@ -135,7 +136,17 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
                     false,
                     true
                 );
-            addNotificationToList("Echec de modification de la liste d'action");
+                
+            const userId = localStorage.getItem('userId');
+            if (userId) {
+                await createNotification({
+                    userId,
+                    title: t('actionListFailedUpdate'),
+                    description: t('theActionListHasntBeenSuccessfullyUpdated'),
+                    triggered: true,
+                });
+            }
+            // addNotificationToList("Echec de modification de la liste d'action");
         } else if (itemsUpdated > 0) {
             if (
                 !notificationsPreference.find(
@@ -153,7 +164,17 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
                 false,
                 true
             );
-            addNotificationToList("Mise à jour de la liste d'action");
+
+            const userId = localStorage.getItem('userId');
+            if (userId) {
+                await createNotification({
+                    userId,
+                    title: t('actionListUpdate'),
+                    description: t('theActionListHasBeenSuccessfullyUpdated'),
+                    triggered: true,
+                });
+            }
+           // addNotificationToList("Mise à jour de la liste d'action");
         }
         setIsOnCooldown(true);
         setTimeout(() => {
@@ -218,51 +239,34 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
                         <LogoContainer src={logoDark} />
                         {currentSelected !== 'Choisissez une action' && (
                             <ScrollableOptimisationsContainer isDark={isDark}>
-                                {currentSelected === 'Toutes les optimisations'
-                                    ? optimisationTemplateData.map(
-                                          (item: any, i: number) => (
-                                              <OptimisationTemplate
-                                                  key={i}
-                                                  isDark={isDark}
-                                                  y={125 * i}
-                                                  optimisationTemplateData={
-                                                      item
-                                                  }
-                                                  onTemplateClick={(
-                                                      isChecked
-                                                  ) =>
-                                                      handleChildCheckboxChange(
-                                                          item.id,
-                                                          isChecked
-                                                      )
-                                                  }
-                                              />
-                                          )
-                                      )
-                                    : optimisationTemplateData
-                                          .filter(
-                                              (item: any) =>
-                                                  item.type === currentSelected
-                                          )
-                                          .map((item: any, i: number) => (
-                                              <OptimisationTemplate
-                                                  key={i}
-                                                  isDark={isDark}
-                                                  y={125 * i}
-                                                  optimisationTemplateData={
-                                                      item
-                                                  }
-                                                  onTemplateClick={(
-                                                      isChecked
-                                                  ) =>
-                                                      handleChildCheckboxChange(
-                                                          item.id,
-                                                          isChecked
-                                                      )
-                                                  }
-                                              />
-                                          ))}
-                            </ScrollableOptimisationsContainer>
+                            {currentSelected === 'Toutes les optimisations'
+                                ? optimisationTemplateData.map((item: any, i: number) => (
+                                      <OptimisationTemplate
+                                          key={i}
+                                          isDark={isDark}
+                                          y={125 * i}
+                                          optimisationTemplateData={item}
+                                        onTemplateClick={(isChecked) =>
+                                            handleChildCheckboxChange(item.id, isChecked)
+                                        }
+                                        price={item.price} // Assurez-vous que item.price est correctement défini dans votre data
+                                    />
+                                  ))
+                                : optimisationTemplateData
+                                      .filter((item: any) => item.type === currentSelected)
+                                      .map((item: any, i: number) => (
+                                          <OptimisationTemplate
+                                              key={i}
+                                              isDark={isDark}
+                                              y={125 * i}
+                                              optimisationTemplateData={item}
+                                              onTemplateClick={(isChecked) =>
+                                                  handleChildCheckboxChange(item.id, isChecked)
+                                              }
+                                              price={item.price} // Ajoutez la propriété price ici
+                                          />
+                                      ))}
+                        </ScrollableOptimisationsContainer>
                         )}
                         <AddToActionsListButton
                             isDark={isDark}

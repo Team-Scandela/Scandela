@@ -9,6 +9,7 @@ import {
     TypeText,
     LocationText,
     DescriptionText,
+    PriceText,
     SolutionTextContainer,
     SolutionText,
     TrashIcon,
@@ -225,6 +226,25 @@ const ActionsList: React.FC<ActionsListProps> = ({
                                     <DescriptionText isDark={isDark}>
                                         {item.description}
                                     </DescriptionText>
+
+                                    <PriceText isDark={isDark}>
+                                        {item.isPlaceholder ? (
+                                            <input
+                                                type="text"
+                                                placeholder={item.price}
+                                                onChange={(e) => {
+                                                    const updatedItems = optimisationTemplateData.map((optItem: any) =>
+                                                        optItem.id === item.id
+                                                            ? { ...optItem, price: e.target.value, isPlaceholder: false }
+                                                            : optItem
+                                                    );
+                                                    setOptimisationTemplateData(updatedItems);
+                                                }}
+                                            />
+                                        ) : (
+                                            `Prix: ${item.price} €`
+                                        )}
+                                    </PriceText>
                                 </TextContainer>
                                 <SolutionTextContainer isDark={isDark}>
                                     <SolutionText isDark={isDark}>{item.solution}</SolutionText>
@@ -235,6 +255,10 @@ const ActionsList: React.FC<ActionsListProps> = ({
                                     onClick={() => handleTrashIconClick(item.id)}
                                 ></TrashIcon>
                                 <GoToIcon isDark={isDark} size={30}></GoToIcon>
+
+                                {/* Log the description to the console
+                                {console.log('Item Description:', item.description)} */}
+
                             </OptimisationTemplateContainer>
                         ))}
                 </ScrollableOptimisationsContainer>
@@ -242,11 +266,11 @@ const ActionsList: React.FC<ActionsListProps> = ({
                     <TotalTitleText isDark={isDark}>{t('economicImpact')}</TotalTitleText>
                     <div
                         style={{
-                            fontSize: '0.5em',
+                            fontSize: '0.7em',
                             color: isDark ? '#FAC710' : '#FAC710',
                             marginLeft: '10px',
                             textAlign: 'left',
-                            marginTop: '14px',
+                            marginTop: '17px',
                         }}
                     >
                         Coûts des actions (en euro):{' '}
@@ -254,25 +278,25 @@ const ActionsList: React.FC<ActionsListProps> = ({
                     </div>
                     <div
                         style={{
-                            fontSize: '0.5em',
+                            fontSize: '0.7em',
                             color: isDark ? '#FAC710' : '#FAC710',
                             marginLeft: '10px',
                             textAlign: 'left',
-                            marginTop: '12px',
+                            marginTop: '14px',
                         }}
                     >
                         économisé d'ici 1 an (en euro):{' '}
                         {Math.floor(Math.random() * (200000 - 50000 + 1)) + 50000}
                     </div>
-                    <div
+                    {/* <div
                         style={{
                             display: 'flex',
                             marginTop: '10px',
                             alignContent: 'center',
                             marginBottom: '1px',
                         }}
-                    >
-                        <button
+                    > */}
+                        {/* <button
                             style={{
                                 padding: '5px',
                                 cursor: 'pointer',
@@ -299,8 +323,8 @@ const ActionsList: React.FC<ActionsListProps> = ({
                             }}
                         >
                             Annuler
-                        </button>
-                    </div>
+                        </button> */}
+                    {/* </div> */}
                 </TotalContainer>
                 <GaugesContainer>
                     <PersonnalizedGauge

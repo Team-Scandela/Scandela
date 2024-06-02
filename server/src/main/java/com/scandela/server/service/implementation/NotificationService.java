@@ -1,6 +1,7 @@
 package com.scandela.server.service.implementation;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -36,10 +37,13 @@ public class NotificationService extends AbstractService<Notification> implement
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
 	public List<Notification> getAll(UUID idUser) {
-//		List<Notification> notifications = ((NotificationDao) dao).findLast10ByUuiduser(idUser);
+		Optional<User> user = userDao.findById(idUser);
+		
+		if (user.isEmpty()) {
+			return new ArrayList<>();
+		}
 
-//		return notifications;
-		return null;
+		return ((NotificationDao) dao).findTop10ByUserOrderByTimeDesc(user.get());
 	}
 
 	@Override
