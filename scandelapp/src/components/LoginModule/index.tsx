@@ -58,6 +58,7 @@ const LoginModule: React.FC<LoginModuleProps> = ({
             moreInformations: user.moreInformations,
             darkmode: user.darkmode,
             lastConnexion: new Date().toISOString(),
+            newsletter: user.newsletter,
         };
         putUser(updatedUserData);
     };
@@ -116,7 +117,7 @@ const LoginModule: React.FC<LoginModuleProps> = ({
         ) {
             localStorage.setItem('premium', JSON.stringify(true));
         } else {
-            localStorage.setItem('premium', JSON.stringify(false));
+            localStorage.setItem('premium', JSON.stringify(true));
         }
     };
 
