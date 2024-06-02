@@ -19,7 +19,7 @@ import {
 import logoYellow from '../../assets/logo-128x128-yellow.png';
 import { useNavigate } from 'react-router-dom';
 import PremiumPage from './PremiumPage';
-import TicketSenderPage from './TicketSenderPage';
+import TicketSender from './TicketSenderPage';
 import ProfilePage from './ProfilePage';
 import FAQPage from './FAQPage';
 
@@ -54,10 +54,10 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({}) => {
     };
 
     const handleTicketButtonClicked = () => {
-        if (localStorage.getItem('premium') === 'true') {
+        // if (localStorage.getItem('premium') === 'true') {
             setIsMenuPageDisplayed(!isMenuPageDisplayed);
             setIsTicketPageDisplayed(!isTicketPageDisplayed);
-        }
+        // }
     };
 
     const handleProfileButtonClicked = () => {
@@ -191,9 +191,9 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({}) => {
             )}
             {isTicketPageDisplayed && (
                 <div>
-                    <TicketSenderPage
+                    <TicketSender
                         handleTicketButtonClicked={handleTicketButtonClicked}
-                    ></TicketSenderPage>
+                    ></TicketSender>
                 </div>
             )}
             {isProfilePageDisplayed && (

@@ -10,13 +10,12 @@ import {
     ReturnButtonContainer,
 } from './elements';
 import { useTranslation } from 'react-i18next';
-import { sendTicket } from '../../../utils/ticketUtils';
 
 interface TicketSenderPageProps {
     handleTicketButtonClicked: () => void;
 }
 
-const TicketSender: React.FC<TicketSenderPageProps> = ({
+const TicketSender: React.FunctionComponent<TicketSenderPageProps> = ({
     handleTicketButtonClicked,
 }) => {
     const [showDropdown, setShowDropdown] = useState(false);
@@ -38,8 +37,7 @@ const TicketSender: React.FC<TicketSenderPageProps> = ({
         try {
             const username = process.env.REACT_APP_REQUEST_USER;
             const password = process.env.REACT_APP_REQUEST_PASSWORD;
-            const urlRequest =
-                process.env.REACT_APP_BACKEND_URL + 'tickets/create';
+            const urlRequest = process.env.REACT_APP_BACKEND_URL + 'tickets/create';
 
             const userId = localStorage.getItem('userId');
 
@@ -58,12 +56,20 @@ const TicketSender: React.FC<TicketSenderPageProps> = ({
                     category: choosenItem,
                 }),
             });
+
+            if (!response.ok) {
+                throw new Error('Failed to send ticket');
+            }
+
             console.log(response);
         } catch (error) {
-            console.log(error);
+            console.error('Error sending ticket:', error);
         }
+    };
+
     const handleSendTicket = async () => {
-        sendTicket(title, description, choosenItem);
+        await sendTicket();
+        handleTicketButtonClicked();
     };
 
     return (
@@ -75,30 +81,22 @@ const TicketSender: React.FC<TicketSenderPageProps> = ({
                     {showDropdown && (
                         <>
                             <DropdownItem
-                                onClick={() =>
-                                    setChoosenItem('Problème technique')
-                                }
+                                onClick={() => setChoosenItem('Problème technique')}
                             >
                                 {t('technicalIssue')}
                             </DropdownItem>
                             <DropdownItem
-                                onClick={() =>
-                                    setChoosenItem('Accès et Authentification')
-                                }
+                                onClick={() => setChoosenItem('Accès et Authentification')}
                             >
                                 {t('accessAndAuthentication')}
                             </DropdownItem>
                             <DropdownItem
-                                onClick={() =>
-                                    setChoosenItem('Demande de Mise à Jour')
-                                }
+                                onClick={() => setChoosenItem('Demande de Mise à Jour')}
                             >
                                 {t('updateRequest')}
                             </DropdownItem>
                             <DropdownItem
-                                onClick={() =>
-                                    setChoosenItem('Feedback et Suggestions')
-                                }
+                                onClick={() => setChoosenItem('Feedback et Suggestions')}
                             >
                                 {t('feedbackAndSuggestions')}
                             </DropdownItem>
@@ -116,7 +114,7 @@ const TicketSender: React.FC<TicketSenderPageProps> = ({
                     onChange={(e: any) => setTitle(e.target.value)}
                 />
                 <TicketDescriptionInput
-                    placeholder={t('ticketDescpription')}
+                    placeholder={t('ticketDescription')}
                     value={description}
                     onChange={(e: any) => setDescription(e.target.value)}
                 />
