@@ -90,11 +90,18 @@ const LoginModule: React.FC<LoginModuleProps> = ({
     };
 
     const initUserSetup = async (data: any) => {
+        if (!data) {
+            console.log(data)
+            console.error("data is null or undefined");
+            return;
+        }
+
         localStorage.setItem('isDark', JSON.stringify(data.darkmode));
         localStorage.setItem('vegetalScore', JSON.stringify(false));
         localStorage.setItem('consumptionScore', JSON.stringify(false));
         localStorage.setItem('lightScore', JSON.stringify(false));
         getAllScores();
+
         if (data.rights === 2) {
             localStorage.setItem('token', JSON.stringify(true));
             setOptimisationTemplateData(optimisationTemplateDataBackup);
@@ -102,9 +109,10 @@ const LoginModule: React.FC<LoginModuleProps> = ({
             localStorage.setItem('token', JSON.stringify(false));
             setUpDecisions();
         }
+
         if (
             localStorage.getItem('token') === 'true' ||
-            (data.moreInformations[2] && data.moreInformations[2] === 'true')
+            (data.moreInformations && data.moreInformations[2] === 'true')
         ) {
             localStorage.setItem('premium', JSON.stringify(true));
         } else {
