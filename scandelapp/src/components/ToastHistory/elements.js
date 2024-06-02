@@ -1,6 +1,27 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { Yellow, Black, White, Grey, DarkYellow, DarkGrey } from '../../colors';
 import { IoNotifications } from 'react-icons/io5';
+
+/** Keyframes for loading animation */
+const spin = keyframes`
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+`;
+
+/** Loading spinner */
+export const LoadingSpinner = styled.div`
+    border: 4px solid ${Grey}; 
+    border-top: 4px solid ${Yellow};
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: ${spin} 1s linear infinite;
+    margin: auto;
+`;
 
 /** Button who allows to open the toast history pannel */
 export const ToastHistoryButton = styled.div`
@@ -83,7 +104,24 @@ export const NotificationsContainer = styled.div`
     height: 380px;
     border-radius: 5px;
     background-color: ${(props) =>
-        props.isDark ? DarkGrey + 'FF' : Yellow + 'FF'};
+    props.isDark ? DarkGrey + 'FF' : Yellow + 'FF'};
+    overflow-y: auto;
+    padding-right: 10px; /* Adjust padding for scrollbar */
+
+    /* Custom scrollbar styles */
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: ${Yellow};
+        border-radius: 4px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background-color: ${Grey};
+        border-radius: 4px;
+    }
 `;
 
 /** Container of the notification template */
@@ -106,19 +144,19 @@ export const DescriptionText = styled.p`
     position: relative;
     top: 7px;
     left: 5px;
-    font-size: 13px;
+    font-size: 9px;
     user-select: none;
     color: ${(props) => (props.isDark ? Black : Black)};
-    font-weight: 500;
+    font-weight: 600;
     max-width: 170px;
 `;
 
 /** Style of the notification time text */
 export const TimeText = styled.p`
     position: absolute;
-    top: 27px;
+    top: 33px;
     left: 100px;
-    font-size: 13px;
+    font-size: 9px;
     user-select: none;
     color: ${(props) => (props.isDark ? Black : Black)};
     font-weight: 700;

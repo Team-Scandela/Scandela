@@ -12,6 +12,7 @@ import AbsencePannel from '../components/AbsencePannel';
 // import MapDB from '../components/MapDB';
 import FilterSearch from '../components/FilterSearch';
 import TrafficTime from '../components/TrafficTime';
+import TestNotifications from '../components/Testcompo';
 
 export enum Filters {
     pin = 'pin',
@@ -225,6 +226,9 @@ const Main: React.FC<MainProps> = ({
                     <Toastr id={'toastrComponentId'} isDark={isDark} />
                 </>
             )}
+             <div>
+                <TestNotifications />
+            </div>
         </div>
     );
 };

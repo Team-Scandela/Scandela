@@ -69,7 +69,7 @@ const LightDark: React.FC<LightDarkProps> = ({
         const userId = localStorage.getItem('userId');
         if (userId) {
             await createNotification({
-                userId,
+                user: { id: userId },
                 title: t('themeUpdate'),
                 description: t('theThemeHasBeenSuccessfullyUpdated'),
                 triggered: true,

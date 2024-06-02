@@ -140,7 +140,7 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
             const userId = localStorage.getItem('userId');
             if (userId) {
                 await createNotification({
-                    userId,
+                    user: { id: userId },
                     title: t('actionListFailedUpdate'),
                     description: t('theActionListHasntBeenSuccessfullyUpdated'),
                     triggered: true,
@@ -168,7 +168,7 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
             const userId = localStorage.getItem('userId');
             if (userId) {
                 await createNotification({
-                    userId,
+                    user: { id: userId },
                     title: t('actionListUpdate'),
                     description: t('theActionListHasBeenSuccessfullyUpdated'),
                     triggered: true,

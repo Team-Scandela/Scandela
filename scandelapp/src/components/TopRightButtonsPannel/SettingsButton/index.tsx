@@ -164,8 +164,7 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({
                        <Notifications
                           isDark={isDark}
                           notificationsPreference={notificationsPreference}
-                         setNotificationsPreference={setNotificationsPreference}
-                         userId={userId} // Transmettez userId à Notifications
+                          setNotificationsPreference={setNotificationsPreference}
                        />
                      </div>
                 )}
