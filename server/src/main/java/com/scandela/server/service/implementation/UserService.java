@@ -119,20 +119,14 @@ public class UserService extends AbstractService<User> implements IUserService {
                     List<WhileAway> whileAways = whileAwayDao.findAll();
 
                     moreInfos.add(whileAways.toString());
+                    user.get().setMoreInformations(moreInfos);
 
                     whileAwayDao.deleteAll();
 
                     /* Check for premium */
-                    String isSubbed = "false";
 					Optional<Subscription> subscription = subscriptionDao.findByUserid(user.get().getId().toString());
 
-					if (subscription.isPresent()) {
-						isSubbed = "true";
-					}
-
-
-                    moreInfos.add(isSubbed);
-					user.get().setMoreInformations(moreInfos);
+					user.get().setPremium(subscription.isPresent());
 
 					/* Entrée d'audit - Signin de l'user */
 					AuditEntry auditEntry = new AuditEntry();

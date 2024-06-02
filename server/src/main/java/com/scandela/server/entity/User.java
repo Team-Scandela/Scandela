@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.UUID;
 
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
@@ -74,4 +72,8 @@ public class User implements Serializable {
 	@Builder.Default
 	@Column(name = "newsletter")
 	private boolean newsletter = false;
+
+	@Builder.Default
+	@Column(name = "premium", nullable = false)
+	private boolean premium = false;
 }

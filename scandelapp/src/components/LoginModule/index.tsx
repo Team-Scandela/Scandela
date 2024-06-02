@@ -112,12 +112,11 @@ const LoginModule: React.FC<LoginModuleProps> = ({
         }
 
         if (
-            localStorage.getItem('token') === 'true' ||
-            (data.moreInformations && data.moreInformations[2] === 'true')
+            localStorage.getItem('token') === 'true' || data.premium
         ) {
             localStorage.setItem('premium', JSON.stringify(true));
         } else {
-            localStorage.setItem('premium', JSON.stringify(true));
+            localStorage.setItem('premium', JSON.stringify(false));
         }
     };
 
