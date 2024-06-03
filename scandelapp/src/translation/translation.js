@@ -137,6 +137,7 @@ const resources = {
             hasaScore: 'has a score',
             environmentalImpact: 'Environmental impact',
             actionsHistory : 'Actions history',
+            toastHistory : 'Notifications history',
         },
     },
 
@@ -280,6 +281,7 @@ const resources = {
             hasaScore: 'à un score',
             environmentalImpact: 'Impact environnemental',
             actionsHistory : 'Historique des actions',
+            toastHistory : 'Historique des notifications',
         },
     },
 };

@@ -9,6 +9,9 @@ import {
     DescriptionText,
     TimeText,
 } from './elements';
+import { Tooltip } from 'react-tooltip'
+import { useTranslation } from 'react-i18next';
+import { Black } from '../../colors';
 
 /**
  * @param {boolean} isDark - If the map is in dark mode or not
@@ -32,12 +35,17 @@ const ToastHistory: React.FC<ToastHistoryProps> = ({
         setToastHistoryExtended(!toastHistoryExtended);
     };
 
+    const { t } = useTranslation();
+
     return (
         <div>
+            <Tooltip id="toastHistory" style={{ backgroundColor: Black, borderRadius: '5px' }} />
             <ToastHistoryButton
                 onClick={() => handleToastHistoryPannelButtonClicked()}
                 isDark={isDark}
                 show={toastHistoryExtended}
+                data-tooltip-id="toastHistory"
+                data-tooltip-content={t('toastHistory')}
             >
                 <ToastHistoryButtonIcon size={30} />
             </ToastHistoryButton>
