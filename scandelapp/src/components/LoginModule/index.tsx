@@ -59,6 +59,7 @@ const LoginModule: React.FC<LoginModuleProps> = ({
             darkmode: user.darkmode,
             lastConnexion: new Date().toISOString(),
             newsletter: user.newsletter,
+            premium: user.premium,
         };
         putUser(updatedUserData);
     };
