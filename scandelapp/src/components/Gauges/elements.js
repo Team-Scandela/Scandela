@@ -109,7 +109,7 @@ export const GaugePup = styled.div`
     transition: all 0.5s ease-in-out;
 
     background-color: ${(props) => (props.isDark ? Black : White)};
-    border-radius: 10%;
+    border-radius: 5%;
     border-color: ${Yellow};
     border-style: solid;
     border-width: 2px;

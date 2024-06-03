@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { FilterMenuButton, FilterMenuContainer } from './elements';
-import { MdOutlineFilterNone as FilterIcon } from 'react-icons/md';
+import { PiStackLight as FilterIcon} from "react-icons/pi";
 import {
     MdOutlinePlace,
     MdDataUsage,
@@ -58,7 +58,7 @@ const FilterMenu: React.FC<FilterMenuProps> = ({
     return (
         <div id={id}>
             <FilterMenuButton onClick={() => setOn(!on)} isDark={isDark}>
-                <FilterIcon />
+                <FilterIcon style={{ fontSize: '40px' }} />
             </FilterMenuButton>
             <FilterMenuContainer show={on} isDark={isDark}>
                 <MdOutlinePlace
