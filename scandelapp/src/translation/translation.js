@@ -278,6 +278,7 @@ const resources = {
             of: 'de',
             hasaScore: 'à un score',
             environmentalImpact: 'Impact environnemental',
+            actionsHistory : 'Historique des actions',
         },
     },
 };

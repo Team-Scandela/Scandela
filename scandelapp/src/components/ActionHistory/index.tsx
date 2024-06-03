@@ -15,6 +15,10 @@ import {
     PopUpDescriptionContainer,
     PopUpDescriptionText,
 } from './elements';
+import { Tooltip } from 'react-tooltip'
+import { Black } from '../../colors';
+import { useTranslation } from 'react-i18next';
+
 
 interface ActionHistoryProps {
     id: string;
@@ -25,6 +29,8 @@ const ActionHistory: React.FC<ActionHistoryProps> = ({ id, isDark }) => {
     const [dataReceived, setDataReceived] = useState(false);
 
     const [actionHistoryData, setActionHistoryData] = useState([]);
+
+    const { t } = useTranslation();
 
     const getDecisions = async () => {
         // const username = process.env.REACT_APP_REQUEST_USER;
@@ -102,10 +108,13 @@ const ActionHistory: React.FC<ActionHistoryProps> = ({ id, isDark }) => {
 
     return (
         <div>
+            <Tooltip id="actionHistory" style={{ backgroundColor: Black, borderRadius: '5px' }} />
             <ActionsHistoryButton
                 onClick={() => handleActionHistoryPannelButtonClicked()}
                 isDark={isDark}
                 show={actionHistoryExtended}
+                data-tooltip-id="actionHistory"
+                data-tooltip-content={t('actionsHistory')}
             >
                 <ActionHistoryButtonIcon size={30} />
             </ActionsHistoryButton>
