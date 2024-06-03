@@ -18,7 +18,7 @@ import {
 } from './elements';
 import { useNavigate } from 'react-router-dom';
 import { setUserId, getUser, putUser } from '../../utils/userUtils';
-import { getDecisionsSpecificAlgo } from '../../utils/decisionsUtils';
+import { getDecisionsSpecificAlgo, getDecisions } from '../../utils/decisionsUtils';
 import { optimisationTemplateDataBackup } from './backup_decisions';
 import { getAllScores } from '../../utils/gaugesUtils';
 import { signUp, signIn } from '../../utils/loginUtils';
@@ -64,29 +64,30 @@ const LoginModule: React.FC<LoginModuleProps> = ({
     };
 
     const setUpDecisions = async () => {
-        const [
-            dataChangementBulb,
-            dataReductionConsoHoraire,
-            dataAjouterLampadaire,
-            dataRetirerLampadaire,
-            dataReduireIntensiteLampadaire,
-            dataAugmenterIntensiteLampadaire,
-        ] = await Promise.all([
-            getDecisionsSpecificAlgo('algoChangementBulb'),
-            getDecisionsSpecificAlgo('algoReductionConsoHoraire'),
-            getDecisionsSpecificAlgo('algoAjouterLampadaire'),
-            getDecisionsSpecificAlgo('algoRetirerLampadaire'),
-            getDecisionsSpecificAlgo('algoReduireIntensiteLampadaire'),
-            getDecisionsSpecificAlgo('algoAugmenterIntensiteLampadaire'),
-        ]);
-        const data = [].concat(
-            dataChangementBulb,
-            dataReductionConsoHoraire,
-            dataAjouterLampadaire,
-            dataRetirerLampadaire,
-            dataReduireIntensiteLampadaire,
-            dataAugmenterIntensiteLampadaire
-        );
+        // const [
+        //     dataChangementBulb,
+        //     dataReductionConsoHoraire,
+        //     dataAjouterLampadaire,
+        //     dataRetirerLampadaire,
+        //     dataReduireIntensiteLampadaire,
+        //     dataAugmenterIntensiteLampadaire,
+        // ] = await Promise.all([
+        //     getDecisionsSpecificAlgo('algoChangementBulb'),
+        //     getDecisionsSpecificAlgo('algoReductionConsoHoraire'),
+        //     getDecisionsSpecificAlgo('algoAjouterLampadaire'),
+        //     getDecisionsSpecificAlgo('algoRetirerLampadaire'),
+        //     getDecisionsSpecificAlgo('algoReduireIntensiteLampadaire'),
+        //     getDecisionsSpecificAlgo('algoAugmenterIntensiteLampadaire'),
+        // ]);
+        // const data = [].concat(
+        //     dataChangementBulb,
+        //     dataReductionConsoHoraire,
+        //     dataAjouterLampadaire,
+        //     dataRetirerLampadaire,
+        //     dataReduireIntensiteLampadaire,
+        //     dataAugmenterIntensiteLampadaire
+        // );
+        const data = await getDecisions();
         addItemToOptimisationTemplate(data);
     };
 
