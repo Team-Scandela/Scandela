@@ -136,6 +136,7 @@ const resources = {
             of: 'of',
             hasaScore: 'has a score',
             environmentalImpact: 'Environmental impact',
+            actionsHistory : 'Actions history',
         },
     },
 
