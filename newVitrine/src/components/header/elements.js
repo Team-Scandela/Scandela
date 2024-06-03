@@ -9,6 +9,7 @@ export const HeaderContainer = styled.div`
     padding: 60px;
     background-color: ${Black};
     gap: 20px;
+    height: 80px;
 `;
 
 export const HeaderTitle = styled.h1`
