@@ -31,6 +31,7 @@ const updateUser = async () => {
         darkmode: !user.darkmode,
         lastConnexion: user.lastConnexion,
         newsletter: user.newsletter,
+        premium: user.premium,
     };
     putUser(updatedUserData);
 };
