@@ -9,6 +9,7 @@ import LoadingPage from './components/LoadingPage';
 import Admin from './pages/admin';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
+import { getLampPrice } from './utils/actionsPriceUtils';
 
 /** Route page */
 const App: React.FC = () => {
@@ -26,25 +27,27 @@ const App: React.FC = () => {
         );
     }, [optimisationTemplateData]);
 
-    const addItemToOptimisationTemplate = (data: any) => {
-        const newItems = data.map((item: any, index: number) => {
-            let prix = 0; // Prix par défaut
+    const addItemToOptimisationTemplate = async (data: any) => {
+        const newItems = await Promise.all(data.map(async (item: any, index: number) => {
+            let prix = '0'; // Prix par défaut
     
             // Logique pour déterminer le prix en fonction de la solution
             if (item.solution.includes("Changer")) {
-                prix = 30;
+                prix = '30';
             } else if (item.solution.includes("Allumer")) {
-                prix = 100;
+                prix = await getLampPrice(item.lampDecision.lamp.lampType);
+                const price = parseFloat(prix) * 8;
+                prix = price.toString();
             } else if (item.solution.includes("Éteindre")) {
-                prix = -100;
+                prix = '-100';
             } else if (item.solution.includes("Ajouter") || item.solution.includes("Retirer")) {
-                prix = 180;
+                prix = '1000';
             } else if (item.solution.includes("Augmenter")) {
-                prix = 50;
+                prix = '150';
             } else if (item.solution.includes("Réduire")) {
-                prix = -50;
+                prix = '-150';
             }
-
+    
             console.log('prix :', prix);
     
             return {
@@ -61,9 +64,10 @@ const App: React.FC = () => {
                 height: item.lampDecision.lamp.height,
                 uuid: item.id,
                 validate: item.validate,
-                price: prix // Ajout de la propriété price
+                price: parseFloat(prix), // Ajout de la propriété price
             };
-        });
+        }));
+    
         setOptimisationTemplateData(newItems);
     };
 

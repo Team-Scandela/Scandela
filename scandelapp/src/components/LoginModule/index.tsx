@@ -23,7 +23,7 @@ import { getAllScores } from '../../utils/gaugesUtils';
 
 interface LoginModuleProps {
     setOptimisationTemplateData: (data: any) => void;
-    addItemToOptimisationTemplate: (data: any) => void;
+    addItemToOptimisationTemplate: (data: any) => Promise<void>;
 }
 
 /** Login module who allow to sign in up. You can slide the overlay from left to right (or the opposite) to acess to the side wanted */
@@ -82,7 +82,9 @@ const LoginModule: React.FC<LoginModuleProps> = ({
             dataReduireIntensiteLampadaire,
             dataAugmenterIntensiteLampadaire
         );
-        addItemToOptimisationTemplate(data);
+        console.log('test');
+        await addItemToOptimisationTemplate(data);
+        console.log('test3');
     };
 
     const initUserSetup = async (data: any) => {
@@ -93,7 +95,9 @@ const LoginModule: React.FC<LoginModuleProps> = ({
         getAllScores();
         if (data.rights === 2) {
             localStorage.setItem('token', JSON.stringify(true));
-            setOptimisationTemplateData(optimisationTemplateDataBackup);
+            setUpDecisions();
+            // localStorage.setItem('token', JSON.stringify(true));
+            // setOptimisationTemplateData(optimisationTemplateDataBackup);
         } else {
             localStorage.setItem('token', JSON.stringify(false));
             setUpDecisions();
@@ -101,7 +105,7 @@ const LoginModule: React.FC<LoginModuleProps> = ({
         console.log(data);
         if (
             localStorage.getItem('token') === 'true' ||
-            (data.moreInformations[2] && data.moreInformations[2] === 'true')
+            (data.moreInformations && data.moreInformations[2] && data.moreInformations[2] === 'true')
         ) {
             localStorage.setItem('premium', JSON.stringify(true));
         } else {

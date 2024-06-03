@@ -25,6 +25,7 @@ import { PersonnalizedGauge } from '../../Gauges';
 import { useTranslation } from 'react-i18next';
 import { getAllScores } from '../../../utils/gaugesUtils';
 import { generatePDFDocument } from './pdfGenerator';
+import { getLampPrice } from '../../../utils/actionsPriceUtils';
 
 /** Menu of the decision pannel
  * @param {boolean} isDark - If the map is in dark mode or not
@@ -54,6 +55,8 @@ const ActionsList: React.FC<ActionsListProps> = ({
     const [levelElec, setLevelElec] = useState<number>(0);
     const [levelBio, setLevelBio] = useState<number>(0);
     const [levelLumi, setLevelLumi] = useState<number>(0);
+    const [totalActionCost, setTotalActionCost] = useState<number>(0);
+    const [totalSavings, setTotalSavings] = useState<number>(0);
 
     function parseFloatSafe(input: string): number {
         const trimmedInput = input.trim();
@@ -197,6 +200,34 @@ const ActionsList: React.FC<ActionsListProps> = ({
     };
 
     // console.log(parseFloat(levelElec.toString().replace(",", ".")) + (optimisationTemplateData.filter((item: any) => item.saved).length / 10))
+    useEffect(() => {
+        // function that add all item.saved price to get the totalActionCost
+        const totalActionCost = optimisationTemplateData
+            .filter((item: any) => item.saved)
+            .reduce((acc: number, item: any) => {
+                const price = parseFloat(item.price);
+                if (isNaN(price)) {
+                    return acc;
+                }
+                return acc + price;
+            }, 0);
+
+        localStorage.setItem('totalActionCost', totalActionCost.toString());
+        setTotalActionCost(totalActionCost);
+
+        const totalSavings = optimisationTemplateData
+            .filter((item: any) => item.saved)
+            .reduce((acc: number, item: any) => {
+                const price = parseFloat(item.price);
+                if (isNaN(price)) {
+                    return acc;
+                }
+                return 2000;
+            }, 0);
+
+        localStorage.setItem('totalSavings', totalSavings.toString());
+        setTotalSavings(totalSavings);
+    }, [optimisationTemplateData]);
 
     return (
         <ActionsListContainer>
@@ -226,24 +257,8 @@ const ActionsList: React.FC<ActionsListProps> = ({
                                     <DescriptionText isDark={isDark}>
                                         {item.description}
                                     </DescriptionText>
-
                                     <PriceText isDark={isDark}>
-                                        {item.isPlaceholder ? (
-                                            <input
-                                                type="text"
-                                                placeholder={item.price}
-                                                onChange={(e) => {
-                                                    const updatedItems = optimisationTemplateData.map((optItem: any) =>
-                                                        optItem.id === item.id
-                                                            ? { ...optItem, price: e.target.value, isPlaceholder: false }
-                                                            : optItem
-                                                    );
-                                                    setOptimisationTemplateData(updatedItems);
-                                                }}
-                                            />
-                                        ) : (
-                                            `Prix: ${item.price} €`
-                                        )}
+                                        Prix: {item.price} €
                                     </PriceText>
                                 </TextContainer>
                                 <SolutionTextContainer isDark={isDark}>
@@ -264,30 +279,26 @@ const ActionsList: React.FC<ActionsListProps> = ({
                 </ScrollableOptimisationsContainer>
                 <TotalContainer isDark={isDark}>
                     <TotalTitleText isDark={isDark}>{t('economicImpact')}</TotalTitleText>
-                    <div
-                        style={{
-                            fontSize: '0.7em',
-                            color: isDark ? '#FAC710' : '#FAC710',
-                            marginLeft: '10px',
-                            textAlign: 'left',
-                            marginTop: '17px',
-                        }}
-                    >
-                        Coûts des actions (en euro):{' '}
-                        {Math.floor(Math.random() * (5000 - 1000 + 1)) + 1000}
-                    </div>
-                    <div
-                        style={{
-                            fontSize: '0.7em',
-                            color: isDark ? '#FAC710' : '#FAC710',
-                            marginLeft: '10px',
-                            textAlign: 'left',
-                            marginTop: '14px',
-                        }}
-                    >
-                        économisé d'ici 1 an (en euro):{' '}
-                        {Math.floor(Math.random() * (200000 - 50000 + 1)) + 50000}
-                    </div>
+                        <div
+                            style={{
+                                fontSize: '0.7em',
+                                color: isDark ? '#FAC710' : '#FAC710',
+                                textAlign: 'left',
+                                marginLeft: '4px',
+                            }}
+                        >
+                            Coûts des actions (en euro): {totalActionCost ? totalActionCost : 'N/A'} €
+                        </div>
+                        <div
+                            style={{
+                                fontSize: '0.7em',
+                                color: isDark ? '#FAC710' : '#FAC710',
+                                textAlign: 'left',
+                                marginLeft: '4px',
+                            }}
+                        >
+                            Économisé d'ici 1 an (en euro): {totalSavings ? totalSavings : 'N/A'} €
+                        </div>
                     {/* <div
                         style={{
                             display: 'flex',

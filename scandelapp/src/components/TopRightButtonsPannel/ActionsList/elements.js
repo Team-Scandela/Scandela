@@ -115,7 +115,6 @@ export const OptimisationTemplateContainer = styled.div`
     left: 0px;
     top: ${(props) => props.y}px;
     border-radius: 5px;
-    overflow: hidden;
     background-color: ${(props) => (props.isDark ? Grey + 'FF' : Grey + 'FF')};
     margin: 6px;
     border: 2px solid ${Black};
@@ -123,50 +122,51 @@ export const OptimisationTemplateContainer = styled.div`
 
 export const TextContainer = styled.div`
     display: flex;
-    position: relative;
-    top: 10px;
+    padding-left: 6px;
     flex-direction: column;
-    padding-left: 17px;
-    gap: 3px;
-    max-width: 378px;
+    justify-content: space-evenly;
+    width: 100%; /* Ajoutez cette ligne pour utiliser toute la largeur disponible */
 `;
 
 /** Style of the scrollableoptimisation type text */
 export const TypeText = styled.p`
-    font-size: 14px;
-    user-select: none;
+    font-size: 15px;
+    line-height: normal;
+    padding: 0px;
+    margin: 0px;
+    font-weight: bold;
     color: ${(props) => (props.isDark ? Black : Black)};
-    font-weight: 500;
-    overflow-wrap: break-word;
 `;
 
 /** Style for the scrollable optimisation location text */
 export const LocationText = styled.p`
-    font-size: 13px;
-    user-select: none;
+    font-size: 14px;
+    line-height: normal;
+    padding: 0px;
+    margin: 0px;
+    font-weight: 600px;
     color: ${(props) => (props.isDark ? Black : Black)};
-    font-weight: 500;
-    overflow-wrap: break-word;
 `;
 
 /** Style for the scrollable optimisation description text */
 export const DescriptionText = styled.p`
-    font-size: 13px;
-    user-select: none;
+    font-size: 14px;
     color: ${(props) => (props.isDark ? Black : Black)};
-    font-weight: 500;
     font-style: italic;
-    overflow-wrap: break-word;
+    line-height: normal;
+    padding: 0px;
+    margin: 0px;
+    font-weight: 600px;
 `;
 
 /** Style for the price text */
 export const PriceText = styled.p`
-    font-size: 13px;
-    user-select: none;
+    font-size: 14px;
     color: ${(props) => (props.isDark ? Black : Black)};
-    font-weight: 500;
-    overflow-wrap: break-word;
-    margin-top: 5px; /* Optional: Adds some space above the price text */
+    line-height: normal;
+    padding: 0px;
+    margin: 0px;
+    font-weight: 600px;
 `;
 
 
@@ -192,7 +192,6 @@ export const SolutionText = styled.p`
     color: ${(props) => (props.isDark ? Yellow : Black)};
     font-weight: bold;
     padding: 8px;
-    overflow-wrap: break-word;
 `;
 
 /**  Trash Icon**/

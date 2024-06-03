@@ -7,7 +7,7 @@ export const OptimisationTemplateContainer = styled.div`
     position: absolute;
     width: 370px;
     min-height: 95px;
-    height: 120px;
+    height: 123px;
     left: 0px;
     top: ${(props) => props.y}px;
     border-radius: 5px;
@@ -26,7 +26,7 @@ export const SelectionIndicator = styled.div`
     display: flex;
     position: absolute;
     width: 6px;
-    height: 105px;
+    height: 108px;
     top: 5px;
     left: 5px;
     user-select: none;
@@ -43,49 +43,54 @@ export const SelectionIndicator = styled.div`
 
 export const TextContainer = styled.div`
     display: flex;
-    position: relative;
-    top: 10px;
     flex-direction: column;
-    padding-left: 17px;
-    gap: 3px;
+    justify-content: space-evenly;
     max-width: 200px;
+    padding-left: 17px;
+    width: 100%; // Utilisez toute la largeur disponible
+    height: auto;
 `;
 
 /** Style for the optimisation type text */
 export const TypeText = styled.p`
-    font-size: 14px;
+    font-size: 15px;
     user-select: none;
+    margin: 0px;
+    padding: 0px;
     color: ${(props) => (props.isDark ? Black : Black)};
-    font-weight: 500;
-    overflow-wrap: break-word;
+    font-weight: bold;
 `;
 
 /** Style for the optimisation location text */
 export const LocationText = styled.p`
-    font-size: 13px;
+    font-size: 11px;
     user-select: none;
+    margin: 0px;
+    margin-top: 10px;
+    padding: 0px;
     color: ${(props) => (props.isDark ? Black : Black)};
     font-weight: 500;
-    overflow-wrap: break-word;
 `;
 
 /** Style for the optimisation description text */
 export const DescriptionText = styled.p`
-    font-size: 13px;
+    font-size: 12px;
     user-select: none;
+    margin: 0px;
+    padding: 0px;
     color: ${(props) => (props.isDark ? Black : Black)};
     font-weight: 500;
     font-style: italic;
-    overflow-wrap: break-word;
 `;
 
 /** Style for the price text */
 export const PriceText = styled.p`
     font-size: 13px;
     user-select: none;
+    margin: 0px;
+    padding: 0px;
     color: ${(props) => (props.isDark ? Black : Black)};
     font-weight: 500;
-    overflow-wrap: break-word;
 `;
 
 /** Container for the solution text **/
@@ -95,7 +100,7 @@ export const SolutionTextContainer = styled.div`
     align-items: center;
     justify-content: center;
     width: 155px;
-    height: 109px;
+    height: 110px;
     top: 4px;
     right: 6px;
     background-color: rgb(42, 43, 42);
@@ -110,5 +115,4 @@ export const SolutionText = styled.p`
     color: ${(props) => (props.isDark ? Yellow : Black)};
     font-weight: bold;
     padding: 8px;
-    overflow-wrap: break-word;
 `;
