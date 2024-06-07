@@ -1,4 +1,5 @@
 import styled, { keyframes } from 'styled-components';
+import {Yellow} from '../../colors';
 
 export const fadeInOut = keyframes`
   0%, 100% {
@@ -20,8 +21,17 @@ export const LoadingOverlay = styled.div`
     align-items: center;
     justify-content: center;
     z-index: 9999;
+    flex-direction: column;
 `;
 
 export const LogoContainer = styled.div`
     animation: ${fadeInOut} 2s linear infinite;
+    margin-bottom: 40px;  // Ajouter de la marge inférieure pour plus d'espace sous le logo
 `;
+
+export const LoadingText = styled.div`
+    color: ${Yellow};  // Utilisation de la couleur importée
+    font-size: 1.2em;
+    margin-left: 10px;
+`;
+
