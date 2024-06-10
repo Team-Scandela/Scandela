@@ -55,8 +55,8 @@ const LandingPageComponent: React.FC<LandingPageComponentProps> = ({}) => {
 
     const handleTicketButtonClicked = () => {
         // if (localStorage.getItem('premium') === 'true') {
-            setIsMenuPageDisplayed(!isMenuPageDisplayed);
-            setIsTicketPageDisplayed(!isTicketPageDisplayed);
+        setIsMenuPageDisplayed(!isMenuPageDisplayed);
+        setIsTicketPageDisplayed(!isTicketPageDisplayed);
         // }
     };
 

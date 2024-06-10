@@ -3,7 +3,9 @@ import { LoadingOverlay, LogoContainer, LoadingText } from './element';
 
 const logoPath = require('../../assets/logo-128x128-yellow.png');
 
-const LoadingPageComponent: React.FC<{ isLoading: boolean }> = ({ isLoading }) => {
+const LoadingPageComponent: React.FC<{ isLoading: boolean }> = ({
+    isLoading,
+}) => {
     return (
         <>
             {isLoading && (

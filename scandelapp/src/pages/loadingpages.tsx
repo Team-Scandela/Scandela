@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { getAllScores } from '../utils/gaugesUtils';
 import LoadingPageComponent from '../components/LoadingPage';
 
 interface LoadingPageProps {}
@@ -12,21 +13,21 @@ const LoadingPage: React.FC<LoadingPageProps> = ({}) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const timer = setTimeout(() => {
-            setIsLoading(false);
-        }, 20000); // 3 secondes
+        // const timer = setTimeout(() => {
+        //     setIsLoading(false);
+        // }, 20000); // 3 secondes
 
-        return () => clearTimeout(timer); // Nettoyer le timer à la fin
-        // const fetchData = async () => {
-        //     try {
-        //         // await getInitalData(); REMPLACER PAR TOUTES LES DATAS QUE L'ON VEUT
-        //         setIsLoading(false);
-        //     } catch (error) {
-        //         console.error('Error during data fetching:', error);
-        //     }
-        // };
+        // return () => clearTimeout(timer); // Nettoyer le timer à la fin
+        const fetchData = async () => {
+            try {
+                await getAllScores();
+                setIsLoading(false);
+            } catch (error) {
+                console.error('Error during data fetching:', error);
+            }
+        };
 
-        // fetchData();
+        fetchData();
     }, [navigate('/landingpage')]);
 
     return (
@@ -34,8 +35,7 @@ const LoadingPage: React.FC<LoadingPageProps> = ({}) => {
             id={'loadingPage'}
             style={{ backgroundColor: '#2A2B2A', height: '100vh' }}
         >
-            <LoadingPageComponent isLoading={isLoading}/>
-            
+            <LoadingPageComponent isLoading={isLoading} />
         </div>
     );
 };

@@ -100,6 +100,7 @@ export const getAllScores = async () => {
                 false,
                 true
             );
+            console.log('SUCCES GET allScore');
         }
 
         return allScores;
