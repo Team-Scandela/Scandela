@@ -18,7 +18,10 @@ import {
 } from './elements';
 import { useNavigate } from 'react-router-dom';
 import { setUserId, getUser, putUser } from '../../utils/userUtils';
-import { getDecisionsSpecificAlgo, getDecisions } from '../../utils/decisionsUtils';
+import {
+    getDecisionsSpecificAlgo,
+    getDecisions,
+} from '../../utils/decisionsUtils';
 import { optimisationTemplateDataBackup } from './backup_decisions';
 import { getAllScores } from '../../utils/gaugesUtils';
 import { signUp, signIn } from '../../utils/loginUtils';
@@ -94,8 +97,8 @@ const LoginModule: React.FC<LoginModuleProps> = ({
 
     const initUserSetup = async (data: any) => {
         if (!data) {
-            console.log(data)
-            console.error("data is null or undefined");
+            console.log(data);
+            console.error('data is null or undefined');
             return;
         }
 
@@ -103,7 +106,7 @@ const LoginModule: React.FC<LoginModuleProps> = ({
         localStorage.setItem('vegetalScore', JSON.stringify(false));
         localStorage.setItem('consumptionScore', JSON.stringify(false));
         localStorage.setItem('lightScore', JSON.stringify(false));
-        getAllScores();
+        //getAllScores();
 
         if (data.rights === 2) {
             localStorage.setItem('token', JSON.stringify(true));
@@ -113,9 +116,7 @@ const LoginModule: React.FC<LoginModuleProps> = ({
             setUpDecisions();
         }
 
-        if (
-            localStorage.getItem('token') === 'true' || data.premium
-        ) {
+        if (localStorage.getItem('token') === 'true' || data.premium) {
             localStorage.setItem('premium', JSON.stringify(true));
         } else {
             localStorage.setItem('premium', JSON.stringify(false));
@@ -126,7 +127,8 @@ const LoginModule: React.FC<LoginModuleProps> = ({
         setUserId(data.id);
         initUserSetup(data);
         updateUser();
-        navigate('/landingpage');
+        navigate('/loadingpage');
+        // navigate('/landingpage');
     };
 
     const handleSubmitSignIn = async (event: any) => {

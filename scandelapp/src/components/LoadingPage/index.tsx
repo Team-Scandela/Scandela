@@ -1,9 +1,11 @@
 import React from 'react';
-import { LoadingOverlay, LogoContainer } from './element';
+import { LoadingOverlay, LogoContainer, LoadingText } from './element';
 
 const logoPath = require('../../assets/logo-128x128-yellow.png');
 
-const LoadingPage: React.FC<{ isLoading: boolean }> = ({ isLoading }) => {
+const LoadingPageComponent: React.FC<{ isLoading: boolean }> = ({
+    isLoading,
+}) => {
     return (
         <>
             {isLoading && (
@@ -16,10 +18,11 @@ const LoadingPage: React.FC<{ isLoading: boolean }> = ({ isLoading }) => {
                             height="100"
                         />
                     </LogoContainer>
+                    <LoadingText>Chargement des composants...</LoadingText>
                 </LoadingOverlay>
             )}
         </>
     );
 };
 
-export default LoadingPage;
+export default LoadingPageComponent;
