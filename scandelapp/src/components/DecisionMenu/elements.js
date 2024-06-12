@@ -227,7 +227,7 @@ export const AddToActionsListButton = styled.div`
     background-color: ${(props) => (props.isDark ? Black : Black)};
     color: ${(props) => (props.isDark ? Yellow : Yellow)};
     cursor: pointer;
-    transition: all 0.3s ease-in-out;
+    transition: all 0.1s ease-in-out;
     border-radius: 5px;
     font-size: 16px;
     box-shadow: 0px 4px 4px -3px rgba(0, 0, 0, 0.75);

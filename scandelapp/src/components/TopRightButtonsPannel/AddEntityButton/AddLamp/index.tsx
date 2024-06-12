@@ -10,7 +10,7 @@ import {
     ValidateButtonContainer,
 } from './elements';
 
-import { Yellow } from '../../../../colors';
+import LoadingSpinner from '../../../LoadingSpinner';
 
 import { useTranslation } from 'react-i18next';
 
@@ -27,6 +27,7 @@ const AddLamp: React.FC<AddLampProps> = ({ isDark }) => {
     const [lamptype, setLamptype] = useState('');
     const [foyertype, setFoyertype] = useState('');
 
+    const [isWaiting, setIsWaiting] = useState(false);
     const [isRequestOk, setIsRequestOk] = useState(true);
     const { t } = useTranslation();
     const createLamp = async () => {
@@ -56,14 +57,26 @@ const AddLamp: React.FC<AddLampProps> = ({ isDark }) => {
                 }),
             });
             const responsebody = await response.text();
-            console.log(responsebody);
-            console.log(response);
             if (!response.ok) {
+                setIsWaiting(false);
                 console.error(
                     `Failed to add ${name} to the database. Status: ${response.status}`
                 );
+            } else {
+                setName('');
+                setAddress('');
+                setLatitude('');
+                setLongitude('');
+                setHeight('');
+                setLamptype('');
+                setFoyertype('');
+                setIsWaiting(false);
+                console.error(
+                    `Succes to add ${name} to the database. Status: ${response.status}`
+                );
             }
         } catch (error) {
+            setIsWaiting(false);
             console.error(`Error creating lamp : ${error.message}`);
         }
     };
@@ -128,7 +141,10 @@ const AddLamp: React.FC<AddLampProps> = ({ isDark }) => {
     const verifyFoyertype = (event: React.ChangeEvent<HTMLInputElement>) => {};
 
     const handleCreateEntity = () => {
-        if (isRequestOk === true) createLamp();
+        if (isRequestOk === true) {
+            setIsWaiting(true);
+            createLamp();
+        }
     };
 
     return (
@@ -187,15 +203,19 @@ const AddLamp: React.FC<AddLampProps> = ({ isDark }) => {
                 onChange={handleFoyertypeChange}
                 onKeyDown={verifyFoyertype}
             />
-
-            <ValidateButtonContainer>
-                <button
+            {!isWaiting && (
+                <ValidateButtonContainer
+                    isDark={isDark}
                     onClick={handleCreateEntity}
-                    style={{ backgroundColor: isRequestOk ? Yellow : 'red' }}
                 >
-                    {t('validate')}
-                </button>
-            </ValidateButtonContainer>
+                    {t('Valider')}
+                </ValidateButtonContainer>
+            )}
+            {isWaiting && (
+                <ValidateButtonContainer isDark={isDark}>
+                    <LoadingSpinner width={40} />
+                </ValidateButtonContainer>
+            )}
         </div>
     );
 };

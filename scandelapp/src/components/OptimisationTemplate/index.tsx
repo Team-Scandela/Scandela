@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import {
     OptimisationTemplateContainer,
     SelectionIndicator,
+    TextContainer,
     TypeText,
     LocationText,
     DescriptionText,
@@ -50,13 +51,17 @@ const OptimisationTemplate: React.FC<OptimisationTemplateProps> = ({
                 isDark={isDark}
                 checked={isChecked}
             ></SelectionIndicator>
-            <TypeText isDark={isDark}>{optimisationTemplateData.type}</TypeText>
-            <LocationText isDark={isDark}>
-                {optimisationTemplateData.location}
-            </LocationText>
-            <DescriptionText isDark={isDark}>
-                {optimisationTemplateData.description}
-            </DescriptionText>
+            <TextContainer>
+                <TypeText isDark={isDark}>
+                    {optimisationTemplateData.type}
+                </TypeText>
+                <LocationText isDark={isDark}>
+                    {optimisationTemplateData.location}
+                </LocationText>
+                <DescriptionText isDark={isDark}>
+                    {optimisationTemplateData.description}
+                </DescriptionText>
+            </TextContainer>
             <SolutionTextContainer isDark={isDark}>
                 <SolutionText isDark={isDark}>
                     {optimisationTemplateData.solution}

@@ -3,6 +3,7 @@ import RadioButton from '../../../RadioButton';
 import { showToast } from '../../../Toastr';
 import { getUser } from '../../../../utils/userUtils';
 import { putUser } from '../../../../utils/userUtils';
+import { useTranslation } from 'react-i18next';
 
 /** Ligth / Dark mode button
  * @param {boolean} isDark - If the mode is dark or not
@@ -18,7 +19,7 @@ interface LightDarkProps {
     addNotificationToList: (description: string) => void;
 }
 
-const updateUser = async (isDark: boolean) => {
+const updateUser = async () => {
     const user = await getUser();
     const updatedUserData = {
         town: user.town,
@@ -29,6 +30,8 @@ const updateUser = async (isDark: boolean) => {
         moreInformations: user.moreInformations,
         darkmode: !user.darkmode,
         lastConnexion: user.lastConnexion,
+        newsletter: user.newsletter,
+        premium: user.premium,
     };
     putUser(updatedUserData);
 };
@@ -40,20 +43,22 @@ const LightDark: React.FC<LightDarkProps> = ({
     addNotificationToList,
 }) => {
     /** Handle the click on the button and switch to the other mode */
+    const { t } = useTranslation();
+
     const handleToggleLightDark = () => {
         setIsDark(!isDark);
         localStorage.setItem('isDark', JSON.stringify(!isDark));
         try {
-            updateUser(isDark);
+            updateUser();
         } catch (error) {}
         if (
-            !notificationsPreference.find(
+            notificationsPreference.find(
                 (item: any) => item[0] === 'lightDarkModeUpdate'
             )[1]
-        )
+        ) {
             showToast(
                 'success',
-                'Le thème a bien été mis à jour',
+                t('theThemeHasBeenSuccessfullyUpdated'),
                 'top-left',
                 5000,
                 false,
@@ -61,7 +66,8 @@ const LightDark: React.FC<LightDarkProps> = ({
                 false,
                 true
             );
-        addNotificationToList('Mise à jour du thème');
+        }
+        addNotificationToList(t('themeUpdate'));
     };
 
     return (

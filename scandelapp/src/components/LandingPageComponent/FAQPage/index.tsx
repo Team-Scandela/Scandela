@@ -10,6 +10,8 @@ import {
     ReturnButtonContainer,
 } from './elements';
 
+import { useTranslation } from 'react-i18next';
+
 /** FAQ page component
  * @param {function} handleFAQButtonClicked - Function to show/hide premium page
  */
@@ -19,91 +21,92 @@ interface FAQPagePros {
 }
 
 const FAQPage: React.FC<FAQPagePros> = ({ handleFAQButtonClicked }) => {
+    const { t } = useTranslation();
+
     const [faqData, setFaqData] = useState([
         {
             id: 1,
-            title: "Qu'est-ce que Scandela ?",
-            description:
-                "Scandela est un logiciel web cartographique d’aide à la décision pour l’éclairage public des communes françaises. Notre but est d’aider les collectivités locales à prendre les bonnes décisions au bon moment pour gérer leur lampadaire et autres lumières. Nous avons pour objectif de diminuer les dépenses énergétiques et environnementales qui sont liés à l’éclairage public tout en assurant la sécurité des usagers sur les routes. Notre solution permettra de définir quel rue/quartier a besoin d'être allumé de telle à telle heure grâce à  de multiples paramètres. Ces paramètres peuvent être liés à la sécurité, à la biodiversité, au trafic ... Notre projet web se présentera via un tableau de bord et plusieurs cartographies montrant différentes informations qui permettront aux acteurs concernés de prendre les bonnes décisions.",
+            title: t('faqTitle'),
+            description: t('faqDescription'),
         },
         {
             id: 2,
-            title: 'Pourquoi utiliser la version premium de Scandela et quels sont ses avantages ?',
+            title: t('faqTitle2'),
             description: '',
         },
         {
             id: 3,
-            title: "Quels sont les avantages d'utiliser Scandela dans ma commune ?",
+            title: t('faqTitle3'),
             description: '',
         },
         {
             id: 4,
-            title: "Comment Scandela collecte-t-elle les données sur l'éclairage public ?",
+            title: t('faqTitle4'),
             description: '',
         },
         {
             id: 5,
-            title: "Quels types de conseils d'optimisation sont disponibles dans Scandela ?",
+            title: t('faqTitle5'),
             description: '',
         },
         {
             id: 6,
-            title: 'Est-ce que Scandela propose des recommandations spécifiques en fonction des caractéristiques de ma commune ?',
+            title: t('faqTitle6'),
             description: '',
         },
         {
             id: 7,
-            title: 'Comment puis-je interpréter les optimisations fournies par Scandela ?',
+            title: t('faqTitle7'),
             description: '',
         },
         {
             id: 8,
-            title: 'Est-ce que Scandela prend en compte des critères environnementaux dans ses recommandations ?',
+            title: t('faqTitle8'),
             description: '',
         },
         {
             id: 9,
-            title: "Quelle est la fréquence de mise à jour des conseils d'optimisation ?",
+            title: t('faqTitle9'),
             description: '',
         },
         {
             id: 10,
-            title: 'Est-ce que Scandela offre un support en cas de problème ou de question ?',
+            title: t('faqTitle10'),
             description: '',
         },
         {
             id: 11,
-            title: "Est-ce que Scandela propose des solutions pour la transition vers des sources d'éclairage plus durables ?",
+            title: t('faqTitle11'),
             description: '',
         },
         {
             id: 12,
-            title: 'Quels sont les prérequis techniques pour utiliser Scandela ?',
+            title: t('faqTitle12'),
             description: '',
         },
         {
             id: 13,
-            title: "Scandela propose-t-elle des fonctionnalités de suivi et de rapport pour évaluer l'impact des optimisations ?",
+            title: t('faqTitle13'),
             description: '',
         },
         {
             id: 14,
-            title: "Y a-t-il des coûts associés à l'utilisation de Scandela ?",
+            title: t('faqTitle14'),
             description: '',
         },
         {
             id: 15,
-            title: 'Comment la vie privée des données des utilisateurs est-elle protégée ?',
+            title: t('faqTitle15'),
             description: '',
         },
         {
             id: 16,
-            title: "Est-ce que Scandela est compatible avec d'autres systèmes de gestion de l'éclairage existants ?",
+            title: t('faqTitle16'),
             description: '',
         },
         {
             id: 17,
-            title: "Comment puis-je partager les résultats et les recommandations de Scandela avec d'autres parties prenantes de la commune ?",
+            title: t('faqTitle17'),
             description: '',
         },
     ]);

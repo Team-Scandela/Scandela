@@ -18,6 +18,7 @@ import {
 } from './elements';
 import * as images from './gaugesImports';
 import { Green, Red } from '../../colors';
+import { useTranslation } from 'react-i18next';
 
 /** Props of the gauges
  * @param {boolean} isDark - If the map is in dark mode or not
@@ -56,6 +57,7 @@ export const Gauges: React.FC<GaugesProps> = ({
     const [diffLevelLumi, setDiffLevelLumi] = React.useState<number>(
         oldLevelLumi - levelLumi
     );
+    const { t } = useTranslation();
 
     const [showPupLeft, setShowPupLeft] = React.useState<boolean>(false);
     const [showPupMiddle, setShowPupMiddle] = React.useState<boolean>(false);
@@ -63,7 +65,7 @@ export const Gauges: React.FC<GaugesProps> = ({
 
     function parseFloatSafe(input: string): number {
         const trimmedInput = input.trim();
-    
+
         const isValidNumber = /^[0-9]*\.?[0-9]+$/.test(trimmedInput);
         if (!isValidNumber) {
             return NaN;
@@ -153,11 +155,11 @@ export const Gauges: React.FC<GaugesProps> = ({
 
                         <GaugePupLeft show={showPupLeft} isDark={isDark}>
                             <GaugePupText>
-                                Consommation énergétique
+                                {t('energyConsumption')}
                                 <br />
-                                à un score
+                                {t('hasaScore')}
                                 <br />
-                                de <b>{levelElec}%</b>
+                                {t('of')} <b>{levelElec}%</b>
                             </GaugePupText>
                         </GaugePupLeft>
                     </GaugeContainerLeft>
@@ -185,11 +187,11 @@ export const Gauges: React.FC<GaugesProps> = ({
                         />
                         <GaugePupMiddle show={showPupMiddle} isDark={isDark}>
                             <GaugePupText>
-                                Impact environnemental
+                                {t('environmentalImpact')}
                                 <br />
-                                à un score
+                                {t('hasaScore')}
                                 <br />
-                                de <b>{levelBio}%</b>
+                                {t('of')} <b>{levelBio}%</b>
                             </GaugePupText>
                         </GaugePupMiddle>
                     </GaugeContainerMiddle>
@@ -218,9 +220,10 @@ export const Gauges: React.FC<GaugesProps> = ({
 
                         <GaugePupRight show={showPupRight} isDark={isDark}>
                             <GaugePupText>
-                                Qualité de l'éclairage
+                                {t('lightingQuality')}
                                 <br />
-                                <b>{levelElec}%</b> des zones disposent d'un bon éclairage
+                                <b>{levelElec}%</b>{' '}
+                                {t('OfTheAreasHaveGoodLighting')}
                             </GaugePupText>
                         </GaugePupRight>
                     </GaugeContainerRight>
@@ -270,16 +273,16 @@ export const PersonnalizedGauge: React.FC<PersonnalizedGaugeProps> = ({
             ? images.elec
             : images.elecLight
         : isBio
+          ? isDark
+              ? images.bio
+              : images.bioLight
+          : isLumi
             ? isDark
-                ? images.bio
-                : images.bioLight
-            : isLumi
-                ? isDark
-                    ? images.lumi
-                    : images.lumiLight
-                : isDark
-                    ? images.elec
-                    : images.elecLight;
+                ? images.lumi
+                : images.lumiLight
+            : isDark
+              ? images.elec
+              : images.elecLight;
     const diffLevel = oldLevel - level;
 
     return (

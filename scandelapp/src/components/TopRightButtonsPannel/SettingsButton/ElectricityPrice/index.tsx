@@ -14,6 +14,7 @@ import {
     createPriceLimit,
     deletePriceLimit,
 } from '../../../../utils/priceLimitUtils';
+import { useTranslation } from 'react-i18next';
 
 /** EletricityPrice setting component props
  * @param {boolean} isDark - If the mode is dark or not
@@ -45,6 +46,8 @@ const EletricityPrice: React.FC<EletricityPriceProps> = ({ isDark }) => {
         getElectricityPriceAsync();
         getPriceLimitAsync();
     }, []);
+
+    const { t } = useTranslation();
 
     const getLimitSide = () => {
         if (parseFloat(currentPriceLimit) < currentElectricityPrice)
@@ -78,7 +81,7 @@ const EletricityPrice: React.FC<EletricityPriceProps> = ({ isDark }) => {
         <div>
             <ElectricityPriceButton isDark={isDark}>
                 {currentElectricityPrice === 0
-                    ? 'Chargement ...'
+                    ? t('loading')
                     : currentElectricityPrice + ' € / MW / H'}
             </ElectricityPriceButton>
             {tripleState === 1 && (
@@ -86,7 +89,7 @@ const EletricityPrice: React.FC<EletricityPriceProps> = ({ isDark }) => {
                     isDark={isDark}
                     onClick={() => handleLimitCreationButton()}
                 >
-                    Créer un limite de prix
+                    {t('createaPriceLimit')}
                 </PriceLimitCreationButton>
             )}
             {tripleState === 2 && (
@@ -104,7 +107,7 @@ const EletricityPrice: React.FC<EletricityPriceProps> = ({ isDark }) => {
                         isDark={isDark}
                         onClick={() => handleValidateButton()}
                     >
-                        Valider
+                        {t('validate')}
                     </PriceLimitValidationButton>
                 </div>
             )}
@@ -117,15 +120,11 @@ const EletricityPrice: React.FC<EletricityPriceProps> = ({ isDark }) => {
                         isDark={isDark}
                         onClick={() => handleDeleteButton()}
                     >
-                        Supprimer
+                        {t('delete')}
                     </PriceLimitDeleteButton>
                 </div>
             )}
-            <DescriptionText>
-                Vous avez la possibilité de renseigner une limite de prix haute
-                ou basse afin d'être notifié par mail quand le prix de
-                l'électricité dépassera ce seuil.
-            </DescriptionText>
+            <DescriptionText>{t('priceLimitDescription')}</DescriptionText>
         </div>
     );
 };

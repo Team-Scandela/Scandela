@@ -1,5 +1,6 @@
 package com.scandela.server.service.implementation;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,6 +9,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,7 @@ import com.scandela.server.dao.SubscriptionDao;
 import com.scandela.server.dao.TownDao;
 import com.scandela.server.dao.UserDao;
 import com.scandela.server.dao.WhileAwayDao;
+import com.scandela.server.entity.AuditEntry;
 import com.scandela.server.entity.JwtGenerator;
 import com.scandela.server.entity.Subscription;
 import com.scandela.server.entity.Town;
@@ -24,6 +27,7 @@ import com.scandela.server.entity.User;
 import com.scandela.server.entity.WhileAway;
 import com.scandela.server.exception.UserException;
 import com.scandela.server.service.AbstractService;
+import com.scandela.server.service.IAuditService;
 import com.scandela.server.service.IUserService;
 
 @Service
@@ -37,6 +41,9 @@ public class UserService extends AbstractService<User> implements IUserService {
 	private TownDao townDao;
 	private WhileAwayDao whileAwayDao;
 	private SubscriptionDao subscriptionDao;
+
+	@Autowired
+	private IAuditService auditService;
 
 	// Constructors \\
 	protected UserService(UserDao userDao, TownDao townDao, WhileAwayDao whileAwayDao, SubscriptionDao subscriptionDao) {
@@ -112,20 +119,33 @@ public class UserService extends AbstractService<User> implements IUserService {
                     List<WhileAway> whileAways = whileAwayDao.findAll();
 
                     moreInfos.add(whileAways.toString());
+                    user.get().setMoreInformations(moreInfos);
 
                     whileAwayDao.deleteAll();
 
                     /* Check for premium */
-                    String isSubbed = "false";
 					Optional<Subscription> subscription = subscriptionDao.findByUserid(user.get().getId().toString());
 
-					if (subscription.isPresent()) {
-						isSubbed = "true";
+					user.get().setPremium(subscription.isPresent());
+
+					/* Entrée d'audit - Signin de l'user */
+					AuditEntry auditEntry = new AuditEntry();
+
+					auditEntry.setData(new ArrayList<>());
+
+					auditEntry.setUserid(user.get().getId());
+					auditEntry.setAction("USER_SIGNIN");
+					auditEntry.setTimestamp(new Timestamp(System.currentTimeMillis()));
+
+					if (user.get().getUsername() != null) {
+						auditEntry.getData().add(user.get().getUsername());
+					} else {
+						auditEntry.getData().add(user.get().getEmail());
 					}
 
+					auditService.sendPostToCreate(auditEntry);
 
-                    moreInfos.add(isSubbed);
-					user.get().setMoreInformations(moreInfos);
+					// System.out.println("test Audit -> " + test);
 
                 } catch (Exception e) {
 					e.printStackTrace();

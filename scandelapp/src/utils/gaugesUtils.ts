@@ -71,8 +71,7 @@ export const getAllScores = async () => {
     const password = process.env.REACT_APP_REQUEST_PASSWORD;
 
     try {
-        const urlRequest =
-            process.env.REACT_APP_BACKEND_URL + `lamps/allScore`;
+        const urlRequest = process.env.REACT_APP_BACKEND_URL + `lamps/allScore`;
         const response = await fetch(urlRequest, {
             method: 'GET',
             headers: {
@@ -101,8 +100,8 @@ export const getAllScores = async () => {
                 false,
                 true
             );
+            console.log('SUCCES GET allScore');
         }
-
 
         return allScores;
     } catch (error) {

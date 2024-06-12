@@ -9,18 +9,21 @@ import {
     SendButton,
     ReturnButtonContainer,
 } from './elements';
+import { useTranslation } from 'react-i18next';
 
 interface TicketSenderPageProps {
     handleTicketButtonClicked: () => void;
 }
 
-const TicketSender: React.FC<TicketSenderPageProps> = ({
+const TicketSender: React.FunctionComponent<TicketSenderPageProps> = ({
     handleTicketButtonClicked,
 }) => {
     const [showDropdown, setShowDropdown] = useState(false);
     const [choosenItem, setChoosenItem] = useState('Catégorie');
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
+
+    const { t } = useTranslation();
 
     const handleDropdownToggle = () => {
         setShowDropdown(!showDropdown);
@@ -37,6 +40,8 @@ const TicketSender: React.FC<TicketSenderPageProps> = ({
             const urlRequest =
                 process.env.REACT_APP_BACKEND_URL + 'tickets/create';
 
+            const userId = localStorage.getItem('userId');
+
             const response = await fetch(urlRequest, {
                 method: 'POST',
                 headers: {
@@ -44,7 +49,7 @@ const TicketSender: React.FC<TicketSenderPageProps> = ({
                     Authorization: `Basic ${btoa(`${username}:${password}`)}`,
                 },
                 body: JSON.stringify({
-                    author: '',
+                    author: userId,
                     title: title,
                     content: description,
                     date: new Date().toISOString(),
@@ -52,23 +57,26 @@ const TicketSender: React.FC<TicketSenderPageProps> = ({
                     category: choosenItem,
                 }),
             });
+
+            if (!response.ok) {
+                throw new Error('Failed to send ticket');
+            }
+
+            console.log(response);
         } catch (error) {
-            console.log(error);
+            console.error('Error sending ticket:', error);
         }
     };
 
-    const getTicket = async () => {
-        const response = await fetch(
-            process.env.REACT_APP_BACKEND_URL + 'tickets'
-        );
-        const tickets = await response.json();
-        console.log(tickets);
+    const handleSendTicket = async () => {
+        await sendTicket();
+        handleTicketButtonClicked();
     };
 
     return (
         <div>
             <TicketSenderContainer>
-                <Title>Envoyer un ticket</Title>
+                <Title>{t('sendATicket')}</Title>
                 <DropdownContainer onClick={handleDropdownToggle}>
                     {choosenItem}
                     {showDropdown && (
@@ -78,48 +86,48 @@ const TicketSender: React.FC<TicketSenderPageProps> = ({
                                     setChoosenItem('Problème technique')
                                 }
                             >
-                                Problème technique
+                                {t('technicalIssue')}
                             </DropdownItem>
                             <DropdownItem
                                 onClick={() =>
                                     setChoosenItem('Accès et Authentification')
                                 }
                             >
-                                Accès et Authentification
+                                {t('accessAndAuthentication')}
                             </DropdownItem>
                             <DropdownItem
                                 onClick={() =>
                                     setChoosenItem('Demande de Mise à Jour')
                                 }
                             >
-                                Demande de Mise à Jour
+                                {t('updateRequest')}
                             </DropdownItem>
                             <DropdownItem
                                 onClick={() =>
                                     setChoosenItem('Feedback et Suggestions')
                                 }
                             >
-                                Feedback et Suggestions
+                                {t('feedbackAndSuggestions')}
                             </DropdownItem>
                             <DropdownItem
                                 onClick={() => setChoosenItem('Autre')}
                             >
-                                Autre
+                                {t('others')}
                             </DropdownItem>
                         </>
                     )}
                 </DropdownContainer>
                 <TicketTitleInput
-                    placeholder="Titre du ticket"
+                    placeholder={t('ticketTitle')}
                     value={title}
                     onChange={(e: any) => setTitle(e.target.value)}
                 />
                 <TicketDescriptionInput
-                    placeholder="Description du ticket"
+                    placeholder={t('ticketDescription')}
                     value={description}
                     onChange={(e: any) => setDescription(e.target.value)}
                 />
-                <SendButton onClick={sendTicket}>Envoyer</SendButton>
+                <SendButton onClick={handleSendTicket}>{t('send')}</SendButton>
                 <ReturnButtonContainer onClick={handleReturnButtonClicked}>
                     Return
                 </ReturnButtonContainer>

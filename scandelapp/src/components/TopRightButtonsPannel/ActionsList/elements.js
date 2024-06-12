@@ -87,7 +87,7 @@ export const OptimisationTemplateContainer = styled.div`
     display: flex;
     position: absolute;
     width: 370px;
-    height: 95px;
+    height: 120px;
     left: 0px;
     top: ${(props) => props.y}px;
     border-radius: 5px;
@@ -97,41 +97,41 @@ export const OptimisationTemplateContainer = styled.div`
     border: 2px solid ${Black};
 `;
 
-/** Style of the scrollableoptimisation type text */
-export const TypeText = styled.p`
+export const TextContainer = styled.div`
+    display: flex;
     position: relative;
-    top: 8px;
-    left: 10px;
-    font-size: 18px;
-    user-select: none;
-    color: ${(props) => (props.isDark ? Black : Black)};
-    font-weight: 500;
+    top: 10px;
+    flex-direction: column;
+    padding-left: 17px;
+    gap: 3px;
+    max-width: 178px;
 `;
 
-/** Style for the scrollable optimisation location text */
-export const LocationText = styled.p`
-    position: absolute;
-    top: 30px;
-    left: 10px;
+/** Style of the scrollableoptimisation type text */
+export const TypeText = styled.p`
     font-size: 14px;
     user-select: none;
     color: ${(props) => (props.isDark ? Black : Black)};
     font-weight: 500;
-    max-width: 195px;
+    overflow-wrap: break-word;
+`;
+
+/** Style for the scrollable optimisation location text */
+export const LocationText = styled.p`
+    font-size: 13px;
+    user-select: none;
+    color: ${(props) => (props.isDark ? Black : Black)};
+    font-weight: 500;
     overflow-wrap: break-word;
 `;
 
 /** Style for the scrollable optimisation description text */
 export const DescriptionText = styled.p`
-    position: absolute;
-    top: 50px;
-    left: 10px;
-    font-size: 14px;
+    font-size: 13px;
     user-select: none;
     color: ${(props) => (props.isDark ? Black : Black)};
     font-weight: 500;
     font-style: italic;
-    max-width: 195px;
     overflow-wrap: break-word;
 `;
 
@@ -142,7 +142,7 @@ export const SolutionTextContainer = styled.div`
     align-items: center;
     justify-content: center;
     width: 140px;
-    height: 84px;
+    height: 109px;
     top: 4px;
     right: 45px;
     background-color: rgb(42, 43, 42);
@@ -152,7 +152,7 @@ export const SolutionTextContainer = styled.div`
 /** Style for the scrollable optimisation solution text */
 export const SolutionText = styled.p`
     position: relative;
-    font-size: 14px;
+    font-size: 12px;
     user-select: none;
     color: ${(props) => (props.isDark ? Yellow : Black)};
     font-weight: bold;
@@ -165,7 +165,7 @@ export const TrashIcon = styled(BsFillTrash3Fill)`
     display: flex;
     position: absolute;
     right: 7px;
-    top: 6px;
+    top: 20px;
     color: ${(props) => (props.isDark ? Black : Yellow)};
     cursor: pointer;
 
@@ -179,7 +179,7 @@ export const GoToIcon = styled(AiOutlineSend)`
     display: flex;
     position: absolute;
     right: 7px;
-    top: 50px;
+    bottom: 20px;
     color: ${(props) => (props.isDark ? Black : Yellow)};
     cursor: pointer;
 
