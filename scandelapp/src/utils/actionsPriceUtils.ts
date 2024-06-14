@@ -20,7 +20,7 @@ export const getLampPrice = async (lampType: string) => {
             throw new Error(`Error: ${response.statusText}`);
         }
 
-        const price = await response.text();  // Assuming the response is a plain text
+        const price = await response.text(); // Assuming the response is a plain text
         return price;
     } catch (error) {
         console.error('ERROR GET LAMP PRICE = ', error);

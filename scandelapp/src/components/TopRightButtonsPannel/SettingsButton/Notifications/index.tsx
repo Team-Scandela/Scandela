@@ -6,9 +6,9 @@ import {
     getNotifications,
     createNotification,
     updateNotification,
-    deleteNotification
+    deleteNotification,
 } from '../../../../utils/notificationUtils';
-import {Button, Modal, Spinner } from 'react-bootstrap';
+import { Button, Modal, Spinner } from 'react-bootstrap';
 
 /** Notifications setting component props
  * @param {boolean} isDark - If the mode is dark or not

@@ -14,7 +14,7 @@ const spin = keyframes`
 
 /** Loading spinner */
 export const LoadingSpinner = styled.div`
-    border: 4px solid ${Grey}; 
+    border: 4px solid ${Grey};
     border-top: 4px solid ${Yellow};
     border-radius: 50%;
     width: 40px;
@@ -104,7 +104,7 @@ export const NotificationsContainer = styled.div`
     height: 380px;
     border-radius: 5px;
     background-color: ${(props) =>
-    props.isDark ? DarkGrey + 'FF' : Yellow + 'FF'};
+        props.isDark ? DarkGrey + 'FF' : Yellow + 'FF'};
     overflow-y: auto;
     padding-right: 10px; /* Adjust padding for scrollbar */
 
@@ -133,22 +133,38 @@ export const NotificationTemplateContainer = styled.div`
     left: 0px;
     top: ${(props) => props.y}px;
     border-radius: 5px;
-    overflow: hidden;
     background-color: ${(props) => (props.isDark ? Grey + 'FF' : Grey + 'FF')};
-    margin: 6px;
+    margin: 5px;
     border: 2px solid ${Black};
+`;
+
+/** Style of the notification title text */
+export const TitleText = styled.p`
+    position: absolute;
+    top: 7px;
+    left: 3px;
+    font-size: 9px;
+    margin: 0px;
+    padding: 0px;
+    user-select: none;
+    color: ${(props) => (props.isDark ? Black : Black)};
+    font-weight: bold;
+    max-width: 190px;
 `;
 
 /** Style of the notification description text */
 export const DescriptionText = styled.p`
-    position: relative;
-    top: 7px;
-    left: 5px;
+    position: absolute;
+    top: 20px;
+    left: 3px;
     font-size: 9px;
+    margin: 0px;
+    padding: 0px;
     user-select: none;
     color: ${(props) => (props.isDark ? Black : Black)};
-    font-weight: 600;
+    font-weight: 400;
     max-width: 170px;
+    height: auto;
 `;
 
 /** Style of the notification time text */

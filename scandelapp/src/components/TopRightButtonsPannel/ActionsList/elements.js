@@ -81,29 +81,29 @@ export const ScrollableOptimisationsContainer = styled.div`
     background-color: ${(props) =>
         props.isDark ? Black + 'FF' : Yellow + 'FF'};
 
-        /* Personnalisez le style de la barre de défilement */
-        ::-webkit-scrollbar {
-            width: 10px; 
-            size: 5px;
-            background-color: ${Black}; 
-            margin-right: 5px; 
-            border-radius: 5px; 
-        }
-    
-        ::-webkit-scrollbar-thumb {
-            background-color: ${Grey}; 
-            border-radius: 5px; 
-            margin-top: 20px; 
-        }
-    
-        ::-webkit-scrollbar-track {
-            width: 10px; 
-            background-color: ${Black};
-            border-radius: 5px; 
-            margin-right: 5px; 
-            margin-top: 5px; 
-            margin-bottom: 5px;
-        }
+    /* Personnalisez le style de la barre de défilement */
+    ::-webkit-scrollbar {
+        width: 10px;
+        size: 5px;
+        background-color: ${Black};
+        margin-right: 5px;
+        border-radius: 5px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: ${Grey};
+        border-radius: 5px;
+        margin-top: 20px;
+    }
+
+    ::-webkit-scrollbar-track {
+        width: 10px;
+        background-color: ${Black};
+        border-radius: 5px;
+        margin-right: 5px;
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
 `;
 
 /** Container of the scrollable optimisation template */
@@ -168,7 +168,6 @@ export const PriceText = styled.p`
     margin: 0px;
     font-weight: 600px;
 `;
-
 
 /** Container for the solution text **/
 export const SolutionTextContainer = styled.div`

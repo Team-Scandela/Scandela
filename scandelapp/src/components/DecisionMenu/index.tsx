@@ -136,7 +136,7 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
                     false,
                     true
                 );
-                
+
             const userId = localStorage.getItem('userId');
             if (userId) {
                 await createNotification({
@@ -174,7 +174,7 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
                     triggered: true,
                 });
             }
-           // addNotificationToList("Mise à jour de la liste d'action");
+            // addNotificationToList("Mise à jour de la liste d'action");
         }
         setIsOnCooldown(true);
         setTimeout(() => {
@@ -239,34 +239,53 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
                         <LogoContainer src={logoDark} />
                         {currentSelected !== 'Choisissez une action' && (
                             <ScrollableOptimisationsContainer isDark={isDark}>
-                            {currentSelected === 'Toutes les optimisations'
-                                ? optimisationTemplateData.map((item: any, i: number) => (
-                                      <OptimisationTemplate
-                                          key={i}
-                                          isDark={isDark}
-                                          y={125 * i}
-                                          optimisationTemplateData={item}
-                                        onTemplateClick={(isChecked) =>
-                                            handleChildCheckboxChange(item.id, isChecked)
-                                        }
-                                        price={item.price} // Assurez-vous que item.price est correctement défini dans votre data
-                                    />
-                                  ))
-                                : optimisationTemplateData
-                                      .filter((item: any) => item.type === currentSelected)
-                                      .map((item: any, i: number) => (
-                                          <OptimisationTemplate
-                                              key={i}
-                                              isDark={isDark}
-                                              y={125 * i}
-                                              optimisationTemplateData={item}
-                                              onTemplateClick={(isChecked) =>
-                                                  handleChildCheckboxChange(item.id, isChecked)
-                                              }
-                                              price={item.price} // Ajoutez la propriété price ici
-                                          />
-                                      ))}
-                        </ScrollableOptimisationsContainer>
+                                {currentSelected === 'Toutes les optimisations'
+                                    ? optimisationTemplateData.map(
+                                          (item: any, i: number) => (
+                                              <OptimisationTemplate
+                                                  key={i}
+                                                  isDark={isDark}
+                                                  y={125 * i}
+                                                  optimisationTemplateData={
+                                                      item
+                                                  }
+                                                  onTemplateClick={(
+                                                      isChecked
+                                                  ) =>
+                                                      handleChildCheckboxChange(
+                                                          item.id,
+                                                          isChecked
+                                                      )
+                                                  }
+                                                  price={item.price} // Assurez-vous que item.price est correctement défini dans votre data
+                                              />
+                                          )
+                                      )
+                                    : optimisationTemplateData
+                                          .filter(
+                                              (item: any) =>
+                                                  item.type === currentSelected
+                                          )
+                                          .map((item: any, i: number) => (
+                                              <OptimisationTemplate
+                                                  key={i}
+                                                  isDark={isDark}
+                                                  y={125 * i}
+                                                  optimisationTemplateData={
+                                                      item
+                                                  }
+                                                  onTemplateClick={(
+                                                      isChecked
+                                                  ) =>
+                                                      handleChildCheckboxChange(
+                                                          item.id,
+                                                          isChecked
+                                                      )
+                                                  }
+                                                  price={item.price} // Ajoutez la propriété price ici
+                                              />
+                                          ))}
+                            </ScrollableOptimisationsContainer>
                         )}
                         <AddToActionsListButton
                             isDark={isDark}

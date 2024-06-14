@@ -226,7 +226,7 @@ const Main: React.FC<MainProps> = ({
                     <Toastr id={'toastrComponentId'} isDark={isDark} />
                 </>
             )}
-             <div>
+            <div>
                 <TestNotifications />
             </div>
         </div>

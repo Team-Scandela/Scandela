@@ -125,7 +125,8 @@ const ActionsList: React.FC<ActionsListProps> = ({
     const { t } = useTranslation();
 
     useEffect(() => {
-        if (decisionPanelExtended && actionsListExtended) handleToggleActionsListExpend();
+        if (decisionPanelExtended && actionsListExtended)
+            handleToggleActionsListExpend();
     });
 
     const handleToggleActionsListExpend = () => {
@@ -152,7 +153,9 @@ const ActionsList: React.FC<ActionsListProps> = ({
     };
 
     const handlePDFButtonClick = () => {
-        const validateData = optimisationTemplateData.filter((item: any) => item.selected);
+        const validateData = optimisationTemplateData.filter(
+            (item: any) => item.selected
+        );
         for (let i = 0; i < optimisationTemplateData.length; i++) {
             if (optimisationTemplateData[i].selected) {
                 updateValidateData(optimisationTemplateData[i]);
@@ -175,7 +178,10 @@ const ActionsList: React.FC<ActionsListProps> = ({
             Authorization: `Basic ${encodedCredentials}`,
         });
 
-        const urlRequest = process.env.REACT_APP_BACKEND_URL + 'decisions/' + dataDecision.uuid;
+        const urlRequest =
+            process.env.REACT_APP_BACKEND_URL +
+            'decisions/' +
+            dataDecision.uuid;
 
         try {
             const response = await fetch(urlRequest, {
@@ -262,43 +268,50 @@ const ActionsList: React.FC<ActionsListProps> = ({
                                     </PriceText>
                                 </TextContainer>
                                 <SolutionTextContainer isDark={isDark}>
-                                    <SolutionText isDark={isDark}>{item.solution}</SolutionText>
+                                    <SolutionText isDark={isDark}>
+                                        {item.solution}
+                                    </SolutionText>
                                 </SolutionTextContainer>
                                 <TrashIcon
                                     isDark={isDark}
                                     size={30}
-                                    onClick={() => handleTrashIconClick(item.id)}
+                                    onClick={() =>
+                                        handleTrashIconClick(item.id)
+                                    }
                                 ></TrashIcon>
                                 <GoToIcon isDark={isDark} size={30}></GoToIcon>
 
                                 {/* Log the description to the console
                                 {console.log('Item Description:', item.description)} */}
-
                             </OptimisationTemplateContainer>
                         ))}
                 </ScrollableOptimisationsContainer>
                 <TotalContainer isDark={isDark}>
-                    <TotalTitleText isDark={isDark}>{t('economicImpact')}</TotalTitleText>
-                        <div
-                            style={{
-                                fontSize: '0.7em',
-                                color: isDark ? '#FAC710' : '#FAC710',
-                                textAlign: 'left',
-                                marginLeft: '4px',
-                            }}
-                        >
-                            Coûts des actions (en euro): {totalActionCost ? totalActionCost : 'N/A'} €
-                        </div>
-                        <div
-                            style={{
-                                fontSize: '0.7em',
-                                color: isDark ? '#FAC710' : '#FAC710',
-                                textAlign: 'left',
-                                marginLeft: '4px',
-                            }}
-                        >
-                            Économisé d'ici 1 an (en euro): {totalSavings ? totalSavings : 'N/A'} €
-                        </div>
+                    <TotalTitleText isDark={isDark}>
+                        {t('economicImpact')}
+                    </TotalTitleText>
+                    <div
+                        style={{
+                            fontSize: '0.7em',
+                            color: isDark ? '#FAC710' : '#FAC710',
+                            textAlign: 'left',
+                            marginLeft: '4px',
+                        }}
+                    >
+                        Coûts des actions (en euro):{' '}
+                        {totalActionCost ? totalActionCost : 'N/A'} €
+                    </div>
+                    <div
+                        style={{
+                            fontSize: '0.7em',
+                            color: isDark ? '#FAC710' : '#FAC710',
+                            textAlign: 'left',
+                            marginLeft: '4px',
+                        }}
+                    >
+                        Économisé d'ici 1 an (en euro):{' '}
+                        {totalSavings ? totalSavings : 'N/A'} €
+                    </div>
                     {/* <div
                         style={{
                             display: 'flex',
@@ -307,7 +320,7 @@ const ActionsList: React.FC<ActionsListProps> = ({
                             marginBottom: '1px',
                         }}
                     > */}
-                        {/* <button
+                    {/* <button
                             style={{
                                 padding: '5px',
                                 cursor: 'pointer',
@@ -390,7 +403,10 @@ const ActionsList: React.FC<ActionsListProps> = ({
                         left={73}
                     />
                 </GaugesContainer>
-                <ValidateButton isDark={isDark} onClick={handleValidateButtonClick}>
+                <ValidateButton
+                    isDark={isDark}
+                    onClick={handleValidateButtonClick}
+                >
                     {t('Valider')}
                 </ValidateButton>
                 <PDFButton isDark={isDark} onClick={handlePDFButtonClick}>

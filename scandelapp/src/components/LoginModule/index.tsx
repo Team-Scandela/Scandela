@@ -105,7 +105,9 @@ const LoginModule: React.FC<LoginModuleProps> = ({
         console.log(data);
         if (
             localStorage.getItem('token') === 'true' ||
-            (data.moreInformations && data.moreInformations[2] && data.moreInformations[2] === 'true')
+            (data.moreInformations &&
+                data.moreInformations[2] &&
+                data.moreInformations[2] === 'true')
         ) {
             localStorage.setItem('premium', JSON.stringify(true));
         } else {

@@ -6,9 +6,10 @@ import {
     NotificationsTitle,
     NotificationsContainer,
     NotificationTemplateContainer,
+    TitleText,
     DescriptionText,
     TimeText,
-    LoadingSpinner
+    LoadingSpinner,
 } from './elements';
 import { getNotifications } from '../../utils/notificationUtils';
 import { Yellow, Black, White, Grey, DarkYellow, DarkGrey } from '../../colors';
@@ -27,7 +28,9 @@ const ToastHistory: React.FC<ToastHistoryProps> = ({
     const [toastHistoryExtended, setToastHistoryExtended] = useState(false);
     const [serverNotifications, setServerNotifications] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
-    const [selectedNotificationId, setSelectedNotificationId] = useState<string | null>(null);
+    const [selectedNotificationId, setSelectedNotificationId] = useState<
+        string | null
+    >(null);
 
     const userId = localStorage.getItem('userId');
 
@@ -60,7 +63,9 @@ const ToastHistory: React.FC<ToastHistoryProps> = ({
             // Call API to delete notification
             // await deleteNotificationAPI(id);
             setServerNotifications((prevNotifications) =>
-                prevNotifications.filter((notification) => notification.id !== id)
+                prevNotifications.filter(
+                    (notification) => notification.id !== id
+                )
             );
         } catch (error) {
             console.error('Failed to delete notification:', error);
@@ -97,23 +102,32 @@ const ToastHistory: React.FC<ToastHistoryProps> = ({
                             <NotificationTemplateContainer
                                 key={item.id}
                                 isDark={isDark}
-                                y={53 * i}
+                                y={50 * i}
                                 onClick={() => handleNotificationClick(item.id)}
                                 style={{
-                                    backgroundColor: selectedNotificationId === item.id ? DarkGrey : Grey
+                                    backgroundColor:
+                                        selectedNotificationId === item.id
+                                            ? DarkGrey
+                                            : Grey,
                                 }}
                             >
-                                <DescriptionText isDark={isDark}>
+                                <TitleText isDark={isDark}>
                                     {item.title ? item.title : 'No Title'}
-                                </DescriptionText>
+                                </TitleText>
                                 <DescriptionText isDark={isDark}>
-                                    {item.description ? item.description : 'No Description'}
+                                    {item.description
+                                        ? item.description
+                                        : 'No Description'}
                                 </DescriptionText>
                                 <TimeText isDark={isDark}>
                                     {formatDate(item.time)}
                                 </TimeText>
                                 {selectedNotificationId === item.id && (
-                                    <button onClick={() => handleDeleteNotification(item.id)}>
+                                    <button
+                                        onClick={() =>
+                                            handleDeleteNotification(item.id)
+                                        }
+                                    >
                                         Delete
                                     </button>
                                 )}

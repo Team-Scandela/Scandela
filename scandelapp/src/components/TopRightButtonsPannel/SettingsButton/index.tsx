@@ -157,17 +157,21 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({
                             </div>
                         )}
                         {currentOptionSelected === 'notification' && (
-                <div>
-                 <TitleText isDark={isDark}>
-                        {t('notifications')}
-                    </TitleText>
-                       <Notifications
-                          isDark={isDark}
-                          notificationsPreference={notificationsPreference}
-                          setNotificationsPreference={setNotificationsPreference}
-                       />
-                     </div>
-                )}
+                            <div>
+                                <TitleText isDark={isDark}>
+                                    {t('notifications')}
+                                </TitleText>
+                                <Notifications
+                                    isDark={isDark}
+                                    notificationsPreference={
+                                        notificationsPreference
+                                    }
+                                    setNotificationsPreference={
+                                        setNotificationsPreference
+                                    }
+                                />
+                            </div>
+                        )}
                     </ContentContainer>
                 </SettingsPannelContainer>
             )}
