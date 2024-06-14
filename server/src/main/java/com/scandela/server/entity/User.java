@@ -80,4 +80,7 @@ public class User implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
 	private List<Notification> notifications;
+	@Builder.Default
+	@Column(name = "premium", nullable = false)
+	private boolean premium = false;
 }

@@ -12,7 +12,7 @@ import AbsencePannel from '../components/AbsencePannel';
 // import MapDB from '../components/MapDB';
 import FilterSearch from '../components/FilterSearch';
 import TrafficTime from '../components/TrafficTime';
-import TestNotifications from '../components/Testcompo';
+import ActionHistory from '../components/ActionHistory';
 
 export enum Filters {
     pin = 'pin',
@@ -59,9 +59,9 @@ const Main: React.FC<MainProps> = ({
 
     const [toastHistoryData, setToastHistoryData] = useState([]);
     const [notificationsPreference, setNotificationsPreference] = useState([
-        ['actionListUpdate', false],
-        ['lightDarkModeUpdate', false],
-        ['languageUpdate', false],
+        ['actionListUpdate', true],
+        ['lightDarkModeUpdate', true],
+        ['languageUpdate', true],
     ]);
 
     const handleSearch = (value: string) => {
@@ -191,6 +191,10 @@ const Main: React.FC<MainProps> = ({
                         isDark={isDark}
                         toastHistoryData={toastHistoryData}
                     />
+                    <ActionHistory
+                        id={'actionHistoryComponentId'}
+                        isDark={isDark}
+                    />
                     <DecisionMenu
                         id={'decisionMenuComponentId'}
                         isDark={isDark}
@@ -226,9 +230,6 @@ const Main: React.FC<MainProps> = ({
                     <Toastr id={'toastrComponentId'} isDark={isDark} />
                 </>
             )}
-            <div>
-                <TestNotifications />
-            </div>
         </div>
     );
 };

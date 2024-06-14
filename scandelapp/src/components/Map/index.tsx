@@ -6,18 +6,13 @@ import { Yellow } from '../../colors';
 import LampInfosPopup from '../LampInfosPopup';
 import Lasso from '../Lasso';
 import { LassoOverlay } from './elements';
-import loadMap from './loadMap';
+//import loadMap from './loadMap';
 //import TimePicker from '../TimePicker';
 import React from 'react';
 
 // Load geographical data of Nantes from a local JSON file
 let nantesData = require('../../assets/nantesData.json');
-
-function getRandomColor() {
-    const colors = ['#00FF00', '#FFA500', '#FF0000'];
-    const randomIndex = Math.floor(Math.random() * colors.length);
-    return colors[randomIndex];
-}
+//let nantesArmoires = require('../../assets/armoires_electriques_nantes.json'); // Chargement de ce jeu de données manquant
 
 // Set Mapbox access token
 Object.getOwnPropertyDescriptor(mapboxgl, 'accessToken').set(
@@ -92,21 +87,24 @@ const Map: React.FC<MapProps> = ({
         };
     }
 
-    const handleLassoActivation = (isActive: boolean) => {
-        if (!isActive && lassoSelectedLamps[0]) {
-            if (map.current) {
-                map.current.setPaintProperty('lamp', 'circle-color', [
-                    'match',
-                    ['get', 'name'],
-                    lassoSelectedLamps,
-                    '#FAC710',
-                    '#FAC710',
-                ]);
-            }
-        }
-        setLassoSelectedLamps([]);
-        setIsLassoActive(isActive);
-    };
+    interface GeoJSON {
+        type: string;
+        features: Feature[];
+    }
+
+    interface Feature {
+        type: string;
+        geometry: {
+            type: string;
+            coordinates: number[];
+        };
+        properties: {
+            id: string;
+            numero_armoire: string;
+            consommation_globale: number;
+            num_lampadaires: string[];
+        };
+    }
 
     // Crée les données géoJSON à partir des données de Nantes
     const geojsonData = useMemo(() => {
@@ -129,12 +127,58 @@ const Map: React.FC<MapProps> = ({
                     name: obj.fields.numero,
                     lamp: obj.fields.type_lampe,
                     hat: obj.fields.type_foyer,
+                    lum: obj.fields.nb_lampes,
+                    height: obj.fields.hauteur_support,
                 },
             };
             geoJSON.features.push(feature);
         });
         return geoJSON;
     }, []);
+
+    // const geoData = useMemo(() => {
+    //     let jsonArmoire = {
+    //         type: 'FeatureCollection',
+    //         features: [] as any[],
+    //     };
+    //     nantesArmoires.forEach((obj: any) => {
+    //         const feature: Feature = {
+    //             type: 'Feature',
+    //             geometry: {
+    //                 type: obj.geometry.type,
+    //                 coordinates: [
+    //                     obj.geometry.coordinates[0],
+    //                     obj.geometry.coordinates[1],
+    //                 ],
+    //             },
+    //             properties: {
+    //                 id: obj.recordid,
+    //                 numero_armoire: obj.fields.numero_armoire,
+    //                 consommation_globale: obj.fields.consommation_globale,
+    //                 num_lampadaires: obj.fields.num_lampadaires,
+    //             },
+    //         };
+    //         jsonArmoire.features.push(feature);
+    //     });
+
+    //     return jsonArmoire;
+    // }, [nantesArmoires]);
+
+    const handleLassoActivation = (isActive: boolean) => {
+        if (!isActive && lassoSelectedLamps[0]) {
+            if (map.current) {
+                map.current.setPaintProperty('lamp', 'circle-color', [
+                    'match',
+                    ['get', 'name'],
+                    lassoSelectedLamps,
+                    '#FAC710',
+                    '#FAC710',
+                ]);
+            }
+        }
+        setLassoSelectedLamps([]);
+        setIsLassoActive(isActive);
+    };
 
     const closeLastFilter = () => {
         switch (lastFilterActivated) {
@@ -346,6 +390,22 @@ const Map: React.FC<MapProps> = ({
                     clusterMaxZoom: 16,
                 });
 
+                if (!map.current?.getSource('points-unclustered')) {
+                    // à utiliser pour les filtres qui n'ont pas besoin de cluster
+                    map.current.addSource('points-unclustered', {
+                        type: 'geojson',
+                        data: data as GeoJSON.FeatureCollection,
+                    });
+                }
+
+                if (!map.current?.getSource('armoires')) {
+                    // pour les amoires elec uniquement
+                    map.current.addSource('armoires', {
+                        type: 'geojson',
+                        //data: data as jsonArmoire.FeatureCollection, chargement de ce jeu de données
+                    });
+                }
+
                 // Définit les couleurs en format RGBA avec une opacité de 0.6
                 const greenRGBA = 'rgba(0, 128, 0, 0.6)';
                 const yellowRGBA = 'rgba(255, 255, 0, 0.6)';
@@ -509,6 +569,7 @@ const Map: React.FC<MapProps> = ({
                 );
 
                 //ColoredPin filter
+                console.log();
                 map.current.addLayer({
                     id: 'pinColor',
                     type: 'circle',
@@ -563,26 +624,26 @@ const Map: React.FC<MapProps> = ({
                     paint: {
                         'circle-radius': [
                             'case',
-                            ['<=', ['get', 'hauteur_support'], 1],
+                            ['<=', ['get', 'lum'], 1],
                             8,
-                            ['<=', ['get', 'hauteur_support'], 2],
+                            ['<=', ['get', 'lum'], 2],
                             9,
-                            ['<=', ['get', 'hauteur_support'], 3],
+                            ['<=', ['get', 'lum'], 3],
                             10,
-                            ['<=', ['get', 'hauteur_support'], 4],
+                            ['<=', ['get', 'lum'], 4],
                             12,
                             14,
                         ],
                         'circle-color': '#FAC710',
                         'circle-opacity': [
                             'case',
-                            ['<=', ['get', 'hauteur_support'], 1],
+                            ['<=', ['get', 'lum'], 1],
                             0.1,
-                            ['<=', ['get', 'hauteur_support'], 2],
+                            ['<=', ['get', 'lum'], 2],
                             0.2,
-                            ['<=', ['get', 'hauteur_support'], 3],
+                            ['<=', ['get', 'lum'], 3],
                             0.4,
-                            ['<=', ['get', 'hauteur_support'], 4],
+                            ['<=', ['get', 'lum'], 4],
                             0.5,
                             0.55,
                         ],
@@ -736,6 +797,38 @@ const Map: React.FC<MapProps> = ({
             maxZoom: 17,
         });
         cluster.current.load(data.features);
+
+        // map.current.on('click', 'lampFilter', (e) => {
+        //     const features = map.current?.queryRenderedFeatures(e.point, {
+        //         layers: ['lampFilter'],
+        //     });
+
+        //     if (features && features.length > 0) {
+        //         const selectedFeature = features[0];
+        //         setSelectedLampId(selectedFeature.properties.id);
+
+        //         // Mettre à jour la couleur du lampadaire sélectionné en utilisant un filtre
+        //         map.current?.setPaintProperty('lampFilter', 'circle-color', [
+        //             'case',
+        //             ['==', ['get', 'id'], selectedFeature.properties.id],
+        //             '#000000',
+        //             '#FAC710',
+        //         ]);
+        //         map.current?.setPaintProperty(
+        //             'lampFilter',
+        //             'circle-stroke-color',
+        //             [
+        //                 'case',
+        //                 ['==', ['get', 'id'], selectedFeature.properties.id],
+        //                 '#FAC710',
+        //                 '#F9F9F9',
+        //             ]
+        //         );
+
+        //         // Conserver une référence au lampadaire sélectionné
+        //         setSelectedLampFeature(selectedFeature);
+        //     }
+        // });
 
         map.current.on('mouseenter', 'lampFilter', () => {
             if (map.current) {

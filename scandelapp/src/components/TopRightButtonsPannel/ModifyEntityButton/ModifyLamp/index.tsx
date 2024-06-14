@@ -13,6 +13,8 @@ import {
 
 import { Yellow } from '../../../../colors';
 
+import LoadingSpinner from '../../../LoadingSpinner';
+
 import { useTranslation } from 'react-i18next';
 
 interface ModifyLampProps {
@@ -46,6 +48,7 @@ const ModifyLamp: React.FC<ModifyLampProps> = ({ isDark }) => {
 
     const [isRequestOk, setIsRequestOk] = useState(true);
     const [isNameOk, setIsNameOk] = useState(false);
+    const [isWaiting, setIsWaiting] = useState(false);
 
     const { t } = useTranslation();
 
@@ -82,17 +85,20 @@ const ModifyLamp: React.FC<ModifyLampProps> = ({ isDark }) => {
                 );
                 setIsRequestOk(true);
                 setIsNameOk(true);
+                setIsWaiting(false);
             } else {
                 setIsRequestOk(false);
                 console.log(
                     'FAIL TO APPLY MODIFICATION, status code: ' +
                         response.status
                 );
+                setIsWaiting(false);
             }
         } catch (error) {
             console.log(
                 'FAIL TO APPLY MODIFICATION, error message: ' + error.message
             );
+            setIsWaiting(false);
         }
     };
 
@@ -123,15 +129,18 @@ const ModifyLamp: React.FC<ModifyLampProps> = ({ isDark }) => {
                 setFoyertype(lampData.foyerType);
                 setIsRequestOk(true);
                 setIsNameOk(true);
+                setIsWaiting(false);
             } else {
                 setIsRequestOk(false);
                 setIsNameOk(false);
                 console.log('CANNOT GET LAMP, status = ' + response.status);
+                setIsWaiting(false);
             }
         } catch (error) {
             console.log('CANNOT GET LAMP, error message = ' + error);
             setIsRequestOk(false);
             setIsNameOk(false);
+            setIsWaiting(false);
         }
     };
 
@@ -202,10 +211,14 @@ const ModifyLamp: React.FC<ModifyLampProps> = ({ isDark }) => {
     const verifyFoyertype = (event: React.ChangeEvent<HTMLInputElement>) => {};
 
     const handleGetLamp = () => {
-        if (isRequestOk === true) getLamp();
+        if (isRequestOk === true) {
+            setIsWaiting(true);
+            getLamp();
+        }
     };
 
     const handleModifyEntity = () => {
+        setIsWaiting(true);
         modifyLamp();
     };
 
@@ -218,16 +231,17 @@ const ModifyLamp: React.FC<ModifyLampProps> = ({ isDark }) => {
                 onChange={handleNameChange}
                 onKeyDown={verifyName}
             />
-            {!isNameOk && (
-                <SendNameButtonContainer>
-                    <button
-                        onClick={handleGetLamp}
-                        style={{
-                            backgroundColor: isRequestOk ? Yellow : 'red',
-                        }}
-                    >
-                        {t('validate')}
-                    </button>
+            {!isNameOk && !isWaiting && (
+                <SendNameButtonContainer
+                    onClick={handleGetLamp}
+                    isDark={isDark}
+                >
+                    {t('validate')}
+                </SendNameButtonContainer>
+            )}
+            {!isNameOk && isWaiting && (
+                <SendNameButtonContainer isDark={isDark}>
+                    <LoadingSpinner width={40} />
                 </SendNameButtonContainer>
             )}
             {isNameOk && (
@@ -279,18 +293,20 @@ const ModifyLamp: React.FC<ModifyLampProps> = ({ isDark }) => {
                         onChange={handleFoyertypeChange}
                         onKeyDown={verifyFoyertype}
                     />
-
-                    <ValidateButtonContainer>
-                        <button
-                            onClick={handleModifyEntity}
-                            style={{
-                                backgroundColor: isRequestOk ? Yellow : 'red',
-                            }}
-                        >
-                            {t('validate')}
-                        </button>
-                    </ValidateButtonContainer>
                 </>
+            )}
+            {isNameOk && !isWaiting && (
+                <ValidateButtonContainer
+                    isDark={isDark}
+                    onClick={handleModifyEntity}
+                >
+                    {t('Valider')}
+                </ValidateButtonContainer>
+            )}
+            {isNameOk && isWaiting && (
+                <ValidateButtonContainer isDark={isDark}>
+                    <LoadingSpinner width={40} />
+                </ValidateButtonContainer>
             )}
         </div>
     );

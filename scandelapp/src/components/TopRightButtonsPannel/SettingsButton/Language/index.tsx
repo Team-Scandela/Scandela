@@ -39,10 +39,10 @@ const Language: React.FC<LanguageProps> = ({
         if (currentLanguage) changeLanguage('en');
         else changeLanguage('fr');
         if (
-            !notificationsPreference.find(
+            notificationsPreference.find(
                 (item: any) => item[0] === 'languageUpdate'
             )[1]
-        )
+        ) {
             showToast(
                 'success',
                 t('theLanguageHasBeenSuccessfullyUpdated'),

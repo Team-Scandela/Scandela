@@ -141,7 +141,7 @@ const AbsencePannel: React.FC<AbsencePannelProps> = ({ id, isDark }) => {
 
     const getLastActions = async () => {
         setDataReceived(true);
-        // getDecisions();
+        getDecisions();
     };
 
     const filterDecisions = (decisions: any) => {

@@ -15,7 +15,7 @@ interface TicketSenderPageProps {
     handleTicketButtonClicked: () => void;
 }
 
-const TicketSender: React.FC<TicketSenderPageProps> = ({
+const TicketSender: React.FunctionComponent<TicketSenderPageProps> = ({
     handleTicketButtonClicked,
 }) => {
     const [showDropdown, setShowDropdown] = useState(false);
@@ -40,6 +40,8 @@ const TicketSender: React.FC<TicketSenderPageProps> = ({
             const urlRequest =
                 process.env.REACT_APP_BACKEND_URL + 'tickets/create';
 
+            const userId = localStorage.getItem('userId');
+
             const response = await fetch(urlRequest, {
                 method: 'POST',
                 headers: {
@@ -47,7 +49,7 @@ const TicketSender: React.FC<TicketSenderPageProps> = ({
                     Authorization: `Basic ${btoa(`${username}:${password}`)}`,
                 },
                 body: JSON.stringify({
-                    author: '',
+                    author: userId,
                     title: title,
                     content: description,
                     date: new Date().toISOString(),
@@ -55,17 +57,20 @@ const TicketSender: React.FC<TicketSenderPageProps> = ({
                     category: choosenItem,
                 }),
             });
+
+            if (!response.ok) {
+                throw new Error('Failed to send ticket');
+            }
+
+            console.log(response);
         } catch (error) {
-            console.log(error);
+            console.error('Error sending ticket:', error);
         }
     };
 
-    const getTicket = async () => {
-        const response = await fetch(
-            process.env.REACT_APP_BACKEND_URL + 'tickets'
-        );
-        const tickets = await response.json();
-        console.log(tickets);
+    const handleSendTicket = async () => {
+        await sendTicket();
+        handleTicketButtonClicked();
     };
 
     return (
@@ -118,11 +123,11 @@ const TicketSender: React.FC<TicketSenderPageProps> = ({
                     onChange={(e: any) => setTitle(e.target.value)}
                 />
                 <TicketDescriptionInput
-                    placeholder={t('ticketDescpription')}
+                    placeholder={t('ticketDescription')}
                     value={description}
                     onChange={(e: any) => setDescription(e.target.value)}
                 />
-                <SendButton onClick={sendTicket}>{t('send')}</SendButton>
+                <SendButton onClick={handleSendTicket}>{t('send')}</SendButton>
                 <ReturnButtonContainer onClick={handleReturnButtonClicked}>
                     Return
                 </ReturnButtonContainer>
