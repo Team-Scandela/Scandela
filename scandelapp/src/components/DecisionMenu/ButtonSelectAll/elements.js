@@ -1,34 +1,28 @@
 import styled from 'styled-components';
-import { Yellow, Black, Grey } from '../../../colors';
-import { CgPlayListCheck } from 'react-icons/cg';
+import { Yellow, Black } from '../../../colors';
 
-/** Container for the select all button **/
+/** Container for the select all button */
 export const ButtonSelectAllContainer = styled.div`
-    display: flex;
     position: absolute;
+    display: flex;
     align-items: center;
-    justify-content: center; /* Ajout de cette ligne */
-    width: 55px;
-    height: 55px;
-    top: 25px;
-    right: 110px;
-    background-color: ${(props) => (props.isDark ? Grey + 'FF' : Grey + 'FF')};
-    border-radius: 10px;
-    transition: opacity 0.1s;
+    justify-content: center;
+    left: 3%;
+    bottom: 2%;
+    height: 30px;
+    width: 155px;
+    padding: 0 10px;
+    background-color: ${(props) => (props.isDark ? Black : Black)};
+    color: ${(props) => (props.isDark ? Yellow : Yellow)};
+    cursor: pointer;
+    transition: all 0.1s ease-in-out;
+    border-radius: 5px;
+    font-size: 16px;
+    box-shadow: 0px 4px 4px -3px rgba(0, 0, 0, 0.75);
+    font-family: 'SyneRegular';
 
     &:hover {
-        cursor: pointer;
-        background-color: ${(props) =>
-            props.isDark ? Grey + 'CC' : Grey + 'CC'};
+        background-color: ${(props) => (props.isDark ? Yellow : Yellow)};
+        color: ${(props) => (props.isDark ? Black : Black)};
     }
-`;
-
-/**  Select All Icon**/
-export const SelectAllIcon = styled(CgPlayListCheck)`
-    display: flex;
-    align-items: center;
-    font-size: 40px;
-    height: 50px;
-    width: 50px;
-    color: ${(props) => (props.isDark ? Black : Yellow)};
 `;

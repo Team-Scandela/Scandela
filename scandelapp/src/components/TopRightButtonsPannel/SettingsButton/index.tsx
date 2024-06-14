@@ -45,7 +45,7 @@ const SettingsButton: React.FC<SettingsButtonProps> = ({
 }) => {
     const [currentOptionSelected, setCurrentOptionSeleted] =
         useState('lightmode');
-    const [currentLanguage, setCurrentLanguage] = useState(true); // true : fr, false: en
+    const [currentLanguage, setCurrentLanguage] = useState(false); // true : en, false: fr
     const { t } = useTranslation();
 
     useEffect(() => {

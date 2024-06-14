@@ -35,8 +35,8 @@ const Language: React.FC<LanguageProps> = ({
 
     const handleToggleLanguage = () => {
         setCurrentLanguage(!currentLanguage);
-        if (currentLanguage) changeLanguage('en');
-        else changeLanguage('fr');
+        if (currentLanguage) changeLanguage('fr');
+        else changeLanguage('en');
         if (
             notificationsPreference.find(
                 (item: any) => item[0] === 'languageUpdate'

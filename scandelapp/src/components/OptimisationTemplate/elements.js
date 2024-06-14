@@ -5,9 +5,8 @@ import { Black, Grey, Yellow, Green, Red } from '../../colors';
 export const OptimisationTemplateContainer = styled.div`
     display: flex;
     position: absolute;
-    width: 370px;
-    min-height: 95px;
-    height: 120px;
+    width: 505px;
+    height: 100px;
     left: 0px;
     top: ${(props) => props.y}px;
     border-radius: 5px;
@@ -26,7 +25,7 @@ export const SelectionIndicator = styled.div`
     display: flex;
     position: absolute;
     width: 6px;
-    height: 105px;
+    height: 85px;
     top: 5px;
     left: 5px;
     user-select: none;
@@ -48,7 +47,7 @@ export const TextContainer = styled.div`
     flex-direction: column;
     padding-left: 17px;
     gap: 3px;
-    max-width: 200px;
+    max-width: 340px;
 `;
 
 /** Style for the optimisation type text */
@@ -58,6 +57,7 @@ export const TypeText = styled.p`
     color: ${(props) => (props.isDark ? Black : Black)};
     font-weight: 500;
     overflow-wrap: break-word;
+    font-family: 'SyneRegular';
 `;
 
 /** Style for the optimisation location text */
@@ -67,6 +67,7 @@ export const LocationText = styled.p`
     color: ${(props) => (props.isDark ? Black : Black)};
     font-weight: 500;
     overflow-wrap: break-word;
+    font-family: 'SyneRegular';
 `;
 
 /** Style for the optimisation description text */
@@ -77,6 +78,7 @@ export const DescriptionText = styled.p`
     font-weight: 500;
     font-style: italic;
     overflow-wrap: break-word;
+    font-family: 'SyneRegular';
 `;
 
 /** Container for the solution text **/
@@ -85,8 +87,8 @@ export const SolutionTextContainer = styled.div`
     position: absolute;
     align-items: center;
     justify-content: center;
-    width: 155px;
-    height: 109px;
+    width: 175px;
+    height: 89px;
     top: 4px;
     right: 6px;
     background-color: rgb(42, 43, 42);
@@ -96,10 +98,11 @@ export const SolutionTextContainer = styled.div`
 /** Style for the optimisation solution text */
 export const SolutionText = styled.p`
     position: relative;
-    font-size: 12px;
+    font-size: 11px;
     user-select: none;
     color: ${(props) => (props.isDark ? Yellow : Black)};
     font-weight: bold;
     padding: 8px;
     overflow-wrap: break-word;
+    font-family: 'SyneRegular';
 `;

@@ -201,10 +201,8 @@ const Main: React.FC<MainProps> = ({
                             handleToggleDecisionPanelExtend
                         }
                         decisionPanelExtended={decisionPanelExtended}
-                        handleOptimisationTemplateDataChange={
-                            handleOptimisationTemplateDataChange
-                        }
                         optimisationTemplateData={optimisationTemplateData}
+                        setOptimisationTemplateData={setOptimisationTemplateData}
                         handleButtonSelectAllClick={handleButtonSelectAllClick}
                         handleButtonDeselectAllClick={
                             handleButtonDeselectAllClick

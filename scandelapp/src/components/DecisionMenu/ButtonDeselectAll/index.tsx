@@ -1,4 +1,5 @@
-import { ButtonDeselectAllContainer, DeselectAllIcon } from './elements';
+import { ButtonDeselectAllContainer } from './elements';
+import { useTranslation } from 'react-i18next';
 
 /** Button to DeselectAll of the Decison Help Menu
  * This Button allow the user to deselect all optimisations
@@ -14,13 +15,15 @@ const ButtonDeselectAll: React.FC<ButtonDeselectAllProps> = ({
     isDark,
     handleButtonDeselectAllClick,
 }) => {
+    const { t } = useTranslation();
+
     return (
         <div>
             <ButtonDeselectAllContainer
                 isDark={isDark}
                 onClick={() => handleButtonDeselectAllClick()}
             >
-                <DeselectAllIcon isDark={isDark} />
+                {t('deselectAll')}
             </ButtonDeselectAllContainer>
         </div>
     );

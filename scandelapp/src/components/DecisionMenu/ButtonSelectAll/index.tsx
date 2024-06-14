@@ -1,4 +1,5 @@
-import { ButtonSelectAllContainer, SelectAllIcon } from './elements';
+import { ButtonSelectAllContainer } from './elements';
+import { useTranslation } from 'react-i18next';
 
 /** Button EditInPDf of the Decison Help Menu
  * This Button allow the user to summarize all the infos that Scandela
@@ -15,13 +16,15 @@ const ButtonSelectAll: React.FC<ButtonSelectAllProps> = ({
     isDark,
     handleButtonSelectAllClick,
 }) => {
+    const { t } = useTranslation();
+
     return (
         <div>
             <ButtonSelectAllContainer
                 isDark={isDark}
                 onClick={() => handleButtonSelectAllClick()}
             >
-                <SelectAllIcon isDark={isDark} />
+                {t('selectAll')}
             </ButtonSelectAllContainer>
         </div>
     );
