@@ -30,6 +30,7 @@ public class LampDto implements Serializable {
 	private Double longitude;
 	private Integer lum;
 	private Double height;
+	private String address;
 	
 	// Methods \\
 		// Public \\
@@ -43,6 +44,7 @@ public class LampDto implements Serializable {
 				.longitude(lamp.getLongitude())
 				.lum(1)
 				.height(lamp.getHeight())
+				.address(lamp.getAddress())
 				.build();
 	}
 }

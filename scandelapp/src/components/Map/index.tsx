@@ -126,8 +126,8 @@ const Map: React.FC<MapProps> = ({
                 geometry: {
                     type: 'Point',
                     coordinates: [
-                        obj.latitude,
                         obj.longitude,
+                        obj.latitude,
                     ],
                 },
                 properties: {
@@ -141,8 +141,6 @@ const Map: React.FC<MapProps> = ({
             };
             geoJSON.features.push(feature);
         });
-        console.log(geoJSON);
-        console.log(geoJSON);
         return geoJSON;
     }, []);
 
@@ -325,8 +323,6 @@ const Map: React.FC<MapProps> = ({
 
     // Initialise la carte
     const initializeMap = (data: any) => {
-        console.log("data: ");
-        console.log(data);
         if (!map.current) {
             cluster.current = new Supercluster({
                 radius: 100,
