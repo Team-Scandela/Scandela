@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import {
     DecisionMenuContainer,
     DecisionMenuButton,
@@ -14,10 +14,7 @@ import {
     ScrollableOptimisationsContainer,
     AddToActionsListButton,
 } from './elements';
-import { MdKeyboardDoubleArrowLeft as DecisionIconLeft } from 'react-icons/md';
-import { MdKeyboardDoubleArrowRight as DecisionIconRight } from 'react-icons/md';
-import { MdKeyboardArrowDown as DropdownButtonIconOpen } from 'react-icons/md';
-import { MdKeyboardArrowUp as DropdownButtonIconClose } from 'react-icons/md';
+import { MdKeyboardDoubleArrowLeft as DecisionIconLeft, MdKeyboardDoubleArrowRight as DecisionIconRight, MdKeyboardArrowDown as DropdownButtonIconOpen, MdKeyboardArrowUp as DropdownButtonIconClose } from 'react-icons/md';
 import ButtonSelectAll from './ButtonSelectAll';
 import ButtonDeselectAll from './ButtonDeselectAll';
 import { CgPlayListCheck, CgPlayListRemove } from 'react-icons/cg';
@@ -29,19 +26,6 @@ import { PersonnalizedGauge } from '../Gauges';
 import { GaugesContainer } from '../TopRightButtonsPannel/ActionsList/elements';
 import { createNotification } from '../../utils/notificationUtils';
 
-/** Props of the decision pannel
- * @param {boolean} isDark - If the map is in dark mode or not
- * @param {function} handleToggleDecisionPanelExtend - Callback function
- * @param {boolean} decisionPanelExtended - Boolean to check if the decision panel is extended or not
- * @param {function} handleOptimisationTemplateDataChange - Callback function
- * @param {any} optimisationTemplateData - List of list about optimsiations template datas
- * @param {function} handleButtonSelectAllClick - Callback function
- * @param {function} handleButtonDeselectAllClick - Callback function
- * @param {function} handleCurrentSelectedChange - Callback function
- * @param {string} currentSelected - Current selected optimisation type
- * @param {function} addNotificationToList - Function to add a toastr notification to the toast history
- * @param {any} notificationsPreference - Notifications preference data
- */
 interface DecisionMenuProps {
     id: string;
     isDark: boolean;
@@ -87,7 +71,6 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
         if (dropdownExpended) handleToggleDropdownExpend();
     };
 
-    // Fill the items array with one of each types from the optimisationTemplateData
     const handleToggleDropdownExpend = () => {
         const uniqueTypes = optimisationTemplateData.reduce(
             (types: any, item: any) => {
@@ -137,16 +120,17 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
                     true
                 );
 
-            const userId = localStorage.getItem('userId');
-            if (userId) {
-                await createNotification({
-                    user: { id: userId },
-                    title: t('actionListFailedUpdate'),
-                    description: t('theActionListHasntBeenSuccessfullyUpdated'),
-                    triggered: true,
-                });
+                const userId = localStorage.getItem('userId');
+                if (userId) {
+                    await createNotification({
+                        user: { id: userId },
+                        title: t('actionListFailedUpdate'),
+                        description: t('theActionListHasntBeenSuccessfullyUpdated'),
+                        triggered: true,
+                    });
+                }
+                // addNotificationToList("Echec de modification de la liste d'action");
             }
-            // addNotificationToList("Echec de modification de la liste d'action");
         } else if (itemsUpdated > 0) {
             if (
                 notificationsPreference.find(
@@ -257,7 +241,7 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
                                                           isChecked
                                                       )
                                                   }
-                                                  price={item.price} // Assurez-vous que item.price est correctement défini dans votre data
+                                                  price={item.price}
                                               />
                                           )
                                       )
@@ -282,7 +266,7 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
                                                           isChecked
                                                       )
                                                   }
-                                                  price={item.price} // Ajoutez la propriété price ici
+                                                  price={item.price}
                                               />
                                           ))}
                             </ScrollableOptimisationsContainer>
