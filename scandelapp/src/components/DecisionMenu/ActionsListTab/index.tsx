@@ -191,9 +191,7 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
                             y={105 * i}
                         >
                             <TextContainer>
-                                <TypeText isDark={isDark}>
-                                    {item.type}
-                                </TypeText>
+                                <TypeText isDark={isDark}>{item.type}</TypeText>
                                 <LocationText isDark={isDark}>
                                     {item.location}
                                 </LocationText>
@@ -209,9 +207,7 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
                             <TrashIcon
                                 isDark={isDark}
                                 size={30}
-                                onClick={() =>
-                                    handleTrashIconClick(item.id)
-                                }
+                                onClick={() => handleTrashIconClick(item.id)}
                             ></TrashIcon>
                             <GoToIcon isDark={isDark} size={30}></GoToIcon>
                         </OptimisationTemplateContainer>
@@ -276,10 +272,7 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
                     left={66}
                 />
             </GaugesContainer>
-            <ValidateButton
-                isDark={isDark}
-                onClick={handleValidateButtonClick}
-            >
+            <ValidateButton isDark={isDark} onClick={handleValidateButtonClick}>
                 {t('Valider')}
             </ValidateButton>
             <PDFButton isDark={isDark} onClick={handlePDFButtonClick}>

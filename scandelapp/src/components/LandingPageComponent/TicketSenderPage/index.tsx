@@ -37,7 +37,8 @@ const TicketSender: React.FunctionComponent<TicketSenderPageProps> = ({
         try {
             const username = process.env.REACT_APP_REQUEST_USER;
             const password = process.env.REACT_APP_REQUEST_PASSWORD;
-            const urlRequest = process.env.REACT_APP_BACKEND_URL + 'tickets/create';
+            const urlRequest =
+                process.env.REACT_APP_BACKEND_URL + 'tickets/create';
 
             const userId = localStorage.getItem('userId');
 
@@ -81,22 +82,30 @@ const TicketSender: React.FunctionComponent<TicketSenderPageProps> = ({
                     {showDropdown && (
                         <>
                             <DropdownItem
-                                onClick={() => setChoosenItem('Problème technique')}
+                                onClick={() =>
+                                    setChoosenItem('Problème technique')
+                                }
                             >
                                 {t('technicalIssue')}
                             </DropdownItem>
                             <DropdownItem
-                                onClick={() => setChoosenItem('Accès et Authentification')}
+                                onClick={() =>
+                                    setChoosenItem('Accès et Authentification')
+                                }
                             >
                                 {t('accessAndAuthentication')}
                             </DropdownItem>
                             <DropdownItem
-                                onClick={() => setChoosenItem('Demande de Mise à Jour')}
+                                onClick={() =>
+                                    setChoosenItem('Demande de Mise à Jour')
+                                }
                             >
                                 {t('updateRequest')}
                             </DropdownItem>
                             <DropdownItem
-                                onClick={() => setChoosenItem('Feedback et Suggestions')}
+                                onClick={() =>
+                                    setChoosenItem('Feedback et Suggestions')
+                                }
                             >
                                 {t('feedbackAndSuggestions')}
                             </DropdownItem>

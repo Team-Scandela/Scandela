@@ -176,48 +176,39 @@ const DecisionTab: React.FC<DecisionTabProps> = ({
                 <ScrollableOptimisationsContainer isDark={isDark}>
                     {currentSelected === 'Toutes les optimisations'
                         ? optimisationTemplateData.map(
-                                (item: any, i: number) => (
-                                    <OptimisationTemplate
-                                        key={i}
-                                        isDark={isDark}
-                                        y={105 * i}
-                                        optimisationTemplateData={
-                                            item
-                                        }
-                                        onTemplateClick={(
-                                            isChecked
-                                        ) =>
-                                            handleChildCheckboxChange(
-                                                item.id,
-                                                isChecked
-                                            )
-                                        }
-                                    />
-                                )
-                            )
+                              (item: any, i: number) => (
+                                  <OptimisationTemplate
+                                      key={i}
+                                      isDark={isDark}
+                                      y={105 * i}
+                                      optimisationTemplateData={item}
+                                      onTemplateClick={(isChecked) =>
+                                          handleChildCheckboxChange(
+                                              item.id,
+                                              isChecked
+                                          )
+                                      }
+                                  />
+                              )
+                          )
                         : optimisationTemplateData
-                                .filter(
-                                    (item: any) =>
-                                        item.type === currentSelected
-                                )
-                                .map((item: any, i: number) => (
-                                    <OptimisationTemplate
-                                        key={i}
-                                        isDark={isDark}
-                                        y={105 * i}
-                                        optimisationTemplateData={
-                                            item
-                                        }
-                                        onTemplateClick={(
-                                            isChecked
-                                        ) =>
-                                            handleChildCheckboxChange(
-                                                item.id,
-                                                isChecked
-                                            )
-                                        }
-                                    />
-                                ))}
+                              .filter(
+                                  (item: any) => item.type === currentSelected
+                              )
+                              .map((item: any, i: number) => (
+                                  <OptimisationTemplate
+                                      key={i}
+                                      isDark={isDark}
+                                      y={105 * i}
+                                      optimisationTemplateData={item}
+                                      onTemplateClick={(isChecked) =>
+                                          handleChildCheckboxChange(
+                                              item.id,
+                                              isChecked
+                                          )
+                                      }
+                                  />
+                              ))}
                 </ScrollableOptimisationsContainer>
             )}
             <ButtonSelectAll
@@ -233,9 +224,7 @@ const DecisionTab: React.FC<DecisionTabProps> = ({
             </AddToActionsListButton>
             <ButtonDeselectAll
                 isDark={isDark}
-                handleButtonDeselectAllClick={
-                    handleButtonDeselectAllClick
-                }
+                handleButtonDeselectAllClick={handleButtonDeselectAllClick}
             />
         </div>
     );

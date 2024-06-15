@@ -15,10 +15,9 @@ import {
     PopUpDescriptionContainer,
     PopUpDescriptionText,
 } from './elements';
-import { Tooltip } from 'react-tooltip'
+import { Tooltip } from 'react-tooltip';
 import { Black } from '../../colors';
 import { useTranslation } from 'react-i18next';
-
 
 interface ActionHistoryProps {
     id: string;
@@ -108,7 +107,10 @@ const ActionHistory: React.FC<ActionHistoryProps> = ({ id, isDark }) => {
 
     return (
         <div>
-            <Tooltip id="actionHistory" style={{ backgroundColor: Black, borderRadius: '5px' }} />
+            <Tooltip
+                id="actionHistory"
+                style={{ backgroundColor: Black, borderRadius: '5px' }}
+            />
             <ActionsHistoryButton
                 onClick={() => handleActionHistoryPannelButtonClicked()}
                 isDark={isDark}

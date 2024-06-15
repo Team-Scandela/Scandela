@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Yellow, Black} from '../../../colors';
+import { Yellow, Black } from '../../../colors';
 
 export const BackButton = styled.div`
     display: flex;
@@ -14,7 +14,7 @@ export const BackButton = styled.div`
 
     transform: translate(0%, 50%);
 
-    color : ${Yellow};
+    color: ${Yellow};
 
     &:hover {
         cursor: pointer;

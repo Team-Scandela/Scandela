@@ -12,3 +12,10 @@
     font-weight: normal;
     font-style: normal;
 }
+
+@font-face {
+    font-family: 'SyneBold';
+    src: url('./assets/fonts/Syne-Bold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}

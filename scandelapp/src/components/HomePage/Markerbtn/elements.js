@@ -1,12 +1,11 @@
 import styled from 'styled-components';
-import { Yellow, Black} from '../../../colors';
+import { Yellow, Black, White } from '../../../colors';
 
 export const MarkerButton = styled.div`
     background-color: ${Yellow};
     cursor: pointer;
-    height: 64px;
-    width: 64px;
-    z-index: 1;
+    height: ${(props) => props.small ? '48px' : '64px'};
+    width: ${(props) => props.small ? '48px' : '64px'};
     position: absolute;
     top: ${(props) => props.top + '%'};
     left: ${(props) => props.left + '%'};
@@ -20,4 +19,15 @@ export const MarkerButton = styled.div`
         width: 75%;
         height: 75%;
     }
+`;
+
+export const MarkerTitle = styled.div`
+    position: absolute;
+    top: ${(props) => `calc(${props.top}% + ${props.small ? '40px' : '50px'})`};
+    left: ${(props) => props.left + '%'};
+    font-size: ${(props) => props.small ? '20px' : '24px'};
+    transform: translate(-50%, 0%);
+    color: ${White};
+    font-weight: bold;
+    text-align: center;
 `;

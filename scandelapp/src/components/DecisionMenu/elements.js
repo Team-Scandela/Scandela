@@ -68,7 +68,6 @@ export const DecisionPanel = styled.div`
     transform: translate(0%, -50%);
 `;
 
-
 /** Container of the decision menu buttons */
 export const DecisionMenuButtonsContainer = styled.div`
     display: flex;
@@ -83,7 +82,7 @@ export const DecisionMenuButtonsContainer = styled.div`
     overflow: hidden;
     background-color: ${(props) => (props.isDark ? Grey : Grey)};
     box-shadow: 0px 4px 4px -3px rgba(0, 0, 0, 0.75);
-    `;
+`;
 
 /** Container of the decision menu tab button */
 export const DecisionMenuTabButton = styled.div`
@@ -97,7 +96,11 @@ export const DecisionMenuTabButton = styled.div`
     justify-content: center;
     align-items: center;
     margin: 0px 2px 0px 2px;
-    transition: flex 0.2s ease-in-out, max-width 0.2s ease-in-out, background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+    transition:
+        flex 0.2s ease-in-out,
+        max-width 0.2s ease-in-out,
+        background-color 0.2s ease-in-out,
+        color 0.2s ease-in-out;
 
     &:hover {
         background-color: ${(props) => (props.isDark ? Yellow : Black)};
@@ -129,7 +132,8 @@ export const DecisionMenuContentContainer = styled.div`
     display: flex;
     position: absolute;
     width: 570px;
-    height: ${({ currentTab }) => (currentTab === Tabs.Scandela ? '495px' : '620px')};
+    height: ${({ currentTab }) =>
+        currentTab === Tabs.Scandela ? '495px' : '620px'};
     left: 15px;
     top: 77px;
     border-radius: 10px;

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { FilterMenuButton, FilterMenuContainer } from './elements';
-import { PiStackLight as FilterIcon} from "react-icons/pi";
+import { PiStackLight as FilterIcon } from 'react-icons/pi';
 import {
     MdOutlinePlace,
     MdDataUsage,

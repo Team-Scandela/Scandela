@@ -9,7 +9,7 @@ import {
     DescriptionText,
     TimeText,
 } from './elements';
-import { Tooltip } from 'react-tooltip'
+import { Tooltip } from 'react-tooltip';
 import { useTranslation } from 'react-i18next';
 import { Black } from '../../colors';
 
@@ -39,7 +39,10 @@ const ToastHistory: React.FC<ToastHistoryProps> = ({
 
     return (
         <div>
-            <Tooltip id="toastHistory" style={{ backgroundColor: Black, borderRadius: '5px' }} />
+            <Tooltip
+                id="toastHistory"
+                style={{ backgroundColor: Black, borderRadius: '5px' }}
+            />
             <ToastHistoryButton
                 onClick={() => handleToastHistoryPannelButtonClicked()}
                 isDark={isDark}

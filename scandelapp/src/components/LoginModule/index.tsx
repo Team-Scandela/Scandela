@@ -18,7 +18,10 @@ import {
 } from './elements';
 import { useNavigate } from 'react-router-dom';
 import { setUserId, getUser, putUser } from '../../utils/userUtils';
-import { getDecisionsSpecificAlgo, getDecisions } from '../../utils/decisionsUtils';
+import {
+    getDecisionsSpecificAlgo,
+    getDecisions,
+} from '../../utils/decisionsUtils';
 import { optimisationTemplateDataBackup } from './backup_decisions';
 import { getAllScores } from '../../utils/gaugesUtils';
 import { signUp, signIn } from '../../utils/loginUtils';
@@ -94,8 +97,8 @@ const LoginModule: React.FC<LoginModuleProps> = ({
 
     const initUserSetup = async (data: any) => {
         if (!data) {
-            console.log(data)
-            console.error("data is null or undefined");
+            console.log(data);
+            console.error('data is null or undefined');
             return;
         }
 
@@ -113,9 +116,7 @@ const LoginModule: React.FC<LoginModuleProps> = ({
             setUpDecisions();
         }
 
-        if (
-            localStorage.getItem('token') === 'true' || data.premium
-        ) {
+        if (localStorage.getItem('token') === 'true' || data.premium) {
             localStorage.setItem('premium', JSON.stringify(true));
         } else {
             localStorage.setItem('premium', JSON.stringify(false));

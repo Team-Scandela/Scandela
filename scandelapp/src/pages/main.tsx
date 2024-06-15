@@ -205,7 +205,9 @@ const Main: React.FC<MainProps> = ({
                         }
                         decisionPanelExtended={decisionPanelExtended}
                         optimisationTemplateData={optimisationTemplateData}
-                        setOptimisationTemplateData={setOptimisationTemplateData}
+                        setOptimisationTemplateData={
+                            setOptimisationTemplateData
+                        }
                         handleButtonSelectAllClick={handleButtonSelectAllClick}
                         handleButtonDeselectAllClick={
                             handleButtonDeselectAllClick

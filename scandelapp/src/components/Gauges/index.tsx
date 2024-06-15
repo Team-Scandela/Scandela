@@ -19,7 +19,7 @@ import {
 import * as images from './gaugesImports';
 import { Green, Red } from '../../colors';
 import { useTranslation } from 'react-i18next';
-import { Tabs } from "../../pages/main";
+import { Tabs } from '../../pages/main';
 
 /** Props of the gauges
  * @param {boolean} isDark - If the map is in dark mode or not
@@ -129,10 +129,9 @@ export const Gauges: React.FC<GaugesProps> = ({
     }, []);
 
     const canBeDisplayed = () => {
-        if (decisionPanelExtended && currentTab != Tabs.Scandela)
-            return false;
+        if (decisionPanelExtended && currentTab != Tabs.Scandela) return false;
         return true;
-    }
+    };
 
     return (
         <div id={id}>

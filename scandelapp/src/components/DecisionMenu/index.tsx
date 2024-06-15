@@ -16,7 +16,7 @@ import { PiListChecksDuotone } from 'react-icons/pi';
 import { MdChangeCircle, MdAddCircle, MdElectricBolt } from 'react-icons/md';
 import { IoMdSettings } from 'react-icons/io';
 import { useTranslation } from 'react-i18next';
-import DecisionTab from "./DecisionTab";
+import DecisionTab from './DecisionTab';
 import ActionsListTab from './ActionsListTab';
 import { Tabs } from '../../pages/main';
 
@@ -92,22 +92,121 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
                 </DecisionMenuButton>
                 <DecisionPanel isDark={isDark} show={decisionPanelExtended}>
                     <DecisionMenuButtonsContainer isDark={isDark}>
-                        <DecisionMenuTabButton isDark={isDark} isSelected={currentTab === Tabs.Scandela} onClick={() => setCurrentTab(Tabs.Scandela)}>{(currentTab === Tabs.Scandela) ? <TabButtonText fontSize={'25px'} isSelected={currentTab === Tabs.Scandela}>Scandela</TabButtonText> : <LogoContainer src={logoDark}/>}</DecisionMenuTabButton>
-                        <DecisionMenuTabButton isDark={isDark} isSelected={currentTab === Tabs.ActionsList} onClick={() => setCurrentTab(Tabs.ActionsList)}>{(currentTab === Tabs.ActionsList) ? <TabButtonText fontSize={'22px'} isSelected={currentTab === Tabs.ActionsList}>Liste des actions</TabButtonText> : <PiListChecksDuotone size={35}/>}</DecisionMenuTabButton>
-                        <DecisionMenuTabButton isDark={isDark} isSelected={currentTab === Tabs.ModifLamp} onClick={() => setCurrentTab(Tabs.ModifLamp)}>{(currentTab === Tabs.ModifLamp) ? <TabButtonText fontSize={'20px'} isSelected={currentTab === Tabs.ModifLamp}>Modifier un lampadaire</TabButtonText> : <MdChangeCircle size={35}/>}</DecisionMenuTabButton>
-                        <DecisionMenuTabButton isDark={isDark} isSelected={currentTab === Tabs.AddLamp} onClick={() => setCurrentTab(Tabs.AddLamp)}>{(currentTab === Tabs.AddLamp) ? <TabButtonText fontSize={'20px'} isSelected={currentTab === Tabs.AddLamp}>Ajouter un lampdaire</TabButtonText> : <MdAddCircle size={35}/>}</DecisionMenuTabButton>
-                        <DecisionMenuTabButton isDark={isDark} isSelected={currentTab === Tabs.ElectricityPrice} onClick={() => setCurrentTab(Tabs.ElectricityPrice)}>{(currentTab === Tabs.ElectricityPrice) ? <TabButtonText fontSize={'20px'} isSelected={currentTab === Tabs.ElectricityPrice}>Prix de l'électricité</TabButtonText> : <MdElectricBolt size={35}/>}</DecisionMenuTabButton>
-                        <DecisionMenuTabButton isDark={isDark} isSelected={currentTab === Tabs.Options} onClick={() => setCurrentTab(Tabs.Options)}>{(currentTab === Tabs.Options) ? <TabButtonText fontSize={'25px'} isSelected={currentTab === Tabs.Options}>Options</TabButtonText> : <IoMdSettings size={35}></IoMdSettings>}</DecisionMenuTabButton>
+                        <DecisionMenuTabButton
+                            isDark={isDark}
+                            isSelected={currentTab === Tabs.Scandela}
+                            onClick={() => setCurrentTab(Tabs.Scandela)}
+                        >
+                            {currentTab === Tabs.Scandela ? (
+                                <TabButtonText
+                                    fontSize={'25px'}
+                                    isSelected={currentTab === Tabs.Scandela}
+                                >
+                                    Scandela
+                                </TabButtonText>
+                            ) : (
+                                <LogoContainer src={logoDark} />
+                            )}
+                        </DecisionMenuTabButton>
+                        <DecisionMenuTabButton
+                            isDark={isDark}
+                            isSelected={currentTab === Tabs.ActionsList}
+                            onClick={() => setCurrentTab(Tabs.ActionsList)}
+                        >
+                            {currentTab === Tabs.ActionsList ? (
+                                <TabButtonText
+                                    fontSize={'22px'}
+                                    isSelected={currentTab === Tabs.ActionsList}
+                                >
+                                    Liste des actions
+                                </TabButtonText>
+                            ) : (
+                                <PiListChecksDuotone size={35} />
+                            )}
+                        </DecisionMenuTabButton>
+                        <DecisionMenuTabButton
+                            isDark={isDark}
+                            isSelected={currentTab === Tabs.ModifLamp}
+                            onClick={() => setCurrentTab(Tabs.ModifLamp)}
+                        >
+                            {currentTab === Tabs.ModifLamp ? (
+                                <TabButtonText
+                                    fontSize={'20px'}
+                                    isSelected={currentTab === Tabs.ModifLamp}
+                                >
+                                    Modifier un lampadaire
+                                </TabButtonText>
+                            ) : (
+                                <MdChangeCircle size={35} />
+                            )}
+                        </DecisionMenuTabButton>
+                        <DecisionMenuTabButton
+                            isDark={isDark}
+                            isSelected={currentTab === Tabs.AddLamp}
+                            onClick={() => setCurrentTab(Tabs.AddLamp)}
+                        >
+                            {currentTab === Tabs.AddLamp ? (
+                                <TabButtonText
+                                    fontSize={'20px'}
+                                    isSelected={currentTab === Tabs.AddLamp}
+                                >
+                                    Ajouter un lampdaire
+                                </TabButtonText>
+                            ) : (
+                                <MdAddCircle size={35} />
+                            )}
+                        </DecisionMenuTabButton>
+                        <DecisionMenuTabButton
+                            isDark={isDark}
+                            isSelected={currentTab === Tabs.ElectricityPrice}
+                            onClick={() => setCurrentTab(Tabs.ElectricityPrice)}
+                        >
+                            {currentTab === Tabs.ElectricityPrice ? (
+                                <TabButtonText
+                                    fontSize={'20px'}
+                                    isSelected={
+                                        currentTab === Tabs.ElectricityPrice
+                                    }
+                                >
+                                    Prix de l'électricité
+                                </TabButtonText>
+                            ) : (
+                                <MdElectricBolt size={35} />
+                            )}
+                        </DecisionMenuTabButton>
+                        <DecisionMenuTabButton
+                            isDark={isDark}
+                            isSelected={currentTab === Tabs.Options}
+                            onClick={() => setCurrentTab(Tabs.Options)}
+                        >
+                            {currentTab === Tabs.Options ? (
+                                <TabButtonText
+                                    fontSize={'25px'}
+                                    isSelected={currentTab === Tabs.Options}
+                                >
+                                    Options
+                                </TabButtonText>
+                            ) : (
+                                <IoMdSettings size={35}></IoMdSettings>
+                            )}
+                        </DecisionMenuTabButton>
                     </DecisionMenuButtonsContainer>
-                    <DecisionMenuContentContainer isDark={isDark} currentTab={currentTab}>
+                    <DecisionMenuContentContainer
+                        isDark={isDark}
+                        currentTab={currentTab}
+                    >
                         {currentTab === Tabs.Scandela && (
                             <DecisionTab
                                 isDark={isDark}
-                                optimisationTemplateData={optimisationTemplateData}
+                                optimisationTemplateData={
+                                    optimisationTemplateData
+                                }
                                 setOptimisationTemplateData={
                                     setOptimisationTemplateData
                                 }
-                                handleButtonSelectAllClick={handleButtonSelectAllClick}
+                                handleButtonSelectAllClick={
+                                    handleButtonSelectAllClick
+                                }
                                 handleButtonDeselectAllClick={
                                     handleButtonDeselectAllClick
                                 }
@@ -116,7 +215,9 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
                                     handleCurrentSelectedChange
                                 }
                                 addNotificationToList={addNotificationToList}
-                                notificationsPreference={notificationsPreference}
+                                notificationsPreference={
+                                    notificationsPreference
+                                }
                                 dropdownExpended={dropdownExpended}
                                 setDropdownExpended={setDropdownExpended}
                             />
@@ -124,7 +225,9 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
                         {currentTab === Tabs.ActionsList && (
                             <ActionsListTab
                                 isDark={isDark}
-                                optimisationTemplateData={optimisationTemplateData}
+                                optimisationTemplateData={
+                                    optimisationTemplateData
+                                }
                                 setOptimisationTemplateData={
                                     setOptimisationTemplateData
                                 }

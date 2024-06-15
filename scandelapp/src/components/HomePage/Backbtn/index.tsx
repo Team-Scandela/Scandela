@@ -1,10 +1,9 @@
-import { BackButton } from "./elements";
-import { TbArrowBackUp } from "react-icons/tb";
-
+import { BackButton } from './elements';
+import { TbArrowBackUp } from 'react-icons/tb';
 
 interface BackbtnProps {
     onClick: () => void;
-};
+}
 
 const Backbtn: React.FC<BackbtnProps> = ({ onClick }) => {
     return (
