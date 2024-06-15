@@ -58,7 +58,7 @@ const FilterMenu: React.FC<FilterMenuProps> = ({
     return (
         <div id={id}>
             <FilterMenuButton onClick={() => setOn(!on)} isDark={isDark}>
-                <FilterIcon style={{ fontSize: '40px' }} />
+                <FilterIcon style={{ fontSize: '35px' }} />
             </FilterMenuButton>
             <FilterMenuContainer show={on} isDark={isDark}>
                 <MdOutlinePlace

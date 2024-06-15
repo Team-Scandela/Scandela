@@ -5,3 +5,10 @@
     font-family: 'Encode Sans Expanded', sans-serif;
     overflow: hidden;
 }
+
+@font-face {
+    font-family: 'SyneRegular';
+    src: url('./assets/fonts/Syne-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}

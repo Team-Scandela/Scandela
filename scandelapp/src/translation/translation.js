@@ -138,6 +138,8 @@ const resources = {
             environmentalImpact: 'Environmental impact',
             actionsHistory : 'Actions history',
             toastHistory : 'Notifications history',
+            selectAll : 'Select all',
+            deselectAll : 'Deselect all',
         },
     },
 
@@ -282,6 +284,8 @@ const resources = {
             environmentalImpact: 'Impact environnemental',
             actionsHistory : 'Historique des actions',
             toastHistory : 'Historique des notifications',
+            selectAll : 'Sélectionner tout',
+            deselectAll : 'Désélectionner tout',
         },
     },
 };

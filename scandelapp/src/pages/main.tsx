@@ -24,6 +24,15 @@ export enum Filters {
     none = 'none',
 }
 
+export enum Tabs {
+    Scandela = 1,
+    ActionsList,
+    ModifLamp,
+    AddLamp,
+    ElectricityPrice,
+    Options,
+}
+
 interface MainProps {
     optimisationTemplateData: any;
     setOptimisationTemplateData: (data: any) => void;
@@ -47,10 +56,10 @@ const Main: React.FC<MainProps> = ({
     const [decisionPanelExtended, setDecisionPanelExtended] =
         useState<boolean>(false);
     /** If the action list panel is open or closed */
-    const [actionsListExtended, setActionsListExtended] = useState(false);
     const [currentSelected, setCurrentSelected] = useState(
         'Choisissez une action'
     );
+    const [currentTab, setCurrentTab] = useState(Tabs.Scandela);
     /** Variables for the search for the filter filter */
     const [search, setSearch] = useState<string>('');
     const [selected, setSelected] = useState<string>('Lamp');
@@ -70,10 +79,6 @@ const Main: React.FC<MainProps> = ({
 
     const handleToggleDecisionPanelExtend = () => {
         setDecisionPanelExtended((prevState) => !prevState);
-    };
-
-    const handleOptimisationTemplateDataChange = (data: any) => {
-        setOptimisationTemplateData(data);
     };
 
     const handleButtonSelectAllClick = () => {
@@ -147,19 +152,17 @@ const Main: React.FC<MainProps> = ({
                 setFilter={setFilter}
                 isDark={isDark}
             />
-            <TopRightButtonsPannel
+            {/* <TopRightButtonsPannel
                 id={'topRightButtonsPannelId'}
                 isDark={isDark}
                 setIsDark={setIsDark}
-                actionsListExtended={actionsListExtended}
-                setActionsListExtended={setActionsListExtended}
                 decisionPanelExtended={decisionPanelExtended}
                 optimisationTemplateData={optimisationTemplateData}
                 setOptimisationTemplateData={setOptimisationTemplateData}
                 notificationsPreference={notificationsPreference}
                 setNotificationsPreference={setNotificationsPreference}
                 addNotificationToList={addNotificationToList}
-            />
+            /> */}
             {filter === Filters.filter && (
                 <>
                     <FilterSearch
@@ -201,10 +204,8 @@ const Main: React.FC<MainProps> = ({
                             handleToggleDecisionPanelExtend
                         }
                         decisionPanelExtended={decisionPanelExtended}
-                        handleOptimisationTemplateDataChange={
-                            handleOptimisationTemplateDataChange
-                        }
                         optimisationTemplateData={optimisationTemplateData}
+                        setOptimisationTemplateData={setOptimisationTemplateData}
                         handleButtonSelectAllClick={handleButtonSelectAllClick}
                         handleButtonDeselectAllClick={
                             handleButtonDeselectAllClick
@@ -215,12 +216,14 @@ const Main: React.FC<MainProps> = ({
                         }
                         addNotificationToList={addNotificationToList}
                         notificationsPreference={notificationsPreference}
+                        currentTab={currentTab}
+                        setCurrentTab={setCurrentTab}
                     />
                     <Gauges
                         id={'gaugesComponentId'}
                         isDark={isDark}
                         decisionPanelExtended={decisionPanelExtended}
-                        actionsListExtended={actionsListExtended}
+                        currentTab={currentTab}
                     />
                     <AbsencePannel
                         id={'absencePannelComponentId'}
