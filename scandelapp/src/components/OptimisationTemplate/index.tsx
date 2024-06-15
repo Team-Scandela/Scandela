@@ -8,6 +8,7 @@ import {
     DescriptionText,
     SolutionTextContainer,
     SolutionText,
+    PriceText, // Ajoutez cette importation pour le PriceText
 } from './elements';
 
 /** Props of the optimisation template
@@ -21,6 +22,7 @@ interface OptimisationTemplateProps {
     y: number;
     optimisationTemplateData: any;
     onTemplateClick: (isChecked: boolean) => void;
+    price: number; // Ajoutez la propriété price ici
 }
 
 const OptimisationTemplate: React.FC<OptimisationTemplateProps> = ({
@@ -61,6 +63,9 @@ const OptimisationTemplate: React.FC<OptimisationTemplateProps> = ({
                 <DescriptionText isDark={isDark}>
                     {optimisationTemplateData.description}
                 </DescriptionText>
+                {/* <PriceText isDark={isDark}>
+                    {optimisationTemplateData.price}
+                </PriceText> */}
             </TextContainer>
             <SolutionTextContainer isDark={isDark}>
                 <SolutionText isDark={isDark}>

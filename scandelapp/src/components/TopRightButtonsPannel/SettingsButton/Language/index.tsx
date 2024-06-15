@@ -1,20 +1,14 @@
+import React from 'react';
 import { FranceFlag, EnglishFlag } from './elements';
 import RadioButton from '../../../RadioButton';
 import { useTranslation } from 'react-i18next';
 import { showToast } from '../../../Toastr';
-
-/** Language setting component props
- * @param {boolean} isDark - If the mode is dark or not
- * @param {boolean} currentLanguage - If the language is fr or en
- * @param {function} setCurrentLanguage - setter
- * @param {any} notificationsPreference - Notification preference data
- * @param {function} addNotificationToList - Function to add a toastr notification to the toast history
- */
+import { createNotification } from '../../../../utils/notificationUtils';
 
 interface LanguageProps {
     isDark: boolean;
     currentLanguage: boolean;
-    setCurrentLanguage: (value: any) => void;
+    setCurrentLanguage: (value: boolean) => void;
     notificationsPreference: any;
     addNotificationToList: (description: string) => void;
 }
@@ -26,17 +20,17 @@ const Language: React.FC<LanguageProps> = ({
     notificationsPreference,
     addNotificationToList,
 }) => {
-    const { i18n } = useTranslation();
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
 
     const changeLanguage = (lng: string) => {
         i18n.changeLanguage(lng);
     };
 
-    const handleToggleLanguage = () => {
+    const handleToggleLanguage = async () => {
         setCurrentLanguage(!currentLanguage);
         if (currentLanguage) changeLanguage('en');
         else changeLanguage('fr');
+
         if (
             notificationsPreference.find(
                 (item: any) => item[0] === 'languageUpdate'
@@ -52,8 +46,18 @@ const Language: React.FC<LanguageProps> = ({
                 false,
                 true
             );
+
+            const userId = localStorage.getItem('userId');
+            if (userId) {
+                await createNotification({
+                    user: { id: userId },
+                    title: t('languageUpdate'),
+                    description: t('theLanguageHasBeenSuccessfullyUpdated'),
+                    triggered: true,
+                });
+            }
+            // addNotificationToList(t('languageUpdate'));
         }
-        addNotificationToList(t('languageUpdate'));
     };
 
     return (

@@ -2,6 +2,13 @@ import { useState, useEffect } from 'react';
 import { LoadingTitle, NotificationTitle } from './elements';
 import RadioButton from '../../../RadioButton';
 import { useTranslation } from 'react-i18next';
+import {
+    getNotifications,
+    createNotification,
+    updateNotification,
+    deleteNotification,
+} from '../../../../utils/notificationUtils';
+import { Button, Modal, Spinner } from 'react-bootstrap';
 import { getUser, putUser } from '../../../../utils/userUtils';
 
 /** Notifications setting component props

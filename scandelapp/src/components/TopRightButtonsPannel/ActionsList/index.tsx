@@ -9,6 +9,7 @@ import {
     TypeText,
     LocationText,
     DescriptionText,
+    PriceText,
     SolutionTextContainer,
     SolutionText,
     TrashIcon,
@@ -24,6 +25,7 @@ import { PersonnalizedGauge } from '../../Gauges';
 import { useTranslation } from 'react-i18next';
 import { getAllScores } from '../../../utils/gaugesUtils';
 import { generatePDFDocument } from './pdfGenerator';
+import { getLampPrice } from '../../../utils/actionsPriceUtils';
 
 /** Menu of the decision pannel
  * @param {boolean} isDark - If the map is in dark mode or not
@@ -53,6 +55,8 @@ const ActionsList: React.FC<ActionsListProps> = ({
     const [levelElec, setLevelElec] = useState<number>(0);
     const [levelBio, setLevelBio] = useState<number>(0);
     const [levelLumi, setLevelLumi] = useState<number>(0);
+    const [totalActionCost, setTotalActionCost] = useState<number>(0);
+    const [totalSavings, setTotalSavings] = useState<number>(0);
 
     function parseFloatSafe(input: string): number {
         const trimmedInput = input.trim();
@@ -119,6 +123,7 @@ const ActionsList: React.FC<ActionsListProps> = ({
     }, []);
 
     const { t } = useTranslation();
+
     useEffect(() => {
         if (decisionPanelExtended && actionsListExtended)
             handleToggleActionsListExpend();
@@ -194,13 +199,41 @@ const ActionsList: React.FC<ActionsListProps> = ({
                 console.log('MODIFICATION applied');
             }
 
-            const data = response.json();
+            const data = await response.json();
         } catch (error) {
             console.error('Erreur', error);
         }
     };
 
     // console.log(parseFloat(levelElec.toString().replace(",", ".")) + (optimisationTemplateData.filter((item: any) => item.saved).length / 10))
+    useEffect(() => {
+        // function that add all item.saved price to get the totalActionCost
+        const totalActionCost = optimisationTemplateData
+            .filter((item: any) => item.saved)
+            .reduce((acc: number, item: any) => {
+                const price = parseFloat(item.price);
+                if (isNaN(price)) {
+                    return acc;
+                }
+                return acc + price;
+            }, 0);
+
+        localStorage.setItem('totalActionCost', totalActionCost.toString());
+        setTotalActionCost(totalActionCost);
+
+        const totalSavings = optimisationTemplateData
+            .filter((item: any) => item.saved)
+            .reduce((acc: number, item: any) => {
+                const price = parseFloat(item.price);
+                if (isNaN(price)) {
+                    return acc;
+                }
+                return 2000;
+            }, 0);
+
+        localStorage.setItem('totalSavings', totalSavings.toString());
+        setTotalSavings(totalSavings);
+    }, [optimisationTemplateData]);
 
     return (
         <ActionsListContainer>
@@ -230,6 +263,9 @@ const ActionsList: React.FC<ActionsListProps> = ({
                                     <DescriptionText isDark={isDark}>
                                         {item.description}
                                     </DescriptionText>
+                                    <PriceText isDark={isDark}>
+                                        Prix: {item.price} €
+                                    </PriceText>
                                 </TextContainer>
                                 <SolutionTextContainer isDark={isDark}>
                                     <SolutionText isDark={isDark}>
@@ -244,6 +280,9 @@ const ActionsList: React.FC<ActionsListProps> = ({
                                     }
                                 ></TrashIcon>
                                 <GoToIcon isDark={isDark} size={30}></GoToIcon>
+
+                                {/* Log the description to the console
+                                {console.log('Item Description:', item.description)} */}
                             </OptimisationTemplateContainer>
                         ))}
                 </ScrollableOptimisationsContainer>
@@ -251,8 +290,66 @@ const ActionsList: React.FC<ActionsListProps> = ({
                     <TotalTitleText isDark={isDark}>
                         {t('economicImpact')}
                     </TotalTitleText>
+                    <div
+                        style={{
+                            fontSize: '0.7em',
+                            color: isDark ? '#FAC710' : '#FAC710',
+                            textAlign: 'left',
+                            marginLeft: '4px',
+                        }}
+                    >
+                        Coûts des actions (en euro):{' '}
+                        {totalActionCost ? totalActionCost : 'N/A'} €
+                    </div>
+                    <div
+                        style={{
+                            fontSize: '0.7em',
+                            color: isDark ? '#FAC710' : '#FAC710',
+                            textAlign: 'left',
+                            marginLeft: '4px',
+                        }}
+                    >
+                        Économisé d'ici 1 an (en euro):{' '}
+                        {totalSavings ? totalSavings : 'N/A'} €
+                    </div>
+                    {/* <div
+                        style={{
+                            display: 'flex',
+                            marginTop: '10px',
+                            alignContent: 'center',
+                            marginBottom: '1px',
+                        }}
+                    > */}
+                    {/* <button
+                            style={{
+                                padding: '5px',
+                                cursor: 'pointer',
+                                backgroundColor: '#FAC710',
+                                color: '#2A2B2A',
+                                border: 'none',
+                                borderRadius: '10px',
+                                marginLeft: '98px',
+                                marginBottom: '5px',
+                            }}
+                        >
+                            Exécuter
+                        </button>
+                        <button
+                            style={{
+                                padding: '5px',
+                                cursor: 'pointer',
+                                backgroundColor: '#FAC710',
+                                color: '#2A2B2A',
+                                border: 'none',
+                                borderRadius: '10px',
+                                marginLeft: '100px',
+                                marginBottom: '5px',
+                            }}
+                        >
+                            Annuler
+                        </button> */}
+                    {/* </div> */}
                 </TotalContainer>
-                {/* Render personalized gauge components */}
                 <GaugesContainer>
                     <PersonnalizedGauge
                         id={'ElecGaugesComponentId'}
@@ -269,7 +366,7 @@ const ActionsList: React.FC<ActionsListProps> = ({
                         }
                         oldLevel={levelElec}
                         top={15}
-                        left={15}
+                        left={13}
                     />
                     <PersonnalizedGauge
                         id={'BioGaugesComponentId'}
@@ -286,7 +383,7 @@ const ActionsList: React.FC<ActionsListProps> = ({
                         }
                         oldLevel={levelBio}
                         top={15}
-                        left={40}
+                        left={43}
                     />
                     <PersonnalizedGauge
                         id={'LumiGaugesComponentId'}
@@ -303,7 +400,7 @@ const ActionsList: React.FC<ActionsListProps> = ({
                         }
                         oldLevel={levelLumi}
                         top={15}
-                        left={65}
+                        left={73}
                     />
                 </GaugesContainer>
                 <ValidateButton

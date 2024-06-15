@@ -28,7 +28,7 @@ import { signUp, signIn } from '../../utils/loginUtils';
 
 interface LoginModuleProps {
     setOptimisationTemplateData: (data: any) => void;
-    addItemToOptimisationTemplate: (data: any) => void;
+    addItemToOptimisationTemplate: (data: any) => Promise<void>;
 }
 
 /** Login module who allow to sign in up. You can slide the overlay from left to right (or the opposite) to acess to the side wanted */
@@ -110,7 +110,9 @@ const LoginModule: React.FC<LoginModuleProps> = ({
 
         if (data.rights === 2) {
             localStorage.setItem('token', JSON.stringify(true));
-            setOptimisationTemplateData(optimisationTemplateDataBackup);
+            setUpDecisions();
+            // localStorage.setItem('token', JSON.stringify(true));
+            // setOptimisationTemplateData(optimisationTemplateDataBackup);
         } else {
             localStorage.setItem('token', JSON.stringify(false));
             setUpDecisions();

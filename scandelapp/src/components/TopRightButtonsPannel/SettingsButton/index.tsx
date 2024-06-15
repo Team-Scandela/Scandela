@@ -22,6 +22,8 @@ import { MdDownload, MdElectricBolt } from 'react-icons/md';
 import { IoNotifications } from 'react-icons/io5';
 import { useTranslation } from 'react-i18next';
 
+const userId = localStorage.getItem('userId');
+
 interface SettingsButtonProps {
     isDark: boolean;
     setIsDark: (isDark: boolean) => void;

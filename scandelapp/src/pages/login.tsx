@@ -2,7 +2,7 @@ import LoginModule from '../components/LoginModule';
 
 interface LoginProps {
     setOptimisationTemplateData: (data: any) => void;
-    addItemToOptimisationTemplate: (data: any) => void;
+    addItemToOptimisationTemplate: (data: any) => Promise<void>;
 }
 
 /** Login page of the app */

@@ -512,7 +512,7 @@ const Map: React.FC<MapProps> = ({
                         maxzoom: 23,
                         paint: {
                             'heatmap-weight': {
-                                property: 'height',
+                                property: 'hauteur_support',
                                 type: 'interval',
                                 stops: [
                                     [1, 0.2], // Léger pour une hauteur entre 1 et 2
@@ -545,7 +545,7 @@ const Map: React.FC<MapProps> = ({
                                 'rgb(234,1,3)',
                             ],
                             'heatmap-radius': {
-                                property: 'height',
+                                property: 'hauteur_support',
                                 type: 'interval',
                                 stops: [
                                     [1, 10], // Petite taille pour une hauteur entre 1 et 2
@@ -580,7 +580,7 @@ const Map: React.FC<MapProps> = ({
                     paint: {
                         'circle-color': [
                             'match',
-                            ['get', 'lamp'], // Correction ici
+                            ['get', 'Object.features.properties.lamp'], // Correction ici
                             'SHP',
                             '#FF0000', // Rouge pour SHP
                             'MBF',
@@ -605,7 +605,7 @@ const Map: React.FC<MapProps> = ({
                             '#00FF00', // Vert pour TF
                             'FC',
                             '#00FF00', // Vert pour FC
-                            '#808080', // Gris pour toutes les autres valeurs de type_lampe
+                            '#00FF00', // Vert par défaut
                         ],
                         'circle-opacity': 0.7,
                         'circle-stroke-color': '#FFFFFF',
