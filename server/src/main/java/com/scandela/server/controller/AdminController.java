@@ -36,7 +36,7 @@ public class AdminController {
 	}
 
     @PutMapping("/users/{userId}/role")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    // @PreAuthorize("hasRole('ROLE_ADMIN')")
     public User setUserRoleAdmin(@PathVariable UUID userId, HttpServletRequest request) throws AccessDeniedException {
             return userService.setUserRole(userId, "ROLE_ADMIN");
     }
