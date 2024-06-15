@@ -17,15 +17,8 @@ import { MdChangeCircle, MdAddCircle, MdElectricBolt } from 'react-icons/md';
 import { IoMdSettings } from 'react-icons/io';
 import { useTranslation } from 'react-i18next';
 import DecisionTab from "./DecisionTab";
-
-export enum Tabs {
-    Scandela = 1,
-    ActionsList,
-    ModifLamp,
-    AddLamp,
-    ElectricityPrice,
-    Options,
-}
+import ActionsListTab from './ActionsListTab';
+import { Tabs } from '../../pages/main';
 
 /** Props of the decision pannel
  * @param {boolean} isDark - If the map is in dark mode or not
@@ -39,6 +32,8 @@ export enum Tabs {
  * @param {string} currentSelected - Current selected optimisation type
  * @param {function} addNotificationToList - Function to add a toastr notification to the toast history
  * @param {any} notificationsPreference - Notifications preference data
+ * @param {any} currentTab - Store the current tab displated
+ * @param {function} setCurrentTab - Setter for the current tab var
  */
 interface DecisionMenuProps {
     id: string;
@@ -53,6 +48,8 @@ interface DecisionMenuProps {
     currentSelected: string;
     addNotificationToList: (description: string) => void;
     notificationsPreference: any;
+    currentTab: any;
+    setCurrentTab: (value: Tabs) => void;
 }
 
 const DecisionMenu: React.FC<DecisionMenuProps> = ({
@@ -68,9 +65,10 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
     currentSelected,
     addNotificationToList,
     notificationsPreference,
+    currentTab,
+    setCurrentTab,
 }) => {
     const [dropdownExpended, setDropdownExpended] = useState(false);
-    const [currentTab, setCurrentTab] = useState(Tabs.Scandela)
     const { t } = useTranslation();
 
     const handleDecisionPanelButtonClick = () => {
@@ -105,10 +103,10 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
                         {currentTab === Tabs.Scandela && (
                             <DecisionTab
                                 isDark={isDark}
+                                optimisationTemplateData={optimisationTemplateData}
                                 setOptimisationTemplateData={
                                     setOptimisationTemplateData
                                 }
-                                optimisationTemplateData={optimisationTemplateData}
                                 handleButtonSelectAllClick={handleButtonSelectAllClick}
                                 handleButtonDeselectAllClick={
                                     handleButtonDeselectAllClick
@@ -123,10 +121,16 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
                                 setDropdownExpended={setDropdownExpended}
                             />
                         )}
-                        {/* {currentTab === Tabs.ActionsList && (
-
+                        {currentTab === Tabs.ActionsList && (
+                            <ActionsListTab
+                                isDark={isDark}
+                                optimisationTemplateData={optimisationTemplateData}
+                                setOptimisationTemplateData={
+                                    setOptimisationTemplateData
+                                }
+                            />
                         )}
-                        {currentTab === Tabs.ModifLamp && (
+                        {/* {currentTab === Tabs.ModifLamp && (
 
                         )}
                         {currentTab === Tabs.AddLamp && (

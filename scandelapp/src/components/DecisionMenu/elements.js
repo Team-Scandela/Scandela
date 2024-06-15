@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { Yellow, Black, White, Grey, DarkYellow } from '../../colors';
-import { Tabs } from '.';
+import { Tabs } from '../../pages/main';
+import logoLight from '../../assets/logo-128x128.png';
 
 /** Container of the decision pannel and the button */
 export const DecisionMenuContainer = styled.div`
@@ -103,7 +104,7 @@ export const DecisionMenuTabButton = styled.div`
         color: ${(props) => (props.isDark ? Black : Yellow)};
     }
 `;
-
+/** Container of the text inside the tabs buttons */
 export const TabButtonText = styled.div`
     font-size: ${({ fontSize }) => fontSize};
     font-family: 'SyneRegular';
@@ -111,11 +112,15 @@ export const TabButtonText = styled.div`
     transition: opacity 0.3s ease-in-out;
 `;
 
-/** Container that cointain the scandela logo **/
+/** Container of the scandela logo **/
 export const LogoContainer = styled.img`
     height: 85%;
     padding: 3px;
     user-select: none;
+
+    ${DecisionMenuTabButton}:hover & {
+        content: url(${logoLight});
+    }
 `;
 
 /** Container of the decision menu content */

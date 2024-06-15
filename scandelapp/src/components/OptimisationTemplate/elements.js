@@ -47,7 +47,7 @@ export const TextContainer = styled.div`
     flex-direction: column;
     padding-left: 17px;
     gap: 3px;
-    max-width: 340px;
+    max-width: 320px;
 `;
 
 /** Style for the optimisation type text */

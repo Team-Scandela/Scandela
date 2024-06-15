@@ -1,16 +1,16 @@
 import styled from 'styled-components';
-import { Yellow, Black } from '../../../colors';
+import { Yellow, Black } from '../../../../colors';
 
-/** Container for the select all button */
-export const ButtonSelectAllContainer = styled.div`
+/** Container for the deselect all button **/
+export const ButtonDeselectAllContainer = styled.div`
     position: absolute;
     display: flex;
     align-items: center;
     justify-content: center;
-    left: 3%;
+    right: 3%;
     bottom: 2%;
     height: 30px;
-    width: 155px;
+    width: 165px;
     padding: 0 10px;
     background-color: ${(props) => (props.isDark ? Black : Black)};
     color: ${(props) => (props.isDark ? Yellow : Yellow)};

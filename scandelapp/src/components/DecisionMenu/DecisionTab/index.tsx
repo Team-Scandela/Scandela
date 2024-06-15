@@ -10,8 +10,8 @@ import {
 } from './elements';
 import { MdKeyboardArrowDown as DropdownButtonIconOpen } from 'react-icons/md';
 import { MdKeyboardArrowUp as DropdownButtonIconClose } from 'react-icons/md';
-import ButtonSelectAll from '../ButtonSelectAll';
-import ButtonDeselectAll from '../ButtonDeselectAll';
+import ButtonSelectAll from './ButtonSelectAll';
+import ButtonDeselectAll from './ButtonDeselectAll';
 import logoDark from '../../../assets/logo-128x128-yellow.png';
 import OptimisationTemplate from '../../OptimisationTemplate';
 import { showToast } from '../../Toastr';
