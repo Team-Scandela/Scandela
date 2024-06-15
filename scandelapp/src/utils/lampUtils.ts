@@ -1,3 +1,5 @@
+export const allLamps: any[] = [];
+
 export const getAllLamps = async (
     town : string
 ) => {
@@ -15,9 +17,9 @@ export const getAllLamps = async (
         });
 
         const lampsData = await response.json();
-        
+
         if (response.status === 200) {
-            localStorage.setItem("lamps", lampsData);
+            allLamps.push(lampsData);
         } else {
             console.log('GET LAMP FAILED, status = ' + response.status);
         }

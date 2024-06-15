@@ -28,6 +28,8 @@ public class LampDto implements Serializable {
 	private String foyerType;
 	private Double latitude;
 	private Double longitude;
+	private Integer lum;
+	private Double height;
 	
 	// Methods \\
 		// Public \\
@@ -39,6 +41,8 @@ public class LampDto implements Serializable {
 				.foyerType(lamp.getFoyerType())
 				.latitude(lamp.getLatitude())
 				.longitude(lamp.getLongitude())
+				.lum(1)
+				.height(lamp.getHeight())
 				.build();
 	}
 }

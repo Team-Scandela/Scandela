@@ -9,10 +9,10 @@ import { LassoOverlay } from './elements';
 //import loadMap from './loadMap';
 //import TimePicker from '../TimePicker';
 import React from 'react';
-import { json } from 'react-router-dom';
+import { allLamps } from '../../utils/lampUtils';
 
 // Load geographical data of Nantes from a local JSON file
-let nantesData = JSON.parse(localStorage.getItem("lamps"));
+let nantesData = allLamps;
 
 function getRandomColor() {
     const colors = ['#00FF00', '#FFA500', '#FF0000'];
@@ -120,14 +120,14 @@ const Map: React.FC<MapProps> = ({
             type: 'FeatureCollection',
             features: [] as any[],
         };
-        nantesData.forEach((obj: any) => {
+        nantesData.at(0).forEach((obj: any) => {
             const feature: any = {
                 type: 'Feature',
                 geometry: {
-                    type: "Point",
+                    type: 'Point',
                     coordinates: [
-                        obj.geometry.coordinates[0],
-                        obj.geometry.coordinates[1],
+                        obj.latitude,
+                        obj.longitude,
                     ],
                 },
                 properties: {
@@ -135,10 +135,14 @@ const Map: React.FC<MapProps> = ({
                     name: obj.name,
                     lamp: obj.lampType,
                     hat: obj.foyerType,
+                    lum: obj.lum,
+                    height: obj.height
                 },
             };
             geoJSON.features.push(feature);
         });
+        console.log(geoJSON);
+        console.log(geoJSON);
         return geoJSON;
     }, []);
 
@@ -321,6 +325,8 @@ const Map: React.FC<MapProps> = ({
 
     // Initialise la carte
     const initializeMap = (data: any) => {
+        console.log("data: ");
+        console.log(data);
         if (!map.current) {
             cluster.current = new Supercluster({
                 radius: 100,
@@ -1313,8 +1319,8 @@ const Map: React.FC<MapProps> = ({
     };
 
     // Trouver l'objet correspondant au selectedLampId dans nantesData
-    const selectedLampData = nantesData.find(
-        (lamp: any) => lamp.recordid === selectedLampId
+    const selectedLampData = nantesData.at(0).find(
+        (lamp: any) => lamp.id === selectedLampId
     );
 
     // Render the map component
