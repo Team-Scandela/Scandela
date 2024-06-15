@@ -5,7 +5,6 @@ import SearchBar from '../components/SearchBar';
 import ToastHistory from '../components/ToastHistory';
 import { handleSearchUtils } from '../utils/searchUtils';
 import DecisionMenu from '../components/DecisionMenu';
-import EditInPdfPannel from '../components/EditInPdfPannel';
 import TopRightButtonsPannel from '../components/TopRightButtonsPannel';
 import Toastr from '../components/Toastr';
 import { Gauges } from '../components/Gauges';
@@ -13,6 +12,7 @@ import AbsencePannel from '../components/AbsencePannel';
 // import MapDB from '../components/MapDB';
 import FilterSearch from '../components/FilterSearch';
 import TrafficTime from '../components/TrafficTime';
+import ActionHistory from '../components/ActionHistory';
 
 export enum Filters {
     pin = 'pin',
@@ -43,8 +43,6 @@ const Main: React.FC<MainProps> = ({
     const [lng, setLng] = useState<number>(-1.553621);
     const [zoom, setZoom] = useState(12);
 
-    const [isButtonEditInPdfClicked, setIsButtonEditInPdfClicked] =
-        useState<boolean>(false);
     /** If the decision panel is open or closed */
     const [decisionPanelExtended, setDecisionPanelExtended] =
         useState<boolean>(false);
@@ -61,30 +59,13 @@ const Main: React.FC<MainProps> = ({
 
     const [toastHistoryData, setToastHistoryData] = useState([]);
     const [notificationsPreference, setNotificationsPreference] = useState([
-        ['actionListUpdate', false],
-        ['lightDarkModeUpdate', false],
-        ['languageUpdate', false],
+        ['actionListUpdate', true],
+        ['lightDarkModeUpdate', true],
+        ['languageUpdate', true],
     ]);
 
-    const handleSearch = (
-        value: string,
-        valueLng: number,
-        valueLat: number
-    ) => {
-        console.log('value =' + value);
-        if (value === 'ZOOM ON LAMP') zoomOnLampByCoord(valueLat, valueLng);
-        else handleSearchUtils(value, lat, setLat, lng, setLng, zoom, setZoom);
-    };
-
-    const zoomOnLampByCoord = (valueLat: number, valueLng: number) => {
-        console.log('ZOOM on coord = ' + valueLat + ' / ' + valueLng);
-        setLat(valueLat);
-        setLng(valueLng);
-        setZoom(13);
-    };
-
-    const handleButtonEditInPdfClick = () => {
-        setIsButtonEditInPdfClicked((prevState) => !prevState);
+    const handleSearch = (value: string) => {
+        handleSearchUtils(value, lat, setLat, lng, setLng, zoom, setZoom);
     };
 
     const handleToggleDecisionPanelExtend = () => {
@@ -103,6 +84,19 @@ const Main: React.FC<MainProps> = ({
                 currentSelected === 'Toutes les optimisations'
             ) {
                 if (!item.selected) item.selected = !item.selected;
+            }
+        });
+        setOptimisationTemplateData(updatedData);
+    };
+
+    const handleButtonDeselectAllClick = () => {
+        const updatedData = [...optimisationTemplateData];
+        updatedData.forEach((item: any) => {
+            if (
+                item.type === currentSelected ||
+                currentSelected === 'Toutes les optimisations'
+            ) {
+                if (item.selected) item.selected = !item.selected;
             }
         });
         setOptimisationTemplateData(updatedData);
@@ -196,11 +190,13 @@ const Main: React.FC<MainProps> = ({
                         isDark={isDark}
                         toastHistoryData={toastHistoryData}
                     />
+                    <ActionHistory
+                        id={'actionHistoryComponentId'}
+                        isDark={isDark}
+                    />
                     <DecisionMenu
                         id={'decisionMenuComponentId'}
                         isDark={isDark}
-                        handleButtonEditInPdfClick={handleButtonEditInPdfClick}
-                        isButtonEditInPdfClicked={isButtonEditInPdfClicked}
                         handleToggleDecisionPanelExtend={
                             handleToggleDecisionPanelExtend
                         }
@@ -210,19 +206,15 @@ const Main: React.FC<MainProps> = ({
                         }
                         optimisationTemplateData={optimisationTemplateData}
                         handleButtonSelectAllClick={handleButtonSelectAllClick}
+                        handleButtonDeselectAllClick={
+                            handleButtonDeselectAllClick
+                        }
                         currentSelected={currentSelected}
                         handleCurrentSelectedChange={
                             handleCurrentSelectedChange
                         }
                         addNotificationToList={addNotificationToList}
                         notificationsPreference={notificationsPreference}
-                    />
-                    <EditInPdfPannel
-                        id={'editinPdfPannelComponentId'}
-                        isDark={isDark}
-                        isButtonEditInPdfClicked={isButtonEditInPdfClicked}
-                        decisionPanelExtended={decisionPanelExtended}
-                        handleButtonEditInPdfClick={handleButtonEditInPdfClick}
                     />
                     <Gauges
                         id={'gaugesComponentId'}
@@ -234,7 +226,6 @@ const Main: React.FC<MainProps> = ({
                         id={'absencePannelComponentId'}
                         isDark={isDark}
                     />
-                    {/* <SmallLampInfosPopup isDark={isDark} /> */}
                     <Toastr id={'toastrComponentId'} isDark={isDark} />
                 </>
             )}

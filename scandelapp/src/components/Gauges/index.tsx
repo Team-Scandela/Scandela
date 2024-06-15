@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useEffect } from 'react';
 import {
     GaugeContainerLeft,
     GaugeContainerMiddle,
@@ -17,6 +18,7 @@ import {
 } from './elements';
 import * as images from './gaugesImports';
 import { Green, Red } from '../../colors';
+import { useTranslation } from 'react-i18next';
 
 /** Props of the gauges
  * @param {boolean} isDark - If the map is in dark mode or not
@@ -38,13 +40,13 @@ export const Gauges: React.FC<GaugesProps> = ({
     decisionPanelExtended,
     actionsListExtended,
 }) => {
-    const [levelElec, setLevelElec] = React.useState<number>(50);
-    const [levelBio, setLevelBio] = React.useState<number>(25);
-    const [levelLumi, setLevelLumi] = React.useState<number>(75);
+    const [levelElec, setLevelElec] = React.useState<number>(0);
+    const [levelBio, setLevelBio] = React.useState<number>(0);
+    const [levelLumi, setLevelLumi] = React.useState<number>(0);
 
-    const [oldLevelElec, setOldLevelElec] = React.useState<number>(25);
-    const [oldLevelBio, setOldLevelBio] = React.useState<number>(50);
-    const [oldLevelLumi, setOldLevelLumi] = React.useState<number>(75);
+    const [oldLevelElec, setOldLevelElec] = React.useState<number>(0);
+    const [oldLevelBio, setOldLevelBio] = React.useState<number>(0);
+    const [oldLevelLumi, setOldLevelLumi] = React.useState<number>(0);
 
     const [diffLevelElec, setDiffLevelElec] = React.useState<number>(
         oldLevelElec - levelElec
@@ -55,10 +57,75 @@ export const Gauges: React.FC<GaugesProps> = ({
     const [diffLevelLumi, setDiffLevelLumi] = React.useState<number>(
         oldLevelLumi - levelLumi
     );
+    const { t } = useTranslation();
 
     const [showPupLeft, setShowPupLeft] = React.useState<boolean>(false);
     const [showPupMiddle, setShowPupMiddle] = React.useState<boolean>(false);
     const [showPupRight, setShowPupRight] = React.useState<boolean>(false);
+
+    function parseFloatSafe(input: string): number {
+        const trimmedInput = input.trim();
+
+        const isValidNumber = /^[0-9]*\.?[0-9]+$/.test(trimmedInput);
+        if (!isValidNumber) {
+            return NaN;
+        }
+
+        return parseFloat(trimmedInput);
+    }
+
+    useEffect(() => {
+        const checkScore = () => {
+            const vegetalScore = localStorage.getItem('vegetalScore');
+            const lightScore = localStorage.getItem('lightScore');
+            const consumptionScore = localStorage.getItem('consumptionScore');
+
+            let allScoresDefined = true;
+
+            if (vegetalScore) {
+                const parsedScore = parseFloatSafe(vegetalScore);
+                if (!isNaN(parsedScore)) {
+                    setLevelBio(parsedScore);
+                } else {
+                    allScoresDefined = false;
+                }
+            } else {
+                allScoresDefined = false;
+            }
+
+            if (lightScore) {
+                const parsedScore = parseFloatSafe(lightScore);
+                if (!isNaN(parsedScore)) {
+                    setLevelLumi(parsedScore);
+                } else {
+                    allScoresDefined = false;
+                }
+            } else {
+                allScoresDefined = false;
+            }
+
+            if (consumptionScore) {
+                const parsedScore = parseFloatSafe(consumptionScore);
+                if (!isNaN(parsedScore)) {
+                    setLevelElec(parsedScore);
+                } else {
+                    allScoresDefined = false;
+                }
+            } else {
+                allScoresDefined = false;
+            }
+
+            return allScoresDefined;
+        };
+
+        const intervalId = setInterval(() => {
+            if (checkScore()) {
+                clearInterval(intervalId);
+            }
+        }, 1000); // Vérifiez les scores toutes les secondes
+
+        return () => clearInterval(intervalId);
+    }, []);
 
     return (
         <div id={id}>
@@ -88,11 +155,11 @@ export const Gauges: React.FC<GaugesProps> = ({
 
                         <GaugePupLeft show={showPupLeft} isDark={isDark}>
                             <GaugePupText>
-                                Consommation énergétique
+                                {t('energyConsumption')}
                                 <br />
-                                <b>30 GW/h</b>
+                                {t('hasaScore')}
                                 <br />
-                                40% de l\'objectif
+                                {t('of')} <b>{levelElec}%</b>
                             </GaugePupText>
                         </GaugePupLeft>
                     </GaugeContainerLeft>
@@ -120,11 +187,11 @@ export const Gauges: React.FC<GaugesProps> = ({
                         />
                         <GaugePupMiddle show={showPupMiddle} isDark={isDark}>
                             <GaugePupText>
-                                Impact sur l\'environnement
+                                {t('environmentalImpact')}
                                 <br />
-                                <b>350g de CO2/heure</b>
+                                {t('hasaScore')}
                                 <br />
-                                80% de l\'objectif
+                                {t('of')} <b>{levelBio}%</b>
                             </GaugePupText>
                         </GaugePupMiddle>
                     </GaugeContainerMiddle>
@@ -153,9 +220,10 @@ export const Gauges: React.FC<GaugesProps> = ({
 
                         <GaugePupRight show={showPupRight} isDark={isDark}>
                             <GaugePupText>
-                                Qualité de l'éclairage
+                                {t('lightingQuality')}
                                 <br />
-                                20% des zones disposent d'un bon éclairage
+                                <b>{levelElec}%</b>{' '}
+                                {t('OfTheAreasHaveGoodLighting')}
                             </GaugePupText>
                         </GaugePupRight>
                     </GaugeContainerRight>

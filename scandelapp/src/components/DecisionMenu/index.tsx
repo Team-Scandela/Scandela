@@ -18,8 +18,9 @@ import { MdKeyboardDoubleArrowLeft as DecisionIconLeft } from 'react-icons/md';
 import { MdKeyboardDoubleArrowRight as DecisionIconRight } from 'react-icons/md';
 import { MdKeyboardArrowDown as DropdownButtonIconOpen } from 'react-icons/md';
 import { MdKeyboardArrowUp as DropdownButtonIconClose } from 'react-icons/md';
-import ButtonEditInPdf from '../ButtonEditInPdf';
-import ButtonSelectAll from '../ButtonSelectAll';
+import ButtonSelectAll from './ButtonSelectAll';
+import ButtonDeselectAll from './ButtonDeselectAll';
+import { CgPlayListCheck, CgPlayListRemove } from 'react-icons/cg';
 import logoDark from '../../assets/logo-128x128-yellow.png';
 import OptimisationTemplate from '../OptimisationTemplate';
 import { showToast } from '../Toastr';
@@ -27,13 +28,12 @@ import { useTranslation } from 'react-i18next';
 
 /** Props of the decision pannel
  * @param {boolean} isDark - If the map is in dark mode or not
- * @param {function} handleButtonEditInPdfClick - Callback function
- * @param {boolean} isButtonEditInPdfClicked - Boolean to check if the pdf button is clicked
  * @param {function} handleToggleDecisionPanelExtend - Callback function
  * @param {boolean} decisionPanelExtended - Boolean to check if the decision panel is extended or not
  * @param {function} handleOptimisationTemplateDataChange - Callback function
  * @param {any} optimisationTemplateData - List of list about optimsiations template datas
  * @param {function} handleButtonSelectAllClick - Callback function
+ * @param {function} handleButtonDeselectAllClick - Callback function
  * @param {function} handleCurrentSelectedChange - Callback function
  * @param {string} currentSelected - Current selected optimisation type
  * @param {function} addNotificationToList - Function to add a toastr notification to the toast history
@@ -42,13 +42,12 @@ import { useTranslation } from 'react-i18next';
 interface DecisionMenuProps {
     id: string;
     isDark: boolean;
-    handleButtonEditInPdfClick: () => void;
-    isButtonEditInPdfClicked: boolean;
     handleToggleDecisionPanelExtend: () => void;
     decisionPanelExtended: any;
     handleOptimisationTemplateDataChange: (data: any) => void;
     optimisationTemplateData: any;
     handleButtonSelectAllClick: () => void;
+    handleButtonDeselectAllClick: () => void;
     handleCurrentSelectedChange: (data: string) => void;
     currentSelected: string;
     addNotificationToList: (description: string) => void;
@@ -58,13 +57,12 @@ interface DecisionMenuProps {
 const DecisionMenu: React.FC<DecisionMenuProps> = ({
     id,
     isDark,
-    handleButtonEditInPdfClick,
-    isButtonEditInPdfClicked,
     handleToggleDecisionPanelExtend,
     decisionPanelExtended,
     handleOptimisationTemplateDataChange,
     optimisationTemplateData,
     handleButtonSelectAllClick,
+    handleButtonDeselectAllClick,
     handleCurrentSelectedChange,
     currentSelected,
     addNotificationToList,
@@ -121,10 +119,10 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
         handleOptimisationTemplateDataChange(updatedData);
         if (itemsUpdated === 0) {
             if (
-                !notificationsPreference.find(
+                notificationsPreference.find(
                     (item: any) => item[0] === 'actionListUpdate'
                 )[1]
-            )
+            ) {
                 showToast(
                     'error',
                     "Il n'y a rien à ajouter dans la liste d'action",
@@ -135,13 +133,14 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
                     false,
                     true
                 );
+            }
             addNotificationToList("Echec de modification de la liste d'action");
         } else if (itemsUpdated > 0) {
             if (
-                !notificationsPreference.find(
+                notificationsPreference.find(
                     (item: any) => item[0] === 'actionListUpdate'
                 )[1]
-            )
+            ) {
                 showToast(
                     'success',
                     'La liste des actions a bien été mise à jour',
@@ -152,6 +151,7 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
                     false,
                     true
                 );
+            }
             addNotificationToList("Mise à jour de la liste d'action");
         }
         setIsOnCooldown(true);
@@ -176,14 +176,15 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
                 </DecisionMenuButton>
                 <DecisionPanel isDark={isDark} show={decisionPanelExtended}>
                     <ScandelaText isDark={isDark}> Scandela </ScandelaText>
-                    <ButtonEditInPdf
-                        isDark={isDark}
-                        handleClick={handleButtonEditInPdfClick}
-                        isClicked={isButtonEditInPdfClicked}
-                    />
                     <ButtonSelectAll
                         isDark={isDark}
                         handleButtonSelectAllClick={handleButtonSelectAllClick}
+                    />
+                    <ButtonDeselectAll
+                        isDark={isDark}
+                        handleButtonDeselectAllClick={
+                            handleButtonDeselectAllClick
+                        }
                     />
                     <DecisionPanelContentArrow isDark={isDark} />
                     <DecisionPanelContentContainer>
@@ -222,7 +223,7 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
                                               <OptimisationTemplate
                                                   key={i}
                                                   isDark={isDark}
-                                                  y={100 * i}
+                                                  y={125 * i}
                                                   optimisationTemplateData={
                                                       item
                                                   }
@@ -246,7 +247,7 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
                                               <OptimisationTemplate
                                                   key={i}
                                                   isDark={isDark}
-                                                  y={100 * i}
+                                                  y={125 * i}
                                                   optimisationTemplateData={
                                                       item
                                                   }

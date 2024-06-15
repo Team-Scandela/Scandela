@@ -1,6 +1,7 @@
 package com.scandela.server.controller;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.stripe.exception.StripeException;
 import com.stripe.model.PaymentIntent;
 import com.scandela.server.entity.Subscription;
 import com.scandela.server.service.ISubscriptionService;
@@ -41,7 +43,7 @@ public class SubscriptionController {
     }
 
     @PostMapping
-    public Subscription subscribeToPremium(@RequestBody Subscription subscription) {
+    public Map<String, String> subscribeToPremium(@RequestBody Subscription subscription) throws StripeException {
         return subscriptionService.createSubscription(subscription);
     }
 

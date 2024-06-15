@@ -3,7 +3,7 @@ import {
     ToastHistoryButton,
     ToastHistoryButtonIcon,
     ToastHistoryPannel,
-    NotificationsText,
+    NotificationsTitle,
     NotificationsContainer,
     NotificationTemplateContainer,
     DescriptionText,
@@ -42,9 +42,9 @@ const ToastHistory: React.FC<ToastHistoryProps> = ({
                 <ToastHistoryButtonIcon size={30} />
             </ToastHistoryButton>
             <ToastHistoryPannel isDark={isDark} show={toastHistoryExtended}>
-                <NotificationsText isDark={isDark}>
+                <NotificationsTitle isDark={isDark}>
                     Notifications
-                </NotificationsText>
+                </NotificationsTitle>
                 <NotificationsContainer isDark={isDark}>
                     {toastHistoryData.map((item: any, i: number) => (
                         <NotificationTemplateContainer

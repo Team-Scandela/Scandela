@@ -42,6 +42,7 @@ export const ToastHistoryPannel = styled.div`
     top: 300px;
     left: ${(props) => (props.show ? '0%' : '-210px')};
     border-radius: 0px 8px 8px 0px;
+    z-index: 100;
 
     background-color: ${(props) => (props.isDark ? Black : White)};
     color: ${(props) => (props.isDark ? DarkYellow : Black)};
@@ -53,7 +54,7 @@ export const ToastHistoryPannel = styled.div`
 `;
 
 /** Main text on the toast history pannel */
-export const NotificationsText = styled.div`
+export const NotificationsTitle = styled.div`
     position: fixed;
     top: 2px;
     left: 5px;

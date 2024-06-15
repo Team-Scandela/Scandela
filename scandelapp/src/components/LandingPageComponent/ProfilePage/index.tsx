@@ -7,7 +7,9 @@ import {
     ValidateIcon,
     ReturnButtonContainer,
 } from './elements';
-import { getUser } from '../../../utils/userUtils';
+import { useTranslation } from 'react-i18next';
+import { getUser, putUser } from '../../../utils/userUtils';
+
 /** Profile page component
  */
 
@@ -28,6 +30,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
     const [password, setPassword] = useState('');
     const [kwH, setKwH] = useState('600');
 
+    const { t } = useTranslation();
     useEffect(() => {
         const fetchUserData = async () => {
             const user = await getUser();
@@ -66,9 +69,11 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
     const handleSaveClick = (field: string) => {
         switch (field) {
             case 'name':
+                updateUserName();
                 setIsEditingName(false);
                 break;
             case 'email':
+                updateUserEmail();
                 setIsEditingEmail(false);
                 break;
             case 'password':
@@ -96,11 +101,45 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
         }
     };
 
+    const updateUserName = async () => {
+        const user = await getUser();
+        const updatedUserData = {
+            town: user.town,
+            email: user.email,
+            username: name,
+            password: user.password,
+            rights: user.rights,
+            moreInformations: user.moreInformations,
+            darkmode: user.darkmode,
+            lastConnexion: user.lastConnexion,
+            newsletter: user.newsletter,
+            premium: user.premium,
+        };
+        putUser(updatedUserData);
+    };
+
+    const updateUserEmail = async () => {
+        const user = await getUser();
+        const updatedUserData = {
+            town: user.town,
+            email: email,
+            username: user.username,
+            password: user.password,
+            rights: user.rights,
+            moreInformations: user.moreInformations,
+            darkmode: user.darkmode,
+            lastConnexion: user.lastConnexion,
+            newsletter: user.newsletter,
+            premium: user.premium,
+        };
+        putUser(updatedUserData);
+    };
+
     return (
         <div>
             <ProfilePageContainer>
                 <ProfileField top={'7%'}>
-                    Nom :{' '}
+                    {t('name')} :{' '}
                     {isEditingName ? (
                         <input
                             type="text"
@@ -121,7 +160,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
                     )}
                 </ProfileField>
                 <ProfileField top={'17%'}>
-                    Email :{' '}
+                    {t('email')} :{' '}
                     {isEditingEmail ? (
                         <input
                             type="text"
@@ -142,7 +181,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
                     )}
                 </ProfileField>
                 <ProfileField top={'27%'}>
-                    Mot de passe : {renderPasswordField()}
+                    {t('password')} : {renderPasswordField()}
                     {isEditingPassword ? (
                         <EditButton onClick={() => handleSaveClick('password')}>
                             <ValidateIcon></ValidateIcon>
@@ -154,7 +193,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({
                     )}
                 </ProfileField>
                 <ProfileField top={'37%'}>
-                    Kw/h de la ville :{' '}
+                    {t('KWhOfTheCity')} :{' '}
                     {isEditingKwH ? (
                         <input
                             type="text"

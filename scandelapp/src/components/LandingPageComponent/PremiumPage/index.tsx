@@ -10,8 +10,9 @@ import {
     AdminButton,
     ReturnButtonContainer,
 } from './elements';
-import { userId } from '../../../utils/userUtils';
+import { subscription } from '../../../utils/subscriptionUtils';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 /** Premium page component
  * @param {function} handlePremiumButtonClicked - Function to show/hide premium page
@@ -33,23 +34,7 @@ const PremiumPage: React.FC<PremiumPageProps> = ({
         cardCVC: '',
     });
 
-    const handleFormChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = event.target;
-
-        if (name === 'cardExpirationDate') {
-            const [year, month] = value.split('-');
-            setFormValues((prev) => ({
-                ...prev,
-                cardExpMonth: month,
-                cardExpYear: year,
-            }));
-        } else {
-            setFormValues((prev) => ({
-                ...prev,
-                [name]: value,
-            }));
-        }
-    };
+    const { t } = useTranslation();
 
     const handleReturnButtonClicked = () => {
         handlePremiumButtonClicked();
@@ -62,32 +47,11 @@ const PremiumPage: React.FC<PremiumPageProps> = ({
     const handleFormSubmit = async (event: any) => {
         event.preventDefault();
 
-        const encodedCredentials = btoa(
-            `${process.env.REACT_APP_REQUEST_USER}:${process.env.REACT_APP_REQUEST_PASSWORD}`
-        );
-        const headers = new Headers({
-            'Content-Type': 'application/json',
-            Authorization: `Basic ${encodedCredentials}`,
-        });
-        const urlRequest = process.env.REACT_APP_BACKEND_URL + 'subscription';
         try {
-            const response = await fetch(urlRequest, {
-                method: 'POST',
-                headers: headers,
-                body: JSON.stringify({
-                    userid: userId,
-                    ...formValues,
-                }),
-            });
-
-            if (!response.ok) {
-                throw new Error("L'achat a échoué");
-            }
-
-            const data = await response.json();
-            // updateUserInfo({ isPremiumActivated: true }); idée du résultat
+            const response = await subscription();
+            window.open(response.url);
         } catch (error) {
-            console.error("Erreur lors de l'achat", error);
+            console.log(error);
         }
     };
 
@@ -104,73 +68,27 @@ const PremiumPage: React.FC<PremiumPageProps> = ({
             <PremiumPageContainer>
                 {!showForm && (
                     <div>
-                        <MainTitle>
-                            Pourquoi choisir la version premium ?
-                        </MainTitle>
-                        <MainText>
-                            Accédez à des conseils exclusifs qui vont bien au
-                            delà de l'ordinaire !
-                        </MainText>
-                        <MainText>
-                            Nos algorithmes perfectionnés analysent en
-                            profondeur les données de votre parc lumineux afin
-                            de vous offrir les conseils d'optimisation les plus
-                            pointus.
-                        </MainText>
-                        <MainText>
-                            Notre version premium déverouille de nouvelles
-                            fonctionnalités avancées telles que les algorithmes
-                            d'optimisations ou les indicateurs de performances.
-                            Boostez votre capacité à prendre des décisions
-                            éclairées pour l'éclairage public !
-                        </MainText>
-                        <MainTitle>Comment passer à Premium ?</MainTitle>
-                        <MainText>
-                            Cliquez simplement sur le bouton ci-dessous pour
-                            passer à la version premium dès maintenant !
-                        </MainText>
+                        <MainTitle>{t('titleBuyAdmin')}</MainTitle>
+                        <MainText>{t('title2BuyAdmin')}</MainText>
+                        <MainText>{t('title3BuyAdmin')}</MainText>
+                        <MainText>{t('title4BuyAdmin')}</MainText>
+                        <MainTitle>{t('title5BuyAdmin')}</MainTitle>
+                        <MainText>{t('title6BuyAdmin')}</MainText>
                         <PremiumButtonOnOffStyle onClick={handleToggleForm}>
                             <PremiumButtonOnOffText>
-                                Acheter
+                                {t('handleSubscription')}
                             </PremiumButtonOnOffText>
                         </PremiumButtonOnOffStyle>
                     </div>
                 )}
                 {showForm && (
                     <div>
-                        <FormField
-                            type="text"
-                            name="fullName"
-                            placeholder="Nom sur la carte"
-                            value={formValues.fullName}
-                            onChange={handleFormChange}
-                        />
-                        <FormField
-                            type="number"
-                            name="cardNumber"
-                            placeholder="Numéro de carte"
-                            value={formValues.cardNumber}
-                            onChange={handleFormChange}
-                        />
-                        <FormField
-                            type="month"
-                            name="cardExpirationDate"
-                            placeholder="Date d'expiration"
-                            onChange={handleFormChange}
-                        />
-                        <FormField
-                            type="number"
-                            name="cardCVC"
-                            placeholder="CVC"
-                            value={formValues.cardCVC}
-                            onChange={handleFormChange}
-                        />
                         <SubmitButton onClick={handleFormSubmit}>
-                            Soumettre
+                            {t('buy')}
                         </SubmitButton>
                         {localStorage.getItem('token') === 'true' && (
                             <AdminButton onClick={handleAdminPremium}>
-                                Admin premium
+                                {t('adminPremium')}
                             </AdminButton>
                         )}
                     </div>

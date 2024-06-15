@@ -1,4 +1,4 @@
-import { ButtonEditContainer, SelectIcon } from './elements';
+import { ButtonSelectAllContainer, SelectAllIcon } from './elements';
 
 /** Button EditInPDf of the Decison Help Menu
  * This Button allow the user to summarize all the infos that Scandela
@@ -17,12 +17,12 @@ const ButtonSelectAll: React.FC<ButtonSelectAllProps> = ({
 }) => {
     return (
         <div>
-            <ButtonEditContainer
+            <ButtonSelectAllContainer
                 isDark={isDark}
                 onClick={() => handleButtonSelectAllClick()}
             >
-                <SelectIcon isDark={isDark} />
-            </ButtonEditContainer>
+                <SelectAllIcon isDark={isDark} />
+            </ButtonSelectAllContainer>
         </div>
     );
 };

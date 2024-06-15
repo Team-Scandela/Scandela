@@ -39,9 +39,9 @@ public abstract class AbstractService<T> implements IService<T> {
 		if (pageNumber == null) {
 			return getAll();
 		}
-		
+
 		Page<T> page = dao.findAll(PageRequest.of(pageNumber, 100));
-		
+
 		return page.getContent();
 	}
 
@@ -54,6 +54,7 @@ public abstract class AbstractService<T> implements IService<T> {
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
 	public T create(T newEntity) throws Exception {
+		newEntity.getClass().getName();
 		return dao.save(newEntity);
 	}
 	

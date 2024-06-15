@@ -8,6 +8,8 @@ import {
     ValidateButtonContainer,
 } from './elements';
 
+import LoadingSpinner from '../../../LoadingSpinner';
+
 import { useTranslation } from 'react-i18next';
 
 interface AddBulbProps {
@@ -26,6 +28,7 @@ const AddBulb: React.FC<AddBulbProps> = ({ isDark }) => {
     const [consommation, setConsommation] = useState('');
     const [isRequestOk, setIsRequestOk] = useState(true);
 
+    const [isWaiting, setIsWaiting] = useState(false);
     const { t } = useTranslation();
 
     const createBulb = async () => {
@@ -52,10 +55,15 @@ const AddBulb: React.FC<AddBulbProps> = ({ isDark }) => {
                 setReference('');
                 setConsommation('');
                 setIntensity('');
-            } else setIsRequestOk(false);
+                setIsWaiting(false);
+            } else {
+                setIsRequestOk(false);
+                setIsWaiting(false);
+            }
         } catch (error) {
             console.log('ERROR CREATE BULB = ' + error);
             setIsRequestOk(false);
+            setIsWaiting(false);
         }
     };
     const handleReferenceChange = (
@@ -88,7 +96,10 @@ const AddBulb: React.FC<AddBulbProps> = ({ isDark }) => {
     ) => {};
 
     const handleCreateEntity = () => {
-        if (isRequestOk === true) createBulb();
+        if (isRequestOk === true) {
+            setIsWaiting(true);
+            createBulb();
+        }
     };
 
     return (
@@ -115,14 +126,19 @@ const AddBulb: React.FC<AddBulbProps> = ({ isDark }) => {
                 onChange={handleConsommationChange}
                 onKeyDown={verifyConsommation}
             />
-            <ValidateButtonContainer>
-                <button
+            {!isWaiting && (
+                <ValidateButtonContainer
+                    isDark={isDark}
                     onClick={handleCreateEntity}
-                    style={{ backgroundColor: isRequestOk ? Yellow : 'red' }}
                 >
-                    {t('validate')}
-                </button>
-            </ValidateButtonContainer>
+                    {t('Valider')}
+                </ValidateButtonContainer>
+            )}
+            {isWaiting && (
+                <ValidateButtonContainer isDark={isDark}>
+                    <LoadingSpinner width={40} />
+                </ValidateButtonContainer>
+            )}
         </div>
     );
 };

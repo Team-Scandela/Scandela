@@ -10,27 +10,12 @@ import {
     ValidateButtonContainer,
 } from './elements';
 
-import { Yellow } from '../../../../colors';
+import LoadingSpinner from '../../../LoadingSpinner';
 
 import { useTranslation } from 'react-i18next';
 
 interface AddLampProps {
     isDark: boolean;
-}
-
-interface Bulb {
-    name: string;
-    intensity: number;
-}
-
-interface Lamp {
-    name: string;
-    address: string;
-    lat: number;
-    long: number;
-    height: number;
-    lamptype: string;
-    foyertype: string;
 }
 
 const AddLamp: React.FC<AddLampProps> = ({ isDark }) => {
@@ -42,12 +27,16 @@ const AddLamp: React.FC<AddLampProps> = ({ isDark }) => {
     const [lamptype, setLamptype] = useState('');
     const [foyertype, setFoyertype] = useState('');
 
+    const [isWaiting, setIsWaiting] = useState(false);
     const [isRequestOk, setIsRequestOk] = useState(true);
     const { t } = useTranslation();
     const createLamp = async () => {
         try {
             const username = process.env.REACT_APP_REQUEST_USER;
             const password = process.env.REACT_APP_REQUEST_PASSWORD;
+            const toNbrLat = parseFloat(latitude);
+            const toNbrLong = parseFloat(longitude);
+            const toNbrHeight = parseFloat(height);
             const urlRequest =
                 process.env.REACT_APP_BACKEND_URL + 'lamps/create';
 
@@ -60,22 +49,34 @@ const AddLamp: React.FC<AddLampProps> = ({ isDark }) => {
                 body: JSON.stringify({
                     name: name,
                     address: address,
-                    lat: latitude,
-                    long: longitude,
-                    height: height,
-                    lamptype: lamptype,
-                    foyertype: foyertype,
+                    latitude: toNbrLat,
+                    longitude: toNbrLong,
+                    height: toNbrHeight,
+                    lampType: lamptype,
+                    foyerType: foyertype,
                 }),
             });
             const responsebody = await response.text();
-            console.log(responsebody);
-            console.log(response);
             if (!response.ok) {
+                setIsWaiting(false);
                 console.error(
                     `Failed to add ${name} to the database. Status: ${response.status}`
                 );
+            } else {
+                setName('');
+                setAddress('');
+                setLatitude('');
+                setLongitude('');
+                setHeight('');
+                setLamptype('');
+                setFoyertype('');
+                setIsWaiting(false);
+                console.error(
+                    `Succes to add ${name} to the database. Status: ${response.status}`
+                );
             }
         } catch (error) {
+            setIsWaiting(false);
             console.error(`Error creating lamp : ${error.message}`);
         }
     };
@@ -140,7 +141,10 @@ const AddLamp: React.FC<AddLampProps> = ({ isDark }) => {
     const verifyFoyertype = (event: React.ChangeEvent<HTMLInputElement>) => {};
 
     const handleCreateEntity = () => {
-        if (isRequestOk === true) createLamp();
+        if (isRequestOk === true) {
+            setIsWaiting(true);
+            createLamp();
+        }
     };
 
     return (
@@ -199,15 +203,19 @@ const AddLamp: React.FC<AddLampProps> = ({ isDark }) => {
                 onChange={handleFoyertypeChange}
                 onKeyDown={verifyFoyertype}
             />
-
-            <ValidateButtonContainer>
-                <button
+            {!isWaiting && (
+                <ValidateButtonContainer
+                    isDark={isDark}
                     onClick={handleCreateEntity}
-                    style={{ backgroundColor: isRequestOk ? Yellow : 'red' }}
                 >
-                    {t('validate')}
-                </button>
-            </ValidateButtonContainer>
+                    {t('Valider')}
+                </ValidateButtonContainer>
+            )}
+            {isWaiting && (
+                <ValidateButtonContainer isDark={isDark}>
+                    <LoadingSpinner width={40} />
+                </ValidateButtonContainer>
+            )}
         </div>
     );
 };

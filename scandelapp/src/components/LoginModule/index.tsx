@@ -8,6 +8,7 @@ import {
     Input,
     Button,
     Anchor,
+    ErrorMessage,
     OverlayContainer,
     Overlay,
     LeftOverlayPanel,
@@ -16,8 +17,14 @@ import {
     GhostButton,
 } from './elements';
 import { useNavigate } from 'react-router-dom';
-import { setUserId } from '../../utils/userUtils';
+import { setUserId, getUser, putUser } from '../../utils/userUtils';
+import {
+    getDecisionsSpecificAlgo,
+    getDecisions,
+} from '../../utils/decisionsUtils';
 import { optimisationTemplateDataBackup } from './backup_decisions';
+import { getAllScores } from '../../utils/gaugesUtils';
+import { signUp, signIn } from '../../utils/loginUtils';
 
 interface LoginModuleProps {
     setOptimisationTemplateData: (data: any) => void;
@@ -40,19 +47,76 @@ const LoginModule: React.FC<LoginModuleProps> = ({
     const [passwordSignIn, setPasswordSignIn] = useState('');
     const navigate = useNavigate();
 
+    const [error, setError] = useState('');
+
+    const updateUser = async () => {
+        const user = await getUser();
+        localStorage.setItem('previousLastConnexion', user.lastConnexion);
+        const updatedUserData = {
+            town: user.town,
+            email: user.email,
+            username: user.username,
+            password: user.password,
+            rights: user.rights,
+            moreInformations: user.moreInformations,
+            darkmode: user.darkmode,
+            lastConnexion: new Date().toISOString(),
+            newsletter: user.newsletter,
+            premium: user.premium,
+        };
+        putUser(updatedUserData);
+    };
+
+    const setUpDecisions = async () => {
+        // const [
+        //     dataChangementBulb,
+        //     dataReductionConsoHoraire,
+        //     dataAjouterLampadaire,
+        //     dataRetirerLampadaire,
+        //     dataReduireIntensiteLampadaire,
+        //     dataAugmenterIntensiteLampadaire,
+        // ] = await Promise.all([
+        //     getDecisionsSpecificAlgo('algoChangementBulb'),
+        //     getDecisionsSpecificAlgo('algoReductionConsoHoraire'),
+        //     getDecisionsSpecificAlgo('algoAjouterLampadaire'),
+        //     getDecisionsSpecificAlgo('algoRetirerLampadaire'),
+        //     getDecisionsSpecificAlgo('algoReduireIntensiteLampadaire'),
+        //     getDecisionsSpecificAlgo('algoAugmenterIntensiteLampadaire'),
+        // ]);
+        // const data = [].concat(
+        //     dataChangementBulb,
+        //     dataReductionConsoHoraire,
+        //     dataAjouterLampadaire,
+        //     dataRetirerLampadaire,
+        //     dataReduireIntensiteLampadaire,
+        //     dataAugmenterIntensiteLampadaire
+        // );
+        const data = await getDecisions();
+        addItemToOptimisationTemplate(data);
+    };
+
     const initUserSetup = async (data: any) => {
+        if (!data) {
+            console.log(data);
+            console.error('data is null or undefined');
+            return;
+        }
+
         localStorage.setItem('isDark', JSON.stringify(data.darkmode));
+        localStorage.setItem('vegetalScore', JSON.stringify(false));
+        localStorage.setItem('consumptionScore', JSON.stringify(false));
+        localStorage.setItem('lightScore', JSON.stringify(false));
+        //getAllScores();
+
         if (data.rights === 2) {
             localStorage.setItem('token', JSON.stringify(true));
             setOptimisationTemplateData(optimisationTemplateDataBackup);
         } else {
             localStorage.setItem('token', JSON.stringify(false));
-            getDecisions();
+            setUpDecisions();
         }
-        if (
-            (data.moreInformations[2] && data.moreInformations[2] === 'true') ||
-            localStorage.getItem('token') === 'true'
-        ) {
+
+        if (localStorage.getItem('token') === 'true' || data.premium) {
             localStorage.setItem('premium', JSON.stringify(true));
         } else {
             localStorage.setItem('premium', JSON.stringify(false));
@@ -62,39 +126,18 @@ const LoginModule: React.FC<LoginModuleProps> = ({
     const handleValidLogin = (data: any) => {
         setUserId(data.id);
         initUserSetup(data);
-        navigate('/landingpage');
+        updateUser();
+        navigate('/loadingpage');
+        // navigate('/landingpage');
     };
 
     const handleSubmitSignIn = async (event: any) => {
         event.preventDefault();
-
-        const encodedCredentials = btoa(
-            `${process.env.REACT_APP_REQUEST_USER}:${process.env.REACT_APP_REQUEST_PASSWORD}`
-        );
-        const headers = new Headers({
-            'Content-Type': 'application/json',
-            Authorization: `Basic ${encodedCredentials}`,
-        });
-
-        const urlRequest = process.env.REACT_APP_BACKEND_URL + 'users/signin';
-
         try {
-            const response = await fetch(urlRequest, {
-                method: 'POST',
-                headers: headers,
-                body: JSON.stringify({
-                    email: emailSignIn,
-                    password: passwordSignIn,
-                }),
-            });
-
-            if (!response.ok) {
-                throw new Error('La connexion a échoué');
-            }
-            const data = await response.json();
-            handleValidLogin(data);
+            const response = await signIn(emailSignIn, passwordSignIn);
+            handleValidLogin(response);
         } catch (error) {
-            console.error('Erreur lors de la connexion', error);
+            if (error) setError('Identifiants incorrects ou inexistants.');
         }
     };
 
@@ -102,60 +145,12 @@ const LoginModule: React.FC<LoginModuleProps> = ({
         if (passwordSignUp !== '' && passwordSignUp === passwordConfirmSignUp) {
             event.preventDefault();
 
-            const encodedCredentials = btoa(
-                `${process.env.REACT_APP_REQUEST_USER}:${process.env.REACT_APP_REQUEST_PASSWORD}`
+            const response = await signUp(
+                emailSignUp,
+                usernameSignUp,
+                passwordSignUp
             );
-            const headers = new Headers({
-                'Content-Type': 'application/json',
-                Authorization: `Basic ${encodedCredentials}`,
-            });
-            const urlRequest =
-                process.env.REACT_APP_BACKEND_URL + 'users/create';
-
-            try {
-                const response = await fetch(urlRequest, {
-                    method: 'POST',
-                    headers: headers,
-                    body: JSON.stringify({
-                        town: {
-                            id: '2dac2740-1d45-42d7-af5e-13b98cdf3af4',
-                        },
-                        email: emailSignUp,
-                        username: usernameSignUp,
-                        password: passwordSignUp,
-                    }),
-                });
-
-                if (!response.ok) {
-                    throw new Error("L'inscription a échoué");
-                }
-
-                const data = await response.json();
-                handleValidLogin(data);
-            } catch (error) {
-                console.error("Erreur lors de l'inscription", error);
-            }
-        }
-    };
-
-    const getDecisions = async () => {
-        const username = process.env.REACT_APP_REQUEST_USER;
-        const password = process.env.REACT_APP_REQUEST_PASSWORD;
-        const urlRequest =
-            process.env.REACT_APP_BACKEND_URL + 'decisions?pageNumber=0';
-
-        try {
-            const response = await fetch(urlRequest, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Basic ${btoa(`${username}:${password}`)}`,
-                },
-            });
-            const data = await response.json();
-            addItemToOptimisationTemplate(data);
-        } catch (error) {
-            console.log('ERROR GET DECISIONS = ' + error);
+            handleValidLogin(response);
         }
     };
 
@@ -227,6 +222,7 @@ const LoginModule: React.FC<LoginModuleProps> = ({
                     />
                     <Anchor href="#">Forgot your password?</Anchor>
                     <Button onClick={handleSubmitSignIn}> Sign In </Button>
+                    {error && <ErrorMessage>{error}</ErrorMessage>}
                 </Form>
             </SignInContainer>
 

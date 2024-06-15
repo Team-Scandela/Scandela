@@ -1,19 +1,20 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
     AbsencePannelButtonContainer,
     PannelContainer,
     PannelText,
     CloseIcon,
     ListDetailContainer,
-    WarningIcon,
     EventContainer,
-    ArrowIcon,
-    EventText,
-    EventTextContainer,
-    IndicatorsImage,
+    EventDate,
+    EventDescription,
+    EventTitle,
+    EventLocation,
+    TimeIcon,
 } from './elements';
 import { PersonnalizedGauge } from '../Gauges';
 import { GoInfo } from 'react-icons/go';
+import { useTranslation } from 'react-i18next';
 
 interface AbsencePannelProps {
     id: string;
@@ -22,9 +23,148 @@ interface AbsencePannelProps {
 
 const AbsencePannel: React.FC<AbsencePannelProps> = ({ id, isDark }) => {
     const [isAbsencePannelOpen, setIsAbsencePannelOpen] = useState(true);
+    const [dataReceived, setDataReceived] = useState(false);
+    const [absenceData, setAbsenceData] = useState([]);
+
+    const { t } = useTranslation();
 
     const handleToggleAbsencePannel = () => {
         setIsAbsencePannelOpen(!isAbsencePannelOpen);
+    };
+
+    const [levelElec, setLevelElec] = useState<number>(0);
+    const [levelBio, setLevelBio] = useState<number>(0);
+    const [levelLumi, setLevelLumi] = useState<number>(0);
+
+    const [oldLevelElec, setOldLevelElec] = useState<number>(0);
+    const [oldLevelBio, setOldLevelBio] = useState<number>(0);
+    const [oldLevelLumi, setOldLevelLumi] = useState<number>(0);
+
+    function parseFloatSafe(input: string): number {
+        const trimmedInput = input.trim();
+
+        const isValidNumber = /^[0-9]*\.?[0-9]+$/.test(trimmedInput);
+        if (!isValidNumber) {
+            return NaN;
+        }
+
+        return parseFloat(trimmedInput);
+    }
+
+    useEffect(() => {
+        const checkScore = () => {
+            const vegetalScore = localStorage.getItem('vegetalScore');
+            const lightScore = localStorage.getItem('lightScore');
+            const consumptionScore = localStorage.getItem('consumptionScore');
+
+            let allScoresDefined = true;
+
+            if (vegetalScore) {
+                const parsedScore = parseFloatSafe(vegetalScore);
+                if (!isNaN(parsedScore)) {
+                    setLevelBio(parsedScore);
+                } else {
+                    allScoresDefined = false;
+                }
+            } else {
+                allScoresDefined = false;
+            }
+
+            if (lightScore) {
+                const parsedScore = parseFloatSafe(lightScore);
+                if (!isNaN(parsedScore)) {
+                    setLevelLumi(parsedScore);
+                } else {
+                    allScoresDefined = false;
+                }
+            } else {
+                allScoresDefined = false;
+            }
+
+            if (consumptionScore) {
+                const parsedScore = parseFloatSafe(consumptionScore);
+                if (!isNaN(parsedScore)) {
+                    setLevelElec(parsedScore);
+                } else {
+                    allScoresDefined = false;
+                }
+            } else {
+                allScoresDefined = false;
+            }
+
+            return allScoresDefined;
+        };
+
+        const intervalId = setInterval(() => {
+            if (checkScore()) {
+                clearInterval(intervalId);
+            }
+        }, 1000); // Vérifiez les scores toutes les secondes
+
+        return () => clearInterval(intervalId);
+    }, []);
+
+    function arrayToISOString(array: number[]): string {
+        const year = array[0];
+        const month = array[1] - 1;
+        const day = array[2];
+        const hours = array[3];
+        const minutes = array[4];
+
+        const date = new Date(Date.UTC(year, month, day, hours, minutes));
+
+        return (
+            date.toLocaleDateString('fr-FR') +
+            ' ' +
+            date.toLocaleTimeString('fr-FR')
+        );
+    }
+
+    function arrayTotimestamp(array: number[]): number {
+        const year = array[0];
+        const month = array[1] - 1;
+        const day = array[2];
+        const hours = array[3];
+        const minutes = array[4];
+
+        const date = new Date(Date.UTC(year, month, day, hours, minutes));
+        return date.getTime();
+    }
+
+    const stringToArray = (string: string): number[] => {
+        return string.split(',').map((value) => parseInt(value));
+    };
+
+    useEffect(() => {
+        if (!dataReceived) getLastActions();
+    }, []);
+
+    const getLastActions = async () => {
+        setDataReceived(true);
+        getDecisions();
+    };
+
+    const filterDecisions = (decisions: any) => {
+        const lastConnexion = localStorage.getItem('previousLastConnexion');
+        const validateDecisions = decisions.filter((decision: any) => {
+            return decision.validate !== null;
+        });
+        const happenSinceLastConnexionDecision = validateDecisions.filter(
+            (decision: any) => {
+                return (
+                    arrayTotimestamp(decision.validate) >
+                    arrayTotimestamp(stringToArray(lastConnexion))
+                );
+            }
+        );
+        setAbsenceData(happenSinceLastConnexionDecision);
+    };
+
+    const getDecisions = async () => {
+        const data = localStorage.getItem('optimisationTemplateData');
+        if (data === null) return;
+        setDataReceived(true);
+        filterDecisions(JSON.parse(data));
     };
 
     return (
@@ -39,21 +179,22 @@ const AbsencePannel: React.FC<AbsencePannelProps> = ({ id, isDark }) => {
             {isAbsencePannelOpen && (
                 <PannelContainer isDark={isDark}>
                     <PannelText isDark={isDark}>
-                        Pendant votre absence
+                        {t('WhileYouWereAway')}
                     </PannelText>
-
                     <ListDetailContainer isDark={isDark}>
-                        <EventContainer isDark={isDark} top="10%">
-                            <WarningIcon />
-
-                            <EventTextContainer isDark={isDark}>
-                                <EventText isDark={isDark}>
-                                    Dérèglement du lampadaire 86 Rue Henri IV
-                                </EventText>
-                            </EventTextContainer>
-
-                            <ArrowIcon isDark={isDark} />
-                        </EventContainer>
+                        <TimeIcon isDark={isDark} size={200} />
+                        {absenceData.map((item: any, i: number) => (
+                            <EventContainer isDark={isDark} key={i}>
+                                <EventDate>
+                                    {arrayToISOString(item.validate)}
+                                </EventDate>
+                                <EventTitle>{item.solution}</EventTitle>
+                                <EventDescription>
+                                    {item.description}
+                                </EventDescription>
+                                <EventLocation>{item.location}</EventLocation>
+                            </EventContainer>
+                        ))}
                     </ListDetailContainer>
 
                     <PersonnalizedGauge
@@ -62,10 +203,10 @@ const AbsencePannel: React.FC<AbsencePannelProps> = ({ id, isDark }) => {
                         isElec={true}
                         isBio={false}
                         isLumi={false}
-                        level={70}
-                        oldLevel={50}
-                        top={36}
-                        left={69.5}
+                        level={levelElec}
+                        oldLevel={levelElec}
+                        top={23}
+                        left={85}
                     />
                     <PersonnalizedGauge
                         id={'BioGaugesComponentId'}
@@ -73,10 +214,10 @@ const AbsencePannel: React.FC<AbsencePannelProps> = ({ id, isDark }) => {
                         isElec={false}
                         isBio={true}
                         isLumi={false}
-                        level={75}
-                        oldLevel={85}
-                        top={52}
-                        left={69.5}
+                        level={levelBio}
+                        oldLevel={levelBio}
+                        top={45}
+                        left={85}
                     />
                     <PersonnalizedGauge
                         id={'LumiGaugesComponentId'}
@@ -84,10 +225,10 @@ const AbsencePannel: React.FC<AbsencePannelProps> = ({ id, isDark }) => {
                         isElec={false}
                         isBio={false}
                         isLumi={true}
-                        level={30}
-                        oldLevel={20}
+                        level={levelLumi}
+                        oldLevel={levelLumi}
                         top={68}
-                        left={69.5}
+                        left={85}
                     />
                     <CloseIcon
                         isDark={isDark}

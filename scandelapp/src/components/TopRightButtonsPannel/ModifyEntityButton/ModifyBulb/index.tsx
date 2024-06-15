@@ -9,6 +9,8 @@ import {
     ValidateButtonContainer,
 } from './elements';
 
+import LoadingSpinner from '../../../LoadingSpinner';
+
 import { useTranslation } from 'react-i18next';
 
 interface ModifyBulbProps {
@@ -25,10 +27,11 @@ const ModifyBulb: React.FC<ModifyBulbProps> = ({ isDark }) => {
     const [reference, setReference] = useState('');
     const [intensity, setIntensity] = useState('');
     const [consommation, setConsommation] = useState('');
-
+    const [id, setId] = useState('');
     const [isRequestOk, setIsRequestOk] = useState(true);
     const [isReferenceOk, setIsReferenceOk] = useState(false);
 
+    const [isWaiting, setIsWaiting] = useState(false);
     const { t } = useTranslation();
 
     const username = process.env.REACT_APP_REQUEST_USER;
@@ -36,7 +39,7 @@ const ModifyBulb: React.FC<ModifyBulbProps> = ({ isDark }) => {
 
     const modifyBulb = async () => {
         const urlmodification =
-            process.env.REACT_APP_BACKEND_URL + 'bulbs/' + reference;
+            process.env.REACT_APP_BACKEND_URL + 'bulbs/' + id;
         try {
             const response = await fetch(urlmodification, {
                 method: 'PUT',
@@ -57,19 +60,21 @@ const ModifyBulb: React.FC<ModifyBulbProps> = ({ isDark }) => {
                 setReference('');
                 setConsommation('');
                 setIntensity('');
-            } else setIsRequestOk(false);
+                setIsWaiting(false);
+            } else {
+                setIsRequestOk(false);
+                setIsWaiting(false);
+            }
         } catch (error) {
             console.log('ERROR MODIFICATION BULB = ' + error);
             setIsRequestOk(false);
+            setIsWaiting(false);
         }
     };
 
     const getBulb = async () => {
         const urlBulb =
-            process.env.REACT_APP_BACKEND_URL + 'bulbs/' + reference;
-
-        console.log(urlBulb);
-
+            process.env.REACT_APP_BACKEND_URL + 'bulbs?name=' + reference;
         try {
             const response = await fetch(urlBulb, {
                 method: 'GET',
@@ -81,20 +86,24 @@ const ModifyBulb: React.FC<ModifyBulbProps> = ({ isDark }) => {
 
             console.log('code de response = ' + response.status);
             const bulbData = await response.json();
-
+            console.log(bulbData[0]);
             if (response.status === 200) {
+                setConsommation(bulbData[0].consommation);
+                setIntensity(bulbData[0].intensity);
+                setId(bulbData[0].id);
                 setIsRequestOk(true);
                 setIsReferenceOk(true);
-                setConsommation(bulbData.consommation);
-                setIntensity(bulbData.intensity);
+                setIsWaiting(false);
             } else {
                 setIsRequestOk(false);
                 setIsReferenceOk(false);
+                setIsWaiting(false);
             }
         } catch (error) {
-            console.log('ERROR CREATE BULB = ' + error);
+            console.log('ERROR GET BULB = ' + error);
             setIsRequestOk(false);
             setIsReferenceOk(false);
+            setIsWaiting(false);
         }
     };
 
@@ -131,10 +140,14 @@ const ModifyBulb: React.FC<ModifyBulbProps> = ({ isDark }) => {
     ) => {};
 
     const handleGetBulb = () => {
-        if (isRequestOk === true) getBulb();
+        if (isRequestOk === true) {
+            setIsWaiting(true);
+            getBulb();
+        }
     };
 
     const handleModifyEntity = () => {
+        setIsWaiting(true);
         modifyBulb();
     };
 
@@ -147,16 +160,17 @@ const ModifyBulb: React.FC<ModifyBulbProps> = ({ isDark }) => {
                 onChange={handleReferenceChange}
                 onKeyDown={verifyReference}
             />
-            {!isReferenceOk && (
-                <SendReferenceButtonContainer>
-                    <button
-                        onClick={handleGetBulb}
-                        style={{
-                            backgroundColor: isRequestOk ? Yellow : 'red',
-                        }}
-                    >
-                        {t('validate')}
-                    </button>
+            {!isReferenceOk && !isWaiting && (
+                <SendReferenceButtonContainer
+                    isDark={isDark}
+                    onClick={handleGetBulb}
+                >
+                    {t('validate')}
+                </SendReferenceButtonContainer>
+            )}
+            {!isReferenceOk && isWaiting && (
+                <SendReferenceButtonContainer isDark={isDark}>
+                    <LoadingSpinner width={40} />
                 </SendReferenceButtonContainer>
             )}
             {isReferenceOk && (
@@ -176,17 +190,20 @@ const ModifyBulb: React.FC<ModifyBulbProps> = ({ isDark }) => {
                         onChange={handleConsommationChange}
                         onKeyDown={verifyConsommation}
                     />
-                    <ValidateButtonContainer>
-                        <button
-                            onClick={handleModifyEntity}
-                            style={{
-                                backgroundColor: isRequestOk ? Yellow : 'red',
-                            }}
-                        >
-                            {t('validate')}
-                        </button>
-                    </ValidateButtonContainer>
                 </>
+            )}
+            {isReferenceOk && !isWaiting && (
+                <ValidateButtonContainer
+                    isDark={isDark}
+                    onClick={handleModifyEntity}
+                >
+                    {t('validate')}
+                </ValidateButtonContainer>
+            )}
+            {isReferenceOk && isWaiting && (
+                <ValidateButtonContainer isDark={isDark}>
+                    <LoadingSpinner width={40} />
+                </ValidateButtonContainer>
             )}
         </div>
     );
