@@ -23,6 +23,9 @@ public class LampDto implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private UUID id;
+	private String name;
+	private String lampType;
+	private String foyerType;
 	private Double latitude;
 	private Double longitude;
 	
@@ -31,6 +34,9 @@ public class LampDto implements Serializable {
 	public static LampDto from(Lamp lamp) {
 		return LampDto.builder()
 				.id(lamp.getId())
+				.name(lamp.getName())
+				.lampType(lamp.getLampType())
+				.foyerType(lamp.getFoyerType())
 				.latitude(lamp.getLatitude())
 				.longitude(lamp.getLongitude())
 				.build();

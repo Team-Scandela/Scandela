@@ -9,38 +9,10 @@ import { LassoOverlay } from './elements';
 //import loadMap from './loadMap';
 //import TimePicker from '../TimePicker';
 import React from 'react';
+import { json } from 'react-router-dom';
 
 // Load geographical data of Nantes from a local JSON file
-let nantesData = require('../../assets/nantesData.json');
-
-const getLamp = async () => {
-    const username = process.env.REACT_APP_REQUEST_USER;
-    const password = process.env.REACT_APP_REQUEST_PASSWORD;
-    const urlLamp =
-        process.env.REACT_APP_BACKEND_URL + 'lamps';
-    try {
-        const response = await fetch(urlLamp, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Basic ${btoa(`${username}:${password}`)}`,
-            },
-        });
-
-        const lampsData = await response.json();
-        if (response.status === 200) {
-
-        } else {
-            console.log('GET LAMP FAILED, status = ' + response.status);
-        }
-    } catch (error) {
-        console.log('ERROR GET LAMP = ' + error);
-    }
-
-    return true;
-};
-
-let x = getLamp();
+let nantesData = JSON.parse(localStorage.getItem("lamps"));
 
 function getRandomColor() {
     const colors = ['#00FF00', '#FFA500', '#FF0000'];
@@ -152,19 +124,17 @@ const Map: React.FC<MapProps> = ({
             const feature: any = {
                 type: 'Feature',
                 geometry: {
-                    type: obj.geometry.type,
+                    type: "Point",
                     coordinates: [
                         obj.geometry.coordinates[0],
                         obj.geometry.coordinates[1],
                     ],
                 },
                 properties: {
-                    id: obj.recordid,
-                    name: obj.fields.numero,
-                    lamp: obj.fields.type_lampe,
-                    hat: obj.fields.type_foyer,
-                    lum: obj.fields.nb_lampes,
-                    height: obj.fields.hauteur_support,
+                    id: obj.id,
+                    name: obj.name,
+                    lamp: obj.lampType,
+                    hat: obj.foyerType,
                 },
             };
             geoJSON.features.push(feature);

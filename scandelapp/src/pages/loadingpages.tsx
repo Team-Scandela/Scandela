@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { getAllScores } from '../utils/gaugesUtils';
+import { getAllLamps } from '../utils/lampUtils';
 import LoadingPageComponent from '../components/LoadingPage';
 
 interface LoadingPageProps {}
@@ -20,7 +21,8 @@ const LoadingPage: React.FC<LoadingPageProps> = ({}) => {
         // return () => clearTimeout(timer); // Nettoyer le timer à la fin
         const fetchData = async () => {
             try {
-                await getAllScores();
+                // getAllScores();
+                await getAllLamps("VILLE (jsp comment faire pour la recup dans le local storage)");
                 setIsLoading(false);
             } catch (error) {
                 console.error('Error during data fetching:', error);
