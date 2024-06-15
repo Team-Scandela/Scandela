@@ -21,7 +21,7 @@ const LoadingPage: React.FC<LoadingPageProps> = ({}) => {
         // return () => clearTimeout(timer); // Nettoyer le timer à la fin
         const fetchData = async () => {
             try {
-                // await getAllScores();
+                await getAllScores();
                 await getAllLamps("VILLE (jsp comment faire pour la recup dans le local storage)");
                 setIsLoading(false);
             } catch (error) {
