@@ -46,7 +46,7 @@ const LightDark: React.FC<LightDarkProps> = ({
         } catch (error) {
             console.error('Error updating user:', error);
         }
-        
+
         if (
             notificationsPreference.find(
                 (item: any) => item[0] === 'lightDarkModeUpdate'

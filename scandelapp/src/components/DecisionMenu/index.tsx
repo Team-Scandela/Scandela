@@ -14,7 +14,12 @@ import {
     ScrollableOptimisationsContainer,
     AddToActionsListButton,
 } from './elements';
-import { MdKeyboardDoubleArrowLeft as DecisionIconLeft, MdKeyboardDoubleArrowRight as DecisionIconRight, MdKeyboardArrowDown as DropdownButtonIconOpen, MdKeyboardArrowUp as DropdownButtonIconClose } from 'react-icons/md';
+import {
+    MdKeyboardDoubleArrowLeft as DecisionIconLeft,
+    MdKeyboardDoubleArrowRight as DecisionIconRight,
+    MdKeyboardArrowDown as DropdownButtonIconOpen,
+    MdKeyboardArrowUp as DropdownButtonIconClose,
+} from 'react-icons/md';
 import ButtonSelectAll from './ButtonSelectAll';
 import ButtonDeselectAll from './ButtonDeselectAll';
 import { CgPlayListCheck, CgPlayListRemove } from 'react-icons/cg';
@@ -125,7 +130,9 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
                     await createNotification({
                         user: { id: userId },
                         title: t('actionListFailedUpdate'),
-                        description: t('theActionListHasntBeenSuccessfullyUpdated'),
+                        description: t(
+                            'theActionListHasntBeenSuccessfullyUpdated'
+                        ),
                         triggered: true,
                     });
                 }
