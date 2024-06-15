@@ -190,8 +190,8 @@ export const ValidateButton = styled.div`
     right: 3%;
     bottom: 9.75%;
     user-select: none;
-    background-color: ${(props) => (props.isDark ? Black : Black)};
-    color: ${(props) => (props.isDark ? Yellow : Yellow)};
+    background-color: ${(props) => (props.isDark ? Yellow : Yellow)};
+    color: ${(props) => (props.isDark ? Black : Black)};
     border-radius: 5px;
     font-weight: bold;
     font-size: 16px;
@@ -200,8 +200,8 @@ export const ValidateButton = styled.div`
     font-family: 'SyneRegular';
 
     &:hover {
-        background-color: ${(props) => (props.isDark ? Yellow : Black)};
-        color: ${(props) => (props.isDark ? Black : Yellow)};
+        background-color: ${(props) => (props.isDark ? Black : Black)};
+        color: ${(props) => (props.isDark ? Yellow : Yellow)};
     }
 `;
 
@@ -216,8 +216,8 @@ export const PDFButton = styled.div`
     right: 3%;
     bottom: 2%;
     user-select: none;
-    background-color: ${(props) => (props.isDark ? Black : Black)};
-    color: ${(props) => (props.isDark ? Yellow : Yellow)};
+    background-color: ${(props) => (props.isDark ? Yellow : Yellow)};
+    color: ${(props) => (props.isDark ? Black : Black)};
     border-radius: 5px;
     font-weight: bold;
     font-size: 16px;
@@ -226,7 +226,7 @@ export const PDFButton = styled.div`
     font-family: 'SyneRegular';
 
     &:hover {
-        background-color: ${(props) => (props.isDark ? Yellow : Black)};
-        color: ${(props) => (props.isDark ? Black : Yellow)};
+        background-color: ${(props) => (props.isDark ? Black : Black)};
+        color: ${(props) => (props.isDark ? Yellow : Yellow)};
     }
 `;

@@ -102,6 +102,7 @@ export const DecisionMenuTabButton = styled.div`
     &:hover {
         background-color: ${(props) => (props.isDark ? Yellow : Black)};
         color: ${(props) => (props.isDark ? Black : Yellow)};
+        cursor: pointer;
     }
 `;
 /** Container of the text inside the tabs buttons */
