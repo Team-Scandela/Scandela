@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react';
 import TicketList from '../components/TicketList';
 
-// css style for the admin page title
+/** css style for the admin page title */
 const titleStyle = {
     fontSize: '30px',
     fontWeight: 'bold',
     margin: '20px',
 };
 
+/** Ticket interface */
 interface Ticket {
     id: number;
     title: string;
@@ -17,10 +18,21 @@ interface Ticket {
     status: number;
 }
 
-/** Admin page of the app */
+/**
+ * Admin page of the app
+ * @component
+ * @example
+ * return (
+ *   <Admin />
+ * )
+ */
 const Admin: React.FC = () => {
     const [tickets, setTickets] = useState<Ticket[]>([]);
 
+    /**
+     * Fetches tickets from the backend
+     * @async
+     */
     const getTicket = async () => {
         const username = process.env.REACT_APP_REQUEST_USER;
         const password = process.env.REACT_APP_REQUEST_PASSWORD;
