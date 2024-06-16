@@ -7,8 +7,6 @@ export const MarkerButton = styled.div`
     height: ${(props) => props.small ? '48px' : '64px'};
     width: ${(props) => props.small ? '48px' : '64px'};
     position: absolute;
-    top: ${(props) => props.top + '%'};
-    left: ${(props) => props.left + '%'};
     transform: translate(-50%, -50%) rotate(45deg);
     display: flex;
     justify-content: center;
@@ -23,8 +21,6 @@ export const MarkerButton = styled.div`
 
 export const MarkerTitle = styled.div`
     position: absolute;
-    top: ${(props) => `calc(${props.top}% + ${props.small ? '40px' : '50px'})`};
-    left: ${(props) => props.left + '%'};
     font-size: ${(props) => props.small ? '20px' : '24px'};
     transform: translate(-50%, 0%);
     color: ${White};
