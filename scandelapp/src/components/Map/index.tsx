@@ -125,10 +125,7 @@ const Map: React.FC<MapProps> = ({
                 type: 'Feature',
                 geometry: {
                     type: 'Point',
-                    coordinates: [
-                        obj.longitude,
-                        obj.latitude,
-                    ],
+                    coordinates: [obj.longitude, obj.latitude],
                 },
                 properties: {
                     id: obj.id,
@@ -136,7 +133,7 @@ const Map: React.FC<MapProps> = ({
                     lamp: obj.lampType,
                     hat: obj.foyerType,
                     lum: obj.lum,
-                    height: obj.height
+                    height: obj.height,
                 },
             };
             geoJSON.features.push(feature);
@@ -1315,9 +1312,9 @@ const Map: React.FC<MapProps> = ({
     };
 
     // Trouver l'objet correspondant au selectedLampId dans nantesData
-    const selectedLampData = nantesData.at(0).find(
-        (lamp: any) => lamp.id === selectedLampId
-    );
+    const selectedLampData = nantesData
+        .at(0)
+        .find((lamp: any) => lamp.id === selectedLampId);
 
     // Render the map component
     return (

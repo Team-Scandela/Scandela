@@ -2,19 +2,20 @@ import { showToast } from '../components/Toastr';
 
 /**
  * Fetches the light score data.
- * 
+ *
  * @async
  * @function getLightScore
  * @returns {Promise<any>} A promise that resolves to the light score data.
  */
 export const getLightScore = async (): Promise<any> => {
     console.debug('getLightScore started');
-    
+
     const username = process.env.REACT_APP_REQUEST_USER;
     const password = process.env.REACT_APP_REQUEST_PASSWORD;
 
     try {
-        const urlRequest = process.env.REACT_APP_BACKEND_URL + 'lamps/lightScore';
+        const urlRequest =
+            process.env.REACT_APP_BACKEND_URL + 'lamps/lightScore';
         const response = await fetch(urlRequest, {
             method: 'GET',
             headers: {
@@ -33,19 +34,20 @@ export const getLightScore = async (): Promise<any> => {
 
 /**
  * Fetches the consumption score data.
- * 
+ *
  * @async
  * @function getConsuptionScore
  * @returns {Promise<any>} A promise that resolves to the consumption score data.
  */
 export const getConsuptionScore = async (): Promise<any> => {
     console.debug('getConsuptionScore started');
-    
+
     const username = process.env.REACT_APP_REQUEST_USER;
     const password = process.env.REACT_APP_REQUEST_PASSWORD;
 
     try {
-        const urlRequest = process.env.REACT_APP_BACKEND_URL + 'lamps/consuptionScore';
+        const urlRequest =
+            process.env.REACT_APP_BACKEND_URL + 'lamps/consuptionScore';
         const response = await fetch(urlRequest, {
             method: 'GET',
             headers: {
@@ -64,19 +66,20 @@ export const getConsuptionScore = async (): Promise<any> => {
 
 /**
  * Fetches the vegetal score data.
- * 
+ *
  * @async
  * @function getVegetalScore
  * @returns {Promise<any>} A promise that resolves to the vegetal score data.
  */
 export const getVegetalScore = async (): Promise<any> => {
     console.debug('getVegetalScore started');
-    
+
     const username = process.env.REACT_APP_REQUEST_USER;
     const password = process.env.REACT_APP_REQUEST_PASSWORD;
 
     try {
-        const urlRequest = process.env.REACT_APP_BACKEND_URL + 'lamps/vegetalScore';
+        const urlRequest =
+            process.env.REACT_APP_BACKEND_URL + 'lamps/vegetalScore';
         const response = await fetch(urlRequest, {
             method: 'GET',
             headers: {
@@ -95,14 +98,14 @@ export const getVegetalScore = async (): Promise<any> => {
 
 /**
  * Fetches all score data and stores it in local storage.
- * 
+ *
  * @async
  * @function getAllScores
  * @returns {Promise<any>} A promise that resolves to the score data if the fetch was successful.
  */
 export const getAllScores = async (): Promise<any> => {
     console.debug('getAllScores started');
-    
+
     const username = process.env.REACT_APP_REQUEST_USER;
     const password = process.env.REACT_APP_REQUEST_PASSWORD;
 

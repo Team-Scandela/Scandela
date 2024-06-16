@@ -1,0 +1,9 @@
+{
+    "entryPoints": ["src/index.tsx", "src/pages/admin.tsx"],
+    "out": "Docs",
+    "name": "scandelapp",
+    "excludePrivate": false,
+    "excludeProtected": false,
+    "excludeExternals": false,
+    "theme": "default"
+}
