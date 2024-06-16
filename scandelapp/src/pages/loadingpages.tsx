@@ -5,32 +5,47 @@ import { getAllScores } from '../utils/gaugesUtils';
 import { getAllLamps } from '../utils/lampUtils';
 import LoadingPageComponent from '../components/LoadingPage';
 
+/**
+ * Props for the LoadingPage component.
+ * @interface LoadingPageProps
+ */
 interface LoadingPageProps {}
 
-/** Loading page of the app.
- *  Its a waiting page until all the required components are full load */
+/**
+ * LoadingPage component - displays a loading screen until all required data is fetched.
+ * 
+ * @component
+ * @param {LoadingPageProps} props - Props for LoadingPage component.
+ * @returns {JSX.Element} The LoadingPage component.
+ */
 const LoadingPage: React.FC<LoadingPageProps> = ({}) => {
     const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
 
     useEffect(() => {
-        // const timer = setTimeout(() => {
-        //     setIsLoading(false);
-        // }, 20000); // 3 secondes
-
-        // return () => clearTimeout(timer); // Nettoyer le timer à la fin
+        /**
+         * Fetches all required data (scores and lamps) and navigates to the landing page once done.
+         * 
+         * @async
+         * @function fetchData
+         */
         const fetchData = async () => {
             try {
-                await getAllScores();
-                await getAllLamps("VILLE (jsp comment faire pour la recup dans le local storage)");
+                console.debug('Fetching data started');
+                await Promise.all([
+                    getAllScores(),
+                    getAllLamps("VILLE (jsp comment faire pour la recup dans le local storage)")
+                ]);
                 setIsLoading(false);
+                navigate('/landingpage');
+                console.debug('Fetching data completed and navigation triggered');
             } catch (error) {
                 console.error('Error during data fetching:', error);
             }
         };
 
         fetchData();
-    }, [navigate('/landingpage')]);
+    }, []);
 
     return (
         <div
