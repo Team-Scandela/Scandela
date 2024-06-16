@@ -9,11 +9,14 @@ import TopRightButtonsPannel from '../components/TopRightButtonsPannel';
 import Toastr from '../components/Toastr';
 import { Gauges } from '../components/Gauges';
 import AbsencePannel from '../components/AbsencePannel';
-// import MapDB from '../components/MapDB';
 import FilterSearch from '../components/FilterSearch';
 import TrafficTime from '../components/TrafficTime';
 import ActionHistory from '../components/ActionHistory';
 
+/**
+ * Enum for filter types.
+ * @enum {string}
+ */
 export enum Filters {
     pin = 'pin',
     zone = 'zone',
@@ -24,12 +27,24 @@ export enum Filters {
     none = 'none',
 }
 
+/**
+ * Props for the Main component.
+ * @interface MainProps
+ */
 interface MainProps {
+    /** Optimisation template data. */
     optimisationTemplateData: any;
+    /** Function to set optimisation template data. */
     setOptimisationTemplateData: (data: any) => void;
 }
 
-/** Main page of the app */
+/**
+ * Main page component of the application.
+ * 
+ * @component
+ * @param {MainProps} props - Props for Main component.
+ * @returns {JSX.Element} The Main component.
+ */
 const Main: React.FC<MainProps> = ({
     optimisationTemplateData,
     setOptimisationTemplateData,
@@ -43,15 +58,15 @@ const Main: React.FC<MainProps> = ({
     const [lng, setLng] = useState<number>(-1.553621);
     const [zoom, setZoom] = useState(12);
 
-    /** If the decision panel is open or closed */
+    /** State for the decision panel being extended or not */
     const [decisionPanelExtended, setDecisionPanelExtended] =
         useState<boolean>(false);
-    /** If the action list panel is open or closed */
+    /** State for the actions list panel being extended or not */
     const [actionsListExtended, setActionsListExtended] = useState(false);
     const [currentSelected, setCurrentSelected] = useState(
         'Choisissez une action'
     );
-    /** Variables for the search for the filter filter */
+    /** State for search filter input */
     const [search, setSearch] = useState<string>('');
     const [selected, setSelected] = useState<string>('Lamp');
 
@@ -64,18 +79,32 @@ const Main: React.FC<MainProps> = ({
         ['languageUpdate', true],
     ]);
 
+    /**
+     * Handles the search functionality.
+     * @param {string} value - The search input value.
+     */
     const handleSearch = (value: string) => {
         handleSearchUtils(value, lat, setLat, lng, setLng, zoom, setZoom);
     };
 
+    /**
+     * Toggles the decision panel extension state.
+     */
     const handleToggleDecisionPanelExtend = () => {
         setDecisionPanelExtended((prevState) => !prevState);
     };
 
+    /**
+     * Handles changes to the optimisation template data.
+     * @param {any} data - The new optimisation template data.
+     */
     const handleOptimisationTemplateDataChange = (data: any) => {
         setOptimisationTemplateData(data);
     };
 
+    /**
+     * Selects all items in the optimisation template.
+     */
     const handleButtonSelectAllClick = () => {
         const updatedData = [...optimisationTemplateData];
         updatedData.forEach((item: any) => {
@@ -90,6 +119,9 @@ const Main: React.FC<MainProps> = ({
         setOptimisationTemplateData(updatedData);
     };
 
+    /**
+     * Deselects all items in the optimisation template.
+     */
     const handleButtonDeselectAllClick = () => {
         const updatedData = [...optimisationTemplateData];
         updatedData.forEach((item: any) => {
@@ -103,10 +135,18 @@ const Main: React.FC<MainProps> = ({
         setOptimisationTemplateData(updatedData);
     };
 
+    /**
+     * Handles changes to the currently selected optimisation type.
+     * @param {string} data - The new selected optimisation type.
+     */
     const handleCurrentSelectedChange = (data: string) => {
         setCurrentSelected(data);
     };
 
+    /**
+     * Adds a notification to the list.
+     * @param {string} description - The notification description.
+     */
     const addNotificationToList = (description: string) => {
         const date = new Date();
 

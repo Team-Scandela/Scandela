@@ -1,13 +1,22 @@
 import { useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
+/**
+ * Redirect component used for email confirmation redirection.
+ * 
+ * @component
+ * @returns {JSX.Element} The Redirect component.
+ */
 const Redirect: React.FC = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const email = queryParams.get('email');
 
-    // Use useEffect to redirect to the root path after a few seconds
+    /**
+     * Effect to handle email confirmation and automatic redirection.
+     * Redirects to the root path after 3 seconds if an email is present in query parameters.
+     */
     useEffect(() => {
         if (email) {
             const urlRequest =
@@ -39,7 +48,7 @@ const Redirect: React.FC = () => {
 
         // Clear the timeout if the component unmounts
         return () => clearTimeout(redirectTimeout);
-    }, [navigate]);
+    }, [navigate, email]);
 
     return (
         <div style={{ backgroundColor: '#fff', height: '200vh' }}>

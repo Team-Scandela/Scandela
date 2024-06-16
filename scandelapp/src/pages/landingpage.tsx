@@ -1,8 +1,18 @@
 import LandingPageComponent from '../components/LandingPageComponent';
 
+/**
+ * Props for the LandingPage component.
+ * @interface LandingPageProps
+ */
 interface LandingPageProps {}
 
-/** Landing page of the app */
+/**
+ * Landing page component of the application.
+ * 
+ * @component
+ * @param {LandingPageProps} props - Props for LandingPage component.
+ * @returns {JSX.Element} The LandingPage component.
+ */
 const LandingPage: React.FC<LandingPageProps> = ({}) => {
     return (
         <div

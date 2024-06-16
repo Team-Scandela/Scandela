@@ -1,0 +1,10 @@
+{
+    "entryPoints": ["src/index.tsx", "src/pages/*.tsx"],
+    "out": "docs",
+    "name": "Scandela",
+    "excludePrivate": false,
+    "excludeProtected": false,
+    "excludeExternals": false,
+    "theme": "default"
+  }
+  
