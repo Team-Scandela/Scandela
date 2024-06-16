@@ -1,16 +1,14 @@
 package com.scandela.server.controller;
 
-import java.util.ArrayList;	
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
-import java.util.concurrent.CompletableFuture;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.concurrent.ExecutionException;
-
 import java.io.IOException;
-import com.opencsv.exceptions.CsvValidationException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 import org.springframework.data.util.Pair;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -24,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.opencsv.exceptions.CsvValidationException;
 import com.scandela.server.entity.Lamp;
 import com.scandela.server.entity.dto.LampDto;
 import com.scandela.server.exception.LampException;
@@ -48,7 +47,7 @@ public class LampController extends AbstractController<Lamp> {
 	 */
 	@GetMapping
 	public List<LampDto> getLamps() {
-		List<Lamp> lamps = ((ILampService) service).getAll();
+		List<Lamp> lamps = service.getAll();
 		
 		return lamps.stream().map(lamp -> LampDto.from(lamp)).collect(Collectors.toList());
 	}
