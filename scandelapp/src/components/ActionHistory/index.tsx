@@ -26,6 +26,7 @@ import { useTranslation } from 'react-i18next';
 import { GoLightBulb as Bulb } from "react-icons/go";
 import { LuLampCeiling as Lamp } from "react-icons/lu";
 import { TbArrowBackUpDouble } from "react-icons/tb";
+import { RiMapPin2Line } from "react-icons/ri";
 
 interface ActionHistoryProps {
     id: string;
@@ -234,6 +235,9 @@ const ActionHistory: React.FC<ActionHistoryProps> = ({ id, isDark }) => {
                         data-tooltip-content={"Invalider la décision"}
                     > <TbArrowBackUpDouble size={40} />
                     </PopUpUnvalideButton>
+                    <PopUpToLampButton>
+                        <RiMapPin2Line size={40} />
+                    </PopUpToLampButton>
                 </PopUpContainer>
             )}
         </div>
