@@ -3,8 +3,6 @@ import { Yellow, Black, White, Grey } from '../../colors';
 import { GiSandsOfTime } from 'react-icons/gi';
 import {
     AiFillCloseCircle,
-    AiOutlineWarning,
-    AiOutlineSend,
 } from 'react-icons/ai';
 
 /** Container for the absence pannel button **/
