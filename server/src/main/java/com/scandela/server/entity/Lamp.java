@@ -118,4 +118,8 @@ public class Lamp implements Serializable {
 	@OneToMany(mappedBy = "lamp", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	private List<LampIncident> lampIncidents;
 	
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+	@OneToMany(mappedBy = "lamp", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+	private List<LampReparation> lampReparations;
+	
 }
