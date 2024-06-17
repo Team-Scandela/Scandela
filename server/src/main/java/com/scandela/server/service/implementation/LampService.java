@@ -4,6 +4,7 @@ import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 import java.io.FileReader;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -137,6 +138,7 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
 	@Transactional(rollbackFor = { Exception.class })
     public Lamp update(UUID id, Lamp update, String... ignoredProperties) throws Exception {
 		try {
+			update.setLastmodification(LocalDateTime.now());
 			Lamp lamp = super.update(id, update, IGNORED_PROPERTIES);
 
 	        WhileAway whileAway = new WhileAway();

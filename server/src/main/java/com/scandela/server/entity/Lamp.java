@@ -1,6 +1,7 @@
 package com.scandela.server.entity;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.UUID;
@@ -109,6 +110,9 @@ public class Lamp implements Serializable {
 
 	@Column(name = "foyertype")
 	private String foyerType;
+	
+	@Column(name = "lastmodification")
+	private LocalDateTime lastmodification;
 
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@OneToMany(mappedBy = "lamp", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
