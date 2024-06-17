@@ -9,4 +9,5 @@ import com.scandela.server.exception.UserException;
 public interface IUserService extends IService<User> {
 	public User signIn(String email, String password) throws UserException;
 	public List<User> getAllForNewsletter();
+	public User setUserRole(UUID userId, String role);
 }

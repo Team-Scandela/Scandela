@@ -12,5 +12,6 @@ import com.scandela.server.entity.User;
 @Repository
 public interface UserDao extends JpaRepository<User, UUID> {
 	public Optional<User> findByEmail(String email);
+	public Optional<User> findByUsername(String username);
 	public List<User> findByNewsletter(boolean newsletter);
 }
