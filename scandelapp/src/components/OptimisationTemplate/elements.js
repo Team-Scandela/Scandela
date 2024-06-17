@@ -5,7 +5,7 @@ import { Black, Grey, Yellow, Green, Red } from '../../colors';
 export const OptimisationTemplateContainer = styled.div`
     display: flex;
     position: absolute;
-    width: 505px;
+    width: 510px;
     height: 100px;
     left: 0px;
     top: ${(props) => props.y}px;
