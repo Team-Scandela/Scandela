@@ -19,5 +19,4 @@ export const BackButton = styled.div`
     &:hover {
         cursor: pointer;
     }
-    transition: all 0.7s ease-in-out;
 `;
