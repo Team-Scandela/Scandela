@@ -70,20 +70,26 @@ public class User implements Serializable {
 	private List<String> moreInformations;
 	
 	@Builder.Default
-	@Column(name = "darkmode", nullable = false)
+	@Column(name = "darkmode")
 	private boolean darkmode = false;
 	
-	@Column(name = "lastconnexion", nullable = false)
+	@Column(name = "lastconnexion")
 	private LocalDateTime lastConnexion;
 	
 	@Builder.Default
 	@Column(name = "newsletter")
 	private boolean newsletter = false;
 
+	@Column(name = "prefnotifenabled")
+	private Boolean prefnotifenabled;
+
+	@Column(name = "frenchlanguage")
+	private Boolean frenchlanguage;
+
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
 	private List<Notification> notifications;
 	@Builder.Default
-	@Column(name = "premium", nullable = false)
+	@Column(name = "premium")
 	private boolean premium = false;
 }
