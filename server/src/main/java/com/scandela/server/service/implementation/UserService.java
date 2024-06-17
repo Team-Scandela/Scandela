@@ -67,6 +67,7 @@ public class UserService extends AbstractService<User> implements IUserService {
 			}
 			newUser.setPassword(passwordEncoder.encode("scan" + newUser.getPassword() + "dela"));
 			newUser.setLastConnexion(LocalDateTime.now());
+			newUser.setRole("USER");
 
 			return dao.save(newUser);
 		} catch (Exception e) {
