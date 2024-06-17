@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { Yellow, Black, White, Grey, DarkYellow, DarkGrey } from '../../colors';
-import { IoCheckmarkCircleOutline, IoCloseSharp } from 'react-icons/io5';
+import { IoCheckmarkCircleOutline } from 'react-icons/io5';
+import { AiFillCloseCircle } from 'react-icons/ai';
 
 /** Button who allows to open the action history pannel */
 export const ActionsHistoryButton = styled.div`
@@ -66,7 +67,6 @@ export const ActionsTitle = styled.div`
     transform: perspective(10px) rotateX(2deg);
     letter-spacing: 2px;
     padding: 10px;
-    background: linear-gradient(to right, ${Yellow}, #ffd700);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -144,48 +144,57 @@ export const PopUpContainer = styled.div`
 `;
 
 /** Style of the pop-up close icon */
-export const PopUpClose = styled(IoCloseSharp)`
+export const PopUpClose = styled(AiFillCloseCircle)`
     position: absolute;
     right: 20px;
     top: 20px;
     font-size: 50px;
     color: ${(props) => (props.isDark ? Yellow : Black)};
     z-index: 9999;
+    transition: all 0.2s ease-in-out;
 
     &:hover {
         cursor: pointer;
-        opacity: 0.8;
+        color: ${(props) => (props.isDark ? DarkGrey : DarkGrey)};
     }
 `;
 
 /** Style of the pop-up title */
 export const PopUpTitle = styled.div`
     position: absolute;
-    top: 20px;
-    left: 20px;
+    top: 25px;
+    left: 80px;
     font-size: 32px;
     color: ${(props) => (props.isDark ? Yellow : Black)};
     font-weight: 550;
-    /* user-select: none; */
+`;
+
+/** Style of the pop-up text for the time */
+export const PopUpSubtitle = styled.div`
+    position: absolute;
+    top: 90px;
+    left: 35px;
+    font-size: 25px;
+    color: ${(props) => (props.isDark ? Yellow : Black)};
+    font-weight: 400;
 `;
 
 /** Style of the pop-up text for the time */
 export const PopUpTime = styled.div`
     position: absolute;
-    top: 80px;
-    left: 20px;
+    top: 140px;
+    left: 35px;
     font-size: 25px;
     color: ${(props) => (props.isDark ? Yellow : Black)};
     font-weight: 400;
-    /* user-select: none; */
 `;
 
 export const PopUpDescriptionContainer = styled.div`
     position: absolute;
-    top: 150px;
-    left: 20px;
-    width: 760px;
-    height: 330px;
+    top: 200px;
+    left: 35px;
+    width: 740px;
+    height: 70px;
     background-color: ${(props) =>
         props.isDark ? DarkGrey + 'FF' : DarkGrey + 'FF'};
     border-radius: 20px;
@@ -199,5 +208,66 @@ export const PopUpDescriptionText = styled.p`
     font-size: 25px;
     color: ${(props) => (props.isDark ? Yellow : Black)};
     font-weight: 400;
-    /* user-select: none; */
+`;
+
+export const PopUpIcon = styled.div`
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 50px;
+    color: ${(props) => (props.isDark ? Yellow : Black)};
+    user-select: none;
+`;
+
+export const PopUpSolutionContainer = styled.div`
+    position: absolute;
+    top: 300px;
+    left: 35px;
+    width: 740px;
+    height: 100px;
+    background-color: ${(props) =>
+        props.isDark ? DarkGrey + 'FF' : DarkGrey + 'FF'};
+    border-radius: 20px;
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+`;
+
+export const PopUpUnvalideButton = styled.div`
+    position: absolute;
+    top: 420px;
+    right: 25px;
+    width: 60px;
+    height: 60px;
+    background-color: ${(props) =>
+        props.isDark ? Yellow + 'FF' : Yellow + 'FF'};
+    border-radius: 20%;
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+        background-color: ${(props) =>
+            props.isDark ? DarkGrey + 'FF' : DarkGrey + 'FF'};
+        cursor: pointer;
+    }
+`;
+
+export const PopUpToLampButton = styled.div`
+    position: absolute;
+    top: 70px;
+    right: 220px;
+    width: 60px;
+    height: 60px;
+    border-radius: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.2s ease-in-out;
+    color : ${Yellow};
+
+    &:hover {
+        color: ${DarkGrey};
+        cursor: pointer;
+    }
 `;

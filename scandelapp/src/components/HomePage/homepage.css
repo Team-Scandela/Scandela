@@ -3,16 +3,12 @@
 }
 .fade-enter-active {
     opacity: 1;
-    transition: opacity 500ms ease-in;
+    transition: opacity 2000ms ease-in;
 }
 .fade-exit {
     opacity: 1;
 }
 .fade-exit-active {
     opacity: 0;
-    transition: opacity 500ms ease-in;
-}
-
-.movable {
-    transition: top 0.5s ease-in-out, left 0.5s ease-in-out;
+    transition: opacity 2000ms ease-in;
 }

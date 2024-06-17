@@ -1330,10 +1330,10 @@ const Map: React.FC<MapProps> = ({
             />
             <style>
                 {`.mapboxgl-ctrl-logo {
-                    display: none;
+                    display: none !important;
                 }
                 .mapboxgl-ctrl-attrib-inner {
-                display: none;
+                display: none !important;
                 }`}
             </style>
             {selectedLampId && (

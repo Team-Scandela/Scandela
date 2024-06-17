@@ -1,7 +1,37 @@
+.marker-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .marker {
-    background: #aaa;
-    width: 50px;
-    height: 50px;
+    background-color: #FAC710;
+    width: 75px;
+    height: 75px;
     border-radius: 10%;
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.marker.small {
+    width: 50px;
+    height: 50px;
+}
+
+.marker-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 75%;
+    height: 75%;
+}
+
+.marker-title {
+    margin-top: 5px;
+    font-size: 20px;
+    color: #F9F9F9;
+    text-align: center;
+    cursor: default !important;
 }
