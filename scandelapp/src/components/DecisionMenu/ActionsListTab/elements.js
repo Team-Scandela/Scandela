@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Yellow, Black, Grey } from '../../../colors';
+import { Yellow, Black, Grey, White } from '../../../colors';
 import { BsFillTrash3Fill } from 'react-icons/bs';
 import { GiSandsOfTime } from 'react-icons/gi';
 import { AiOutlineSend } from 'react-icons/ai';
@@ -17,13 +17,40 @@ export const ScrollableOptimisationsContainer = styled.div`
     border-radius: 5px;
     background-color: ${(props) =>
         props.isDark ? Black + 'FF' : Yellow + 'FF'};
+
+    ::-webkit-scrollbar {
+        width: 15px;
+        size: 5px;
+        background-color: ${Black};
+        margin-right: 0px;
+        border-radius: 5px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: ${White};
+        border-radius: 7px;
+        margin-right: 20px;
+
+        &:hover {
+        background-color: ${Yellow}
+        };
+    }
+
+    ::-webkit-scrollbar-track {
+        width: 10px;
+        background-color: ${Black};
+        border-radius: 5px;
+        margin-right: 5px;
+        margin-top: 5px;
+        margin-bottom: 2px;
+    }
 `;
 
 /** Container of the optimisation template */
 export const OptimisationTemplateContainer = styled.div`
     display: flex;
     position: absolute;
-    width: 505px;
+    width: 510px;
     height: 100px;
     left: 0px;
     top: ${(props) => props.y}px;

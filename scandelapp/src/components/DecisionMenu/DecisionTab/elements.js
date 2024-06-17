@@ -82,6 +82,7 @@ export const DropdownItem = styled.div`
     }
 `;
 
+/** Container of the scrollable optimisation container */
 export const ScrollableOptimisationsContainer = styled.div`
     display: flex;
     flex-direction: column;
@@ -94,6 +95,34 @@ export const ScrollableOptimisationsContainer = styled.div`
     border-radius: 5px;
     background-color: ${(props) =>
         props.isDark ? Black + 'FF' : Yellow + 'FF'};
+
+        /* Personnalisez le style de la barre de défilement */
+    ::-webkit-scrollbar {
+        width: 15px;
+        size: 5px;
+        background-color: ${Black};
+        margin-right: 0px;
+        border-radius: 5px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: ${White};
+        border-radius: 7px;
+        margin-right: 20px;
+
+        &:hover {
+        background-color: ${Yellow}
+        };
+    }
+
+    ::-webkit-scrollbar-track {
+        width: 10px;
+        background-color: ${Black};
+        border-radius: 5px;
+        margin-right: 5px;
+        margin-top: 5px;
+        margin-bottom: 2px;
+    }
 `;
 
 export const AddToActionsListButton = styled.div`
