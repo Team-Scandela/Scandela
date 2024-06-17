@@ -15,10 +15,12 @@ export const TitleText = styled.div`
     font-weight: bold;
     text-align: center;
     font-family: 'SyneRegular';
+    user-select: none;
 `;
 
 export const TitleLogo = styled.img`
     width: 100px;
     height: 100px;
     margin: 30px;
+    user-select: none;
 `;

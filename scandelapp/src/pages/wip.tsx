@@ -1,19 +1,22 @@
 import { useRef, useState, useEffect } from 'react';
 import Mapback from '../components/HomePage/Mapback';
-import Markerbtn from '../components/HomePage/Markerbtn';
 import Backbtn from '../components/HomePage/Backbtn';
-import logo from '../assets/logo-128x128.png';
 import '../components/HomePage/homepage.css';
 import { CSSTransition } from 'react-transition-group';
 import Title from '../components/HomePage/Title';
 import ToMainApp from '../components/HomePage/ToMainApp';
+import logo from '../assets/logo-128x128.png';
+import faq from '../assets/homepage/faq.png';
+import profil from '../assets/homepage/profil.png';
+import premium from '../assets/homepage/premium.png';
+import stats from '../assets/homepage/stats.png';
+import tickets from '../assets/homepage/tickets.png';
+
 
 export interface MarkerData {
     lng: number;
     lat: number;
     object: React.ReactNode;
-    top: number;
-    left: number;
     icon: string;
     title: string;
     small: boolean;
@@ -24,8 +27,6 @@ const dataMarker: MarkerData[] = [
         lng: 4.37,
         lat: 51.99,
         object: <ToMainApp />,
-        top: 50,
-        left: 50,
         icon: logo,
         title: "Scandela",
         small: false,
@@ -34,10 +35,40 @@ const dataMarker: MarkerData[] = [
         lng: 4.149,
         lat: 52.018,
         object: <ToMainApp />,
-        top: 40,
-        left: 35,
-        icon: logo,
+        icon: tickets,
         title: "Tickets",
+        small: true,
+    },
+    {
+        lng: 4.519,
+        lat: 52.045,
+        object: <ToMainApp />,
+        icon: premium,
+        title: "Premium",
+        small: true,
+    },
+    {
+        lng: 4.324,
+        lat: 52.068,
+        object: <ToMainApp />,
+        icon: profil,
+        title: "Profil",
+        small: true,
+    },
+    {
+        lng: 4.167,
+        lat: 51.902,
+        object: <ToMainApp />,
+        icon: faq,
+        title: "FAQ",
+        small: true,
+    },
+    {
+        lng: 4.430,
+        lat: 51.890,
+        object: <ToMainApp />,
+        icon: stats,
+        title: "Statistiques",
         small: true,
     },
 ];
@@ -48,12 +79,13 @@ const WIPPage: React.FC<WIPPageProps> = () => {
     const [onSubMenu, setOnSubMenu] = useState(false);
     const mapRef = useRef<mapboxgl.Map | null>(null);
     const [toRender, setToRender] = useState<React.ReactNode | null>(null);
+    const [title, setTitle] = useState<string>("Scandela");
 
     const handleBackClick = () => {
         if (mapRef.current) {
             mapRef.current.flyTo({
                 center: [4.335, 51.985],
-                zoom: 10,
+                zoom: 10.5,
                 essential: true,
                 easing: (t) => t,
             });
@@ -61,15 +93,16 @@ const WIPPage: React.FC<WIPPageProps> = () => {
 
         setOnSubMenu(false);
         setToRender(null);
+        setTitle("Scandela");
     };
 
     return (
         <div style={{ position: 'relative' }}>
-            <Mapback mapRef={mapRef} data={dataMarker} setOnSubMenu={setOnSubMenu} setToRender={setToRender} />
-            <Title />
+            <Mapback mapRef={mapRef} data={dataMarker} setOnSubMenu={setOnSubMenu} setToRender={setToRender} setTitle={setTitle} />
+            <Title title={title} />
             <CSSTransition
                 in={onSubMenu}
-                timeout={500}
+                timeout={2000}
                 classNames="fade"
                 unmountOnExit
             >
