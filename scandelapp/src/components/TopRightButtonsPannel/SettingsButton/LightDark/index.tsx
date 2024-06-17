@@ -1,16 +1,10 @@
+import React from 'react';
 import { SunButton, MoonButton } from './elements';
 import RadioButton from '../../../RadioButton';
 import { showToast } from '../../../Toastr';
-import { getUser } from '../../../../utils/userUtils';
-import { putUser } from '../../../../utils/userUtils';
+import { getUser, putUser } from '../../../../utils/userUtils';
 import { useTranslation } from 'react-i18next';
-
-/** Ligth / Dark mode button
- * @param {boolean} isDark - If the mode is dark or not
- * @param {function} setIsDark - Function to set the mode
- * @param {any} notificationsPreference - Notification preference data
- * @param {function} addNotificationToList - Function to add a toastr notification to the toast history
- */
+import { createNotification } from '../../../../utils/notificationUtils';
 
 interface LightDarkProps {
     isDark: boolean;
@@ -42,15 +36,17 @@ const LightDark: React.FC<LightDarkProps> = ({
     notificationsPreference,
     addNotificationToList,
 }) => {
-    /** Handle the click on the button and switch to the other mode */
     const { t } = useTranslation();
 
-    const handleToggleLightDark = () => {
+    const handleToggleLightDark = async () => {
         setIsDark(!isDark);
         localStorage.setItem('isDark', JSON.stringify(!isDark));
         try {
-            updateUser();
-        } catch (error) {}
+            await updateUser();
+        } catch (error) {
+            console.error('Error updating user:', error);
+        }
+
         if (
             notificationsPreference.find(
                 (item: any) => item[0] === 'lightDarkModeUpdate'
@@ -66,8 +62,18 @@ const LightDark: React.FC<LightDarkProps> = ({
                 false,
                 true
             );
+
+            const userId = localStorage.getItem('userId');
+            if (userId) {
+                await createNotification({
+                    user: { id: userId },
+                    title: t('themeUpdate'),
+                    description: t('theThemeHasBeenSuccessfullyUpdated'),
+                    triggered: true,
+                });
+            }
+            // addNotificationToList(t('themeUpdate'));
         }
-        addNotificationToList(t('themeUpdate'));
     };
 
     return (

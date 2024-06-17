@@ -9,9 +9,17 @@ import { LassoOverlay } from './elements';
 //import loadMap from './loadMap';
 //import TimePicker from '../TimePicker';
 import React from 'react';
+import { allLamps } from '../../utils/lampUtils';
 
 // Load geographical data of Nantes from a local JSON file
-let nantesData = require('../../assets/nantesData.json');
+let nantesData = allLamps;
+
+function getRandomColor() {
+    const colors = ['#00FF00', '#FFA500', '#FF0000'];
+    const randomIndex = Math.floor(Math.random() * colors.length);
+    return colors[randomIndex];
+}
+
 //let nantesArmoires = require('../../assets/armoires_electriques_nantes.json'); // Chargement de ce jeu de données manquant
 
 // Set Mapbox access token
@@ -112,23 +120,20 @@ const Map: React.FC<MapProps> = ({
             type: 'FeatureCollection',
             features: [] as any[],
         };
-        nantesData.forEach((obj: any) => {
+        nantesData.at(0).forEach((obj: any) => {
             const feature: any = {
                 type: 'Feature',
                 geometry: {
-                    type: obj.geometry.type,
-                    coordinates: [
-                        obj.geometry.coordinates[0],
-                        obj.geometry.coordinates[1],
-                    ],
+                    type: 'Point',
+                    coordinates: [obj.longitude, obj.latitude],
                 },
                 properties: {
-                    id: obj.recordid,
-                    name: obj.fields.numero,
-                    lamp: obj.fields.type_lampe,
-                    hat: obj.fields.type_foyer,
-                    lum: obj.fields.nb_lampes,
-                    height: obj.fields.hauteur_support,
+                    id: obj.id,
+                    name: obj.name,
+                    lamp: obj.lampType,
+                    hat: obj.foyerType,
+                    lum: obj.lum,
+                    height: obj.height,
                 },
             };
             geoJSON.features.push(feature);
@@ -512,7 +517,7 @@ const Map: React.FC<MapProps> = ({
                         maxzoom: 23,
                         paint: {
                             'heatmap-weight': {
-                                property: 'height',
+                                property: 'hauteur_support',
                                 type: 'interval',
                                 stops: [
                                     [1, 0.2], // Léger pour une hauteur entre 1 et 2
@@ -545,7 +550,7 @@ const Map: React.FC<MapProps> = ({
                                 'rgb(234,1,3)',
                             ],
                             'heatmap-radius': {
-                                property: 'height',
+                                property: 'hauteur_support',
                                 type: 'interval',
                                 stops: [
                                     [1, 10], // Petite taille pour une hauteur entre 1 et 2
@@ -580,7 +585,7 @@ const Map: React.FC<MapProps> = ({
                     paint: {
                         'circle-color': [
                             'match',
-                            ['get', 'lamp'], // Correction ici
+                            ['get', 'Object.features.properties.lamp'], // Correction ici
                             'SHP',
                             '#FF0000', // Rouge pour SHP
                             'MBF',
@@ -605,7 +610,7 @@ const Map: React.FC<MapProps> = ({
                             '#00FF00', // Vert pour TF
                             'FC',
                             '#00FF00', // Vert pour FC
-                            '#808080', // Gris pour toutes les autres valeurs de type_lampe
+                            '#00FF00', // Vert par défaut
                         ],
                         'circle-opacity': 0.7,
                         'circle-stroke-color': '#FFFFFF',
@@ -1307,9 +1312,9 @@ const Map: React.FC<MapProps> = ({
     };
 
     // Trouver l'objet correspondant au selectedLampId dans nantesData
-    const selectedLampData = nantesData.find(
-        (lamp: any) => lamp.recordid === selectedLampId
-    );
+    const selectedLampData = nantesData
+        .at(0)
+        .find((lamp: any) => lamp.id === selectedLampId);
 
     // Render the map component
     return (

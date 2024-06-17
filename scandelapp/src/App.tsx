@@ -9,6 +9,7 @@ import Admin from './pages/admin';
 import LoadingPage from './pages/loadingpages';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
+import { getLampPrice } from './utils/actionsPriceUtils';
 
 /** Route page */
 const App: React.FC = () => {
@@ -26,22 +27,52 @@ const App: React.FC = () => {
         );
     }, [optimisationTemplateData]);
 
-    const addItemToOptimisationTemplate = (data: any) => {
-        const newItems = data.map((item: any, index: number) => ({
-            id: index,
-            saved: false,
-            selected: false,
-            name: item.lampDecision.lamp.name,
-            type: item.type.title,
-            location: item.location,
-            description: item.description,
-            solution: item.solution,
-            lampType: item.lampDecision.lamp.lampType,
-            foyerType: item.lampDecision.lamp.foyerType,
-            height: item.lampDecision.lamp.height,
-            uuid: item.id,
-            validate: item.validate,
-        }));
+    const addItemToOptimisationTemplate = async (data: any) => {
+        const newItems = await Promise.all(
+            data.map(async (item: any, index: number) => {
+                let prix = '0'; // Prix par défaut
+
+                // Logique pour déterminer le prix en fonction de la solution
+                if (item.solution.includes('Changer')) {
+                    prix = '30';
+                } else if (item.solution.includes('Allumer')) {
+                    prix = await getLampPrice(item.lampDecision.lamp.lampType);
+                    const price = parseFloat(prix) * 8;
+                    prix = price.toString();
+                } else if (item.solution.includes('Éteindre')) {
+                    prix = '-100';
+                } else if (
+                    item.solution.includes('Ajouter') ||
+                    item.solution.includes('Retirer')
+                ) {
+                    prix = '1000';
+                } else if (item.solution.includes('Augmenter')) {
+                    prix = '150';
+                } else if (item.solution.includes('Réduire')) {
+                    prix = '-150';
+                }
+
+                console.log('prix :', prix);
+
+                return {
+                    id: index,
+                    saved: false,
+                    selected: false,
+                    name: item.lampDecision.lamp.name,
+                    type: item.type.title,
+                    location: item.location,
+                    description: item.description,
+                    solution: item.solution,
+                    lampType: item.lampDecision.lamp.lampType,
+                    foyerType: item.lampDecision.lamp.foyerType,
+                    height: item.lampDecision.lamp.height,
+                    uuid: item.id,
+                    validate: item.validate,
+                    price: parseFloat(prix), // Ajout de la propriété price
+                };
+            })
+        );
+
         setOptimisationTemplateData(newItems);
     };
 

@@ -1,12 +1,21 @@
 import { showToast } from '../components/Toastr';
 
-export const getLightScore = async () => {
+/**
+ * Fetches the light score data.
+ *
+ * @async
+ * @function getLightScore
+ * @returns {Promise<any>} A promise that resolves to the light score data.
+ */
+export const getLightScore = async (): Promise<any> => {
+    console.debug('getLightScore started');
+
     const username = process.env.REACT_APP_REQUEST_USER;
     const password = process.env.REACT_APP_REQUEST_PASSWORD;
 
     try {
         const urlRequest =
-            process.env.REACT_APP_BACKEND_URL + `lamps/lightScore`;
+            process.env.REACT_APP_BACKEND_URL + 'lamps/lightScore';
         const response = await fetch(urlRequest, {
             method: 'GET',
             headers: {
@@ -16,19 +25,29 @@ export const getLightScore = async () => {
         });
 
         const lightScore = await response.json();
+        console.debug('getLightScore successful');
         return lightScore;
     } catch (error) {
-        console.log('ERROR GET lightScore = ' + error);
+        console.error('ERROR GET lightScore =', error);
     }
 };
 
-export const getConsuptionScore = async () => {
+/**
+ * Fetches the consumption score data.
+ *
+ * @async
+ * @function getConsuptionScore
+ * @returns {Promise<any>} A promise that resolves to the consumption score data.
+ */
+export const getConsuptionScore = async (): Promise<any> => {
+    console.debug('getConsuptionScore started');
+
     const username = process.env.REACT_APP_REQUEST_USER;
     const password = process.env.REACT_APP_REQUEST_PASSWORD;
 
     try {
         const urlRequest =
-            process.env.REACT_APP_BACKEND_URL + `lamps/consuptionScore`;
+            process.env.REACT_APP_BACKEND_URL + 'lamps/consuptionScore';
         const response = await fetch(urlRequest, {
             method: 'GET',
             headers: {
@@ -37,20 +56,30 @@ export const getConsuptionScore = async () => {
             },
         });
 
-        const ConsuptionScore = await response.json();
-        return ConsuptionScore;
+        const consumptionScore = await response.json();
+        console.debug('getConsuptionScore successful');
+        return consumptionScore;
     } catch (error) {
-        console.log('ERROR GET ConsuptionScore = ' + error);
+        console.error('ERROR GET consumptionScore =', error);
     }
 };
 
-export const getVegetalScore = async () => {
+/**
+ * Fetches the vegetal score data.
+ *
+ * @async
+ * @function getVegetalScore
+ * @returns {Promise<any>} A promise that resolves to the vegetal score data.
+ */
+export const getVegetalScore = async (): Promise<any> => {
+    console.debug('getVegetalScore started');
+
     const username = process.env.REACT_APP_REQUEST_USER;
     const password = process.env.REACT_APP_REQUEST_PASSWORD;
 
     try {
         const urlRequest =
-            process.env.REACT_APP_BACKEND_URL + `lamps/vegetalScore`;
+            process.env.REACT_APP_BACKEND_URL + 'lamps/vegetalScore';
         const response = await fetch(urlRequest, {
             method: 'GET',
             headers: {
@@ -60,18 +89,28 @@ export const getVegetalScore = async () => {
         });
 
         const vegetalScore = await response.json();
+        console.debug('getVegetalScore successful');
         return vegetalScore;
     } catch (error) {
-        console.log('ERROR GET vegetalScore = ' + error);
+        console.error('ERROR GET vegetalScore =', error);
     }
 };
 
-export const getAllScores = async () => {
+/**
+ * Fetches all score data and stores it in local storage.
+ *
+ * @async
+ * @function getAllScores
+ * @returns {Promise<any>} A promise that resolves to the score data if the fetch was successful.
+ */
+export const getAllScores = async (): Promise<any> => {
+    console.debug('getAllScores started');
+
     const username = process.env.REACT_APP_REQUEST_USER;
     const password = process.env.REACT_APP_REQUEST_PASSWORD;
 
     try {
-        const urlRequest = process.env.REACT_APP_BACKEND_URL + `lamps/allScore`;
+        const urlRequest = process.env.REACT_APP_BACKEND_URL + 'lamps/allScore';
         const response = await fetch(urlRequest, {
             method: 'GET',
             headers: {
@@ -100,11 +139,11 @@ export const getAllScores = async () => {
                 false,
                 true
             );
-            console.log('SUCCES GET allScore');
+            console.debug('getAllScores successful');
         }
 
         return allScores;
     } catch (error) {
-        console.log('ERROR GET allScores = ' + error);
+        console.error('ERROR GET allScores =', error);
     }
 };

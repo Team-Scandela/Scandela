@@ -86,6 +86,7 @@ const Main: React.FC<MainProps> = ({
                 if (!item.selected) item.selected = !item.selected;
             }
         });
+        console.log(updatedData);
         setOptimisationTemplateData(updatedData);
     };
 

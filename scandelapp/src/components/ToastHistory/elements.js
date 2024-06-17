@@ -1,6 +1,27 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { Yellow, Black, White, Grey, DarkYellow, DarkGrey } from '../../colors';
 import { IoNotifications } from 'react-icons/io5';
+
+/** Keyframes for loading animation */
+const spin = keyframes`
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+`;
+
+/** Loading spinner */
+export const LoadingSpinner = styled.div`
+    border: 4px solid ${Grey};
+    border-top: 4px solid ${Yellow};
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: ${spin} 1s linear infinite;
+    margin: auto;
+`;
 
 /** Button who allows to open the toast history pannel */
 export const ToastHistoryButton = styled.div`
@@ -84,6 +105,23 @@ export const NotificationsContainer = styled.div`
     border-radius: 5px;
     background-color: ${(props) =>
         props.isDark ? DarkGrey + 'FF' : Yellow + 'FF'};
+    overflow-y: auto;
+    padding-right: 10px; /* Adjust padding for scrollbar */
+
+    /* Custom scrollbar styles */
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: ${Yellow};
+        border-radius: 4px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background-color: ${Grey};
+        border-radius: 4px;
+    }
 `;
 
 /** Container of the notification template */
@@ -95,30 +133,46 @@ export const NotificationTemplateContainer = styled.div`
     left: 0px;
     top: ${(props) => props.y}px;
     border-radius: 5px;
-    overflow: hidden;
     background-color: ${(props) => (props.isDark ? Grey + 'FF' : Grey + 'FF')};
-    margin: 6px;
+    margin: 5px;
     border: 2px solid ${Black};
+`;
+
+/** Style of the notification title text */
+export const TitleText = styled.p`
+    position: absolute;
+    top: 7px;
+    left: 3px;
+    font-size: 9px;
+    margin: 0px;
+    padding: 0px;
+    user-select: none;
+    color: ${(props) => (props.isDark ? Black : Black)};
+    font-weight: bold;
+    max-width: 190px;
 `;
 
 /** Style of the notification description text */
 export const DescriptionText = styled.p`
-    position: relative;
-    top: 7px;
-    left: 5px;
-    font-size: 13px;
+    position: absolute;
+    top: 20px;
+    left: 3px;
+    font-size: 9px;
+    margin: 0px;
+    padding: 0px;
     user-select: none;
     color: ${(props) => (props.isDark ? Black : Black)};
-    font-weight: 500;
+    font-weight: 400;
     max-width: 170px;
+    height: auto;
 `;
 
 /** Style of the notification time text */
 export const TimeText = styled.p`
     position: absolute;
-    top: 27px;
+    top: 33px;
     left: 100px;
-    font-size: 13px;
+    font-size: 9px;
     user-select: none;
     color: ${(props) => (props.isDark ? Black : Black)};
     font-weight: 700;
