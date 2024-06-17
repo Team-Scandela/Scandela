@@ -18,6 +18,10 @@ import { IoMdSettings } from 'react-icons/io';
 import { useTranslation } from 'react-i18next';
 import DecisionTab from './DecisionTab';
 import ActionsListTab from './ActionsListTab';
+import ModifyEntityTab from './ModifyEntityTab';
+import AddEntityTab from './AddEntityTab';
+import EletricityPriceTab from './ElectricityPriceTab';
+import SettingsTab from './SettingsTab';
 import { Tabs } from '../../pages/main';
 
 /** Props of the decision pannel
@@ -38,6 +42,7 @@ import { Tabs } from '../../pages/main';
 interface DecisionMenuProps {
     id: string;
     isDark: boolean;
+    setIsDark: (isDark: boolean) => void;
     handleToggleDecisionPanelExtend: () => void;
     decisionPanelExtended: any;
     optimisationTemplateData: any;
@@ -48,6 +53,7 @@ interface DecisionMenuProps {
     currentSelected: string;
     addNotificationToList: (description: string) => void;
     notificationsPreference: any;
+    setNotificationsPreference: (item: any) => void;
     currentTab: any;
     setCurrentTab: (value: Tabs) => void;
 }
@@ -55,6 +61,7 @@ interface DecisionMenuProps {
 const DecisionMenu: React.FC<DecisionMenuProps> = ({
     id,
     isDark,
+    setIsDark,
     handleToggleDecisionPanelExtend,
     decisionPanelExtended,
     optimisationTemplateData,
@@ -65,6 +72,7 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
     currentSelected,
     addNotificationToList,
     notificationsPreference,
+    setNotificationsPreference,
     currentTab,
     setCurrentTab,
 }) => {
@@ -118,7 +126,7 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
                                     fontSize={'22px'}
                                     isSelected={currentTab === Tabs.ActionsList}
                                 >
-                                    Liste des actions
+                                    {t('listActions')}
                                 </TabButtonText>
                             ) : (
                                 <PiListChecksDuotone size={35} />
@@ -126,15 +134,15 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
                         </DecisionMenuTabButton>
                         <DecisionMenuTabButton
                             isDark={isDark}
-                            isSelected={currentTab === Tabs.ModifLamp}
-                            onClick={() => setCurrentTab(Tabs.ModifLamp)}
+                            isSelected={currentTab === Tabs.ModifEntity}
+                            onClick={() => setCurrentTab(Tabs.ModifEntity)}
                         >
-                            {currentTab === Tabs.ModifLamp ? (
+                            {currentTab === Tabs.ModifEntity ? (
                                 <TabButtonText
                                     fontSize={'20px'}
-                                    isSelected={currentTab === Tabs.ModifLamp}
+                                    isSelected={currentTab === Tabs.ModifEntity}
                                 >
-                                    Modifier un lampadaire
+                                    {t('titleModifyEntityPannel')}
                                 </TabButtonText>
                             ) : (
                                 <MdChangeCircle size={35} />
@@ -142,15 +150,15 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
                         </DecisionMenuTabButton>
                         <DecisionMenuTabButton
                             isDark={isDark}
-                            isSelected={currentTab === Tabs.AddLamp}
-                            onClick={() => setCurrentTab(Tabs.AddLamp)}
+                            isSelected={currentTab === Tabs.AddEntity}
+                            onClick={() => setCurrentTab(Tabs.AddEntity)}
                         >
-                            {currentTab === Tabs.AddLamp ? (
+                            {currentTab === Tabs.AddEntity ? (
                                 <TabButtonText
                                     fontSize={'20px'}
-                                    isSelected={currentTab === Tabs.AddLamp}
+                                    isSelected={currentTab === Tabs.AddEntity}
                                 >
-                                    Ajouter un lampdaire
+                                    {t('titleAddEntityPannel')}
                                 </TabButtonText>
                             ) : (
                                 <MdAddCircle size={35} />
@@ -168,7 +176,7 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
                                         currentTab === Tabs.ElectricityPrice
                                     }
                                 >
-                                    Prix de l'électricité
+                                    {t('electricityPrice')}
                                 </TabButtonText>
                             ) : (
                                 <MdElectricBolt size={35} />
@@ -184,7 +192,7 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
                                     fontSize={'25px'}
                                     isSelected={currentTab === Tabs.Options}
                                 >
-                                    Options
+                                    {t('options')}
                                 </TabButtonText>
                             ) : (
                                 <IoMdSettings size={35}></IoMdSettings>
@@ -233,18 +241,30 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
                                 }
                             />
                         )}
-                        {/* {currentTab === Tabs.ModifLamp && (
-
+                        {currentTab === Tabs.ModifEntity && (
+                            <ModifyEntityTab
+                                isDark={isDark}
+                            />
                         )}
-                        {currentTab === Tabs.AddLamp && (
-
+                        {currentTab === Tabs.AddEntity && (
+                            <AddEntityTab
+                                isDark={isDark}
+                            />
                         )}
                         {currentTab === Tabs.ElectricityPrice && (
-
+                            <EletricityPriceTab
+                                isDark={isDark}
+                            />
                         )}
                         {currentTab === Tabs.Options && (
-
-                        )} */}
+                            <SettingsTab
+                                isDark={isDark}
+                                setIsDark={setIsDark}
+                                notificationsPreference={notificationsPreference}
+                                setNotificationsPreference={setNotificationsPreference}
+                                addNotificationToList={addNotificationToList}
+                            />
+                        )}
                     </DecisionMenuContentContainer>
                 </DecisionPanel>
             </DecisionMenuContainer>

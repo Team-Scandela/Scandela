@@ -5,7 +5,6 @@ import SearchBar from '../components/SearchBar';
 import ToastHistory from '../components/ToastHistory';
 import { handleSearchUtils } from '../utils/searchUtils';
 import DecisionMenu from '../components/DecisionMenu';
-import TopRightButtonsPannel from '../components/TopRightButtonsPannel';
 import Toastr from '../components/Toastr';
 import { Gauges } from '../components/Gauges';
 import AbsencePannel from '../components/AbsencePannel';
@@ -13,6 +12,7 @@ import AbsencePannel from '../components/AbsencePannel';
 import FilterSearch from '../components/FilterSearch';
 import TrafficTime from '../components/TrafficTime';
 import ActionHistory from '../components/ActionHistory';
+import LogoutButton from '../components/LogoutButton';
 
 export enum Filters {
     pin = 'pin',
@@ -27,8 +27,8 @@ export enum Filters {
 export enum Tabs {
     Scandela = 1,
     ActionsList,
-    ModifLamp,
-    AddLamp,
+    ModifEntity,
+    AddEntity,
     ElectricityPrice,
     Options,
 }
@@ -152,17 +152,6 @@ const Main: React.FC<MainProps> = ({
                 setFilter={setFilter}
                 isDark={isDark}
             />
-            {/* <TopRightButtonsPannel
-                id={'topRightButtonsPannelId'}
-                isDark={isDark}
-                setIsDark={setIsDark}
-                decisionPanelExtended={decisionPanelExtended}
-                optimisationTemplateData={optimisationTemplateData}
-                setOptimisationTemplateData={setOptimisationTemplateData}
-                notificationsPreference={notificationsPreference}
-                setNotificationsPreference={setNotificationsPreference}
-                addNotificationToList={addNotificationToList}
-            /> */}
             {filter === Filters.filter && (
                 <>
                     <FilterSearch
@@ -185,7 +174,9 @@ const Main: React.FC<MainProps> = ({
                     />
                 </>
             )}
-
+            {localStorage.getItem('premium') === 'false' && (
+                <LogoutButton id={'logoutButton'} isDark={isDark}/>
+            )}
             {localStorage.getItem('premium') === 'true' && (
                 <>
                     <ToastHistory
@@ -200,6 +191,7 @@ const Main: React.FC<MainProps> = ({
                     <DecisionMenu
                         id={'decisionMenuComponentId'}
                         isDark={isDark}
+                        setIsDark={setIsDark}
                         handleToggleDecisionPanelExtend={
                             handleToggleDecisionPanelExtend
                         }
@@ -218,6 +210,7 @@ const Main: React.FC<MainProps> = ({
                         }
                         addNotificationToList={addNotificationToList}
                         notificationsPreference={notificationsPreference}
+                        setNotificationsPreference={setNotificationsPreference}
                         currentTab={currentTab}
                         setCurrentTab={setCurrentTab}
                     />
