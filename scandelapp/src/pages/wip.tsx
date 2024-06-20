@@ -1,6 +1,5 @@
 import { useRef, useState, useEffect } from 'react';
 import Mapback from '../components/HomePage/Mapback';
-import Backbtn from '../components/HomePage/Backbtn';
 import '../components/HomePage/homepage.css';
 import { CSSTransition } from 'react-transition-group';
 import Title from '../components/HomePage/Title';
@@ -11,12 +10,13 @@ import profil from '../assets/homepage/profil.png';
 import premium from '../assets/homepage/premium.png';
 import stats from '../assets/homepage/stats.png';
 import tickets from '../assets/homepage/tickets.png';
+import Tickets from '../components/HomePage/Tickets';
 
 
 export interface MarkerData {
+    id: string;
     lng: number;
     lat: number;
-    object: React.ReactNode;
     icon: string;
     title: string;
     small: boolean;
@@ -24,49 +24,49 @@ export interface MarkerData {
 
 const dataMarker: MarkerData[] = [
     {
+        id : "scandela",
         lng: 4.37,
         lat: 51.99,
-        object: <ToMainApp />,
         icon: logo,
         title: "Scandela",
         small: false,
     },
     {
+        id : "tickets",
         lng: 4.149,
         lat: 52.018,
-        object: <ToMainApp />,
         icon: tickets,
         title: "Tickets",
         small: true,
     },
     {
+        id : "premium",
         lng: 4.519,
         lat: 52.045,
-        object: <ToMainApp />,
         icon: premium,
         title: "Premium",
         small: true,
     },
     {
+        id : "profil",
         lng: 4.324,
         lat: 52.068,
-        object: <ToMainApp />,
         icon: profil,
         title: "Profil",
         small: true,
     },
     {
+        id : "faq",
         lng: 4.167,
         lat: 51.902,
-        object: <ToMainApp />,
         icon: faq,
         title: "FAQ",
         small: true,
     },
     {
+        id : "stats",
         lng: 4.430,
         lat: 51.890,
-        object: <ToMainApp />,
         icon: stats,
         title: "Statistiques",
         small: true,
@@ -78,7 +78,7 @@ interface WIPPageProps {}
 const WIPPage: React.FC<WIPPageProps> = () => {
     const [onSubMenu, setOnSubMenu] = useState(false);
     const mapRef = useRef<mapboxgl.Map | null>(null);
-    const [toRender, setToRender] = useState<React.ReactNode | null>(null);
+    const [toRender, setToRender] = useState<string | null>(null);
     const [title, setTitle] = useState<string>("Scandela");
 
     const handleBackClick = () => {
@@ -95,6 +95,25 @@ const WIPPage: React.FC<WIPPageProps> = () => {
         setToRender(null);
         setTitle("Scandela");
     };
+
+    const whatToRender = (id: string) :  React.ReactNode | null => {
+        switch (id) {
+            case "scandela":
+                return <ToMainApp closeToMainApp={handleBackClick} />;
+            case "tickets":
+                return <Tickets closeToMainApp={handleBackClick} />;
+            case "premium":
+                return <ToMainApp closeToMainApp={handleBackClick} />;
+            case "profil":
+                return <ToMainApp closeToMainApp={handleBackClick} />;
+            case "faq":
+                return <ToMainApp closeToMainApp={handleBackClick} />;
+            case "stats":
+                return <ToMainApp closeToMainApp={handleBackClick} />;
+            default:
+                return null;
+        }
+    }
 
     return (
         <div style={{ position: 'relative' }}>
@@ -115,8 +134,7 @@ const WIPPage: React.FC<WIPPageProps> = () => {
                         height: '100%',
                     }}
                 >
-                    <Backbtn onClick={handleBackClick} />
-                    {toRender}
+                    {whatToRender(toRender)}
                 </div>
             </CSSTransition>
         </div>

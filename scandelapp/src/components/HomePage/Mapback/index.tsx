@@ -8,7 +8,7 @@ interface MapbackProps {
     mapRef: React.MutableRefObject<mapboxgl.Map | null>;
     data: MarkerData[];
     setOnSubMenu: (value: boolean) => void;
-    setToRender: (value: React.ReactNode | null) => void;
+    setToRender: (value: string | null) => void;
     setTitle: (value: string) => void;
 }
 
@@ -34,9 +34,9 @@ const Mapback: React.FC<MapbackProps> = ({ mapRef, data, setOnSubMenu, setToRend
                 doubleClickZoom: false,
             });
 
-            const flyToMarker = (lat: number, lng: number, object: React.ReactNode, title: string) => {
+            const flyToMarker = (lat: number, lng: number, id: string, title: string) => {
                 setOnSubMenu(true);
-                setToRender(object);
+                setToRender(id);
                 setTitle(title);
                 map.flyTo({
                     center: [lng + 0.025, lat],
@@ -65,7 +65,7 @@ const Mapback: React.FC<MapbackProps> = ({ mapRef, data, setOnSubMenu, setToRend
                 markerContainer.appendChild(markerElement);
                 markerContainer.appendChild(markerTitle);
 
-                markerElement.addEventListener('click', () => flyToMarker(marker.lat, marker.lng, marker.object, marker.title));
+                markerElement.addEventListener('click', () => flyToMarker(marker.lat, marker.lng, marker.id, marker.title));
                 new mapboxgl.Marker({ element: markerContainer })
                     .setLngLat([marker.lng, marker.lat])
                     .addTo(map);

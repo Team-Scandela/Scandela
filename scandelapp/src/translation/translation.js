@@ -144,6 +144,8 @@ const resources = {
             selectAll: 'Select all',
             deselectAll: 'Deselect all',
             options: 'Options',
+            ticketDescription: 'Ticket description',
+            others : 'Others'
         },
     },
 
@@ -294,6 +296,8 @@ const resources = {
             selectAll: 'Sélectionner tout',
             deselectAll: 'Désélectionner tout',
             options: 'Paramètres',
+            ticketDescription: 'Description du ticket',
+            others: 'Autres'
         },
     },
 };
