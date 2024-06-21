@@ -56,20 +56,13 @@ export const ToastHistoryPannel = styled.div`
 /** Main text on the toast history pannel */
 export const NotificationsTitle = styled.div`
     position: fixed;
-    top: 2px;
-    left: 5px;
+    top: 2%;
+    left: 18%;
     font-size: 25px;
     user-select: none;
     color: ${(props) => (props.isDark ? Yellow : Black)};
     font-weight: 700;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    transform: perspective(10px) rotateX(2deg);
-    letter-spacing: 2px;
-    padding: 10px;
-    background: linear-gradient(to right, ${Yellow}, #ffd700);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+    font-family: 'SyneRegular';
 `;
 
 /** Container of the notifications */
@@ -77,6 +70,7 @@ export const NotificationsContainer = styled.div`
     display: flex;
     flex-direction: column;
     position: relative;
+    overflow-y: auto;
     left: 10px;
     top: 50px;
     width: 190px;
@@ -84,6 +78,10 @@ export const NotificationsContainer = styled.div`
     border-radius: 5px;
     background-color: ${(props) =>
         props.isDark ? DarkGrey + 'FF' : Yellow + 'FF'};
+
+    ::-webkit-scrollbar {
+        width: 0px;
+    }
 `;
 
 /** Container of the notification template */
@@ -91,7 +89,7 @@ export const NotificationTemplateContainer = styled.div`
     display: flex;
     position: absolute;
     width: 178px;
-    height: 48px;
+    height: 58px;
     left: 0px;
     top: ${(props) => props.y}px;
     border-radius: 5px;
@@ -105,21 +103,23 @@ export const NotificationTemplateContainer = styled.div`
 export const DescriptionText = styled.p`
     position: relative;
     top: 7px;
-    left: 5px;
+    left: 3%;
     font-size: 13px;
     user-select: none;
     color: ${(props) => (props.isDark ? Black : Black)};
     font-weight: 500;
     max-width: 170px;
+    font-family: 'SyneRegular';
 `;
 
 /** Style of the notification time text */
 export const TimeText = styled.p`
     position: absolute;
-    top: 27px;
-    left: 100px;
+    bottom: 4px;
+    right: 3%;
     font-size: 13px;
     user-select: none;
     color: ${(props) => (props.isDark ? Black : Black)};
     font-weight: 700;
+    font-family: 'SyneRegular';
 `;
