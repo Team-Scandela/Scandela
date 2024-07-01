@@ -16,25 +16,25 @@ import { Black } from '../../colors';
 /**
  * @param {boolean} isDark - If the map is in dark mode or not
  * @param {list} toastHistoryData - List of notifications
+ * @param {boolean} toastHistoryExtended - Boolean to check if the history is extended or not
+ * @param {function} handleToastHistoryPannelButtonClicked - Setter for the toastHistoryExtended boolean
  *
  */
 interface ToastHistoryProps {
     id: string;
     isDark: boolean;
     toastHistoryData: any;
+    toastHistoryExtended: boolean;
+    handleToastHistoryPannelButtonClicked: () => void;
 }
 
 const ToastHistory: React.FC<ToastHistoryProps> = ({
     id,
     isDark,
     toastHistoryData,
+    toastHistoryExtended,
+    handleToastHistoryPannelButtonClicked,
 }) => {
-    const [toastHistoryExtended, setToastHistoryExtended] = useState(false);
-
-    const handleToastHistoryPannelButtonClicked = () => {
-        setToastHistoryExtended(!toastHistoryExtended);
-    };
-
     const { t } = useTranslation();
 
     return (
@@ -60,7 +60,7 @@ const ToastHistory: React.FC<ToastHistoryProps> = ({
                     {toastHistoryData.map((item: any, i: number) => (
                         <NotificationTemplateContainer
                             isDark={isDark}
-                            y={53 * i}
+                            y={63 * i}
                         >
                             <DescriptionText isDark={isDark}>
                                 {item.description}

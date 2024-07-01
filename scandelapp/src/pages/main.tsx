@@ -73,6 +73,22 @@ const Main: React.FC<MainProps> = ({
         ['languageUpdate', true],
     ]);
 
+    const [toastHistoryExtended, setToastHistoryExtended] = useState(false);
+
+    const handleToastHistoryPannelButtonClicked = () => {
+        if (actionHistoryExtended)
+            setActionHistoryExtended(!actionHistoryExtended);
+        setToastHistoryExtended(!toastHistoryExtended);
+    };
+
+    const [actionHistoryExtended, setActionHistoryExtended] = useState(false);
+
+    const handleActionHistoryPannelButtonClicked = () => {
+        if (toastHistoryExtended)
+            setToastHistoryExtended(!toastHistoryExtended)
+        setActionHistoryExtended(!actionHistoryExtended);
+    };
+
     const handleSearch = (value: string) => {
         handleSearchUtils(value, lat, setLat, lng, setLng, zoom, setZoom);
     };
@@ -123,7 +139,7 @@ const Main: React.FC<MainProps> = ({
             .toString()
             .padStart(2, '0')} ${hour}:${min}`;
         const updatedList = [{ time, description }, ...toastHistoryData];
-        const limitedList = updatedList.slice(0, 7);
+        const limitedList = updatedList.slice(0, 10);
 
         setToastHistoryData(limitedList);
     };
@@ -183,10 +199,14 @@ const Main: React.FC<MainProps> = ({
                         id={'toastHistoryId'}
                         isDark={isDark}
                         toastHistoryData={toastHistoryData}
+                        toastHistoryExtended={toastHistoryExtended}
+                        handleToastHistoryPannelButtonClicked={handleToastHistoryPannelButtonClicked}
                     />
                     <ActionHistory
                         id={'actionHistoryComponentId'}
                         isDark={isDark}
+                        actionHistoryExtended={actionHistoryExtended}
+                        handleActionHistoryPannelButtonClicked={handleActionHistoryPannelButtonClicked}
                     />
                     <DecisionMenu
                         id={'decisionMenuComponentId'}

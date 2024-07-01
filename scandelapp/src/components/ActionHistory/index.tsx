@@ -31,9 +31,11 @@ import { RiMapPin2Line } from "react-icons/ri";
 interface ActionHistoryProps {
     id: string;
     isDark: boolean;
+    actionHistoryExtended: boolean,
+    handleActionHistoryPannelButtonClicked: () => void,
 }
 
-const ActionHistory: React.FC<ActionHistoryProps> = ({ id, isDark }) => {
+const ActionHistory: React.FC<ActionHistoryProps> = ({ id, isDark, actionHistoryExtended, handleActionHistoryPannelButtonClicked }) => {
     const [dataReceived, setDataReceived] = useState(false);
 
     const [actionHistoryData, setActionHistoryData] = useState([]);
@@ -72,7 +74,6 @@ const ActionHistory: React.FC<ActionHistoryProps> = ({ id, isDark }) => {
         if (Array.isArray(decisions)) {
             decisions.forEach((decision: any) => {
                 if (decision.validate !== null) {
-                    console.log(decision);
                     const action = {
                         solution : decision.solution,
                         time: arrayToISOString(decision.validate),
@@ -111,12 +112,6 @@ const ActionHistory: React.FC<ActionHistoryProps> = ({ id, isDark }) => {
     useEffect(() => {
         if (!dataReceived) getDecisions();
     }, []);
-
-    const [actionHistoryExtended, setActionHistoryExtended] = useState(false);
-
-    const handleActionHistoryPannelButtonClicked = () => {
-        setActionHistoryExtended(!actionHistoryExtended);
-    };
 
     const updateValidateData = async (dataDecision: any) => {
         const encodedCredentials = btoa(
@@ -179,7 +174,7 @@ const ActionHistory: React.FC<ActionHistoryProps> = ({ id, isDark }) => {
                     {actionHistoryData.map((item: any, i: number) => (
                         <ActionTemplateContainer
                             isDark={isDark}
-                            y={53 * i}
+                            y={73 * i}
                             onClick={() => {
                                 setShowPopUp(true);
                                 setSelectedAction(item);
@@ -236,7 +231,7 @@ const ActionHistory: React.FC<ActionHistoryProps> = ({ id, isDark }) => {
                     > <TbArrowBackUpDouble size={40} />
                     </PopUpUnvalideButton>
                     <PopUpToLampButton>
-                        <RiMapPin2Line size={40} />
+                        <RiMapPin2Line size={45} />
                     </PopUpToLampButton>
                 </PopUpContainer>
             )}

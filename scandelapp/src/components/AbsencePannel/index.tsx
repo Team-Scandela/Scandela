@@ -6,6 +6,7 @@ import {
     CloseIcon,
     ListDetailContainer,
     EventContainer,
+    TextContainer,
     EventDate,
     EventDescription,
     EventTitle,
@@ -158,6 +159,8 @@ const AbsencePannel: React.FC<AbsencePannelProps> = ({ id, isDark }) => {
             }
         );
         setAbsenceData(happenSinceLastConnexionDecision);
+        if (absenceData === null)
+            handleToggleAbsencePannel();
     };
 
     const getDecisions = async () => {
@@ -182,17 +185,19 @@ const AbsencePannel: React.FC<AbsencePannelProps> = ({ id, isDark }) => {
                         {t('WhileYouWereAway')}
                     </PannelText>
                     <ListDetailContainer isDark={isDark}>
-                        <TimeIcon isDark={isDark} size={200} />
+                        {absenceData === null && (<TimeIcon isDark={isDark} size={200} />)}
                         {absenceData.map((item: any, i: number) => (
-                            <EventContainer isDark={isDark} key={i}>
-                                <EventDate>
-                                    {arrayToISOString(item.validate)}
-                                </EventDate>
-                                <EventTitle>{item.solution}</EventTitle>
-                                <EventDescription>
-                                    {item.description}
-                                </EventDescription>
-                                <EventLocation>{item.location}</EventLocation>
+                            <EventContainer key={i} isDark={isDark} y={155 * i}>
+                                <TextContainer>
+                                    <EventTitle>{item.solution}</EventTitle>
+                                    <EventLocation>{item.location}</EventLocation>
+                                    <EventDescription>
+                                        {item.description}
+                                    </EventDescription>
+                                    <EventDate>
+                                        {arrayToISOString(item.validate)}
+                                    </EventDate>
+                                </TextContainer>
                             </EventContainer>
                         ))}
                     </ListDetailContainer>
@@ -206,7 +211,7 @@ const AbsencePannel: React.FC<AbsencePannelProps> = ({ id, isDark }) => {
                         level={levelElec}
                         oldLevel={levelElec}
                         top={23}
-                        left={85}
+                        left={87}
                     />
                     <PersonnalizedGauge
                         id={'BioGaugesComponentId'}
@@ -217,7 +222,7 @@ const AbsencePannel: React.FC<AbsencePannelProps> = ({ id, isDark }) => {
                         level={levelBio}
                         oldLevel={levelBio}
                         top={45}
-                        left={85}
+                        left={87}
                     />
                     <PersonnalizedGauge
                         id={'LumiGaugesComponentId'}
@@ -228,7 +233,7 @@ const AbsencePannel: React.FC<AbsencePannelProps> = ({ id, isDark }) => {
                         level={levelLumi}
                         oldLevel={levelLumi}
                         top={68}
-                        left={85}
+                        left={87}
                     />
                     <CloseIcon
                         isDark={isDark}
