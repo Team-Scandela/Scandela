@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Yellow, Black, White, Grey } from '../../../colors';
+import { Yellow, Black, White, Grey, DarkGrey } from '../../../colors';
 
 export const DropdownContainer = styled.div`
     position: absolute;
@@ -58,7 +58,7 @@ export const DropdownMenu = styled.div`
     overflow-y: auto;
 
     ${DropdownContainer}:first-child {
-        border-top: 2px solid ${(props) => (props.isDark ? Grey : Black)};
+        border-top: 2px solid ${(props) => (props.isDark ? DarkGrey : Black)};
     }
 `;
 

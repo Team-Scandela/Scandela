@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Yellow, Black, Grey, White } from '../../../colors';
+import { Yellow, Black, Grey, White, DarkGrey } from '../../../colors';
 import { BsFillTrash3Fill } from 'react-icons/bs';
 import { GiSandsOfTime } from 'react-icons/gi';
 import { AiOutlineSend } from 'react-icons/ai';
@@ -56,7 +56,7 @@ export const OptimisationTemplateContainer = styled.div`
     top: ${(props) => props.y}px;
     border-radius: 5px;
     overflow: hidden;
-    background-color: ${(props) => (props.isDark ? Grey + 'FF' : Grey + 'FF')};
+    background-color: ${(props) => (props.isDark ? DarkGrey + 'FF' : DarkGrey + 'FF')};
     margin: 6px;
     border: 2px solid ${Black};
 `;

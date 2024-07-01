@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Yellow, Black, White, Grey, DarkYellow } from '../../colors';
+import { Yellow, Black, White, Grey, DarkYellow, DarkGrey } from '../../colors';
 import { Tabs } from '../../pages/main';
 import logoLight from '../../assets/logo-128x128.png';
 
@@ -80,7 +80,7 @@ export const DecisionMenuButtonsContainer = styled.div`
     top: 15px;
     border-radius: 10px;
     overflow: hidden;
-    background-color: ${(props) => (props.isDark ? Grey : Grey)};
+    background-color: ${(props) => (props.isDark ? DarkGrey : DarkGrey)};
     box-shadow: 0px 4px 4px -3px rgba(0, 0, 0, 0.75);
 `;
 
@@ -111,7 +111,7 @@ export const DecisionMenuTabButton = styled.div`
 /** Container of the text inside the tabs buttons */
 export const TabButtonText = styled.div`
     font-size: ${({ fontSize }) => fontSize};
-    font-family: 'SyneRegular';
+    font-family: 'SyneBold';
     opacity: ${({ isSelected }) => (isSelected ? '1' : '0')};
     transition: opacity 0.3s ease-in-out;
 `;
@@ -138,6 +138,6 @@ export const DecisionMenuContentContainer = styled.div`
     top: 77px;
     border-radius: 10px;
     overflow: hidden;
-    background-color: ${(props) => (props.isDark ? Grey : Grey)};
+    background-color: ${(props) => (props.isDark ? DarkGrey : DarkGrey)};
     border-bottom: 6px solid ${Yellow};
 `;

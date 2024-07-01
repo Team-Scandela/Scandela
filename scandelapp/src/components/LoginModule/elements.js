@@ -7,9 +7,8 @@ export const LoginContainer = styled.div`
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
     position: relative;
     overflow: hidden;
-    width: 678%;
-    max-width: 50%;
-    min-height: 400px;
+    max-width: 55%;
+    min-height: 450px;
     left: 50%;
     transform: translate(-50%, 50%);
 `;

@@ -28,7 +28,7 @@ const dataMarker: MarkerData[] = [
         lng: 4.37,
         lat: 51.99,
         icon: logo,
-        title: "Scandela",
+        title: "Dashboard",
         small: false,
     },
     {
@@ -93,7 +93,6 @@ const WIPPage: React.FC<WIPPageProps> = () => {
 
         setOnSubMenu(false);
         setToRender(null);
-        setTitle("Scandela");
     };
 
     const whatToRender = (id: string) :  React.ReactNode | null => {
@@ -117,7 +116,7 @@ const WIPPage: React.FC<WIPPageProps> = () => {
 
     return (
         <div style={{ position: 'relative' }}>
-            <Mapback mapRef={mapRef} data={dataMarker} setOnSubMenu={setOnSubMenu} setToRender={setToRender} setTitle={setTitle} />
+            <Mapback mapRef={mapRef} data={dataMarker} setOnSubMenu={setOnSubMenu} setToRender={setToRender} />
             <Title title={title} />
             <CSSTransition
                 in={onSubMenu}

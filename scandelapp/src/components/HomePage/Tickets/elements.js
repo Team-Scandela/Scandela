@@ -160,6 +160,7 @@ export const SendButton = styled.div`
     cursor: pointer;
     user-select: none;
     transition: all ease-in 0.2s;
+    font-family: 'SyneRegular';
 
     &:hover {
         background-color: ${DarkYellow};

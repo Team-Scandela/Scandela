@@ -175,7 +175,7 @@ export const PopUpSubtitle = styled.div`
     top: 90px;
     left: 35px;
     font-size: 25px;
-    color: ${(props) => (props.isDark ? Yellow : Black)};
+    color: ${(props) => (props.isDark ? White : Black)};
     font-weight: 400;
 `;
 
@@ -185,7 +185,7 @@ export const PopUpTime = styled.div`
     top: 140px;
     left: 35px;
     font-size: 25px;
-    color: ${(props) => (props.isDark ? Yellow : Black)};
+    color: ${(props) => (props.isDark ? White : Black)};
     font-weight: 400;
 `;
 
