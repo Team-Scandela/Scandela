@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Yellow, Black, DarkGrey, DarkYellow, White, Grey } from '../../../colors';
+import { Yellow, Black, DarkGrey, DarkYellow, White, Grey, LightDarkGrey } from '../../../colors';
 import {
     AiFillCloseCircle,
 } from 'react-icons/ai';
@@ -12,37 +12,37 @@ export const TicketsContainer = styled.div`
     color: ${Black};
     padding: 10px;
     border-radius: 10px;
-    width: 50%;
-    height: 60%;
-    top: 20%;
-    left: 40%;
+    width: 60%;
+    height: 50%;
+    top: 50%;
+    left: 60%;
+    transform: translate(-50%, -50%);
 `;
 
 export const TicketsRectangle = styled.div`
     position: absolute;
     display: flex;
     justify-content: center;
-    align-items: center;
-    background-color: ${Yellow};
-    color: ${Black};
-    font-size: 30px;
+    background-color: ${Black};
     padding: 10px;
     border-radius: 10px;
     width: 100%;
     height: 100%;
     top: 0%;
     left: 0%;
+    flex-direction: column;
+    gap : 10px;
 `;
 
 export const CloseButton = styled(AiFillCloseCircle)`
     display: flex;
     position: absolute;
-    right: 20px;
-    top: 20px;
+    right: 10px;
+    top: 10px;
     font-size: 40px;
     width: 40px;
     height: 40px;
-    color: ${Black};
+    color: ${DarkYellow};
     opacity: 1;
 
     &:hover {
@@ -54,28 +54,24 @@ export const CloseButton = styled(AiFillCloseCircle)`
 export const TicketsTitle = styled.div`
     position: absolute;
     display: flex;
-    justify-content: justify;
-    color: ${Black};
-    font-size: 30px;
-    padding: 10px;
-    width: 80%;
-    height: 60%;
-    top: 5%;
-    left: 5%;
+    justify-content: center;
+    color: ${Yellow};
+    font-size: 40px;
+    top: 7.5%;
+    left: 2.5%;
+    user-select: none;
     font-family: 'SyneRegular';
-    text-align: justify;
-    text-justify: inter-word;
     font-weight: bold;
+    transform : translate(0%, -50%);
 `;
 
 export const DropdownContainer = styled.div`
     position: absolute;
-    top: 100px;
-    left: 5%;
-    width: 80%;
+    top: 80px;
+    left: 2.5%;
+    width: 95%;
     height: 40px;
-    background-color: ${White};
-    border: 1px solid ${Grey};
+    background-color: ${DarkGrey};
     border-radius: 5px;
     overflow: hidden;
     box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2);
@@ -87,10 +83,12 @@ export const DropdownContainer = styled.div`
 
     display: flex;
     align-items: center;
-    color: ${Black};
+    color: ${Yellow};
+
+    transition: all ease-in 0.2s;
 
     &:hover {
-        background-color: ${Yellow};
+        background-color: ${LightDarkGrey};
     }
 `;
 
@@ -106,42 +104,40 @@ export const DropdownItem = styled.div`
 
 
     &:hover {
-        background-color: ${White};
+        background-color: ${Grey};
     }
 `;
 
 export const TicketTitleInput = styled.input`
     position: absolute;
-    top: 160px;
-    left: 5%;
-    width: 80%;
+    top: 130px;
+    left: 2.5%;
+    width: 95%;
     padding: 10px;
-    margin-top: 10px;
-    border: 1px solid ${Grey};
     border-radius: 5px;
-    box-sizing: border-box;
     color: ${Yellow};
     font-size: 16px;
     font-weight: 500;
     font-family: 'SyneRegular';
+    border: none;
+    background-color: ${DarkGrey};
 `;
 
 export const TicketDescriptionInput = styled.textarea`
     position: absolute;
-    top: 220px;
-    left: 5%;
-    width: 80%;
-    height: 300px;
+    top: 180px;
+    left: 2.5%;
+    width: 95%;
+    height: 250px;
     padding: 10px;
-    margin-top: 10px;
-    border: 1px solid ${Grey};
     border-radius: 5px;
-    box-sizing: border-box;
     color: ${Yellow};
     font-size: 16px;
     font-weight: 500;
     resize: none;
     font-family: 'SyneRegular';
+    border: none;
+    background-color: ${DarkGrey};
 `;
 
 export const SendButton = styled.div`
@@ -150,9 +146,9 @@ export const SendButton = styled.div`
     right: 2.5%;
     width: 100px;
     height: 40px;
-    background-color: ${Black};
+    background-color: ${Yellow};
     border-radius: 5px;
-    color: ${Yellow};
+    color: ${Black};
     font-size: 16px;
     font-weight: 500;
     text-align: center;
@@ -168,7 +164,7 @@ export const SendButton = styled.div`
     }
 
     &:active {
-        background-color: ${Yellow};
+        background-color: ${Grey};
         color: ${Black};
     }
 `;
