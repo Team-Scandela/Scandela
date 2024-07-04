@@ -11,6 +11,7 @@ import premium from '../assets/homepage/premium.png';
 import stats from '../assets/homepage/stats.png';
 import tickets from '../assets/homepage/tickets.png';
 import Tickets from '../components/HomePage/Tickets';
+import Profil from '../components/HomePage/Profil';
 
 
 export interface MarkerData {
@@ -104,7 +105,7 @@ const WIPPage: React.FC<WIPPageProps> = () => {
             case "premium":
                 return <ToMainApp closeToMainApp={handleBackClick} />;
             case "profil":
-                return <ToMainApp closeToMainApp={handleBackClick} />;
+                return <Profil closeToMainApp={handleBackClick} />;
             case "faq":
                 return <ToMainApp closeToMainApp={handleBackClick} />;
             case "stats":
