@@ -9,8 +9,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -79,6 +79,8 @@ public class UserService extends AbstractService<User> implements IUserService {
 		}
 	}
 
+	@Override
+	@Transactional(rollbackFor = { Exception.class })
 	public User setUserRole(UUID userId, String role) {
 		System.out.println("b -> " + userId + " and " + role);
         User user = null;
@@ -171,7 +173,9 @@ public class UserService extends AbstractService<User> implements IUserService {
                 }
 		return user.get();
 	}
-	
+
+	@Override
+	@Transactional(readOnly = true, rollbackFor = { Exception.class })
 	public List<User> getAllForNewsletter() {
 		List<User> users = ((UserDao) dao).findByNewsletter(true);
 		
@@ -180,6 +184,21 @@ public class UserService extends AbstractService<User> implements IUserService {
 		}
 		
 		return users;
+	}
+
+	@Override
+	@Transactional(rollbackFor = { Exception.class })
+	public User changePassword(UUID id, String password) throws UserException {
+		Optional<User> user = dao.findById(id);
+		
+		if (user.isEmpty()) {
+			throw new UserException(UserException.INCOMPLETE_INFORMATIONS);
+		}
+		
+
+		user.get().setPassword(passwordEncoder.encode("scan" + password + "dela"));
+		
+		return user.get();
 	}
 
 	// Private \\
