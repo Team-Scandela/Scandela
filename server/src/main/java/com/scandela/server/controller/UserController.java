@@ -111,5 +111,10 @@ public class UserController extends AbstractController<User> {
 			emailService.sendMail(user.getEmail(), "Scandela Newsletter - " + mailInfos.get("subject"), mailInfos.get("body") + "\n\nTeam Scandela");
 		}
 	}
+	
+	@PostMapping("/changePassword/{id}")
+	public User changePassword(@PathVariable UUID id, @RequestBody String password) throws UserException {
+		return ((IUserService) service).changePassword(id, password);
+	}
 
 }
