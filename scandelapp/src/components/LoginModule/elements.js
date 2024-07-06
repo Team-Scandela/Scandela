@@ -101,6 +101,11 @@ export const Anchor = styled.a`
     font-size: 14px;
     text-decoration: underline;
     margin-top: 15px;
+
+    &:hover {
+        color: ${Yellow};
+        cursor: pointer;
+    }
 `;
 
 export const ErrorMessage = styled.span`

@@ -19,11 +19,8 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { setUserId, getUser, putUser } from '../../utils/userUtils';
 import {
-    getDecisionsSpecificAlgo,
     getDecisions,
 } from '../../utils/decisionsUtils';
-import { optimisationTemplateDataBackup } from './backup_decisions';
-import { getAllScores } from '../../utils/gaugesUtils';
 import { signUp, signIn } from '../../utils/loginUtils';
 
 interface LoginModuleProps {
@@ -45,6 +42,8 @@ const LoginModule: React.FC<LoginModuleProps> = ({
 
     const [emailSignIn, setEmailSignIn] = useState('');
     const [passwordSignIn, setPasswordSignIn] = useState('');
+    const [forgotPassword, setForgotPassword] = useState(false);
+    const [forgotPasswordEmail, setForgotPasswordEmail] = useState('');
     const navigate = useNavigate();
 
     const [error, setError] = useState('');
@@ -68,29 +67,6 @@ const LoginModule: React.FC<LoginModuleProps> = ({
     };
 
     const setUpDecisions = async () => {
-        // const [
-        //     dataChangementBulb,
-        //     dataReductionConsoHoraire,
-        //     dataAjouterLampadaire,
-        //     dataRetirerLampadaire,
-        //     dataReduireIntensiteLampadaire,
-        //     dataAugmenterIntensiteLampadaire,
-        // ] = await Promise.all([
-        //     getDecisionsSpecificAlgo('algoChangementBulb'),
-        //     getDecisionsSpecificAlgo('algoReductionConsoHoraire'),
-        //     getDecisionsSpecificAlgo('algoAjouterLampadaire'),
-        //     getDecisionsSpecificAlgo('algoRetirerLampadaire'),
-        //     getDecisionsSpecificAlgo('algoReduireIntensiteLampadaire'),
-        //     getDecisionsSpecificAlgo('algoAugmenterIntensiteLampadaire'),
-        // ]);
-        // const data = [].concat(
-        //     dataChangementBulb,
-        //     dataReductionConsoHoraire,
-        //     dataAjouterLampadaire,
-        //     dataRetirerLampadaire,
-        //     dataReduireIntensiteLampadaire,
-        //     dataAugmenterIntensiteLampadaire
-        // );
         const data = await getDecisions();
         addItemToOptimisationTemplate(data);
     };
@@ -204,28 +180,56 @@ const LoginModule: React.FC<LoginModuleProps> = ({
             </SignUpContainer>
 
             <SignInContainer signInPage={signInPage}>
-                <Form>
-                    <Title>Sign In</Title>
-                    <Input
-                        type="text"
-                        placeholder="Email"
-                        value={emailSignIn}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                            setEmailSignIn(e.target.value)
-                        }
-                    />
-                    <Input
-                        type="password"
-                        placeholder="Password"
-                        value={passwordSignIn}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                            setPasswordSignIn(e.target.value)
-                        }
-                    />
-                    <Anchor href="#">Forgot your password?</Anchor>
-                    <Button onClick={handleSubmitSignIn}> Sign In </Button>
-                    {error && <ErrorMessage>{error}</ErrorMessage>}
-                </Form>
+                {!forgotPassword &&
+                    <Form>
+                        <Title>Sign In</Title>
+                        <Input
+                            type="text"
+                            placeholder="Email"
+                            value={emailSignIn}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                                setEmailSignIn(e.target.value)
+                            }
+                        />
+                        <Input
+                            type="password"
+                            placeholder="Password"
+                            value={passwordSignIn}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                                setPasswordSignIn(e.target.value)
+                            }
+                        />
+                        <Anchor onClick={
+                            () => {
+                                setForgotPassword(true);
+                            }
+                        } >Forgot your password?</Anchor>
+                        <Button onClick={handleSubmitSignIn}> Sign In </Button>
+                        {error && <ErrorMessage>{error}</ErrorMessage>}
+                    </Form>
+                }
+                {forgotPassword &&
+                    <Form>
+                        <Title>Forgot your password?</Title>
+                        <Paragraph>
+                            Enter your email and we will send you a link to reset your password.
+                        </Paragraph>
+                        <Input
+                            type="text"
+                            placeholder="Email"
+                            value={forgotPasswordEmail}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                                setForgotPasswordEmail(e.target.value)
+                            }
+                        />
+                        <Button onClick={
+                            () => {
+                                setForgotPassword(false);
+                                alert('An email has been sent to ' + forgotPasswordEmail + ' to reset your password.')
+                            }
+                        } > Send </Button>
+                    </Form>
+                }
             </SignInContainer>
 
             <OverlayContainer signinIn={signInPage}>
@@ -244,10 +248,9 @@ const LoginModule: React.FC<LoginModuleProps> = ({
                     <RightOverlayPanel signinIn={signInPage}>
                         <Title>Hello !</Title>
                         <Paragraph>
-                            Enter Your personal details and start the
-                            Scandelaventure
+                            Enter Your personal details and connect to Scandela
                         </Paragraph>
-                        <GhostButton onClick={() => setSignInPage(false)}>
+                        <GhostButton onClick={() => {setSignInPage(false); setForgotPassword(false)}}>
                             Sign In
                         </GhostButton>
                     </RightOverlayPanel>
