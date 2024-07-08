@@ -17,11 +17,12 @@ import {
     GhostButton,
 } from './elements';
 import { useNavigate } from 'react-router-dom';
-import { setUserId, getUser, putUser } from '../../utils/userUtils';
+import { setUserId, getUser, putUser, getUserByMail } from '../../utils/userUtils';
 import {
     getDecisions,
 } from '../../utils/decisionsUtils';
 import { signUp, signIn } from '../../utils/loginUtils';
+import sendEmail from './emailsender';
 
 interface LoginModuleProps {
     setOptimisationTemplateData: (data: any) => void;
@@ -132,6 +133,14 @@ const LoginModule: React.FC<LoginModuleProps> = ({
         }
     };
 
+    const getUserData = async () => {
+        console.log("getUserData")
+        const user = await getUserByMail(emailSignIn);
+        console.log(user);
+        return user;
+    };
+
+
     return (
         <LoginContainer>
             <SignUpContainer signInPage={signInPage}>
@@ -225,6 +234,8 @@ const LoginModule: React.FC<LoginModuleProps> = ({
                         <Button onClick={
                             () => {
                                 setForgotPassword(false);
+                                getUserData();
+                                sendEmail(forgotPasswordEmail, "Reset your password", "Click on the link to reset your password: https://www.google.com");
                                 alert('An email has been sent to ' + forgotPasswordEmail + ' to reset your password.')
                             }
                         } > Send </Button>
