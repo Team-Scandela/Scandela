@@ -24,7 +24,7 @@ public class EmailService implements IEmailService {
     @Override
     public void sendMail(String receiver, String subject, String message) {
         SimpleMailMessage mail = new SimpleMailMessage();
-        mail.setFrom("noreply@scandela.fr");
+        mail.setFrom("noreply@scandela.com");
         mail.setTo(receiver);
         mail.setSubject(subject);
         mail.setText(message);

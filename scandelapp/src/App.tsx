@@ -7,6 +7,8 @@ import LandingPage from './pages/landingpage';
 import Redirect from './pages/redirect';
 import Admin from './pages/admin';
 import LoadingPage from './pages/loadingpages';
+import LawPage from './pages/law';
+import Statistics from './pages/statistics';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { getLampPrice } from './utils/actionsPriceUtils';
@@ -126,6 +128,8 @@ const App: React.FC = () => {
                     />
                     <Route path="/redirect" element={<Redirect />} />
                     <Route path="/admin" element={<Admin />} />
+                    <Route path="/laws" element={<LawPage />} />
+                    <Route path="/statistics" element={<Statistics />} />
                 </Routes>
             </BrowserRouter>
         </div>
