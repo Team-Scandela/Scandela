@@ -18,6 +18,7 @@ import { Black } from '../../colors';
  * @param {list} toastHistoryData - List of notifications
  * @param {boolean} toastHistoryExtended - Boolean to check if the history is extended or not
  * @param {function} handleToastHistoryPannelButtonClicked - Setter for the toastHistoryExtended boolean
+ * @param {boolean} tooltipPreference - Boolean to check if the tooltip are displayed or not
  *
  */
 interface ToastHistoryProps {
@@ -26,6 +27,7 @@ interface ToastHistoryProps {
     toastHistoryData: any;
     toastHistoryExtended: boolean;
     handleToastHistoryPannelButtonClicked: () => void;
+    tooltipPreference: boolean;
 }
 
 const ToastHistory: React.FC<ToastHistoryProps> = ({
@@ -34,15 +36,18 @@ const ToastHistory: React.FC<ToastHistoryProps> = ({
     toastHistoryData,
     toastHistoryExtended,
     handleToastHistoryPannelButtonClicked,
+    tooltipPreference,
 }) => {
     const { t } = useTranslation();
 
     return (
         <div>
-            <Tooltip
-                id="toastHistory"
-                style={{ backgroundColor: Black, borderRadius: '5px' }}
-            />
+            {tooltipPreference && (
+                <Tooltip
+                    id="toastHistory"
+                    style={{ backgroundColor: Black, borderRadius: '5px', userSelect: 'none' }}
+                />
+            )}
             <ToastHistoryButton
                 onClick={() => handleToastHistoryPannelButtonClicked()}
                 isDark={isDark}

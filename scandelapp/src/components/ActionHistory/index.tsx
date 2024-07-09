@@ -33,9 +33,10 @@ interface ActionHistoryProps {
     isDark: boolean;
     actionHistoryExtended: boolean,
     handleActionHistoryPannelButtonClicked: () => void,
+    tooltipPreference: boolean,
 }
 
-const ActionHistory: React.FC<ActionHistoryProps> = ({ id, isDark, actionHistoryExtended, handleActionHistoryPannelButtonClicked }) => {
+const ActionHistory: React.FC<ActionHistoryProps> = ({ id, isDark, actionHistoryExtended, handleActionHistoryPannelButtonClicked, tooltipPreference }) => {
     const [dataReceived, setDataReceived] = useState(false);
 
     const [actionHistoryData, setActionHistoryData] = useState([]);
@@ -155,10 +156,12 @@ const ActionHistory: React.FC<ActionHistoryProps> = ({ id, isDark, actionHistory
 
     return (
         <div>
-            <Tooltip
-                id="actionHistory"
-                style={{ backgroundColor: Black, borderRadius: '5px' }}
-            />
+            {tooltipPreference && (
+                <Tooltip
+                    id="actionHistory"
+                    style={{ backgroundColor: Black, borderRadius: '5px', userSelect: 'none' }}
+                />
+            )}
             <ActionsHistoryButton
                 onClick={() => handleActionHistoryPannelButtonClicked()}
                 isDark={isDark}
@@ -215,10 +218,12 @@ const ActionHistory: React.FC<ActionHistoryProps> = ({ id, isDark, actionHistory
                             {selectedAction.solution}
                         </PopUpDescriptionText>
                     </PopUpSolutionContainer>
-                    <Tooltip
-                        id="unvalidate"
-                        style={{ backgroundColor: Black, borderRadius: '5px' }}
-                    />
+                    {tooltipPreference && (
+                        <Tooltip
+                            id="unvalidate"
+                            style={{ backgroundColor: Black, borderRadius: '5px', userSelect: 'none' }}
+                        />
+                    )}
                     <PopUpUnvalideButton
                         isDark={isDark}
                         onClick={() => {

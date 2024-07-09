@@ -1,6 +1,7 @@
 import { useRef } from 'react';
-import { ImportButton, DescriptionText } from './elements';
+import { ImportButton, DescriptionText, TooltipTitle } from './elements';
 import { useTranslation } from 'react-i18next';
+import RadioButton from '../../../RadioButton';
 
 /** City tab setting component props
  * @param {boolean} isDark - If the mode is dark or not
@@ -8,6 +9,8 @@ import { useTranslation } from 'react-i18next';
 
 interface CityProps {
     isDark: boolean;
+    tooltipPreference: boolean;
+    setTooltipPreference: (value: boolean) => void;
 }
 
 interface Lamp {
@@ -20,7 +23,7 @@ interface Lamp {
     foyertype: string;
 }
 
-const City: React.FC<CityProps> = ({ isDark }) => {
+const City: React.FC<CityProps> = ({ isDark, tooltipPreference, setTooltipPreference }) => {
     const fileInputRef = useRef<HTMLInputElement | null>(null);
     const { t } = useTranslation();
 
@@ -111,6 +114,10 @@ const City: React.FC<CityProps> = ({ isDark }) => {
         }
     };
 
+    const toggleTooltipPreference = () => {
+        setTooltipPreference(!tooltipPreference);
+    };
+
     return (
         <div>
             <ImportButton
@@ -123,7 +130,15 @@ const City: React.FC<CityProps> = ({ isDark }) => {
                 style={{ display: 'none' }}
                 onChange={downloadData}
             />
-            <DescriptionText>{t('loadDataDescription')}</DescriptionText>
+            <DescriptionText isDark={isDark}>{t('loadDataDescription')}</DescriptionText>
+            <TooltipTitle isDark={isDark}>{t('activateTooltip')}</TooltipTitle>
+            <RadioButton
+                isDark={isDark}
+                top={'430px'}
+                left={'340px'}
+                trigger={tooltipPreference}
+                setTrigger={toggleTooltipPreference}
+            />
         </div>
     );
 };

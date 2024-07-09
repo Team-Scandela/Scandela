@@ -16,13 +16,16 @@ import {
 import { PersonnalizedGauge } from '../Gauges';
 import { GoInfo } from 'react-icons/go';
 import { useTranslation } from 'react-i18next';
+import { Tooltip } from 'react-tooltip';
+import { Black } from '../../colors';
 
 interface AbsencePannelProps {
     id: string;
     isDark: boolean;
+    tooltipPreference: boolean;
 }
 
-const AbsencePannel: React.FC<AbsencePannelProps> = ({ id, isDark }) => {
+const AbsencePannel: React.FC<AbsencePannelProps> = ({ id, isDark, tooltipPreference }) => {
     const [isAbsencePannelOpen, setIsAbsencePannelOpen] = useState(true);
     const [dataReceived, setDataReceived] = useState(false);
     const [absenceData, setAbsenceData] = useState([]);
@@ -172,10 +175,18 @@ const AbsencePannel: React.FC<AbsencePannelProps> = ({ id, isDark }) => {
 
     return (
         <div>
+            {tooltipPreference && (
+                <Tooltip
+                    id="absencePannel"
+                    style={{ backgroundColor: Black, borderRadius: '5px', userSelect: 'none' }}
+                />
+            )}
             <AbsencePannelButtonContainer
                 isDark={isDark}
                 isOn={isAbsencePannelOpen}
                 onClick={handleToggleAbsencePannel}
+                data-tooltip-id="absencePannel"
+                data-tooltip-content={t('duringAbsence')}
             >
                 <GoInfo size={35} />
             </AbsencePannelButtonContainer>

@@ -73,6 +73,8 @@ const Main: React.FC<MainProps> = ({
         ['languageUpdate', true],
     ]);
 
+    const [tooltipPreference, setTooltipPreference] = useState(true);
+
     const [toastHistoryExtended, setToastHistoryExtended] = useState(false);
 
     const handleToastHistoryPannelButtonClicked = () => {
@@ -161,12 +163,14 @@ const Main: React.FC<MainProps> = ({
                 id={'searchBarComponentId'}
                 isDark={isDark}
                 onSubmit={handleSearch}
+                tooltipPreference={tooltipPreference}
             />
             <FilterMenu
                 id={'filterMenuComponentId'}
                 filter={filter}
                 setFilter={setFilter}
                 isDark={isDark}
+                tooltipPreference={tooltipPreference}
             />
             {filter === Filters.filter && (
                 <>
@@ -201,12 +205,14 @@ const Main: React.FC<MainProps> = ({
                         toastHistoryData={toastHistoryData}
                         toastHistoryExtended={toastHistoryExtended}
                         handleToastHistoryPannelButtonClicked={handleToastHistoryPannelButtonClicked}
+                        tooltipPreference={tooltipPreference}
                     />
                     <ActionHistory
                         id={'actionHistoryComponentId'}
                         isDark={isDark}
                         actionHistoryExtended={actionHistoryExtended}
                         handleActionHistoryPannelButtonClicked={handleActionHistoryPannelButtonClicked}
+                        tooltipPreference={tooltipPreference}
                     />
                     <DecisionMenu
                         id={'decisionMenuComponentId'}
@@ -231,6 +237,8 @@ const Main: React.FC<MainProps> = ({
                         addNotificationToList={addNotificationToList}
                         notificationsPreference={notificationsPreference}
                         setNotificationsPreference={setNotificationsPreference}
+                        tooltipPreference={tooltipPreference}
+                        setTooltipPreference={setTooltipPreference}
                         currentTab={currentTab}
                         setCurrentTab={setCurrentTab}
                     />
@@ -243,6 +251,7 @@ const Main: React.FC<MainProps> = ({
                     <AbsencePannel
                         id={'absencePannelComponentId'}
                         isDark={isDark}
+                        tooltipPreference={tooltipPreference}
                     />
                     <Toastr id={'toastrComponentId'} isDark={isDark} />
                 </>

@@ -5,6 +5,8 @@ const resources = {
     en: {
         translation: {
             searchBarMessage: 'Search in Scandela',
+            searchBarPlace: 'Search a place',
+            searchBarLamp: 'Search a lamp',
             chooseAction: 'Choose action',
             addToActionList: 'Add to action list',
             listActions: 'Action list',
@@ -145,6 +147,14 @@ const resources = {
             deselectAll: 'Deselect all',
             options: 'Options',
             ticketDescription: 'Ticket description',
+            activateTooltip: 'Activate tooltip',
+            filters: 'Filters',
+            filterPin: 'Filter by lamp',
+            filterZone: 'Filter by heat zone',
+            filterBulbQuality: 'Filter by bulb quality',
+            filterComponent: 'Filtre by component',
+            filterTraffic: 'Filter by traffic',
+            filterCabinet: 'Filtre by electrical cabinet',
             others : 'Others'
         },
     },
@@ -152,6 +162,8 @@ const resources = {
     fr: {
         translation: {
             searchBarMessage: 'Rechercher dans Scandela',
+            searchBarPlace: 'Rechercher un endroit',
+            searchBarLamp: 'Rechercher un lampdaire',
             chooseAction: 'Choisissez une action',
             addToActionList: "Ajouter à la liste d'actions",
             listActions: 'Liste des actions',
@@ -195,7 +207,7 @@ const resources = {
             titleModifyBulbPannel: 'Modifier une ampoule',
             titleModifyLampPannel: 'Modifier une lampadaire',
             titleModifyEntityPannel: 'Modifier une entité',
-            electricityPrice: "Prix de l'éléctricité",
+            electricityPrice: "Prix de l'électricité",
             scandeMenu: 'ScandeMenu',
             signOut: 'Déconnection',
             admin: 'Admin',
@@ -297,6 +309,14 @@ const resources = {
             deselectAll: 'Désélectionner tout',
             options: 'Paramètres',
             ticketDescription: 'Description du ticket',
+            activateTooltip: 'Activer les infos bulles',
+            filters: 'Filtres',
+            filterPin: 'Filtre par lampadaires',
+            filterZone: 'Filtre par zone d\'éclairage',
+            filterBulbQuality: 'Filtre par qualité de bulbe',
+            filterComponent: 'Filtre par composant',
+            filterTraffic: 'Filtre par traffic',
+            filterCabinet: 'Filtre par armoire électrique',
             others: 'Autres'
         },
     },

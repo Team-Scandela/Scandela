@@ -36,6 +36,8 @@ import { Tabs } from '../../pages/main';
  * @param {string} currentSelected - Current selected optimisation type
  * @param {function} addNotificationToList - Function to add a toastr notification to the toast history
  * @param {any} notificationsPreference - Notifications preference data
+ * @param {boolean} tooltipPreference - Boolean to check if the tooltips are displayed
+ * @param {function} setTooltipPreference - Setter function for the tooltipPreference boolean
  * @param {any} currentTab - Store the current tab displated
  * @param {function} setCurrentTab - Setter for the current tab var
  */
@@ -54,6 +56,8 @@ interface DecisionMenuProps {
     addNotificationToList: (description: string) => void;
     notificationsPreference: any;
     setNotificationsPreference: (item: any) => void;
+    tooltipPreference: boolean;
+    setTooltipPreference: (value: boolean) => void;
     currentTab: any;
     setCurrentTab: (value: Tabs) => void;
 }
@@ -73,6 +77,8 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
     addNotificationToList,
     notificationsPreference,
     setNotificationsPreference,
+    tooltipPreference,
+    setTooltipPreference,
     currentTab,
     setCurrentTab,
 }) => {
@@ -263,6 +269,8 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
                                 notificationsPreference={notificationsPreference}
                                 setNotificationsPreference={setNotificationsPreference}
                                 addNotificationToList={addNotificationToList}
+                                tooltipPreference={tooltipPreference}
+                                setTooltipPreference={setTooltipPreference}
                             />
                         )}
                     </DecisionMenuContentContainer>

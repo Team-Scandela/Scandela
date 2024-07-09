@@ -34,6 +34,8 @@ interface SettingsTabProps {
     notificationsPreference: any;
     setNotificationsPreference: (item: any) => void;
     addNotificationToList: (description: string) => void;
+    tooltipPreference: boolean;
+    setTooltipPreference: (value: boolean) => void;
 }
 
 const SettingsTab: React.FC<SettingsTabProps> = ({
@@ -42,6 +44,8 @@ const SettingsTab: React.FC<SettingsTabProps> = ({
     notificationsPreference,
     setNotificationsPreference,
     addNotificationToList,
+    tooltipPreference,
+    setTooltipPreference,
 }) => {
     const [currentOptionSelected, setCurrentOptionSeleted] =
         useState(SettingsTabs.City);
@@ -97,7 +101,11 @@ const SettingsTab: React.FC<SettingsTabProps> = ({
                         <TitleText isDark={isDark}>
                             {t("Nantes")}
                         </TitleText>
-                        <City isDark={isDark} />
+                        <City
+                            isDark={isDark}
+                            tooltipPreference={tooltipPreference}
+                            setTooltipPreference={setTooltipPreference}
+                        />
                     </div>
                 )}
                 {currentOptionSelected === SettingsTabs.LightDarkMode && (

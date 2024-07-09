@@ -141,9 +141,11 @@ export const Gauges: React.FC<GaugesProps> = ({
                         decisionPanelExtended={decisionPanelExtended}
                         decal={showPupMiddle || showPupRight}
                         onClick={() => {
-                            setShowPupLeft(!showPupLeft);
-                            setShowPupMiddle(false);
-                            setShowPupRight(false);
+                            if (!decisionPanelExtended) {
+                                setShowPupLeft(!showPupLeft);
+                                setShowPupMiddle(false);
+                                setShowPupRight(false);
+                            }
                         }}
                     >
                         <GaugeBackground
@@ -174,9 +176,11 @@ export const Gauges: React.FC<GaugesProps> = ({
                         decisionPanelExtended={decisionPanelExtended}
                         decal={showPupRight}
                         onClick={() => {
-                            setShowPupLeft(false);
-                            setShowPupMiddle(!showPupMiddle);
-                            setShowPupRight(false);
+                            if (!decisionPanelExtended) {
+                                setShowPupLeft(false);
+                                setShowPupMiddle(!showPupMiddle);
+                                setShowPupRight(false);
+                            }
                         }}
                     >
                         <GaugeBackground
@@ -206,9 +210,11 @@ export const Gauges: React.FC<GaugesProps> = ({
                         decisionPanelExtended={decisionPanelExtended}
                         decal={false}
                         onClick={() => {
-                            setShowPupLeft(false);
-                            setShowPupMiddle(false);
-                            setShowPupRight(!showPupRight);
+                            if (!decisionPanelExtended) {
+                                setShowPupLeft(false);
+                                setShowPupMiddle(false);
+                                setShowPupRight(!showPupRight);
+                            }
                         }}
                     >
                         <GaugeBackground

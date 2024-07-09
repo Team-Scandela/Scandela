@@ -22,13 +22,27 @@ export const ImportButton = styled(IoMdDownload)`
 export const DescriptionText = styled.div`
     display: flex;
     position: absolute;
-    top: 55%;
+    top: 50%;
     left: 10%;
     font-size: 16px;
     user-select: none;
-    color: ${(props) => (props.isDark ? Black : DarkYellow)};
+    color: ${(props) => (props.isDark ? DarkYellow : Black)};
     font-weight: 700;
     margin-left: 10px;
     margin-right: 40px;
+    font-family: 'SyneRegular';
+`;
+
+export const TooltipTitle = styled.div`
+    display: flex;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    top: 76%;
+    left: 18%;
+    font-size: 20px;
+    user-select: none;
+    color: ${(props) => (props.isDark ? Yellow : Black)};
+    font-weight: 700;
     font-family: 'SyneRegular';
 `;

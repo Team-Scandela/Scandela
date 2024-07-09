@@ -44,8 +44,12 @@ const EletricityPriceTab: React.FC<EletricityPriceTabProps> = ({ isDark }) => {
                 setTripleState(3);
             }
         };
-        getElectricityPriceAsync();
-        getPriceLimitAsync();
+        try {
+            getElectricityPriceAsync();
+            getPriceLimitAsync();
+        } catch (error) {
+            console.log('ERROR GET ELECTRICITY PRICE AND PRICE LIMIT = ' + error);
+        }
     }, []);
 
     const { t } = useTranslation();
