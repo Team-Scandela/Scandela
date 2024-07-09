@@ -14,8 +14,8 @@ import PersonnalizedGauge from '../Gauges';
 
 class MainPanel extends React.Component {
     redirectToMain = () => {
-        // ouvre un nouvel onglet avec l'adresse de l'application "app.scandela.fr/"
-        window.open('https://app.scandela.fr/', '_blank');
+        // ouvre un nouvel onglet avec l'adresse de l'application "app.scandela.com/"
+        window.open('https://app.scandela.com/', '_blank');
     };
 
     render() {
