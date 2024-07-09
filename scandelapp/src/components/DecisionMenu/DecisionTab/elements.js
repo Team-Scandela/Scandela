@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Yellow, Black, White, Grey, DarkGrey } from '../../../colors';
+import { Yellow, Black, White, Grey, DarkGrey, LightDarkGrey } from '../../../colors';
 
 export const DropdownContainer = styled.div`
     position: absolute;
@@ -12,8 +12,8 @@ export const DropdownContainer = styled.div`
     height: 35px;
     width: 94%;
     padding: 0 10px;
-    background-color: ${(props) => (props.isDark ? White : White)};
-    color: ${(props) => (props.isDark ? Black : Black)};
+    background-color: ${(props) => (props.isDark ? LightDarkGrey : LightDarkGrey)};
+    color: ${(props) => (props.isDark ? Grey : Grey)};
     transition: all 0.3s ease-in-out;
     border-radius: 5px;
     font-size: 17px;
@@ -48,7 +48,7 @@ export const DropdownMenu = styled.div`
     top: 13%;
     width: 94%;
     max-height: 85%;
-    background-color: ${(props) => (props.isDark ? White : White)};
+    background-color: ${(props) => (props.isDark ? LightDarkGrey : LightDarkGrey)};
     color: ${(props) => (props.isDark ? Black : Black)};
     padding: 10px;
     transition: all 0.3s ease-in-out;

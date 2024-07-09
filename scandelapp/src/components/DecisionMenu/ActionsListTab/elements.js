@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Yellow, Black, Grey, White, DarkGrey } from '../../../colors';
+import { Yellow, Black, Grey, White, DarkGrey, LightDarkGrey } from '../../../colors';
 import { BsFillTrash3Fill } from 'react-icons/bs';
 import { GiSandsOfTime } from 'react-icons/gi';
 import { AiOutlineSend } from 'react-icons/ai';
@@ -56,7 +56,7 @@ export const OptimisationTemplateContainer = styled.div`
     top: ${(props) => props.y}px;
     border-radius: 5px;
     overflow: hidden;
-    background-color: ${(props) => (props.isDark ? DarkGrey + 'FF' : DarkGrey + 'FF')};
+    background-color: ${(props) => (props.isDark ? LightDarkGrey + 'FF' : LightDarkGrey + 'FF')};
     margin: 6px;
     border: 2px solid ${Black};
 `;
@@ -75,7 +75,7 @@ export const TextContainer = styled.div`
 export const TypeText = styled.p`
     font-size: 14px;
     user-select: none;
-    color: ${(props) => (props.isDark ? Black : Black)};
+    color: ${(props) => (props.isDark ? Grey : Grey)};
     font-weight: 500;
     overflow-wrap: break-word;
     font-family: 'SyneRegular';
@@ -85,7 +85,7 @@ export const TypeText = styled.p`
 export const LocationText = styled.p`
     font-size: 13px;
     user-select: none;
-    color: ${(props) => (props.isDark ? Black : Black)};
+    color: ${(props) => (props.isDark ? Grey : Grey)};
     font-weight: 500;
     overflow-wrap: break-word;
     font-family: 'SyneRegular';
@@ -95,7 +95,7 @@ export const LocationText = styled.p`
 export const DescriptionText = styled.p`
     font-size: 13px;
     user-select: none;
-    color: ${(props) => (props.isDark ? Black : Black)};
+    color: ${(props) => (props.isDark ? Grey : Grey)};
     font-weight: 500;
     font-style: italic;
     overflow-wrap: break-word;
@@ -134,7 +134,7 @@ export const TrashIcon = styled(BsFillTrash3Fill)`
     position: absolute;
     right: 7px;
     top: 10px;
-    color: ${(props) => (props.isDark ? Black : Yellow)};
+    color: ${(props) => (props.isDark ? Grey : Yellow)};
     cursor: pointer;
 
     &:hover {
@@ -148,7 +148,7 @@ export const GoToIcon = styled(AiOutlineSend)`
     position: absolute;
     right: 7px;
     bottom: 10px;
-    color: ${(props) => (props.isDark ? Black : Yellow)};
+    color: ${(props) => (props.isDark ? Grey : Yellow)};
     cursor: pointer;
 
     &:hover {

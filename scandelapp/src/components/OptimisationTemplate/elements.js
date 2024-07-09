@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Black, Grey, Yellow, Green, Red } from '../../colors';
+import { Black, Grey, Yellow, Green, Red, LightDarkGrey } from '../../colors';
 
 /** Container of the optimisation template */
 export const OptimisationTemplateContainer = styled.div`
@@ -11,7 +11,7 @@ export const OptimisationTemplateContainer = styled.div`
     top: ${(props) => props.y}px;
     border-radius: 5px;
     overflow: hidden;
-    background-color: ${(props) => (props.isDark ? Grey + 'FF' : Grey + 'FF')};
+    background-color: ${(props) => (props.isDark ? LightDarkGrey + 'FF' : LightDarkGrey + 'FF')};
     margin: 6px;
     border: 2px solid ${Black};
     cursor: pointer;
@@ -54,7 +54,7 @@ export const TextContainer = styled.div`
 export const TypeText = styled.p`
     font-size: 14px;
     user-select: none;
-    color: ${(props) => (props.isDark ? Black : Black)};
+    color: ${(props) => (props.isDark ? Grey : Grey)};
     font-weight: 500;
     overflow-wrap: break-word;
     font-family: 'SyneRegular';
@@ -64,7 +64,7 @@ export const TypeText = styled.p`
 export const LocationText = styled.p`
     font-size: 13px;
     user-select: none;
-    color: ${(props) => (props.isDark ? Black : Black)};
+    color: ${(props) => (props.isDark ? Grey : Grey)};
     font-weight: 500;
     overflow-wrap: break-word;
     font-family: 'SyneRegular';
@@ -74,7 +74,7 @@ export const LocationText = styled.p`
 export const DescriptionText = styled.p`
     font-size: 13px;
     user-select: none;
-    color: ${(props) => (props.isDark ? Black : Black)};
+    color: ${(props) => (props.isDark ? Grey : Grey)};
     font-weight: 500;
     font-style: italic;
     overflow-wrap: break-word;
