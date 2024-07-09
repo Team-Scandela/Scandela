@@ -233,9 +233,12 @@ const LoginModule: React.FC<LoginModuleProps> = ({
                         />
                         <Button onClick={
                             () => {
+                                const userData : any = getUserData();
+                                if (userData === null) {
+                                    return;
+                                }
                                 setForgotPassword(false);
-                                getUserData();
-                                sendEmail(forgotPasswordEmail, "Reset your password", "Click on the link to reset your password: https://www.google.com");
+                                sendEmail(userData.username, forgotPasswordEmail, userData.uuid);
                                 alert('An email has been sent to ' + forgotPasswordEmail + ' to reset your password.')
                             }
                         } > Send </Button>

@@ -1,13 +1,13 @@
 import emailjs from "emailjs-com";
 
-const sendEmail = async (email: string, subject: string, message: string) => {
+const sendEmail = async (username : string, forgotPasswordEmail : string, uuid : string) => {
     const gmail = "service_8ju8lpn";
     const template = "template_mirexri";
     const publicKey = "IAaf_UMmlHAyyDH1I";
     const templateParams = {
-        username: "atmo",
-        link : "https://www.google.com",
-        sendto : "titouan@atmo-studio.fr",
+        username: username,
+        link : "https://app.scandela.com/resetpwd/" + uuid,
+        sendto : forgotPasswordEmail
     };
     try {
         console.log("sending email");
