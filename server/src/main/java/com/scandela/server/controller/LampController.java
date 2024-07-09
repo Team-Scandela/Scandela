@@ -33,7 +33,7 @@ import com.scandela.server.service.ILampService;
 @RequestMapping(value = "/lamps")
 public class LampController extends AbstractController<Lamp> {
 	
-//	private List<Lamp> allLamps = service.getAll();
+	private List<Lamp> allLamps = service.getAll();
 	
 	// Constructors \\
 	protected LampController(ILampService lampService) {
@@ -49,10 +49,10 @@ public class LampController extends AbstractController<Lamp> {
 	 */
 	@GetMapping
 	public List<LampDto> getLamps() {
-		List<Lamp> lamps = service.getAll();
-
-		return lamps.stream().map(lamp -> LampDto.from(lamp)).collect(Collectors.toList());
-//		return allLamps.stream().map(lamp -> LampDto.from(lamp)).collect(Collectors.toList());
+//		List<Lamp> lamps = service.getAll();
+//
+//		return lamps.stream().map(lamp -> LampDto.from(lamp)).collect(Collectors.toList());
+		return allLamps.stream().map(lamp -> LampDto.from(lamp)).collect(Collectors.toList());
 	}
 
 	/**
