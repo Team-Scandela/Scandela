@@ -46,7 +46,7 @@ export const putUser = async (updatedUserData: any) => {
     }
 };
 
-export const getUserByMail = async (mail : string) => {
+export const getUserByMail = async (mail: string) => {
     const username = process.env.REACT_APP_REQUEST_USER;
     const password = process.env.REACT_APP_REQUEST_PASSWORD;
 
@@ -65,17 +65,18 @@ export const getUserByMail = async (mail : string) => {
         return user;
     } catch (error) {
         console.log('ERROR GET USER = ' + error);
+        return null;
     }
 };
 
-export const changePassword = async (uuid : string, newPassword : string) => {
+export const changePassword = async (uuid: string, newPassword: string) => {
     const username = process.env.REACT_APP_REQUEST_USER;
     const password = process.env.REACT_APP_REQUEST_PASSWORD;
     try {
         const urlRequest =
             process.env.REACT_APP_BACKEND_URL + `users/changePassword/${uuid}`;
         const response = await fetch(urlRequest, {
-            method: 'PUT',
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Basic ${btoa(`${username}:${password}`)}`,
@@ -85,4 +86,4 @@ export const changePassword = async (uuid : string, newPassword : string) => {
     } catch (error) {
         console.log('ERROR UPDATE USER = ' + error);
     }
-}
+};

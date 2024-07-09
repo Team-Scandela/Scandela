@@ -66,7 +66,7 @@ export const Input = styled.input`
 `;
 
 /** Button complete to validate sign in up */
-export const Button = styled.button`
+export const Button = styled.div`
     border: none;
     border-radius: 20px;
     background-color: ${DarkYellow};

@@ -18,7 +18,7 @@ export const ResetPwdContainer = styled.div`
     width: 450px;
     height: 350px;
     left: 50%;
-    top : 50%;
+    top: 50%;
     transform: translate(-50%, -50%);
 `;
 

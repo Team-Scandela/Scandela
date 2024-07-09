@@ -127,7 +127,7 @@ const App: React.FC = () => {
                     />
                     <Route path="/redirect" element={<Redirect />} />
                     <Route path="/admin" element={<Admin />} />
-                    <Route path="/resetpwd/:uuid" element={<ResetPwd />}  />
+                    <Route path="/resetpwd/:uuid" element={<ResetPwd />} />
                 </Routes>
             </BrowserRouter>
         </div>
