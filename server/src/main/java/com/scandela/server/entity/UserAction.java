@@ -34,9 +34,15 @@ public class UserAction implements Serializable {
 	@Column(name = "uuid", updatable = false, nullable = false)
 	private UUID id;
 
+    @Column(name = "userid", nullable = false)
+    private UUID userid;
+
     @Column(name = "actiontype")
 	private String actiontype;
 
     @Column(name = "timestamp")
     private Timestamp timestamp;
+
+    @Column(name = "data")
+	private String data;
 }

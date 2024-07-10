@@ -40,6 +40,11 @@ public class ActionHistoryController extends AbstractController<UserAction> {
 		return super.create(newUserAction);
 	}
 
+    @PostMapping("/createlist")
+	public List<UserAction> createUserAction(@RequestBody List<UserAction> newUserAction) throws Exception {
+		return ((IActionHistoryService) service).create(newUserAction);
+	}
+
     @PutMapping("/{id}")
     public UserAction updateUserAction(@PathVariable UUID id, @RequestBody UserAction update) throws Exception {
         return super.update(id, update);
