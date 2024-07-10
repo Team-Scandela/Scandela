@@ -12,7 +12,8 @@ import React from 'react';
 import { allLamps } from '../../utils/lampUtils';
 
 // Load geographical data of Nantes from a local JSON file
-let nantesData = allLamps;
+// let nantesData = allLamps;
+let nantesData = require('../../assets/nantesData.json');
 
 function getRandomColor() {
     const colors = ['#00FF00', '#FFA500', '#FF0000'];
@@ -115,7 +116,7 @@ const Map: React.FC<MapProps> = ({
     }
 
     // Crée les données géoJSON à partir des données de Nantes
-    const geojsonData = useMemo(() => {
+    /*const geojsonData = useMemo(() => {
         let geoJSON = {
             type: 'FeatureCollection',
             features: [] as any[],
@@ -134,6 +135,32 @@ const Map: React.FC<MapProps> = ({
                     hat: obj.foyerType,
                     lum: obj.lum,
                     height: obj.height,
+                },
+            };
+            geoJSON.features.push(feature);
+        });
+        return geoJSON;
+    }, []);*/
+    const geojsonData = useMemo(() => {
+        let geoJSON = {
+            type: 'FeatureCollection',
+            features: [] as any[],
+        };
+        nantesData.forEach((obj: any) => {
+            const feature: any = {
+                type: 'Feature',
+                geometry: {
+                    type: obj.geometry.type,
+                    coordinates: [
+                        obj.geometry.coordinates[0],
+                        obj.geometry.coordinates[1],
+                    ],
+                },
+                properties: {
+                    id: obj.recordid,
+                    name: obj.fields.numero,
+                    lamp: obj.fields.type_lampe,
+                    hat: obj.fields.type_foyer,
                 },
             };
             geoJSON.features.push(feature);
@@ -1313,8 +1340,9 @@ const Map: React.FC<MapProps> = ({
 
     // Trouver l'objet correspondant au selectedLampId dans nantesData
     const selectedLampData = nantesData
-        .at(0)
-        .find((lamp: any) => lamp.id === selectedLampId);
+        // .at(0)
+        // .find((lamp: any) => lamp.id === selectedLampId);
+        .find((lamp: any) => lamp.recordid === selectedLampId);
 
     // Render the map component
     return (
