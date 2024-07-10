@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { ProfilContainer, ProfilRectangle, CloseButton, ProfilTitle, ProfileField, EditButton, EditIcon, ValidateIcon } from './elements'
+import { ProfilContainer, ProfilRectangle, CloseButton, ProfilTitle, ProfileField, EditButton, EditIcon, ValidateIcon, ProfilPart, SuperUserTitle, UsersList, UserCard, 
+    UserCardTitle, UserCardRights, UserCardEmail, UserCardDelete, UserCardUpgrade } from './elements'
 import { getUser, putUser } from '../../../utils/userUtils';
 import { useTranslation } from 'react-i18next';
 
@@ -8,6 +9,25 @@ import { useTranslation } from 'react-i18next';
 interface ProfilProps {
     closeToMainApp: () => void;
 }
+
+const users = [
+    {
+        username: 'John Doe',
+        email: 'john.doe@nantesmairie.fr',
+        right : 'Administrateur',
+    },
+    {
+        username : 'Patrick Dupont',
+        email: 'patrick.dupont@nantesmairie.fr',
+        right : 'Utilisateur',
+    },
+    {
+        username : 'Jeanne Martin',
+        email: 'jeanne.martin@bouayemairie.fr',
+        right : 'Utilisateur',
+    },
+];
+
 
 const Profil: React.FC<ProfilProps> = ( { closeToMainApp } ) => {
 
@@ -127,82 +147,98 @@ const Profil: React.FC<ProfilProps> = ( { closeToMainApp } ) => {
             <ProfilRectangle>
                 <CloseButton onClick={closeToMainApp} />
                 <ProfilTitle>Modifier vos informations personnelles</ProfilTitle>
-                <ProfileField top={'20%'} left={'2.5%'}>
-                    {t('name')} :{' '}
-                    {isEditingName ? (
-                        <input
-                            type="text"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                        />
-                    ) : (
-                        name
-                    )}
-                    {isEditingName ? (
-                        <EditButton onClick={() => handleSaveClick('name')}>
-                            <ValidateIcon></ValidateIcon>
-                        </EditButton>
-                    ) : (
-                        <EditButton onClick={() => handleEditClick('name')}>
-                            <EditIcon></EditIcon>
-                        </EditButton>
-                    )}
-                </ProfileField>
-                <ProfileField top={'30%'} left={'2.5%'}>
-                    {t('email')} :{' '}
-                    {isEditingEmail ? (
-                        <input
-                            type="text"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                        />
-                    ) : (
-                        email
-                    )}
-                    {isEditingEmail ? (
-                        <EditButton onClick={() => handleSaveClick('email')}>
-                            <ValidateIcon></ValidateIcon>
-                        </EditButton>
-                    ) : (
-                        <EditButton onClick={() => handleEditClick('email')}>
-                            <EditIcon></EditIcon>
-                        </EditButton>
-                    )}
-                </ProfileField>
-                <ProfileField top={'40%'} left={'2.5%'}>
-                    {t('password')} : {renderPasswordField()}
-                    {isEditingPassword ? (
-                        <EditButton onClick={() => handleSaveClick('password')}>
-                            <ValidateIcon></ValidateIcon>
-                        </EditButton>
-                    ) : (
-                        <EditButton onClick={() => handleEditClick('password')}>
-                            <EditIcon></EditIcon>
-                        </EditButton>
-                    )}
-                </ProfileField>
-                <ProfileField top={'50%'} left={'2.5%'}>
-                    {t('KWhOfTheCity')} :{' '}
-                    {isEditingKwH ? (
-                        <input
-                            type="text"
-                            value={kwH}
-                            onChange={(e) => setKwH(e.target.value)}
-                        />
-                    ) : (
+                <ProfilPart left={'25%'}>
+                    <ProfileField top={'5%'} left={'2.5%'}>
+                        {t('name')} :{' '}
+                        {isEditingName ? (
+                            <input
+                                type="text"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                            />
+                        ) : (
+                            name
+                        )}
+                        {isEditingName ? (
+                            <EditButton onClick={() => handleSaveClick('name')}>
+                                <ValidateIcon></ValidateIcon>
+                            </EditButton>
+                        ) : (
+                            <EditButton onClick={() => handleEditClick('name')}>
+                                <EditIcon></EditIcon>
+                            </EditButton>
+                        )}
+                    </ProfileField>
+                    <ProfileField top={'15%'} left={'2.5%'}>
+                        {t('email')} :{' '}
+                        {isEditingEmail ? (
+                            <input
+                                type="text"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                            />
+                        ) : (
+                            email
+                        )}
+                        {isEditingEmail ? (
+                            <EditButton onClick={() => handleSaveClick('email')}>
+                                <ValidateIcon></ValidateIcon>
+                            </EditButton>
+                        ) : (
+                            <EditButton onClick={() => handleEditClick('email')}>
+                                <EditIcon></EditIcon>
+                            </EditButton>
+                        )}
+                    </ProfileField>
+                    <ProfileField top={'25%'} left={'2.5%'}>
+                        {t('password')} : {renderPasswordField()}
+                        {isEditingPassword ? (
+                            <EditButton onClick={() => handleSaveClick('password')}>
+                                <ValidateIcon></ValidateIcon>
+                            </EditButton>
+                        ) : (
+                            <EditButton onClick={() => handleEditClick('password')}>
+                                <EditIcon></EditIcon>
+                            </EditButton>
+                        )}
+                    </ProfileField>
+                    <ProfileField top={'35%'} left={'2.5%'}>
+                        {t('KWhOfTheCity')} :{' '}
+                        {isEditingKwH ? (
+                            <input
+                                type="text"
+                                value={kwH}
+                                onChange={(e) => setKwH(e.target.value)}
+                            />
+                        ) : (
+                            kwH
+                        )}{' '}
                         kwH
-                    )}{' '}
-                    kwH
-                    {isEditingKwH ? (
-                        <EditButton onClick={() => handleSaveClick('kwH')}>
-                            <ValidateIcon></ValidateIcon>
-                        </EditButton>
-                    ) : (
-                        <EditButton onClick={() => handleEditClick('kwH')}>
-                            <EditIcon></EditIcon>
-                        </EditButton>
-                    )}
-                </ProfileField>
+                        {isEditingKwH ? (
+                            <EditButton onClick={() => handleSaveClick('kwH')}>
+                                <ValidateIcon></ValidateIcon>
+                            </EditButton>
+                        ) : (
+                            <EditButton onClick={() => handleEditClick('kwH')}>
+                                <EditIcon></EditIcon>
+                            </EditButton>
+                        )}
+                    </ProfileField>
+                </ProfilPart>
+                <ProfilPart left={'75%'}>
+                    <SuperUserTitle>Panneau d'administrateur</SuperUserTitle>
+                    <UsersList>
+                        {users.map((user) => (
+                            <UserCard>
+                                <UserCardTitle>{user.username}</UserCardTitle>
+                                <UserCardRights>{"Droits : " + user.right}</UserCardRights>
+                                <UserCardEmail>{user.email}</UserCardEmail>
+                                {user.right !== 'Administrateur' ? <UserCardDelete /> : null}
+                                {user.right !== 'Administrateur' ? <UserCardUpgrade /> : null}
+                            </UserCard>
+                        ))}
+                    </UsersList>
+                </ProfilPart>
             </ProfilRectangle>
         </ProfilContainer>
 
