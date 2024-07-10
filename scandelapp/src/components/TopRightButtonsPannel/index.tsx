@@ -5,6 +5,7 @@ import AddEntityButton from './AddEntityButton';
 import ModifyEntityButton from './ModifyEntityButton';
 import LogoutButton from './LogoutButton';
 import CityButton from './CityButton';
+import LampsPanelButton from './LampsPanel';
 
 /** City button of the main page Scandela
  * @param {any} id
@@ -50,11 +51,13 @@ const TopRightButtonsPannel: React.FC<TopRightButtonsPannelProps> = ({
     const [isSettingsPannelOpen, setIsSettingsPannelOpen] = useState(false);
     const [isEntityPannelOpen, setIsEntityPannelOpen] = useState(false);
     const [isAddEntityPannelOpen, setIsAddEntityPannelOpen] = useState(false);
+    const [isLampsPanelOpen, setIsLampsPanelOPen] = useState(false);
 
     const handleSettingsButtonClick = () => {
         if (!isSettingsPannelOpen) {
             setIsEntityPannelOpen(false);
             setIsAddEntityPannelOpen(false);
+            setIsLampsPanelOPen(false);
         }
         setIsSettingsPannelOpen(!isSettingsPannelOpen);
     };
@@ -63,6 +66,7 @@ const TopRightButtonsPannel: React.FC<TopRightButtonsPannelProps> = ({
         if (!isEntityPannelOpen) {
             setIsSettingsPannelOpen(false);
             setIsAddEntityPannelOpen(false);
+            setIsLampsPanelOPen(false);
         }
         setIsEntityPannelOpen(!isEntityPannelOpen);
     };
@@ -71,8 +75,18 @@ const TopRightButtonsPannel: React.FC<TopRightButtonsPannelProps> = ({
         if (!isAddEntityPannelOpen) {
             setIsSettingsPannelOpen(false);
             setIsEntityPannelOpen(false);
+            setIsLampsPanelOPen(false);
         }
         setIsAddEntityPannelOpen(!isAddEntityPannelOpen);
+    };
+
+    const handleLampsPanelButtonClick = () => {
+        if (!isLampsPanelOpen) {
+            setIsSettingsPannelOpen(false);
+            setIsEntityPannelOpen(false);
+            setIsAddEntityPannelOpen(false);
+        }
+        setIsLampsPanelOPen(!isLampsPanelOpen);
     };
 
     return (
@@ -88,6 +102,12 @@ const TopRightButtonsPannel: React.FC<TopRightButtonsPannelProps> = ({
                         setOptimisationTemplateData={
                             setOptimisationTemplateData
                         }
+                    />
+                    <LampsPanelButton
+                        isDark={isDark}
+                        isLampsPanelOpen={isLampsPanelOpen}
+                        handleLampsPanelButtonClick={handleLampsPanelButtonClick}
+                        decisionPanelExtended={decisionPanelExtended}
                     />
                     <ModifyEntityButton
                         isDark={isDark}
