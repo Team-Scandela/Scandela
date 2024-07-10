@@ -99,9 +99,9 @@ const LampsTemplate: React.FC<OptimisationTemplateProps> = ({
             </TextContainer>
             <SolutionTextContainer isDark={isDark}>
                 <SolutionText isDark={isDark}>
-                    LED {optimisationTemplateData.bulbType}<br />
-                    80 {optimisationTemplateData.intensity}<br />
-                   1000 {optimisationTemplateData.consumption}
+                    Type : {optimisationTemplateData.bulbType}<br />
+                    Intensité : {optimisationTemplateData.intensity} Ix <br />
+                    Consommation : {optimisationTemplateData.consumption} W
                 </SolutionText>
             </SolutionTextContainer>
             <DeleteButton onClick={handleDeleteClick} />
