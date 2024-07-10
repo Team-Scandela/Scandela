@@ -90,11 +90,13 @@ const LampInfosPopup: React.FC<LampInfosPopupProps> = ({
             >
                 <CloseIcon isDark={isDark} onClick={closePopup}></CloseIcon>
                 <PopupTextLampName isDark={isDark}>
-                    Lampadaire {selectedLampData.name}
+                    {/* Lampadaire {selectedLampData.name} */}
+                    Lampadaire {selectedLampData.fields.numero}
                 </PopupTextLampName>
                 <PopupSubTextLampName isDark={isDark} top="70px">
                     {' '}
-                    {selectedLampData.address}
+                    {/* {selectedLampData.address} */}
+                    {selectedLampData.fields.nom_voie}
                 </PopupSubTextLampName>
 
                 <PopupTextInfoTitle isDark={isDark} top="120px">
@@ -106,14 +108,16 @@ const LampInfosPopup: React.FC<LampInfosPopupProps> = ({
                     Type Lampe{' '}
                 </PopupTitle>
                 <PopupText isDark={isDark} top="170px">
-                    {selectedLampData.lampType}
+                    {/* {selectedLampData.lampType} */}
+                    {selectedLampData.fields.type_lampe}
                 </PopupText>
                 <PopupTitle isDark={isDark} top="210px">
                     {' '}
                     Type Foyer{' '}
                 </PopupTitle>
                 <PopupText isDark={isDark} top="210px">
-                    {selectedLampData.foyerType}
+                    {/* {selectedLampData.foyerType} */}
+                    {selectedLampData.fields.type_foyer}
                 </PopupText>
                 {isLampHavingDecision && (
                     <div>
