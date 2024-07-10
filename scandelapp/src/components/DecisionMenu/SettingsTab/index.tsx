@@ -54,7 +54,7 @@ const SettingsTab: React.FC<SettingsTabProps> = ({
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        navigate('/landingpage');
+        navigate('/homepage');
     };
 
     return (

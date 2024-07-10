@@ -26,7 +26,7 @@ interface AbsencePannelProps {
 }
 
 const AbsencePannel: React.FC<AbsencePannelProps> = ({ id, isDark, tooltipPreference }) => {
-    const [isAbsencePannelOpen, setIsAbsencePannelOpen] = useState(true);
+    const [isAbsencePannelOpen, setIsAbsencePannelOpen] = useState(false);
     const [dataReceived, setDataReceived] = useState(false);
     const [absenceData, setAbsenceData] = useState([]);
 
@@ -162,7 +162,7 @@ const AbsencePannel: React.FC<AbsencePannelProps> = ({ id, isDark, tooltipPrefer
             }
         );
         setAbsenceData(happenSinceLastConnexionDecision);
-        if (absenceData === null)
+        if (absenceData.length !== 0)
             handleToggleAbsencePannel();
     };
 
@@ -196,7 +196,7 @@ const AbsencePannel: React.FC<AbsencePannelProps> = ({ id, isDark, tooltipPrefer
                         {t('WhileYouWereAway')}
                     </PannelText>
                     <ListDetailContainer isDark={isDark}>
-                        {absenceData === null && (<TimeIcon isDark={isDark} size={200} />)}
+                        {absenceData.length === 0 && (<TimeIcon isDark={isDark} size={200} />)}
                         {absenceData.map((item: any, i: number) => (
                             <EventContainer key={i} isDark={isDark} y={155 * i}>
                                 <TextContainer>

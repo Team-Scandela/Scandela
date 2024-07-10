@@ -1,4 +1,4 @@
-import { ToMainAppRectangle, ToMainAppContainer, ToMainAppButton, CloseButton, ToMainAppText, ToMainAppImage, ToMainAppPart, ToMainAppTitle } from './elements';
+import { ToMainAppRectangle, ToMainAppContainer, ToMainAppTextContainer, ToMainAppButton, CloseButton, ToMainAppText, ToMainAppImage, ToMainAppPart, ToMainAppTitle } from './elements';
 import { useNavigate } from 'react-router-dom';
 import scandelapp from '../../../assets/homepage/scandelapp.png';
 
@@ -23,10 +23,10 @@ const ToMainApp: React.FC<ToMainAppProps> = ( { closeToMainApp } ) => {
                 <ToMainAppPart left={"2.5%"} width = {"55%"}>
                     <ToMainAppImage src={scandelapp} alt="Scandela" />
                 </ToMainAppPart>
-                <ToMainAppPart left={"60%"} width = {"37.5%"}>
+                <ToMainAppTextContainer left={"60%"} width = {"37.5%"}>
                     <ToMainAppText dangerouslySetInnerHTML={{ __html: text }} />
                     <ToMainAppButton onClick={handleToMainAppClick}>Accéder au dashboard</ToMainAppButton>
-                </ToMainAppPart>
+                </ToMainAppTextContainer>
             </ToMainAppRectangle>
         </ToMainAppContainer>
     );

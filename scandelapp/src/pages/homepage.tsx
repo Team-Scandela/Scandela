@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState } from 'react';
 import Mapback from '../components/HomePage/Mapback';
 import '../components/HomePage/homepage.css';
 import { CSSTransition } from 'react-transition-group';
@@ -69,16 +69,16 @@ const dataMarker: MarkerData[] = [
     {
         id : "stats",
         lng: 4.430,
-        lat: 51.890,
+        lat: 51.900,
         icon: stats,
         title: "Statistiques",
         small: true,
     },
 ];
 
-interface WIPPageProps {}
+interface HomePageProps {}
 
-const WIPPage: React.FC<WIPPageProps> = () => {
+const HomePage: React.FC<HomePageProps> = () => {
     const [onSubMenu, setOnSubMenu] = useState(false);
     const mapRef = useRef<mapboxgl.Map | null>(null);
     const [toRender, setToRender] = useState<string | null>(null);
@@ -143,4 +143,4 @@ const WIPPage: React.FC<WIPPageProps> = () => {
     );
 };
 
-export default WIPPage;
+export default HomePage;

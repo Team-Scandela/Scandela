@@ -3,10 +3,9 @@ import './translation/translation';
 import './App.css';
 import Main from './pages/main';
 import Login from './pages/login';
-import LandingPage from './pages/landingpage';
 import Redirect from './pages/redirect';
 import Admin from './pages/admin';
-import WIPPage from './pages/wip';
+import HomePage from './pages/homepage';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 
@@ -78,7 +77,7 @@ const App: React.FC = () => {
                             />
                         }
                     />
-                    <Route path="/landingpage" element={<LandingPage />} />
+                    <Route path="/homepage" element={<HomePage />} />
                     <Route
                         path="/scandela"
                         element={
@@ -94,7 +93,6 @@ const App: React.FC = () => {
                     />
                     <Route path="/redirect" element={<Redirect />} />
                     <Route path="/admin" element={<Admin />} />
-                    <Route path="/wip" element={<WIPPage />} />
                 </Routes>
             </BrowserRouter>
         </div>

@@ -78,23 +78,24 @@ export const PremiumTextContainer = styled.div`
     font-size: 16px;
     font-weight: 500;
     resize: none;
-    font-family: 'SyneRegular';
     border: none;
     background-color: ${DarkGrey};
 `;
 
 export const MainTitle = styled.div`
-    font-size: 20px;
+    font-size: 19px;
     color: ${DarkYellow};
     font-weight: 1000;
     text-align: center;
+    font-family: 'SyneBold';
 `;
 
 export const MainText = styled.div`
-    font-size: 15px;
+    font-size: 14px;
     color: ${DarkYellow};
     font-weight: 700;
-    margin: 20px 0;
+    margin: 8px 0;
+    font-family: 'SyneRegular';
 `;
 
 export const PremiumButtonOnOffStyle = styled.div`
@@ -126,6 +127,7 @@ export const PremiumButtonOnOffText = styled.div`
     font-size: 14px;
     color: ${Black};
     font-weight: 700;
+    font-family: 'SyneRegular';
 `;
 
 export const SubmitButton = styled.button`
@@ -142,6 +144,7 @@ export const SubmitButton = styled.button`
         cursor: pointer;
         opacity: 0.9;
     }
+    font-family: 'SyneRegular';
 `;
 
 export const AdminButton = styled.button`
@@ -159,4 +162,5 @@ export const AdminButton = styled.button`
         cursor: pointer;
         opacity: 0.9;
     }
+    font-family: 'SyneRegular';
 `;

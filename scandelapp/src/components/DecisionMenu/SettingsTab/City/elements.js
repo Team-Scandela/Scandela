@@ -43,6 +43,6 @@ export const TooltipTitle = styled.div`
     font-size: 20px;
     user-select: none;
     color: ${(props) => (props.isDark ? Yellow : Black)};
-    font-weight: 700;
+    font-weight: 400;
     font-family: 'SyneRegular';
 `;

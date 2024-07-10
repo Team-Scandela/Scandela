@@ -50,6 +50,22 @@ export const ToMainAppPart = styled.div`
     top : 15%;
 `;
 
+export const ToMainAppTextContainer = styled.div`
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: ${DarkGrey};
+    color: ${Black};
+    font-size: 30px;
+    padding: 10px;
+    border-radius: 10px;
+    width: ${props => props.width};
+    height: 80%;
+    left : ${props => props.left};
+    top : 15%;
+`;
+
 export const ToMainAppButton = styled.div`
     position: absolute;
     display: flex;
@@ -104,7 +120,7 @@ export const ToMainAppText = styled.div`
     position: absolute;
     display: flex;
     color: ${Yellow};
-    font-size: 20px;
+    font-size: 18px;
     padding: 10px;
     width: 90%;
     height: 80%;

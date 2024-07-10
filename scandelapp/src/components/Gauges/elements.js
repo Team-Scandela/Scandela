@@ -14,6 +14,7 @@ export const GaugeContainerLeft = styled(GaugeContainer)`
         props.decisionPanelExtended ? 375 : props.decal ? 385 : 175}px;
     transition: all 0.5s ease-in-out;
     z-index: 2;
+    cursor: pointer;
 `;
 
 export const GaugeContainerMiddle = styled(GaugeContainer)`
@@ -22,6 +23,7 @@ export const GaugeContainerMiddle = styled(GaugeContainer)`
         props.decisionPanelExtended ? 270 : props.decal ? 310 : 100}px;
     transition: all 0.5s ease-in-out;
     z-index: 2;
+    cursor: pointer;
 `;
 
 export const GaugeContainerRight = styled(GaugeContainer)`
@@ -29,6 +31,7 @@ export const GaugeContainerRight = styled(GaugeContainer)`
     right: ${(props) => (props.decisionPanelExtended ? 165 : 25)}px;
     transition: all 0.5s ease-in-out;
     z-index: 2;
+    cursor: pointer;
 `;
 
 export const GaugeContainerPersonnalized = styled(GaugeContainer)`

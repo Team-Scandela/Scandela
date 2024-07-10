@@ -127,7 +127,7 @@ const LoginModule: React.FC<LoginModuleProps> = ({
         setUserId(data.id);
         initUserSetup(data);
         updateUser();
-        navigate('/landingpage');
+        navigate('/homepage');
     };
 
     const handleSubmitSignIn = async (event: any) => {

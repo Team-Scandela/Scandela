@@ -60,9 +60,9 @@ export const TicketsTitle = styled.div`
     top: 7.5%;
     left: 2.5%;
     user-select: none;
-    font-family: 'SyneRegular';
     font-weight: bold;
     transform : translate(0%, -50%);
+    font-family: 'SyneRegular';
 `;
 
 
@@ -77,6 +77,30 @@ export const FAQLeftContainer = styled.div`
     border-radius: 10px;
     background-color: ${DarkGrey};
     overflow-y: scroll;
+
+    ::-webkit-scrollbar {
+        width: 15px;
+        size: 5px;
+        background-color: ${Black};
+        margin-right: 0px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: ${Grey};
+        border-radius: 7px;
+        margin-right: 20px;
+
+        &:hover {
+        background-color: ${White}
+        };
+    }
+
+    ::-webkit-scrollbar-track {
+        width: 10px;
+        background-color: ${DarkGrey};
+        border-radius: 0px 5px 5px 0px;
+        margin-right: 5px;
+    }
 `;
 
 export const FAQRightContainer = styled.div`
@@ -99,7 +123,7 @@ export const QuestionTemplateContainer = styled.div`
     position: absolute;
     align-items: center;
     justify-content: center;
-    width: 455px;
+    width: 410px;
     height: 65px;
     left: 0px;
     top: ${(props) => props.y}px;
@@ -121,30 +145,34 @@ export const TitleText = styled.div`
     position: absolute;
     display: flex;
     left: 2%;
-    font-size: 13px;
+    font-size: 14px;
     user-select: none;
     font-weight: 700;
     margin-right: 20px;
+    font-family: 'SyneRegular';
 `;
 
 export const DescriptionTitleText = styled.div`
     position: absolute;
     display: flex;
     align-items: center;
-    top: 20px;
+    top: 15px;
     font-size: 17px;
     user-select: none;
     font-weight: 700;
     margin-left: 30px;
     margin-right: 30px;
+    font-family: 'SyneRegular';
 `;
 
 export const DescriptionText = styled.div`
     left: 2%;
-    font-size: 13px;
+    font-size: 12px;
     user-select: none;
     font-weight: 700;
+    margin-top: 40px;
     margin-left: 20px;
     margin-right: 20px;
     line-height: 20px;
+    font-family: 'SyneRegular';
 `;
