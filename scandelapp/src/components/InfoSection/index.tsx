@@ -5,10 +5,7 @@ const InfoSection = () => {
     return (
         <InfoSectionContainer>
             <InfoParagraph>
-                Here you can find detailed statistics and rankings for your city's lighting performance.
-                This section includes data on energy efficiency, environmental impact, maintenance costs,
-                and the quality of lighting. Use the filters to view the data over different periods and compare
-                your city's performance with other cities.
+            Vous trouverez ici des statistiques et des classements détaillés sur les performances de votre ville en matière d'éclairage. Cette section comprend des données sur l'efficacité énergétique, l'impact environnemental, les coûts de maintenance et la qualité de l'éclairage. Utilisez les filtres pour consulter les données sur différentes périodes et comparez les performances de votre ville avec celles d'autres villes.
             </InfoParagraph>
         </InfoSectionContainer>
     );

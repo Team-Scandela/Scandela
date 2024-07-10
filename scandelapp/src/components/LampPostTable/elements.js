@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Grey } from '../../colors';
 
 export const TableContainer = styled.div`
   width: 100%;
@@ -12,6 +13,7 @@ export const StyledTable = styled.table`
   margin: 20px 0;
   font-size: 16px;
   text-align: left;
+  background-color: ${Grey};
 `;
 
 export const TableHeader = styled.th`

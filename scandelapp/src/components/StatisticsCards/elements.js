@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Grey, Green, Yellow, Red, White } from '../../colors';
 
 export const CardsContainer = styled.div`
     display: flex;
@@ -8,7 +9,7 @@ export const CardsContainer = styled.div`
     margin: 10px;
 `;
 
-export const Card = styled.div`
+    export const Card = styled.div`
     background: #fff;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -17,6 +18,7 @@ export const Card = styled.div`
     flex: 1 1 calc(33% - 20px); /* Adjusted for 3 cards in a row */
     display: flex;
     align-items: center;
+    background-color: ${Grey};
     min-width: 160px; /* Adjusted to ensure 3 cards can fit */
     max-width: 200px; /* Adjusted to ensure 3 cards can fit */
 `;

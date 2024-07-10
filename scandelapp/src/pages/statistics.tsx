@@ -6,14 +6,17 @@ import RadarChartComponent from '../components/RadarChartComponent';
 import InfoSection from '../components/InfoSection';
 import LampPostTable from '../components/LampPostTable';
 import TreeMapComponent from '../components/TreeMapComponent';
+import CityRankingRadarChart from '../components/CityRankingRadarChart';
+import StyledTitle from '../components/StyledTitle';
+
 
 const StatisticsPage = () => {
-  const [efficiencyData, setEfficiencyData] = useState([]);
-  const [costData, setCostData] = useState([]);
-  const [impactData, setImpactData] = useState([]);
-  const [maintenanceData, setMaintenanceData] = useState([]);
+  const [efficiencyData, setEfficiencyData] = useState<{ date: string; value: number; }[]>([]);
+  const [costData, setCostData] = useState<{ date: string; value: number; }[]>([]);
+  const [impactData, setImpactData] = useState<{ date: string; value: number; }[]>([]);
+  const [maintenanceData, setMaintenanceData] = useState<{ date: string; value: number; }[]>([]);
   const [stats, setStats] = useState({ defectiveLamps: 0, totalLamps: 0, totalCities: 0, environmentalImpact: 0 });
-  const [lampPosts, setLampPosts] = useState([]);
+  const [lampPosts, setLampPosts] = useState<{ id: number; type: string; status: string; lastMaintenance: string; maintenanceCost: number; }[]>([]);
 
   useEffect(() => {
     const fetchData = () => {
@@ -78,7 +81,7 @@ const StatisticsPage = () => {
   return (
     <StatisticsPageContainer>
       <ScrollableContainer>
-      <h1>Statistics & Leaderboard</h1>
+      <StyledTitle>Statistiques/Classement</StyledTitle>
         <InfoSection />
         <CardsAndRadarContainer>
           <StatisticsCards stats={stats} />
@@ -94,6 +97,7 @@ const StatisticsPage = () => {
         </ChartBanner>
         <LampPostTable lampPosts={lampPosts} />
         <TreeMapComponent />
+        <CityRankingRadarChart />
       </ScrollableContainer>
     </StatisticsPageContainer>
   );

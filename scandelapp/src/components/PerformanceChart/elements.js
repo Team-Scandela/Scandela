@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Yellow, DarkYellow, DarkGrey, Grey } from '../../colors';
 
 export const ChartContainer = styled.div`
   height: 200px;
@@ -15,6 +16,7 @@ export const Card = styled.div`
   display: flex;
   align-items: center;
   min-width: 240px;
+  background-color: ${Grey};
 `;
 
 export const CardContent = styled.div`
@@ -54,7 +56,7 @@ export const StatisticsPageContainer = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 20px;
-  background-color: #f0f0f0;
+  background-color: ${DarkGrey};
   height: 100vh;
 `;
 
@@ -63,6 +65,7 @@ export const ScrollableContainer = styled.div`
   max-height: 100%;
   overflow-y: auto;
   padding-right: 10px;
+  background-color: ${DarkGrey};
 `;
 
 export const CardsAndRadarContainer = styled.div`
