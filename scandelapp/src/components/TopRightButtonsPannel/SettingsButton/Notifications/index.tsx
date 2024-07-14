@@ -8,7 +8,6 @@ import {
     updateNotification,
     deleteNotification,
 } from '../../../../utils/notificationUtils';
-import { Button, Modal, Spinner } from 'react-bootstrap';
 import { getUser, putUser } from '../../../../utils/userUtils';
 
 /** Notifications setting component props
