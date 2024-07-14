@@ -70,7 +70,7 @@ const Footer = () => {
                 <FooterText />
                 <FooterText />
                 <a
-                    href="https://app.scandela.fr"
+                    href="https://app.scandela.com"
                     target="_blank"
                     style={{ textDecoration: 'none', color: 'inherit' }}
                 >
