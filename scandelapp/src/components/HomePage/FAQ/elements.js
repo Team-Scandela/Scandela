@@ -4,7 +4,7 @@ import {
     AiFillCloseCircle,
 } from 'react-icons/ai';
 
-export const TicketsContainer = styled.div`
+export const FAQContainer = styled.div`
     position: absolute;
     display: flex;
     justify-content: center;
@@ -19,7 +19,7 @@ export const TicketsContainer = styled.div`
     transform: translate(-50%, -50%);
 `;
 
-export const TicketsRectangle = styled.div`
+export const FAQRectangle = styled.div`
     position: absolute;
     display: flex;
     justify-content: center;
@@ -51,7 +51,7 @@ export const CloseButton = styled(AiFillCloseCircle)`
     }
 `;
 
-export const TicketsTitle = styled.div`
+export const FAQTitle = styled.div`
     position: absolute;
     display: flex;
     justify-content: center;

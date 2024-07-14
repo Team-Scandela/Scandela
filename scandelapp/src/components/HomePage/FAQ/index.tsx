@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { TicketsContainer, TicketsRectangle, CloseButton, TicketsTitle,     FAQLeftContainer,
+import { FAQContainer, FAQRectangle, CloseButton, FAQTitle,     FAQLeftContainer,
     FAQRightContainer,
     QuestionTemplateContainer,
     TitleText,
@@ -110,10 +110,10 @@ const FAQ: React.FC<FAQProps> = ( { closeToMainApp } ) => {
     };
 
     return (
-        <TicketsContainer>
-            <TicketsRectangle>
+        <FAQContainer>
+            <FAQRectangle>
                 <CloseButton onClick={closeToMainApp} />
-                <TicketsTitle>Foire aux questions</TicketsTitle>
+                <FAQTitle>Foire aux questions</FAQTitle>
                 <FAQLeftContainer>
                     {faqData.map((item: any, i: number) => (
                         <QuestionTemplateContainer
@@ -139,8 +139,8 @@ const FAQ: React.FC<FAQProps> = ( { closeToMainApp } ) => {
                         }
                     </DescriptionText>
                 </FAQRightContainer>
-            </TicketsRectangle>
-        </TicketsContainer>
+            </FAQRectangle>
+        </FAQContainer>
 
     );
 };
