@@ -1,10 +1,25 @@
 import { useEffect, useState } from 'react';
-import { ProfilContainer, ProfilRectangle, CloseButton, ProfilTitle, ProfileField, EditButton, EditIcon, ValidateIcon, ProfilPart, SuperUserTitle, UsersList, UserCard, 
-    UserCardTitle, UserCardRights, UserCardEmail, UserCardDelete, UserCardUpgrade } from './elements'
+import {
+    ProfilContainer,
+    ProfilRectangle,
+    CloseButton,
+    ProfilTitle,
+    ProfileField,
+    EditButton,
+    EditIcon,
+    ValidateIcon,
+    ProfilPart,
+    SuperUserTitle,
+    UsersList,
+    UserCard,
+    UserCardTitle,
+    UserCardRights,
+    UserCardEmail,
+    UserCardDelete,
+    UserCardUpgrade,
+} from './elements';
 import { getUser, putUser } from '../../../utils/userUtils';
 import { useTranslation } from 'react-i18next';
-
-
 
 interface ProfilProps {
     closeToMainApp: () => void;
@@ -14,23 +29,21 @@ const users = [
     {
         username: 'John Doe',
         email: 'john.doe@nantesmairie.fr',
-        right : 'Administrateur',
+        right: 'Administrateur',
     },
     {
-        username : 'Patrick Dupont',
+        username: 'Patrick Dupont',
         email: 'patrick.dupont@nantesmairie.fr',
-        right : 'Utilisateur',
+        right: 'Utilisateur',
     },
     {
-        username : 'Jeanne Martin',
+        username: 'Jeanne Martin',
         email: 'jeanne.martin@bouayemairie.fr',
-        right : 'Utilisateur',
+        right: 'Utilisateur',
     },
 ];
 
-
-const Profil: React.FC<ProfilProps> = ( { closeToMainApp } ) => {
-
+const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
     const [isEditingName, setIsEditingName] = useState(false);
     const [isEditingEmail, setIsEditingEmail] = useState(false);
     const [isEditingPassword, setIsEditingPassword] = useState(false);
@@ -146,7 +159,9 @@ const Profil: React.FC<ProfilProps> = ( { closeToMainApp } ) => {
         <ProfilContainer>
             <ProfilRectangle>
                 <CloseButton onClick={closeToMainApp} />
-                <ProfilTitle>Modifier vos informations personnelles</ProfilTitle>
+                <ProfilTitle>
+                    Modifier vos informations personnelles
+                </ProfilTitle>
                 <ProfilPart left={'25%'}>
                     <ProfileField top={'5%'} left={'2.5%'}>
                         {t('name')} :{' '}
@@ -181,11 +196,15 @@ const Profil: React.FC<ProfilProps> = ( { closeToMainApp } ) => {
                             email
                         )}
                         {isEditingEmail ? (
-                            <EditButton onClick={() => handleSaveClick('email')}>
+                            <EditButton
+                                onClick={() => handleSaveClick('email')}
+                            >
                                 <ValidateIcon></ValidateIcon>
                             </EditButton>
                         ) : (
-                            <EditButton onClick={() => handleEditClick('email')}>
+                            <EditButton
+                                onClick={() => handleEditClick('email')}
+                            >
                                 <EditIcon></EditIcon>
                             </EditButton>
                         )}
@@ -193,11 +212,15 @@ const Profil: React.FC<ProfilProps> = ( { closeToMainApp } ) => {
                     <ProfileField top={'25%'} left={'2.5%'}>
                         {t('password')} : {renderPasswordField()}
                         {isEditingPassword ? (
-                            <EditButton onClick={() => handleSaveClick('password')}>
+                            <EditButton
+                                onClick={() => handleSaveClick('password')}
+                            >
                                 <ValidateIcon></ValidateIcon>
                             </EditButton>
                         ) : (
-                            <EditButton onClick={() => handleEditClick('password')}>
+                            <EditButton
+                                onClick={() => handleEditClick('password')}
+                            >
                                 <EditIcon></EditIcon>
                             </EditButton>
                         )}
@@ -231,18 +254,23 @@ const Profil: React.FC<ProfilProps> = ( { closeToMainApp } ) => {
                         {users.map((user) => (
                             <UserCard>
                                 <UserCardTitle>{user.username}</UserCardTitle>
-                                <UserCardRights>{"Droits : " + user.right}</UserCardRights>
+                                <UserCardRights>
+                                    {'Droits : ' + user.right}
+                                </UserCardRights>
                                 <UserCardEmail>{user.email}</UserCardEmail>
-                                {user.right !== 'Administrateur' ? <UserCardDelete /> : null}
-                                {user.right !== 'Administrateur' ? <UserCardUpgrade /> : null}
+                                {user.right !== 'Administrateur' ? (
+                                    <UserCardDelete />
+                                ) : null}
+                                {user.right !== 'Administrateur' ? (
+                                    <UserCardUpgrade />
+                                ) : null}
                             </UserCard>
                         ))}
                     </UsersList>
                 </ProfilPart>
             </ProfilRectangle>
         </ProfilContainer>
-
     );
-}
+};
 
 export default Profil;

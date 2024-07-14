@@ -45,7 +45,11 @@ const ToastHistory: React.FC<ToastHistoryProps> = ({
             {tooltipPreference && (
                 <Tooltip
                     id="toastHistory"
-                    style={{ backgroundColor: Black, borderRadius: '5px', userSelect: 'none' }}
+                    style={{
+                        backgroundColor: Black,
+                        borderRadius: '5px',
+                        userSelect: 'none',
+                    }}
                 />
             )}
             <ToastHistoryButton

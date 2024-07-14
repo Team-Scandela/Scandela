@@ -1,8 +1,14 @@
 import styled from 'styled-components';
-import { Yellow, Black, DarkGrey, DarkYellow, White, Grey, LightDarkGrey } from '../../../colors';
 import {
-    AiFillCloseCircle,
-} from 'react-icons/ai';
+    Yellow,
+    Black,
+    DarkGrey,
+    DarkYellow,
+    White,
+    Grey,
+    LightDarkGrey,
+} from '../../../colors';
+import { AiFillCloseCircle } from 'react-icons/ai';
 
 export const TicketsContainer = styled.div`
     position: absolute;
@@ -31,7 +37,7 @@ export const TicketsRectangle = styled.div`
     top: 0%;
     left: 0%;
     flex-direction: column;
-    gap : 10px;
+    gap: 10px;
 `;
 
 export const CloseButton = styled(AiFillCloseCircle)`
@@ -62,7 +68,7 @@ export const TicketsTitle = styled.div`
     user-select: none;
     font-family: 'SyneRegular';
     font-weight: bold;
-    transform : translate(0%, -50%);
+    transform: translate(0%, -50%);
 `;
 
 export const DropdownContainer = styled.div`
@@ -101,7 +107,6 @@ export const DropdownItem = styled.div`
     cursor: pointer;
     font-size: 16px;
     font-family: 'SyneRegular';
-
 
     &:hover {
         background-color: ${Grey};

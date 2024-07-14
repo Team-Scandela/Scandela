@@ -1,25 +1,30 @@
-import { useState } from "react";
-import { PremiumRectangle, PremiumContainer, PremiumTitle, CloseButton,  MainTitle,
+import { useState } from 'react';
+import {
+    PremiumRectangle,
+    PremiumContainer,
+    PremiumTitle,
+    CloseButton,
+    MainTitle,
     MainText,
     PremiumButtonOnOffStyle,
     PremiumButtonOnOffText,
     SubmitButton,
-    AdminButton, PremiumTextContainer } from "./elements";
-import { useNavigate } from "react-router-dom";
-import { useTranslation } from "react-i18next";
-import { subscription } from "../../../utils/subscriptionUtils";
-
+    AdminButton,
+    PremiumTextContainer,
+} from './elements';
+import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { subscription } from '../../../utils/subscriptionUtils';
 
 interface PremiumProps {
     closeToMainApp: () => void;
 }
 
-const Premium: React.FC<PremiumProps> = ( { closeToMainApp } ) => {
+const Premium: React.FC<PremiumProps> = ({ closeToMainApp }) => {
     const navigate = useNavigate();
     const [showForm, setShowForm] = useState(false);
 
     const { t } = useTranslation();
-
 
     const handleToggleForm = () => {
         setShowForm(!showForm);
@@ -43,7 +48,6 @@ const Premium: React.FC<PremiumProps> = ( { closeToMainApp } ) => {
             localStorage.setItem('premium', 'true');
         navigate('/scandela');
     };
-
 
     return (
         <PremiumContainer>

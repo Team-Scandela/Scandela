@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Yellow, Black, DarkYellow } from '../../../../colors';
-import { IoMdDownload } from "react-icons/io";
+import { IoMdDownload } from 'react-icons/io';
 
 export const ImportButton = styled(IoMdDownload)`
     display: flex;

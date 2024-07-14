@@ -248,26 +248,24 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
                             />
                         )}
                         {currentTab === Tabs.ModifEntity && (
-                            <ModifyEntityTab
-                                isDark={isDark}
-                            />
+                            <ModifyEntityTab isDark={isDark} />
                         )}
                         {currentTab === Tabs.AddEntity && (
-                            <AddEntityTab
-                                isDark={isDark}
-                            />
+                            <AddEntityTab isDark={isDark} />
                         )}
                         {currentTab === Tabs.ElectricityPrice && (
-                            <EletricityPriceTab
-                                isDark={isDark}
-                            />
+                            <EletricityPriceTab isDark={isDark} />
                         )}
                         {currentTab === Tabs.Options && (
                             <SettingsTab
                                 isDark={isDark}
                                 setIsDark={setIsDark}
-                                notificationsPreference={notificationsPreference}
-                                setNotificationsPreference={setNotificationsPreference}
+                                notificationsPreference={
+                                    notificationsPreference
+                                }
+                                setNotificationsPreference={
+                                    setNotificationsPreference
+                                }
                                 addNotificationToList={addNotificationToList}
                                 tooltipPreference={tooltipPreference}
                                 setTooltipPreference={setTooltipPreference}

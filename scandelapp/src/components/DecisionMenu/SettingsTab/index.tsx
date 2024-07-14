@@ -15,9 +15,9 @@ import City from './City';
 import Notifications from './Notifications';
 import { FiSun } from 'react-icons/fi';
 import { MdOutlineLanguage } from 'react-icons/md';
-import { FaTreeCity } from "react-icons/fa6";
+import { FaTreeCity } from 'react-icons/fa6';
 import { IoNotifications } from 'react-icons/io5';
-import { TbHomeMove } from "react-icons/tb";
+import { TbHomeMove } from 'react-icons/tb';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
@@ -26,7 +26,7 @@ enum SettingsTabs {
     LightDarkMode,
     Language,
     Notifications,
-};
+}
 
 interface SettingsTabProps {
     isDark: boolean;
@@ -47,8 +47,9 @@ const SettingsTab: React.FC<SettingsTabProps> = ({
     tooltipPreference,
     setTooltipPreference,
 }) => {
-    const [currentOptionSelected, setCurrentOptionSeleted] =
-        useState(SettingsTabs.City);
+    const [currentOptionSelected, setCurrentOptionSeleted] = useState(
+        SettingsTabs.City
+    );
     const [currentLanguage, setCurrentLanguage] = useState(false); // true : en, false: fr
     const { t } = useTranslation();
     const navigate = useNavigate();
@@ -68,13 +69,17 @@ const SettingsTab: React.FC<SettingsTabProps> = ({
                 </CityButton>
                 <LightModeButton
                     isDark={isDark}
-                    onClick={() => setCurrentOptionSeleted(SettingsTabs.LightDarkMode)}
+                    onClick={() =>
+                        setCurrentOptionSeleted(SettingsTabs.LightDarkMode)
+                    }
                 >
                     <FiSun size={50} />
                 </LightModeButton>
                 <LanguageButton
                     isDark={isDark}
-                    onClick={() => setCurrentOptionSeleted(SettingsTabs.Language)}
+                    onClick={() =>
+                        setCurrentOptionSeleted(SettingsTabs.Language)
+                    }
                 >
                     <MdOutlineLanguage size={50} />
                 </LanguageButton>
@@ -88,19 +93,15 @@ const SettingsTab: React.FC<SettingsTabProps> = ({
                 </NotificationButton>
                 <BackToLandingPageButton
                     isDark={isDark}
-                    onClick={() =>
-                        handleLogout()
-                    }
+                    onClick={() => handleLogout()}
                 >
-                    <TbHomeMove size={50}/>
+                    <TbHomeMove size={50} />
                 </BackToLandingPageButton>
             </ButtonsMenuContainer>
             <ContentContainer isDark={isDark}>
                 {currentOptionSelected === SettingsTabs.City && (
                     <div>
-                        <TitleText isDark={isDark}>
-                            {t("Nantes")}
-                        </TitleText>
+                        <TitleText isDark={isDark}>{t('Nantes')}</TitleText>
                         <City
                             isDark={isDark}
                             tooltipPreference={tooltipPreference}
@@ -116,12 +117,8 @@ const SettingsTab: React.FC<SettingsTabProps> = ({
                         <LightDark
                             isDark={isDark}
                             setIsDark={setIsDark}
-                            notificationsPreference={
-                                notificationsPreference
-                            }
-                            addNotificationToList={
-                                addNotificationToList
-                            }
+                            notificationsPreference={notificationsPreference}
+                            addNotificationToList={addNotificationToList}
                         />
                     </div>
                 )}
@@ -138,12 +135,8 @@ const SettingsTab: React.FC<SettingsTabProps> = ({
                             isDark={isDark}
                             currentLanguage={currentLanguage}
                             setCurrentLanguage={setCurrentLanguage}
-                            notificationsPreference={
-                                notificationsPreference
-                            }
-                            addNotificationToList={
-                                addNotificationToList
-                            }
+                            notificationsPreference={notificationsPreference}
+                            addNotificationToList={addNotificationToList}
                         />
                     </div>
                 )}
@@ -154,9 +147,7 @@ const SettingsTab: React.FC<SettingsTabProps> = ({
                         </TitleText>
                         <Notifications
                             isDark={isDark}
-                            notificationsPreference={
-                                notificationsPreference
-                            }
+                            notificationsPreference={notificationsPreference}
                             setNotificationsPreference={
                                 setNotificationsPreference
                             }

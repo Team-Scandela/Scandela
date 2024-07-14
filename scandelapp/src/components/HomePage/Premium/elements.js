@@ -1,8 +1,14 @@
 import styled from 'styled-components';
-import { Yellow, Black, DarkGrey, DarkYellow, White, Grey, LightDarkGrey } from '../../../colors';
 import {
-    AiFillCloseCircle,
-} from 'react-icons/ai';
+    Yellow,
+    Black,
+    DarkGrey,
+    DarkYellow,
+    White,
+    Grey,
+    LightDarkGrey,
+} from '../../../colors';
+import { AiFillCloseCircle } from 'react-icons/ai';
 
 export const PremiumContainer = styled.div`
     position: absolute;
@@ -31,7 +37,7 @@ export const PremiumRectangle = styled.div`
     top: 0%;
     left: 0%;
     flex-direction: column;
-    gap : 10px;
+    gap: 10px;
 `;
 
 export const CloseButton = styled(AiFillCloseCircle)`
@@ -62,7 +68,7 @@ export const PremiumTitle = styled.div`
     user-select: none;
     font-family: 'SyneRegular';
     font-weight: bold;
-    transform : translate(0%, -50%);
+    transform: translate(0%, -50%);
 `;
 
 export const PremiumTextContainer = styled.div`

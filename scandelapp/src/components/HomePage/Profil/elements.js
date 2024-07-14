@@ -1,11 +1,17 @@
 import styled from 'styled-components';
-import { Yellow, Black, DarkGrey, DarkYellow, White, Grey, LightDarkGrey } from '../../../colors';
 import {
-    AiFillCloseCircle,
-} from 'react-icons/ai';
+    Yellow,
+    Black,
+    DarkGrey,
+    DarkYellow,
+    White,
+    Grey,
+    LightDarkGrey,
+} from '../../../colors';
+import { AiFillCloseCircle } from 'react-icons/ai';
 import { FaEdit, FaCheck } from 'react-icons/fa';
-import { AiOutlineUserDelete } from "react-icons/ai";
-import { MdOutlineUpgrade } from "react-icons/md";
+import { AiOutlineUserDelete } from 'react-icons/ai';
+import { MdOutlineUpgrade } from 'react-icons/md';
 
 export const ProfilContainer = styled.div`
     position: absolute;
@@ -34,7 +40,7 @@ export const ProfilRectangle = styled.div`
     top: 0%;
     left: 0%;
     flex-direction: line;
-    gap : 10px;
+    gap: 10px;
 `;
 
 export const ProfilPart = styled.div`
@@ -48,7 +54,7 @@ export const ProfilPart = styled.div`
     top: 20%;
     left: ${(props) => props.left};
     flex-direction: column;
-    transform : translate(-50%, 0%);
+    transform: translate(-50%, 0%);
 `;
 
 export const CloseButton = styled(AiFillCloseCircle)`
@@ -79,9 +85,8 @@ export const ProfilTitle = styled.div`
     user-select: none;
     font-family: 'SyneRegular';
     font-weight: bold;
-    transform : translate(0%, -50%);
+    transform: translate(0%, -50%);
 `;
-
 
 export const ProfileField = styled.div`
     position: absolute;
@@ -137,7 +142,7 @@ export const UsersList = styled.div`
     width: 95%;
     height: 80%;
     overflow-y: auto;
-    gap : 10px;
+    gap: 10px;
     background-color: ${LightDarkGrey};
     border-radius: 10px;
     padding: 10px;
@@ -158,8 +163,8 @@ export const UserCard = styled.div`
     transition: background-color 0.2s ease-in-out;
     width: 95%;
     height: 100px;
-    transform : translate(-50%, 0%);
-    left : 50%;
+    transform: translate(-50%, 0%);
+    left: 50%;
     color: ${Black};
     user-select: none;
     transition: background-color 0.2s ease-in-out;
@@ -168,7 +173,7 @@ export const UserCard = styled.div`
 export const UserCardTitle = styled.div`
     position: absolute;
     user-select: none;
-    top : 5px;
+    top: 5px;
     font-weight: bold;
     font-size: 20px;
 `;
@@ -176,14 +181,14 @@ export const UserCardTitle = styled.div`
 export const UserCardRights = styled.div`
     position: absolute;
     user-select: none;
-    top : 30px;
+    top: 30px;
     font-size: 15px;
 `;
 
 export const UserCardEmail = styled.div`
     position: absolute;
     user-select: none;
-    top : 55px;
+    top: 55px;
     font-size: 15px;
 `;
 
@@ -214,4 +219,3 @@ export const UserCardUpgrade = styled(MdOutlineUpgrade)`
         opacity: 0.8;
     }
 `;
-

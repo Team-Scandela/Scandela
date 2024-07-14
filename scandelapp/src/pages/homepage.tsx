@@ -15,7 +15,6 @@ import Profil from '../components/HomePage/Profil';
 import Premium from '../components/HomePage/Premium';
 import FAQ from '../components/HomePage/FAQ';
 
-
 export interface MarkerData {
     id: string;
     lng: number;
@@ -27,51 +26,51 @@ export interface MarkerData {
 
 const dataMarker: MarkerData[] = [
     {
-        id : "scandela",
+        id: 'scandela',
         lng: 4.37,
         lat: 51.99,
         icon: logo,
-        title: "Dashboard",
+        title: 'Dashboard',
         small: false,
     },
     {
-        id : "tickets",
+        id: 'tickets',
         lng: 4.149,
         lat: 52.018,
         icon: tickets,
-        title: "Tickets",
+        title: 'Tickets',
         small: true,
     },
     {
-        id : "premium",
+        id: 'premium',
         lng: 4.519,
         lat: 52.045,
         icon: premium,
-        title: "Premium",
+        title: 'Premium',
         small: true,
     },
     {
-        id : "profil",
+        id: 'profil',
         lng: 4.324,
         lat: 52.068,
         icon: profil,
-        title: "Profil",
+        title: 'Profil',
         small: true,
     },
     {
-        id : "faq",
+        id: 'faq',
         lng: 4.167,
         lat: 51.902,
         icon: faq,
-        title: "FAQ",
+        title: 'FAQ',
         small: true,
     },
     {
-        id : "stats",
-        lng: 4.430,
-        lat: 51.900,
+        id: 'stats',
+        lng: 4.43,
+        lat: 51.9,
         icon: stats,
-        title: "Statistiques",
+        title: 'Statistiques',
         small: true,
     },
 ];
@@ -82,7 +81,7 @@ const HomePage: React.FC<HomePageProps> = () => {
     const [onSubMenu, setOnSubMenu] = useState(false);
     const mapRef = useRef<mapboxgl.Map | null>(null);
     const [toRender, setToRender] = useState<string | null>(null);
-    const [title, setTitle] = useState<string>("Scandela");
+    const [title, setTitle] = useState<string>('Scandela');
 
     const handleBackClick = () => {
         if (mapRef.current) {
@@ -98,28 +97,33 @@ const HomePage: React.FC<HomePageProps> = () => {
         setToRender(null);
     };
 
-    const whatToRender = (id: string) :  React.ReactNode | null => {
+    const whatToRender = (id: string): React.ReactNode | null => {
         switch (id) {
-            case "scandela":
+            case 'scandela':
                 return <ToMainApp closeToMainApp={handleBackClick} />;
-            case "tickets":
+            case 'tickets':
                 return <Tickets closeToMainApp={handleBackClick} />;
-            case "premium":
+            case 'premium':
                 return <Premium closeToMainApp={handleBackClick} />;
-            case "profil":
+            case 'profil':
                 return <Profil closeToMainApp={handleBackClick} />;
-            case "faq":
+            case 'faq':
                 return <FAQ closeToMainApp={handleBackClick} />;
-            case "stats":
+            case 'stats':
                 return <ToMainApp closeToMainApp={handleBackClick} />;
             default:
                 return null;
         }
-    }
+    };
 
     return (
         <div style={{ position: 'relative' }}>
-            <Mapback mapRef={mapRef} data={dataMarker} setOnSubMenu={setOnSubMenu} setToRender={setToRender} />
+            <Mapback
+                mapRef={mapRef}
+                data={dataMarker}
+                setOnSubMenu={setOnSubMenu}
+                setToRender={setToRender}
+            />
             <Title title={title} />
             <CSSTransition
                 in={onSubMenu}

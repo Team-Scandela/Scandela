@@ -87,7 +87,7 @@ const Main: React.FC<MainProps> = ({
 
     const handleActionHistoryPannelButtonClicked = () => {
         if (toastHistoryExtended)
-            setToastHistoryExtended(!toastHistoryExtended)
+            setToastHistoryExtended(!toastHistoryExtended);
         setActionHistoryExtended(!actionHistoryExtended);
     };
 
@@ -195,7 +195,7 @@ const Main: React.FC<MainProps> = ({
                 </>
             )}
             {localStorage.getItem('premium') === 'false' && (
-                <LogoutButton id={'logoutButton'} isDark={isDark}/>
+                <LogoutButton id={'logoutButton'} isDark={isDark} />
             )}
             {localStorage.getItem('premium') === 'true' && (
                 <>
@@ -204,14 +204,18 @@ const Main: React.FC<MainProps> = ({
                         isDark={isDark}
                         toastHistoryData={toastHistoryData}
                         toastHistoryExtended={toastHistoryExtended}
-                        handleToastHistoryPannelButtonClicked={handleToastHistoryPannelButtonClicked}
+                        handleToastHistoryPannelButtonClicked={
+                            handleToastHistoryPannelButtonClicked
+                        }
                         tooltipPreference={tooltipPreference}
                     />
                     <ActionHistory
                         id={'actionHistoryComponentId'}
                         isDark={isDark}
                         actionHistoryExtended={actionHistoryExtended}
-                        handleActionHistoryPannelButtonClicked={handleActionHistoryPannelButtonClicked}
+                        handleActionHistoryPannelButtonClicked={
+                            handleActionHistoryPannelButtonClicked
+                        }
                         tooltipPreference={tooltipPreference}
                     />
                     <DecisionMenu

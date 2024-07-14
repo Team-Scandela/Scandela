@@ -1,8 +1,14 @@
 import styled from 'styled-components';
-import { Yellow, Black, DarkGrey, DarkYellow, White, Grey, LightDarkGrey } from '../../../colors';
 import {
-    AiFillCloseCircle,
-} from 'react-icons/ai';
+    Yellow,
+    Black,
+    DarkGrey,
+    DarkYellow,
+    White,
+    Grey,
+    LightDarkGrey,
+} from '../../../colors';
+import { AiFillCloseCircle } from 'react-icons/ai';
 
 export const FAQContainer = styled.div`
     position: absolute;
@@ -31,7 +37,7 @@ export const FAQRectangle = styled.div`
     top: 0%;
     left: 0%;
     flex-direction: column;
-    gap : 10px;
+    gap: 10px;
 `;
 
 export const CloseButton = styled(AiFillCloseCircle)`
@@ -61,10 +67,9 @@ export const FAQTitle = styled.div`
     left: 2.5%;
     user-select: none;
     font-weight: bold;
-    transform : translate(0%, -50%);
+    transform: translate(0%, -50%);
     font-family: 'SyneRegular';
 `;
-
 
 export const FAQLeftContainer = styled.div`
     position: absolute;
@@ -91,8 +96,8 @@ export const FAQLeftContainer = styled.div`
         margin-right: 20px;
 
         &:hover {
-        background-color: ${White}
-        };
+            background-color: ${White};
+        }
     }
 
     ::-webkit-scrollbar-track {

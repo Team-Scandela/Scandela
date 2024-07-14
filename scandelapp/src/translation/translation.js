@@ -25,7 +25,8 @@ const resources = {
             lightDarkMode: 'Dark / Light mode',
             language: 'Language',
             loadData: 'Load data',
-            loadDataDescription: 'You have the possibility of importing new data into our Scandela tool in order to keep the dataset up to date with which we will be able to advise you.',
+            loadDataDescription:
+                'You have the possibility of importing new data into our Scandela tool in order to keep the dataset up to date with which we will be able to advise you.',
             notifications: 'Notifications',
             actionListUpdates: 'Action list updates',
             lightDarkModeUpdates: 'Dark / Light mode updates',
@@ -155,7 +156,7 @@ const resources = {
             filterComponent: 'Filtre by component',
             filterTraffic: 'Filter by traffic',
             filterCabinet: 'Filtre by electrical cabinet',
-            others : 'Others'
+            others: 'Others',
         },
     },
 
@@ -183,7 +184,8 @@ const resources = {
             lightDarkMode: 'Mode sombre / clair',
             language: 'Langage',
             loadData: 'Charger des données',
-            loadDataDescription: 'Vous avez la possibilité d\'importer de nouvelles données dans notre outil Scandela afin de maintenir à jour le jeu de données avec lequel nous allons pouvoir vous conseiller.',
+            loadDataDescription:
+                "Vous avez la possibilité d'importer de nouvelles données dans notre outil Scandela afin de maintenir à jour le jeu de données avec lequel nous allons pouvoir vous conseiller.",
             notifications: 'Notifications',
             actionListUpdates: "Mises à jour de la liste d'action",
             lightDarkModeUpdates: 'Mises à jour du mode sombre / clair',
@@ -312,12 +314,12 @@ const resources = {
             activateTooltip: 'Activer les infos bulles',
             filters: 'Filtres',
             filterPin: 'Filtre par lampadaires',
-            filterZone: 'Filtre par zone d\'éclairage',
+            filterZone: "Filtre par zone d'éclairage",
             filterBulbQuality: 'Filtre par qualité de bulbe',
             filterComponent: 'Filtre par composant',
             filterTraffic: 'Filtre par traffic',
             filterCabinet: 'Filtre par armoire électrique',
-            others: 'Autres'
+            others: 'Autres',
         },
     },
 };

@@ -1,5 +1,12 @@
 import styled from 'styled-components';
-import { Yellow, Black, Grey, White, DarkGrey, LightDarkGrey } from '../../../colors';
+import {
+    Yellow,
+    Black,
+    Grey,
+    White,
+    DarkGrey,
+    LightDarkGrey,
+} from '../../../colors';
 import { BsFillTrash3Fill } from 'react-icons/bs';
 import { GiSandsOfTime } from 'react-icons/gi';
 import { AiOutlineSend } from 'react-icons/ai';
@@ -32,8 +39,8 @@ export const ScrollableOptimisationsContainer = styled.div`
         margin-right: 20px;
 
         &:hover {
-        background-color: ${Yellow}
-        };
+            background-color: ${Yellow};
+        }
     }
 
     ::-webkit-scrollbar-track {
@@ -56,7 +63,8 @@ export const OptimisationTemplateContainer = styled.div`
     top: ${(props) => props.y}px;
     border-radius: 5px;
     overflow: hidden;
-    background-color: ${(props) => (props.isDark ? LightDarkGrey + 'FF' : LightDarkGrey + 'FF')};
+    background-color: ${(props) =>
+        props.isDark ? LightDarkGrey + 'FF' : LightDarkGrey + 'FF'};
     margin: 6px;
     border: 2px solid ${Black};
 `;

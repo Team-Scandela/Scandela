@@ -68,31 +68,59 @@ const FilterMenu: React.FC<FilterMenuProps> = ({
                 <div>
                     <Tooltip
                         id="filters"
-                        style={{ backgroundColor: Black, borderRadius: '5px', userSelect: 'none' }}
+                        style={{
+                            backgroundColor: Black,
+                            borderRadius: '5px',
+                            userSelect: 'none',
+                        }}
                     />
                     <Tooltip
                         id="filterPin"
-                        style={{ backgroundColor: Black, borderRadius: '5px', userSelect: 'none' }}
+                        style={{
+                            backgroundColor: Black,
+                            borderRadius: '5px',
+                            userSelect: 'none',
+                        }}
                     />
                     <Tooltip
                         id="filterZone"
-                        style={{ backgroundColor: Black, borderRadius: '5px', userSelect: 'none' }}
+                        style={{
+                            backgroundColor: Black,
+                            borderRadius: '5px',
+                            userSelect: 'none',
+                        }}
                     />
                     <Tooltip
                         id="filterBulbQuality"
-                        style={{ backgroundColor: Black, borderRadius: '5px', userSelect: 'none' }}
+                        style={{
+                            backgroundColor: Black,
+                            borderRadius: '5px',
+                            userSelect: 'none',
+                        }}
                     />
                     <Tooltip
                         id="filterComponent"
-                        style={{ backgroundColor: Black, borderRadius: '5px', userSelect: 'none' }}
+                        style={{
+                            backgroundColor: Black,
+                            borderRadius: '5px',
+                            userSelect: 'none',
+                        }}
                     />
                     <Tooltip
                         id="filterTraffic"
-                        style={{ backgroundColor: Black, borderRadius: '5px', userSelect: 'none' }}
+                        style={{
+                            backgroundColor: Black,
+                            borderRadius: '5px',
+                            userSelect: 'none',
+                        }}
                     />
                     <Tooltip
                         id="filterCabinet"
-                        style={{ backgroundColor: Black, borderRadius: '5px', userSelect: 'none' }}
+                        style={{
+                            backgroundColor: Black,
+                            borderRadius: '5px',
+                            userSelect: 'none',
+                        }}
                     />
                 </div>
             )}
@@ -129,21 +157,18 @@ const FilterMenu: React.FC<FilterMenuProps> = ({
                     onClick={() => handleIconClick(Filters.filter)}
                     data-tooltip-id="filterComponent"
                     data-tooltip-content={t('filterComponent')}
-
                 />
                 <MdDirectionsCar
                     style={chooseStyle(Filters.traffic)}
                     onClick={() => handleIconClick(Filters.traffic)}
                     data-tooltip-id="filterTraffic"
                     data-tooltip-content={t('filterTraffic')}
-
                 />
                 <MdElectricMeter
                     style={chooseStyle(Filters.cabinet)}
                     onClick={() => handleIconClick(Filters.cabinet)}
                     data-tooltip-id="filterCabinet"
                     data-tooltip-content={t('filterCabinet')}
-
                 />
             </FilterMenuContainer>
         </div>

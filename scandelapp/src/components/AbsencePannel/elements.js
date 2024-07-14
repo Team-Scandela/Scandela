@@ -1,9 +1,7 @@
 import styled from 'styled-components';
 import { Yellow, Black, White, Grey } from '../../colors';
 import { GiSandsOfTime } from 'react-icons/gi';
-import {
-    AiFillCloseCircle,
-} from 'react-icons/ai';
+import { AiFillCloseCircle } from 'react-icons/ai';
 
 /** Container for the absence pannel button **/
 export const AbsencePannelButtonContainer = styled.div`
@@ -109,8 +107,8 @@ export const ListDetailContainer = styled.div`
         margin-right: 20px;
 
         &:hover {
-        background-color: ${White}
-        };
+            background-color: ${White};
+        }
     }
 
     ::-webkit-scrollbar-track {
@@ -190,4 +188,4 @@ export const TimeIcon = styled(GiSandsOfTime)`
     left: 31%;
     top: 24%;
     color: ${(props) => (props.isDark ? Black : Yellow)};
-    `;
+`;

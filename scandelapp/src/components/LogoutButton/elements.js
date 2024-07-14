@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { White, Black, Yellow} from '../../colors';
+import { White, Black, Yellow } from '../../colors';
 
 /** Container for the logout out button if the premium is not activated **/
 export const NonPremiumLogoutButton = styled.div`

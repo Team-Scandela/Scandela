@@ -1,8 +1,6 @@
 import styled from 'styled-components';
 import { Yellow, Black, DarkGrey, DarkYellow } from '../../../colors';
-import {
-    AiFillCloseCircle,
-} from 'react-icons/ai';
+import { AiFillCloseCircle } from 'react-icons/ai';
 
 export const ToMainAppContainer = styled.div`
     position: absolute;
@@ -31,7 +29,7 @@ export const ToMainAppRectangle = styled.div`
     top: 0%;
     left: 0%;
     flex-direction: column;
-    gap : 10px;
+    gap: 10px;
 `;
 
 export const ToMainAppPart = styled.div`
@@ -44,10 +42,10 @@ export const ToMainAppPart = styled.div`
     font-size: 30px;
     padding: 10px;
     border-radius: 10px;
-    width: ${props => props.width};
+    width: ${(props) => props.width};
     height: 80%;
-    left : ${props => props.left};
-    top : 15%;
+    left: ${(props) => props.left};
+    top: 15%;
 `;
 
 export const ToMainAppTextContainer = styled.div`
@@ -60,10 +58,10 @@ export const ToMainAppTextContainer = styled.div`
     font-size: 30px;
     padding: 10px;
     border-radius: 10px;
-    width: ${props => props.width};
+    width: ${(props) => props.width};
     height: 80%;
-    left : ${props => props.left};
-    top : 15%;
+    left: ${(props) => props.left};
+    top: 15%;
 `;
 
 export const ToMainAppButton = styled.div`
@@ -85,7 +83,7 @@ export const ToMainAppButton = styled.div`
     font-weight: bold;
     user-select: none;
     font-family: 'SyneRegular';
-    transform : translate(-50%, 0%);
+    transform: translate(-50%, 0%);
 
     &:hover {
         cursor: pointer;
@@ -143,7 +141,7 @@ export const ToMainAppImage = styled.img`
     user-select: none;
     align-items: center;
     justify-content: center;
-    transform  : translate(-50%, -50%);
+    transform: translate(-50%, -50%);
 `;
 
 export const ToMainAppTitle = styled.div`
@@ -157,5 +155,5 @@ export const ToMainAppTitle = styled.div`
     user-select: none;
     font-family: 'SyneRegular';
     font-weight: bold;
-    transform : translate(0%, -50%);
+    transform: translate(0%, -50%);
 `;

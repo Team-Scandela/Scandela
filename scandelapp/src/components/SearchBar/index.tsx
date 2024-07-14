@@ -28,7 +28,12 @@ interface SearchBarProps {
     tooltipPreference: boolean;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ id, isDark, onSubmit, tooltipPreference }) => {
+const SearchBar: React.FC<SearchBarProps> = ({
+    id,
+    isDark,
+    onSubmit,
+    tooltipPreference,
+}) => {
     const [testIsLoading, setTestIsLoading] = useState<boolean>(false);
     const [searchValue, setSearchValue] = useState<string>('');
     const [lat, setLat] = useState<number>(0);
@@ -101,11 +106,19 @@ const SearchBar: React.FC<SearchBarProps> = ({ id, isDark, onSubmit, tooltipPref
                 <div>
                     <Tooltip
                         id="searchPlace"
-                        style={{ backgroundColor: Black, borderRadius: '5px', userSelect: 'none' }}
-                        />
+                        style={{
+                            backgroundColor: Black,
+                            borderRadius: '5px',
+                            userSelect: 'none',
+                        }}
+                    />
                     <Tooltip
                         id="searchLamp"
-                        style={{ backgroundColor: Black, borderRadius: '5px', userSelect: 'none' }}
+                        style={{
+                            backgroundColor: Black,
+                            borderRadius: '5px',
+                            userSelect: 'none',
+                        }}
                     />
                 </div>
             )}

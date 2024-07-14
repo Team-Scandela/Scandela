@@ -5,7 +5,7 @@
 }
 
 .marker {
-    background-color: #FAC710;
+    background-color: #fac710;
     width: 100px;
     height: 100px;
     border-radius: 10%;
@@ -31,7 +31,7 @@
 .marker-title {
     margin-top: 10px;
     font-size: 20px;
-    color: #F9F9F9;
+    color: #f9f9f9;
     text-align: center;
     cursor: default !important;
     font-family: 'SyneRegular';

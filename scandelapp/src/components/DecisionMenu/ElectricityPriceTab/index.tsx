@@ -48,7 +48,9 @@ const EletricityPriceTab: React.FC<EletricityPriceTabProps> = ({ isDark }) => {
             getElectricityPriceAsync();
             getPriceLimitAsync();
         } catch (error) {
-            console.log('ERROR GET ELECTRICITY PRICE AND PRICE LIMIT = ' + error);
+            console.log(
+                'ERROR GET ELECTRICITY PRICE AND PRICE LIMIT = ' + error
+            );
         }
     }, []);
 
@@ -105,9 +107,9 @@ const EletricityPriceTab: React.FC<EletricityPriceTabProps> = ({ isDark }) => {
                             type="number"
                             placeholder="Limite de prix"
                             value={currentPriceLimit}
-                            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                                setCurrentPriceLimit(e.target.value)
-                            }
+                            onChange={(
+                                e: React.ChangeEvent<HTMLInputElement>
+                            ) => setCurrentPriceLimit(e.target.value)}
                         />
                         <PriceLimitValidationButton
                             isDark={isDark}

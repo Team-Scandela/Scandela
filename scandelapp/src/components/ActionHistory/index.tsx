@@ -23,20 +23,26 @@ import {
 import { Tooltip } from 'react-tooltip';
 import { Black } from '../../colors';
 import { useTranslation } from 'react-i18next';
-import { GoLightBulb as Bulb } from "react-icons/go";
-import { LuLampCeiling as Lamp } from "react-icons/lu";
-import { TbArrowBackUpDouble } from "react-icons/tb";
-import { RiMapPin2Line } from "react-icons/ri";
+import { GoLightBulb as Bulb } from 'react-icons/go';
+import { LuLampCeiling as Lamp } from 'react-icons/lu';
+import { TbArrowBackUpDouble } from 'react-icons/tb';
+import { RiMapPin2Line } from 'react-icons/ri';
 
 interface ActionHistoryProps {
     id: string;
     isDark: boolean;
-    actionHistoryExtended: boolean,
-    handleActionHistoryPannelButtonClicked: () => void,
-    tooltipPreference: boolean,
+    actionHistoryExtended: boolean;
+    handleActionHistoryPannelButtonClicked: () => void;
+    tooltipPreference: boolean;
 }
 
-const ActionHistory: React.FC<ActionHistoryProps> = ({ id, isDark, actionHistoryExtended, handleActionHistoryPannelButtonClicked, tooltipPreference }) => {
+const ActionHistory: React.FC<ActionHistoryProps> = ({
+    id,
+    isDark,
+    actionHistoryExtended,
+    handleActionHistoryPannelButtonClicked,
+    tooltipPreference,
+}) => {
     const [dataReceived, setDataReceived] = useState(false);
 
     const [actionHistoryData, setActionHistoryData] = useState([]);
@@ -76,15 +82,15 @@ const ActionHistory: React.FC<ActionHistoryProps> = ({ id, isDark, actionHistory
             decisions.forEach((decision: any) => {
                 if (decision.validate !== null) {
                     const action = {
-                        solution : decision.solution,
+                        solution: decision.solution,
                         time: arrayToISOString(decision.validate),
                         description: decision.description,
-                        location : decision.location,
-                        name : decision.name,
-                        type : decision.type,
-                        lamptype : decision.lampType,
-                        foyertype : decision.foyerType,
-                        uuid : decision.uuid,
+                        location: decision.location,
+                        name: decision.name,
+                        type: decision.type,
+                        lamptype: decision.lampType,
+                        foyertype: decision.foyerType,
+                        uuid: decision.uuid,
                     };
                     actionHistoryData.push(action);
                 }
@@ -159,7 +165,11 @@ const ActionHistory: React.FC<ActionHistoryProps> = ({ id, isDark, actionHistory
             {tooltipPreference && (
                 <Tooltip
                     id="actionHistory"
-                    style={{ backgroundColor: Black, borderRadius: '5px', userSelect: 'none' }}
+                    style={{
+                        backgroundColor: Black,
+                        borderRadius: '5px',
+                        userSelect: 'none',
+                    }}
                 />
             )}
             <ActionsHistoryButton
@@ -184,7 +194,7 @@ const ActionHistory: React.FC<ActionHistoryProps> = ({ id, isDark, actionHistory
                             }}
                         >
                             <DescriptionText isDark={isDark}>
-                                {item.name + " - " + item.type}
+                                {item.name + ' - ' + item.type}
                             </DescriptionText>
                             <TimeText isDark={isDark}>{item.time}</TimeText>
                         </ActionTemplateContainer>
@@ -194,11 +204,18 @@ const ActionHistory: React.FC<ActionHistoryProps> = ({ id, isDark, actionHistory
 
             {showPopUp && (
                 <PopUpContainer isDark={isDark}>
-                    <PopUpIcon isDark={isDark}> {selectedAction.type === "Ajouter lampadaire" ? <Lamp size={50} /> : <Bulb size={50} />}</PopUpIcon>
+                    <PopUpIcon isDark={isDark}>
+                        {' '}
+                        {selectedAction.type === 'Ajouter lampadaire' ? (
+                            <Lamp size={50} />
+                        ) : (
+                            <Bulb size={50} />
+                        )}
+                    </PopUpIcon>
                     <PopUpClose
                         isDark={isDark}
                         onClick={() => {
-                            console.log(selectedAction)
+                            console.log(selectedAction);
                             setShowPopUp(false);
                             setSelectedAction({} as any);
                         }}
@@ -206,8 +223,12 @@ const ActionHistory: React.FC<ActionHistoryProps> = ({ id, isDark, actionHistory
                     <PopUpTitle isDark={isDark}>
                         {selectedAction.type}
                     </PopUpTitle>
-                    <PopUpSubtitle isDark={isDark}>{selectedAction.name + " à " + selectedAction.location}</PopUpSubtitle>
-                    <PopUpTime isDark={isDark}>{"Validé le " + selectedAction.time}</PopUpTime>
+                    <PopUpSubtitle isDark={isDark}>
+                        {selectedAction.name + ' à ' + selectedAction.location}
+                    </PopUpSubtitle>
+                    <PopUpTime isDark={isDark}>
+                        {'Validé le ' + selectedAction.time}
+                    </PopUpTime>
                     <PopUpDescriptionContainer>
                         <PopUpDescriptionText isDark={isDark}>
                             {selectedAction.description}
@@ -221,7 +242,11 @@ const ActionHistory: React.FC<ActionHistoryProps> = ({ id, isDark, actionHistory
                     {tooltipPreference && (
                         <Tooltip
                             id="unvalidate"
-                            style={{ backgroundColor: Black, borderRadius: '5px', userSelect: 'none' }}
+                            style={{
+                                backgroundColor: Black,
+                                borderRadius: '5px',
+                                userSelect: 'none',
+                            }}
                         />
                     )}
                     <PopUpUnvalideButton
@@ -232,8 +257,10 @@ const ActionHistory: React.FC<ActionHistoryProps> = ({ id, isDark, actionHistory
                             setSelectedAction({} as any);
                         }}
                         data-tooltip-id="unvalidate"
-                        data-tooltip-content={"Invalider la décision"}
-                    > <TbArrowBackUpDouble size={40} />
+                        data-tooltip-content={'Invalider la décision'}
+                    >
+                        {' '}
+                        <TbArrowBackUpDouble size={40} />
                     </PopUpUnvalideButton>
                     <PopUpToLampButton>
                         <RiMapPin2Line size={45} />

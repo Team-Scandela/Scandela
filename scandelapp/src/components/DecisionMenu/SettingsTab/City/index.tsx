@@ -23,7 +23,11 @@ interface Lamp {
     foyertype: string;
 }
 
-const City: React.FC<CityProps> = ({ isDark, tooltipPreference, setTooltipPreference }) => {
+const City: React.FC<CityProps> = ({
+    isDark,
+    tooltipPreference,
+    setTooltipPreference,
+}) => {
     const fileInputRef = useRef<HTMLInputElement | null>(null);
     const { t } = useTranslation();
 
@@ -130,7 +134,9 @@ const City: React.FC<CityProps> = ({ isDark, tooltipPreference, setTooltipPrefer
                 style={{ display: 'none' }}
                 onChange={downloadData}
             />
-            <DescriptionText isDark={isDark}>{t('loadDataDescription')}</DescriptionText>
+            <DescriptionText isDark={isDark}>
+                {t('loadDataDescription')}
+            </DescriptionText>
             <TooltipTitle isDark={isDark}>{t('activateTooltip')}</TooltipTitle>
             <RadioButton
                 isDark={isDark}

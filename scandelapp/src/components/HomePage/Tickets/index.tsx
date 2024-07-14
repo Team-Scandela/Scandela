@@ -1,13 +1,22 @@
 import { useState } from 'react';
-import { TicketsContainer, TicketsRectangle, CloseButton, TicketsTitle, DropdownContainer, DropdownItem, TicketDescriptionInput, TicketTitleInput, SendButton  } from './elements';
+import {
+    TicketsContainer,
+    TicketsRectangle,
+    CloseButton,
+    TicketsTitle,
+    DropdownContainer,
+    DropdownItem,
+    TicketDescriptionInput,
+    TicketTitleInput,
+    SendButton,
+} from './elements';
 import { useTranslation } from 'react-i18next';
 
 interface TicketsProps {
     closeToMainApp: () => void;
 }
 
-const Tickets: React.FC<TicketsProps> = ( { closeToMainApp } ) => {
-
+const Tickets: React.FC<TicketsProps> = ({ closeToMainApp }) => {
     const [showDropdown, setShowDropdown] = useState(false);
     const [choosenItem, setChoosenItem] = useState('Catégorie');
     const [title, setTitle] = useState('');
@@ -18,7 +27,6 @@ const Tickets: React.FC<TicketsProps> = ( { closeToMainApp } ) => {
     const handleDropdownToggle = () => {
         setShowDropdown(!showDropdown);
     };
-
 
     const sendTicket = async () => {
         try {
@@ -62,7 +70,7 @@ const Tickets: React.FC<TicketsProps> = ( { closeToMainApp } ) => {
 
     return (
         <TicketsContainer>
-            <TicketsRectangle >
+            <TicketsRectangle>
                 <TicketsTitle>Envoyer un ticket</TicketsTitle>
                 <CloseButton onClick={closeToMainApp} />
 
@@ -117,10 +125,8 @@ const Tickets: React.FC<TicketsProps> = ( { closeToMainApp } ) => {
                     onChange={(e: any) => setDescription(e.target.value)}
                 />
                 <SendButton onClick={handleSendTicket}>{t('send')}</SendButton>
-
             </TicketsRectangle>
         </TicketsContainer>
-
     );
 };
 

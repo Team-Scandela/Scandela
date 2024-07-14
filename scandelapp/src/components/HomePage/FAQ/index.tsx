@@ -1,19 +1,23 @@
 import { useState } from 'react';
-import { FAQContainer, FAQRectangle, CloseButton, FAQTitle,     FAQLeftContainer,
+import {
+    FAQContainer,
+    FAQRectangle,
+    CloseButton,
+    FAQTitle,
+    FAQLeftContainer,
     FAQRightContainer,
     QuestionTemplateContainer,
     TitleText,
     DescriptionTitleText,
-    DescriptionText, } from './elements';
+    DescriptionText,
+} from './elements';
 import { useTranslation } from 'react-i18next';
-
 
 interface FAQProps {
     closeToMainApp: () => void;
 }
 
-const FAQ: React.FC<FAQProps> = ( { closeToMainApp } ) => {
-
+const FAQ: React.FC<FAQProps> = ({ closeToMainApp }) => {
     const { t } = useTranslation();
 
     const [faqData, setFaqData] = useState([
@@ -141,7 +145,6 @@ const FAQ: React.FC<FAQProps> = ( { closeToMainApp } ) => {
                 </FAQRightContainer>
             </FAQRectangle>
         </FAQContainer>
-
     );
 };
 

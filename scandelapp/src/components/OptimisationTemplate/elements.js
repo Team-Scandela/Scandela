@@ -11,7 +11,8 @@ export const OptimisationTemplateContainer = styled.div`
     top: ${(props) => props.y}px;
     border-radius: 5px;
     overflow: hidden;
-    background-color: ${(props) => (props.isDark ? LightDarkGrey + 'FF' : LightDarkGrey + 'FF')};
+    background-color: ${(props) =>
+        props.isDark ? LightDarkGrey + 'FF' : LightDarkGrey + 'FF'};
     margin: 6px;
     border: 2px solid ${Black};
     cursor: pointer;

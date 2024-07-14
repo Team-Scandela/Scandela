@@ -17,9 +17,7 @@ interface ModifyEntityTabProps {
     isDark: boolean;
 }
 
-const ModifyEntityTab: React.FC<ModifyEntityTabProps> = ({
-    isDark,
-}) => {
+const ModifyEntityTab: React.FC<ModifyEntityTabProps> = ({ isDark }) => {
     const [currentEntitySelected, setCurrentEntitySelected] = useState('bulb');
     const { t } = useTranslation();
 

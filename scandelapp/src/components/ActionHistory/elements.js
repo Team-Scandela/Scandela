@@ -274,7 +274,7 @@ export const PopUpToLampButton = styled.div`
     justify-content: center;
     align-items: center;
     transition: all 0.2s ease-in-out;
-    color : ${Yellow};
+    color: ${Yellow};
 
     &:hover {
         color: ${DarkGrey};

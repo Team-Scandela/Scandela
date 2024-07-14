@@ -1,5 +1,5 @@
-import { TbHomeMove } from "react-icons/tb";
-import { NonPremiumLogoutButton } from "./elements";
+import { TbHomeMove } from 'react-icons/tb';
+import { NonPremiumLogoutButton } from './elements';
 import { useNavigate } from 'react-router-dom';
 
 /** Props of the LogoutButton component
@@ -19,8 +19,11 @@ const LogoutButton: React.FC<LogoutButtonProps> = ({ id, isDark }) => {
 
     return (
         <div>
-            <NonPremiumLogoutButton isDark={isDark} onClick={() => handleLogout()}>
-                <TbHomeMove size={35}/>
+            <NonPremiumLogoutButton
+                isDark={isDark}
+                onClick={() => handleLogout()}
+            >
+                <TbHomeMove size={35} />
             </NonPremiumLogoutButton>
         </div>
     );

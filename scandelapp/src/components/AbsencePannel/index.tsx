@@ -25,7 +25,11 @@ interface AbsencePannelProps {
     tooltipPreference: boolean;
 }
 
-const AbsencePannel: React.FC<AbsencePannelProps> = ({ id, isDark, tooltipPreference }) => {
+const AbsencePannel: React.FC<AbsencePannelProps> = ({
+    id,
+    isDark,
+    tooltipPreference,
+}) => {
     const [isAbsencePannelOpen, setIsAbsencePannelOpen] = useState(false);
     const [dataReceived, setDataReceived] = useState(false);
     const [absenceData, setAbsenceData] = useState([]);
@@ -162,8 +166,7 @@ const AbsencePannel: React.FC<AbsencePannelProps> = ({ id, isDark, tooltipPrefer
             }
         );
         setAbsenceData(happenSinceLastConnexionDecision);
-        if (absenceData.length !== 0)
-            handleToggleAbsencePannel();
+        if (absenceData.length !== 0) handleToggleAbsencePannel();
     };
 
     const getDecisions = async () => {
@@ -178,7 +181,11 @@ const AbsencePannel: React.FC<AbsencePannelProps> = ({ id, isDark, tooltipPrefer
             {tooltipPreference && (
                 <Tooltip
                     id="absencePannel"
-                    style={{ backgroundColor: Black, borderRadius: '5px', userSelect: 'none' }}
+                    style={{
+                        backgroundColor: Black,
+                        borderRadius: '5px',
+                        userSelect: 'none',
+                    }}
                 />
             )}
             <AbsencePannelButtonContainer
@@ -196,12 +203,16 @@ const AbsencePannel: React.FC<AbsencePannelProps> = ({ id, isDark, tooltipPrefer
                         {t('WhileYouWereAway')}
                     </PannelText>
                     <ListDetailContainer isDark={isDark}>
-                        {absenceData.length === 0 && (<TimeIcon isDark={isDark} size={200} />)}
+                        {absenceData.length === 0 && (
+                            <TimeIcon isDark={isDark} size={200} />
+                        )}
                         {absenceData.map((item: any, i: number) => (
                             <EventContainer key={i} isDark={isDark} y={155 * i}>
                                 <TextContainer>
                                     <EventTitle>{item.solution}</EventTitle>
-                                    <EventLocation>{item.location}</EventLocation>
+                                    <EventLocation>
+                                        {item.location}
+                                    </EventLocation>
                                     <EventDescription>
                                         {item.description}
                                     </EventDescription>

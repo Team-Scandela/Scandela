@@ -11,7 +11,12 @@ interface MapbackProps {
     setToRender: (value: string | null) => void;
 }
 
-const Mapback: React.FC<MapbackProps> = ({ mapRef, data, setOnSubMenu, setToRender }) => {
+const Mapback: React.FC<MapbackProps> = ({
+    mapRef,
+    data,
+    setOnSubMenu,
+    setToRender,
+}) => {
     const styleUrl = 'mapbox://styles/titouantd/clxemflo1002f01qq5rrk3206';
     const accessToken =
         'pk.eyJ1IjoidGl0b3VhbnRkIiwiYSI6ImNsaDYyeHUybDAyNTkzcHV5NHlzY3drbHIifQ._eEX5CRcWxVrl9C8z4u3fQ';
@@ -49,7 +54,9 @@ const Mapback: React.FC<MapbackProps> = ({ mapRef, data, setOnSubMenu, setToRend
                 markerContainer.className = 'marker-container';
 
                 const markerElement = document.createElement('div');
-                markerElement.className = marker.small ? 'marker small' : 'marker';
+                markerElement.className = marker.small
+                    ? 'marker small'
+                    : 'marker';
 
                 const markerContent = document.createElement('div');
                 markerContent.className = 'marker-content';
@@ -63,7 +70,9 @@ const Mapback: React.FC<MapbackProps> = ({ mapRef, data, setOnSubMenu, setToRend
                 markerContainer.appendChild(markerElement);
                 markerContainer.appendChild(markerTitle);
 
-                markerElement.addEventListener('click', () => flyToMarker(marker.lat, marker.lng, marker.id));
+                markerElement.addEventListener('click', () =>
+                    flyToMarker(marker.lat, marker.lng, marker.id)
+                );
                 new mapboxgl.Marker({ element: markerContainer })
                     .setLngLat([marker.lng, marker.lat])
                     .addTo(map);
