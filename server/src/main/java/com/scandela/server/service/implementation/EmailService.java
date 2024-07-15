@@ -24,13 +24,13 @@ public class EmailService implements IEmailService {
     @Override
     public void sendMail(String receiver, String subject, String message) {
         SimpleMailMessage mail = new SimpleMailMessage();
-        mail.setFrom("noreply@scandela.fr");
+        mail.setFrom("noreply@scandela.com");
         mail.setTo(receiver);
         mail.setSubject(subject);
         mail.setText(message);
 
         // mail.setText("To confirm your account, please click here : "
-        // + "https://dev.scandela.fr:2000/redirect?email=" + receiver);
+        // + "https://dev.scandela.com:2000/redirect?email=" + receiver);
 
         emailSender.send(mail);
 

@@ -3,174 +3,91 @@ import {
     DecisionMenuContainer,
     DecisionMenuButton,
     DecisionPanel,
-    DecisionPanelContentContainer,
-    DecisionPanelContentArrow,
+    DecisionMenuButtonsContainer,
+    DecisionMenuTabButton,
+    TabButtonText,
+    DecisionMenuContentContainer,
     LogoContainer,
-    ScandelaText,
-    DropdownContainer,
-    DropdownRoundButton,
-    DropdownMenu,
-    DropdownItem,
-    ScrollableOptimisationsContainer,
-    AddToActionsListButton,
 } from './elements';
-import {
-    MdKeyboardDoubleArrowLeft as DecisionIconLeft,
-    MdKeyboardDoubleArrowRight as DecisionIconRight,
-    MdKeyboardArrowDown as DropdownButtonIconOpen,
-    MdKeyboardArrowUp as DropdownButtonIconClose,
-} from 'react-icons/md';
-import ButtonSelectAll from './ButtonSelectAll';
-import ButtonDeselectAll from './ButtonDeselectAll';
-import { CgPlayListCheck, CgPlayListRemove } from 'react-icons/cg';
+import { MdKeyboardDoubleArrowLeft as DecisionIconLeft } from 'react-icons/md';
+import { MdKeyboardDoubleArrowRight as DecisionIconRight } from 'react-icons/md';
 import logoDark from '../../assets/logo-128x128-yellow.png';
-import OptimisationTemplate from '../OptimisationTemplate';
-import { showToast } from '../Toastr';
+import { PiListChecksDuotone } from 'react-icons/pi';
+import { MdChangeCircle, MdAddCircle, MdElectricBolt } from 'react-icons/md';
+import { IoMdSettings } from 'react-icons/io';
 import { useTranslation } from 'react-i18next';
-import { PersonnalizedGauge } from '../Gauges';
-import { GaugesContainer } from '../TopRightButtonsPannel/ActionsList/elements';
-import { createNotification } from '../../utils/notificationUtils';
+import DecisionTab from './DecisionTab';
+import ActionsListTab from './ActionsListTab';
+import ModifyEntityTab from './ModifyEntityTab';
+import AddEntityTab from './AddEntityTab';
+import EletricityPriceTab from './ElectricityPriceTab';
+import SettingsTab from './SettingsTab';
+import { Tabs } from '../../pages/main';
 
+/** Props of the decision pannel
+ * @param {boolean} isDark - If the map is in dark mode or not
+ * @param {function} handleToggleDecisionPanelExtend - Callback function
+ * @param {boolean} decisionPanelExtended - Boolean to check if the decision panel is extended or not
+ * @param {any} optimisationTemplateData - List of list about optimsiations template datas
+ * @param {function} setOptimisationTemplateData - Callback function
+ * @param {function} handleButtonSelectAllClick - Callback function
+ * @param {function} handleButtonDeselectAllClick - Callback function
+ * @param {function} handleCurrentSelectedChange - Callback function
+ * @param {string} currentSelected - Current selected optimisation type
+ * @param {function} addNotificationToList - Function to add a toastr notification to the toast history
+ * @param {any} notificationsPreference - Notifications preference data
+ * @param {boolean} tooltipPreference - Boolean to check if the tooltips are displayed
+ * @param {function} setTooltipPreference - Setter function for the tooltipPreference boolean
+ * @param {any} currentTab - Store the current tab displated
+ * @param {function} setCurrentTab - Setter for the current tab var
+ */
 interface DecisionMenuProps {
     id: string;
     isDark: boolean;
+    setIsDark: (isDark: boolean) => void;
     handleToggleDecisionPanelExtend: () => void;
     decisionPanelExtended: any;
-    handleOptimisationTemplateDataChange: (data: any) => void;
     optimisationTemplateData: any;
+    setOptimisationTemplateData: (data: any) => void;
     handleButtonSelectAllClick: () => void;
     handleButtonDeselectAllClick: () => void;
     handleCurrentSelectedChange: (data: string) => void;
     currentSelected: string;
     addNotificationToList: (description: string) => void;
     notificationsPreference: any;
+    setNotificationsPreference: (item: any) => void;
+    tooltipPreference: boolean;
+    setTooltipPreference: (value: boolean) => void;
+    currentTab: any;
+    setCurrentTab: (value: Tabs) => void;
 }
 
 const DecisionMenu: React.FC<DecisionMenuProps> = ({
     id,
     isDark,
+    setIsDark,
     handleToggleDecisionPanelExtend,
     decisionPanelExtended,
-    handleOptimisationTemplateDataChange,
     optimisationTemplateData,
+    setOptimisationTemplateData,
     handleButtonSelectAllClick,
     handleButtonDeselectAllClick,
     handleCurrentSelectedChange,
     currentSelected,
     addNotificationToList,
     notificationsPreference,
+    setNotificationsPreference,
+    tooltipPreference,
+    setTooltipPreference,
+    currentTab,
+    setCurrentTab,
 }) => {
     const [dropdownExpended, setDropdownExpended] = useState(false);
-    const [items, setItems] = useState([]);
-    const [isOnCooldown, setIsOnCooldown] = useState(false);
     const { t } = useTranslation();
-
-    const handleChildCheckboxChange = (id: number, isChecked: boolean) => {
-        const updatedData = [...optimisationTemplateData];
-        updatedData[id].selected = isChecked;
-        handleOptimisationTemplateDataChange(updatedData);
-    };
 
     const handleDecisionPanelButtonClick = () => {
         handleToggleDecisionPanelExtend();
-        if (dropdownExpended) handleToggleDropdownExpend();
-    };
-
-    const handleToggleDropdownExpend = () => {
-        const uniqueTypes = optimisationTemplateData.reduce(
-            (types: any, item: any) => {
-                if (!types.has(item.type)) {
-                    types.add(item.type);
-                }
-                return types;
-            },
-            new Set()
-        );
-        const uniqueArray = Array.from(uniqueTypes);
-        uniqueArray.unshift('Toutes les optimisations');
-        setItems(uniqueArray);
-        setDropdownExpended(!dropdownExpended);
-    };
-
-    const handleItemClick = (item: string) => {
-        handleCurrentSelectedChange(item);
-        handleToggleDropdownExpend();
-    };
-
-    const handleActionsListButtonClick = async () => {
-        let itemsUpdated = 0;
-        if (isOnCooldown) return;
-        const updatedData = [...optimisationTemplateData];
-        updatedData.forEach((item: any) => {
-            if (item.selected) {
-                if (!item.saved) itemsUpdated++;
-                item.saved = true;
-            }
-        });
-        handleOptimisationTemplateDataChange(updatedData);
-        if (itemsUpdated === 0) {
-            if (
-                notificationsPreference.find(
-                    (item: any) => item[0] === 'actionListUpdate'
-                )[1]
-            ) {
-                showToast(
-                    'error',
-                    "Il n'y a rien à ajouter dans la liste d'action",
-                    'top-left',
-                    5000,
-                    false,
-                    true,
-                    false,
-                    true
-                );
-
-                const userId = localStorage.getItem('userId');
-                if (userId) {
-                    await createNotification({
-                        user: { id: userId },
-                        title: t('actionListFailedUpdate'),
-                        description: t(
-                            'theActionListHasntBeenSuccessfullyUpdated'
-                        ),
-                        triggered: true,
-                    });
-                }
-                // addNotificationToList("Echec de modification de la liste d'action");
-            }
-        } else if (itemsUpdated > 0) {
-            if (
-                notificationsPreference.find(
-                    (item: any) => item[0] === 'actionListUpdate'
-                )[1]
-            )
-                console.log(itemsUpdated);
-            showToast(
-                'success',
-                'La liste des actions a bien été mise à jour',
-                'top-left',
-                5000,
-                false,
-                true,
-                false,
-                true
-            );
-
-            const userId = localStorage.getItem('userId');
-            if (userId) {
-                await createNotification({
-                    user: { id: userId },
-                    title: t('actionListUpdate'),
-                    description: t('theActionListHasBeenSuccessfullyUpdated'),
-                    triggered: true,
-                });
-            }
-            // addNotificationToList("Mise à jour de la liste d'action");
-        }
-        setIsOnCooldown(true);
-        setTimeout(() => {
-            setIsOnCooldown(false);
-        }, 5000);
+        if (dropdownExpended) setDropdownExpended(!dropdownExpended);
     };
 
     return (
@@ -188,104 +105,173 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
                     )}
                 </DecisionMenuButton>
                 <DecisionPanel isDark={isDark} show={decisionPanelExtended}>
-                    <ScandelaText isDark={isDark}> Scandela </ScandelaText>
-                    <ButtonSelectAll
-                        isDark={isDark}
-                        handleButtonSelectAllClick={handleButtonSelectAllClick}
-                    />
-                    <ButtonDeselectAll
-                        isDark={isDark}
-                        handleButtonDeselectAllClick={
-                            handleButtonDeselectAllClick
-                        }
-                    />
-                    <DecisionPanelContentArrow isDark={isDark} />
-                    <DecisionPanelContentContainer>
-                        <DropdownContainer isDark={isDark}>
-                            {currentSelected}
-                            <DropdownRoundButton
-                                onClick={() => handleToggleDropdownExpend()}
-                                isDark={isDark}
-                            >
-                                {dropdownExpended ? (
-                                    <DropdownButtonIconClose size={40} />
-                                ) : (
-                                    <DropdownButtonIconOpen size={40} />
-                                )}
-                            </DropdownRoundButton>
-                        </DropdownContainer>
-                        {dropdownExpended && (
-                            <DropdownMenu isDark={isDark}>
-                                {items.map((item: any) => (
-                                    <DropdownItem
-                                        key={item}
-                                        isDark={isDark}
-                                        onClick={() => handleItemClick(item)}
-                                    >
-                                        {item}
-                                    </DropdownItem>
-                                ))}
-                            </DropdownMenu>
-                        )}
-                        <LogoContainer src={logoDark} />
-                        {currentSelected !== 'Choisissez une action' && (
-                            <ScrollableOptimisationsContainer isDark={isDark}>
-                                {currentSelected === 'Toutes les optimisations'
-                                    ? optimisationTemplateData.map(
-                                          (item: any, i: number) => (
-                                              <OptimisationTemplate
-                                                  key={i}
-                                                  isDark={isDark}
-                                                  y={125 * i}
-                                                  optimisationTemplateData={
-                                                      item
-                                                  }
-                                                  onTemplateClick={(
-                                                      isChecked
-                                                  ) =>
-                                                      handleChildCheckboxChange(
-                                                          item.id,
-                                                          isChecked
-                                                      )
-                                                  }
-                                                  price={item.price}
-                                              />
-                                          )
-                                      )
-                                    : optimisationTemplateData
-                                          .filter(
-                                              (item: any) =>
-                                                  item.type === currentSelected
-                                          )
-                                          .map((item: any, i: number) => (
-                                              <OptimisationTemplate
-                                                  key={i}
-                                                  isDark={isDark}
-                                                  y={125 * i}
-                                                  optimisationTemplateData={
-                                                      item
-                                                  }
-                                                  onTemplateClick={(
-                                                      isChecked
-                                                  ) =>
-                                                      handleChildCheckboxChange(
-                                                          item.id,
-                                                          isChecked
-                                                      )
-                                                  }
-                                                  price={item.price}
-                                              />
-                                          ))}
-                            </ScrollableOptimisationsContainer>
-                        )}
-                        <AddToActionsListButton
+                    <DecisionMenuButtonsContainer isDark={isDark}>
+                        <DecisionMenuTabButton
                             isDark={isDark}
-                            onClick={() => handleActionsListButtonClick()}
-                            disabled={isOnCooldown}
+                            isSelected={currentTab === Tabs.Scandela}
+                            onClick={() => setCurrentTab(Tabs.Scandela)}
                         >
-                            {t('addToActionList')}
-                        </AddToActionsListButton>
-                    </DecisionPanelContentContainer>
+                            {currentTab === Tabs.Scandela ? (
+                                <TabButtonText
+                                    fontSize={'25px'}
+                                    isSelected={currentTab === Tabs.Scandela}
+                                >
+                                    Scandela
+                                </TabButtonText>
+                            ) : (
+                                <LogoContainer src={logoDark} />
+                            )}
+                        </DecisionMenuTabButton>
+                        <DecisionMenuTabButton
+                            isDark={isDark}
+                            isSelected={currentTab === Tabs.ActionsList}
+                            onClick={() => setCurrentTab(Tabs.ActionsList)}
+                        >
+                            {currentTab === Tabs.ActionsList ? (
+                                <TabButtonText
+                                    fontSize={'22px'}
+                                    isSelected={currentTab === Tabs.ActionsList}
+                                >
+                                    {t('listActions')}
+                                </TabButtonText>
+                            ) : (
+                                <PiListChecksDuotone size={35} />
+                            )}
+                        </DecisionMenuTabButton>
+                        <DecisionMenuTabButton
+                            isDark={isDark}
+                            isSelected={currentTab === Tabs.ModifEntity}
+                            onClick={() => setCurrentTab(Tabs.ModifEntity)}
+                        >
+                            {currentTab === Tabs.ModifEntity ? (
+                                <TabButtonText
+                                    fontSize={'20px'}
+                                    isSelected={currentTab === Tabs.ModifEntity}
+                                >
+                                    {t('titleModifyEntityPannel')}
+                                </TabButtonText>
+                            ) : (
+                                <MdChangeCircle size={35} />
+                            )}
+                        </DecisionMenuTabButton>
+                        <DecisionMenuTabButton
+                            isDark={isDark}
+                            isSelected={currentTab === Tabs.AddEntity}
+                            onClick={() => setCurrentTab(Tabs.AddEntity)}
+                        >
+                            {currentTab === Tabs.AddEntity ? (
+                                <TabButtonText
+                                    fontSize={'20px'}
+                                    isSelected={currentTab === Tabs.AddEntity}
+                                >
+                                    {t('titleAddEntityPannel')}
+                                </TabButtonText>
+                            ) : (
+                                <MdAddCircle size={35} />
+                            )}
+                        </DecisionMenuTabButton>
+                        <DecisionMenuTabButton
+                            isDark={isDark}
+                            isSelected={currentTab === Tabs.ElectricityPrice}
+                            onClick={() => setCurrentTab(Tabs.ElectricityPrice)}
+                        >
+                            {currentTab === Tabs.ElectricityPrice ? (
+                                <TabButtonText
+                                    fontSize={'20px'}
+                                    isSelected={
+                                        currentTab === Tabs.ElectricityPrice
+                                    }
+                                >
+                                    {t('electricityPrice')}
+                                </TabButtonText>
+                            ) : (
+                                <MdElectricBolt size={35} />
+                            )}
+                        </DecisionMenuTabButton>
+                        <DecisionMenuTabButton
+                            isDark={isDark}
+                            isSelected={currentTab === Tabs.Options}
+                            onClick={() => setCurrentTab(Tabs.Options)}
+                        >
+                            {currentTab === Tabs.Options ? (
+                                <TabButtonText
+                                    fontSize={'25px'}
+                                    isSelected={currentTab === Tabs.Options}
+                                >
+                                    {t('options')}
+                                </TabButtonText>
+                            ) : (
+                                <IoMdSettings size={35}></IoMdSettings>
+                            )}
+                        </DecisionMenuTabButton>
+                    </DecisionMenuButtonsContainer>
+                    <DecisionMenuContentContainer
+                        isDark={isDark}
+                        currentTab={currentTab}
+                    >
+                        {currentTab === Tabs.Scandela && (
+                            <DecisionTab
+                                isDark={isDark}
+                                optimisationTemplateData={
+                                    optimisationTemplateData
+                                }
+                                setOptimisationTemplateData={
+                                    setOptimisationTemplateData
+                                }
+                                handleButtonSelectAllClick={
+                                    handleButtonSelectAllClick
+                                }
+                                handleButtonDeselectAllClick={
+                                    handleButtonDeselectAllClick
+                                }
+                                currentSelected={currentSelected}
+                                handleCurrentSelectedChange={
+                                    handleCurrentSelectedChange
+                                }
+                                addNotificationToList={addNotificationToList}
+                                notificationsPreference={
+                                    notificationsPreference
+                                }
+                                dropdownExpended={dropdownExpended}
+                                setDropdownExpended={setDropdownExpended}
+                            />
+                        )}
+                        {currentTab === Tabs.ActionsList && (
+                            <ActionsListTab
+                                isDark={isDark}
+                                optimisationTemplateData={
+                                    optimisationTemplateData
+                                }
+                                setOptimisationTemplateData={
+                                    setOptimisationTemplateData
+                                }
+                            />
+                        )}
+                        {currentTab === Tabs.ModifEntity && (
+                            <ModifyEntityTab isDark={isDark} />
+                        )}
+                        {currentTab === Tabs.AddEntity && (
+                            <AddEntityTab isDark={isDark} />
+                        )}
+                        {currentTab === Tabs.ElectricityPrice && (
+                            <EletricityPriceTab isDark={isDark} />
+                        )}
+                        {currentTab === Tabs.Options && (
+                            <SettingsTab
+                                isDark={isDark}
+                                setIsDark={setIsDark}
+                                notificationsPreference={
+                                    notificationsPreference
+                                }
+                                setNotificationsPreference={
+                                    setNotificationsPreference
+                                }
+                                addNotificationToList={addNotificationToList}
+                                tooltipPreference={tooltipPreference}
+                                setTooltipPreference={setTooltipPreference}
+                            />
+                        )}
+                    </DecisionMenuContentContainer>
                 </DecisionPanel>
             </DecisionMenuContainer>
         </div>

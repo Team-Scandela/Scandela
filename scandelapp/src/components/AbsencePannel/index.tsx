@@ -6,6 +6,7 @@ import {
     CloseIcon,
     ListDetailContainer,
     EventContainer,
+    TextContainer,
     EventDate,
     EventDescription,
     EventTitle,
@@ -15,14 +16,21 @@ import {
 import { PersonnalizedGauge } from '../Gauges';
 import { GoInfo } from 'react-icons/go';
 import { useTranslation } from 'react-i18next';
+import { Tooltip } from 'react-tooltip';
+import { Black } from '../../colors';
 
 interface AbsencePannelProps {
     id: string;
     isDark: boolean;
+    tooltipPreference: boolean;
 }
 
-const AbsencePannel: React.FC<AbsencePannelProps> = ({ id, isDark }) => {
-    const [isAbsencePannelOpen, setIsAbsencePannelOpen] = useState(true);
+const AbsencePannel: React.FC<AbsencePannelProps> = ({
+    id,
+    isDark,
+    tooltipPreference,
+}) => {
+    const [isAbsencePannelOpen, setIsAbsencePannelOpen] = useState(false);
     const [dataReceived, setDataReceived] = useState(false);
     const [absenceData, setAbsenceData] = useState([]);
 
@@ -158,6 +166,7 @@ const AbsencePannel: React.FC<AbsencePannelProps> = ({ id, isDark }) => {
             }
         );
         setAbsenceData(happenSinceLastConnexionDecision);
+        if (absenceData.length !== 0) handleToggleAbsencePannel();
     };
 
     const getDecisions = async () => {
@@ -169,10 +178,22 @@ const AbsencePannel: React.FC<AbsencePannelProps> = ({ id, isDark }) => {
 
     return (
         <div>
+            {tooltipPreference && (
+                <Tooltip
+                    id="absencePannel"
+                    style={{
+                        backgroundColor: Black,
+                        borderRadius: '5px',
+                        userSelect: 'none',
+                    }}
+                />
+            )}
             <AbsencePannelButtonContainer
                 isDark={isDark}
                 isOn={isAbsencePannelOpen}
                 onClick={handleToggleAbsencePannel}
+                data-tooltip-id="absencePannel"
+                data-tooltip-content={t('duringAbsence')}
             >
                 <GoInfo size={35} />
             </AbsencePannelButtonContainer>
@@ -182,17 +203,23 @@ const AbsencePannel: React.FC<AbsencePannelProps> = ({ id, isDark }) => {
                         {t('WhileYouWereAway')}
                     </PannelText>
                     <ListDetailContainer isDark={isDark}>
-                        <TimeIcon isDark={isDark} size={200} />
+                        {absenceData.length === 0 && (
+                            <TimeIcon isDark={isDark} size={200} />
+                        )}
                         {absenceData.map((item: any, i: number) => (
-                            <EventContainer isDark={isDark} key={i}>
-                                <EventDate>
-                                    {arrayToISOString(item.validate)}
-                                </EventDate>
-                                <EventTitle>{item.solution}</EventTitle>
-                                <EventDescription>
-                                    {item.description}
-                                </EventDescription>
-                                <EventLocation>{item.location}</EventLocation>
+                            <EventContainer key={i} isDark={isDark} y={155 * i}>
+                                <TextContainer>
+                                    <EventTitle>{item.solution}</EventTitle>
+                                    <EventLocation>
+                                        {item.location}
+                                    </EventLocation>
+                                    <EventDescription>
+                                        {item.description}
+                                    </EventDescription>
+                                    <EventDate>
+                                        {arrayToISOString(item.validate)}
+                                    </EventDate>
+                                </TextContainer>
                             </EventContainer>
                         ))}
                     </ListDetailContainer>
@@ -206,7 +233,7 @@ const AbsencePannel: React.FC<AbsencePannelProps> = ({ id, isDark }) => {
                         level={levelElec}
                         oldLevel={levelElec}
                         top={23}
-                        left={85}
+                        left={87}
                     />
                     <PersonnalizedGauge
                         id={'BioGaugesComponentId'}
@@ -217,7 +244,7 @@ const AbsencePannel: React.FC<AbsencePannelProps> = ({ id, isDark }) => {
                         level={levelBio}
                         oldLevel={levelBio}
                         top={45}
-                        left={85}
+                        left={87}
                     />
                     <PersonnalizedGauge
                         id={'LumiGaugesComponentId'}
@@ -228,7 +255,7 @@ const AbsencePannel: React.FC<AbsencePannelProps> = ({ id, isDark }) => {
                         level={levelLumi}
                         oldLevel={levelLumi}
                         top={68}
-                        left={85}
+                        left={87}
                     />
                     <CloseIcon
                         isDark={isDark}
