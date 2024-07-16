@@ -13,6 +13,7 @@ import FilterSearch from '../components/FilterSearch';
 import TrafficTime from '../components/TrafficTime';
 import ActionHistory from '../components/ActionHistory';
 import LogoutButton from '../components/LogoutButton';
+import Tutoriel from '../components/Tutoriel';
 
 export enum Filters {
     pin = 'pin',
@@ -74,6 +75,7 @@ const Main: React.FC<MainProps> = ({
     ]);
 
     const [tooltipPreference, setTooltipPreference] = useState(true);
+    const [showTutoriel, setShowTutoriel] = useState(false);
 
     const [toastHistoryExtended, setToastHistoryExtended] = useState(false);
 
@@ -200,6 +202,16 @@ const Main: React.FC<MainProps> = ({
             )}
             {localStorage.getItem('premium') === 'true' && (
                 <>
+                    {showTutoriel && (
+                        <Tutoriel
+                            id={'tutorielId'}
+                            isDark={isDark}
+                            setShowTutoriel={setShowTutoriel}
+                            setDecisionPanelExtended={
+                                setDecisionPanelExtended
+                            }
+                        />
+                    )}
                     <ToastHistory
                         id={'toastHistoryId'}
                         isDark={isDark}
@@ -246,6 +258,7 @@ const Main: React.FC<MainProps> = ({
                         setTooltipPreference={setTooltipPreference}
                         currentTab={currentTab}
                         setCurrentTab={setCurrentTab}
+                        setShowTutoriel={setShowTutoriel}
                     />
                     <Gauges
                         id={'gaugesComponentId'}

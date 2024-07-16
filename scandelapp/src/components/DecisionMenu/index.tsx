@@ -40,6 +40,7 @@ import { Tabs } from '../../pages/main';
  * @param {function} setTooltipPreference - Setter function for the tooltipPreference boolean
  * @param {any} currentTab - Store the current tab displated
  * @param {function} setCurrentTab - Setter for the current tab var
+ * @param {function} setShowTutoriel - Setter for the showTutoriel var
  */
 interface DecisionMenuProps {
     id: string;
@@ -60,6 +61,7 @@ interface DecisionMenuProps {
     setTooltipPreference: (value: boolean) => void;
     currentTab: any;
     setCurrentTab: (value: Tabs) => void;
+    setShowTutoriel: (value: boolean) => void;
 }
 
 const DecisionMenu: React.FC<DecisionMenuProps> = ({
@@ -81,6 +83,7 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
     setTooltipPreference,
     currentTab,
     setCurrentTab,
+    setShowTutoriel,
 }) => {
     const [dropdownExpended, setDropdownExpended] = useState(false);
     const { t } = useTranslation();
@@ -269,6 +272,7 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
                                 addNotificationToList={addNotificationToList}
                                 tooltipPreference={tooltipPreference}
                                 setTooltipPreference={setTooltipPreference}
+                                setShowTutoriel={setShowTutoriel}
                             />
                         )}
                     </DecisionMenuContentContainer>

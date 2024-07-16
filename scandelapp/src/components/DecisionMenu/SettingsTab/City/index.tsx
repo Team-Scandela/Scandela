@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { ImportButton, DescriptionText, TooltipTitle } from './elements';
+import { ImportButton, DescriptionText, TooltipTitle, RestartTutoButtonContainer, TutorielTitle } from './elements';
 import { useTranslation } from 'react-i18next';
 import RadioButton from '../../../RadioButton';
 
@@ -11,6 +11,7 @@ interface CityProps {
     isDark: boolean;
     tooltipPreference: boolean;
     setTooltipPreference: (value: boolean) => void;
+    setShowTutoriel: (value: boolean) => void;
 }
 
 interface Lamp {
@@ -27,6 +28,7 @@ const City: React.FC<CityProps> = ({
     isDark,
     tooltipPreference,
     setTooltipPreference,
+    setShowTutoriel,
 }) => {
     const fileInputRef = useRef<HTMLInputElement | null>(null);
     const { t } = useTranslation();
@@ -145,6 +147,12 @@ const City: React.FC<CityProps> = ({
                 trigger={tooltipPreference}
                 setTrigger={toggleTooltipPreference}
             />
+            <RestartTutoButtonContainer 
+                isDark={isDark}
+                onClick={() => setShowTutoriel(true)}
+            >
+                <TutorielTitle isDark={isDark}>{t('restartTuto')}</TutorielTitle>
+            </RestartTutoButtonContainer>
         </div>
     );
 };

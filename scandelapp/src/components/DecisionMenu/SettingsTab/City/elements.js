@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Yellow, Black, DarkYellow } from '../../../../colors';
+import { Yellow, Black, DarkYellow, DarkGrey } from '../../../../colors';
 import { IoMdDownload } from 'react-icons/io';
 
 export const ImportButton = styled(IoMdDownload)`
@@ -43,6 +43,37 @@ export const TooltipTitle = styled.div`
     font-size: 20px;
     user-select: none;
     color: ${(props) => (props.isDark ? Yellow : Black)};
+    font-weight: 400;
+    font-family: 'SyneRegular';
+`;
+
+/** Container for the restart tutoriel button **/
+export const RestartTutoButtonContainer = styled.div`
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 86%;
+    left: 17%;
+    height: 45px;
+    width: 200px;
+    padding: 0 10px;
+    background-color: ${(props) => (props.isDark ? DarkGrey : Black)};
+    color: ${(props) => (props.isDark ? Yellow : Yellow)};
+    cursor: pointer;
+    transition: all 0.1s ease-in-out;
+    border-radius: 5px;
+    box-shadow: 0px 4px 4px -3px rgba(0, 0, 0, 0.75);
+
+    &:hover {
+        background-color: ${(props) => (props.isDark ? Yellow : Yellow)};
+        color: ${(props) => (props.isDark ? Black : Black)};
+    }
+`;
+
+export const TutorielTitle = styled.div`
+    font-size: 20px;
+    user-select: none;
     font-weight: 400;
     font-family: 'SyneRegular';
 `;
