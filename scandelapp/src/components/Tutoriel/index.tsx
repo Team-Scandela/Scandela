@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { TutorielBackground } from './elements';
+import { TutorielBackground, SkipTutoButtonContainer, SkipTutorielTitle } from './elements';
 
 interface TutorielProps {
     id: string;
@@ -28,9 +28,17 @@ const Tutoriel: React.FC<TutorielProps> = ({
           setShowTutoriel(false);
     };
 
+    const handleSkipTutoriel = () => {
+        setShowTutoriel(false);
+    };
+
     return (
         <div>
-            <TutorielBackground onClick={() => handleNextStep()}/>
+            <TutorielBackground onClick={() => handleNextStep()}>
+                <SkipTutoButtonContainer isDark={isDark} onClick={() => handleSkipTutoriel()}>
+                    <SkipTutorielTitle>{t('skipTutoriel')}</SkipTutorielTitle>
+                </SkipTutoButtonContainer>
+            </TutorielBackground>
         </div>
     );
 };

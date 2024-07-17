@@ -21,6 +21,8 @@ import ActionsListTab from './ActionsListTab';
 import ModifyEntityTab from './ModifyEntityTab';
 import AddEntityTab from './AddEntityTab';
 import EletricityPriceTab from './ElectricityPriceTab';
+import { Tooltip } from 'react-tooltip';
+import { Black } from '../../colors';
 import SettingsTab from './SettingsTab';
 import { Tabs } from '../../pages/main';
 
@@ -95,11 +97,23 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
 
     return (
         <div id={id}>
+            {tooltipPreference && (
+                <Tooltip
+                    id="actionPanel"
+                    style={{
+                        backgroundColor: Black,
+                        borderRadius: '5px',
+                        userSelect: 'none',
+                    }}
+                />
+            )}
             <DecisionMenuContainer show={decisionPanelExtended}>
                 <DecisionMenuButton
                     onClick={() => handleDecisionPanelButtonClick()}
                     isDark={isDark}
                     show={decisionPanelExtended}
+                    data-tooltip-id="actionPanel"
+                    data-tooltip-content={t('actionPanel')}
                 >
                     {decisionPanelExtended ? (
                         <DecisionIconRight size={50} />

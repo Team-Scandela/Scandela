@@ -151,7 +151,7 @@ const City: React.FC<CityProps> = ({
                 isDark={isDark}
                 onClick={() => setShowTutoriel(true)}
             >
-                <TutorielTitle isDark={isDark}>{t('restartTuto')}</TutorielTitle>
+                <TutorielTitle>{t('restartTuto')}</TutorielTitle>
             </RestartTutoButtonContainer>
         </div>
     );
