@@ -203,9 +203,9 @@ export const GaugesContainer = styled.div`
     flex-direction: row;
     position: absolute;
     right: 3%;
-    bottom: 17.5%;
+    bottom: 25.5%;
     width: 250px;
-    height: 180px;
+    height: 130px;
     border-radius: 5px;
     background-color: ${(props) =>
         props.isDark ? Black + 'FF' : Black + 'FF'};
@@ -262,3 +262,30 @@ export const PDFButton = styled.div`
         color: ${(props) => (props.isDark ? Yellow : Yellow)};
     }
 `;
+
+export const ToDoButton = styled.div`
+    display: flex;
+    position: absolute;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    width: 250px;
+    height: 42px;
+    right: 3%;
+    bottom: 17.5%;
+    user-select: none;
+    background-color: ${(props) => (props.isDark ? Yellow : Yellow)};
+    color: ${(props) => (props.isDark ? Black : Black)};
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    font-family: 'SyneRegular';
+
+    &:hover {
+        background-color: ${(props) => (props.isDark ? Black : Black)};
+        color: ${(props) => (props.isDark ? Yellow : Yellow)};
+    }
+`;
+

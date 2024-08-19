@@ -16,6 +16,7 @@ import {
     GaugesContainer,
     ValidateButton,
     PDFButton,
+    ToDoButton
 } from './elements';
 import { PersonnalizedGauge } from '../../Gauges';
 import { useTranslation } from 'react-i18next';
@@ -234,7 +235,7 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
                             10
                     }
                     oldLevel={levelElec}
-                    top={18}
+                    top={12}
                     left={6}
                 />
                 <PersonnalizedGauge
@@ -251,7 +252,7 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
                             20
                     }
                     oldLevel={levelBio}
-                    top={18}
+                    top={12}
                     left={36}
                 />
                 <PersonnalizedGauge
@@ -268,7 +269,7 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
                             20
                     }
                     oldLevel={levelLumi}
-                    top={18}
+                    top={12}
                     left={66}
                 />
             </GaugesContainer>
@@ -278,6 +279,9 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
             <PDFButton isDark={isDark} onClick={handlePDFButtonClick}>
                 {t('PDF')}
             </PDFButton>
+            <ToDoButton isDark={isDark}>
+                {t('toDo')}
+            </ToDoButton>
         </div>
     );
 };

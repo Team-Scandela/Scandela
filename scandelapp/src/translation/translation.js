@@ -157,6 +157,7 @@ const resources = {
             filterTraffic: 'Filter by traffic',
             filterCabinet: 'Filtre by electrical cabinet',
             others: 'Others',
+            toDo: 'To-do list',
         },
     },
 
@@ -320,6 +321,7 @@ const resources = {
             filterTraffic: 'Filtre par traffic',
             filterCabinet: 'Filtre par armoire électrique',
             others: 'Autres',
+            toDo: 'To-do list',
         },
     },
 };
