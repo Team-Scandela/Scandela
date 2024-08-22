@@ -22,6 +22,7 @@ import { PersonnalizedGauge } from '../../Gauges';
 import { useTranslation } from 'react-i18next';
 import { getAllScores } from '../../../utils/gaugesUtils';
 import { generatePDFDocument } from './pdfGenerator';
+import { useNavigate } from 'react-router-dom';
 
 /** Menu of the decision pannel
  * @param {boolean} isDark - If the map is in dark mode or not
@@ -42,6 +43,7 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
     const [levelElec, setLevelElec] = useState<number>(0);
     const [levelBio, setLevelBio] = useState<number>(0);
     const [levelLumi, setLevelLumi] = useState<number>(0);
+    const navigate = useNavigate();
 
     function parseFloatSafe(input: string): number {
         const trimmedInput = input.trim();
@@ -118,9 +120,10 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
     };
 
     const handleValidateButtonClick = () => {
+        const timestamp = getTimestamp();
         for (let i = 0; i < optimisationTemplateData.length; i++) {
             if (optimisationTemplateData[i].selected) {
-                updateValidateData(optimisationTemplateData[i]);
+                updateValidateData(optimisationTemplateData[i], timestamp);
                 optimisationTemplateData[i].saved = false;
             }
         }
@@ -128,12 +131,13 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
     };
 
     const handlePDFButtonClick = () => {
+        const timestamp = getTimestamp();
         const validateData = optimisationTemplateData.filter(
             (item: any) => item.selected
         );
         for (let i = 0; i < optimisationTemplateData.length; i++) {
             if (optimisationTemplateData[i].selected) {
-                updateValidateData(optimisationTemplateData[i]);
+                updateValidateData(optimisationTemplateData[i], timestamp);
                 optimisationTemplateData[i].saved = false;
             }
         }
@@ -141,9 +145,26 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
         setOptimisationTemplateData(optimisationTemplateData);
     };
 
-    const updateValidateData = async (dataDecision: any) => {
-        const timestamp = new Date().toISOString();
+    const handleToDoButtonClick = () => {
+        const timestamp = getTimestamp();
+        for (let i = 0; i < optimisationTemplateData.length; i++) {
+            if (optimisationTemplateData[i].selected) {
+                updateValidateData(optimisationTemplateData[i], timestamp);
+                optimisationTemplateData[i].saved = false;
+            }
+        }
+        setOptimisationTemplateData(optimisationTemplateData);
+        // open in a new tab with the to do list
+        navigate('/todo/' + timestamp);
+        console.log(timestamp);
+    }
 
+    const getTimestamp = () => {
+        const timestamp = new Date().toISOString();
+        return timestamp;
+    }
+
+    const updateValidateData = async (dataDecision: any, timestamp : string) => {
         const encodedCredentials = btoa(
             `${process.env.REACT_APP_REQUEST_USER}:${process.env.REACT_APP_REQUEST_PASSWORD}`
         );
@@ -174,6 +195,7 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
             }
 
             const data = response.json();
+            return timestamp;
         } catch (error) {
             console.error('Erreur', error);
         }
@@ -279,7 +301,7 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
             <PDFButton isDark={isDark} onClick={handlePDFButtonClick}>
                 {t('PDF')}
             </PDFButton>
-            <ToDoButton isDark={isDark}>
+            <ToDoButton isDark={isDark} onClick={handleToDoButtonClick}>
                 {t('toDo')}
             </ToDoButton>
         </div>
