@@ -74,6 +74,9 @@ const Main: React.FC<MainProps> = ({
         ['languageUpdate', true],
     ]);
 
+    /** If the map filter container is on or out */
+    const [filterPanelExtended, setFilterPanelExtended] = useState<boolean>(false);
+
     const [tooltipPreference, setTooltipPreference] = useState(true);
     const [showTutoriel, setShowTutoriel] = useState(false);
 
@@ -170,6 +173,8 @@ const Main: React.FC<MainProps> = ({
             />
             <FilterMenu
                 id={'filterMenuComponentId'}
+                filterPanelExtended={filterPanelExtended}
+                setFilterPanelExtended={setFilterPanelExtended}
                 filter={filter}
                 setFilter={setFilter}
                 isDark={isDark}
@@ -210,6 +215,8 @@ const Main: React.FC<MainProps> = ({
                             setDecisionPanelExtended={
                                 setDecisionPanelExtended
                             }
+                            setCurrentTab={setCurrentTab}
+                            setFilterPanelExtended={setFilterPanelExtended}
                         />
                     )}
                     <ToastHistory
