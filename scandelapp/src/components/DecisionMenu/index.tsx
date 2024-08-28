@@ -21,6 +21,8 @@ import ActionsListTab from './ActionsListTab';
 import ModifyEntityTab from './ModifyEntityTab';
 import AddEntityTab from './AddEntityTab';
 import EletricityPriceTab from './ElectricityPriceTab';
+import { Tooltip } from 'react-tooltip';
+import { Black } from '../../colors';
 import SettingsTab from './SettingsTab';
 import { Tabs } from '../../pages/main';
 
@@ -40,6 +42,7 @@ import { Tabs } from '../../pages/main';
  * @param {function} setTooltipPreference - Setter function for the tooltipPreference boolean
  * @param {any} currentTab - Store the current tab displated
  * @param {function} setCurrentTab - Setter for the current tab var
+ * @param {function} setShowTutoriel - Setter for the showTutoriel var
  */
 interface DecisionMenuProps {
     id: string;
@@ -60,6 +63,7 @@ interface DecisionMenuProps {
     setTooltipPreference: (value: boolean) => void;
     currentTab: any;
     setCurrentTab: (value: Tabs) => void;
+    setShowTutoriel: (value: boolean) => void;
 }
 
 const DecisionMenu: React.FC<DecisionMenuProps> = ({
@@ -81,6 +85,7 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
     setTooltipPreference,
     currentTab,
     setCurrentTab,
+    setShowTutoriel,
 }) => {
     const [dropdownExpended, setDropdownExpended] = useState(false);
     const { t } = useTranslation();
@@ -92,11 +97,23 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
 
     return (
         <div id={id}>
+            {tooltipPreference && (
+                <Tooltip
+                    id="actionPanel"
+                    style={{
+                        backgroundColor: Black,
+                        borderRadius: '5px',
+                        userSelect: 'none',
+                    }}
+                />
+            )}
             <DecisionMenuContainer show={decisionPanelExtended}>
                 <DecisionMenuButton
                     onClick={() => handleDecisionPanelButtonClick()}
                     isDark={isDark}
                     show={decisionPanelExtended}
+                    data-tooltip-id="actionPanel"
+                    data-tooltip-content={t('actionPanel')}
                 >
                     {decisionPanelExtended ? (
                         <DecisionIconRight size={50} />
@@ -269,6 +286,7 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
                                 addNotificationToList={addNotificationToList}
                                 tooltipPreference={tooltipPreference}
                                 setTooltipPreference={setTooltipPreference}
+                                setShowTutoriel={setShowTutoriel}
                             />
                         )}
                     </DecisionMenuContentContainer>

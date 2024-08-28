@@ -15,6 +15,8 @@ import { Black } from '../../colors';
 import { useTranslation } from 'react-i18next';
 
 /** Menu of the map filter
+ * @param {boolean} filterPanelExtended - Boolean for the filter panel
+ * @param {function} setFilterPanelExtended - Setter for the filter panel boolean
  * @param {string} filter - The current filter
  * @param {function} setFilter - Function to set the filter
  * @param {boolean} isDark - If the map is in dark mode or not
@@ -22,6 +24,8 @@ import { useTranslation } from 'react-i18next';
  */
 interface FilterMenuProps {
     id: string;
+    filterPanelExtended: boolean;
+    setFilterPanelExtended: (value: boolean) => void;
     filter: string;
     setFilter: (filter: Filters) => void;
     isDark: boolean;
@@ -30,14 +34,14 @@ interface FilterMenuProps {
 
 const FilterMenu: React.FC<FilterMenuProps> = ({
     id,
+    filterPanelExtended,
+    setFilterPanelExtended,
     filter,
     setFilter,
     isDark,
     tooltipPreference,
 }) => {
     const { t } = useTranslation();
-    /** If the map filter container is on or out */
-    const [on, setOn] = useState(false);
 
     /** Handle the click on a filter icon. Switch to the new icon and if the icon is already selected set the filter to none
      * @param {string} newFilter - The filter selected
@@ -126,13 +130,13 @@ const FilterMenu: React.FC<FilterMenuProps> = ({
             )}
             <FilterMenuButton
                 isDark={isDark}
-                onClick={() => setOn(!on)}
+                onClick={() => setFilterPanelExtended(!filterPanelExtended)}
                 data-tooltip-id="filters"
                 data-tooltip-content={t('filters')}
             >
                 <FilterIcon style={{ fontSize: '35px' }} />
             </FilterMenuButton>
-            <FilterMenuContainer show={on} isDark={isDark}>
+            <FilterMenuContainer show={filterPanelExtended} isDark={isDark}>
                 <MdOutlinePlace
                     style={chooseStyle(Filters.pin)}
                     onClick={() => handleIconClick(Filters.pin)}

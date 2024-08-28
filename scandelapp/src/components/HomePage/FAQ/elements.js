@@ -165,18 +165,17 @@ export const DescriptionTitleText = styled.div`
     font-size: 17px;
     user-select: none;
     font-weight: 700;
-    margin-left: 30px;
+    margin-left: 20px;
     margin-right: 30px;
     font-family: 'SyneRegular';
 `;
 
 export const DescriptionText = styled.div`
-    left: 2%;
     font-size: 12px;
     user-select: none;
     font-weight: 700;
     margin-top: 40px;
-    margin-left: 20px;
+    margin-left: 15px;
     margin-right: 20px;
     line-height: 20px;
     font-family: 'SyneRegular';
