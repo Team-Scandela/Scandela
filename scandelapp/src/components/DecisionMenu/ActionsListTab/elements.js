@@ -211,7 +211,7 @@ export const GaugesContainer = styled.div`
         props.isDark ? Black + 'FF' : Black + 'FF'};
 `;
 
-export const ValidateButton = styled.div`
+export const EmptyButton = styled.div`
     display: flex;
     position: absolute;
     text-align: center;
@@ -220,7 +220,7 @@ export const ValidateButton = styled.div`
     width: 250px;
     height: 42px;
     right: 3%;
-    bottom: 9.75%;
+    bottom: 2%;
     user-select: none;
     background-color: ${(props) => (props.isDark ? Yellow : Yellow)};
     color: ${(props) => (props.isDark ? Black : Black)};
@@ -246,7 +246,7 @@ export const PDFButton = styled.div`
     width: 250px;
     height: 42px;
     right: 3%;
-    bottom: 2%;
+    bottom: 9.75%;
     user-select: none;
     background-color: ${(props) => (props.isDark ? Yellow : Yellow)};
     color: ${(props) => (props.isDark ? Black : Black)};

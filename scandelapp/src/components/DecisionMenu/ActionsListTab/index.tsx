@@ -14,7 +14,7 @@ import {
     TotalContainer,
     TotalTitleText,
     GaugesContainer,
-    ValidateButton,
+    EmptyButton,
     PDFButton,
 } from './elements';
 import { PersonnalizedGauge } from '../../Gauges';
@@ -38,6 +38,7 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
     optimisationTemplateData,
     setOptimisationTemplateData,
 }) => {
+    const [scrollableOptmisationContainerId, setScrollableOptmisationContainerId] = useState(0);
     const [levelElec, setLevelElec] = useState<number>(0);
     const [levelBio, setLevelBio] = useState<number>(0);
     const [levelLumi, setLevelLumi] = useState<number>(0);
@@ -116,28 +117,32 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
         setOptimisationTemplateData(updatedItems);
     };
 
-    const handleValidateButtonClick = () => {
-        for (let i = 0; i < optimisationTemplateData.length; i++) {
-            if (optimisationTemplateData[i].selected) {
-                updateValidateData(optimisationTemplateData[i]);
-                optimisationTemplateData[i].saved = false;
+    const handleEmptyButtonClick = () => {
+        const newData = optimisationTemplateData;
+        for (let i = 0; i < newData.length; i++) {
+            if (newData[i].selected) {
+                updateValidateData(newData[i]);
+                newData[i].saved = false;
             }
         }
-        setOptimisationTemplateData(optimisationTemplateData);
+        setOptimisationTemplateData(newData);
+        setScrollableOptmisationContainerId((k) => k + 1);
     };
 
     const handlePDFButtonClick = () => {
         const validateData = optimisationTemplateData.filter(
-            (item: any) => item.selected
+            (item: any) => item.saved
         );
-        for (let i = 0; i < optimisationTemplateData.length; i++) {
-            if (optimisationTemplateData[i].selected) {
-                updateValidateData(optimisationTemplateData[i]);
-                optimisationTemplateData[i].saved = false;
+        const newData = optimisationTemplateData;
+        for (let i = 0; i < newData.length; i++) {
+            if (newData[i].selected) {
+                updateValidateData(newData[i]);
+                newData[i].saved = false;
             }
         }
         generatePDFDocument(validateData, 'Auteur', 'Nantes');
-        setOptimisationTemplateData(optimisationTemplateData);
+        setOptimisationTemplateData(newData);
+        setScrollableOptmisationContainerId((k) => k + 1);
     };
 
     const updateValidateData = async (dataDecision: any) => {
@@ -180,7 +185,7 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
 
     return (
         <div>
-            <ScrollableOptimisationsContainer isDark={isDark}>
+            <ScrollableOptimisationsContainer id={scrollableOptmisationContainerId} isDark={isDark}>
                 <TimeIcon isDark={isDark} size={150} />
                 {optimisationTemplateData
                     .filter((item: any) => item.saved)
@@ -272,12 +277,12 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
                     left={66}
                 />
             </GaugesContainer>
-            <ValidateButton isDark={isDark} onClick={handleValidateButtonClick}>
-                {t('Valider')}
-            </ValidateButton>
             <PDFButton isDark={isDark} onClick={handlePDFButtonClick}>
                 {t('PDF')}
             </PDFButton>
+            <EmptyButton isDark={isDark} onClick={handleEmptyButtonClick}>
+                {t('emptyList')}
+            </EmptyButton>
         </div>
     );
 };
