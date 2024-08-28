@@ -105,7 +105,7 @@ export const DropdownItem = styled.div`
     text-align: center;
     user-select: none;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 14px;
     font-family: 'SyneRegular';
 
     &:hover {
@@ -133,7 +133,7 @@ export const TicketDescriptionInput = styled.textarea`
     top: 180px;
     left: 2.5%;
     width: 95%;
-    height: 250px;
+    height: 175px;
     padding: 10px;
     border-radius: 5px;
     color: ${Yellow};
@@ -147,8 +147,8 @@ export const TicketDescriptionInput = styled.textarea`
 
 export const SendButton = styled.div`
     position: absolute;
-    bottom: 2.5%;
-    right: 2.5%;
+    bottom: 6%;
+    right: 3.5%;
     width: 100px;
     height: 40px;
     background-color: ${Yellow};
