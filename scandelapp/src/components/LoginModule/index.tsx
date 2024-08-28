@@ -77,9 +77,7 @@ const LoginModule: React.FC<LoginModuleProps> = ({
 
     const initUserSetup = async (data: any) => {
         if (!data) {
-            console.log(data);
             console.error('data is null or undefined');
-            return;
         }
 
         localStorage.setItem('isDark', JSON.stringify(data.darkmode));
@@ -109,8 +107,8 @@ const LoginModule: React.FC<LoginModuleProps> = ({
         setUserId(data.id);
         initUserSetup(data);
         updateUser();
+        navigate('/homepage');
         navigate('/loadingpage');
-        // navigate('/landingpage');
     };
 
     const handleSubmitSignIn = async (event: any) => {

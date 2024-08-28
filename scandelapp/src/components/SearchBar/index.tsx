@@ -12,6 +12,8 @@ import logoDark from '../../assets/logo-128x128-yellow.png';
 import logoLight from '../../assets/logo-128x128.png';
 import { useTranslation } from 'react-i18next';
 import LoadingSpinner from '../LoadingSpinner';
+import { Tooltip } from 'react-tooltip';
+import { Black } from '../../colors';
 import { handleSearchUtils } from '../../utils/searchUtils';
 
 /** SearchBar of the main page Scandela
@@ -23,9 +25,15 @@ interface SearchBarProps {
     id: string;
     isDark: boolean;
     onSubmit: (value: string, valueLng: number, valueLat: number) => void;
+    tooltipPreference: boolean;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ id, isDark, onSubmit }) => {
+const SearchBar: React.FC<SearchBarProps> = ({
+    id,
+    isDark,
+    onSubmit,
+    tooltipPreference,
+}) => {
     const [testIsLoading, setTestIsLoading] = useState<boolean>(false);
     const [searchValue, setSearchValue] = useState<string>('');
     const [lat, setLat] = useState<number>(0);
@@ -94,17 +102,41 @@ const SearchBar: React.FC<SearchBarProps> = ({ id, isDark, onSubmit }) => {
 
     return (
         <div id={id}>
+            {tooltipPreference && (
+                <div>
+                    <Tooltip
+                        id="searchPlace"
+                        style={{
+                            backgroundColor: Black,
+                            borderRadius: '5px',
+                            userSelect: 'none',
+                        }}
+                    />
+                    <Tooltip
+                        id="searchLamp"
+                        style={{
+                            backgroundColor: Black,
+                            borderRadius: '5px',
+                            userSelect: 'none',
+                        }}
+                    />
+                </div>
+            )}
             <SearchBarContainer id="searchbar-container" isdark={isDark}>
                 <LogoContainer src={isDark ? logoDark : logoLight} />
                 {isStreetSearch ? (
                     <SwitchSearchIcon
                         isdark={isDark}
                         onClick={handleSwitchSearch}
+                        data-tooltip-id="searchPlace"
+                        data-tooltip-content={t('searchBarPlace')}
                     />
                 ) : (
                     <SwitchSearchIconTwo
                         isdark={isDark}
                         onClick={handleSwitchSearch}
+                        data-tooltip-id="searchLamp"
+                        data-tooltip-content={t('searchBarLamp')}
                     />
                 )}
                 <InputWrapper
