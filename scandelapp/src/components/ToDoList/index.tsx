@@ -16,16 +16,39 @@ const ToDoList: React.FC<ToDoListProps> = ( { keycode } ) => {
     const [decisionsSpecific, setDecisionsSpecific] = useState([]);
 
     function arrayToISOString(array: number[]) {
+        // 2024-08-22T08:54:09.065Z
         console.log(array);
-        const year = array[0];
-        const month = array[1];
-        const day = array[2];
-        const hours = array[3];
-        const minutes = array[4];
-        const seconds = array[5];
-        const milliseconds = array[6];
+        let year = array[0].toString();
+        let month = array[1].toString();
+        if (month.length < 2) {
+            month = '0' + month;
+        }
+        let day = array[2].toString();
+        if (day.length < 2) {
+            day = '0' + day;
+        }
+        let hours = array[3].toString();
+        if (hours.length < 2) {
+            hours = '0' + hours;
+        }
+        let minutes = array[4].toString();
+        if (minutes.length < 2) {
+            minutes = '0' + minutes;
+        }
+        let seconds = array[5].toString();
+        if (seconds.length < 2) {
+            seconds = '0' + seconds
+        }
+        // delete the last 6 digits of the array.
+        let milliseconds = (array[6] / 1000000).toString();
+        if (milliseconds.length < 2) {
+            milliseconds = '00' + milliseconds;
+        } else if (milliseconds.length < 3) {
+            milliseconds = '0' + milliseconds;
+        }
 
-        let date = new Date(Date.UTC(year, month, day, hours, minutes, seconds, milliseconds)).toISOString();
+        let date = year + '-' + month + '-' + day + 'T' + hours + ':' + minutes + ':' + seconds + '.' + milliseconds + 'Z';
+        console.log(date);
         return date;
     }
 
