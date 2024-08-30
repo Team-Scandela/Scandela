@@ -1,5 +1,13 @@
 import { useEffect, useState } from 'react';
-import { ToDoListWrapper, ToDoListContainer, ToDoListCard, ToDoListCheckBox, ToDoListTitle, ToDoListDescription, ToDoListAdress, ToDoListMainTitle } from './element.js';
+import { ToDoListWrapper, ToDoListContainer, ToDoListCard, ToDoListTitle, ToDoListDescription, ToDoListAdress, ToDoListMainTitle,
+    ToDoListDropdown,
+    ToDoListDropdownMenuItem1,
+    ToDoListDropdownMenuItem2,
+    ToDoListDropdownMenuItem3,
+    ToDoListDropdownMenu,
+} from './element.js';
+import { Red, Green, Yellow} from '../../colors.js';
+import { IoMdArrowDropdown } from "react-icons/io";
 
 import {
     getDecisions,
@@ -13,7 +21,23 @@ interface ToDoListProps {
 const ToDoList: React.FC<ToDoListProps> = ( { keycode } ) => {
 
     const [decisionsSpecific, setDecisionsSpecific] = useState([]);
-    const [dayMonth, setDayMonth] = useState("To-Do List du ");
+    const [dayMonth, setDayMonth] = useState<string>("To-Do List du ");
+    const [states, setStates] = useState([]);
+    const [dropdownShow, setDropdownShow] = useState([]);
+
+    const toggleDropdown = (index : any) => {
+        setDropdownShow((prevState :  any) => ({
+            ...prevState,
+            [index]: !prevState[index],
+        }));
+    };
+
+    const handleStateChange = (index : any, value : any) => {
+        setStates((prevState : any) => ({
+            ...prevState,
+            [index]: value,
+        }));
+    };
 
     function arrayToISOString(array: number[]) {
         // 2024-08-22T08:54:09.065Z
@@ -78,23 +102,46 @@ const ToDoList: React.FC<ToDoListProps> = ( { keycode } ) => {
     return (
         <ToDoListWrapper>
             <ToDoListMainTitle>{dayMonth}</ToDoListMainTitle>
-            <ToDoListContainer >
-                <ToDoListCard>
-                    <ToDoListCheckBox type="checkbox" />
-                    <ToDoListTitle> Chnager l'ampoule </ToDoListTitle>
-                    <ToDoListDescription> Consommation trop élevé </ToDoListDescription>
-                    <ToDoListAdress> 12 hameau du chateau </ToDoListAdress>
-                </ToDoListCard>
-                <ToDoListCard>
-                    <ToDoListCheckBox type="checkbox" />
-                </ToDoListCard>
-                <ToDoListCard>
-                    <ToDoListCheckBox type="checkbox" />
-                </ToDoListCard>
-                <ToDoListCard>
-                    <ToDoListCheckBox type="checkbox" />
-                </ToDoListCard>
-
+            <ToDoListContainer>
+                {[0, 1,2,3,4,5,6].map((index) => (
+                    <ToDoListCard key={index}>
+                        <ToDoListDropdown onClick={() => toggleDropdown(index)} style={{ backgroundColor: states[index] === 2 ? Yellow : states[index] === 3 ? Green : Red }}>
+                            {states[index] === 2 ? 'En cours' : states[index] === 3 ? 'Terminé' : 'A faire'}
+                            <IoMdArrowDropdown />
+                        </ToDoListDropdown>
+                        {dropdownShow[index] ? (
+                            <ToDoListDropdownMenu>
+                                <ToDoListDropdownMenuItem1
+                                    onClick={() => {
+                                        toggleDropdown(index);
+                                        handleStateChange(index, 1);
+                                    }}
+                                >
+                                    A faire
+                                </ToDoListDropdownMenuItem1>
+                                <ToDoListDropdownMenuItem2
+                                    onClick={() => {
+                                        toggleDropdown(index);
+                                        handleStateChange(index, 2);
+                                    }}
+                                >
+                                    En cours
+                                </ToDoListDropdownMenuItem2>
+                                <ToDoListDropdownMenuItem3
+                                    onClick={() => {
+                                        toggleDropdown(index);
+                                        handleStateChange(index, 3);
+                                    }}
+                                >
+                                    Terminé
+                                </ToDoListDropdownMenuItem3>
+                            </ToDoListDropdownMenu>
+                        ) : null}
+                        <ToDoListTitle>Changer l'ampoule</ToDoListTitle>
+                        <ToDoListDescription>Consommation trop élevée</ToDoListDescription>
+                        <ToDoListAdress>12 hameau du château</ToDoListAdress>
+                    </ToDoListCard>
+                ))}
             </ToDoListContainer>
         </ToDoListWrapper>
     );
