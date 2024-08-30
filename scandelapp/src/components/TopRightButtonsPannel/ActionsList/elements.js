@@ -5,8 +5,12 @@ import { GiSandsOfTime } from 'react-icons/gi';
 import { AiOutlineSend } from 'react-icons/ai';
 import { PiListChecksDuotone } from 'react-icons/pi';
 
-/** Container of the decision pannel and the button */
-export const ActionsListContainer = styled.div``;
+/** Container of the decision panel and the button */
+export const ActionsListContainer = styled.div`
+    position: relative;
+    width: 100%;
+    height: auto;
+`;
 
 /** Container for the actions list button **/
 export const ActionsListButton = styled(PiListChecksDuotone)`
@@ -15,7 +19,7 @@ export const ActionsListButton = styled(PiListChecksDuotone)`
     width: 50px;
     height: 40px;
     top: 25px;
-    right: 415px;
+    right: 10px;
     user-select: none;
     opacity: 0.9;
     background-color: ${(props) =>
@@ -24,16 +28,16 @@ export const ActionsListButton = styled(PiListChecksDuotone)`
                 ? Yellow
                 : Black
             : props.isDark
-              ? Black + 'CC'
-              : White + 'CC'};
+            ? `${Black}CC`
+            : `${White}CC`};
     color: ${(props) =>
         props.isOn
             ? props.isDark
                 ? Black
                 : White
             : props.isDark
-              ? Yellow
-              : Black};
+            ? Yellow
+            : Black};
     box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
     border-radius: 10px;
     transition: all 0.2s ease-in-out;
@@ -44,17 +48,17 @@ export const ActionsListButton = styled(PiListChecksDuotone)`
     }
 `;
 
-/** Container of the decision pannel  */
+/** Container of the decision panel  */
 export const ActionsListPanel = styled.div`
     display: flex;
-    flex-wrap: wrap; /* Ensure items wrap to the next line if there's not enough space */
-    width: 1250px;
-    height: 260px; /* Limit height to prevent overflowing */
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 1250px;
+    height: 260px;
     border-radius: 10px;
     font-size: 25px;
-
-    background-color: ${(props) => (props.isDark ? Yellow : Yellow)};
-    color: ${(props) => (props.isDark ? Black : Black)};
+    background-color: ${Yellow};
+    color: ${Black};
     box-shadow: 0px 0px 5px 0px rgba(0, 0, 0);
 
     position: absolute;
@@ -67,106 +71,95 @@ export const ActionsListPanel = styled.div`
     visibility: ${(props) => (props.show ? 'visible' : 'hidden')};
 `;
 
-/** Container of the scrollable optimisation container */
+/** Container of the scrollable optimisations container */
 export const ScrollableOptimisationsContainer = styled.div`
     display: flex;
     flex-direction: column;
     position: relative;
-    left: 5px;
-    top: 5px;
-    width: 800px;
+    width: 100%;
+    max-width: 800px;
     height: 200px;
     overflow-y: auto;
     border-radius: 5px;
     background-color: ${(props) =>
-        props.isDark ? Black + 'FF' : Yellow + 'FF'};
+        props.isDark ? `${Black}FF` : `${Yellow}FF`};
 
-    /* Personnalisez le style de la barre de défilement */
+    /* Custom scrollbar style */
     ::-webkit-scrollbar {
         width: 10px;
-        size: 5px;
         background-color: ${Black};
-        margin-right: 5px;
-        border-radius: 5px;
     }
 
     ::-webkit-scrollbar-thumb {
         background-color: ${Grey};
         border-radius: 5px;
-        margin-top: 20px;
     }
 
     ::-webkit-scrollbar-track {
-        width: 10px;
         background-color: ${Black};
-        border-radius: 5px;
-        margin-right: 5px;
-        margin-top: 5px;
-        margin-bottom: 5px;
     }
 `;
 
 /** Container of the scrollable optimisation template */
 export const OptimisationTemplateContainer = styled.div`
     display: flex;
-    position: absolute;
-    width: 770px;
+    position: relative;
+    width: 100%;
+    max-width: 770px;
     height: 120px;
-    left: 0px;
-    top: ${(props) => props.y}px;
     border-radius: 5px;
-    background-color: ${(props) => (props.isDark ? Grey + 'FF' : Grey + 'FF')};
+    background-color: ${(props) =>
+        props.isDark ? `${Grey}FF` : `${Grey}FF`};
     margin: 6px;
     border: 2px solid ${Black};
 `;
 
 export const TextContainer = styled.div`
     display: flex;
-    padding-left: 6px;
     flex-direction: column;
     justify-content: space-evenly;
-    width: 100%; /* Ajoutez cette ligne pour utiliser toute la largeur disponible */
+    width: 100%;
 `;
 
-/** Style of the scrollableoptimisation type text */
+/** Style of the scrollable optimisation type text */
 export const TypeText = styled.p`
     font-size: 15px;
     line-height: normal;
-    padding: 0px;
-    margin: 0px;
+    padding: 0;
+    margin: 0;
     font-weight: bold;
-    color: ${(props) => (props.isDark ? Black : Black)};
+    color: ${Black};
 `;
 
 /** Style for the scrollable optimisation location text */
 export const LocationText = styled.p`
     font-size: 14px;
     line-height: normal;
-    padding: 0px;
-    margin: 0px;
-    font-weight: 600px;
-    color: ${(props) => (props.isDark ? Black : Black)};
+    padding: 0;
+    margin: 0;
+    font-weight: 600;
+    color: ${Black};
 `;
 
 /** Style for the scrollable optimisation description text */
 export const DescriptionText = styled.p`
     font-size: 14px;
-    color: ${(props) => (props.isDark ? Black : Black)};
-    font-style: italic;
     line-height: normal;
-    padding: 0px;
-    margin: 0px;
-    font-weight: 600px;
+    padding: 0;
+    margin: 0;
+    font-style: italic;
+    font-weight: 600;
+    color: ${Black};
 `;
 
 /** Style for the price text */
 export const PriceText = styled.p`
     font-size: 14px;
-    color: ${(props) => (props.isDark ? Black : Black)};
     line-height: normal;
-    padding: 0px;
-    margin: 0px;
-    font-weight: 600px;
+    padding: 0;
+    margin: 0;
+    font-weight: 600;
+    color: ${Black};
 `;
 
 /** Container for the solution text **/
@@ -188,14 +181,13 @@ export const SolutionText = styled.p`
     position: relative;
     font-size: 12px;
     user-select: none;
-    color: ${(props) => (props.isDark ? Yellow : Black)};
+    color: ${Black};
     font-weight: bold;
     padding: 8px;
 `;
 
 /**  Trash Icon**/
 export const TrashIcon = styled(BsFillTrash3Fill)`
-    display: flex;
     position: absolute;
     right: 7px;
     top: 20px;
@@ -209,7 +201,6 @@ export const TrashIcon = styled(BsFillTrash3Fill)`
 
 /**  GoTo Icon**/
 export const GoToIcon = styled(AiOutlineSend)`
-    display: flex;
     position: absolute;
     right: 7px;
     bottom: 20px;
@@ -223,9 +214,7 @@ export const GoToIcon = styled(AiOutlineSend)`
 
 /**  Time Icon**/
 export const TimeIcon = styled(GiSandsOfTime)`
-    display: flex;
-    position: relative;
-    align-items: center;
+    position: absolute;
     left: 30%;
     top: 30%;
     color: ${(props) => (props.isDark ? Yellow : Yellow)};
@@ -239,11 +228,11 @@ export const TotalContainer = styled.div`
     top: 5px;
     width: 420px;
     height: 100px;
-    max-height: 110px; /* Définissez une hauteur maximale de 100 pixels */
-    overflow-y: auto; /* Activez le défilement vertical si le contenu dépasse la hauteur maximale */
+    max-height: 110px;
+    overflow-y: auto;
     border-radius: 5px;
     background-color: ${(props) =>
-        props.isDark ? Black + 'FF' : Black + 'FF'};
+        props.isDark ? `${Black}FF` : `${Black}FF`};
 `;
 
 /** Style of the total title text */
@@ -251,11 +240,11 @@ export const TotalTitleText = styled.p`
     position: relative;
     align-items: center;
     top: 5px;
-    left: 145px; /* Ajustez la marge par rapport au bord gauche */
+    left: 145px;
     font-size: 15px;
     text-decoration: underline;
     user-select: none;
-    color: ${(props) => (props.isDark ? Yellow : Black)};
+    color: ${Black};
     font-weight: bold;
 `;
 
@@ -270,7 +259,7 @@ export const GaugesContainer = styled.div`
     height: 145px;
     border-radius: 5px;
     background-color: ${(props) =>
-        props.isDark ? Black + 'FF' : Black + 'FF'};
+        props.isDark ? `${Black}FF` : `${Black}FF`};
 `;
 
 export const ValidateButton = styled.div`
@@ -284,8 +273,8 @@ export const ValidateButton = styled.div`
     left: 15%;
     top: 82%;
     user-select: none;
-    background-color: ${(props) => (props.isDark ? Black : Black)};
-    color: ${(props) => (props.isDark ? Yellow : Yellow)};
+    background-color: ${Black};
+    color: ${Yellow};
     border-radius: 10px;
     font-weight: bold;
     font-size: 16px;
@@ -308,8 +297,8 @@ export const PDFButton = styled.div`
     left: 35%;
     top: 82%;
     user-select: none;
-    background-color: ${(props) => (props.isDark ? Black : Black)};
-    color: ${(props) => (props.isDark ? Yellow : Yellow)};
+    background-color: ${Black};
+    color: ${Yellow};
     border-radius: 10px;
     font-weight: bold;
     font-size: 16px;

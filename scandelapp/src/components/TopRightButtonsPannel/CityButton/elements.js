@@ -9,16 +9,31 @@ export const SettingsButtonContainer = styled.div`
     width: 120px;
     height: 40px;
     top: 25px;
-    right: 30px;
+    right: 10px; /* Adjusted right padding */
     opacity: 0.8;
     background-color: ${(props) =>
-        props.isDark ? Black + 'FF' : White + 'FF'};
+        props.isDark ? `${Black}FF` : `${White}FF`};
     box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
     border-radius: 10px;
+    transition: all 0.2s ease-in-out;
 
     &:hover {
         opacity: 1;
         cursor: pointer;
+    }
+
+    @media screen and (max-width: 768px) {
+        width: 100px;
+        height: 30px;
+        top: 15px;
+        right: 5px;
+    }
+
+    @media screen and (max-width: 480px) {
+        width: 80px;
+        height: 25px;
+        top: 10px;
+        right: 2px;
     }
 `;
 
@@ -32,4 +47,12 @@ export const NameOfCity = styled.div`
     color: ${(props) => (props.isDark ? Yellow : Black)};
     font-weight: 450;
     letter-spacing: 1px;
+
+    @media screen and (max-width: 768px) {
+        font-size: 14px;
+    }
+
+    @media screen and (max-width: 480px) {
+        font-size: 12px;
+    }
 `;

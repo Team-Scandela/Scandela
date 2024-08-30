@@ -10,12 +10,35 @@ export const FilterSearchContainer = styled.div`
     left: 90px;
     user-select: none;
     opacity: 0.9;
-    background-color: ${(props) =>
-        props.isDark ? Black + 'CC' : White + 'CC'};
+    background-color: ${(props) => (props.isDark ? Black + 'CC' : White + 'CC')};
     color: ${(props) => (props.isDark ? Yellow : Black)};
     box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
     border-radius: 10px;
     z-index: 1000000;
+
+    @media (max-width: 1200px) {
+        width: 350px;
+        bottom: 80px;
+        left: 70px;
+    }
+    
+    @media (max-width: 992px) {
+        width: 300px;
+        bottom: 60px;
+        left: 50px;
+    }
+    
+    @media (max-width: 768px) {
+        width: 250px;
+        bottom: 40px;
+        left: 30px;
+    }
+    
+    @media (max-width: 576px) {
+        width: 200px;
+        bottom: 20px;
+        left: 20px;
+    }
 `;
 
 export const FilterSearchDropdown = styled.div`
@@ -39,8 +62,7 @@ export const FilterSearchDropdownItem = styled.div`
     cursor: pointer;
     transition: all 0.2s ease-in-out;
     font-size: 20px;
-    background-color: ${(props) =>
-        props.isDark ? Black + 'CC' : White + 'CC'};
+    background-color: ${(props) => (props.isDark ? Black + 'CC' : White + 'CC')};
     color: ${(props) => (props.isDark ? Yellow : Black)};
     justify-content: center;
     align-items: center;
@@ -76,9 +98,24 @@ export const FilterSearchInput = styled.input`
     border: none;
     outline: none;
     font-size: 20px;
-    background-color: ${(props) =>
-        props.isDark ? Black + 'CC' : White + 'CC'};
+    background-color: ${(props) => (props.isDark ? Black + 'CC' : White + 'CC')};
     color: ${(props) => (props.isDark ? Yellow : Yellow)};
     border-radius: 10px;
     padding: 0 10px;
+
+    @media (max-width: 1200px) {
+        font-size: 18px;
+    }
+    
+    @media (max-width: 992px) {
+        font-size: 16px;
+    }
+    
+    @media (max-width: 768px) {
+        font-size: 14px;
+    }
+    
+    @media (max-width: 576px) {
+        font-size: 12px;
+    }
 `;

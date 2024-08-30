@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import FilterMenu from '../components/FilterMenu';
 import Map from '../components/Map';
 import SearchBar from '../components/SearchBar';
@@ -9,10 +9,12 @@ import TopRightButtonsPannel from '../components/TopRightButtonsPannel';
 import Toastr from '../components/Toastr';
 import { Gauges } from '../components/Gauges';
 import AbsencePannel from '../components/AbsencePannel';
-// import MapDB from '../components/MapDB';
 import FilterSearch from '../components/FilterSearch';
 import TrafficTime from '../components/TrafficTime';
 import ActionHistory from '../components/ActionHistory';
+import FilterLegend from '../components/FilterLegend';
+import LegendHeatmap from '../components/Legends/LegendHeatmap';
+import EcoPannel from '../components/EcoPannel';
 
 export enum Filters {
     pin = 'pin',
@@ -29,7 +31,6 @@ interface MainProps {
     setOptimisationTemplateData: (data: any) => void;
 }
 
-/** Main page of the app */
 const Main: React.FC<MainProps> = ({
     optimisationTemplateData,
     setOptimisationTemplateData,
@@ -43,15 +44,12 @@ const Main: React.FC<MainProps> = ({
     const [lng, setLng] = useState<number>(-1.553621);
     const [zoom, setZoom] = useState(12);
 
-    /** If the decision panel is open or closed */
     const [decisionPanelExtended, setDecisionPanelExtended] =
         useState<boolean>(false);
-    /** If the action list panel is open or closed */
     const [actionsListExtended, setActionsListExtended] = useState(false);
     const [currentSelected, setCurrentSelected] = useState(
         'Choisissez une action'
     );
-    /** Variables for the search for the filter filter */
     const [search, setSearch] = useState<string>('');
     const [selected, setSelected] = useState<string>('Lamp');
 
@@ -63,6 +61,13 @@ const Main: React.FC<MainProps> = ({
         ['lightDarkModeUpdate', true],
         ['languageUpdate', true],
     ]);
+
+    // État pour gérer l'affichage de la légende temporaire
+    const [showFilterLegend, setShowFilterLegend] = useState(false);
+    const [legendText, setLegendText] = useState('');
+
+    // État pour gérer l'affichage temporaire du texte
+    const [tempText, setTempText] = useState<string>('');
 
     const handleSearch = (value: string) => {
         handleSearchUtils(value, lat, setLat, lng, setLng, zoom, setZoom);
@@ -109,7 +114,6 @@ const Main: React.FC<MainProps> = ({
 
     const addNotificationToList = (description: string) => {
         const date = new Date();
-
         const jour = date.getDate();
         const mois = date.getMonth() + 1;
         const hour = date.getHours();
@@ -123,6 +127,16 @@ const Main: React.FC<MainProps> = ({
 
         setToastHistoryData(limitedList);
     };
+
+    // Effet pour afficher temporairement un texte lorsque le filtre est sélectionné
+    useEffect(() => {
+        if (filter === Filters.traffic || filter === Filters.filter || filter === Filters.pinColor || filter === Filters.zone || filter === Filters.cabinet || filter === Filters.pin) {
+            setTempText('vous avez sélectionné le filtre ' + filter);
+            setTimeout(() => {
+                setTempText('');
+            }, 3000); // Réinitialiser après 3 secondes
+        }
+    }, [filter]);
 
     return (
         <div>
@@ -163,15 +177,26 @@ const Main: React.FC<MainProps> = ({
             />
             {filter === Filters.filter && (
                 <>
-                    <FilterSearch
-                        id={'filterSearchComponentId'}
-                        isDark={isDark}
-                        selected={selected}
-                        setSelected={setSelected}
-                        search={search}
-                        setSearch={setSearch}
+                <FilterSearch
+                    id={'filterSearchComponentId'}
+                    isDark={isDark}
+                    selected={selected}
+                    setSelected={setSelected}
+                    search={search}
+                    setSearch={setSearch}
+                />
+                {tempText && (
+                    <div style={{ background: 'rgba(255, 255, 255, 0.8)', padding: '10px', position: 'absolute', top: '20px', left: '20px', zIndex: 1000 }}>
+                        {tempText}
+                    </div>
+                )}
+                {showFilterLegend && (
+                    <FilterLegend
+                        text={legendText}
+                        onClose={() => setShowFilterLegend(false)}
                     />
-                </>
+                )}
+            </>
             )}
             {filter === Filters.traffic && (
                 <>
@@ -181,6 +206,82 @@ const Main: React.FC<MainProps> = ({
                         trafficTime={trafficTimeValue}
                         setTrafficTime={setTrafficTimeValue}
                     />
+                    {tempText && (
+                        <div style={{ background: 'rgba(255, 255, 255, 0.8)', padding: '10px', position: 'absolute', top: '20px', left: '20px', zIndex: 1000 }}>
+                            {tempText}
+                        </div>
+                    )}
+                    {showFilterLegend && (
+                        <FilterLegend
+                            text={legendText}
+                            onClose={() => setShowFilterLegend(false)}
+                        />
+                    )}
+                </>
+            )}
+            {filter === Filters.pinColor && (
+                <>
+                    {tempText && (
+                        <div style={{ background: 'rgba(255, 255, 255, 0.8)', padding: '10px', position: 'absolute', top: '20px', left: '20px', zIndex: 1000 }}>
+                            {tempText}
+                        </div>
+                    )}
+                    {showFilterLegend && (
+                        <FilterLegend
+                            text={legendText}
+                            onClose={() => setShowFilterLegend(false)}
+                        />
+                    )}
+                    <LegendHeatmap
+                        imageSrc="/home/mverain/delivery/SCANDELA/real_scand/Scandela/scandelapp/src/assets/logo-128x128-yellow.png"
+                        caption="Filtre Pin Color"
+                        modalContent={<div>Contenu supplémentaire sur le filtre</div>}
+                    />
+                </>
+            )}
+            {filter === Filters.zone && (
+                <>
+                    {tempText && (
+                        <div style={{ background: 'rgba(255, 255, 255, 0.8)', padding: '10px', position: 'absolute', top: '20px', left: '20px', zIndex: 1000 }}>
+                            {tempText}
+                        </div>
+                    )}
+                    {showFilterLegend && (
+                        <FilterLegend
+                            text={legendText}
+                            onClose={() => setShowFilterLegend(false)}
+                        />
+                    )}
+                </>
+            )}
+            {filter === Filters.cabinet && (
+                <>
+                    {tempText && (
+                        <div style={{ background: 'rgba(255, 255, 255, 0.8)', padding: '10px', position: 'absolute', top: '20px', left: '20px', zIndex: 1000 }}>
+                            {tempText}
+                        </div>
+                    )}
+                    {showFilterLegend && (
+                        <FilterLegend
+                            text={legendText}
+                            onClose={() => setShowFilterLegend(false)}
+                        />
+                    )}
+                </>
+            )}
+            {filter === Filters.pin && (
+                <>
+                    {tempText && (
+                        <div style={{ background: 'rgba(255, 255, 255, 0.8)', padding: '10px', position: 'absolute', top: '20px', left: '20px', zIndex: 1000 }}>
+                            {tempText}
+                        </div>
+                    )}
+                    {showFilterLegend && (
+                        <FilterLegend
+                            text={legendText}
+                            onClose={() => setShowFilterLegend(false)}
+                        />
+                    )}
                 </>
             )}
 
@@ -228,6 +329,8 @@ const Main: React.FC<MainProps> = ({
                         isDark={isDark}
                     />
                     <Toastr id={'toastrComponentId'} isDark={isDark} />
+                    <EcoPannel
+                    />
                 </>
             )}
         </div>

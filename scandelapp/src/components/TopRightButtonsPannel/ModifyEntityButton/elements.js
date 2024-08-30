@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import { Yellow, Black, White, DarkYellow, DarkGrey } from '../../../colors';
 import { MdChangeCircle } from 'react-icons/md';
 
-/** Container for the settings button **/
 export const ModifyEntityButtonContainer = styled(MdChangeCircle)`
     display: flex;
     position: absolute;
@@ -127,7 +126,6 @@ export const LampButton = styled.div`
     }
 `;
 
-/** Main title on the content container */
 export const TitleText = styled.div`
     position: relative;
     top: 5%;
