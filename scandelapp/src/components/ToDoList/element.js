@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { DarkGrey, Black, LightDarkGrey, Grey } from '../../colors';
+import { DarkGrey, Black, LightDarkGrey, Grey, Yellow} from '../../colors';
 
 export const ToDoListWrapper = styled.div`
     display: flex;
@@ -76,5 +76,10 @@ export const ToDoListAdress = styled.div`
     font-style: italic;
 `;
 
-
-
+export const ToDoListMainTitle = styled.div`
+    position : absolute;
+    font-size : 45px;
+    color : ${Yellow};
+    top : 20px;
+    font-family: 'SyneBold';
+`;

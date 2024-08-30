@@ -9,6 +9,9 @@ import {
 import { BsFillTrash3Fill } from 'react-icons/bs';
 import { GiSandsOfTime } from 'react-icons/gi';
 import { AiOutlineSend } from 'react-icons/ai';
+import { AiFillCloseCircle } from 'react-icons/ai';
+import { RiExternalLinkLine } from "react-icons/ri";
+import { IoIosLink } from "react-icons/io";
 
 /** Container of the scrollable optimisation container */
 export const ScrollableOptimisationsContainer = styled.div`
@@ -289,3 +292,121 @@ export const ToDoButton = styled.div`
     }
 `;
 
+export const PUpToDoContainer = styled.div`
+    position : absolute;
+    top : 0px;
+    left : 0px;
+    width : 100%;
+    height : 100%;
+    background-color: ${Black + 'CC'};
+    z-index : 9999999999;
+`;
+
+export const PUpToDo = styled.div`
+    display: flex;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 400px;
+    height: 200px;
+    background-color: ${Black};
+    border-radius: 5px;
+    border-color: ${Yellow};
+    border-width: 2px;
+    border-style: solid;
+    transform: translate(-50%, -50%);
+`;
+
+export const PUpToDoClose = styled(AiFillCloseCircle)`
+    display: flex;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    color: ${Yellow};
+    cursor: pointer;
+    font-size: 30px;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+        color: ${Yellow + 'CC'};
+    }
+`;
+
+export const PUpToDoTitle = styled.div`
+    display: flex;
+    position: absolute;
+    left: 50%;
+    top: 30px;
+    transform: translateX(-50%);
+    font-size: 20px;
+    color: ${Yellow};
+    font-weight: bold;
+    font-family: 'SyneRegular';
+    align-content : center;
+    justify-content : center;
+    text-align : center;
+    width : 100%;
+`;
+
+export const PUpToDoLinkIcon = styled(IoIosLink)`
+    display: flex;
+    position: absolute;
+    left: 100px;
+    top: 90px;
+    font-size: 50px;
+    color: ${Black};
+    cursor: pointer;
+    background-color: ${Yellow};
+    border-radius: 10%;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+        background-color: ${Yellow + 'CC'};
+    }
+`
+
+export const PUpToDoLinkSubtitle = styled.div`
+    display: flex;
+    position: absolute;
+    left: 125px;
+    top: 150px;
+    transform: translateX(-50%);
+    font-size: 15px;
+    color: ${Yellow};
+    font-family: 'SyneRegular';
+    align-content : center;
+    justify-content : center;
+    text-align : center;
+`;
+
+
+export const PUpToDoOpen = styled(RiExternalLinkLine)`
+    display: flex;
+    position: absolute;
+    right: 100px;
+    top: 90px;
+    font-size: 50px;
+    color: ${Black};
+    cursor: pointer;
+    background-color: ${Yellow};
+    border-radius: 10%;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+        background-color: ${Yellow + 'CC'};
+    }
+`
+
+export const PUpToDoOpenSubtitle = styled.div`
+    display: flex;
+    position: absolute;
+    right: 125px;
+    top: 150px;
+    transform: translateX(50%);
+    font-size: 15px;
+    color: ${Yellow};
+    font-family: 'SyneRegular';
+    align-content : center;
+    justify-content : center;
+    text-align : center;
+`;

@@ -16,7 +16,15 @@ import {
     GaugesContainer,
     ValidateButton,
     PDFButton,
-    ToDoButton
+    ToDoButton,
+    PUpToDoContainer,
+    PUpToDo,
+    PUpToDoClose,
+    PUpToDoTitle,
+    PUpToDoLinkIcon,
+    PUpToDoOpen,
+    PUpToDoLinkSubtitle,
+    PUpToDoOpenSubtitle,
 } from './elements';
 import { PersonnalizedGauge } from '../../Gauges';
 import { useTranslation } from 'react-i18next';
@@ -43,6 +51,7 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
     const [levelElec, setLevelElec] = useState<number>(0);
     const [levelBio, setLevelBio] = useState<number>(0);
     const [levelLumi, setLevelLumi] = useState<number>(0);
+    const [displayPUpToDo, setDisplayPUpToDo] = useState<boolean>(false);
     const navigate = useNavigate();
 
     function parseFloatSafe(input: string): number {
@@ -120,6 +129,10 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
     };
 
     const handleValidateButtonClick = () => {
+        if (optimisationTemplateData.filter((item: any) => item.selected).length === 0) {
+            alert("Nothing in the action list");
+            return;
+        }
         const timestamp = getTimestamp();
         for (let i = 0; i < optimisationTemplateData.length; i++) {
             if (optimisationTemplateData[i].selected) {
@@ -131,6 +144,10 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
     };
 
     const handlePDFButtonClick = () => {
+        if (optimisationTemplateData.filter((item: any) => item.selected).length === 0) {
+            alert("Nothing in the action list");
+            return;
+        }
         const timestamp = getTimestamp();
         const validateData = optimisationTemplateData.filter(
             (item: any) => item.selected
@@ -146,17 +163,44 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
     };
 
     const handleToDoButtonClick = () => {
-        const timestamp = getTimestamp();
-        for (let i = 0; i < optimisationTemplateData.length; i++) {
-            if (optimisationTemplateData[i].selected) {
-                updateValidateData(optimisationTemplateData[i], timestamp);
-                optimisationTemplateData[i].saved = false;
-            }
+        // const timestamp = getTimestamp();
+        // for (let i = 0; i < optimisationTemplateData.length; i++) {
+        //     if (optimisationTemplateData[i].selected) {
+        //         updateValidateData(optimisationTemplateData[i], timestamp);
+        //         optimisationTemplateData[i].saved = false;
+        //     }
+        // }
+        // setOptimisationTemplateData(optimisationTemplateData);
+        // navigate('/todo/' + timestamp);
+        if (optimisationTemplateData.filter((item: any) => item.selected).length === 0) {
+            alert("Nothing in the action list");
+            return;
         }
-        setOptimisationTemplateData(optimisationTemplateData);
-        // open in a new tab with the to do list
+        setDisplayPUpToDo(true);
+    }
+
+    const handleToDoButtonCopyClick = () => {
+        const timestamp = getTimestamp();
+        // for (let i = 0; i < optimisationTemplateData.length; i++) {
+        //     if (optimisationTemplateData[i].selected) {
+        //         updateValidateData(optimisationTemplateData[i], timestamp);
+        //         optimisationTemplateData[i].saved = false;
+        //     }
+        // }
+        // setOptimisationTemplateData(optimisationTemplateData);
+        navigator.clipboard.writeText('https:/app.scandela.com/todo/' + timestamp);
+    }
+
+    const handleToDoButtonOpenClick = () => {
+        const timestamp = getTimestamp();
+        // for (let i = 0; i < optimisationTemplateData.length; i++) {
+        //     if (optimisationTemplateData[i].selected) {
+        //         updateValidateData(optimisationTemplateData[i], timestamp);
+        //         optimisationTemplateData[i].saved = false;
+        //     }
+        // }
+        // setOptimisationTemplateData(optimisationTemplateData);
         navigate('/todo/' + timestamp);
-        console.log(timestamp);
     }
 
     const getTimestamp = () => {
@@ -304,6 +348,18 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
             <ToDoButton isDark={isDark} onClick={handleToDoButtonClick}>
                 {t('toDo')}
             </ToDoButton>
+            {displayPUpToDo &&
+                <PUpToDoContainer >
+                    <PUpToDo >
+                        <PUpToDoClose onClick={() => setDisplayPUpToDo(false)} />
+                        <PUpToDoTitle>{t('toDoReady')}</PUpToDoTitle>
+                        <PUpToDoOpen onClick={handleToDoButtonOpenClick} />
+                        <PUpToDoLinkIcon onClick={handleToDoButtonCopyClick} />
+                        <PUpToDoLinkSubtitle >{t('toDoLink')}</PUpToDoLinkSubtitle>
+                        <PUpToDoOpenSubtitle>{t('toDoOpen')}</PUpToDoOpenSubtitle>
+                    </PUpToDo>
+                </PUpToDoContainer>
+            }
         </div>
     );
 };

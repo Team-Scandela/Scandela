@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ToDoListWrapper, ToDoListContainer, ToDoListCard, ToDoListCheckBox, ToDoListTitle, ToDoListDescription, ToDoListAdress } from './element.js';
+import { ToDoListWrapper, ToDoListContainer, ToDoListCard, ToDoListCheckBox, ToDoListTitle, ToDoListDescription, ToDoListAdress, ToDoListMainTitle } from './element.js';
 
 import {
     getDecisions,
@@ -12,8 +12,8 @@ interface ToDoListProps {
 /** Reset password page of the app */
 const ToDoList: React.FC<ToDoListProps> = ( { keycode } ) => {
 
-    const [decisions, setDecisions] = useState([]);
     const [decisionsSpecific, setDecisionsSpecific] = useState([]);
+    const [dayMonth, setDayMonth] = useState("To-Do List du ");
 
     function arrayToISOString(array: number[]) {
         // 2024-08-22T08:54:09.065Z
@@ -27,6 +27,8 @@ const ToDoList: React.FC<ToDoListProps> = ( { keycode } ) => {
         if (day.length < 2) {
             day = '0' + day;
         }
+        if (dayMonth === "To-Do List du ")
+            setDayMonth(dayMonth + day + '/' + month);
         let hours = array[3].toString();
         if (hours.length < 2) {
             hours = '0' + hours;
@@ -53,39 +55,41 @@ const ToDoList: React.FC<ToDoListProps> = ( { keycode } ) => {
     }
 
     useEffect(() => {
-        if (decisions.length === 0)
+        if (decisionsSpecific.length === 0)
         {
             getDecisions().then((data) => {
-                setDecisions(data);
-
-                data.forEach((element : any) => {
-                    if (element.validate != null) {
-                        const elementValidate = arrayToISOString(element.validate);
-                        console.log(elementValidate);
-                        if (elementValidate === keycode)
-                        {
-                            setDecisionsSpecific((decisionsSpecific) => [...decisionsSpecific, element]);
-                            console.log(element);
+                if (data != null) {
+                    data.forEach((element : any) => {
+                        if (element.validate != null) {
+                            const elementValidate = arrayToISOString(element.validate);
+                            console.log(elementValidate);
+                            if (elementValidate === keycode)
+                                setDecisionsSpecific((decisionsSpecific) => [...decisionsSpecific, element]);
                         }
-                    }
-                });
-                console.log(decisionsSpecific);
+                    });
+                }
+
             });
         }
     }, []);
 
 
 
-
     return (
         <ToDoListWrapper>
-
+            <ToDoListMainTitle>{dayMonth}</ToDoListMainTitle>
             <ToDoListContainer >
                 <ToDoListCard>
                     <ToDoListCheckBox type="checkbox" />
                     <ToDoListTitle> Chnager l'ampoule </ToDoListTitle>
                     <ToDoListDescription> Consommation trop élevé </ToDoListDescription>
-                    <ToDoListAdress> {keycode} </ToDoListAdress>
+                    <ToDoListAdress> 12 hameau du chateau </ToDoListAdress>
+                </ToDoListCard>
+                <ToDoListCard>
+                    <ToDoListCheckBox type="checkbox" />
+                </ToDoListCard>
+                <ToDoListCard>
+                    <ToDoListCheckBox type="checkbox" />
                 </ToDoListCard>
                 <ToDoListCard>
                     <ToDoListCheckBox type="checkbox" />
