@@ -21,7 +21,6 @@ interface ToDoListProps {
 const ToDoList: React.FC<ToDoListProps> = ( { keycode } ) => {
 
     const [decisionsSpecific, setDecisionsSpecific] = useState([]);
-    const [dayMonth, setDayMonth] = useState<string>("To-Do List du ");
     const [states, setStates] = useState([]);
     const [dropdownShow, setDropdownShow] = useState([]);
 
@@ -50,8 +49,6 @@ const ToDoList: React.FC<ToDoListProps> = ( { keycode } ) => {
         if (day.length < 2) {
             day = '0' + day;
         }
-        if (dayMonth === "To-Do List du ")
-            setDayMonth(dayMonth + day + '/' + month);
         let hours = array[3].toString();
         if (hours.length < 2) {
             hours = '0' + hours;
@@ -119,7 +116,7 @@ const ToDoList: React.FC<ToDoListProps> = ( { keycode } ) => {
 
     return (
         <ToDoListWrapper>
-            <ToDoListMainTitle>{dayMonth}</ToDoListMainTitle>
+            <ToDoListMainTitle>To-Do List</ToDoListMainTitle>
             <ToDoListContainer>
                 {decisionsSpecific.map((element: any, index) => (
                     <ToDoListCard key={index}>

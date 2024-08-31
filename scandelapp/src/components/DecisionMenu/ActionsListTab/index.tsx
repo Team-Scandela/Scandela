@@ -163,15 +163,6 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
     };
 
     const handleToDoButtonClick = () => {
-        // const timestamp = getTimestamp();
-        // for (let i = 0; i < optimisationTemplateData.length; i++) {
-        //     if (optimisationTemplateData[i].selected) {
-        //         updateValidateData(optimisationTemplateData[i], timestamp);
-        //         optimisationTemplateData[i].saved = false;
-        //     }
-        // }
-        // setOptimisationTemplateData(optimisationTemplateData);
-        // navigate('/todo/' + timestamp);
         if (optimisationTemplateData.filter((item: any) => item.selected).length === 0) {
             alert("Nothing in the action list");
             return;
@@ -181,25 +172,25 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
 
     const handleToDoButtonCopyClick = () => {
         const timestamp = getTimestamp();
-        // for (let i = 0; i < optimisationTemplateData.length; i++) {
-        //     if (optimisationTemplateData[i].selected) {
-        //         updateValidateData(optimisationTemplateData[i], timestamp);
-        //         optimisationTemplateData[i].saved = false;
-        //     }
-        // }
-        // setOptimisationTemplateData(optimisationTemplateData);
+        for (let i = 0; i < optimisationTemplateData.length; i++) {
+            if (optimisationTemplateData[i].selected) {
+                updateValidateData(optimisationTemplateData[i], timestamp);
+                optimisationTemplateData[i].saved = false;
+            }
+        }
+        setOptimisationTemplateData(optimisationTemplateData);
         navigator.clipboard.writeText('https:/app.scandela.com/todo/' + timestamp);
     }
 
     const handleToDoButtonOpenClick = () => {
         const timestamp = getTimestamp();
-        // for (let i = 0; i < optimisationTemplateData.length; i++) {
-        //     if (optimisationTemplateData[i].selected) {
-        //         updateValidateData(optimisationTemplateData[i], timestamp);
-        //         optimisationTemplateData[i].saved = false;
-        //     }
-        // }
-        // setOptimisationTemplateData(optimisationTemplateData);
+        for (let i = 0; i < optimisationTemplateData.length; i++) {
+            if (optimisationTemplateData[i].selected) {
+                updateValidateData(optimisationTemplateData[i], timestamp);
+                optimisationTemplateData[i].saved = false;
+            }
+        }
+        setOptimisationTemplateData(optimisationTemplateData);
         navigate('/todo/' + timestamp);
     }
 
