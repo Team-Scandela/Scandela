@@ -29,82 +29,77 @@ const FAQ: React.FC<FAQProps> = ({ closeToMainApp }) => {
         {
             id: 2,
             title: t('faqTitle2'),
-            description: '',
+            description: t('faqDescription1'),
         },
         {
             id: 3,
             title: t('faqTitle3'),
-            description: '',
+            description: t('faqDescription2'),
         },
         {
             id: 4,
             title: t('faqTitle4'),
-            description: '',
+            description: t('faqDescription3'),
         },
         {
             id: 5,
             title: t('faqTitle5'),
-            description: '',
+            description: t('faqDescription4'),
         },
         {
             id: 6,
             title: t('faqTitle6'),
-            description: '',
+            description: t('faqDescription5'),
         },
         {
             id: 7,
             title: t('faqTitle7'),
-            description: '',
+            description: t('faqDescription6'),
         },
         {
             id: 8,
             title: t('faqTitle8'),
-            description: '',
+            description: t('faqDescription7'),
         },
         {
             id: 9,
             title: t('faqTitle9'),
-            description: '',
+            description: t('faqDescription8'),
         },
         {
             id: 10,
             title: t('faqTitle10'),
-            description: '',
+            description: t('faqDescription9'),
         },
         {
             id: 11,
             title: t('faqTitle11'),
-            description: '',
+            description: t('faqDescription10'),
         },
         {
             id: 12,
             title: t('faqTitle12'),
-            description: '',
+            description: t('faqDescription11'),
         },
         {
             id: 13,
             title: t('faqTitle13'),
-            description: '',
+            description: t('faqDescription12'),
         },
         {
             id: 14,
             title: t('faqTitle14'),
-            description: '',
+            description: t('faqDescription13'),
         },
         {
             id: 15,
             title: t('faqTitle15'),
-            description: '',
+            description: t('faqDescription14'),
         },
         {
             id: 16,
             title: t('faqTitle16'),
-            description: '',
-        },
-        {
-            id: 17,
-            title: t('faqTitle17'),
-            description: '',
+            description: t('faqDescription15'),
         },
     ]);
     const [currentSelected, setCurrentSelected] = useState(1);

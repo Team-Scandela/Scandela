@@ -36,6 +36,7 @@ interface SettingsTabProps {
     addNotificationToList: (description: string) => void;
     tooltipPreference: boolean;
     setTooltipPreference: (value: boolean) => void;
+    setShowTutoriel: (value: boolean) => void;
 }
 
 const SettingsTab: React.FC<SettingsTabProps> = ({
@@ -46,6 +47,7 @@ const SettingsTab: React.FC<SettingsTabProps> = ({
     addNotificationToList,
     tooltipPreference,
     setTooltipPreference,
+    setShowTutoriel,
 }) => {
     const [currentOptionSelected, setCurrentOptionSeleted] = useState(
         SettingsTabs.City
@@ -106,6 +108,7 @@ const SettingsTab: React.FC<SettingsTabProps> = ({
                             isDark={isDark}
                             tooltipPreference={tooltipPreference}
                             setTooltipPreference={setTooltipPreference}
+                            setShowTutoriel={setShowTutoriel}
                         />
                     </div>
                 )}
