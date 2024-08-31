@@ -41,7 +41,6 @@ const ToDoList: React.FC<ToDoListProps> = ( { keycode } ) => {
 
     function arrayToISOString(array: number[]) {
         // 2024-08-22T08:54:09.065Z
-        console.log(array);
         let year = array[0].toString();
         let month = array[1].toString();
         if (month.length < 2) {
@@ -74,28 +73,47 @@ const ToDoList: React.FC<ToDoListProps> = ( { keycode } ) => {
         }
 
         let date = year + '-' + month + '-' + day + 'T' + hours + ':' + minutes + ':' + seconds + '.' + milliseconds + 'Z';
-        console.log(date);
         return date;
     }
 
     useEffect(() => {
-        if (decisionsSpecific.length === 0)
-        {
+        if (decisionsSpecific.length === 0) {
             getDecisions().then((data) => {
                 if (data != null) {
-                    data.forEach((element : any) => {
+                    const newDecisionsSpecific: any[] = [];
+                    const newStates: number[] = [];
+                    const newDropdownShow: boolean[] = [];
+                    data.forEach((element: any) => {
                         if (element.validate != null) {
                             const elementValidate = arrayToISOString(element.validate);
                             console.log(elementValidate);
-                            if (elementValidate === keycode)
-                                setDecisionsSpecific((decisionsSpecific) => [...decisionsSpecific, element]);
+                            if (elementValidate === keycode) {
+                                console.log(element);
+                                newDecisionsSpecific.push(element);
+                                newStates.push(1);
+                                newDropdownShow.push(false);
+                            }
                         }
                     });
+                    setDecisionsSpecific(newDecisionsSpecific);
+                    setStates(newStates);
+                    setDropdownShow(newDropdownShow);
                 }
-
             });
         }
     }, []);
+
+    useEffect(() => {
+        console.log('decisionsSpecific updated:', decisionsSpecific);
+    }, [decisionsSpecific]);
+
+    useEffect(() => {
+        console.log('states updated:', states);
+    }, [states]);
+
+    useEffect(() => {
+        console.log('dropdownShow updated:', dropdownShow);
+    }, [dropdownShow]);
 
 
 
@@ -103,9 +121,12 @@ const ToDoList: React.FC<ToDoListProps> = ( { keycode } ) => {
         <ToDoListWrapper>
             <ToDoListMainTitle>{dayMonth}</ToDoListMainTitle>
             <ToDoListContainer>
-                {[0, 1,2,3,4,5,6].map((index) => (
+                {decisionsSpecific.map((element: any, index) => (
                     <ToDoListCard key={index}>
-                        <ToDoListDropdown onClick={() => toggleDropdown(index)} style={{ backgroundColor: states[index] === 2 ? Yellow : states[index] === 3 ? Green : Red }}>
+                        <ToDoListDropdown
+                            onClick={() => toggleDropdown(index)}
+                            style={{ backgroundColor: states[index] === 2 ? Yellow : states[index] === 3 ? Green : Red }}
+                        >
                             {states[index] === 2 ? 'En cours' : states[index] === 3 ? 'Terminé' : 'A faire'}
                             <IoMdArrowDropdown />
                         </ToDoListDropdown>
@@ -137,9 +158,9 @@ const ToDoList: React.FC<ToDoListProps> = ( { keycode } ) => {
                                 </ToDoListDropdownMenuItem3>
                             </ToDoListDropdownMenu>
                         ) : null}
-                        <ToDoListTitle>Changer l'ampoule</ToDoListTitle>
-                        <ToDoListDescription>Consommation trop élevée</ToDoListDescription>
-                        <ToDoListAdress>12 hameau du château</ToDoListAdress>
+                        <ToDoListTitle>{element.solution}</ToDoListTitle>
+                        <ToDoListDescription>{element.description}</ToDoListDescription>
+                        <ToDoListAdress>{element.location + ' - ' + element.lampDecision.lamp.name}</ToDoListAdress>
                     </ToDoListCard>
                 ))}
             </ToDoListContainer>
