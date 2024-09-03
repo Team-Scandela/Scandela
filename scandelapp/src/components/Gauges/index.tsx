@@ -19,18 +19,19 @@ import {
 import * as images from './gaugesImports';
 import { Green, Red } from '../../colors';
 import { useTranslation } from 'react-i18next';
+import { Tabs } from '../../pages/main';
 
 /** Props of the gauges
  * @param {boolean} isDark - If the map is in dark mode or not
  * @param {boolean} decisionPanelExtended - Boolean to check if the decision panel is extended or not
- * @param {boolean} actionsListExtended -  Boolean to check if the actions list is extended or not
+ * @param {any} currentTab - Store the current tab displayed in the decision panel
  *
  */
 interface GaugesProps {
     id: string;
     isDark: boolean;
     decisionPanelExtended: boolean;
-    actionsListExtended: boolean;
+    currentTab: Tabs;
 }
 
 //* Gauges component */
@@ -38,7 +39,7 @@ export const Gauges: React.FC<GaugesProps> = ({
     id,
     isDark,
     decisionPanelExtended,
-    actionsListExtended,
+    currentTab,
 }) => {
     const [levelElec, setLevelElec] = React.useState<number>(0);
     const [levelBio, setLevelBio] = React.useState<number>(0);
@@ -127,17 +128,24 @@ export const Gauges: React.FC<GaugesProps> = ({
         return () => clearInterval(intervalId);
     }, []);
 
+    const canBeDisplayed = () => {
+        if (decisionPanelExtended && currentTab != Tabs.Scandela) return false;
+        return true;
+    };
+
     return (
         <div id={id}>
-            {!actionsListExtended && (
+            {canBeDisplayed() && (
                 <div>
                     <GaugeContainerLeft
                         decisionPanelExtended={decisionPanelExtended}
                         decal={showPupMiddle || showPupRight}
                         onClick={() => {
-                            setShowPupLeft(!showPupLeft);
-                            setShowPupMiddle(false);
-                            setShowPupRight(false);
+                            if (!decisionPanelExtended) {
+                                setShowPupLeft(!showPupLeft);
+                                setShowPupMiddle(false);
+                                setShowPupRight(false);
+                            }
                         }}
                     >
                         <GaugeBackground
@@ -168,9 +176,11 @@ export const Gauges: React.FC<GaugesProps> = ({
                         decisionPanelExtended={decisionPanelExtended}
                         decal={showPupRight}
                         onClick={() => {
-                            setShowPupLeft(false);
-                            setShowPupMiddle(!showPupMiddle);
-                            setShowPupRight(false);
+                            if (!decisionPanelExtended) {
+                                setShowPupLeft(false);
+                                setShowPupMiddle(!showPupMiddle);
+                                setShowPupRight(false);
+                            }
                         }}
                     >
                         <GaugeBackground
@@ -200,9 +210,11 @@ export const Gauges: React.FC<GaugesProps> = ({
                         decisionPanelExtended={decisionPanelExtended}
                         decal={false}
                         onClick={() => {
-                            setShowPupLeft(false);
-                            setShowPupMiddle(false);
-                            setShowPupRight(!showPupRight);
+                            if (!decisionPanelExtended) {
+                                setShowPupLeft(false);
+                                setShowPupMiddle(false);
+                                setShowPupRight(!showPupRight);
+                            }
                         }}
                     >
                         <GaugeBackground

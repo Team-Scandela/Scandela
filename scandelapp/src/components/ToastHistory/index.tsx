@@ -11,66 +11,54 @@ import {
     TimeText,
     LoadingSpinner,
 } from './elements';
-import { getNotifications } from '../../utils/notificationUtils';
-import { Yellow, Black, White, Grey, DarkYellow, DarkGrey } from '../../colors';
+import { Tooltip } from 'react-tooltip';
+import { useTranslation } from 'react-i18next';
+import { Black } from '../../colors';
 
+/**
+ * @param {boolean} isDark - If the map is in dark mode or not
+ * @param {list} toastHistoryData - List of notifications
+ * @param {boolean} toastHistoryExtended - Boolean to check if the history is extended or not
+ * @param {function} handleToastHistoryPannelButtonClicked - Setter for the toastHistoryExtended boolean
+ * @param {boolean} tooltipPreference - Boolean to check if the tooltip are displayed or not
+ *
+ */
 interface ToastHistoryProps {
     id: string;
     isDark: boolean;
     toastHistoryData: any;
+    toastHistoryExtended: boolean;
+    handleToastHistoryPannelButtonClicked: () => void;
+    tooltipPreference: boolean;
 }
 
 const ToastHistory: React.FC<ToastHistoryProps> = ({
     id,
     isDark,
     toastHistoryData,
+    toastHistoryExtended,
+    handleToastHistoryPannelButtonClicked,
+    tooltipPreference,
 }) => {
-    const [toastHistoryExtended, setToastHistoryExtended] = useState(false);
-    const [serverNotifications, setServerNotifications] = useState<any[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [selectedNotificationId, setSelectedNotificationId] = useState<
-        string | null
-    >(null);
+    const { t } = useTranslation();
 
-    const userId = localStorage.getItem('userId');
+    // const handleNotificationClick = (id: string) => {
+    //     setSelectedNotificationId(selectedNotificationId === id ? null : id);
+    // };
 
-    useEffect(() => {
-        const fetchNotifications = async () => {
-            if (userId) {
-                try {
-                    const fetchedNotifications = await getNotifications(userId);
-                    setServerNotifications(fetchedNotifications.slice(0, 10));
-                } catch (error) {
-                    console.error('Failed to fetch notifications:', error);
-                }
-            }
-            setLoading(false);
-        };
-
-        fetchNotifications();
-    }, [userId]);
-
-    const handleToastHistoryPannelButtonClicked = () => {
-        setToastHistoryExtended(!toastHistoryExtended);
-    };
-
-    const handleNotificationClick = (id: string) => {
-        setSelectedNotificationId(selectedNotificationId === id ? null : id);
-    };
-
-    const handleDeleteNotification = async (id: string) => {
-        try {
-            // Call API to delete notification
-            // await deleteNotificationAPI(id);
-            setServerNotifications((prevNotifications) =>
-                prevNotifications.filter(
-                    (notification) => notification.id !== id
-                )
-            );
-        } catch (error) {
-            console.error('Failed to delete notification:', error);
-        }
-    };
+    // const handleDeleteNotification = async (id: string) => {
+    //     try {
+    //         // Call API to delete notification
+    //         // await deleteNotificationAPI(id);
+    //         setServerNotifications((prevNotifications) =>
+    //             prevNotifications.filter(
+    //                 (notification) => notification.id !== id
+    //             )
+    //         );
+    //     } catch (error) {
+    //         console.error('Failed to delete notification:', error);
+    //     }
+    // };
 
     const formatDate = (timeArray: number[]): string => {
         if (!Array.isArray(timeArray) || timeArray.length < 6) {
@@ -83,10 +71,22 @@ const ToastHistory: React.FC<ToastHistoryProps> = ({
 
     return (
         <div>
+            {tooltipPreference && (
+                <Tooltip
+                    id="toastHistory"
+                    style={{
+                        backgroundColor: Black,
+                        borderRadius: '5px',
+                        userSelect: 'none',
+                    }}
+                />
+            )}
             <ToastHistoryButton
                 onClick={() => handleToastHistoryPannelButtonClicked()}
                 isDark={isDark}
                 show={toastHistoryExtended}
+                data-tooltip-id="toastHistory"
+                data-tooltip-content={t('toastHistory')}
             >
                 <ToastHistoryButtonIcon size={30} />
             </ToastHistoryButton>
@@ -95,45 +95,17 @@ const ToastHistory: React.FC<ToastHistoryProps> = ({
                     Notifications
                 </NotificationsTitle>
                 <NotificationsContainer isDark={isDark}>
-                    {loading ? (
-                        <LoadingSpinner />
-                    ) : (
-                        serverNotifications.map((item: any, i: number) => (
-                            <NotificationTemplateContainer
-                                key={item.id}
-                                isDark={isDark}
-                                y={50 * i}
-                                onClick={() => handleNotificationClick(item.id)}
-                                style={{
-                                    backgroundColor:
-                                        selectedNotificationId === item.id
-                                            ? DarkGrey
-                                            : Grey,
-                                }}
-                            >
-                                <TitleText isDark={isDark}>
-                                    {item.title ? item.title : 'No Title'}
-                                </TitleText>
-                                <DescriptionText isDark={isDark}>
-                                    {item.description
-                                        ? item.description
-                                        : 'No Description'}
-                                </DescriptionText>
-                                <TimeText isDark={isDark}>
-                                    {formatDate(item.time)}
-                                </TimeText>
-                                {selectedNotificationId === item.id && (
-                                    <button
-                                        onClick={() =>
-                                            handleDeleteNotification(item.id)
-                                        }
-                                    >
-                                        Delete
-                                    </button>
-                                )}
-                            </NotificationTemplateContainer>
-                        ))
-                    )}
+                    {toastHistoryData.map((item: any, i: number) => (
+                        <NotificationTemplateContainer
+                            isDark={isDark}
+                            y={63 * i}
+                        >
+                            <DescriptionText isDark={isDark}>
+                                {item.description}
+                            </DescriptionText>
+                            <TimeText isDark={isDark}>{item.time}</TimeText>
+                        </NotificationTemplateContainer>
+                    ))}
                 </NotificationsContainer>
             </ToastHistoryPannel>
         </div>

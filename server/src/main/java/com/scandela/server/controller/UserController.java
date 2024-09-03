@@ -70,7 +70,7 @@ public class UserController extends AbstractController<User> {
 		emailService.sendMail(newUser.getEmail(), "Welcome to Scandela!",
 				"Thank you for being a new member of Scandela !\n\n" +
 				"To confirm your account, please click here : " +
-				"https://dev.scandela.fr:2000/redirect?email=" +
+				"https://dev.scandela.com:2000/redirect?email=" +
 				newUser.getEmail() + "\n\nTeam Scandela");
 		return super.create(newUser);
 	}
