@@ -46,7 +46,7 @@ const LoadingPage: React.FC<LoadingPageProps> = ({}) => {
                     setIsLoading(false);
                     setDataLoaded(true);
                     console.debug('Fetching data completed');
-                    navigate('/landingpage');
+                    navigate('/homepage');
                     console.debug('Navigation triggered');
                 } catch (error) {
                     console.error('Error during data fetching:', error);
