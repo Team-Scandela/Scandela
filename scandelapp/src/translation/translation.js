@@ -202,6 +202,7 @@ const resources = {
             toDoLink: 'Copy the link',
             toDoOpen : 'Open the list',
             toDoError : "Nothings in the action list",
+            filterAdvcanced: 'Advanced filters',
         },
     },
 
@@ -409,6 +410,7 @@ const resources = {
             toDoReady: 'Votre to-do liste est prête',
             toDoLink: 'Copier le lien',
             toDoOpen : 'Ouvrir la liste',
+            filterAdvcanced: 'Filtre avancé',
         },
     },
 };

@@ -7,7 +7,13 @@ import {
     LampListCardInput,
     LampListOrderButton,
     LampListFilterButton,
+    PupFilterContainer,
+    PUpFilterContent,
+    PUpFilterClose,
+    PUpFilterTitle,
 } from './elements';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface LampListTabProps {
     isDark: boolean;
@@ -53,11 +59,14 @@ let data = [
 
 const LampListTab: React.FC<LampListTabProps> = ({ isDark }) => {
 
+    const [openFilter, setOpenFilter] = useState(false);
+    const { t } = useTranslation();
+
     return (
         <div>
             <LampListCardInput placeholder="Search" />
             <LampListOrderButton />
-            <LampListFilterButton />
+            <LampListFilterButton onClick={() => setOpenFilter(true)} />
             <LampListContainer >
                 {data.map((lamp, index) => (
                     <LampListCard key={index} isDark={isDark}>
@@ -67,6 +76,13 @@ const LampListTab: React.FC<LampListTabProps> = ({ isDark }) => {
                     </LampListCard>
                 ))}
             </LampListContainer>
+            {openFilter &&
+            <PupFilterContainer>
+                <PUpFilterContent>
+                    <PUpFilterClose onClick={() => setOpenFilter(false)} />
+                    <PUpFilterTitle>{t('filterAdvcanced')}</PUpFilterTitle>
+                </PUpFilterContent>
+            </PupFilterContainer>}
         </div>
     );
 }
