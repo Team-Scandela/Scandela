@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { DarkYellow } from '../../colors';
+import { DarkYellow, Yellow } from '../../colors';
 
 /** Login container who contains the signup and signin container */
 export const LoginContainer = styled.div`
