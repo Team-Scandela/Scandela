@@ -8,7 +8,7 @@ import Admin from './pages/admin';
 import LoadingPage from './pages/loadingpages';
 import ResetPwd from './pages/resetpwd';
 import HomePage from './pages/homepage';
-
+import ToDo from './pages/todo';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { getLampPrice } from './utils/actionsPriceUtils';
@@ -126,6 +126,7 @@ const App: React.FC = () => {
                     />
                     <Route path="/redirect" element={<Redirect />} />
                     <Route path="/admin" element={<Admin />} />
+                    <Route path="/todo/:key" element={<ToDo />} />
                     <Route path="/resetpwd/:uuid" element={<ResetPwd />} />
                 </Routes>
             </BrowserRouter>

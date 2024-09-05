@@ -1070,7 +1070,7 @@ const Map: React.FC<MapProps> = ({
 
     // update the map with the filter filter
     useEffect(() => {
-        if (searchFilter == '') {
+        if (searchFilter === '') {
             return;
         }
         let sortedData: geojson = {

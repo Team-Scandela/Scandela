@@ -196,6 +196,11 @@ const resources = {
             filterTraffic: 'Filter by traffic',
             filterCabinet: 'Filtre by electrical cabinet',
             others: 'Others',
+            toDo: 'To-do list',
+            toDoReady: 'Your to-do list is ready',
+            toDoLink: 'Copy the link',
+            toDoOpen : 'Open the list',
+            toDoError : "Nothings in the action list",
         },
     },
 
@@ -398,6 +403,10 @@ const resources = {
             filterTraffic: 'Filtre par traffic',
             filterCabinet: 'Filtre par armoire électrique',
             others: 'Autres',
+            toDo: 'To-do list',
+            toDoReady: 'Votre to-do liste est prête',
+            toDoLink: 'Copier le lien',
+            toDoOpen : 'Ouvrir la liste',
         },
     },
 };
