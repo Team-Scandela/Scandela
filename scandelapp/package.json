@@ -9,6 +9,7 @@
         "@types/react": "^18.2.5",
         "@types/react-dom": "^18.2.4",
         "country-flag-icons": "^1.5.9",
+        "emailjs-com": "^3.2.0",
         "file-saver": "^2.0.5",
         "i18next": "^23.3.0",
         "jspdf": "^2.5.1",

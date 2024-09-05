@@ -8,6 +8,6 @@
         "allowJs": true,
         "moduleResolution": "node",
         "allowSyntheticDefaultImports": true,
-        "lib": ["es2015"]
-    }
+        "lib": ["es2015"],
+    },
 }
