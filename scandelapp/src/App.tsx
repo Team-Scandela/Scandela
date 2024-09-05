@@ -3,10 +3,10 @@ import './translation/translation';
 import './App.css';
 import Main from './pages/main';
 import Login from './pages/login';
-import LandingPage from './pages/landingpage';
 import Redirect from './pages/redirect';
 import Admin from './pages/admin';
 import LoadingPage from './pages/loadingpages';
+import HomePage from './pages/homepage';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { getLampPrice } from './utils/actionsPriceUtils';
@@ -51,8 +51,6 @@ const App: React.FC = () => {
                 } else if (item.solution.includes('Réduire')) {
                     prix = '-150';
                 }
-
-                console.log('prix :', prix);
 
                 return {
                     id: index,
@@ -110,7 +108,7 @@ const App: React.FC = () => {
                         }
                     />
                     <Route path="/loadingpage" element={<LoadingPage />} />
-                    <Route path="/landingpage" element={<LandingPage />} />
+                    <Route path="/homepage" element={<HomePage />} />
                     <Route
                         path="/scandela"
                         element={

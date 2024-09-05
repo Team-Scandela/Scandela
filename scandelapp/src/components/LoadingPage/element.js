@@ -26,11 +26,13 @@ export const LoadingOverlay = styled.div`
 
 export const LogoContainer = styled.div`
     animation: ${fadeInOut} 2s linear infinite;
-    margin-bottom: 40px; // Ajouter de la marge inférieure pour plus d'espace sous le logo
+    margin-bottom: 40px;
 `;
 
 export const LoadingText = styled.div`
-    color: ${Yellow}; // Utilisation de la couleur importée
+    color: ${Yellow};
     font-size: 1.2em;
     margin-left: 10px;
+    user-select: none;
+    font-family: 'SyneRegular';
 `;
