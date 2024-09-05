@@ -196,6 +196,7 @@ const resources = {
             filterTraffic: 'Filter by traffic',
             filterCabinet: 'Filtre by electrical cabinet',
             others: 'Others',
+            titleLampListPannel: 'Lamp list',
         },
     },
 
@@ -398,6 +399,7 @@ const resources = {
             filterTraffic: 'Filtre par traffic',
             filterCabinet: 'Filtre par armoire électrique',
             others: 'Autres',
+            titleLampListPannel: 'Liste des lampadaires',
         },
     },
 };

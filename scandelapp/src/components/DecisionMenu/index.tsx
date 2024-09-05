@@ -14,6 +14,7 @@ import { MdKeyboardDoubleArrowRight as DecisionIconRight } from 'react-icons/md'
 import logoDark from '../../assets/logo-128x128-yellow.png';
 import { PiListChecksDuotone } from 'react-icons/pi';
 import { MdChangeCircle, MdAddCircle, MdElectricBolt } from 'react-icons/md';
+import { LuLampCeiling } from "react-icons/lu";
 import { IoMdSettings } from 'react-icons/io';
 import { useTranslation } from 'react-i18next';
 import DecisionTab from './DecisionTab';
@@ -25,6 +26,7 @@ import { Tooltip } from 'react-tooltip';
 import { Black } from '../../colors';
 import SettingsTab from './SettingsTab';
 import { Tabs } from '../../pages/main';
+import LampListTab  from './LampListTab';
 
 /** Props of the decision pannel
  * @param {boolean} isDark - If the map is in dark mode or not
@@ -155,7 +157,7 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
                                 <PiListChecksDuotone size={35} />
                             )}
                         </DecisionMenuTabButton>
-                        <DecisionMenuTabButton
+                        {/* <DecisionMenuTabButton
                             isDark={isDark}
                             isSelected={currentTab === Tabs.ModifEntity}
                             onClick={() => setCurrentTab(Tabs.ModifEntity)}
@@ -185,6 +187,22 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
                                 </TabButtonText>
                             ) : (
                                 <MdAddCircle size={35} />
+                            )}
+                        </DecisionMenuTabButton> */}
+                        <DecisionMenuTabButton
+                            isDark={isDark}
+                            isSelected={currentTab === Tabs.LampList}
+                            onClick={() => setCurrentTab(Tabs.LampList)}
+                        >
+                            {currentTab === Tabs.LampList ? (
+                                <TabButtonText
+                                    fontSize={'20px'}
+                                    isSelected={currentTab === Tabs.LampList}
+                                >
+                                    {t('titleLampListPannel')}
+                                </TabButtonText>
+                            ) : (
+                                <LuLampCeiling size={35} />
                             )}
                         </DecisionMenuTabButton>
                         <DecisionMenuTabButton
@@ -264,11 +282,14 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
                                 }
                             />
                         )}
-                        {currentTab === Tabs.ModifEntity && (
+                        {/* {currentTab === Tabs.ModifEntity && (
                             <ModifyEntityTab isDark={isDark} />
                         )}
                         {currentTab === Tabs.AddEntity && (
                             <AddEntityTab isDark={isDark} />
+                        )} */}
+                        {currentTab === Tabs.LampList && (
+                            <LampListTab isDark={isDark} />
                         )}
                         {currentTab === Tabs.ElectricityPrice && (
                             <EletricityPriceTab isDark={isDark} />

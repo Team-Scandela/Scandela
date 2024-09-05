@@ -28,8 +28,7 @@ export enum Filters {
 export enum Tabs {
     Scandela = 1,
     ActionsList,
-    ModifEntity,
-    AddEntity,
+    LampList,
     ElectricityPrice,
     Options,
 }

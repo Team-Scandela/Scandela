@@ -40,12 +40,12 @@ const Tutoriel: React.FC<TutorielProps> = ({
         else if (currentStep === 15) {
             setCurrentTab(Tabs.ActionsList);
         }
-        else if (currentStep === 16) {
-            setCurrentTab(Tabs.ModifEntity);
-        }
-        else if (currentStep === 17) {
-            setCurrentTab(Tabs.AddEntity);
-        }
+        // else if (currentStep === 16) {
+        //     setCurrentTab(Tabs.ModifEntity);
+        // }
+        // else if (currentStep === 17) {
+        //     setCurrentTab(Tabs.AddEntity);
+        // }
         else if (currentStep === 18) {
             setCurrentTab(Tabs.ElectricityPrice);
         }
