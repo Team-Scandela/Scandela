@@ -1,8 +1,17 @@
 import styled from 'styled-components';
-import { Black, DarkGrey, Yellow, White, Grey, DarkYellow, LightDarkGrey } from '../../../colors';
-import { BiSortDown } from "react-icons/bi";
-import { FaFilter } from "react-icons/fa";
+import {
+    Black,
+    DarkGrey,
+    Yellow,
+    White,
+    Grey,
+    DarkYellow,
+    LightDarkGrey,
+} from '../../../colors';
+import { BiSortDown } from 'react-icons/bi';
+import { FaFilter } from 'react-icons/fa';
 import { AiFillCloseCircle } from 'react-icons/ai';
+import { MdSkipPrevious, MdSkipNext } from 'react-icons/md';
 
 export const LampListContainer = styled.div`
     display: flex;
@@ -53,9 +62,9 @@ export const LampListCardTitle = styled.div`
     top: 5px;
     font-weight: bold;
     font-size: 25px;
-    top : 10px;
-    left : 10px;
-    color : ${Yellow};
+    top: 10px;
+    left: 10px;
+    color: ${Yellow};
 `;
 
 export const LampListCardAdress = styled.div`
@@ -63,7 +72,7 @@ export const LampListCardAdress = styled.div`
     user-select: none;
     top: 42.5px;
     left: 10px;
-    color : ${White};
+    color: ${White};
     font-style: italic;
     font-size: 20px;
 `;
@@ -73,10 +82,9 @@ export const LampListCardBulb = styled.div`
     user-select: none;
     top: 70px;
     left: 10px;
-    color : ${White};
+    color: ${White};
     font-size: 20px;
 `;
-
 
 export const LampListCardInput = styled.input`
     position: absolute;
@@ -87,7 +95,7 @@ export const LampListCardInput = styled.input`
     border: none;
     border-radius: 5px;
     background-color: ${Black};
-    color : ${White};
+    color: ${White};
     user-select: none;
     font-size: 20px;
     padding-left: 10px;
@@ -124,6 +132,46 @@ export const LampListFilterButton = styled(FaFilter)`
     }
 `;
 
+export const PaginationNextButton = styled(MdSkipNext)`
+    position: absolute;
+    right: 200px;
+    top: 550px;
+    font-size: 30px;
+    color: ${Yellow};
+    opacity: 1;
+    transform: translateX(-50%);
+    &:hover {
+        cursor: pointer;
+        opacity: 0.8;
+    }
+`;
+export const PaginationPreviousButton = styled(MdSkipPrevious)`
+    position: absolute;
+    right: 300px;
+    top: 550px;
+    font-size: 30px;
+    color: ${Yellow};
+    opacity: 1;
+    transform: translateX(-50%);
+    &:hover {
+        cursor: pointer;
+        opacity: 0.8;
+    }
+`;
+export const PaginationPagesButton = styled.div`
+    position: absolute;
+    right: 250px;
+    top: 550px;
+    font-size: 25px;
+    color: ${Yellow};
+    opacity: 1;
+    transform: translateX(-50%);
+    &:hover {
+        cursor: pointer;
+        opacity: 0.8;
+    }
+`;
+
 export const PupFilterContainer = styled.div`
     display: flex;
     position: absolute;
@@ -135,7 +183,6 @@ export const PupFilterContainer = styled.div`
     z-index: 999;
     user-select: none;
 `;
-
 
 export const PUpFilterContent = styled.div`
     display: flex;
@@ -172,9 +219,9 @@ export const PUpFilterTitle = styled.div`
     color: ${Yellow};
     font-size: 30px;
     user-select: none;
-    top : 10px;
-    left : 50%;
-    width : 100%;
+    top: 10px;
+    left: 50%;
+    width: 100%;
     transform: translateX(-50%);
     font-family: 'SyneRegular';
 `;
