@@ -5,16 +5,20 @@ import SearchBar from '../components/SearchBar';
 import ToastHistory from '../components/ToastHistory';
 import { handleSearchUtils } from '../utils/searchUtils';
 import DecisionMenu from '../components/DecisionMenu';
-import TopRightButtonsPannel from '../components/TopRightButtonsPannel';
 import Toastr from '../components/Toastr';
 import { Gauges } from '../components/Gauges';
 import AbsencePannel from '../components/AbsencePannel';
 import FilterSearch from '../components/FilterSearch';
 import TrafficTime from '../components/TrafficTime';
 import ActionHistory from '../components/ActionHistory';
+<<<<<<< HEAD
 import FilterLegend from '../components/FilterLegend';
 import LegendHeatmap from '../components/Legends/LegendHeatmap';
 import EcoPannel from '../components/EcoPannel';
+=======
+import LogoutButton from '../components/LogoutButton';
+import Tutoriel from '../components/Tutoriel';
+>>>>>>> master
 
 export enum Filters {
     pin = 'pin',
@@ -24,6 +28,15 @@ export enum Filters {
     traffic = 'traffic',
     cabinet = 'cabinet',
     none = 'none',
+}
+
+export enum Tabs {
+    Scandela = 1,
+    ActionsList,
+    ModifEntity,
+    AddEntity,
+    ElectricityPrice,
+    Options,
 }
 
 interface MainProps {
@@ -46,10 +59,19 @@ const Main: React.FC<MainProps> = ({
 
     const [decisionPanelExtended, setDecisionPanelExtended] =
         useState<boolean>(false);
+<<<<<<< HEAD
     const [actionsListExtended, setActionsListExtended] = useState(false);
     const [currentSelected, setCurrentSelected] = useState(
         'Choisissez une action'
     );
+=======
+    /** If the action list panel is open or closed */
+    const [currentSelected, setCurrentSelected] = useState(
+        'Choisissez une action'
+    );
+    const [currentTab, setCurrentTab] = useState(Tabs.Scandela);
+    /** Variables for the search for the filter filter */
+>>>>>>> master
     const [search, setSearch] = useState<string>('');
     const [selected, setSelected] = useState<string>('Lamp');
 
@@ -62,12 +84,36 @@ const Main: React.FC<MainProps> = ({
         ['languageUpdate', true],
     ]);
 
+<<<<<<< HEAD
     // État pour gérer l'affichage de la légende temporaire
     const [showFilterLegend, setShowFilterLegend] = useState(false);
     const [legendText, setLegendText] = useState('');
 
     // État pour gérer l'affichage temporaire du texte
     const [tempText, setTempText] = useState<string>('');
+=======
+    /** If the map filter container is on or out */
+    const [filterPanelExtended, setFilterPanelExtended] = useState<boolean>(false);
+
+    const [tooltipPreference, setTooltipPreference] = useState(true);
+    const [showTutoriel, setShowTutoriel] = useState(false);
+
+    const [toastHistoryExtended, setToastHistoryExtended] = useState(false);
+
+    const handleToastHistoryPannelButtonClicked = () => {
+        if (actionHistoryExtended)
+            setActionHistoryExtended(!actionHistoryExtended);
+        setToastHistoryExtended(!toastHistoryExtended);
+    };
+
+    const [actionHistoryExtended, setActionHistoryExtended] = useState(false);
+
+    const handleActionHistoryPannelButtonClicked = () => {
+        if (toastHistoryExtended)
+            setToastHistoryExtended(!toastHistoryExtended);
+        setActionHistoryExtended(!actionHistoryExtended);
+    };
+>>>>>>> master
 
     const handleSearch = (value: string) => {
         handleSearchUtils(value, lat, setLat, lng, setLng, zoom, setZoom);
@@ -75,10 +121,6 @@ const Main: React.FC<MainProps> = ({
 
     const handleToggleDecisionPanelExtend = () => {
         setDecisionPanelExtended((prevState) => !prevState);
-    };
-
-    const handleOptimisationTemplateDataChange = (data: any) => {
-        setOptimisationTemplateData(data);
     };
 
     const handleButtonSelectAllClick = () => {
@@ -123,7 +165,7 @@ const Main: React.FC<MainProps> = ({
             .toString()
             .padStart(2, '0')} ${hour}:${min}`;
         const updatedList = [{ time, description }, ...toastHistoryData];
-        const limitedList = updatedList.slice(0, 7);
+        const limitedList = updatedList.slice(0, 10);
 
         setToastHistoryData(limitedList);
     };
@@ -155,25 +197,16 @@ const Main: React.FC<MainProps> = ({
                 id={'searchBarComponentId'}
                 isDark={isDark}
                 onSubmit={handleSearch}
+                tooltipPreference={tooltipPreference}
             />
             <FilterMenu
                 id={'filterMenuComponentId'}
+                filterPanelExtended={filterPanelExtended}
+                setFilterPanelExtended={setFilterPanelExtended}
                 filter={filter}
                 setFilter={setFilter}
                 isDark={isDark}
-            />
-            <TopRightButtonsPannel
-                id={'topRightButtonsPannelId'}
-                isDark={isDark}
-                setIsDark={setIsDark}
-                actionsListExtended={actionsListExtended}
-                setActionsListExtended={setActionsListExtended}
-                decisionPanelExtended={decisionPanelExtended}
-                optimisationTemplateData={optimisationTemplateData}
-                setOptimisationTemplateData={setOptimisationTemplateData}
-                notificationsPreference={notificationsPreference}
-                setNotificationsPreference={setNotificationsPreference}
-                addNotificationToList={addNotificationToList}
+                tooltipPreference={tooltipPreference}
             />
             {filter === Filters.filter && (
                 <>
@@ -284,29 +317,54 @@ const Main: React.FC<MainProps> = ({
                     )}
                 </>
             )}
-
+            {localStorage.getItem('premium') === 'false' && (
+                <LogoutButton id={'logoutButton'} isDark={isDark} />
+            )}
             {localStorage.getItem('premium') === 'true' && (
                 <>
+                    {showTutoriel && (
+                        <Tutoriel
+                            id={'tutorielId'}
+                            isDark={isDark}
+                            setShowTutoriel={setShowTutoriel}
+                            setDecisionPanelExtended={
+                                setDecisionPanelExtended
+                            }
+                            setCurrentTab={setCurrentTab}
+                            setFilterPanelExtended={setFilterPanelExtended}
+                        />
+                    )}
                     <ToastHistory
                         id={'toastHistoryId'}
                         isDark={isDark}
                         toastHistoryData={toastHistoryData}
+                        toastHistoryExtended={toastHistoryExtended}
+                        handleToastHistoryPannelButtonClicked={
+                            handleToastHistoryPannelButtonClicked
+                        }
+                        tooltipPreference={tooltipPreference}
                     />
                     <ActionHistory
                         id={'actionHistoryComponentId'}
                         isDark={isDark}
+                        actionHistoryExtended={actionHistoryExtended}
+                        handleActionHistoryPannelButtonClicked={
+                            handleActionHistoryPannelButtonClicked
+                        }
+                        tooltipPreference={tooltipPreference}
                     />
                     <DecisionMenu
                         id={'decisionMenuComponentId'}
                         isDark={isDark}
+                        setIsDark={setIsDark}
                         handleToggleDecisionPanelExtend={
                             handleToggleDecisionPanelExtend
                         }
                         decisionPanelExtended={decisionPanelExtended}
-                        handleOptimisationTemplateDataChange={
-                            handleOptimisationTemplateDataChange
-                        }
                         optimisationTemplateData={optimisationTemplateData}
+                        setOptimisationTemplateData={
+                            setOptimisationTemplateData
+                        }
                         handleButtonSelectAllClick={handleButtonSelectAllClick}
                         handleButtonDeselectAllClick={
                             handleButtonDeselectAllClick
@@ -317,16 +375,23 @@ const Main: React.FC<MainProps> = ({
                         }
                         addNotificationToList={addNotificationToList}
                         notificationsPreference={notificationsPreference}
+                        setNotificationsPreference={setNotificationsPreference}
+                        tooltipPreference={tooltipPreference}
+                        setTooltipPreference={setTooltipPreference}
+                        currentTab={currentTab}
+                        setCurrentTab={setCurrentTab}
+                        setShowTutoriel={setShowTutoriel}
                     />
                     <Gauges
                         id={'gaugesComponentId'}
                         isDark={isDark}
                         decisionPanelExtended={decisionPanelExtended}
-                        actionsListExtended={actionsListExtended}
+                        currentTab={currentTab}
                     />
                     <AbsencePannel
                         id={'absencePannelComponentId'}
                         isDark={isDark}
+                        tooltipPreference={tooltipPreference}
                     />
                     <Toastr id={'toastrComponentId'} isDark={isDark} />
                     <EcoPannel

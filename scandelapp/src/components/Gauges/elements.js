@@ -9,26 +9,29 @@ export const GaugeContainer = styled.div`
 `;
 
 export const GaugeContainerLeft = styled(GaugeContainer)`
-    bottom: ${(props) => (props.decisionPanelExtended ? 55 : 30)}px;
+    bottom: ${(props) => (props.decisionPanelExtended ? 33 : 30)}px;
     right: ${(props) =>
-        props.decisionPanelExtended ? 325 : props.decal ? 385 : 175}px;
+        props.decisionPanelExtended ? 375 : props.decal ? 385 : 175}px;
     transition: all 0.5s ease-in-out;
     z-index: 2;
+    cursor: pointer;
 `;
 
 export const GaugeContainerMiddle = styled(GaugeContainer)`
-    bottom: ${(props) => (props.decisionPanelExtended ? 55 : 30)}px;
+    bottom: ${(props) => (props.decisionPanelExtended ? 33 : 30)}px;
     right: ${(props) =>
-        props.decisionPanelExtended ? 220 : props.decal ? 310 : 100}px;
+        props.decisionPanelExtended ? 270 : props.decal ? 310 : 100}px;
     transition: all 0.5s ease-in-out;
     z-index: 2;
+    cursor: pointer;
 `;
 
 export const GaugeContainerRight = styled(GaugeContainer)`
-    bottom: ${(props) => (props.decisionPanelExtended ? 55 : 30)}px;
-    right: ${(props) => (props.decisionPanelExtended ? 115 : 25)}px;
+    bottom: ${(props) => (props.decisionPanelExtended ? 33 : 30)}px;
+    right: ${(props) => (props.decisionPanelExtended ? 165 : 25)}px;
     transition: all 0.5s ease-in-out;
     z-index: 2;
+    cursor: pointer;
 `;
 
 export const GaugeContainerPersonnalized = styled(GaugeContainer)`
@@ -109,7 +112,7 @@ export const GaugePup = styled.div`
     transition: all 0.5s ease-in-out;
 
     background-color: ${(props) => (props.isDark ? Black : White)};
-    border-radius: 10%;
+    border-radius: 5%;
     border-color: ${Yellow};
     border-style: solid;
     border-width: 2px;
