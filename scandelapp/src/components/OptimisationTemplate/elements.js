@@ -102,9 +102,15 @@ export const SolutionText = styled.p`
     user-select: none;
     color: ${(props) => (props.isDark ? Yellow : Black)};
     font-weight: bold;
-    padding: 8px;
-    overflow-wrap: break-word;
-    font-family: 'SyneRegular';
 `;
 
-export const PriceText = styled.div``;
+// Création de l'élément coûtText
+export const CoûtText = styled.p`
+    position: absolute;
+    font-size: 12px;
+    user-select: none;
+    color: ${(props) => (props.isDark ? Yellow : Black)};
+    font-weight: bold;
+    top: 60px;
+    right: 50px;
+`;

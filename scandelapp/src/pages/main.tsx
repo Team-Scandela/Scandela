@@ -77,6 +77,114 @@ const Main: React.FC<MainProps> = ({
 
     const [trafficTimeValue, setTrafficTimeValue] = useState<string>('00:00');
 
+    const getUser = async () => {
+        const username = 'tester';
+        const password = 'T&st';
+        try {
+            const response = await fetch(
+                'https://serverdela.onrender.com/users/183e5775-6d38-4d0b-95b4-6f4c7bbb0597',
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Basic ${btoa(
+                            `${username}:${password}`
+                        )}`,
+                    },
+                }
+            );
+
+            const user = await response.json();
+            setIsDark(user.darkmode);
+        } catch (error) {
+            console.log('ERROR GET USER = ' + error);
+        }
+    };
+
+    getUser();
+
+    const [optimisationTemplateData, setOptimisationTemplateData] = useState([
+        {
+            id: 0,
+            saved: false,
+            selected: false,
+            type: 'Éteindre lampadaire',
+            location: '13 Rue Pierrick Guyard',
+            description: 'Passage peu fréquent',
+            solution: 'Off: 18h-10h',
+            coût: 'coût : 0.40€', 
+        },
+        {
+            id: 1,
+            saved: false,
+            selected: false,
+            type: 'Éteindre lampadaire',
+            location: '14 Rue Pierrick Guyard',
+            description: 'Passage peu fréquent',
+            solution: 'Off: 18h-10h',
+            coût: 'coût : +0.40€',
+        },
+        {
+            id: 2,
+            saved: false,
+            selected: false,
+            type: 'Allumer lampadaire',
+            location: '15 Rue Pierrick Guyard',
+            description: 'Passage peu fréquent',
+            solution: 'Off: 18h-10h',
+            coût: 'coût : 1.00€',
+        },
+        {
+            id: 3,
+            saved: false,
+            selected: false,
+            type: 'Augmenter intensité',
+            location: '16 Rue Pierrick Guyard',
+            description: 'Passage peu fréquent',
+            solution: 'Off: 18h-10h',
+            coût: 'coût : 0.40€',
+        },
+        {
+            id: 4,
+            saved: false,
+            selected: false,
+            type: 'Réduire intensité',
+            location: '17 Rue Pierrick Guyard',
+            description: 'Passage peu fréquent',
+            solution: 'Off: 18h-10h',
+            coût: 'coût : +0.20€',
+        },
+        {
+            id: 5,
+            saved: false,
+            selected: false,
+            type: 'Changer ampoule',
+            location: '18 Rue Pierrick Guyard',
+            description: 'Passage peu fréquent',
+            solution: 'Off: 18h-10h',
+            coût: 'coût : 50.0€',
+        },
+        {
+            id: 6,
+            saved: false,
+            selected: false,
+            type: 'Ajouter lampadaire',
+            location: '19 Rue Pierrick Guyard',
+            description: 'Passage peu fréquent',
+            solution: 'Off: 18h-10h',
+            coût: 'coût : 1000€',
+        },
+        {
+            id: 7,
+            saved: false,
+            selected: false,
+            type: 'Retirer lampadaire',
+            location: '20 Rue Pierrick Guyard',
+            description: 'Passage peu fréquent',
+            solution: 'Off: 18h-10h',
+            coût: 'coût : 200€',
+        },
+    ]);
     const [toastHistoryData, setToastHistoryData] = useState([]);
     const [notificationsPreference, setNotificationsPreference] = useState([
         ['actionListUpdate', true],

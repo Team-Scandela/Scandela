@@ -8,7 +8,7 @@ import {
     DescriptionText,
     SolutionTextContainer,
     SolutionText,
-    PriceText, // Ajoutez cette importation pour le PriceText
+    CoûtText,
 } from './elements';
 
 /** Props of the optimisation template
@@ -71,6 +71,9 @@ const OptimisationTemplate: React.FC<OptimisationTemplateProps> = ({
                     {optimisationTemplateData.solution}
                 </SolutionText>
             </SolutionTextContainer>
+            <CoûtText isDark={isDark}>
+                {optimisationTemplateData.coût}
+            </CoûtText>
         </OptimisationTemplateContainer>
     );
 };

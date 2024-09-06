@@ -51,6 +51,6 @@ public class Notification implements Serializable {
 	@Column(name = "description")
 	private String description;
 
-	@Column(name = "time")
-	private LocalDateTime time;
+	@Column(name = "time", updatable = false)
+    private Integer time;
 }
