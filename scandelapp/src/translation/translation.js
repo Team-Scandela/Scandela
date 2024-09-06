@@ -203,6 +203,8 @@ const resources = {
             toDoOpen : 'Open the list',
             toDoError : "Nothings in the action list",
             filterAdvcanced: 'Advanced filters',
+            selectFilter : 'Select a filter :',
+            apply : 'Apply',
         },
     },
 
@@ -411,6 +413,8 @@ const resources = {
             toDoLink: 'Copier le lien',
             toDoOpen : 'Ouvrir la liste',
             filterAdvcanced: 'Filtre avancé',
+            selectFilter: 'Sélectionner un filtre :',
+            apply: 'Appliquer',
         },
     },
 };

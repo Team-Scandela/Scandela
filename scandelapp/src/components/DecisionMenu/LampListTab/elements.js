@@ -181,7 +181,6 @@ export const PupFilterContainer = styled.div`
     height: 100%;
     background-color: ${Black + 'CC'};
     z-index: 999;
-    user-select: none;
 `;
 
 export const PUpFilterContent = styled.div`
@@ -191,26 +190,14 @@ export const PUpFilterContent = styled.div`
     left: 50%;
     width: 70%;
     height: 50%;
-    background-color: ${DarkGrey};
+    background-color: ${Black};
     transform: translate(-50%, -50%);
     border-radius: 10px;
     border: 2px solid ${Yellow};
+    z-index: 1000;
+    pointer-events: all;
 `;
 
-export const PUpFilterClose = styled(AiFillCloseCircle)`
-    display: flex;
-    position: absolute;
-    right: 15px;
-    top: 15px;
-    color: ${Yellow};
-    cursor: pointer;
-    font-size: 30px;
-    transition: all 0.2s ease-in-out;
-
-    &:hover {
-        color: ${Yellow + 'CC'};
-    }
-`;
 
 export const PUpFilterTitle = styled.div`
     display: flex;
@@ -224,4 +211,75 @@ export const PUpFilterTitle = styled.div`
     width: 100%;
     transform: translateX(-50%);
     font-family: 'SyneRegular';
+`;
+
+export const PUpFilterCloseButton = styled(AiFillCloseCircle)`
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 30px;
+    color: ${Yellow};
+    opacity: 1;
+    &:hover {
+        cursor: pointer;
+        opacity: 0.8;
+    }
+`;
+
+export const PUpFilterDropdown = styled.select`
+    position: absolute;
+    width: 80%;
+    height: 40px;
+    top: 45%;
+    left: 10%;
+    border-radius: 5px;
+    background-color: ${DarkGrey};
+    color: ${White};
+    user-select: none;
+    font-size: 20px;
+    padding-left: 10px;
+    cursor: pointer;
+    &:focus {
+        outline: none;
+    }
+`;
+
+export const PUpFilterOption = styled.option`
+    background-color: ${DarkGrey};
+    color: ${White};
+    font-size: 20px;
+    cursor: pointer;
+
+    &:hover {
+        background-color: ${DarkYellow};
+    }
+`;
+
+export const PupFilterSubtitle = styled.div`
+    position: absolute;
+    top: 30%;
+    left: 10%;
+    color: ${Yellow};
+    font-size: 25px;
+    user-select: none;
+`;
+
+export const PupFilterApplyButton = styled.div`
+    position: absolute;
+    top: 80%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50%;
+    height: 40px;
+    background-color: ${Yellow};
+    color: ${Black};
+    font-size: 20px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    &:hover {
+        background-color: ${DarkYellow};
+    }
 `;

@@ -9,11 +9,15 @@ import {
     LampListFilterButton,
     PupFilterContainer,
     PUpFilterContent,
-    PUpFilterClose,
     PUpFilterTitle,
     PaginationNextButton,
     PaginationPreviousButton,
     PaginationPagesButton,
+    PUpFilterCloseButton,
+    PUpFilterDropdown,
+    PUpFilterOption,
+    PupFilterSubtitle,
+    PupFilterApplyButton,
 } from './elements';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -51,12 +55,31 @@ const LampListTab: React.FC<LampListTabProps> = ({ isDark }) => {
     console.log('indexOfLastItem', indexOfLastItem);
     console.log('indexOfFirstItem', indexOfFirstItem);
     console.log('current Data=', currentLamps);
-    // console.log("CURRENT DATA=", currentLamps);
+    console.log("CURRENT DATA=", currentLamps);
     return (
         <div>
             <LampListCardInput placeholder="Search" />
             <LampListOrderButton />
             <LampListFilterButton onClick={() => setOpenFilter(true)} />
+            {openFilter && (
+                <PupFilterContainer>
+                    <PUpFilterContent>
+                        <PUpFilterTitle>{t('filterAdvcanced')}</PUpFilterTitle>
+                        <PUpFilterCloseButton
+                            onClick={() => setOpenFilter(false)}
+                        />
+                        <PUpFilterDropdown placeholder="Type" >
+                            <PUpFilterOption value="all">{t('all')}</PUpFilterOption>
+                            <PUpFilterOption value="led">{t('led')}</PUpFilterOption>
+                            <PUpFilterOption value="sodium">{t('sodium')}</PUpFilterOption>
+                        </PUpFilterDropdown>
+                        <PupFilterSubtitle>{t('selectFilter')}</PupFilterSubtitle>
+                        <PupFilterApplyButton onClick={() => setOpenFilter(false)}>
+                            {t('apply')}
+                        </PupFilterApplyButton>
+                    </PUpFilterContent>
+                </PupFilterContainer>
+            )}
             <LampListContainer>
                 {currentLamps.map((lamp: any, index: number) => (
                     <LampListCard key={index} isDark={isDark}>
@@ -76,14 +99,6 @@ const LampListTab: React.FC<LampListTabProps> = ({ isDark }) => {
                 <PaginationPreviousButton
                     onClick={() => setCurrentPage(currentPage - 1)}
                 />
-            )}
-            {openFilter && (
-                <PupFilterContainer>
-                    <PUpFilterContent>
-                        <PUpFilterClose onClick={() => setOpenFilter(false)} />
-                        <PUpFilterTitle>{t('filterAdvcanced')}</PUpFilterTitle>
-                    </PUpFilterContent>
-                </PupFilterContainer>
             )}
         </div>
     );
