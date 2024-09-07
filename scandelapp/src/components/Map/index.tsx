@@ -2,7 +2,6 @@ import * as mapboxgl from 'mapbox-gl';
 import Supercluster from 'supercluster';
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { Filters } from '../../pages/main';
-import { Yellow } from '../../colors';
 import LampInfosPopup from '../LampInfosPopup';
 import Lasso from '../Lasso';
 import { LassoOverlay } from './elements';
@@ -1044,7 +1043,7 @@ const Map: React.FC<MapProps> = ({
 
     // update the map with the filter filter
     useEffect(() => {
-        if (searchFilter == '') {
+        if (searchFilter === '') {
             return;
         }
         let sortedData: geojson = {
@@ -1335,10 +1334,10 @@ const Map: React.FC<MapProps> = ({
             />
             <style>
                 {`.mapboxgl-ctrl-logo {
-                    display: none;
+                    display: none !important;
                 }
                 .mapboxgl-ctrl-attrib-inner {
-                display: none;
+                display: none !important;
                 }`}
             </style>
             {selectedLampId && (

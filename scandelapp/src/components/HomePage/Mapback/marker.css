@@ -1,0 +1,38 @@
+.marker-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.marker {
+    background-color: #fac710;
+    width: 100px;
+    height: 100px;
+    border-radius: 10%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.marker.small {
+    width: 75px;
+    height: 75px;
+}
+
+.marker-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 75%;
+    height: 75%;
+}
+
+.marker-title {
+    margin-top: 10px;
+    font-size: 20px;
+    color: #f9f9f9;
+    text-align: center;
+    cursor: default !important;
+    font-family: 'SyneRegular';
+}
