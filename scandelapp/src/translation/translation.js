@@ -205,6 +205,7 @@ const resources = {
             filterAdvcanced: 'Advanced filters',
             selectFilter : 'Select a filter :',
             apply : 'Apply',
+            onTheGround : 'Lamp on the ground',
         },
     },
 
@@ -415,6 +416,7 @@ const resources = {
             filterAdvcanced: 'Filtre avancé',
             selectFilter: 'Sélectionner un filtre :',
             apply: 'Appliquer',
+            onTheGround : 'Lampes au sol',
         },
     },
 };

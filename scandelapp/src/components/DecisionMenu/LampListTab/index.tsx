@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
     LampListContainer,
     LampListCard,
@@ -19,8 +21,6 @@ import {
     PupFilterSubtitle,
     PupFilterApplyButton,
 } from './elements';
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { allLamps } from '../../../utils/lampUtils';
 
 interface LampListTabProps {
@@ -42,20 +42,28 @@ interface Lamp {
 const LampListTab: React.FC<LampListTabProps> = ({ isDark }) => {
     const [openFilter, setOpenFilter] = useState(false);
     const { t } = useTranslation();
-
-    const tempData = allLamps[0];
+    const [selectFilter, setSelectFilter] = useState('nothing');
     const [currentPage, setCurrentPage] = useState(1);
+    const [currentLamps, setCurrentLamps] = useState<Lamp[]>([]);
 
     const itemsPerPage = 100;
+    const tempData = allLamps[0];
 
-    const totalPages = Math.ceil(tempData.length / itemsPerPage);
-    const indexOfLastItem = currentPage * itemsPerPage;
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentLamps = tempData.slice(indexOfFirstItem, indexOfLastItem);
-    console.log('indexOfLastItem', indexOfLastItem);
-    console.log('indexOfFirstItem', indexOfFirstItem);
-    console.log('current Data=', currentLamps);
-    console.log("CURRENT DATA=", currentLamps);
+    const updateList = () => {
+        let filterData = tempData;
+        if (selectFilter === '0m') {
+            filterData = tempData.filter((lamp: Lamp) => lamp.height === 0);
+        }
+        const totalPages = Math.ceil(filterData.length / itemsPerPage);
+        const indexOfLastItem = currentPage * itemsPerPage;
+        const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+        setCurrentLamps(filterData.slice(indexOfFirstItem, indexOfLastItem));
+    };
+
+    useState(() => {
+        updateList();
+    });
+
     return (
         <div>
             <LampListCardInput placeholder="Search" />
@@ -65,16 +73,17 @@ const LampListTab: React.FC<LampListTabProps> = ({ isDark }) => {
                 <PupFilterContainer>
                     <PUpFilterContent>
                         <PUpFilterTitle>{t('filterAdvcanced')}</PUpFilterTitle>
-                        <PUpFilterCloseButton
-                            onClick={() => setOpenFilter(false)}
-                        />
-                        <PUpFilterDropdown placeholder="Type" >
-                            <PUpFilterOption value="all">{t('all')}</PUpFilterOption>
-                            <PUpFilterOption value="led">{t('led')}</PUpFilterOption>
-                            <PUpFilterOption value="sodium">{t('sodium')}</PUpFilterOption>
+                        <PUpFilterCloseButton onClick={() => setOpenFilter(false)} />
+                        <PUpFilterDropdown
+                            placeholder="Type"
+                            value={selectFilter}
+                            onChange={(e: any) => setSelectFilter(e.target.value)}
+                        >
+                            <PUpFilterOption value="nothing">{t('noFilter')}</PUpFilterOption>
+                            <PUpFilterOption value="0m">{t('onTheGround')}</PUpFilterOption>
                         </PUpFilterDropdown>
                         <PupFilterSubtitle>{t('selectFilter')}</PupFilterSubtitle>
-                        <PupFilterApplyButton onClick={() => setOpenFilter(false)}>
+                        <PupFilterApplyButton onClick={() => (setOpenFilter(false), updateList())}>
                             {t('apply')}
                         </PupFilterApplyButton>
                     </PUpFilterContent>
@@ -89,17 +98,9 @@ const LampListTab: React.FC<LampListTabProps> = ({ isDark }) => {
                     </LampListCard>
                 ))}
             </LampListContainer>
-            {
-                <PaginationNextButton
-                    onClick={() => setCurrentPage(currentPage + 1)}
-                />
-            }
+            <PaginationNextButton onClick={() => setCurrentPage(currentPage + 1)} />
             <PaginationPagesButton>{currentPage}</PaginationPagesButton>
-            {currentPage > 1 && (
-                <PaginationPreviousButton
-                    onClick={() => setCurrentPage(currentPage - 1)}
-                />
-            )}
+            {currentPage > 1 && <PaginationPreviousButton onClick={() => setCurrentPage(currentPage - 1)} />}
         </div>
     );
 };
