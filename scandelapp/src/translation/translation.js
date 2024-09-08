@@ -147,6 +147,10 @@ const resources = {
             priceLimitDescription:
                 'You have the option to set a high or low price limit to be notified by email when the price of electricity exceeds this threshold.',
             loading: 'loading ...',
+            actionsListUpdate1: 'Actions list update #1',
+            actionsListSuccessfullyUpdated: 'Actions list successfully updated',
+            actionsListUpdate2: 'Actions list update #2',
+            nothingToAddToTheActionsList: 'Nothing to add to the actions list',
             theLanguageHasBeenSuccessfullyUpdated:
                 'The language has been successfully updated',
             languageUpdate: 'Language update',
@@ -354,6 +358,10 @@ const resources = {
             priceLimitDescription:
                 "Vous avez la possibilité de renseigner une limite de prix haute ou basse afin d'être notifié par mail quand le prix de l'électricité dépassera ce seuil.",
             loading: 'Chargement ...',
+            actionsListUpdate1: 'Mise à jour de la liste d\'actions #1',
+            actionsListSuccessfullyUpdated: 'La liste des actions à bien été mise à jour',
+            actionsListUpdate2: 'Mise à jour de la liste d\'actions #2',
+            nothingToAddToTheActionsList: 'Rien à ajouter à la liste d\'actions',
             theLanguageHasBeenSuccessfullyUpdated:
                 'La langue a bien été mise à jour',
             languageUpdate: 'Mise à jour de la langue',

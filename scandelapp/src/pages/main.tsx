@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import FilterMenu from '../components/FilterMenu';
 import Map from '../components/Map';
 import SearchBar from '../components/SearchBar';
@@ -14,6 +14,7 @@ import TrafficTime from '../components/TrafficTime';
 import ActionHistory from '../components/ActionHistory';
 import LogoutButton from '../components/LogoutButton';
 import Tutoriel from '../components/Tutoriel';
+import { getNotifications } from '../utils/notificationUtils';
 
 export enum Filters {
     pin = 'pin',
@@ -68,25 +69,58 @@ const Main: React.FC<MainProps> = ({
     const [trafficTimeValue, setTrafficTimeValue] = useState<string>('00:00');
 
     const [toastHistoryData, setToastHistoryData] = useState([]);
+
+    useEffect(() => {
+        const getNotificationsAsync = async () => {
+            const userId = localStorage.getItem('userId');
+            const notifications = await getNotifications(userId);
+            setToastHistoryData(notifications);
+        };
+        try {
+            getNotificationsAsync();
+        } catch (error) {
+            console.log(
+                'ERROR GET NOTIFICATIONS = ' + error
+            );
+        }
+    }, [])
+
+    const [toastHistoryExtended, setToastHistoryExtended] = useState(false);
+    const handleToastHistoryPannelButtonClicked = () => {
+        if (actionHistoryExtended)
+            setActionHistoryExtended(!actionHistoryExtended);
+        setToastHistoryExtended(!toastHistoryExtended);
+    };
+
     const [notificationsPreference, setNotificationsPreference] = useState([
         ['actionListUpdate', true],
         ['lightDarkModeUpdate', true],
         ['languageUpdate', true],
     ]);
 
+    const addNotificationToList = (description: string) => {
+        const date = new Date();
+
+        const year = date.getFullYear();
+        const jour = date.getDate();
+        const mois = date.getMonth() + 1;
+        const hour = date.getHours();
+        const min = date.getMinutes();
+
+        const time = `${jour.toString().padStart(2, '0')}/${mois
+            .toString()
+            .padStart(2, '0')}/${year} ${hour}:${min}`;
+        const updatedList = [{ time, description }, ...toastHistoryData];
+        const limitedList = updatedList.slice(0, 10);
+
+        setToastHistoryData(limitedList);
+    };
+
     /** If the map filter container is on or out */
     const [filterPanelExtended, setFilterPanelExtended] = useState<boolean>(false);
 
     const [tooltipPreference, setTooltipPreference] = useState(true);
     const [showTutoriel, setShowTutoriel] = useState(false);
-
-    const [toastHistoryExtended, setToastHistoryExtended] = useState(false);
-
-    const handleToastHistoryPannelButtonClicked = () => {
-        if (actionHistoryExtended)
-            setActionHistoryExtended(!actionHistoryExtended);
-        setToastHistoryExtended(!toastHistoryExtended);
-    };
 
     const [actionHistoryExtended, setActionHistoryExtended] = useState(false);
 
@@ -133,23 +167,6 @@ const Main: React.FC<MainProps> = ({
 
     const handleCurrentSelectedChange = (data: string) => {
         setCurrentSelected(data);
-    };
-
-    const addNotificationToList = (description: string) => {
-        const date = new Date();
-
-        const jour = date.getDate();
-        const mois = date.getMonth() + 1;
-        const hour = date.getHours();
-        const min = date.getMinutes();
-
-        const time = `${jour.toString().padStart(2, '0')}/${mois
-            .toString()
-            .padStart(2, '0')} ${hour}:${min}`;
-        const updatedList = [{ time, description }, ...toastHistoryData];
-        const limitedList = updatedList.slice(0, 10);
-
-        setToastHistoryData(limitedList);
     };
 
     return (

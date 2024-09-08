@@ -72,7 +72,7 @@ const LightDark: React.FC<LightDarkProps> = ({
                     triggered: true,
                 });
             }
-            // addNotificationToList(t('themeUpdate'));
+            addNotificationToList(t('theThemeHasBeenSuccessfullyUpdated'));
         }
     };
 

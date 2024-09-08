@@ -55,7 +55,7 @@ const Language: React.FC<LanguageProps> = ({
                     triggered: true,
                 });
             }
-            // addNotificationToList(t('languageUpdate'));
+            addNotificationToList(t('theLanguageHasBeenSuccessfullyUpdated'));
         }
     };
 

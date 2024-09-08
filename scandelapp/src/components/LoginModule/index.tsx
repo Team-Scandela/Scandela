@@ -89,8 +89,6 @@ const LoginModule: React.FC<LoginModuleProps> = ({
         if (data.rights === 2) {
             localStorage.setItem('token', JSON.stringify(true));
             setUpDecisions();
-            // localStorage.setItem('token', JSON.stringify(true));
-            // setOptimisationTemplateData(optimisationTemplateDataBackup);
         } else {
             localStorage.setItem('token', JSON.stringify(false));
             setUpDecisions();
