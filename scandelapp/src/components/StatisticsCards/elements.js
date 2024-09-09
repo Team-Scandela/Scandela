@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Grey, Green, Yellow, Red, White } from '../../colors';
+import { Grey, Green, Yellow, Red, White, DarkYellow } from '../../colors';
 
 export const CardsContainer = styled.div`
     display: flex;
@@ -33,7 +33,7 @@ export const CardIcon = styled.div`
     margin-right: 10px;
     display: flex;
     align-items: center;
-`;
+c`;
 
 export const CardTitle = styled.h3`
     margin: 0;
@@ -45,7 +45,7 @@ export const CardTitle = styled.h3`
 export const CardValue = styled.p`
     margin: 0;
     font-size: 18px;
-    color: #007bff;
+    color: ${Yellow}
     text-align: left;
     font-weight: bold;
 `;

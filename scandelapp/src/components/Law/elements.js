@@ -1,12 +1,13 @@
 // components/lawElements.js
 import styled from 'styled-components';
+import { Grey, DarkGrey, Yellow, DarkYellow, Black } from '../../colors';
 
 export const LawsPageContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 20px;
-  background-color: #f0f0f0;
+  background-color: ${DarkGrey};
   height: 100vh;
   overflow-y: auto;
 `;
@@ -19,15 +20,31 @@ export const ScrollableContainer = styled.div`
 `;
 
 export const Title = styled.h1`
-  font-size: 2em;
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: ${Yellow};
+  text-align: center;
   margin-bottom: 20px;
+  background: ${DarkGrey};
+  background: linear-gradient(to right, ${Yellow}, ${DarkYellow});
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  padding: 10px 0;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: ${Black};
 `;
 
 export const Description = styled.p`
-  font-size: 1.2em;
-  text-align: center;
+  width: 100%;
+  padding: 20px;
+  background-color: ${Grey};
   margin-bottom: 20px;
-  width: 80%;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 export const CardContainer = styled.div`
@@ -35,7 +52,9 @@ export const CardContainer = styled.div`
   flex-wrap: wrap;
   justify-content: center;
   margin-bottom: 20px;
-  width: 80%;
+  width: 100%;
+  background-color: ${DarkGrey};
+  align-items: center;
 `;
 
 export const LawCard = styled.a`
@@ -49,6 +68,8 @@ export const LawCard = styled.a`
   color: black;
   flex: 1 1 200px;
   transition: transform 0.2s;
+  background-color: ${Grey};
+  width: 100%;
 
   &:hover {
     transform: scale(1.05);
@@ -61,7 +82,8 @@ export const LawSection = styled.div`
   margin: 10px 0;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  width: 80%;
+  width: 100%;
+  background-color: ${Grey};
 `;
 
 export const SectionTitle = styled.h2`
@@ -71,6 +93,7 @@ export const SectionTitle = styled.h2`
 
 export const SectionContent = styled.div`
   font-size: 1em;
+  
 `;
 
 export const ImpactList = styled.div`
@@ -91,7 +114,8 @@ export const FAQSection = styled.div`
   margin: 10px 0;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  width: 80%;
+  width: 100%;
+  background-color: ${Grey};
 `;
 
 export const CaseStudySection = styled.div`
@@ -100,7 +124,8 @@ export const CaseStudySection = styled.div`
   margin: 10px 0;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  width: 80%;
+  width: 100%;
+  background-color: ${Grey};
 `;
 
 export const ResourcesSection = styled.div`
@@ -109,7 +134,8 @@ export const ResourcesSection = styled.div`
   margin: 10px 0;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  width: 80%;
+  width: 100%;
+  background-color: ${Grey};
 `;
 
 export const TestimonialSection = styled.div`
@@ -118,7 +144,8 @@ export const TestimonialSection = styled.div`
   margin: 10px 0;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  width: 80%;
+  width: 100%;
+  background-color: ${Grey};
 `;
 
 export const NewsSection = styled.div`
@@ -127,5 +154,6 @@ export const NewsSection = styled.div`
   margin: 10px 0;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  width: 80%;
+  width: 100%;
+  background-color: ${Grey};
 `;

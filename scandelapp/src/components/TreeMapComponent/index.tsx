@@ -4,16 +4,16 @@ import { TreeMapContainer, getConsumptionColor, TreemapLabel, TreemapIndex } fro
 
 const lampTypesData = [
     { name: 'Sodium Haute pression', size: 47535 },
-    { name: 'Ampoules à incandescence', size: 11007 },
     { name: 'Diode Electroluminescente', size: 32149 },
-    { name: 'Fluorescents', size: 343 },
+    { name: 'Ampoules à incandescence', size: 11007 },
     { name: 'Iodures métalliques', size: 3032 },
     { name: 'Lampe à valeur de mercure', size: 995 },
+    { name: 'Fluorescents', size: 343 },
+    { name: 'Tubes luminescent', size: 40 },
     { name: 'Fluorescent Circulaire', size: 23 },
     { name: 'Sodium basse pression', size: 19 },
-    { name: 'Halogènes', size: 18 },
-    { name: 'Tubes luminescent', size: 40 },
     { name: 'Double Iodures métalliques', size: 19 },
+    { name: 'Halogènes', size: 18 },
 ];
 
 const props = {
@@ -46,7 +46,7 @@ const CustomizedTreeMapContent = (props: { depth: any; x: any; y: any; width: an
             />
             {depth === 1 ? (
                 <>
-                    {size >= 30000 && (
+                    {size >= 10000 && (
                         <>
                             <TreemapLabel x={x + width / 2} y={y + height / 2 + 7}>
                                 {name}

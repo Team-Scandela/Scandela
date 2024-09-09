@@ -7,7 +7,7 @@ const data = [
     { subject: 'Consumption Score', A: 98, fullMark: 150 },
     { subject: 'Lighting Score', A: 86, fullMark: 150 },
     { subject: 'Law Score', A: 99, fullMark: 150 },
-    { subject: 'Placeholder', A: 85, fullMark: 150 },
+    { subject: 'MeanScore', A: 85, fullMark: 150 },
 ];
 
 const RadarChartComponent = () => {
@@ -19,7 +19,7 @@ const RadarChartComponent = () => {
                 <PolarRadiusAxis />
                 <Tooltip />
                 <Legend />
-                <Radar name="City Performance" dataKey="A" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
+                <Radar name="City Performance" dataKey="A" stroke="#D5B60A" fill="#FAC710" fillOpacity={0.6} />
             </RadarChart>
         </RadarChartContainer>
     );
