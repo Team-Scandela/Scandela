@@ -304,10 +304,10 @@ public class DecisionServiceTest {
 		verify(lampDecisionDaoMock, times(1)).saveAll(Mockito.any());
 		assertThat(result).hasSize(2);
 		assertThat(result.get(0).getDescription()).contains("Ampoule LED moins consommatrice.");
-		assertThat(result.get(0).getSolution()).contains("Changer l'ampoule \"");
+		assertThat(result.get(0).getSolution()).contains("Changer l'ampoule ");
 		assertThat(result.get(0).getLampDecision().getLamp()).isEqualTo(lamp);
 		assertThat(result.get(1).getDescription()).contains("Durée de vie de l'ampoule estimée atteinte.");
-		assertThat(result.get(1).getSolution()).contains("Remplacer l'ampoule \"");
+		assertThat(result.get(1).getSolution()).contains("Remplacer l'ampoule ");
 		assertThat(result.get(1).getLampDecision().getLamp()).isEqualTo(lamp);
 	}
 	
@@ -339,10 +339,10 @@ public class DecisionServiceTest {
 		verify(lampDecisionDaoMock, times(1)).saveAll(Mockito.any());
 		assertThat(result).hasSize(2);
 		assertThat(result.get(0).getDescription()).contains("Ampoule LED moins consommatrice.");
-		assertThat(result.get(0).getSolution()).contains("Changer l'ampoule \"");
+		assertThat(result.get(0).getSolution()).contains("Changer l'ampoule ");
 		assertThat(result.get(0).getLampDecision().getLamp()).isEqualTo(lamp);
 		assertThat(result.get(1).getDescription()).contains("Durée de vie de l'ampoule estimée atteinte.");
-		assertThat(result.get(1).getSolution()).contains("Remplacer l'ampoule \"");
+		assertThat(result.get(1).getSolution()).contains("Remplacer l'ampoule ");
 		assertThat(result.get(1).getLampDecision().getLamp()).isEqualTo(lamp);
 	}
 	

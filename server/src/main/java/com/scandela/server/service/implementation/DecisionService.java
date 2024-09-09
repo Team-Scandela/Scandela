@@ -115,7 +115,7 @@ public class DecisionService extends AbstractService<Decision> implements IDecis
 						.type(decisionType.get())
 						.location(lamp.getAddress())
 						.description("Ampoule LED moins consommatrice.")
-						.solution("Changer l'ampoule \"" + lamp.getLampType() + "\" en ampoule \"LED\".")
+						.solution("Changer l'ampoule '" + lamp.getLampType() + "' en ampoule 'LED'.")
 						.build();
 				LampDecision lampDecision = LampDecision.builder()
 						.decision(decision)
@@ -134,7 +134,7 @@ public class DecisionService extends AbstractService<Decision> implements IDecis
 						.type(decisionType.get())
 						.location(lamp.getAddress())
 						.description("Durée de vie de l'ampoule estimée atteinte.")
-						.solution("Remplacer l'ampoule \"" + lamp.getLampType() + "\".")
+						.solution("Remplacer l'ampoule '" + lamp.getLampType() + "' du lampadaire '" + lamp.getName() + "'.")
 						.build();
 				LampDecision lampDecision = LampDecision.builder()
 						.decision(decision)
