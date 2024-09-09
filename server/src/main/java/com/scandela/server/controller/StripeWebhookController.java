@@ -2,6 +2,7 @@ package com.scandela.server.controller;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -16,7 +17,9 @@ import org.springframework.web.service.annotation.GetExchange;
 import com.scandela.server.entity.Subscription;
 import com.scandela.server.service.IEmailService;
 import com.scandela.server.service.IStripeService;
+import com.scandela.server.service.ISubscriptionService;
 import com.stripe.exception.SignatureVerificationException;
+import com.stripe.exception.StripeException;
 import com.stripe.model.Customer;
 import com.stripe.model.Event;
 import com.stripe.net.Webhook;
@@ -28,7 +31,11 @@ public class StripeWebhookController {
 
     IStripeService stripeService;
 
-    IEmailService emailService;
+    @Autowired
+	private IEmailService emailService;
+
+    @Autowired
+    private ISubscriptionService subscriptionService;
 
     @Value("${stripe.webhook.secret}")
     private String webhookSecret;
@@ -42,37 +49,46 @@ public class StripeWebhookController {
     @PostMapping("/webhook")
     public ResponseEntity<String> handleStripeWebhook(
             @RequestBody String payload, @RequestHeader("Stripe-Signature") String sigHeader)
-            throws SignatureVerificationException {
+            throws StripeException {
+
+            String tmpSecretWebhook = "whsec_8f6138ca74e934b2251b4437775d316b3c92634cfd33f9b687ccdf28beefbd73";
 
         try {
-            Event event = Webhook.constructEvent(payload, sigHeader, webhookSecret);
+            Event event = Webhook.constructEvent(payload, sigHeader, tmpSecretWebhook);
 
             switch (event.getType()) {
-                case "charge.succeeded":
-
-                    break;
-                case "charge.failed":
-
-                break;
-
-                case "customer.subscription.updated":
-
-                break;
 
                 case "customer.created":
                     Customer customer = (Customer) event.getDataObjectDeserializer().getObject().get();
                     String email = customer.getEmail();
 
                     if (email != null) {
-                        emailService.sendMail(email, "Bienvenue chez nous!", "Merci de vous être inscrit.");
+
+                        Subscription subscription = new Subscription();
+
+                        subscriptionService.createSubscription(subscription);
+
+                        emailService.sendMail(email, "Bienvenue chez Scandela!", "Merci de votre abonnement.");
                         System.out.println("Email envoyé à : " + email);
                     } else {
                         System.out.println("Aucun email trouvé pour le client.");
                     }
                     break;
 
+                case "customer.updated":
 
+                break;
 
+                case "customer.deleted":
+
+                break;
+
+                case "charge.succeeded":
+
+                    break;
+                case "charge.failed":
+
+                    break;
                 default:
                     break;
             }

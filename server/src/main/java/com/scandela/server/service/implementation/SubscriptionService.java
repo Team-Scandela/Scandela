@@ -25,6 +25,7 @@ import com.stripe.model.PaymentMethod;
 import com.stripe.model.Token;
 import com.stripe.model.checkout.Session;
 import com.stripe.param.PaymentMethodAttachParams;
+import com.stripe.param.PaymentLinkCreateParams.CustomerCreation;
 import com.stripe.param.checkout.SessionCreateParams;
 // import com.stripe.model.Subscription;
 import com.stripe.Stripe;
@@ -186,57 +187,61 @@ public class SubscriptionService extends AbstractService<Subscription> implement
                 .setSuccessUrl("https://example.com/success")
                 .setCancelUrl("https://example.com/cancel")
                 .addLineItem(SessionCreateParams.LineItem.builder()
-                .setQuantity(1L)
-                .setPriceData(SessionCreateParams.LineItem.PriceData.builder()
-                        .setProduct(productId)
-                        .setCurrency("eur")
-                        .setUnitAmount(1000L)
-                        .setRecurring(SessionCreateParams.LineItem.PriceData.Recurring.builder()
-                                .setInterval(SessionCreateParams.LineItem.PriceData.Recurring.Interval.MONTH)
-                                    .build())
-                            .build())
-                    .build())
-            .build();
+                        .setQuantity(1L)
+                        .setPriceData(SessionCreateParams.LineItem.PriceData.builder()
+                                .setProduct(productId)
+                                .setCurrency("eur")
+                                .setUnitAmount(1000L)
+                                .setRecurring(SessionCreateParams.LineItem.PriceData.Recurring.builder()
+                                        .setInterval(SessionCreateParams.LineItem.PriceData.Recurring.Interval.MONTH)
+                                        .build())
+                                .build())
+                        .build())
+                .build();
 
         Session session = Session.create(params);
+
+        session.setCustomerCreation("if_required");
 
         Map<String, String> responseData = new HashMap<>();
         responseData.put("url", session.getUrl());
         responseData.put("customerId", session.getCustomer());
 
+        System.out.println("Stripe id -> " + session.getCustomer());
+
         subscription.setStripeId(session.getCustomer());
-
-
 
         // Customer newCustomer = createCustomer(subscription);
 
         // subscription.setStripeId(newCustomer.getId());
 
         // try {
-        //     // String cardToken = createCard(subscription, newCustomer);
-        //     PaymentMethod paymentMethod = createPaymentMethod("tok_visa", newCustomer.getId());
+        // // String cardToken = createCard(subscription, newCustomer);
+        // PaymentMethod paymentMethod = createPaymentMethod("tok_visa",
+        // newCustomer.getId());
 
-        //     Map<String, Object> subscriptionParams = new HashMap<>();
-        //     subscriptionParams.put("customer", newCustomer.getId());
-        //     subscriptionParams.put("items", Collections.singletonList(Map.of("price", "price_1OPMaWA9IrH4mWMNF0InmSO8")));
-        //     subscriptionParams.put("default_payment_method", paymentMethod.getId());
+        // Map<String, Object> subscriptionParams = new HashMap<>();
+        // subscriptionParams.put("customer", newCustomer.getId());
+        // subscriptionParams.put("items", Collections.singletonList(Map.of("price",
+        // "price_1OPMaWA9IrH4mWMNF0InmSO8")));
+        // subscriptionParams.put("default_payment_method", paymentMethod.getId());
 
-        //     // createCharge(newCustomer);
-        //     // Map<String, Object> prodParams = new HashMap<String, Object>();
-        //     // prodParams.put("prod", "prod_PDoC5Ig8LbirCM");
+        // // createCharge(newCustomer);
+        // // Map<String, Object> prodParams = new HashMap<String, Object>();
+        // // prodParams.put("prod", "prod_PDoC5Ig8LbirCM");
 
-        //     // Map<String, Object> items = new HashMap<String, Object>();
-        //     // items.put("0", prodParams);
+        // // Map<String, Object> items = new HashMap<String, Object>();
+        // // items.put("0", prodParams);
 
-        //     // Map<String, Object> subscriptionParam = new HashMap<String, Object>();
-        //     // subscriptionParam.put("items", items);
-        //     // subscriptionParam.put("customer", newCustomer.getId());
+        // // Map<String, Object> subscriptionParam = new HashMap<String, Object>();
+        // // subscriptionParam.put("items", items);
+        // // subscriptionParam.put("customer", newCustomer.getId());
 
-        //     com.stripe.model.Subscription.create(subscriptionParams);
+        // com.stripe.model.Subscription.create(subscriptionParams);
 
         // } catch (StripeException e) {
-        //     // TODO Auto-generated catch block
-        //     e.printStackTrace();
+        // // TODO Auto-generated catch block
+        // e.printStackTrace();
         // }
 
         dao.save(subscription);
