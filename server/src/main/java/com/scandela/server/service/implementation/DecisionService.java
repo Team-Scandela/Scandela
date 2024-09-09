@@ -244,7 +244,7 @@ public class DecisionService extends AbstractService<Decision> implements IDecis
 					Decision decisionAllumer = Decision.builder()
 							.type(decisionType.get())
 							.location(lamp.getAddress())
-							.description("Temps actuel " + weather.get().getDescription() + " avec une visibilité de " + weather.get().getVis() + "km insuffisante.")
+							.description("Temps actuel étant '" + weather.get().getTraductedDescription() + "' avec une visibilité de " + weather.get().getVis() + "km insuffisante.")
 							.solution("Allumer le lampadaire " + lamp.getName() + " jusqu'au prochain balayage (2h).")
 							.build();
 					LampDecision lampDecisionAllumer = LampDecision.builder()
