@@ -10,6 +10,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.scandela.server.dao.BulbDao;
 import com.scandela.server.dao.SubscriptionDao;
 import com.scandela.server.dao.UserDao;
 import com.scandela.server.entity.Subscription;
@@ -175,6 +176,14 @@ public class SubscriptionService extends AbstractService<Subscription> implement
         return null;
     }
 
+    public Subscription getByStripeId(String stripeid) {
+        return ((SubscriptionDao) dao).findByStripeId(stripeid).get();
+    }
+
+    public Subscription getBySessionid(String sessionid) {
+        return ((SubscriptionDao) dao).findByStripeId(sessionid).get();
+    }
+
     public Map<String, String> createSubscription(Subscription subscription) throws StripeException {
 
         Stripe.apiKey = secretKey;
@@ -184,7 +193,7 @@ public class SubscriptionService extends AbstractService<Subscription> implement
         SessionCreateParams params = SessionCreateParams.builder()
                 .addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)
                 .setMode(SessionCreateParams.Mode.SUBSCRIPTION)
-                .setSuccessUrl("https://example.com/success")
+                .setSuccessUrl("http://localhost:8080/stripe/handleSessionId")
                 .setCancelUrl("https://example.com/cancel")
                 .addLineItem(SessionCreateParams.LineItem.builder()
                         .setQuantity(1L)
@@ -201,7 +210,7 @@ public class SubscriptionService extends AbstractService<Subscription> implement
 
         Session session = Session.create(params);
 
-        session.setCustomerCreation("if_required");
+        session.setCustomerCreation("always");
 
         Map<String, String> responseData = new HashMap<>();
         responseData.put("url", session.getUrl());
@@ -209,7 +218,7 @@ public class SubscriptionService extends AbstractService<Subscription> implement
 
         System.out.println("Stripe id -> " + session.getCustomer());
 
-        subscription.setStripeId(session.getCustomer());
+        subscription.setSessionid(session.getId());
 
         // Customer newCustomer = createCustomer(subscription);
 

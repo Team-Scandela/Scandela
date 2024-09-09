@@ -34,6 +34,9 @@ public class Subscription implements Serializable {
     @Column(name = "stripeId", updatable = false)
     private String stripeId;
 
+    @Column(name = "sessionid", updatable = false)
+    private String sessionid;
+
     @Column(name = "userid", updatable = false)
     private String userid;
 

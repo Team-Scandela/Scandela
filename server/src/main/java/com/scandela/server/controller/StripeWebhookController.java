@@ -1,7 +1,5 @@
 package com.scandela.server.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -11,17 +9,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.service.annotation.GetExchange;
 
 import com.scandela.server.entity.Subscription;
-import com.scandela.server.service.IEmailService;
-import com.scandela.server.service.IStripeService;
+import com.scandela.server.service.IStripeWebhookService;
 import com.scandela.server.service.ISubscriptionService;
+import com.stripe.Stripe;
 import com.stripe.exception.SignatureVerificationException;
 import com.stripe.exception.StripeException;
-import com.stripe.model.Customer;
 import com.stripe.model.Event;
+import com.stripe.model.checkout.Session;
 import com.stripe.net.Webhook;
 
 @CrossOrigin(origins = "*")
@@ -29,16 +27,18 @@ import com.stripe.net.Webhook;
 @RequestMapping(value = "/stripe")
 public class StripeWebhookController {
 
-    IStripeService stripeService;
+    @Value("${stripe.webhook.secret}")
+    private String webhookSecret;
 
-    @Autowired
-	private IEmailService emailService;
+    @Value("${stripe.secretKey}")
+    private String secretKey;
+
+
+    IStripeWebhookService stripeWebhookService;
 
     @Autowired
     private ISubscriptionService subscriptionService;
 
-    @Value("${stripe.webhook.secret}")
-    private String webhookSecret;
 
     @GetMapping("/webhook")
     public void getSubscriptionsInfo() {
@@ -46,12 +46,34 @@ public class StripeWebhookController {
         return;
     }
 
+    @GetMapping("/handleSessionId")
+    public String handleStripeSuccess(@RequestParam("session_id") String sessionId) throws Exception {
+        try {
+            Stripe.apiKey = secretKey;
+            Session session = Session.retrieve(sessionId);
+
+            String customerId = session.getCustomer();
+
+            Subscription subscription = subscriptionService.getBySessionid(sessionId);
+            if (subscription != null) {
+                subscription.setStripeId(customerId);
+                subscriptionService.update(subscription.getId(), subscription);
+                return "Paiement réussi et abonnement mis à jour !";
+            } else {
+                return "Erreur : Abonnement non trouvé.";
+            }
+        } catch (StripeException e) {
+            e.printStackTrace();
+            return "Erreur lors de la récupération des informations de session : " + e.getMessage();
+        }
+    }
+
     @PostMapping("/webhook")
     public ResponseEntity<String> handleStripeWebhook(
             @RequestBody String payload, @RequestHeader("Stripe-Signature") String sigHeader)
-            throws StripeException {
+            throws Exception {
 
-            String tmpSecretWebhook = "whsec_8f6138ca74e934b2251b4437775d316b3c92634cfd33f9b687ccdf28beefbd73";
+        String tmpSecretWebhook = "SECRET_WEBHOOK_KEY_HERE"; // AJOUTER LA CLE DU WEBHOOK AVANT DE PR
 
         try {
             Event event = Webhook.constructEvent(payload, sigHeader, tmpSecretWebhook);
@@ -59,34 +81,25 @@ public class StripeWebhookController {
             switch (event.getType()) {
 
                 case "customer.created":
-                    Customer customer = (Customer) event.getDataObjectDeserializer().getObject().get();
-                    String email = customer.getEmail();
-
-                    if (email != null) {
-
-                        Subscription subscription = new Subscription();
-
-                        subscriptionService.createSubscription(subscription);
-
-                        emailService.sendMail(email, "Bienvenue chez Scandela!", "Merci de votre abonnement.");
-                        System.out.println("Email envoyé à : " + email);
-                    } else {
-                        System.out.println("Aucun email trouvé pour le client.");
-                    }
+                    stripeWebhookService.handleCustomerCreation(event);
                     break;
 
                 case "customer.updated":
+                    stripeWebhookService.handleCustomerUpdate(event);
 
                 break;
 
                 case "customer.deleted":
+                    stripeWebhookService.handleCustomerDeletion(event);
 
                 break;
 
                 case "charge.succeeded":
+                    stripeWebhookService.handleChargeSucceeded(event);
 
                     break;
                 case "charge.failed":
+                    stripeWebhookService.handleChargeFailed(event);
 
                     break;
                 default:

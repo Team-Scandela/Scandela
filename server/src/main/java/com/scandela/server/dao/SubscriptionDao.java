@@ -12,4 +12,5 @@ import com.scandela.server.entity.Subscription;
 public interface SubscriptionDao extends JpaRepository<Subscription, UUID> {
     // Constructors \\
     public Optional<Subscription> findByUserid(String userid);
+    public Optional<Subscription> findByStripeId(String stripeId);
 }
