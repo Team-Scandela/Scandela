@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -61,19 +60,6 @@ public class LampReparationController extends AbstractController<LampReparation>
 	public LampReparation createLampReparation(@RequestBody LampReparation newLampReparation) throws Exception {
 		return super.create(newLampReparation);
 	}
-
-	/**
-	 * Update lampReparation by id
-	 * 
-	 * @param id
-	 * @param update
-	 * @return
-	 * @throws Exception
-	 */
-    @PutMapping("/{id}")
-    public LampReparation updateLampReparation(@PathVariable UUID id, @RequestBody LampReparation update) throws Exception {
-        return super.update(id, update);
-    }
 
 	/**
 	 * Delete lampReparation
