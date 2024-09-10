@@ -46,15 +46,18 @@ const Tutoriel: React.FC<TutorielProps> = ({
         // else if (currentStep === 17) {
         //     setCurrentTab(Tabs.AddEntity);
         // }
-        else if (currentStep === 18) {
+        else if (currentStep === 16) {
+            setCurrentTab(Tabs.LampList);
+        }
+        else if (currentStep === 17) {
             setCurrentTab(Tabs.ElectricityPrice);
         }
-        else if (currentStep === 19) {
+        else if (currentStep === 18) {
             setCurrentTab(Tabs.Options);
         }
-        else if (currentStep === 20)
+        else if (currentStep === 19)
             setDecisionPanelExtended(false);
-        else if (currentStep === 21)
+        else if (currentStep === 20)
             setShowTutoriel(false);
     };
 
@@ -204,15 +207,15 @@ const Tutoriel: React.FC<TutorielProps> = ({
                         </CustomContainerInfoPopup>
                     </div>
                 )}
-                {currentStep === 17 && ( // Decision panel 3
+                {/* {currentStep === 17 && ( // Decision panel 3
                     <div>
                         <Arrow isDark={isDark} top={"31.5%"} left={"57.5%"}></Arrow>
                         <CustomContainerInfoPopup isDark={isDark} top={"25%"} left={"37%"} height={"140px"} width={"330px"}>
                             <DefaultText>{t('tuto170')}</DefaultText>
                         </CustomContainerInfoPopup>
                     </div>
-                )}
-                {currentStep === 18 && ( // Decision panel 4
+                )} */}
+                {currentStep === 17 && ( // Decision panel 4
                     <div>
                         <Arrow isDark={isDark} top={"31.5%"} left={"57.5%"}></Arrow>
                         <CustomContainerInfoPopup isDark={isDark} top={"25%"} left={"37%"} height={"140px"} width={"330px"}>
@@ -220,7 +223,7 @@ const Tutoriel: React.FC<TutorielProps> = ({
                         </CustomContainerInfoPopup>
                     </div>
                 )}
-                {currentStep === 19 && ( // Decision panel 5
+                {currentStep === 18 && ( // Decision panel 5
                     <div>
                         <Arrow isDark={isDark} top={"31.5%"} left={"57.5%"}></Arrow>
                         <CustomContainerInfoPopup isDark={isDark} top={"25%"} left={"37%"} height={"140px"} width={"330px"}>
@@ -228,7 +231,7 @@ const Tutoriel: React.FC<TutorielProps> = ({
                         </CustomContainerInfoPopup>
                     </div>
                 )}
-                {currentStep === 20 && ( // Decision panel 6
+                {currentStep === 19 && ( // Decision panel 6
                     <div>
                         <Arrow isDark={isDark} top={"30%"} left={"57.5%"}></Arrow>
                         <CustomContainerInfoPopup isDark={isDark} top={"23.5%"} left={"35.3%"} height={"170px"} width={"360px"}>
@@ -236,7 +239,7 @@ const Tutoriel: React.FC<TutorielProps> = ({
                         </CustomContainerInfoPopup>
                     </div>
                 )}
-                {currentStep === 21 && ( // Outro
+                {currentStep === 20 && ( // Outro
                     <div>
                         <CustomContainerInfoPopup isDark={isDark} top={"27%"} left={"36.5%"} height={"180px"} width={"450px"}>
                             <DefaultText>{t('tuto210')}</DefaultText>
