@@ -13,6 +13,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -46,7 +47,7 @@ public class User implements Serializable {
 	@Column(name = "uuid", updatable = false, nullable = false)
 	private UUID id;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "uuidtown", nullable = false)
 	private Town town;
 	
@@ -80,8 +81,9 @@ public class User implements Serializable {
 	@Column(name = "newsletter")
 	private boolean newsletter = false;
 
+	@Builder.Default
 	@Column(name = "adminville")
-	private boolean adminville = false;
+	private Boolean adminville = false;
 
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)

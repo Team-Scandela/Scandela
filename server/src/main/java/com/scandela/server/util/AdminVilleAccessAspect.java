@@ -18,7 +18,8 @@ public class AdminVilleAccessAspect {
     public Object checkAdminVilleAccess(ProceedingJoinPoint joinPoint) throws Throwable {
         User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        if (currentUser.isAdminville()) {
+        if (currentUser.getAdminville() == true) {
+            System.out.println("Actual villeAdmin! ---> " + currentUser.getAdminville());
             return joinPoint.proceed();
         } else {
             throw new AccessDeniedException("Accès refusé. Vous devez être Admin_Ville.");
