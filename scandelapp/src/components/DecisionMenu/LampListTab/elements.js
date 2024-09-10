@@ -405,3 +405,13 @@ export const LampPupHeight = styled.div`
     user-select: none;
     font-family: 'SyneRegular';
 `;
+
+export const TotalLamp = styled.div`
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    color: ${Yellow};
+    font-size: 20px;
+    user-select: none;
+    font-family: 'SyneRegular';
+`;

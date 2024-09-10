@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     LampListContainer,
@@ -31,6 +31,7 @@ import {
     LampPupIconBulb,
     LampPupHeight,
     LampPupIconLamp,
+    TotalLamp,
 } from './elements';
 import { allLamps } from '../../../utils/lampUtils';
 
@@ -58,6 +59,7 @@ const LampListTab: React.FC<LampListTabProps> = ({ isDark }) => {
     const [currentLamps, setCurrentLamps] = useState<Lamp[]>([]);
     const [openPup, setOpenPup] = useState(false);
     const [selectedLamp, setSelectedLamp] = useState<Lamp | null>(null);
+    const [lampLength, setLampLength] = useState(0);
 
     const itemsPerPage = 100;
     const tempData = allLamps[0];
@@ -70,18 +72,19 @@ const LampListTab: React.FC<LampListTabProps> = ({ isDark }) => {
             console.log(filterData[0]);
         }
         if (selectFilter === 'badBulb') {
-            filterData = tempData.filter((lamp: Lamp) => lamp.lampType !== 'LED');
+            filterData = tempData.filter((lamp: Lamp) => lamp.lampType !== 'LED' && lamp.lampType !== 'SHP');
             console.log(filterData[0]);
         }
         const totalPages = Math.ceil(filterData.length / itemsPerPage);
         const indexOfLastItem = currentPage * itemsPerPage;
         const indexOfFirstItem = indexOfLastItem - itemsPerPage;
         setCurrentLamps(filterData.slice(indexOfFirstItem, indexOfLastItem));
+        setLampLength(filterData.length);
     };
 
-    useState(() => {
+    useEffect(() => {
         updateList();
-    });
+    }, [currentPage]);
 
     return (
         <div>
@@ -140,6 +143,7 @@ const LampListTab: React.FC<LampListTabProps> = ({ isDark }) => {
                     </LampPupContent>
                 </LampPupContainer>
             )}
+            <TotalLamp>{lampLength} {t('lamps')}</TotalLamp>
 
         </div>
     );

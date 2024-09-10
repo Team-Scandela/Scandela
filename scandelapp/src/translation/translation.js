@@ -208,6 +208,7 @@ const resources = {
             onTheGround : 'Lamp on the ground',
             noFilter : 'No filter',
             badBulb : 'Bulb with bad quality',
+            lamps : 'lamps',
         },
     },
 
@@ -421,6 +422,7 @@ const resources = {
             onTheGround : 'Lampes au sol',
             noFilter : 'Aucun filtre',
             badBulb : 'Ampoules de mauvaise qualité',
+            lamps: 'lampadaires',
         },
     },
 };
