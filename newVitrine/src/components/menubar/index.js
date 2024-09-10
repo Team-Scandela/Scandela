@@ -67,7 +67,7 @@ const Menubar = () => {
             </MenubarMenu>
             <MenubarButton>
                 <a
-                    href="https://app.scandela.fr"
+                    href="https://app.scandela.com"
                     target="_blank"
                     style={{ textDecoration: 'none', color: 'inherit' }}
                 >

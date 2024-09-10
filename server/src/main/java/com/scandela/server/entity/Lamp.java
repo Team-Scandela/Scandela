@@ -57,6 +57,9 @@ public class Lamp implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "uuidbulb")
 	private Bulb bulb;
+
+	@Column(name = "bulblifetime")
+	private Integer bulbLifetime;
 	
 	@ManyToOne
 	@JoinColumn(name = "uuidcabinet")

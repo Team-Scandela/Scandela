@@ -32,7 +32,8 @@ build/
 ### VS Code ###
 .vscode/
 
-### Logs ###
+### logs ###
+/src/main/resources/logs/*
 audit.*
 
 ReparationLampadaire

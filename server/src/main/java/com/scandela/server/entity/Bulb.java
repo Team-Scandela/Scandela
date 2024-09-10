@@ -49,6 +49,9 @@ public class Bulb implements Serializable {
 
 	@Column(name = "reference", nullable = false)
 	private String reference;
+	
+	@Column(name = "estimatedlifetime")
+	private Integer estimatedLifetime;
 
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@OneToMany(mappedBy = "bulb", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
