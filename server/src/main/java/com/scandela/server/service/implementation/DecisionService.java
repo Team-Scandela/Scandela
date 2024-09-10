@@ -113,19 +113,43 @@ public class DecisionService extends AbstractService<Decision> implements IDecis
 		Random rand = new Random();
 		long lampCount = lampDao.count();
 		int pageNumbers = lampCount > 20 ?  Math.toIntExact(lampCount / 20) + 1 : 1;
+		
 		Page<Lamp> lampsPage = lampDao.findByLampTypeIsNot("LED", PageRequest.of(rand.nextInt(pageNumbers), 20));
-		List<Lamp> lamps = lampsPage.getContent();
+		List<Lamp> lampsNotLed = lampsPage.getContent();
+		
+		lampsPage = lampDao.findLampsWithBulbLifetimeGreaterThanOrEqualToEstimated(PageRequest.of(0, 20));
+		List<Lamp> lampsTooOld = lampsPage.getContent();
+		
 		List<Decision> decisions = new ArrayList<>();
 		List<LampDecision> lampDecisions = new ArrayList<>();
 		
-		lamps.forEach(lamp -> {
+		lampsNotLed.forEach(lamp -> {
 			if (lamp.getLampDecisions() == null ||
 				lamp.getLampDecisions().stream().map(LampDecision::getDecision).filter(decision -> decision.getType().getTitle().contains(decisionType.get().getTitle())).count() == 0) {
 				Decision decision = Decision.builder()
 						.type(decisionType.get())
 						.location(lamp.getAddress())
 						.description("Ampoule LED moins consommatrice.")
-						.solution("Changer l'ampoule \"" + lamp.getLampType() + "\" en ampoule \"LED\".")
+						.solution("Changer l'ampoule '" + lamp.getLampType() + "' en ampoule 'LED'.")
+						.build();
+				LampDecision lampDecision = LampDecision.builder()
+						.decision(decision)
+						.lamp(lamp)
+						.build();
+				decision.setLampDecision(lampDecision);
+				
+				decisions.add(decision);
+				lampDecisions.add(lampDecision);
+			}
+		});
+		lampsTooOld.forEach(lamp -> {
+			if (lamp.getLampDecisions() == null ||
+				lamp.getLampDecisions().stream().map(LampDecision::getDecision).filter(decision -> decision.getType().getTitle().contains(decisionType.get().getTitle())).count() == 0) {
+				Decision decision = Decision.builder()
+						.type(decisionType.get())
+						.location(lamp.getAddress())
+						.description("Durée de vie de l'ampoule estimée atteinte.")
+						.solution("Remplacer l'ampoule '" + lamp.getLampType() + "' du lampadaire '" + lamp.getName() + "'.")
 						.build();
 				LampDecision lampDecision = LampDecision.builder()
 						.decision(decision)

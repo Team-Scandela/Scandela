@@ -32,6 +32,7 @@ import com.scandela.server.dao.DecisionTypeDao;
 import com.scandela.server.dao.LampDao;
 import com.scandela.server.dao.LampDecisionDao;
 import com.scandela.server.dao.WeatherDao;
+import com.scandela.server.entity.Bulb;
 import com.scandela.server.entity.Decision;
 import com.scandela.server.entity.DecisionType;
 import com.scandela.server.entity.Lamp;
@@ -296,23 +297,30 @@ public class DecisionServiceTest {
 		Lamp lamp = Lamp.builder()
 				.address("AAA")
 				.lampType("SHDE")
+				.bulb(Bulb.builder().estimatedLifetime(730).build())
+				.bulbLifetime(365)
 				.build();
 		
 		when(decisionTypeDaoMock.findByTitleContains("Changement")).thenReturn(Optional.of(decisionType));
 		when(lampDaoMock.count()).thenReturn(1l);
 		when(lampDaoMock.findByLampTypeIsNot(Mockito.any(), Mockito.any())).thenReturn(new PageImpl<>(Arrays.asList(lamp)));
+		when(lampDaoMock.findLampsWithBulbLifetimeGreaterThanOrEqualToEstimated(Mockito.any())).thenReturn(new PageImpl<>(Arrays.asList(lamp)));
 		
 		List<Decision> result = testedObject.algoChangementBulb();
 
 		verify(decisionTypeDaoMock, times(1)).findByTitleContains("Changement");
 		verify(lampDaoMock, times(1)).count();
 		verify(lampDaoMock, times(1)).findByLampTypeIsNot(Mockito.any(), Mockito.any());
+		verify(lampDaoMock, times(1)).findLampsWithBulbLifetimeGreaterThanOrEqualToEstimated(Mockito.any());
 		verify(decisionDaoMock, times(1)).saveAll(Mockito.any());
 		verify(lampDecisionDaoMock, times(1)).saveAll(Mockito.any());
-		assertThat(result).hasSize(1);
+		assertThat(result).hasSize(2);
 		assertThat(result.get(0).getDescription()).contains("Ampoule LED moins consommatrice.");
-		assertThat(result.get(0).getSolution()).contains("Changer l'ampoule \"");
+		assertThat(result.get(0).getSolution()).contains("Changer l'ampoule ");
 		assertThat(result.get(0).getLampDecision().getLamp()).isEqualTo(lamp);
+		assertThat(result.get(1).getDescription()).contains("Durée de vie de l'ampoule estimée atteinte.");
+		assertThat(result.get(1).getSolution()).contains("Remplacer l'ampoule ");
+		assertThat(result.get(1).getLampDecision().getLamp()).isEqualTo(lamp);
 	}
 	
 	@Test
@@ -324,23 +332,30 @@ public class DecisionServiceTest {
 				.address("AAA")
 				.lampType("SHDE")
 				.lampDecisions(Arrays.asList(LampDecision.builder().decision(Decision.builder().type(DecisionType.builder().title("aaa").build()).build()).build()))
+				.bulb(Bulb.builder().estimatedLifetime(730).build())
+				.bulbLifetime(365)
 				.build();
 		
 		when(decisionTypeDaoMock.findByTitleContains("Changement")).thenReturn(Optional.of(decisionType));
 		when(lampDaoMock.count()).thenReturn(51l);
 		when(lampDaoMock.findByLampTypeIsNot(Mockito.any(), Mockito.any())).thenReturn(new PageImpl<>(Arrays.asList(lamp)));
+		when(lampDaoMock.findLampsWithBulbLifetimeGreaterThanOrEqualToEstimated(Mockito.any())).thenReturn(new PageImpl<>(Arrays.asList(lamp)));
 		
 		List<Decision> result = testedObject.algoChangementBulb();
 
 		verify(decisionTypeDaoMock, times(1)).findByTitleContains("Changement");
 		verify(lampDaoMock, times(1)).count();
 		verify(lampDaoMock, times(1)).findByLampTypeIsNot(Mockito.any(), Mockito.any());
+		verify(lampDaoMock, times(1)).findLampsWithBulbLifetimeGreaterThanOrEqualToEstimated(Mockito.any());
 		verify(decisionDaoMock, times(1)).saveAll(Mockito.any());
 		verify(lampDecisionDaoMock, times(1)).saveAll(Mockito.any());
-		assertThat(result).hasSize(1);
+		assertThat(result).hasSize(2);
 		assertThat(result.get(0).getDescription()).contains("Ampoule LED moins consommatrice.");
-		assertThat(result.get(0).getSolution()).contains("Changer l'ampoule \"");
+		assertThat(result.get(0).getSolution()).contains("Changer l'ampoule ");
 		assertThat(result.get(0).getLampDecision().getLamp()).isEqualTo(lamp);
+		assertThat(result.get(1).getDescription()).contains("Durée de vie de l'ampoule estimée atteinte.");
+		assertThat(result.get(1).getSolution()).contains("Remplacer l'ampoule ");
+		assertThat(result.get(1).getLampDecision().getLamp()).isEqualTo(lamp);
 	}
 	
 	@Test
@@ -352,17 +367,21 @@ public class DecisionServiceTest {
 				.address("AAA")
 				.lampType("SHDE")
 				.lampDecisions(Arrays.asList(LampDecision.builder().decision(Decision.builder().type(decisionType).build()).build()))
+				.bulb(Bulb.builder().estimatedLifetime(730).build())
+				.bulbLifetime(365)
 				.build();
 		
 		when(decisionTypeDaoMock.findByTitleContains("Changement")).thenReturn(Optional.of(decisionType));
 		when(lampDaoMock.count()).thenReturn(1l);
 		when(lampDaoMock.findByLampTypeIsNot(Mockito.any(), Mockito.any())).thenReturn(new PageImpl<>(Arrays.asList(lamp)));
+		when(lampDaoMock.findLampsWithBulbLifetimeGreaterThanOrEqualToEstimated(Mockito.any())).thenReturn(new PageImpl<>(Arrays.asList(lamp)));
 		
 		List<Decision> result = testedObject.algoChangementBulb();
 
 		verify(decisionTypeDaoMock, times(1)).findByTitleContains("Changement");
 		verify(lampDaoMock, times(1)).count();
 		verify(lampDaoMock, times(1)).findByLampTypeIsNot(Mockito.any(), Mockito.any());
+		verify(lampDaoMock, times(1)).findLampsWithBulbLifetimeGreaterThanOrEqualToEstimated(Mockito.any());
 		verify(decisionDaoMock, times(1)).saveAll(Mockito.any());
 		verify(lampDecisionDaoMock, times(1)).saveAll(Mockito.any());
 		assertThat(result).isEmpty();
