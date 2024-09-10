@@ -356,6 +356,7 @@ export const LampPupAdress = styled.div`
     color: ${Yellow};
     font-size: 25px;
     font-family: 'SyneRegular';
+    width: 100%
 `;
 
 export const LampPupGeoloc = styled.div`
