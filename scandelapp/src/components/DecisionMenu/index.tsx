@@ -14,7 +14,7 @@ import { MdKeyboardDoubleArrowRight as DecisionIconRight } from 'react-icons/md'
 import logoDark from '../../assets/logo-128x128-yellow.png';
 import { PiListChecksDuotone } from 'react-icons/pi';
 import { MdChangeCircle, MdAddCircle, MdElectricBolt } from 'react-icons/md';
-import { LuLampCeiling } from "react-icons/lu";
+import { LuLampCeiling } from 'react-icons/lu';
 import { IoMdSettings } from 'react-icons/io';
 import { useTranslation } from 'react-i18next';
 import DecisionTab from './DecisionTab';
@@ -26,7 +26,7 @@ import { Tooltip } from 'react-tooltip';
 import { Black } from '../../colors';
 import SettingsTab from './SettingsTab';
 import { Tabs } from '../../pages/main';
-import LampListTab  from './LampListTab';
+import LampListTab from './LampListTab';
 
 /** Props of the decision pannel
  * @param {boolean} isDark - If the map is in dark mode or not

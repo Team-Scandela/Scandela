@@ -1,38 +1,42 @@
 import { useEffect, useState } from 'react';
-import { ToDoListWrapper, ToDoListContainer, ToDoListCard, ToDoListTitle, ToDoListDescription, ToDoListAdress, ToDoListMainTitle,
+import {
+    ToDoListWrapper,
+    ToDoListContainer,
+    ToDoListCard,
+    ToDoListTitle,
+    ToDoListDescription,
+    ToDoListAdress,
+    ToDoListMainTitle,
     ToDoListDropdown,
     ToDoListDropdownMenuItem1,
     ToDoListDropdownMenuItem2,
     ToDoListDropdownMenuItem3,
     ToDoListDropdownMenu,
 } from './element.js';
-import { Red, Green, Yellow} from '../../colors.js';
-import { IoMdArrowDropdown } from "react-icons/io";
+import { Red, Green, Yellow } from '../../colors.js';
+import { IoMdArrowDropdown } from 'react-icons/io';
 
-import {
-    getDecisions,
-} from '../../utils/decisionsUtils';
+import { getDecisions } from '../../utils/decisionsUtils';
 
 interface ToDoListProps {
-    keycode : string;
+    keycode: string;
 }
 
 /** Reset password page of the app */
-const ToDoList: React.FC<ToDoListProps> = ( { keycode } ) => {
-
+const ToDoList: React.FC<ToDoListProps> = ({ keycode }) => {
     const [decisionsSpecific, setDecisionsSpecific] = useState([]);
     const [states, setStates] = useState([]);
     const [dropdownShow, setDropdownShow] = useState([]);
 
-    const toggleDropdown = (index : any) => {
-        setDropdownShow((prevState :  any) => ({
+    const toggleDropdown = (index: any) => {
+        setDropdownShow((prevState: any) => ({
             ...prevState,
             [index]: !prevState[index],
         }));
     };
 
-    const handleStateChange = (index : any, value : any) => {
-        setStates((prevState : any) => ({
+    const handleStateChange = (index: any, value: any) => {
+        setStates((prevState: any) => ({
             ...prevState,
             [index]: value,
         }));
@@ -59,7 +63,7 @@ const ToDoList: React.FC<ToDoListProps> = ( { keycode } ) => {
         }
         let seconds = array[5].toString();
         if (seconds.length < 2) {
-            seconds = '0' + seconds
+            seconds = '0' + seconds;
         }
         // delete the last 6 digits of the array.
         let milliseconds = (array[6] / 1000000).toString();
@@ -69,7 +73,21 @@ const ToDoList: React.FC<ToDoListProps> = ( { keycode } ) => {
             milliseconds = '0' + milliseconds;
         }
 
-        let date = year + '-' + month + '-' + day + 'T' + hours + ':' + minutes + ':' + seconds + '.' + milliseconds + 'Z';
+        let date =
+            year +
+            '-' +
+            month +
+            '-' +
+            day +
+            'T' +
+            hours +
+            ':' +
+            minutes +
+            ':' +
+            seconds +
+            '.' +
+            milliseconds +
+            'Z';
         return date;
     }
 
@@ -82,7 +100,9 @@ const ToDoList: React.FC<ToDoListProps> = ( { keycode } ) => {
                     const newDropdownShow: boolean[] = [];
                     data.forEach((element: any) => {
                         if (element.validate != null) {
-                            const elementValidate = arrayToISOString(element.validate);
+                            const elementValidate = arrayToISOString(
+                                element.validate
+                            );
                             console.log(elementValidate);
                             if (elementValidate === keycode) {
                                 console.log(element);
@@ -112,8 +132,6 @@ const ToDoList: React.FC<ToDoListProps> = ( { keycode } ) => {
         console.log('dropdownShow updated:', dropdownShow);
     }, [dropdownShow]);
 
-
-
     return (
         <ToDoListWrapper>
             <ToDoListMainTitle>To-Do List</ToDoListMainTitle>
@@ -122,9 +140,20 @@ const ToDoList: React.FC<ToDoListProps> = ( { keycode } ) => {
                     <ToDoListCard key={index}>
                         <ToDoListDropdown
                             onClick={() => toggleDropdown(index)}
-                            style={{ backgroundColor: states[index] === 2 ? Yellow : states[index] === 3 ? Green : Red }}
+                            style={{
+                                backgroundColor:
+                                    states[index] === 2
+                                        ? Yellow
+                                        : states[index] === 3
+                                          ? Green
+                                          : Red,
+                            }}
                         >
-                            {states[index] === 2 ? 'En cours' : states[index] === 3 ? 'Terminé' : 'A faire'}
+                            {states[index] === 2
+                                ? 'En cours'
+                                : states[index] === 3
+                                  ? 'Terminé'
+                                  : 'A faire'}
                             <IoMdArrowDropdown />
                         </ToDoListDropdown>
                         {dropdownShow[index] ? (
@@ -156,8 +185,14 @@ const ToDoList: React.FC<ToDoListProps> = ( { keycode } ) => {
                             </ToDoListDropdownMenu>
                         ) : null}
                         <ToDoListTitle>{element.solution}</ToDoListTitle>
-                        <ToDoListDescription>{element.description}</ToDoListDescription>
-                        <ToDoListAdress>{element.location + ' - ' + element.lampDecision.lamp.name}</ToDoListAdress>
+                        <ToDoListDescription>
+                            {element.description}
+                        </ToDoListDescription>
+                        <ToDoListAdress>
+                            {element.location +
+                                ' - ' +
+                                element.lampDecision.lamp.name}
+                        </ToDoListAdress>
                     </ToDoListCard>
                 ))}
             </ToDoListContainer>

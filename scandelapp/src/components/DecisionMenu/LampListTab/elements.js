@@ -202,7 +202,6 @@ export const PUpFilterContent = styled.div`
     pointer-events: all;
 `;
 
-
 export const PUpFilterTitle = styled.div`
     display: flex;
     position: absolute;
@@ -356,7 +355,7 @@ export const LampPupAdress = styled.div`
     color: ${Yellow};
     font-size: 25px;
     font-family: 'SyneRegular';
-    width: 100%
+    width: 100%;
 `;
 
 export const LampPupGeoloc = styled.div`

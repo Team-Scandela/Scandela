@@ -72,7 +72,10 @@ const LampListTab: React.FC<LampListTabProps> = ({ isDark }) => {
             console.log(filterData[0]);
         }
         if (selectFilter === 'badBulb') {
-            filterData = tempData.filter((lamp: Lamp) => lamp.lampType !== 'LED' && lamp.lampType !== 'SHP');
+            filterData = tempData.filter(
+                (lamp: Lamp) =>
+                    lamp.lampType !== 'LED' && lamp.lampType !== 'SHP'
+            );
             console.log(filterData[0]);
         }
         const totalPages = Math.ceil(filterData.length / itemsPerPage);
@@ -95,37 +98,70 @@ const LampListTab: React.FC<LampListTabProps> = ({ isDark }) => {
                 <PupFilterContainer>
                     <PUpFilterContent>
                         <PUpFilterTitle>{t('filterAdvcanced')}</PUpFilterTitle>
-                        <PUpFilterCloseButton onClick={() => setOpenFilter(false)} />
+                        <PUpFilterCloseButton
+                            onClick={() => setOpenFilter(false)}
+                        />
                         <PUpFilterDropdown
                             placeholder="Type"
                             value={selectFilter}
-                            onChange={(e: any) => setSelectFilter(e.target.value)}
+                            onChange={(e: any) =>
+                                setSelectFilter(e.target.value)
+                            }
                         >
-                            <PUpFilterOption value="nothing">{t('noFilter')}</PUpFilterOption>
-                            <PUpFilterOption value="0m">{t('onTheGround')}</PUpFilterOption>
-                            <PUpFilterOption value="badBulb">{t('badBulb')}</PUpFilterOption>
+                            <PUpFilterOption value="nothing">
+                                {t('noFilter')}
+                            </PUpFilterOption>
+                            <PUpFilterOption value="0m">
+                                {t('onTheGround')}
+                            </PUpFilterOption>
+                            <PUpFilterOption value="badBulb">
+                                {t('badBulb')}
+                            </PUpFilterOption>
                         </PUpFilterDropdown>
-                        <PupFilterSubtitle>{t('selectFilter')}</PupFilterSubtitle>
-                        <PupFilterApplyButton onClick={() => (setOpenFilter(false), updateList())}>
+                        <PupFilterSubtitle>
+                            {t('selectFilter')}
+                        </PupFilterSubtitle>
+                        <PupFilterApplyButton
+                            onClick={() => (setOpenFilter(false), updateList())}
+                        >
                             {t('apply')}
                         </PupFilterApplyButton>
                     </PUpFilterContent>
                 </PupFilterContainer>
             )}
             <LampListContainer>
-                {currentLamps.map((lamp: any, index: number) => (
-                    (lamp.name != undefined) && (
-                        <LampListCard key={index} isDark={isDark} onClick={() => (setOpenPup(true), setSelectedLamp(lamp))}>
-                            <LampListCardTitle>{lamp.name}</LampListCardTitle>
-                            <LampListCardAdress>{lamp.address}</LampListCardAdress>
-                            <LampListCardBulb>{lamp.lampType}</LampListCardBulb>
-                        </LampListCard>
-                    )
-                ))}
+                {currentLamps.map(
+                    (lamp: any, index: number) =>
+                        lamp.name != undefined && (
+                            <LampListCard
+                                key={index}
+                                isDark={isDark}
+                                onClick={() => (
+                                    setOpenPup(true), setSelectedLamp(lamp)
+                                )}
+                            >
+                                <LampListCardTitle>
+                                    {lamp.name}
+                                </LampListCardTitle>
+                                <LampListCardAdress>
+                                    {lamp.address}
+                                </LampListCardAdress>
+                                <LampListCardBulb>
+                                    {lamp.lampType}
+                                </LampListCardBulb>
+                            </LampListCard>
+                        )
+                )}
             </LampListContainer>
-            <PaginationNextButton onClick={() => setCurrentPage(currentPage + 1)} />
+            <PaginationNextButton
+                onClick={() => setCurrentPage(currentPage + 1)}
+            />
             <PaginationPagesButton>{currentPage}</PaginationPagesButton>
-            {currentPage > 1 && <PaginationPreviousButton onClick={() => setCurrentPage(currentPage - 1)} />}
+            {currentPage > 1 && (
+                <PaginationPreviousButton
+                    onClick={() => setCurrentPage(currentPage - 1)}
+                />
+            )}
             {openPup && (
                 <LampPupContainer>
                     <LampPupContent>
@@ -143,8 +179,9 @@ const LampListTab: React.FC<LampListTabProps> = ({ isDark }) => {
                     </LampPupContent>
                 </LampPupContainer>
             )}
-            <TotalLamp>{lampLength} {t('lamps')}</TotalLamp>
-
+            <TotalLamp>
+                {lampLength} {t('lamps')}
+            </TotalLamp>
         </div>
     );
 };
