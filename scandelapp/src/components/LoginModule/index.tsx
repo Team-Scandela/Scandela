@@ -84,6 +84,10 @@ const LoginModule: React.FC<LoginModuleProps> = ({
         localStorage.setItem('vegetalScore', JSON.stringify(false));
         localStorage.setItem('consumptionScore', JSON.stringify(false));
         localStorage.setItem('lightScore', JSON.stringify(false));
+        localStorage.setItem('tmpVegetalScore', JSON.stringify(false));
+        localStorage.setItem('tmpConsumptionScore', JSON.stringify(false));
+        localStorage.setItem('tmpLightScore', JSON.stringify(false));
+        localStorage.setItem('lassoActive', JSON.stringify(false));
         //getAllScores();
 
         if (data.rights === 2) {
