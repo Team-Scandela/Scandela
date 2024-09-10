@@ -1,8 +1,11 @@
 package com.scandela.server.service.implementation;
 
+import java.time.Instant;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 import java.util.UUID;
@@ -10,17 +13,23 @@ import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.scandela.server.dao.DecisionDao;
 import com.scandela.server.dao.DecisionTypeDao;
 import com.scandela.server.dao.LampDao;
 import com.scandela.server.dao.LampDecisionDao;
+import com.scandela.server.dao.WeatherDao;
 import com.scandela.server.entity.Decision;
 import com.scandela.server.entity.DecisionType;
 import com.scandela.server.entity.Lamp;
 import com.scandela.server.entity.LampDecision;
+import com.scandela.server.entity.Weather;
 import com.scandela.server.exception.DecisionException;
 import com.scandela.server.service.AbstractService;
 import com.scandela.server.service.IDecisionService;
@@ -36,13 +45,19 @@ public class DecisionService extends AbstractService<Decision> implements IDecis
 	private DecisionTypeDao decisionTypeDao;
 	private LampDecisionDao lampDecisionDao;
 	private LampDao lampDao;
+	private WeatherDao weatherDao;
+
+	private RestTemplate restTemplate;
 
 	// Constructors \\
-	protected DecisionService(DecisionDao decisionDao, DecisionTypeDao decisionTypeDao, LampDecisionDao lampDecisionDao, LampDao lampDao) {
+	protected DecisionService(DecisionDao decisionDao, DecisionTypeDao decisionTypeDao, LampDecisionDao lampDecisionDao, LampDao lampDao, WeatherDao weatherDao, RestTemplate restTemplate) {
 		super(decisionDao);
 		this.decisionTypeDao = decisionTypeDao;
 		this.lampDecisionDao = lampDecisionDao;
 		this.lampDao = lampDao;
+		this.weatherDao = weatherDao;
+		
+		this.restTemplate = restTemplate;
 	}
 
 	// Methods \\
@@ -196,6 +211,131 @@ public class DecisionService extends AbstractService<Decision> implements IDecis
 		lampDecisionDao.saveAll(lampDecisions);
 		
 		return decisions;
+	}
+
+	@Override
+	@Transactional(rollbackFor = { Exception.class })
+	public List<Decision> algoReductionConsoHoraireWeather() throws Exception {
+		Optional<DecisionType> decisionType = decisionTypeDao.findByTitleContains("Allumer lampadaire");
+		
+		if (decisionType.isEmpty()) {
+			throw new DecisionException(DecisionException.DECISIONTYPE_LOADING);
+		}
+		
+		Optional<Weather> weather = getActualWeather();
+		
+		if (weather.isEmpty()) {
+			throw new DecisionException(DecisionException.GET_WEATHER);
+		}
+
+		List<Decision> decisions = new ArrayList<>();
+		List<LampDecision> lampDecisions = new ArrayList<>();
+		
+		if (weather.get().getVis() < 7.5) {// Pourquoi 7.5 ? (7.39 + marge) -> https://link.springer.com/article/10.1007/s11457-023-09385-0
+			Random rand = new Random();
+			long lampCount = lampDao.count();
+			int pageNumbers = lampCount > 20 ?  Math.toIntExact(lampCount / 20) + 1 : 1;
+			Page<Lamp> lampsPage = lampDao.findAll(PageRequest.of(rand.nextInt(pageNumbers), 20));
+			List<Lamp> lamps = lampsPage.getContent();
+
+			lamps.forEach(lamp -> {
+				if (lamp.getLampDecisions() == null ||
+					lamp.getLampDecisions().stream().map(LampDecision::getDecision).filter(decision -> decision.getDescription().contains("Temps actuel ")).count() == 0) {
+					Decision decisionAllumer = Decision.builder()
+							.type(decisionType.get())
+							.location(lamp.getAddress())
+							.description("Temps actuel étant '" + weather.get().getTraductedDescription() + "' avec une visibilité de " + weather.get().getVis() + "km insuffisante.")
+							.solution("Allumer le lampadaire " + lamp.getName() + " jusqu'au prochain balayage (2h).")
+							.build();
+					LampDecision lampDecisionAllumer = LampDecision.builder()
+							.decision(decisionAllumer)
+							.lamp(lamp)
+							.build();
+					decisionAllumer.setLampDecision(lampDecisionAllumer);
+		
+					decisions.add(decisionAllumer);
+					lampDecisions.add(lampDecisionAllumer);
+				}
+			});
+			
+			dao.saveAll(decisions);
+			lampDecisionDao.saveAll(lampDecisions);
+		}
+		
+		return decisions;
+	}
+	
+	private Optional<Weather> getActualWeather() {//TODO changer plus tard par la recup de la ville et utiliser ses lat et long (update celles de nantes)
+		double nantesLat = 47.216671;
+		double nantesLng = -1.55;
+		Optional<Weather> weather = weatherDao.findByLatitudeAndLongitude(nantesLat, nantesLng);
+		long actualTimestamp = Instant.now().getEpochSecond();
+		
+		
+		if (weather.isEmpty() || is2hoursAhead(actualTimestamp, weather.get().getTs())) {
+	        Weather newWeather = weather.isEmpty() ? Weather.builder().latitude(nantesLat).longitude(nantesLng).build() : weather.get();
+	        
+	        Map<String, Object> weatherValues = getApiWeather(nantesLat, nantesLng);
+	        
+	        if (weatherValues == null) {
+	        	return Optional.empty();
+	        }
+	        
+	        try {
+	        	newWeather.setTs((Long) weatherValues.get("ts"));
+	        } catch (Exception e) {
+	        	newWeather.setTs(((Integer) weatherValues.get("ts")).longValue());
+	        }
+	        newWeather.setVis((Integer) weatherValues.get("vis"));
+	        newWeather.setDescription((String) weatherValues.get("description"));
+	        
+	        weatherDao.save(newWeather);
+	        weather = Optional.ofNullable(newWeather);
+		}
+		
+		return weather;
+	}
+	
+	private boolean is2hoursAhead(long timestamp1, long timestamp2) {
+		long timestamp1Millis = timestamp1 * 1000;
+        long timestamp2Millis = timestamp2 * 1000;
+
+        long differenceMillis = timestamp1Millis - timestamp2Millis;
+
+        long twoHoursInMillis = 2 * 60 * 60 * 1000;
+        
+        if (differenceMillis >= twoHoursInMillis) {
+        	((DecisionDao) dao).deleteByDescriptionContaining("Temps actuel ");
+        	return true;
+        }
+
+        return false;
+	}
+	
+	private Map<String, Object> getApiWeather(double latitude, double longitude) {
+		try {
+			Map<String, Object> returnValue = new HashMap<>();
+			
+			String url = "https://api.weatherbit.io/v2.0/current?key=cf98bfa5acf44c73ad4a5d46af813e5b&lat=" + latitude + "&lon=" + longitude;
+	        ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+	        String json = response.getBody();
+
+	        ObjectMapper mapper = new ObjectMapper();
+	        Map<String, Object> map = mapper.readValue(json, new TypeReference<Map<String, Object>>() {});
+            Map<String, Object> data = (Map<String, Object>) ((List<Object>) map.get("data")).get(0);
+            Map<String, Object> weather = (Map<String, Object>) data.get("weather");
+            
+            returnValue.put("ts", data.get("ts"));
+            returnValue.put("vis", data.get("vis"));
+            returnValue.put("description", weather.get("description"));
+            
+            System.out.println("Call weather api on " + url);
+            
+            return returnValue;
+        } catch (Exception e) {
+        }
+		
+		return null;
 	}
 
 	@Override
