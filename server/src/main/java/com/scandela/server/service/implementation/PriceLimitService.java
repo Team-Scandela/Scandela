@@ -56,7 +56,7 @@ public class PriceLimitService extends AbstractService<PriceLimit> implements IP
 		String encodedKey = Base64.getEncoder().encodeToString(credentials.getBytes(StandardCharsets.UTF_8));
 
 		try {
-			obj = new URL("https://api.scandela.fr/electricityPrice");
+			obj = new URL("https://api.scandela.com/electricityPrice");
 			HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
 			if (con != null) {

@@ -219,4 +219,16 @@ public class UserService extends AbstractService<User> implements IUserService {
 		}));
 	}
 
+	@Override
+	@Transactional(readOnly = true, rollbackFor = { Exception.class })
+	public User getByMail(String mail) {
+		Optional<User> user = ((UserDao) dao).findByEmail(mail);
+
+		if (user.isEmpty()) {
+			return null;
+		}
+
+		return user.get();
+	}
+
 }

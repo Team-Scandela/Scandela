@@ -30,7 +30,7 @@ public class EmailService implements IEmailService {
         mail.setText(message);
 
         // mail.setText("To confirm your account, please click here : "
-        // + "https://dev.scandela.fr:2000/redirect?email=" + receiver);
+        // + "https://dev.scandela.com:2000/redirect?email=" + receiver);
 
         emailSender.send(mail);
 

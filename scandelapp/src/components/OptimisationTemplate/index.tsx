@@ -22,7 +22,6 @@ interface OptimisationTemplateProps {
     y: number;
     optimisationTemplateData: any;
     onTemplateClick: (isChecked: boolean) => void;
-    price: number; // Ajoutez la propriété price ici
 }
 
 const OptimisationTemplate: React.FC<OptimisationTemplateProps> = ({
