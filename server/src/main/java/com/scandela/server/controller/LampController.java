@@ -123,23 +123,67 @@ public class LampController extends AbstractController<Lamp> {
 		
 		return ((ILampService) service).getAllByCoordinates(coordinatePairs);
 	}
+
+	@GetMapping("/coordinatesWithScores")
+	public Map<String, Double> getAllByCoordinatesWithScores(@RequestParam(value = "coordinate") List<String> coordinates) {
+		// Récupérer les lampes en fonction des coordonnées
+		List<Pair<Double, Double>> coordinatePairs = new ArrayList<>();
+		
+		coordinates.forEach(coord -> {
+			String[] latlng = coord.split(",");
+			coordinatePairs.add(Pair.of(Double.valueOf(latlng[0]), Double.valueOf(latlng[1])));
+		});
+		
+		List<Lamp> lampsByCoordinates = ((ILampService) service).getAllByCoordinates(coordinatePairs);
+		
+		// Calculer les scores en utilisant les lampes récupérées
+		CompletableFuture<Double> consumptionScoreFuture = CompletableFuture.supplyAsync(() -> ((ILampService) service).computeGlobalEnergyConsumption(lampsByCoordinates));
+		CompletableFuture<Double> vegetalScoreFuture = CompletableFuture.supplyAsync(() -> {
+			try {
+				return ((ILampService) service).computeGlobalDistanceVegetalZone(lampsByCoordinates);
+			} catch (IOException | CsvValidationException e) {
+				throw new RuntimeException("Error calculating vegetal score", e);
+			}
+		});
+		CompletableFuture<Double> lightScoreFuture = CompletableFuture.supplyAsync(() -> ((ILampService) service).computeGlobalLightIndicator(lampsByCoordinates));
+		
+		// Attendre la fin de tous les appels et stocker les résultats dans une Map
+		Map<String, Double> allScores = new HashMap<>();
+		CompletableFuture.allOf(consumptionScoreFuture, vegetalScoreFuture, lightScoreFuture)
+		.thenRun(() -> {
+			try {
+				allScores.put("consumptionScore", consumptionScoreFuture.get());
+				allScores.put("vegetalScore", vegetalScoreFuture.get());
+				allScores.put("lightScore", lightScoreFuture.get());
+				
+				// Afficher les résultats (DEBUG)
+				System.out.println("Consumption score: " + allScores.get("consumptionScore"));
+				System.out.println("Vegetal score: " + allScores.get("vegetalScore"));
+				System.out.println("Light score: " + allScores.get("lightScore"));
+			} catch (InterruptedException | ExecutionException e) {
+				throw new RuntimeException("Error getting async scores", e);
+			}
+		})
+		.join(); // Attendre la fin de l'exécution avant de retourner la Map
 	
+		// Retourner la Map contenant les scores
+		return allScores;
+	}
+
+
 	@GetMapping("/consuptionScore")
 	public double computeGlobalEnergyConsumption() {
-		List<Lamp> lamps = super.getAll();
-		return ((ILampService) service).computeGlobalEnergyConsumption(lamps);
+		return ((ILampService) service).computeGlobalEnergyConsumption(allLamps);
 	}
 	
 	@GetMapping("/vegetalScore")
 	public double computeGlobalDistanceVegetalZone() throws IOException, CsvValidationException {
-		List<Lamp> lamps = super.getAll();
-		return ((ILampService) service).computeGlobalDistanceVegetalZone(lamps);
+		return ((ILampService) service).computeGlobalDistanceVegetalZone(allLamps);
 	}
 
 	@GetMapping("/lightScore")
 	public double computeGlobalLightIndicator() {
-		List<Lamp> lamps = super.getAll();
-		return ((ILampService) service).computeGlobalLightIndicator(lamps);
+		return ((ILampService) service).computeGlobalLightIndicator(allLamps);
 	}
 
 	@GetMapping("/allScores") 
@@ -153,18 +197,17 @@ public class LampController extends AbstractController<Lamp> {
 
 	@GetMapping("/allScore")
 	public Map<String, Double> computeAllIndicator() {
-		List<Lamp> lamps = super.getAll();
     
 		// Lancer les trois appels de manière asynchrone
-		CompletableFuture<Double> consumptionScoreFuture = CompletableFuture.supplyAsync(() -> ((ILampService) service).computeGlobalEnergyConsumption(lamps));
+		CompletableFuture<Double> consumptionScoreFuture = CompletableFuture.supplyAsync(() -> ((ILampService) service).computeGlobalEnergyConsumption(allLamps));
 		CompletableFuture<Double> vegetalScoreFuture = CompletableFuture.supplyAsync(() -> {
 			try {
-				return ((ILampService) service).computeGlobalDistanceVegetalZone(lamps);
+				return ((ILampService) service).computeGlobalDistanceVegetalZone(allLamps);
 			} catch (IOException | CsvValidationException e) {
 				throw new RuntimeException("Error calculating vegetal score", e);
 			}
 		});
-		CompletableFuture<Double> lightScoreFuture = CompletableFuture.supplyAsync(() -> ((ILampService) service).computeGlobalLightIndicator(lamps));
+		CompletableFuture<Double> lightScoreFuture = CompletableFuture.supplyAsync(() -> ((ILampService) service).computeGlobalLightIndicator(allLamps));
     
 		// Attendre la fin de tous les appels et stocker les résultats dans une Map
 		Map<String, Double> allScores = new HashMap<>();
@@ -187,7 +230,6 @@ public class LampController extends AbstractController<Lamp> {
 
 		// Retourner la Map contenant les scores
 		return allScores;
-
 	}
 
 	private final Map<String, String[]> lamps = new HashMap<String, String[]>(){{
