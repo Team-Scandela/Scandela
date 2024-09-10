@@ -455,19 +455,23 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
 
 	public double computeGlobalDistanceVegetalZone(List<Lamp> lamps) throws IOException, CsvValidationException {
 		double[][] vegetalZones = VegetalZonesExtractor.getVegetalZonesFromCSV("collectionVegetale.csv");
-
+	
 		double totalDistance = 0;
 		int validZonesCount = 0;
-
+	
+		// Définir les constantes de distance min et max
+		double distanceMin = 30;
+		double distanceMax = 300;
+	
 		for (double[] vegetalZone : vegetalZones) {
-
+	
 			PriorityQueue<Double> nearestDistances = new PriorityQueue<>(Collections.reverseOrder());
-
+	
 			for (Lamp lamp : lamps) {
 				if (lamp == null || lamp.getLongitude() == null || lamp.getLatitude() == null) {
 					continue;
 				}
-
+	
 				double distance = haversineDistance(lamp.getLatitude(), lamp.getLongitude(), vegetalZone[0], vegetalZone[1]);
 				
 				if (nearestDistances.size() < 50) {
@@ -477,25 +481,23 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
 					nearestDistances.add(distance);
 				}
 			}
-
+	
 			if (!nearestDistances.isEmpty()) {
-				double sumDistances = 0;
-				for (double dist : nearestDistances) {
-					sumDistances += dist;
-				}
+				double sumDistances = nearestDistances.stream().mapToDouble(Double::doubleValue).sum();
 				double averageDistance = sumDistances / nearestDistances.size();
 				totalDistance += averageDistance;
 				validZonesCount++;
-			} else {
 			}
 		}
-
-		double meanGlobalDistanceVegetalZone = validZonesCount > 0 ? totalDistance / validZonesCount : 0;
-		double distanceMin = 30;
-		double distanceMax = 300;
-
+	
+		double meanGlobalDistanceVegetalZone = validZonesCount > 0 ? totalDistance / validZonesCount : distanceMax;
+	
+		// Calcul du score en limitant la distance minimale
 		double score = 100 - (((meanGlobalDistanceVegetalZone - distanceMin) / (distanceMax - distanceMin)) * 100);
-
+	
+		// Forcer le score à être dans les bornes [0, 100]
+		score = Math.max(0, Math.min(100, score));
+	
 		return score;
 	}
 
