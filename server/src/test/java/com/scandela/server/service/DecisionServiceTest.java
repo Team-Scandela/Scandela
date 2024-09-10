@@ -7,6 +7,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -22,16 +23,21 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
 
 import com.scandela.server.dao.DecisionDao;
 import com.scandela.server.dao.DecisionTypeDao;
 import com.scandela.server.dao.LampDao;
 import com.scandela.server.dao.LampDecisionDao;
+import com.scandela.server.dao.WeatherDao;
 import com.scandela.server.entity.Bulb;
 import com.scandela.server.entity.Decision;
 import com.scandela.server.entity.DecisionType;
 import com.scandela.server.entity.Lamp;
 import com.scandela.server.entity.LampDecision;
+import com.scandela.server.entity.Weather;
 import com.scandela.server.exception.DecisionException;
 import com.scandela.server.service.implementation.DecisionService;
 
@@ -54,6 +60,12 @@ public class DecisionServiceTest {
 	
 	@Mock
 	private LampDecisionDao lampDecisionDaoMock;
+	
+	@Mock
+	private WeatherDao weatherDaoMock;
+	
+	@Mock
+	private RestTemplate restTemplateMock;
 	
 	private final UUID id = UUID.randomUUID();
 	private final String description = "desc";
@@ -554,6 +566,179 @@ public class DecisionServiceTest {
 		verify(decisionDaoMock, never()).saveAll(Mockito.any());
 		verify(lampDecisionDaoMock, never()).saveAll(Mockito.any());
 		assertThat(result.getMessage()).isEqualTo(DecisionException.DECISIONTYPE_LOADING);
+	}
+	
+	@Test
+	public void testAlgoReductionHoraireWeather() throws Exception {
+		DecisionType decisionType = DecisionType.builder()
+				.title("Allumer lampadaire")
+				.build();
+		String response = "{\"count\":1,\"data\":[{\"app_temp\":18,\"aqi\":50,\"city_name\":\"Nantes\",\"clouds\":0,\"country_code\":\"FR\",\"datetime\":\"2024-09-09:10\",\"dewpt\":12.9,\"dhi\":110,\"dni\":867,\"elev_angle\":45.73,\"ghi\":724,\"gust\":null,\"h_angle\":-15,\"lat\":47.2167,\"lon\":-1.55,\"ob_time\":\"2024-09-09 10:46\",\"pod\":\"d\",\"precip\":0,\"pres\":1012.8,\"rh\":72,\"slp\":1016,\"snow\":0,\"solar_rad\":724,\"sources\":[\"LFRS\",\"radar\",\"satellite\"],\"state_code\":\"52\",\"station\":\"LFRS\",\"sunrise\":\"05:37\",\"sunset\":\"18:29\",\"temp\":18,\"timezone\":\"Europe/Paris\",\"ts\":1725878792,\"uv\":6,\"vis\":7,\"weather\":{\"description\":\"Clear sky\",\"code\":800,\"icon\":\"c01d\"},\"wind_cdir\":\"WNW\",\"wind_cdir_full\":\"west-northwest\",\"wind_dir\":290,\"wind_spd\":3.1}]}";
+		Lamp lamp = Lamp.builder()
+				.address("AAA")
+				.name("NAME1")
+				.build();
+
+		when(decisionTypeDaoMock.findByTitleContains("Allumer lampadaire")).thenReturn(Optional.of(decisionType));
+		when(weatherDaoMock.findByLatitudeAndLongitude(Mockito.anyDouble(), Mockito.anyDouble())).thenReturn(Optional.empty());
+		when(restTemplateMock.getForEntity(Mockito.anyString(), Mockito.eq(String.class))).thenReturn(new ResponseEntity<String>(response, HttpStatus.OK));
+		when(lampDaoMock.count()).thenReturn(1l);
+		when(lampDaoMock.findAll(Mockito.any(PageRequest.class))).thenReturn(new PageImpl<>(Arrays.asList(lamp)));
+		
+		List<Decision> result = testedObject.algoReductionConsoHoraireWeather();
+
+		verify(decisionTypeDaoMock, times(1)).findByTitleContains("Allumer lampadaire");
+		verify(weatherDaoMock, times(1)).findByLatitudeAndLongitude(Mockito.anyDouble(), Mockito.anyDouble());
+		verify(decisionDaoMock, never()).deleteByDescriptionContaining(Mockito.anyString());
+		verify(restTemplateMock, times(1)).getForEntity(Mockito.anyString(), Mockito.eq(String.class));
+		verify(weatherDaoMock, times(1)).save(Mockito.any());
+		verify(lampDaoMock, times(1)).count();
+		verify(lampDaoMock, times(1)).findAll(Mockito.any(PageRequest.class));
+		verify(decisionDaoMock, times(1)).saveAll(Mockito.any());
+		verify(lampDecisionDaoMock, times(1)).saveAll(Mockito.any());
+		assertThat(result).hasSize(1);
+		assertThat(result.get(0).getType()).isEqualTo(decisionType);
+		assertThat(result.get(0).getDescription()).contains("Temps actuel ");
+		assertThat(result.get(0).getSolution()).contains(lamp.getName());
+		assertThat(result.get(0).getSolution()).contains(" jusqu'au prochain balayage (2h).");
+		assertThat(result.get(0).getLampDecision().getLamp()).isEqualTo(lamp);
+	}
+	
+	@Test
+	public void testAlgoReductionHoraireWeather_whenDecisionTypeNotFound_thenThrowDecisionException() throws Exception {
+		when(decisionTypeDaoMock.findByTitleContains("Allumer lampadaire")).thenReturn(Optional.empty());
+
+		DecisionException result = assertThrows(DecisionException.class, () -> testedObject.algoReductionConsoHoraireWeather());
+
+		verify(decisionTypeDaoMock, times(1)).findByTitleContains("Allumer lampadaire");
+		verify(weatherDaoMock, never()).findByLatitudeAndLongitude(Mockito.anyDouble(), Mockito.anyDouble());
+		verify(decisionDaoMock, never()).deleteByDescriptionContaining(Mockito.anyString());
+		verify(restTemplateMock, never()).getForEntity(Mockito.anyString(), Mockito.eq(String.class));
+		verify(weatherDaoMock, never()).save(Mockito.any());
+		verify(lampDaoMock, never()).count();
+		verify(lampDaoMock, never()).findAll(Mockito.any(PageRequest.class));
+		verify(decisionDaoMock, never()).saveAll(Mockito.any());
+		verify(lampDecisionDaoMock, never()).saveAll(Mockito.any());
+		assertThat(result.getMessage()).isEqualTo(DecisionException.DECISIONTYPE_LOADING);
+	}
+	
+	@Test
+	public void testAlgoReductionHoraireWeather_whenWeatherNotFound_andRequestApiError_thenThrowDecisionException() throws Exception {
+		DecisionType decisionType = DecisionType.builder()
+				.title("Allumer lampadaire")
+				.build();
+
+		when(decisionTypeDaoMock.findByTitleContains("Allumer lampadaire")).thenReturn(Optional.of(decisionType));
+		when(weatherDaoMock.findByLatitudeAndLongitude(Mockito.anyDouble(), Mockito.anyDouble())).thenReturn(Optional.empty());
+		when(restTemplateMock.getForEntity(Mockito.anyString(), Mockito.eq(String.class))).thenReturn(new ResponseEntity<String>("", HttpStatus.INTERNAL_SERVER_ERROR));
+
+		DecisionException result = assertThrows(DecisionException.class, () -> testedObject.algoReductionConsoHoraireWeather());
+
+		verify(decisionTypeDaoMock, times(1)).findByTitleContains("Allumer lampadaire");
+		verify(weatherDaoMock, times(1)).findByLatitudeAndLongitude(Mockito.anyDouble(), Mockito.anyDouble());
+		verify(decisionDaoMock, never()).deleteByDescriptionContaining(Mockito.anyString());
+		verify(restTemplateMock, times(1)).getForEntity(Mockito.anyString(), Mockito.eq(String.class));
+		verify(weatherDaoMock, never()).save(Mockito.any());
+		verify(lampDaoMock, never()).count();
+		verify(lampDaoMock, never()).findAll(Mockito.any(PageRequest.class));
+		verify(decisionDaoMock, never()).saveAll(Mockito.any());
+		verify(lampDecisionDaoMock, never()).saveAll(Mockito.any());
+		assertThat(result.getMessage()).isEqualTo(DecisionException.GET_WEATHER);
+	}
+	
+	@Test
+	public void testAlgoReductionHoraireWeather_whenVisBetterThan7p5_thenReturnNoDecision() throws Exception {
+		DecisionType decisionType = DecisionType.builder()
+				.title("Allumer lampadaire")
+				.build();
+		Weather weather = Weather.builder().vis(16).ts(Instant.now().getEpochSecond()).build();
+		
+		when(decisionTypeDaoMock.findByTitleContains("Allumer lampadaire")).thenReturn(Optional.of(decisionType));
+		when(weatherDaoMock.findByLatitudeAndLongitude(Mockito.anyDouble(), Mockito.anyDouble())).thenReturn(Optional.ofNullable(weather));
+		
+		List<Decision> result = testedObject.algoReductionConsoHoraireWeather();
+
+		verify(decisionTypeDaoMock, times(1)).findByTitleContains("Allumer lampadaire");
+		verify(weatherDaoMock, times(1)).findByLatitudeAndLongitude(Mockito.anyDouble(), Mockito.anyDouble());
+		verify(decisionDaoMock, never()).deleteByDescriptionContaining(Mockito.anyString());
+		verify(restTemplateMock, never()).getForEntity(Mockito.anyString(), Mockito.eq(String.class));
+		verify(weatherDaoMock, never()).save(Mockito.any());
+		verify(lampDaoMock, never()).count();
+		verify(lampDaoMock, never()).findAll(Mockito.any(PageRequest.class));
+		verify(decisionDaoMock, never()).saveAll(Mockito.any());
+		verify(lampDecisionDaoMock, never()).saveAll(Mockito.any());
+		assertThat(result).hasSize(0);
+	}
+	
+	@Test
+	public void testAlgoReductionHoraireWeather_whenWeatherFound_and2hoursAhead_andLampHasAnotherDecision_andVisLessThan7p5_thenReturnDecision() throws Exception {
+		DecisionType decisionType = DecisionType.builder()
+				.title("Allumer lampadaire")
+				.build();
+		Weather weather = Weather.builder().ts(1725878792l).build();
+		String response = "{\"count\":1,\"data\":[{\"app_temp\":18,\"aqi\":50,\"city_name\":\"Nantes\",\"clouds\":0,\"country_code\":\"FR\",\"datetime\":\"2024-09-09:10\",\"dewpt\":12.9,\"dhi\":110,\"dni\":867,\"elev_angle\":45.73,\"ghi\":724,\"gust\":null,\"h_angle\":-15,\"lat\":47.2167,\"lon\":-1.55,\"ob_time\":\"2024-09-09 10:46\",\"pod\":\"d\",\"precip\":0,\"pres\":1012.8,\"rh\":72,\"slp\":1016,\"snow\":0,\"solar_rad\":724,\"sources\":[\"LFRS\",\"radar\",\"satellite\"],\"state_code\":\"52\",\"station\":\"LFRS\",\"sunrise\":\"05:37\",\"sunset\":\"18:29\",\"temp\":18,\"timezone\":\"Europe/Paris\",\"ts\":2725878792,\"uv\":6,\"vis\":7,\"weather\":{\"description\":\"Clear sky\",\"code\":800,\"icon\":\"c01d\"},\"wind_cdir\":\"WNW\",\"wind_cdir_full\":\"west-northwest\",\"wind_dir\":290,\"wind_spd\":3.1}]}";
+		Lamp lamp = Lamp.builder()
+				.address("AAA")
+				.name("NAME1")
+				.lampDecisions(Arrays.asList(LampDecision.builder().decision(Decision.builder().description("aaa").build()).build()))
+				.build();
+
+		when(decisionTypeDaoMock.findByTitleContains("Allumer lampadaire")).thenReturn(Optional.of(decisionType));
+		when(weatherDaoMock.findByLatitudeAndLongitude(Mockito.anyDouble(), Mockito.anyDouble())).thenReturn(Optional.ofNullable(weather));
+		when(restTemplateMock.getForEntity(Mockito.anyString(), Mockito.eq(String.class))).thenReturn(new ResponseEntity<String>(response, HttpStatus.OK));
+		when(lampDaoMock.count()).thenReturn(1l);
+		when(lampDaoMock.findAll(Mockito.any(PageRequest.class))).thenReturn(new PageImpl<>(Arrays.asList(lamp)));
+		
+		List<Decision> result = testedObject.algoReductionConsoHoraireWeather();
+
+		verify(decisionTypeDaoMock, times(1)).findByTitleContains("Allumer lampadaire");
+		verify(weatherDaoMock, times(1)).findByLatitudeAndLongitude(Mockito.anyDouble(), Mockito.anyDouble());
+		verify(decisionDaoMock, times(1)).deleteByDescriptionContaining(Mockito.anyString());
+		verify(restTemplateMock, times(1)).getForEntity(Mockito.anyString(), Mockito.eq(String.class));
+		verify(weatherDaoMock, times(1)).save(Mockito.any());
+		verify(lampDaoMock, times(1)).count();
+		verify(lampDaoMock, times(1)).findAll(Mockito.any(PageRequest.class));
+		verify(decisionDaoMock, times(1)).saveAll(Mockito.any());
+		verify(lampDecisionDaoMock, times(1)).saveAll(Mockito.any());
+		assertThat(result).hasSize(1);
+		assertThat(result.get(0).getType()).isEqualTo(decisionType);
+		assertThat(result.get(0).getDescription()).contains("Temps actuel ");
+		assertThat(result.get(0).getSolution()).contains(lamp.getName());
+		assertThat(result.get(0).getSolution()).contains(" jusqu'au prochain balayage (2h).");
+		assertThat(result.get(0).getLampDecision().getLamp()).isEqualTo(lamp);
+	}
+	
+	@Test
+	public void testAlgoReductionHoraireWeather_whenWeatherFound_and2hoursAhead_andLampAlreadyHasThisDecision_andVisLessThan7p5_thenReturnNoDecision() throws Exception {
+		DecisionType decisionType = DecisionType.builder()
+				.title("Allumer lampadaire")
+				.build();
+		Weather weather = Weather.builder().ts(1725878792l).build();
+		String response = "{\"count\":1,\"data\":[{\"app_temp\":18,\"aqi\":50,\"city_name\":\"Nantes\",\"clouds\":0,\"country_code\":\"FR\",\"datetime\":\"2024-09-09:10\",\"dewpt\":12.9,\"dhi\":110,\"dni\":867,\"elev_angle\":45.73,\"ghi\":724,\"gust\":null,\"h_angle\":-15,\"lat\":47.2167,\"lon\":-1.55,\"ob_time\":\"2024-09-09 10:46\",\"pod\":\"d\",\"precip\":0,\"pres\":1012.8,\"rh\":72,\"slp\":1016,\"snow\":0,\"solar_rad\":724,\"sources\":[\"LFRS\",\"radar\",\"satellite\"],\"state_code\":\"52\",\"station\":\"LFRS\",\"sunrise\":\"05:37\",\"sunset\":\"18:29\",\"temp\":18,\"timezone\":\"Europe/Paris\",\"ts\":2725878792,\"uv\":6,\"vis\":7,\"weather\":{\"description\":\"Clear sky\",\"code\":800,\"icon\":\"c01d\"},\"wind_cdir\":\"WNW\",\"wind_cdir_full\":\"west-northwest\",\"wind_dir\":290,\"wind_spd\":3.1}]}";
+		Lamp lamp = Lamp.builder()
+				.address("AAA")
+				.name("NAME1")
+				.lampDecisions(Arrays.asList(LampDecision.builder().decision(Decision.builder().description("Temps actuel ").build()).build()))
+				.build();
+
+		when(decisionTypeDaoMock.findByTitleContains("Allumer lampadaire")).thenReturn(Optional.of(decisionType));
+		when(weatherDaoMock.findByLatitudeAndLongitude(Mockito.anyDouble(), Mockito.anyDouble())).thenReturn(Optional.ofNullable(weather));
+		when(restTemplateMock.getForEntity(Mockito.anyString(), Mockito.eq(String.class))).thenReturn(new ResponseEntity<String>(response, HttpStatus.OK));
+		when(lampDaoMock.count()).thenReturn(36l);
+		when(lampDaoMock.findAll(Mockito.any(PageRequest.class))).thenReturn(new PageImpl<>(Arrays.asList(lamp)));
+		
+		List<Decision> result = testedObject.algoReductionConsoHoraireWeather();
+
+		verify(decisionTypeDaoMock, times(1)).findByTitleContains("Allumer lampadaire");
+		verify(weatherDaoMock, times(1)).findByLatitudeAndLongitude(Mockito.anyDouble(), Mockito.anyDouble());
+		verify(decisionDaoMock, times(1)).deleteByDescriptionContaining(Mockito.anyString());
+		verify(restTemplateMock, times(1)).getForEntity(Mockito.anyString(), Mockito.eq(String.class));
+		verify(weatherDaoMock, times(1)).save(Mockito.any());
+		verify(lampDaoMock, times(1)).count();
+		verify(lampDaoMock, times(1)).findAll(Mockito.any(PageRequest.class));
+		verify(decisionDaoMock, times(1)).saveAll(Mockito.any());
+		verify(lampDecisionDaoMock, times(1)).saveAll(Mockito.any());
+		assertThat(result).hasSize(0);
 	}
 	
 	@Test
