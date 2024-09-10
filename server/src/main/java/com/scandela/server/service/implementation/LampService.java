@@ -211,7 +211,7 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
 				}
 			});
 		}
-		
+
 		return resultLamps;
 	}
 
@@ -311,24 +311,23 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
 	}
 
 	public double computeGlobalEnergyConsumption(List<Lamp> lamps) {
-
 		double globalEnergyConsumption = 0;
 		int timeOfUse = 7;
-
+	
+		// Consommation des différents types de lampes en watts
 		int SHP = 50, IMC = 40, LED = 3, TF = 10, IM = 35, MBF = 50, FC = 22, SBP = 18, HAL = 10, TL = 8, IC = 40, DIC = 70;
-
-		PriorityQueue<Integer> leastConsumption = new PriorityQueue<>(Comparator.reverseOrder());
-		PriorityQueue<Integer> worstConsumption = new PriorityQueue<>();
-
+	
 		int countValidLamps = 0;
-
+		int minPossibleConsumption = LED * timeOfUse * lamps.size(); // Cas où toutes les lampes sont des LED
+		int maxPossibleConsumption = DIC * timeOfUse * lamps.size(); // Cas où toutes les lampes sont des DIC
+	
 		for (Lamp lamp : lamps) {
 			if (lamp == null || lamp.getLampType() == null) {
 				continue;
 			}
-
+	
 			int energyConsumption = 0;
-
+	
 			switch (lamp.getLampType().toString()) {
 				case "SHP":
 					energyConsumption = SHP * timeOfUse;
@@ -369,34 +368,29 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
 				default:
 					continue;
 			}
-
-			leastConsumption.offer(energyConsumption);
-			if (leastConsumption.size() > 3) {
-				leastConsumption.poll();
-			}
-
-			worstConsumption.offer(energyConsumption);
-			if (worstConsumption.size() > 3) {
-				worstConsumption.poll();
-			}
-
+	
 			globalEnergyConsumption += energyConsumption;
 			countValidLamps++;
 		}
-
+	
 		if (countValidLamps == 0) {
 			return 0;
 		}
-
-		double meanGlobalEnergyConsumption = globalEnergyConsumption / countValidLamps;
-
-		double minConsumption = leastConsumption.stream().mapToInt(Integer::intValue).average().orElse(0);
-		double maxConsumption = worstConsumption.stream().mapToInt(Integer::intValue).average().orElse(0);
-
-		double consumptionScore = 100 - ((meanGlobalEnergyConsumption - maxConsumption) / (minConsumption - maxConsumption) * 100);
-
+	
+		// Normalisation pour obtenir un score entre 0 et 100
+		double normalizedConsumption = (globalEnergyConsumption - minPossibleConsumption) / (maxPossibleConsumption - minPossibleConsumption);
+		double consumptionScore = 100 - (normalizedConsumption * 100);
+	
+		// Affichage des variables pour le débogage
+		// System.out.println("globalEnergyConsumption:" + globalEnergyConsumption);
+		// System.out.println("countValidLamps:" + countValidLamps);
+		// System.out.println("minPossibleConsumption:" + minPossibleConsumption);
+		// System.out.println("maxPossibleConsumption:" + maxPossibleConsumption);
+		// System.out.println("consumptionScore:" + consumptionScore);
+	
 		return consumptionScore;
 	}
+	
 	public class VegetalZonesExtractor {
 		public static double[][] getVegetalZonesFromCSV(String filePath) throws IOException, CsvValidationException {
 			List<double[]> vegetalZones = new ArrayList<>();
@@ -550,7 +544,6 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
         return lampFilledCount * cellArea;
     }
 
-
 	public double computeGlobalLightIndicator(List<Lamp> lamps) {
         if (lamps.isEmpty()) {
             throw new IllegalStateException("No lamps available to calculate light coverage.");
@@ -595,9 +588,9 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
         double illuminatedArea = calculateArea(totalAreaShape, lampCoordinates);
 
         double coverageScore = (illuminatedArea / totalArea) * 100;
-		System.out.println("illuminatedArea:" + illuminatedArea);
-		System.out.println("totalArea:" + totalArea);
-		System.out.println("coverageScore:" + coverageScore);
+		// System.out.println("illuminatedArea:" + illuminatedArea);
+		// System.out.println("totalArea:" + totalArea);
+		// System.out.println("coverageScore:" + coverageScore);
 
         return coverageScore;
     }
