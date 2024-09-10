@@ -311,6 +311,9 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
 	}
 
 	public double computeGlobalEnergyConsumption(List<Lamp> lamps) {
+		if (lamps.isEmpty()) {
+			return 0;
+		}
 		double globalEnergyConsumption = 0;
 		int timeOfUse = 7;
 	
@@ -454,8 +457,11 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
 	}
 
 	public double computeGlobalDistanceVegetalZone(List<Lamp> lamps) throws IOException, CsvValidationException {
+		if (lamps.isEmpty()) {
+			return 0;
+		}
 		double[][] vegetalZones = VegetalZonesExtractor.getVegetalZonesFromCSV("collectionVegetale.csv");
-	
+
 		double totalDistance = 0;
 		int validZonesCount = 0;
 	
@@ -463,7 +469,35 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
 		double distanceMin = 30;
 		double distanceMax = 300;
 	
+		// Trouver les limites du carré formé par les lampadaires
+		double minLatitude = Double.MAX_VALUE;
+		double maxLatitude = Double.MIN_VALUE;
+		double minLongitude = Double.MAX_VALUE;
+		double maxLongitude = Double.MIN_VALUE;
+	
+		for (Lamp lamp : lamps) {
+			if (lamp == null || lamp.getLongitude() == null || lamp.getLatitude() == null) {
+				continue;
+			}
+	
+			double latitude = lamp.getLatitude();
+			double longitude = lamp.getLongitude();
+	
+			if (latitude < minLatitude) minLatitude = latitude;
+			if (latitude > maxLatitude) maxLatitude = latitude;
+			if (longitude < minLongitude) minLongitude = longitude;
+			if (longitude > maxLongitude) maxLongitude = longitude;
+		}
+	
 		for (double[] vegetalZone : vegetalZones) {
+			double vegetalLatitude = vegetalZone[0];
+			double vegetalLongitude = vegetalZone[1];
+	
+			// Vérifier si la zone végétale est dans les limites du carré
+			if (vegetalLatitude < minLatitude || vegetalLatitude > maxLatitude ||
+				vegetalLongitude < minLongitude || vegetalLongitude > maxLongitude) {
+				continue;
+			}
 	
 			PriorityQueue<Double> nearestDistances = new PriorityQueue<>(Collections.reverseOrder());
 	
@@ -472,7 +506,7 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
 					continue;
 				}
 	
-				double distance = haversineDistance(lamp.getLatitude(), lamp.getLongitude(), vegetalZone[0], vegetalZone[1]);
+				double distance = haversineDistance(lamp.getLatitude(), lamp.getLongitude(), vegetalLatitude, vegetalLongitude);
 				
 				if (nearestDistances.size() < 50) {
 					nearestDistances.add(distance);
@@ -548,7 +582,7 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
 
 	public double computeGlobalLightIndicator(List<Lamp> lamps) {
         if (lamps.isEmpty()) {
-            throw new IllegalStateException("No lamps available to calculate light coverage.");
+            return 0;
         }
 
         double minX = Double.POSITIVE_INFINITY;

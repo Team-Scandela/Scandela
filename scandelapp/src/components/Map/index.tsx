@@ -1111,7 +1111,7 @@ const Map: React.FC<MapProps> = ({
             .join('&');
         const url =
             process.env.REACT_APP_BACKEND_URL +
-            `lamps/coordinates?${queryString}`;
+            `lamps/coordinatesWithScores?${queryString}`;
 
         const encodedCredentials = btoa(
             `${process.env.REACT_APP_REQUEST_USER}:${process.env.REACT_APP_REQUEST_PASSWORD}`
