@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { Yellow, Black, White, DarkYellow } from '../../colors';
+import { AiFillCloseCircle } from 'react-icons/ai';
 
 export const LassoButton = styled.div`
     display: flex;
@@ -69,18 +70,18 @@ export const ValidateButton = styled.div`
     }
 `;
 
-export const CloseButton = styled.button`
+export const CloseButton = styled(AiFillCloseCircle)`
     position: absolute;
     top: 10px;
     right: 10px;
     background: none;
     border: none;
-    color: ${(props) => (props.isDark ? White : Black)};
-    font-size: 20px;
+    color: ${Yellow};
+    font-size: 40px;
     cursor: pointer;
 
     &:hover {
-        color: ${Yellow};
+        opacity: 0.8;
     }
 `;
 
@@ -112,20 +113,24 @@ export const Modal = styled.div`
 `;
 
 export const ModalHeader = styled.div`
-    width: 80%;
+    width: 90%;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px 15px;
     background-color: ${(props) => (props.isDark ? Black : White)};
     border-bottom: 2px solid ${Yellow};
+    font-family: 'SyneBold';
+    font-size: 25px;
 `;
 
 export const ModalContent = styled.div`
     width: 80%;
-    padding: 20px;
+    padding: 50px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     color: ${(props) => (props.isDark ? White : Black)};
+    font-family: 'SyneRegular';
+    font-size: 20px;
 `;

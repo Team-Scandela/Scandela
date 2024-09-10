@@ -132,7 +132,7 @@ const Lasso: React.FC<LassoButtonProps> = ({
                                 isLumi={false}
                                 level={tmpConsumptionScore}
                                 oldLevel={tmpConsumptionScore}
-                                top={10}
+                                top={20}
                                 left={82}
                             />
                             <PersonnalizedGauge
@@ -154,7 +154,7 @@ const Lasso: React.FC<LassoButtonProps> = ({
                                 isLumi={true}
                                 level={tmpLightScore}
                                 oldLevel={tmpLightScore}
-                                top={70}
+                                top={60}
                                 left={82}
                             />
                         </Modal>
