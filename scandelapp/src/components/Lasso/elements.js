@@ -68,3 +68,64 @@ export const ValidateButton = styled.div`
         color: ${(props) => (props.isDark ? Yellow : Black)};
     }
 `;
+
+export const CloseButton = styled.button`
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    color: ${(props) => (props.isDark ? White : Black)};
+    font-size: 20px;
+    cursor: pointer;
+
+    &:hover {
+        color: ${Yellow};
+    }
+`;
+
+export const Modal = styled.div`
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    width: 90%;
+    max-width: 600px;
+    height: 50%;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: ${(props) => (props.isDark ? Black : White)};
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    color: ${(props) => (props.isDark ? White : Black)};
+    
+    h2 {
+        margin: 0;
+    }
+
+    p {
+        margin: 10px 0 20px;
+        text-align: center;
+    }
+`;
+
+export const ModalHeader = styled.div`
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    background-color: ${(props) => (props.isDark ? Black : White)};
+    border-bottom: 2px solid ${Yellow};
+`;
+
+export const ModalContent = styled.div`
+    width: 80%;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: ${(props) => (props.isDark ? White : Black)};
+`;

@@ -627,6 +627,10 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
 		// System.out.println("illuminatedArea:" + illuminatedArea);
 		// System.out.println("totalArea:" + totalArea);
 		// System.out.println("coverageScore:" + coverageScore);
+		
+		if (Double.isNaN(coverageScore)) {
+			return 0;
+		}
 
         return coverageScore;
     }
