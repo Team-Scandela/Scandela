@@ -206,6 +206,8 @@ const resources = {
             selectFilter : 'Select a filter :',
             apply : 'Apply',
             onTheGround : 'Lamp on the ground',
+            noFilter : 'No filter',
+            badBulb : 'Bulb with bad quality',
         },
     },
 
@@ -417,6 +419,8 @@ const resources = {
             selectFilter: 'Sélectionner un filtre :',
             apply: 'Appliquer',
             onTheGround : 'Lampes au sol',
+            noFilter : 'Aucun filtre',
+            badBulb : 'Ampoules de mauvaise qualité',
         },
     },
 };
