@@ -14,13 +14,23 @@ import {
     TotalContainer,
     TotalTitleText,
     GaugesContainer,
-    EmptyButton,
+    ValidateButton,
     PDFButton,
+    ToDoButton,
+    PUpToDoContainer,
+    PUpToDo,
+    PUpToDoClose,
+    PUpToDoTitle,
+    PUpToDoLinkIcon,
+    PUpToDoOpen,
+    PUpToDoLinkSubtitle,
+    PUpToDoOpenSubtitle,
 } from './elements';
 import { PersonnalizedGauge } from '../../Gauges';
 import { useTranslation } from 'react-i18next';
 import { getAllScores } from '../../../utils/gaugesUtils';
 import { generatePDFDocument } from './pdfGenerator';
+import { useNavigate } from 'react-router-dom';
 
 /** Menu of the decision pannel
  * @param {boolean} isDark - If the map is in dark mode or not
@@ -38,10 +48,11 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
     optimisationTemplateData,
     setOptimisationTemplateData,
 }) => {
-    const [scrollableOptmisationContainerId, setScrollableOptmisationContainerId] = useState(0);
     const [levelElec, setLevelElec] = useState<number>(0);
     const [levelBio, setLevelBio] = useState<number>(0);
     const [levelLumi, setLevelLumi] = useState<number>(0);
+    const [displayPUpToDo, setDisplayPUpToDo] = useState<boolean>(false);
+    const navigate = useNavigate();
 
     function parseFloatSafe(input: string): number {
         const trimmedInput = input.trim();
@@ -117,37 +128,78 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
         setOptimisationTemplateData(updatedItems);
     };
 
-    const handleEmptyButtonClick = () => {
-        const newData = optimisationTemplateData;
-        for (let i = 0; i < newData.length; i++) {
-            if (newData[i].selected) {
-                updateValidateData(newData[i]);
-                newData[i].saved = false;
+    const handleValidateButtonClick = () => {
+        if (optimisationTemplateData.filter((item: any) => item.selected).length === 0) {
+            alert("Nothing in the action list");
+            return;
+        }
+        const timestamp = getTimestamp();
+        for (let i = 0; i < optimisationTemplateData.length; i++) {
+            if (optimisationTemplateData[i].selected) {
+                updateValidateData(optimisationTemplateData[i], timestamp);
+                optimisationTemplateData[i].saved = false;
             }
         }
-        setOptimisationTemplateData(newData);
-        setScrollableOptmisationContainerId((k) => k + 1);
+        setOptimisationTemplateData(optimisationTemplateData);
     };
 
     const handlePDFButtonClick = () => {
+        if (optimisationTemplateData.filter((item: any) => item.selected).length === 0) {
+            alert("Nothing in the action list");
+            return;
+        }
+        const timestamp = getTimestamp();
         const validateData = optimisationTemplateData.filter(
-            (item: any) => item.saved
+            (item: any) => item.selected
         );
-        const newData = optimisationTemplateData;
-        for (let i = 0; i < newData.length; i++) {
-            if (newData[i].selected) {
-                updateValidateData(newData[i]);
-                newData[i].saved = false;
+        for (let i = 0; i < optimisationTemplateData.length; i++) {
+            if (optimisationTemplateData[i].selected) {
+                updateValidateData(optimisationTemplateData[i], timestamp);
+                optimisationTemplateData[i].saved = false;
             }
         }
         generatePDFDocument(validateData, 'Auteur', 'Nantes');
-        setOptimisationTemplateData(newData);
-        setScrollableOptmisationContainerId((k) => k + 1);
+        setOptimisationTemplateData(optimisationTemplateData);
     };
 
-    const updateValidateData = async (dataDecision: any) => {
-        const timestamp = new Date().toISOString();
+    const handleToDoButtonClick = () => {
+        if (optimisationTemplateData.filter((item: any) => item.selected).length === 0) {
+            alert("Nothing in the action list");
+            return;
+        }
+        setDisplayPUpToDo(true);
+    }
 
+    const handleToDoButtonCopyClick = () => {
+        const timestamp = getTimestamp();
+        for (let i = 0; i < optimisationTemplateData.length; i++) {
+            if (optimisationTemplateData[i].selected) {
+                updateValidateData(optimisationTemplateData[i], timestamp);
+                optimisationTemplateData[i].saved = false;
+            }
+        }
+        setOptimisationTemplateData(optimisationTemplateData);
+        navigator.clipboard.writeText('https:/app.scandela.com/todo/' + timestamp);
+    }
+
+    const handleToDoButtonOpenClick = () => {
+        const timestamp = getTimestamp();
+        for (let i = 0; i < optimisationTemplateData.length; i++) {
+            if (optimisationTemplateData[i].selected) {
+                updateValidateData(optimisationTemplateData[i], timestamp);
+                optimisationTemplateData[i].saved = false;
+            }
+        }
+        setOptimisationTemplateData(optimisationTemplateData);
+        navigate('/todo/' + timestamp);
+    }
+
+    const getTimestamp = () => {
+        const timestamp = new Date().toISOString();
+        return timestamp;
+    }
+
+    const updateValidateData = async (dataDecision: any, timestamp : string) => {
         const encodedCredentials = btoa(
             `${process.env.REACT_APP_REQUEST_USER}:${process.env.REACT_APP_REQUEST_PASSWORD}`
         );
@@ -178,6 +230,7 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
             }
 
             const data = response.json();
+            return timestamp;
         } catch (error) {
             console.error('Erreur', error);
         }
@@ -185,7 +238,7 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
 
     return (
         <div>
-            <ScrollableOptimisationsContainer id={scrollableOptmisationContainerId} isDark={isDark}>
+            <ScrollableOptimisationsContainer isDark={isDark}>
                 <TimeIcon isDark={isDark} size={150} />
                 {optimisationTemplateData
                     .filter((item: any) => item.saved)
@@ -239,7 +292,7 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
                             10
                     }
                     oldLevel={levelElec}
-                    top={18}
+                    top={12}
                     left={6}
                 />
                 <PersonnalizedGauge
@@ -256,7 +309,7 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
                             20
                     }
                     oldLevel={levelBio}
-                    top={18}
+                    top={12}
                     left={36}
                 />
                 <PersonnalizedGauge
@@ -273,16 +326,31 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
                             20
                     }
                     oldLevel={levelLumi}
-                    top={18}
+                    top={12}
                     left={66}
                 />
             </GaugesContainer>
+            <ValidateButton isDark={isDark} onClick={handleValidateButtonClick}>
+                {t('Valider')}
+            </ValidateButton>
             <PDFButton isDark={isDark} onClick={handlePDFButtonClick}>
                 {t('PDF')}
             </PDFButton>
-            <EmptyButton isDark={isDark} onClick={handleEmptyButtonClick}>
-                {t('emptyList')}
-            </EmptyButton>
+            <ToDoButton isDark={isDark} onClick={handleToDoButtonClick}>
+                {t('toDo')}
+            </ToDoButton>
+            {displayPUpToDo &&
+                <PUpToDoContainer >
+                    <PUpToDo >
+                        <PUpToDoClose onClick={() => setDisplayPUpToDo(false)} />
+                        <PUpToDoTitle>{t('toDoReady')}</PUpToDoTitle>
+                        <PUpToDoOpen onClick={handleToDoButtonOpenClick} />
+                        <PUpToDoLinkIcon onClick={handleToDoButtonCopyClick} />
+                        <PUpToDoLinkSubtitle >{t('toDoLink')}</PUpToDoLinkSubtitle>
+                        <PUpToDoOpenSubtitle>{t('toDoOpen')}</PUpToDoOpenSubtitle>
+                    </PUpToDo>
+                </PUpToDoContainer>
+            }
         </div>
     );
 };
