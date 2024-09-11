@@ -8,7 +8,7 @@ import LampPostTable from '../components/LampPostTable';
 import TreeMapComponent from '../components/TreeMapComponent';
 import CityRankingRadarChart from '../components/CityRankingRadarChart';
 import StyledTitle from '../components/StyledTitle';
-
+import BlockPremium from '../components/BlockPremium';
 
 const StatisticsPage = () => {
   const [efficiencyData, setEfficiencyData] = useState<{ date: string; value: number; }[]>([]);
@@ -78,10 +78,23 @@ const StatisticsPage = () => {
     fetchData();
   }, []);
 
+  const isPremium = localStorage.getItem('premium') === 'true'
+  const isAdmin = localStorage.getItem('token') === 'true'
+
+  if (!isPremium && !isAdmin) {
+    return (
+      <StatisticsPageContainer>
+        <ScrollableContainer>
+          <BlockPremium />
+        </ScrollableContainer>
+      </StatisticsPageContainer>
+    );
+  }
+
   return (
     <StatisticsPageContainer>
       <ScrollableContainer>
-      <StyledTitle>Statistiques/Classement</StyledTitle>
+        <StyledTitle>Statistiques/Classement</StyledTitle>
         <InfoSection />
         <CardsAndRadarContainer>
           <StatisticsCards stats={stats} />
