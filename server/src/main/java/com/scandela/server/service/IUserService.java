@@ -13,4 +13,5 @@ public interface IUserService extends IService<User> {
 	public User setUserRole(UUID userId, String role);
 	public UserDTO updateUserTown(UUID userId, UUID newTownId) throws Exception;
 	public User changePassword(UUID id, String password) throws UserException;
+	public User getByMail(String mail);
 }

@@ -12,6 +12,7 @@ import { AiFillCloseCircle } from 'react-icons/ai';
 import { FaEdit, FaCheck } from 'react-icons/fa';
 import { AiOutlineUserDelete } from 'react-icons/ai';
 import { MdOutlineUpgrade } from 'react-icons/md';
+import { BiExit } from 'react-icons/bi';
 
 export const ProfilContainer = styled.div`
     position: absolute;
@@ -213,6 +214,27 @@ export const UserCardUpgrade = styled(MdOutlineUpgrade)`
     font-size: 30px;
     color: ${DarkYellow};
     opacity: 1;
+
+    &:hover {
+        cursor: pointer;
+        opacity: 0.8;
+    }
+`;
+
+export const LogoutButton = styled(BiExit)`
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    right: 10px;
+    bottom: 10px;
+    font-size: 40px;
+    width: 40px;
+    height: 40px;
+    color: ${Black};
+    opacity: 1;
+    background-color: ${Yellow};
+    border-radius: 10px;
 
     &:hover {
         cursor: pointer;

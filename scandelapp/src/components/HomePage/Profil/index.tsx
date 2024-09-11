@@ -17,9 +17,11 @@ import {
     UserCardEmail,
     UserCardDelete,
     UserCardUpgrade,
+    LogoutButton,
 } from './elements';
 import { getUser, putUser } from '../../../utils/userUtils';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
 interface ProfilProps {
     closeToMainApp: () => void;
@@ -53,6 +55,8 @@ const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
     const [email, setEmail] = useState('Chargement...');
     const [password, setPassword] = useState('');
     const [kwH, setKwH] = useState('600');
+
+    const navigate = useNavigate();
 
     const { t } = useTranslation();
     useEffect(() => {
@@ -155,6 +159,11 @@ const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
         putUser(updatedUserData);
     };
 
+    const handleLogout = () => {
+        localStorage.clear();
+        navigate('/');
+    };
+
     return (
         <ProfilContainer>
             <ProfilRectangle>
@@ -247,6 +256,7 @@ const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
                             </EditButton>
                         )}
                     </ProfileField>
+                    <LogoutButton onClick={handleLogout} />
                 </ProfilPart>
                 <ProfilPart left={'75%'}>
                     <SuperUserTitle>Panneau d'administrateur</SuperUserTitle>

@@ -5,6 +5,7 @@ import { CSSTransition } from 'react-transition-group';
 import Title from '../components/HomePage/Title';
 import ToMainApp from '../components/HomePage/ToMainApp';
 import logo from '../assets/logo-128x128.png';
+import law from '../assets/homepage/law.png';
 import faq from '../assets/homepage/faq.png';
 import profil from '../assets/homepage/profil.png';
 import premium from '../assets/homepage/premium.png';
@@ -14,6 +15,8 @@ import Tickets from '../components/HomePage/Tickets';
 import Profil from '../components/HomePage/Profil';
 import Premium from '../components/HomePage/Premium';
 import FAQ from '../components/HomePage/FAQ';
+import Stats from '../components/HomePage/Stats';
+import Law from '../components/HomePage/Law';
 
 export interface MarkerData {
     id: string;
@@ -73,6 +76,14 @@ const dataMarker: MarkerData[] = [
         title: 'Statistiques',
         small: true,
     },
+    {
+        id: 'law',
+        lng: 4.56,
+        lat: 51.953,
+        icon: law,
+        title: 'Loi & Aide',
+        small: true,
+    },
 ];
 
 interface HomePageProps {}
@@ -110,7 +121,9 @@ const HomePage: React.FC<HomePageProps> = () => {
             case 'faq':
                 return <FAQ closeToMainApp={handleBackClick} />;
             case 'stats':
-                return <ToMainApp closeToMainApp={handleBackClick} />;
+                return <Stats closeToMainApp={handleBackClick} />;
+            case 'law':
+                return <Law closeToMainApp={handleBackClick} />;
             default:
                 return null;
         }

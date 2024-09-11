@@ -11,8 +11,7 @@ import React from 'react';
 import { allLamps } from '../../utils/lampUtils';
 
 // Load geographical data of Nantes from a local JSON file
-// let nantesData = allLamps;
-let nantesData = require('../../assets/nantesData.json');
+let nantesData = allLamps;
 
 function getRandomColor() {
     const colors = ['#00FF00', '#FFA500', '#FF0000'];
@@ -115,7 +114,7 @@ const Map: React.FC<MapProps> = ({
     }
 
     // Crée les données géoJSON à partir des données de Nantes
-    /*const geojsonData = useMemo(() => {
+    const geojsonData = useMemo(() => {
         let geoJSON = {
             type: 'FeatureCollection',
             features: [] as any[],
@@ -134,32 +133,6 @@ const Map: React.FC<MapProps> = ({
                     hat: obj.foyerType,
                     lum: obj.lum,
                     height: obj.height,
-                },
-            };
-            geoJSON.features.push(feature);
-        });
-        return geoJSON;
-    }, []);*/
-    const geojsonData = useMemo(() => {
-        let geoJSON = {
-            type: 'FeatureCollection',
-            features: [] as any[],
-        };
-        nantesData.forEach((obj: any) => {
-            const feature: any = {
-                type: 'Feature',
-                geometry: {
-                    type: obj.geometry.type,
-                    coordinates: [
-                        obj.geometry.coordinates[0],
-                        obj.geometry.coordinates[1],
-                    ],
-                },
-                properties: {
-                    id: obj.recordid,
-                    name: obj.fields.numero,
-                    lamp: obj.fields.type_lampe,
-                    hat: obj.fields.type_foyer,
                 },
             };
             geoJSON.features.push(feature);
@@ -209,6 +182,7 @@ const Map: React.FC<MapProps> = ({
         }
         setLassoSelectedLamps([]);
         setIsLassoActive(isActive);
+        localStorage.setItem('lassoActive', JSON.stringify(isActive));
     };
 
     const closeLastFilter = () => {
@@ -1070,7 +1044,7 @@ const Map: React.FC<MapProps> = ({
 
     // update the map with the filter filter
     useEffect(() => {
-        if (searchFilter == '') {
+        if (searchFilter === '') {
             return;
         }
         let sortedData: geojson = {
@@ -1138,7 +1112,11 @@ const Map: React.FC<MapProps> = ({
             .join('&');
         const url =
             process.env.REACT_APP_BACKEND_URL +
-            `lamps/coordinates?${queryString}`;
+            `lamps/coordinatesWithScores?${queryString}`;
+
+        localStorage.setItem('tmpVegetalScore', JSON.stringify(false));
+        localStorage.setItem('tmpConsumptionScore', JSON.stringify(false));
+        localStorage.setItem('tmpLightScore', JSON.stringify(false));
 
         const encodedCredentials = btoa(
             `${process.env.REACT_APP_REQUEST_USER}:${process.env.REACT_APP_REQUEST_PASSWORD}`
@@ -1156,17 +1134,31 @@ const Map: React.FC<MapProps> = ({
                 return response.json();
             })
             .then((data) => {
-                const lampIds = data.map((lamp: any) => lamp.name);
-                setLassoSelectedLamps(lampIds);
-                if (map.current) {
-                    map.current.setPaintProperty('lamp', 'circle-color', [
-                        'match',
-                        ['get', 'name'],
-                        lampIds,
-                        '#48187b',
-                        '#FAC710',
-                    ]);
-                }
+                localStorage.setItem(
+                    'tmpVegetalScore',
+                    JSON.stringify(data.vegetalScore)
+                );
+                localStorage.setItem(
+                    'tmpConsumptionScore',
+                    JSON.stringify(data.consumptionScore)
+                );
+                localStorage.setItem(
+                    'tmpLightScore',
+                    JSON.stringify(data.lightScore)
+                );
+
+                // con st lampIds = data.map((lamp: any) => lamp.name);
+                // setLassoSelectedLamps(lampIds);
+                // if (map.current) {
+                //     map.current.setPaintProperty('lamp', 'circle-color', [
+                //         'match',
+                //         ['get', 'name'],
+                //         lampIds,
+                //         '#48187b',
+                //         '#FAC710',
+                //     ]);
+                // }
+                console.log('data', data);
             })
             .catch((error) => {
                 console.error(
@@ -1339,22 +1331,12 @@ const Map: React.FC<MapProps> = ({
 
     // Trouver l'objet correspondant au selectedLampId dans nantesData
     const selectedLampData = nantesData
-        // .at(0)
-        // .find((lamp: any) => lamp.id === selectedLampId);
-        .find((lamp: any) => lamp.recordid === selectedLampId);
+        .at(0)
+        .find((lamp: any) => lamp.id === selectedLampId);
 
     // Render the map component
     return (
         <div id={id} style={{ overflow: 'hidden' }}>
-            {localStorage.getItem('token') === 'true' && (
-                <Lasso
-                    id={'LassoComponentId'}
-                    isDark={isDark}
-                    onLassoActivation={handleLassoActivation}
-                    onLassoValidation={handleLassoValidation}
-                />
-            )}
-            <LassoOverlay isLassoActive={isLassoActive} />
             <div
                 style={{ ...styleMap, cursor: cursorStyle }}
                 ref={mapContainer}
@@ -1368,6 +1350,13 @@ const Map: React.FC<MapProps> = ({
                 display: none !important;
                 }`}
             </style>
+            <Lasso
+                id={'LassoComponentId'}
+                isDark={isDark}
+                onLassoActivation={handleLassoActivation}
+                onLassoValidation={handleLassoValidation}
+            />
+            <LassoOverlay isLassoActive={isLassoActive} />
             {selectedLampId && (
                 <LampInfosPopup
                     id={'LampInfosPopupComponentId'}
