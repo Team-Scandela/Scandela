@@ -52,7 +52,7 @@ public class NotificationService extends AbstractService<Notification> implement
 		try {
 			loadUser(newNotification);
 
-			newNotification.setTime(LocalDateTime.now());
+			//newNotification.setTime(LocalDateTime.now());
 
 			return dao.save(newNotification);
 		} catch (Exception e) {

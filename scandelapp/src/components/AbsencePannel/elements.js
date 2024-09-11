@@ -89,22 +89,7 @@ export const PannelText = styled.div`
     color: ${(props) => (props.isDark ? Yellow : Black)};
     font-weight: 550;
     user-select: none;
-<<<<<<< HEAD
-
-    @media (max-width: 992px) {
-        font-size: 30px;
-    }
-
-    @media (max-width: 768px) {
-        font-size: 25px;
-    }
-
-    @media (max-width: 576px) {
-        font-size: 20px;
-    }
-=======
     font-family: 'SyneRegular';
->>>>>>> master
 `;
 
 export const CloseIcon = styled(AiFillCloseCircle)`
@@ -145,28 +130,6 @@ export const ListDetailContainer = styled.div`
     overflow-y: auto;
     background-color: ${(props) =>
         props.isDark ? Yellow + 'FF' : Black + 'FF'};
-<<<<<<< HEAD
-    border-radius: 30px;
-    padding: 20px;
-    gap: 10px;
-
-    @media (max-width: 992px) {
-        width: 500px;
-        height: 300px;
-        left: 20px;
-    }
-
-    @media (max-width: 768px) {
-        width: 400px;
-        height: 250px;
-        left: 15px;
-    }
-
-    @media (max-width: 576px) {
-        width: 200px;
-        height: 150px;
-        left: 10px;
-=======
     border-radius: 10px;
 
     ::-webkit-scrollbar {
@@ -193,7 +156,6 @@ export const ListDetailContainer = styled.div`
         margin-right: 5px;
         margin-top: 5px;
         margin-bottom: 2px;
->>>>>>> master
     }
 `;
 
@@ -205,73 +167,6 @@ export const EventContainer = styled.div`
     top: ${(props) => props.y}px;
     border-radius: 10px;
     background-color: ${(props) => (props.isDark ? Black : White)};
-<<<<<<< HEAD
-
-    @media (max-width: 992px) {
-        height: 80px;
-    }
-
-    @media (max-width: 768px) {
-        height: 60px;
-    }
-
-    @media (max-width: 576px) {
-        height: 50px;
-    }
-`;
-
-export const EventDate = styled.div`
-    position: absolute;
-    top: 65px;
-    left: 365px;
-    width: 100%;
-    height: 100%;
-    color: ${(props) => (props.isDark ? Black : White)};
-    font-size: 20px;
-
-    @media (max-width: 992px) {
-        top: 50px;
-        left: 280px;
-        font-size: 16px;
-    }
-
-    @media (max-width: 768px) {
-        top: 40px;
-        left: 220px;
-        font-size: 14px;
-    }
-
-    @media (max-width: 576px) {
-        top: 30px;
-        left: 160px;
-        font-size: 12px;
-    }
-`;
-
-export const EventDescription = styled.div`
-    position: absolute;
-    top: 40px;
-    left: 10px;
-    width: 100%;
-    height: 100%;
-    color: ${(props) => (props.isDark ? Black : White)};
-    font-size: 20px;
-
-    @media (max-width: 992px) {
-        top: 30px;
-        font-size: 16px;
-    }
-
-    @media (max-width: 768px) {
-        top: 25px;
-        font-size: 14px;
-    }
-
-    @media (max-width: 576px) {
-        top: 20px;
-        font-size: 12px;
-    }
-=======
     overflow: hidden;
     margin: 8px;
     border: 2px solid ${Black};
@@ -285,51 +180,11 @@ export const TextContainer = styled.div`
     padding-left: 3%;
     gap: 5px;
     max-width: 94%;
->>>>>>> master
 `;
 
 export const EventTitle = styled.div`
     font-size: 20px;
     font-weight: 500;
-<<<<<<< HEAD
-
-    @media (max-width: 992px) {
-        font-size: 20px;
-    }
-
-    @media (max-width: 768px) {
-        font-size: 18px;
-    }
-
-    @media (max-width: 576px) {
-        font-size: 16px;
-    }
-`;
-
-export const EventLocation = styled.div`
-    position: absolute;
-    top: 65px;
-    left: 10px;
-    width: 100%;
-    height: 100%;
-    color: ${(props) => (props.isDark ? Black : White)};
-    font-size: 20px;
-
-    @media (max-width: 992px) {
-        top: 50px;
-        font-size: 16px;
-    }
-
-    @media (max-width: 768px) {
-        top: 40px;
-        font-size: 14px;
-    }
-
-    @media (max-width: 576px) {
-        top: 30px;
-        font-size: 12px;
-    }
-=======
     user-select: none;
     overflow-wrap: break-word;
     font-family: 'SyneRegular';
@@ -361,7 +216,6 @@ export const EventDate = styled.div`
     overflow-wrap: break-word;
     font-family: 'SyneRegular';
     color: ${(props) => (props.isDark ? Black : Grey)};
->>>>>>> master
 `;
 
 /** Time Icon **/

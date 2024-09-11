@@ -11,14 +11,11 @@ import AbsencePannel from '../components/AbsencePannel';
 import FilterSearch from '../components/FilterSearch';
 import TrafficTime from '../components/TrafficTime';
 import ActionHistory from '../components/ActionHistory';
-<<<<<<< HEAD
 import FilterLegend from '../components/FilterLegend';
 import LegendHeatmap from '../components/Legends/LegendHeatmap';
 import EcoPannel from '../components/EcoPannel';
-=======
 import LogoutButton from '../components/LogoutButton';
 import Tutoriel from '../components/Tutoriel';
->>>>>>> master
 
 export enum Filters {
     pin = 'pin',
@@ -37,6 +34,7 @@ export enum Tabs {
     AddEntity,
     ElectricityPrice,
     Options,
+    LampList,
 }
 
 interface MainProps {
@@ -45,8 +43,6 @@ interface MainProps {
 }
 
 const Main: React.FC<MainProps> = ({
-    optimisationTemplateData,
-    setOptimisationTemplateData,
 }) => {
     const [isDark, setIsDark] = useState(() => {
         const savedIsDark = localStorage.getItem('isDark');
@@ -59,19 +55,12 @@ const Main: React.FC<MainProps> = ({
 
     const [decisionPanelExtended, setDecisionPanelExtended] =
         useState<boolean>(false);
-<<<<<<< HEAD
-    const [actionsListExtended, setActionsListExtended] = useState(false);
-    const [currentSelected, setCurrentSelected] = useState(
-        'Choisissez une action'
-    );
-=======
     /** If the action list panel is open or closed */
     const [currentSelected, setCurrentSelected] = useState(
         'Choisissez une action'
     );
     const [currentTab, setCurrentTab] = useState(Tabs.Scandela);
     /** Variables for the search for the filter filter */
->>>>>>> master
     const [search, setSearch] = useState<string>('');
     const [selected, setSelected] = useState<string>('Lamp');
 
@@ -192,14 +181,12 @@ const Main: React.FC<MainProps> = ({
         ['languageUpdate', true],
     ]);
 
-<<<<<<< HEAD
     // État pour gérer l'affichage de la légende temporaire
     const [showFilterLegend, setShowFilterLegend] = useState(false);
     const [legendText, setLegendText] = useState('');
 
     // État pour gérer l'affichage temporaire du texte
     const [tempText, setTempText] = useState<string>('');
-=======
     /** If the map filter container is on or out */
     const [filterPanelExtended, setFilterPanelExtended] = useState<boolean>(false);
 
@@ -221,7 +208,6 @@ const Main: React.FC<MainProps> = ({
             setToastHistoryExtended(!toastHistoryExtended);
         setActionHistoryExtended(!actionHistoryExtended);
     };
->>>>>>> master
 
     const handleSearch = (value: string) => {
         handleSearchUtils(value, lat, setLat, lng, setLng, zoom, setZoom);
