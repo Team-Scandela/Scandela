@@ -87,7 +87,7 @@ export const DecisionMenuButtonsContainer = styled.div`
 /** Container of the decision menu tab button */
 export const DecisionMenuTabButton = styled.div`
     flex: ${({ isSelected }) => (isSelected ? '2' : '1')};
-    max-width: ${({ isSelected }) => (isSelected ? '260px' : '60px')};
+    max-width: ${({ isSelected }) => (isSelected ? '280px' : '70px')};
     height: 46px;
     border-radius: 8px;
     overflow: hidden;

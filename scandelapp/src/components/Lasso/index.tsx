@@ -1,5 +1,12 @@
 import { useState, useEffect } from 'react';
-import { LassoButton, ValidateButton, Modal, CloseButton, ModalHeader, ModalContent } from './elements';
+import {
+    LassoButton,
+    ValidateButton,
+    Modal,
+    CloseButton,
+    ModalHeader,
+    ModalContent,
+} from './elements';
 import { TbLassoPolygon } from 'react-icons/tb';
 import { FaCheck } from 'react-icons/fa';
 import { PersonnalizedGauge } from '../Gauges';
@@ -26,27 +33,27 @@ const Lasso: React.FC<LassoButtonProps> = ({
 
     useEffect(() => {
         const interval = setInterval(() => {
-            const tmpConsumptionScore = localStorage.getItem('tmpConsumptionScore');
+            const tmpConsumptionScore = localStorage.getItem(
+                'tmpConsumptionScore'
+            );
             const tmpLightScore = localStorage.getItem('tmpLightScore');
             const tmpVegetalScore = localStorage.getItem('tmpVegetalScore');
 
-            if (tmpConsumptionScore != "false") {
+            if (tmpConsumptionScore != 'false') {
                 setTmpConsumptionScore(parseFloat(tmpConsumptionScore));
                 clearInterval(interval);
                 setIsLoaded(true);
             }
-            if (tmpLightScore != "false") {
+            if (tmpLightScore != 'false') {
                 setTmpLightScore(parseFloat(tmpLightScore));
                 clearInterval(interval);
             }
-            if (tmpVegetalScore != "false") {
+            if (tmpVegetalScore != 'false') {
                 setTmpVegetalScore(parseFloat(tmpVegetalScore));
                 clearInterval(interval);
             }
         }, 1000);
-    }
-    );
-
+    });
 
     const toggleLassoActivation = () => {
         const isActive = !isOn;
@@ -69,7 +76,7 @@ const Lasso: React.FC<LassoButtonProps> = ({
         setTmpConsumptionScore(0);
         setTmpLightScore(0);
         setTmpVegetalScore(0);
-    }
+    };
 
     return (
         <div id={id}>
@@ -82,14 +89,14 @@ const Lasso: React.FC<LassoButtonProps> = ({
             </LassoButton>
             {isOn && (
                 <>
-                    <ValidateButton isDark={isDark} onClick={toggleLassoValidation}>
+                    <ValidateButton
+                        isDark={isDark}
+                        onClick={toggleLassoValidation}
+                    >
                         <FaCheck size={30} />
                     </ValidateButton>
                     {isModalOpen && (
-                        <Modal
-                            isOpen={isModalOpen}
-                            isDark={isDark}
-                        >
+                        <Modal isOpen={isModalOpen} isDark={isDark}>
                             <CloseButton
                                 onClick={toggleCloseModal}
                                 isDark={isDark}
@@ -102,24 +109,36 @@ const Lasso: React.FC<LassoButtonProps> = ({
                             <ModalContent isDark={isDark}>
                                 {isLoaded && (
                                     <>
-                                        Félicitations, vous avez terminé votre lasso. Voici vos résultats :
-                                        <br /><br /><br />
-                                        Consommation : {tmpConsumptionScore.toFixed(2)} / 100
-                                        <br /><br />
-                                        Végétal : {tmpVegetalScore.toFixed(2)} / 100
+                                        Félicitations, vous avez terminé votre
+                                        lasso. Voici vos résultats :
+                                        <br />
+                                        <br />
+                                        <br />
+                                        Consommation :{' '}
+                                        {tmpConsumptionScore.toFixed(2)} / 100
+                                        <br />
+                                        <br />
+                                        Végétal : {tmpVegetalScore.toFixed(2)} /
+                                        100
                                         {tmpVegetalScore == 0 && isLoaded && (
                                             <>
-                                            <br /><br />
-                                                Vous n'avez pas sélectionné de zone végétale. Votre score n'est donc pas pris en compte.
+                                                <br />
+                                                <br />
+                                                Vous n'avez pas sélectionné de
+                                                zone végétale. Votre score n'est
+                                                donc pas pris en compte.
                                             </>
                                         )}
-                                        <br /><br />
-                                        Lumière : {tmpLightScore.toFixed(2)} / 100
+                                        <br />
+                                        <br />
+                                        Lumière : {tmpLightScore.toFixed(2)} /
+                                        100
                                     </>
                                 )}
                                 {!isLoaded && (
                                     <p>
-                                        Veuillez patienter, nous calculons vos résultats...
+                                        Veuillez patienter, nous calculons vos
+                                        résultats...
                                     </p>
                                 )}
                             </ModalContent>
@@ -157,8 +176,7 @@ const Lasso: React.FC<LassoButtonProps> = ({
                                 left={82}
                             />
                         </Modal>
-                    )
-                    }
+                    )}
                 </>
             )}
         </div>

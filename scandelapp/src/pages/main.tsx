@@ -28,8 +28,7 @@ export enum Filters {
 export enum Tabs {
     Scandela = 1,
     ActionsList,
-    ModifEntity,
-    AddEntity,
+    LampList,
     ElectricityPrice,
     Options,
 }
@@ -75,7 +74,8 @@ const Main: React.FC<MainProps> = ({
     ]);
 
     /** If the map filter container is on or out */
-    const [filterPanelExtended, setFilterPanelExtended] = useState<boolean>(false);
+    const [filterPanelExtended, setFilterPanelExtended] =
+        useState<boolean>(false);
 
     const [tooltipPreference, setTooltipPreference] = useState(true);
     const [showTutoriel, setShowTutoriel] = useState(false);
@@ -212,9 +212,7 @@ const Main: React.FC<MainProps> = ({
                             id={'tutorielId'}
                             isDark={isDark}
                             setShowTutoriel={setShowTutoriel}
-                            setDecisionPanelExtended={
-                                setDecisionPanelExtended
-                            }
+                            setDecisionPanelExtended={setDecisionPanelExtended}
                             setCurrentTab={setCurrentTab}
                             setFilterPanelExtended={setFilterPanelExtended}
                         />

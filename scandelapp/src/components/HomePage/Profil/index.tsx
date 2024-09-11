@@ -164,7 +164,6 @@ const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
         navigate('/');
     };
 
-
     return (
         <ProfilContainer>
             <ProfilRectangle>

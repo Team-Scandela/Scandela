@@ -1,17 +1,11 @@
 import styled from 'styled-components';
-import {
-    Yellow,
-    Black,
-    Grey,
-    White,
-    LightDarkGrey,
-} from '../../../colors';
+import { Yellow, Black, Grey, White, LightDarkGrey } from '../../../colors';
 import { BsFillTrash3Fill } from 'react-icons/bs';
 import { GiSandsOfTime } from 'react-icons/gi';
 import { AiOutlineSend } from 'react-icons/ai';
 import { AiFillCloseCircle } from 'react-icons/ai';
-import { RiExternalLinkLine } from "react-icons/ri";
-import { IoIosLink } from "react-icons/io";
+import { RiExternalLinkLine } from 'react-icons/ri';
+import { IoIosLink } from 'react-icons/io';
 
 /** Container of the scrollable optimisation container */
 export const ScrollableOptimisationsContainer = styled.div`
@@ -293,13 +287,13 @@ export const ToDoButton = styled.div`
 `;
 
 export const PUpToDoContainer = styled.div`
-    position : absolute;
-    top : 0px;
-    left : 0px;
-    width : 100%;
-    height : 100%;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
     background-color: ${Black + 'CC'};
-    z-index : 9999999999;
+    z-index: 9999999999;
 `;
 
 export const PUpToDo = styled.div`
@@ -342,10 +336,10 @@ export const PUpToDoTitle = styled.div`
     color: ${Yellow};
     font-weight: bold;
     font-family: 'SyneRegular';
-    align-content : center;
-    justify-content : center;
-    text-align : center;
-    width : 100%;
+    align-content: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
 `;
 
 export const PUpToDoLinkIcon = styled(IoIosLink)`
@@ -363,7 +357,7 @@ export const PUpToDoLinkIcon = styled(IoIosLink)`
     &:hover {
         background-color: ${Yellow + 'CC'};
     }
-`
+`;
 
 export const PUpToDoLinkSubtitle = styled.div`
     display: flex;
@@ -374,11 +368,10 @@ export const PUpToDoLinkSubtitle = styled.div`
     font-size: 15px;
     color: ${Yellow};
     font-family: 'SyneRegular';
-    align-content : center;
-    justify-content : center;
-    text-align : center;
+    align-content: center;
+    justify-content: center;
+    text-align: center;
 `;
-
 
 export const PUpToDoOpen = styled(RiExternalLinkLine)`
     display: flex;
@@ -395,7 +388,7 @@ export const PUpToDoOpen = styled(RiExternalLinkLine)`
     &:hover {
         background-color: ${Yellow + 'CC'};
     }
-`
+`;
 
 export const PUpToDoOpenSubtitle = styled.div`
     display: flex;
@@ -406,7 +399,7 @@ export const PUpToDoOpenSubtitle = styled.div`
     font-size: 15px;
     color: ${Yellow};
     font-family: 'SyneRegular';
-    align-content : center;
-    justify-content : center;
-    text-align : center;
+    align-content: center;
+    justify-content: center;
+    text-align: center;
 `;
