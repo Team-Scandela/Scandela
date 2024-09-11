@@ -31,6 +31,7 @@ public class LampDto implements Serializable {
 	private Integer lum;
 	private Double height;
 	private String address;
+	private String uuidbulb;
 	
 	// Methods \\
 		// Public \\
@@ -45,6 +46,7 @@ public class LampDto implements Serializable {
 				.lum(1)
 				.height(lamp.getHeight())
 				.address(lamp.getAddress())
+				.uuidbulb(lamp.getBulb() == null ? null : lamp.getBulb().getId().toString())
 				.build();
 	}
 }
