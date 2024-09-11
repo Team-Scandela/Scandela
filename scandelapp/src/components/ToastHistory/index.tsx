@@ -14,6 +14,7 @@ import {
 import { Tooltip } from 'react-tooltip';
 import { useTranslation } from 'react-i18next';
 import { Black } from '../../colors';
+import { deleteNotification } from '../../utils/notificationUtils'
 
 /**
  * @param {boolean} isDark - If the map is in dark mode or not
@@ -42,29 +43,13 @@ const ToastHistory: React.FC<ToastHistoryProps> = ({
 }) => {
     const { t } = useTranslation();
 
-    // const handleNotificationClick = (id: string) => {
-    //     setSelectedNotificationId(selectedNotificationId === id ? null : id);
-    // };
-
-    // const handleDeleteNotification = async (id: string) => {
-    //     try {
-    //         // Call API to delete notification
-    //         // await deleteNotificationAPI(id);
-    //         setServerNotifications((prevNotifications) =>
-    //             prevNotifications.filter(
-    //                 (notification) => notification.id !== id
-    //             )
-    //         );
-    //     } catch (error) {
-    //         console.error('Failed to delete notification:', error);
-    //     }
-    // };
-
-    const formatDate = (timeArray: number[]): string => {
-        if (!Array.isArray(timeArray) || timeArray.length < 6) {
+    const formatDate = (time: any): string => {
+        if (!Array.isArray(time))
+            return time;
+        if (time.length < 6) {
             return 'Invalid Date';
         }
-        const [year, month, day, hour, minute, second] = timeArray;
+        const [year, month, day, hour, minute, second] = time;
         const date = new Date(year, month - 1, day, hour, minute, second);
         return date.toLocaleString();
     };
@@ -103,7 +88,7 @@ const ToastHistory: React.FC<ToastHistoryProps> = ({
                             <DescriptionText isDark={isDark}>
                                 {item.description}
                             </DescriptionText>
-                            <TimeText isDark={isDark}>{item.time}</TimeText>
+                            <TimeText isDark={isDark}>{formatDate(item.time)}</TimeText>
                         </NotificationTemplateContainer>
                     ))}
                 </NotificationsContainer>

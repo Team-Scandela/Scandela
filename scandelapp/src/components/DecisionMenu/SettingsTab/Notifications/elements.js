@@ -31,7 +31,7 @@ export const NotificationTitle = styled.div`
 export const SubTitleText = styled.div`
     display: flex;
     position: absolute;
-    top: 80%;
+    top: 83%;
     left: 40%;
     font-size: 25px;
     user-select: none;
