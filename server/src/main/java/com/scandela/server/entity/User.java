@@ -26,7 +26,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-
 @Entity
 @Builder
 @Data
@@ -37,29 +36,29 @@ import lombok.NoArgsConstructor;
 public class User implements Serializable {
 
 	// Attributes \\
-		// Private \\
+	// Private \\
 	private static final long serialVersionUID = 1L;
 
 	@JsonDeserialize(using = UUIDDeserializer.class)
 	@Id
 	@GenericGenerator(name = "UUIDGenerator", strategy = "uuid2")
-    @GeneratedValue(generator = "UUIDGenerator")
+	@GeneratedValue(generator = "UUIDGenerator")
 	@Column(name = "uuid", updatable = false, nullable = false)
 	private UUID id;
-	
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "uuidtown", nullable = false)
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "uuidtown")
 	private Town town;
-	
+
 	@Column(name = "email", nullable = false, unique = true)
 	private String email;
-	
+
 	@Column(name = "username", nullable = false, unique = true)
 	private String username;
-	
+
 	@Column(name = "password", nullable = false)
 	private String password;
-	
+
 	@Column(name = "rights", nullable = true)
 	private Integer rights;
 
@@ -69,14 +68,14 @@ public class User implements Serializable {
 	// @JdbcTypeCode(SqlTypes.JSON)
 	@Column(name = "moreinformations", nullable = true)
 	private List<String> moreInformations;
-	
+
 	@Builder.Default
 	@Column(name = "darkmode", nullable = false)
 	private boolean darkmode = false;
-	
+
 	@Column(name = "lastconnexion", nullable = false)
 	private LocalDateTime lastConnexion;
-	
+
 	@Builder.Default
 	@Column(name = "newsletter")
 	private boolean newsletter = false;

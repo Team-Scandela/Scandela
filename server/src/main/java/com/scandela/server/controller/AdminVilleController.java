@@ -3,6 +3,7 @@ package com.scandela.server.controller;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.scandela.server.dao.UserDao;
 import com.scandela.server.entity.Town;
 import com.scandela.server.entity.User;
+import com.scandela.server.entity.dto.UserDTO;
 import com.scandela.server.service.IUserService;
 import com.scandela.server.util.AdminVilleAccess;
 
@@ -25,44 +28,65 @@ public class AdminVilleController {
     @Autowired
     IUserService userService;
 
-    @PostMapping("/affectUser/{adminid}")
-    public User affectUser(@PathVariable UUID adminid, @RequestBody User user) throws Exception {
-    try {
-        User adminUser = userService.get(adminid);
-        if (adminUser.getAdminville()) {
+    UserDao userdao;
+
+    @PostMapping("/affectUser/{adminid}/{userid}")
+    public ResponseEntity<?> affectUser(@PathVariable UUID adminid, @PathVariable UUID userid) {
+        try {
+            User adminUser = userService.get(adminid);
+            if (!adminUser.getAdminville()) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("No access permission.");
+            }
+
             Town adminTown = adminUser.getTown();
             if (adminTown == null) {
-                throw new Exception("Admin user does not have an associated town.");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                                    .body("Admin user does not have an associated town.");
             }
 
-            User existingUser = userService.get(user.getId());
+            User existingUser = userService.get(userid);
             if (existingUser == null) {
-                throw new Exception("User not found.");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
             }
 
-            existingUser.setTown(adminTown);
-            User updatedUser = userService.update(existingUser.getId(), existingUser);
+            if (existingUser.getTown() != null && existingUser.getTown().equals(adminTown)) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User already belongs to admin's town.");
+            }
 
-            return updatedUser;
-        } else {
-            throw new Exception("No access permission.");
-        }
-    } catch (Exception e) {
-        throw new Exception("Error affecting user: " + e.getMessage(), e);
-    }
-}
+            UserDTO updatedUser = userService.updateUserTown(userid, adminTown.getId());
 
-    @DeleteMapping("/deaffectUser/{adminid}")
-    public void deaffectUser(@PathVariable UUID adminid, @RequestBody User user) throws Exception {
-        try {
-
-            User adminUser = userService.get(adminid);
-
-            if (adminUser.getAdminville())
-                userService.delete(user.getId());
-
+            return ResponseEntity.ok(updatedUser);
         } catch (Exception e) {
-            throw new Exception("Admin was not found");
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                                .body("Error affecting user: " + e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/deaffectUser/{adminid}/{userid}")
+    public ResponseEntity<?> deaffectUser(@PathVariable UUID adminid, @PathVariable UUID userid) throws Exception {
+        try {
+            User adminUser = userService.get(adminid);
+            if (!adminUser.getAdminville()) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("No access permission.");
+            }
+
+            User existingUser = userService.get(userid);
+            if (existingUser == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
+            }
+
+            if (!adminUser.getTown().equals(existingUser.getTown())) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User already belongs to admin's town.");
+            }
+
+            UserDTO updatedUser = userService.updateUserTown(userid, null);  // Passing null to remove town association
+
+            return ResponseEntity.ok(updatedUser);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                                 .body("Error deaffecting user: " + e.getMessage());
         }
     }
 }
