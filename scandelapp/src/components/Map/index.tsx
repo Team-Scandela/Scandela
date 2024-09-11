@@ -139,7 +139,7 @@ const Map: React.FC<MapProps> = ({
         });
         return geoJSON;
     }, []);
-    
+
     // const geoData = useMemo(() => {
     //     let jsonArmoire = {
     //         type: 'FeatureCollection',
@@ -1113,7 +1113,7 @@ const Map: React.FC<MapProps> = ({
         const url =
             process.env.REACT_APP_BACKEND_URL +
             `lamps/coordinatesWithScores?${queryString}`;
-        
+
         localStorage.setItem('tmpVegetalScore', JSON.stringify(false));
         localStorage.setItem('tmpConsumptionScore', JSON.stringify(false));
         localStorage.setItem('tmpLightScore', JSON.stringify(false));
@@ -1134,9 +1134,18 @@ const Map: React.FC<MapProps> = ({
                 return response.json();
             })
             .then((data) => {
-                localStorage.setItem('tmpVegetalScore', JSON.stringify(data.vegetalScore));
-                localStorage.setItem('tmpConsumptionScore', JSON.stringify(data.consumptionScore));
-                localStorage.setItem('tmpLightScore', JSON.stringify(data.lightScore));
+                localStorage.setItem(
+                    'tmpVegetalScore',
+                    JSON.stringify(data.vegetalScore)
+                );
+                localStorage.setItem(
+                    'tmpConsumptionScore',
+                    JSON.stringify(data.consumptionScore)
+                );
+                localStorage.setItem(
+                    'tmpLightScore',
+                    JSON.stringify(data.lightScore)
+                );
 
                 // con st lampIds = data.map((lamp: any) => lamp.name);
                 // setLassoSelectedLamps(lampIds);
@@ -1149,7 +1158,7 @@ const Map: React.FC<MapProps> = ({
                 //         '#FAC710',
                 //     ]);
                 // }
-                console.log("data", data);
+                console.log('data', data);
             })
             .catch((error) => {
                 console.error(
@@ -1341,12 +1350,12 @@ const Map: React.FC<MapProps> = ({
                 display: none !important;
                 }`}
             </style>
-                <Lasso
-                    id={'LassoComponentId'}
-                    isDark={isDark}
-                    onLassoActivation={handleLassoActivation}
-                    onLassoValidation={handleLassoValidation}
-                />
+            <Lasso
+                id={'LassoComponentId'}
+                isDark={isDark}
+                onLassoActivation={handleLassoActivation}
+                onLassoValidation={handleLassoValidation}
+            />
             <LassoOverlay isLassoActive={isLassoActive} />
             {selectedLampId && (
                 <LampInfosPopup

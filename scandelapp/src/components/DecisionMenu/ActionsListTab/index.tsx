@@ -129,8 +129,11 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
     };
 
     const handleValidateButtonClick = () => {
-        if (optimisationTemplateData.filter((item: any) => item.selected).length === 0) {
-            alert("Nothing in the action list");
+        if (
+            optimisationTemplateData.filter((item: any) => item.selected)
+                .length === 0
+        ) {
+            alert('Nothing in the action list');
             return;
         }
         const timestamp = getTimestamp();
@@ -144,8 +147,11 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
     };
 
     const handlePDFButtonClick = () => {
-        if (optimisationTemplateData.filter((item: any) => item.selected).length === 0) {
-            alert("Nothing in the action list");
+        if (
+            optimisationTemplateData.filter((item: any) => item.selected)
+                .length === 0
+        ) {
+            alert('Nothing in the action list');
             return;
         }
         const timestamp = getTimestamp();
@@ -163,12 +169,15 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
     };
 
     const handleToDoButtonClick = () => {
-        if (optimisationTemplateData.filter((item: any) => item.selected).length === 0) {
-            alert("Nothing in the action list");
+        if (
+            optimisationTemplateData.filter((item: any) => item.selected)
+                .length === 0
+        ) {
+            alert('Nothing in the action list');
             return;
         }
         setDisplayPUpToDo(true);
-    }
+    };
 
     const handleToDoButtonCopyClick = () => {
         const timestamp = getTimestamp();
@@ -179,8 +188,10 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
             }
         }
         setOptimisationTemplateData(optimisationTemplateData);
-        navigator.clipboard.writeText('https:/app.scandela.com/todo/' + timestamp);
-    }
+        navigator.clipboard.writeText(
+            'https:/app.scandela.com/todo/' + timestamp
+        );
+    };
 
     const handleToDoButtonOpenClick = () => {
         const timestamp = getTimestamp();
@@ -192,14 +203,14 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
         }
         setOptimisationTemplateData(optimisationTemplateData);
         navigate('/todo/' + timestamp);
-    }
+    };
 
     const getTimestamp = () => {
         const timestamp = new Date().toISOString();
         return timestamp;
-    }
+    };
 
-    const updateValidateData = async (dataDecision: any, timestamp : string) => {
+    const updateValidateData = async (dataDecision: any, timestamp: string) => {
         const encodedCredentials = btoa(
             `${process.env.REACT_APP_REQUEST_USER}:${process.env.REACT_APP_REQUEST_PASSWORD}`
         );
@@ -339,18 +350,24 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
             <ToDoButton isDark={isDark} onClick={handleToDoButtonClick}>
                 {t('toDo')}
             </ToDoButton>
-            {displayPUpToDo &&
-                <PUpToDoContainer >
-                    <PUpToDo >
-                        <PUpToDoClose onClick={() => setDisplayPUpToDo(false)} />
+            {displayPUpToDo && (
+                <PUpToDoContainer>
+                    <PUpToDo>
+                        <PUpToDoClose
+                            onClick={() => setDisplayPUpToDo(false)}
+                        />
                         <PUpToDoTitle>{t('toDoReady')}</PUpToDoTitle>
                         <PUpToDoOpen onClick={handleToDoButtonOpenClick} />
                         <PUpToDoLinkIcon onClick={handleToDoButtonCopyClick} />
-                        <PUpToDoLinkSubtitle >{t('toDoLink')}</PUpToDoLinkSubtitle>
-                        <PUpToDoOpenSubtitle>{t('toDoOpen')}</PUpToDoOpenSubtitle>
+                        <PUpToDoLinkSubtitle>
+                            {t('toDoLink')}
+                        </PUpToDoLinkSubtitle>
+                        <PUpToDoOpenSubtitle>
+                            {t('toDoOpen')}
+                        </PUpToDoOpenSubtitle>
                     </PUpToDo>
                 </PUpToDoContainer>
-            }
+            )}
         </div>
     );
 };
