@@ -6,6 +6,8 @@ import Login from './pages/login';
 import Redirect from './pages/redirect';
 import Admin from './pages/admin';
 import LoadingPage from './pages/loadingpages';
+import LawPage from './pages/law';
+import Statistics from './pages/statistics';
 import ResetPwd from './pages/resetpwd';
 import HomePage from './pages/homepage';
 import ToDo from './pages/todo';
@@ -126,6 +128,8 @@ const App: React.FC = () => {
                     />
                     <Route path="/redirect" element={<Redirect />} />
                     <Route path="/admin" element={<Admin />} />
+                    <Route path="/laws" element={<LawPage />} />
+                    <Route path="/statistics" element={<Statistics />} />
                     <Route path="/todo/:key" element={<ToDo />} />
                     <Route path="/resetpwd/:uuid" element={<ResetPwd />} />
                 </Routes>
