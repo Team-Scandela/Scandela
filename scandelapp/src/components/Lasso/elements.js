@@ -101,7 +101,7 @@ export const Modal = styled.div`
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     z-index: 1000;
     color: ${(props) => (props.isDark ? White : Black)};
-    
+
     h2 {
         margin: 0;
     }

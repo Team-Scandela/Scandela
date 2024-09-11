@@ -12,7 +12,7 @@ import { AiFillCloseCircle } from 'react-icons/ai';
 import { FaEdit, FaCheck } from 'react-icons/fa';
 import { AiOutlineUserDelete } from 'react-icons/ai';
 import { MdOutlineUpgrade } from 'react-icons/md';
-import { BiExit } from "react-icons/bi";
+import { BiExit } from 'react-icons/bi';
 
 export const ProfilContainer = styled.div`
     position: absolute;

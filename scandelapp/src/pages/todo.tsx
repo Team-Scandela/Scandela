@@ -10,12 +10,10 @@ const ToDo: React.FC<ToDoProps> = () => {
     const { key } = useParams<{ key: string }>();
 
     useEffect(() => {
-        console.log("keycode = " +  key);
+        console.log('keycode = ' + key);
     }, [key]);
 
-    return (
-        <ToDoList keycode={key} />
-    );
+    return <ToDoList keycode={key} />;
 };
 
 export default ToDo;
