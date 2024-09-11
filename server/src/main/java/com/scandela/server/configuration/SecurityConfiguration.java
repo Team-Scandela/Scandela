@@ -3,6 +3,7 @@ package com.scandela.server.configuration;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
@@ -18,6 +19,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.scandela.server.service.implementation.CustomUserDetailsService;
 
@@ -38,38 +41,51 @@ public class SecurityConfiguration {
         this.userDetailsService = userDetailsService;
     }
 
+    private static final Logger logger = LoggerFactory.getLogger(SecurityConfiguration.class);
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-            .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/admin/**").hasAuthority("ADMIN")
-                .requestMatchers("/**").hasAuthority("USER")
-                .anyRequest().authenticated()
-            )
-            .httpBasic(Customizer.withDefaults());
-
-        http.cors(configurer -> {
-            CorsConfiguration corsConfiguration = new CorsConfiguration();
-            corsConfiguration.addAllowedOrigin("*");
-            corsConfiguration.addAllowedMethod("*");
-            corsConfiguration.addAllowedHeader("*");
-            configurer.configurationSource(request -> corsConfiguration);
-        });
+        http
+                .csrf().disable()
+                .cors(configurer -> {
+                    CorsConfiguration corsConfiguration = new CorsConfiguration();
+                    corsConfiguration.addAllowedOrigin("*");
+                    corsConfiguration.addAllowedMethod("*");
+                    corsConfiguration.addAllowedHeader("*");
+                    configurer.configurationSource(request -> corsConfiguration);
+                })
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/stripe/**").permitAll()
+                        .requestMatchers("/admin/**").hasAuthority("ADMIN")
+                        .requestMatchers("/**").hasAuthority("USER")
+                        .anyRequest().authenticated())
+                .httpBasic(basic -> basic.authenticationEntryPoint((request, response, authException) -> {
+                    logger.info("Requête reçue pour l'URL : " + request.getRequestURI());
+                    if (!request.getRequestURI().equals("/stripe/webhook") && !request.getRequestURI().equals("/stripe/handleSessionId")) {
+                        logger.info("Appliquant l'authentification Basic pour : " + request.getRequestURI());
+                        response.addHeader("WWW-Authenticate", "Basic realm=\"Realm\"");
+                        response.sendError(HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED.getReasonPhrase());
+                    } else {
+                        logger.info("Autorisant l'accès sans auth pour /stripe/webhook");
+                        response.setStatus(HttpStatus.OK.value());
+                    }
+                }));
 
         return http.build();
     }
 
     // @Bean
     // public InMemoryUserDetailsManager inMemoryUserDetailsManager() {
-    //     UserDetails user = User.withUsername(username)
-    //         .password(password)
-    //         .build();
+    // UserDetails user = User.withUsername(username)
+    // .password(password)
+    // .build();
 
-    //     return new InMemoryUserDetailsManager(user);
+    // return new InMemoryUserDetailsManager(user);
     // }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+            throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
