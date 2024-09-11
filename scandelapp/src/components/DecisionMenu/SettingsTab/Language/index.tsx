@@ -50,12 +50,12 @@ const Language: React.FC<LanguageProps> = ({
             if (userId) {
                 await createNotification({
                     user: { id: userId },
-                    title: t('languageUpdate'),
+                    title: t('languageUpdates'),
                     description: t('theLanguageHasBeenSuccessfullyUpdated'),
                     triggered: true,
                 });
             }
-            // addNotificationToList(t('languageUpdate'));
+            addNotificationToList(t('theLanguageHasBeenSuccessfullyUpdated'));
         }
     };
 
