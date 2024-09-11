@@ -139,6 +139,16 @@ export const getAllScores = async (): Promise<any> => {
                 false,
                 true
             );
+            showToast(
+                'success',
+                'La base de donnée à bien été mise à jour avec les nouvelles données ',
+                'top-left',
+                5000,
+                false,
+                true,
+                false,
+                true
+            );
             console.debug('getAllScores successful');
         }
 

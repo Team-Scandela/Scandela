@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaLightbulb, FaTools, FaCity, FaTree } from 'react-icons/fa';
+import { FaLightbulb, FaTools, FaCity, FaTree, FaBatteryFull, FaTemperatureHigh, FaWater, FaWind, FaSolarPanel, FaBolt, FaLeaf} from 'react-icons/fa';
 import { Card, CardTitle, CardValue, CardsContainer, CardIcon, CardContent } from './elements';
 
 type Stats = {
@@ -7,6 +7,13 @@ type Stats = {
   totalLamps: number;
   totalCities: number;
   environmentalImpact: number;
+  batteryStatus: number;
+  temperature: number;
+  waterUsage: number;
+  windSpeed: number;
+  solarPower: number;
+  electricityUsage: number;
+  greenEnergy: number;
 };
 
 const StatisticsCards = ({ stats }: { stats: Stats }) => {
@@ -59,55 +66,88 @@ const StatisticsCards = ({ stats }: { stats: Stats }) => {
       <Card>
         <CardContent>
           <CardIcon>
-            <FaLightbulb size={30} color="#007bff" />
+            <FaBatteryFull size={30} color="#007bff" />
           </CardIcon>
           <div>
-            <CardTitle>Defective Lamps</CardTitle>
-            <CardValue>{stats.defectiveLamps}</CardValue>
+            <CardTitle>Battery Status</CardTitle>
+            <CardValue>{stats.batteryStatus}</CardValue>
           </div>
         </CardContent>
       </Card>
       <Card>
         <CardContent>
           <CardIcon>
-            <FaLightbulb size={30} color="#007bff" />
+            <FaTemperatureHigh size={30} color="#007bff" />
           </CardIcon>
           <div>
-            <CardTitle>Defective Lamps</CardTitle>
-            <CardValue>{stats.defectiveLamps}</CardValue>
+            <CardTitle>Temperature</CardTitle>
+            <CardValue>{stats.temperature}</CardValue>
           </div>
         </CardContent>
       </Card>
       <Card>
         <CardContent>
           <CardIcon>
-            <FaLightbulb size={30} color="#007bff" />
+            <FaWater size={30} color="#007bff" />
           </CardIcon>
           <div>
-            <CardTitle>Defective Lamps</CardTitle>
-            <CardValue>{stats.defectiveLamps}</CardValue>
+            <CardTitle>Water Usage</CardTitle>
+            <CardValue>{stats.waterUsage}</CardValue>
           </div>
         </CardContent>
       </Card>
       <Card>
         <CardContent>
           <CardIcon>
-            <FaLightbulb size={30} color="#007bff" />
+            <FaWind size={30} color="#007bff" />
           </CardIcon>
           <div>
-            <CardTitle>Defective Lamps</CardTitle>
-            <CardValue>{stats.defectiveLamps}</CardValue>
+            <CardTitle>Wind Speed</CardTitle>
+            <CardValue>{stats.windSpeed}</CardValue>
           </div>
         </CardContent>
       </Card>
       <Card>
         <CardContent>
           <CardIcon>
-            <FaLightbulb size={30} color="#007bff" />
+            <FaSolarPanel size={30} color="#007bff" />
           </CardIcon>
           <div>
-            <CardTitle>Defective Lamps</CardTitle>
-            <CardValue>{stats.defectiveLamps}</CardValue>
+            <CardTitle>Solar Power</CardTitle>
+            <CardValue>{stats.solarPower}</CardValue>
+          </div>
+        </CardContent>
+      </Card>
+      <Card>
+        <CardContent>
+          <CardIcon>
+            <FaBolt size={30} color="#007bff" />
+          </CardIcon>
+          <div>
+            <CardTitle>Electricity Usage</CardTitle>
+            <CardValue>{stats.electricityUsage}</CardValue>
+          </div>
+        </CardContent>
+      </Card>
+      <Card>
+        <CardContent>
+          <CardIcon>
+            <FaLeaf size={30} color="#007bff" />
+          </CardIcon>
+          <div>
+            <CardTitle>Green Energy</CardTitle>
+            <CardValue>{stats.greenEnergy}</CardValue>
+          </div>
+        </CardContent>
+      </Card>
+      <Card>
+        <CardContent>
+          <CardIcon>
+            <FaBolt size={30} color="#007bff" />
+          </CardIcon>
+          <div>
+            <CardTitle>Electricity Usage</CardTitle>
+            <CardValue>{stats.electricityUsage}</CardValue>
           </div>
         </CardContent>
       </Card>
