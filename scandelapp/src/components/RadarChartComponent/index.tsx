@@ -7,7 +7,9 @@ const data = [
     { subject: 'Consumption Score', A: 98, fullMark: 150 },
     { subject: 'Lighting Score', A: 86, fullMark: 150 },
     { subject: 'Law Score', A: 99, fullMark: 150 },
-    { subject: 'MeanScore', A: 85, fullMark: 150 },
+    { subject: 'MeanScore', A: 34, fullMark: 150 },
+    { subject: 'Score', A: 5, fullMark: 150 },
+    { subject: 'Mean', A: 71, fullMark: 150 },
 ];
 
 const RadarChartComponent = () => {

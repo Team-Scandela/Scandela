@@ -9,10 +9,10 @@ const cityScores = [
         city: 'Nantes', envImpact: 85, energyConsumption: 90, lightingQuality: 95, lawCompliance: 80, maintenanceCost: 70,
     },
     {
-        city: 'Machecoul (ville nul)', envImpact: 7, energyConsumption: 28, lightingQuality: 45, lawCompliance: 5, maintenanceCost: 6,
+        city: 'Paris', envImpact: 7, energyConsumption: 28, lightingQuality: 45, lawCompliance: 5, maintenanceCost: 6,
     },
     {
-        city: 'Orvault', envImpact: 95, energyConsumption: 85, lightingQuality: 90, lawCompliance: 95, maintenanceCost: 85,
+        city: 'Lille', envImpact: 95, energyConsumption: 85, lightingQuality: 90, lawCompliance: 95, maintenanceCost: 85,
     },
     // Ajoutez plus de villes et de scores si nécessaire
 ];
