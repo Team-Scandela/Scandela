@@ -73,6 +73,7 @@ const PerformanceChart = ({ data, title }: { data: any, title: string }) => {
       setCurrentDate(addWeeks(currentDate, 1));
     } else if (timeRange === 'year') {
       setCurrentDate(addWeeks(currentDate, 1));
+    }
   };
 
   const filteredData = filterData(data, timeRange);
