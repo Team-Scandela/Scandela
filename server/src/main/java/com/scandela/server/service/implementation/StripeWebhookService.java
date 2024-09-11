@@ -1,6 +1,7 @@
 package com.scandela.server.service.implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.scandela.server.entity.Subscription;
 import com.scandela.server.service.IEmailService;
@@ -10,6 +11,7 @@ import com.stripe.model.Charge;
 import com.stripe.model.Customer;
 import com.stripe.model.Event;
 
+@Service
 public class StripeWebhookService implements IStripeWebhookService {
 
     @Autowired
@@ -24,10 +26,6 @@ public class StripeWebhookService implements IStripeWebhookService {
         String email = newCustomer.getEmail();
 
         if (email != null) {
-
-            Subscription subscription = new Subscription();
-
-            subscriptionService.createSubscription(subscription);
 
             emailService.sendMail(email, "Bienvenue chez Scandela!", "Merci de votre abonnement.");
             System.out.println("Email envoyé à : " + email);

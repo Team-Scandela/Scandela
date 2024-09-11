@@ -2,9 +2,11 @@ package com.scandela.server.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -34,7 +36,8 @@ public class StripeWebhookController {
     private String secretKey;
 
 
-    IStripeWebhookService stripeWebhookService;
+    @Autowired
+    private IStripeWebhookService stripeWebhookService;
 
     @Autowired
     private ISubscriptionService subscriptionService;
@@ -46,25 +49,26 @@ public class StripeWebhookController {
         return;
     }
 
-    @GetMapping("/handleSessionId")
-    public String handleStripeSuccess(@RequestParam("session_id") String sessionId) throws Exception {
+    @GetMapping("/handleSessionId/{sessionid}")
+    public ResponseEntity<?> handleStripeSuccess(@PathVariable String sessionid) throws Exception {
         try {
             Stripe.apiKey = secretKey;
-            Session session = Session.retrieve(sessionId);
+            Session session = Session.retrieve(sessionid);
 
             String customerId = session.getCustomer();
 
-            Subscription subscription = subscriptionService.getBySessionid(sessionId);
+            Subscription subscription = subscriptionService.getBySessionid(sessionid);
+
             if (subscription != null) {
                 subscription.setStripeId(customerId);
                 subscriptionService.update(subscription.getId(), subscription);
-                return "Paiement réussi et abonnement mis à jour !";
+                return ResponseEntity.ok("Paiement réussi et abonnement mis à jour !");
             } else {
-                return "Erreur : Abonnement non trouvé.";
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
             }
         } catch (StripeException e) {
             e.printStackTrace();
-            return "Erreur lors de la récupération des informations de session : " + e.getMessage();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erreur lors de la récupération des informations de session : " + e.getMessage());
         }
     }
 
@@ -73,7 +77,7 @@ public class StripeWebhookController {
             @RequestBody String payload, @RequestHeader("Stripe-Signature") String sigHeader)
             throws Exception {
 
-        String tmpSecretWebhook = "SECRET_WEBHOOK_KEY_HERE"; // AJOUTER LA CLE DU WEBHOOK AVANT DE PR
+        String tmpSecretWebhook = "whsec_8f6138ca74e934b2251b4437775d316b3c92634cfd33f9b687ccdf28beefbd73"; // AJOUTER LA CLE DU WEBHOOK AVANT DE PR
 
         try {
             Event event = Webhook.constructEvent(payload, sigHeader, tmpSecretWebhook);

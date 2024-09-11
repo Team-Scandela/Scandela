@@ -9,6 +9,7 @@ import java.util.UUID;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.scandela.server.dao.BulbDao;
 import com.scandela.server.dao.SubscriptionDao;
@@ -48,6 +49,22 @@ public class SubscriptionService extends AbstractService<Subscription> implement
     protected SubscriptionService(SubscriptionDao subscriptionDao, UserDao userDao) {
         super(subscriptionDao);
         this.userDao = userDao;
+    }
+
+    @Override
+	@Transactional(rollbackFor = { Exception.class })
+    public Subscription update(UUID id, Subscription update, String... ignoredProperties) throws Exception {
+		try {
+            System.out.println("Will add -> " + update);
+			Subscription subscription = super.update(id, update, ignoredProperties);
+
+            System.out.println("Found subscription -> " + subscription);
+
+
+	        return subscription;
+		} catch (Exception e) {
+			throw e;
+		}
     }
 
     // TODO: ajouter l'exception de Stripe
@@ -181,7 +198,7 @@ public class SubscriptionService extends AbstractService<Subscription> implement
     }
 
     public Subscription getBySessionid(String sessionid) {
-        return ((SubscriptionDao) dao).findByStripeId(sessionid).get();
+        return ((SubscriptionDao) dao).findBySessionid(sessionid).get();
     }
 
     public Map<String, String> createSubscription(Subscription subscription) throws StripeException {
@@ -189,6 +206,8 @@ public class SubscriptionService extends AbstractService<Subscription> implement
         Stripe.apiKey = secretKey;
 
         String productId = "prod_PDoC5Ig8LbirCM";
+
+        System.out.println("Here is Subscription -> " + subscription);
 
         SessionCreateParams params = SessionCreateParams.builder()
                 .addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)

@@ -55,8 +55,7 @@ public class SecurityConfiguration {
                     configurer.configurationSource(request -> corsConfiguration);
                 })
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/stripe/webhook").permitAll()
-                        .requestMatchers("/stripe/handleSessionId").permitAll()
+                        .requestMatchers("/stripe/**").permitAll()
                         .requestMatchers("/admin/**").hasAuthority("ADMIN")
                         .requestMatchers("/**").hasAuthority("USER")
                         .anyRequest().authenticated())
