@@ -211,7 +211,7 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
 				}
 			});
 		}
-		
+
 		return resultLamps;
 	}
 
@@ -311,24 +311,26 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
 	}
 
 	public double computeGlobalEnergyConsumption(List<Lamp> lamps) {
-
+		if (lamps.isEmpty()) {
+			return 0;
+		}
 		double globalEnergyConsumption = 0;
 		int timeOfUse = 7;
-
+	
+		// Consommation des différents types de lampes en watts
 		int SHP = 50, IMC = 40, LED = 3, TF = 10, IM = 35, MBF = 50, FC = 22, SBP = 18, HAL = 10, TL = 8, IC = 40, DIC = 70;
-
-		PriorityQueue<Integer> leastConsumption = new PriorityQueue<>(Comparator.reverseOrder());
-		PriorityQueue<Integer> worstConsumption = new PriorityQueue<>();
-
+	
 		int countValidLamps = 0;
-
+		int minPossibleConsumption = LED * timeOfUse * lamps.size(); // Cas où toutes les lampes sont des LED
+		int maxPossibleConsumption = DIC * timeOfUse * lamps.size(); // Cas où toutes les lampes sont des DIC
+	
 		for (Lamp lamp : lamps) {
 			if (lamp == null || lamp.getLampType() == null) {
 				continue;
 			}
-
+	
 			int energyConsumption = 0;
-
+	
 			switch (lamp.getLampType().toString()) {
 				case "SHP":
 					energyConsumption = SHP * timeOfUse;
@@ -369,34 +371,29 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
 				default:
 					continue;
 			}
-
-			leastConsumption.offer(energyConsumption);
-			if (leastConsumption.size() > 3) {
-				leastConsumption.poll();
-			}
-
-			worstConsumption.offer(energyConsumption);
-			if (worstConsumption.size() > 3) {
-				worstConsumption.poll();
-			}
-
+	
 			globalEnergyConsumption += energyConsumption;
 			countValidLamps++;
 		}
-
+	
 		if (countValidLamps == 0) {
 			return 0;
 		}
-
-		double meanGlobalEnergyConsumption = globalEnergyConsumption / countValidLamps;
-
-		double minConsumption = leastConsumption.stream().mapToInt(Integer::intValue).average().orElse(0);
-		double maxConsumption = worstConsumption.stream().mapToInt(Integer::intValue).average().orElse(0);
-
-		double consumptionScore = 100 - ((meanGlobalEnergyConsumption - maxConsumption) / (minConsumption - maxConsumption) * 100);
-
+	
+		// Normalisation pour obtenir un score entre 0 et 100
+		double normalizedConsumption = (globalEnergyConsumption - minPossibleConsumption) / (maxPossibleConsumption - minPossibleConsumption);
+		double consumptionScore = 100 - (normalizedConsumption * 100);
+	
+		// Affichage des variables pour le débogage
+		// System.out.println("globalEnergyConsumption:" + globalEnergyConsumption);
+		// System.out.println("countValidLamps:" + countValidLamps);
+		// System.out.println("minPossibleConsumption:" + minPossibleConsumption);
+		// System.out.println("maxPossibleConsumption:" + maxPossibleConsumption);
+		// System.out.println("consumptionScore:" + consumptionScore);
+	
 		return consumptionScore;
 	}
+	
 	public class VegetalZonesExtractor {
 		public static double[][] getVegetalZonesFromCSV(String filePath) throws IOException, CsvValidationException {
 			List<double[]> vegetalZones = new ArrayList<>();
@@ -460,21 +457,56 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
 	}
 
 	public double computeGlobalDistanceVegetalZone(List<Lamp> lamps) throws IOException, CsvValidationException {
+		if (lamps.isEmpty()) {
+			return 0;
+		}
 		double[][] vegetalZones = VegetalZonesExtractor.getVegetalZonesFromCSV("collectionVegetale.csv");
 
 		double totalDistance = 0;
 		int validZonesCount = 0;
-
+	
+		// Définir les constantes de distance min et max
+		double distanceMin = 30;
+		double distanceMax = 300;
+	
+		// Trouver les limites du carré formé par les lampadaires
+		double minLatitude = Double.MAX_VALUE;
+		double maxLatitude = Double.MIN_VALUE;
+		double minLongitude = Double.MAX_VALUE;
+		double maxLongitude = Double.MIN_VALUE;
+	
+		for (Lamp lamp : lamps) {
+			if (lamp == null || lamp.getLongitude() == null || lamp.getLatitude() == null) {
+				continue;
+			}
+	
+			double latitude = lamp.getLatitude();
+			double longitude = lamp.getLongitude();
+	
+			if (latitude < minLatitude) minLatitude = latitude;
+			if (latitude > maxLatitude) maxLatitude = latitude;
+			if (longitude < minLongitude) minLongitude = longitude;
+			if (longitude > maxLongitude) maxLongitude = longitude;
+		}
+	
 		for (double[] vegetalZone : vegetalZones) {
-
+			double vegetalLatitude = vegetalZone[0];
+			double vegetalLongitude = vegetalZone[1];
+	
+			// Vérifier si la zone végétale est dans les limites du carré
+			if (vegetalLatitude < minLatitude || vegetalLatitude > maxLatitude ||
+				vegetalLongitude < minLongitude || vegetalLongitude > maxLongitude) {
+				continue;
+			}
+	
 			PriorityQueue<Double> nearestDistances = new PriorityQueue<>(Collections.reverseOrder());
-
+	
 			for (Lamp lamp : lamps) {
 				if (lamp == null || lamp.getLongitude() == null || lamp.getLatitude() == null) {
 					continue;
 				}
-
-				double distance = haversineDistance(lamp.getLatitude(), lamp.getLongitude(), vegetalZone[0], vegetalZone[1]);
+	
+				double distance = haversineDistance(lamp.getLatitude(), lamp.getLongitude(), vegetalLatitude, vegetalLongitude);
 				
 				if (nearestDistances.size() < 50) {
 					nearestDistances.add(distance);
@@ -483,25 +515,23 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
 					nearestDistances.add(distance);
 				}
 			}
-
+	
 			if (!nearestDistances.isEmpty()) {
-				double sumDistances = 0;
-				for (double dist : nearestDistances) {
-					sumDistances += dist;
-				}
+				double sumDistances = nearestDistances.stream().mapToDouble(Double::doubleValue).sum();
 				double averageDistance = sumDistances / nearestDistances.size();
 				totalDistance += averageDistance;
 				validZonesCount++;
-			} else {
 			}
 		}
-
-		double meanGlobalDistanceVegetalZone = validZonesCount > 0 ? totalDistance / validZonesCount : 0;
-		double distanceMin = 30;
-		double distanceMax = 300;
-
+	
+		double meanGlobalDistanceVegetalZone = validZonesCount > 0 ? totalDistance / validZonesCount : distanceMax;
+	
+		// Calcul du score en limitant la distance minimale
 		double score = 100 - (((meanGlobalDistanceVegetalZone - distanceMin) / (distanceMax - distanceMin)) * 100);
-
+	
+		// Forcer le score à être dans les bornes [0, 100]
+		score = Math.max(0, Math.min(100, score));
+	
 		return score;
 	}
 
@@ -550,10 +580,9 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
         return lampFilledCount * cellArea;
     }
 
-
 	public double computeGlobalLightIndicator(List<Lamp> lamps) {
         if (lamps.isEmpty()) {
-            throw new IllegalStateException("No lamps available to calculate light coverage.");
+            return 0;
         }
 
         double minX = Double.POSITIVE_INFINITY;
@@ -595,9 +624,13 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
         double illuminatedArea = calculateArea(totalAreaShape, lampCoordinates);
 
         double coverageScore = (illuminatedArea / totalArea) * 100;
-		System.out.println("illuminatedArea:" + illuminatedArea);
-		System.out.println("totalArea:" + totalArea);
-		System.out.println("coverageScore:" + coverageScore);
+		// System.out.println("illuminatedArea:" + illuminatedArea);
+		// System.out.println("totalArea:" + totalArea);
+		// System.out.println("coverageScore:" + coverageScore);
+		
+		if (Double.isNaN(coverageScore)) {
+			return 0;
+		}
 
         return coverageScore;
     }

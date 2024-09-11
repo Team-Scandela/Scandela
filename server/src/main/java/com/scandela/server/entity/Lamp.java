@@ -57,6 +57,9 @@ public class Lamp implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "uuidbulb")
 	private Bulb bulb;
+
+	@Column(name = "bulblifetime")
+	private Integer bulbLifetime;
 	
 	@ManyToOne
 	@JoinColumn(name = "uuidcabinet")
@@ -117,5 +120,9 @@ public class Lamp implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@OneToMany(mappedBy = "lamp", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	private List<LampIncident> lampIncidents;
+	
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+	@OneToMany(mappedBy = "lamp", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+	private List<LampReparation> lampReparations;
 	
 }

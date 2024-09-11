@@ -139,7 +139,7 @@ const Map: React.FC<MapProps> = ({
         });
         return geoJSON;
     }, []);
-    
+
     // const geoData = useMemo(() => {
     //     let jsonArmoire = {
     //         type: 'FeatureCollection',
@@ -182,6 +182,7 @@ const Map: React.FC<MapProps> = ({
         }
         setLassoSelectedLamps([]);
         setIsLassoActive(isActive);
+        localStorage.setItem('lassoActive', JSON.stringify(isActive));
     };
 
     const closeLastFilter = () => {
@@ -1111,7 +1112,11 @@ const Map: React.FC<MapProps> = ({
             .join('&');
         const url =
             process.env.REACT_APP_BACKEND_URL +
-            `lamps/coordinates?${queryString}`;
+            `lamps/coordinatesWithScores?${queryString}`;
+
+        localStorage.setItem('tmpVegetalScore', JSON.stringify(false));
+        localStorage.setItem('tmpConsumptionScore', JSON.stringify(false));
+        localStorage.setItem('tmpLightScore', JSON.stringify(false));
 
         const encodedCredentials = btoa(
             `${process.env.REACT_APP_REQUEST_USER}:${process.env.REACT_APP_REQUEST_PASSWORD}`
@@ -1129,17 +1134,31 @@ const Map: React.FC<MapProps> = ({
                 return response.json();
             })
             .then((data) => {
-                const lampIds = data.map((lamp: any) => lamp.name);
-                setLassoSelectedLamps(lampIds);
-                if (map.current) {
-                    map.current.setPaintProperty('lamp', 'circle-color', [
-                        'match',
-                        ['get', 'name'],
-                        lampIds,
-                        '#48187b',
-                        '#FAC710',
-                    ]);
-                }
+                localStorage.setItem(
+                    'tmpVegetalScore',
+                    JSON.stringify(data.vegetalScore)
+                );
+                localStorage.setItem(
+                    'tmpConsumptionScore',
+                    JSON.stringify(data.consumptionScore)
+                );
+                localStorage.setItem(
+                    'tmpLightScore',
+                    JSON.stringify(data.lightScore)
+                );
+
+                // con st lampIds = data.map((lamp: any) => lamp.name);
+                // setLassoSelectedLamps(lampIds);
+                // if (map.current) {
+                //     map.current.setPaintProperty('lamp', 'circle-color', [
+                //         'match',
+                //         ['get', 'name'],
+                //         lampIds,
+                //         '#48187b',
+                //         '#FAC710',
+                //     ]);
+                // }
+                console.log('data', data);
             })
             .catch((error) => {
                 console.error(
@@ -1318,15 +1337,6 @@ const Map: React.FC<MapProps> = ({
     // Render the map component
     return (
         <div id={id} style={{ overflow: 'hidden' }}>
-            {localStorage.getItem('token') === 'true' && (
-                <Lasso
-                    id={'LassoComponentId'}
-                    isDark={isDark}
-                    onLassoActivation={handleLassoActivation}
-                    onLassoValidation={handleLassoValidation}
-                />
-            )}
-            <LassoOverlay isLassoActive={isLassoActive} />
             <div
                 style={{ ...styleMap, cursor: cursorStyle }}
                 ref={mapContainer}
@@ -1340,6 +1350,13 @@ const Map: React.FC<MapProps> = ({
                 display: none !important;
                 }`}
             </style>
+            <Lasso
+                id={'LassoComponentId'}
+                isDark={isDark}
+                onLassoActivation={handleLassoActivation}
+                onLassoValidation={handleLassoValidation}
+            />
+            <LassoOverlay isLassoActive={isLassoActive} />
             {selectedLampId && (
                 <LampInfosPopup
                     id={'LampInfosPopupComponentId'}
