@@ -96,6 +96,7 @@ const Main: React.FC<MainProps> = ({
         ['actionListUpdate', true],
         ['lightDarkModeUpdate', true],
         ['languageUpdate', true],
+        ['exportPdfUpdate', true],
     ]);
 
     const addNotificationToList = (description: string) => {

@@ -31,22 +31,31 @@ import { useTranslation } from 'react-i18next';
 import { getAllScores } from '../../../utils/gaugesUtils';
 import { generatePDFDocument } from './pdfGenerator';
 import { useNavigate } from 'react-router-dom';
+import { showToast } from '../../Toastr';
+import { createNotification } from '../../../utils/notificationUtils';
+
 
 /** Menu of the decision pannel
  * @param {boolean} isDark - If the map is in dark mode or not
  * @param {any} optimisationTemplateData - List of list about optimsiations template datas
  * @param {function} setOptimisationTemplateData - Setter function
+ * @param {function} addNotificationToList - Function to add a toastr notification to the toast history
+ * @param {any} notificationsPreference - Notifications preference data
  */
 interface ActionsListTabProps {
     isDark: boolean;
     optimisationTemplateData: any;
     setOptimisationTemplateData: (data: any) => void;
+    addNotificationToList: (description: string) => void;
+    notificationsPreference: any;
 }
 
 const ActionsListTab: React.FC<ActionsListTabProps> = ({
     isDark,
     optimisationTemplateData,
     setOptimisationTemplateData,
+    addNotificationToList,
+    notificationsPreference,
 }) => {
     const [levelElec, setLevelElec] = useState<number>(0);
     const [levelBio, setLevelBio] = useState<number>(0);
@@ -143,7 +152,7 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
         setOptimisationTemplateData(optimisationTemplateData);
     };
 
-    const handlePDFButtonClick = () => {
+    const handlePDFButtonClick = async () => {
         if (optimisationTemplateData.filter((item: any) => item.selected).length === 0) {
             alert("Nothing in the action list");
             return;
@@ -160,6 +169,33 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
         }
         generatePDFDocument(validateData, 'Auteur', 'Nantes');
         setOptimisationTemplateData(optimisationTemplateData);
+        if (
+            notificationsPreference.find(
+                (item: any) => item[0] === 'exportPdfUpdate'
+            )[1]
+        ) {
+            showToast(
+                'success',
+                t('actionsListSuccessfullyExported'),
+                'top-left',
+                5000,
+                false,
+                true,
+                false,
+                true
+            );
+
+            const userId = localStorage.getItem('userId');
+            if (userId) {
+                await createNotification({
+                    user: { id: userId },
+                    title: t('actionsListExportedUpdates'),
+                    description: t('actionsListSuccessfullyExported'),
+                    triggered: true,
+                });
+            }
+            addNotificationToList(t('actionsListSuccessfullyExported'));
+        }
     };
 
     const handleToDoButtonClick = () => {

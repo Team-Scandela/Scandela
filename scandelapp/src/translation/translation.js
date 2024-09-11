@@ -30,8 +30,18 @@ const resources = {
                 'You have the possibility of importing new data into our Scandela tool in order to keep the dataset up to date with which we will be able to advise you.',
             notifications: 'Notifications',
             actionListUpdates: 'Action list updates',
-            lightDarkModeUpdates: 'Dark / Light mode updates',
+            themeUpdates: 'Dark / Light mode updates',
             languageUpdates: 'Language updates',
+            actionsListExportedUpdates: 'Actions list exported updates',
+            notificationsPreferencesUpdates: 'Notifications preferences updates',
+            actionsListSuccessfullyUpdated: 'Actions list successfully updated',
+            nothingToAddToTheActionsList: 'Nothing to add to the actions list',
+            theLanguageHasBeenSuccessfullyUpdated:
+                'The language has been successfully updated',
+            theThemeHasBeenSuccessfullyUpdated:
+                'The theme has been successfully updated"',
+            actionsListSuccessfullyExported: 'The actions list has been successfully exported',
+            notificationsPreferencesSuccessfullyUpdated: 'The notifications preferences have been successfully updated',
             newsletterUpdates: 'Activate the newsletter',
             loadOfYourPreferences: 'Loading your preferences...',
             titleAddBulbPannel: 'Add bulb',
@@ -147,16 +157,6 @@ const resources = {
             priceLimitDescription:
                 'You have the option to set a high or low price limit to be notified by email when the price of electricity exceeds this threshold.',
             loading: 'loading ...',
-            actionsListUpdate1: 'Actions list update #1',
-            actionsListSuccessfullyUpdated: 'Actions list successfully updated',
-            actionsListUpdate2: 'Actions list update #2',
-            nothingToAddToTheActionsList: 'Nothing to add to the actions list',
-            theLanguageHasBeenSuccessfullyUpdated:
-                'The language has been successfully updated',
-            languageUpdate: 'Language update',
-            theThemeHasBeenSuccessfullyUpdated:
-                'The theme has been successfully updated"',
-            themeUpdate: 'Theme update',
             of: 'of',
             hasaScore: 'has a score',
             environmentalImpact: 'Environmental impact',
@@ -237,8 +237,18 @@ const resources = {
                 "Vous avez la possibilité d'importer de nouvelles données dans notre outil Scandela afin de maintenir à jour le jeu de données avec lequel nous allons pouvoir vous conseiller.",
             notifications: 'Notifications',
             actionListUpdates: "Mises à jour de la liste d'action",
-            lightDarkModeUpdates: 'Mises à jour du mode sombre / clair',
+            themeUpdates: 'Mises à jour du mode sombre / clair',
             languageUpdates: 'Mises à jour de la langue',
+            actionsListExportedUpdates: 'Export de la liste des actions',
+            notificationsPreferencesUpdates: 'Mise à jour des préférences de notifications',
+            actionsListSuccessfullyUpdated: 'La liste des actions à bien été mise à jour',
+            nothingToAddToTheActionsList: 'Rien à ajouter à la liste d\'actions',
+            theLanguageHasBeenSuccessfullyUpdated:
+                'La langue a bien été mise à jour',
+            theThemeHasBeenSuccessfullyUpdated:
+                'Le thème a bien été mis à jour',
+            actionsListSuccessfullyExported: 'La liste des actions à bien été exporté',
+            notificationsPreferencesSuccessfullyUpdated: 'Les préférences de notifications ont bien été mises à jour',
             newsletterUpdates: 'Activer la newsletter',
             loadOfYourPreferences: 'Chargement de vos préférences...',
             titleAddBulbPannel: 'Ajouter une ampoule',
@@ -358,16 +368,6 @@ const resources = {
             priceLimitDescription:
                 "Vous avez la possibilité de renseigner une limite de prix haute ou basse afin d'être notifié par mail quand le prix de l'électricité dépassera ce seuil.",
             loading: 'Chargement ...',
-            actionsListUpdate1: 'Mise à jour de la liste d\'actions #1',
-            actionsListSuccessfullyUpdated: 'La liste des actions à bien été mise à jour',
-            actionsListUpdate2: 'Mise à jour de la liste d\'actions #2',
-            nothingToAddToTheActionsList: 'Rien à ajouter à la liste d\'actions',
-            theLanguageHasBeenSuccessfullyUpdated:
-                'La langue a bien été mise à jour',
-            languageUpdate: 'Mise à jour de la langue',
-            theThemeHasBeenSuccessfullyUpdated:
-                'Le thème a bien été mis à jour',
-            themeUpdate: 'Mise à jour du thème',
             of: 'de',
             hasaScore: 'à un score',
             environmentalImpact: 'Impact environnemental',

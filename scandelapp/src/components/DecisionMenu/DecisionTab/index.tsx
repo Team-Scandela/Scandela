@@ -122,7 +122,7 @@ const DecisionTab: React.FC<DecisionTabProps> = ({
             if (userId) {
                 await createNotification({
                     user: { id: userId },
-                    title: t('actionsListUpdate2'),
+                    title: t('actionListUpdates'),
                     description: t('nothingToAddToTheActionsList'),
                     triggered: true,
                 });
@@ -149,7 +149,7 @@ const DecisionTab: React.FC<DecisionTabProps> = ({
             if (userId) {
                 await createNotification({
                     user: { id: userId },
-                    title: t('actionsListUpdate1'),
+                    title: t('actionListUpdates'),
                     description: t('actionsListSuccessfullyUpdated'),
                     triggered: true,
                 });
