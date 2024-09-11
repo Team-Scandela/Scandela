@@ -69,7 +69,12 @@ export const LawCard = styled.a`
   flex: 1 1 200px;
   transition: transform 0.2s;
   background-color: ${Grey};
-  width: 100%;
+  width: 200px; /* Fixed width */
+  height: 300px; /* Fixed height */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
   &:hover {
     transform: scale(1.05);
@@ -157,3 +162,89 @@ export const NewsSection = styled.div`
   width: 100%;
   background-color: ${Grey};
 `;
+
+export const ModalOverlay = styled.div`
+position: fixed;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background: rgba(0, 0, 0, 0.7);
+display: flex;
+align-items: center;
+justify-content: center;
+z-index: 1000;
+`;
+
+export const ModalContent = styled.div`
+  background-color: #fff;
+  color: #000;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 600px;
+  width: 100%;
+`;
+
+export const ModalButtonSection = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export const ModalCloseButton = styled.button`
+  background: #e74c3c;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+
+  &:hover {
+    background: #c0392b;
+  }
+`;
+
+export const ModalLinkButton = styled.a`
+  background: #3498db;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+  text-decoration: none;
+  text-align: center;
+  display: block;
+
+  &:hover {
+    background: #2980b9;
+  }
+`;
+
+export const StyledLawsPageContainer = styled(LawsPageContainer)`
+  overflow-y: auto;
+  max-height: 100vh;
+`;
+
+export const StyledModalContent = styled(ModalContent)`
+    overflow-y: auto;
+    max-height: 80vh;
+`;
+
+export const buttonStyle = {
+  padding: '10px 20px',
+  backgroundColor: '#007bff',
+  color: '#fff',
+  border: 'none',
+  borderRadius: '4px',
+  cursor: 'pointer',
+  fontSize: '16px',
+  textAlign: 'center',
+  display: 'inline-block',
+  margin: '10px 0',
+};
+
+export const buttonHoverStyle = {
+  backgroundColor: '#0056b3',
+};
