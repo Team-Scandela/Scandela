@@ -52,7 +52,6 @@ const Lasso: React.FC<LassoButtonProps> = ({
                 setTmpVegetalScore(parseFloat(tmpVegetalScore));
                 clearInterval(interval);
             }
-            console.log('a');
         }, 1000);
     });
 
