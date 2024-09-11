@@ -242,7 +242,7 @@ const AbsencePannel: React.FC<AbsencePannelProps> = ({
                         isBio={true}
                         isLumi={false}
                         level={levelBio}
-                        oldLevel={levelBio - absenceData.length * 0.3}
+                        oldLevel={levelBio - absenceData.length * 0.2}
                         top={45}
                         left={87}
                     />
@@ -253,7 +253,7 @@ const AbsencePannel: React.FC<AbsencePannelProps> = ({
                         isBio={false}
                         isLumi={true}
                         level={levelLumi}
-                        oldLevel={levelLumi - absenceData.length * 0.4}
+                        oldLevel={levelLumi - absenceData.length * 0.2}
                         top={68}
                         left={87}
                     />
