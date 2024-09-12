@@ -7,6 +7,7 @@ public class DecisionException extends Exception {
 	public static final String INCOMPLETE_INFORMATIONS = "Incomplete informations.";
 	public static final String DECISIONTYPE_LOADING = "Impossibility to load given decision type.";
 	public static final String USER_LOADING = "Impossibility to load given user.";
+	public static final String GET_WEATHER = "Impossibility to get the weather.";
 
 		// Private \\
 	private static final long serialVersionUID = 1L;

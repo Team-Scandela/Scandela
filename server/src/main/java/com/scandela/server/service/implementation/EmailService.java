@@ -29,9 +29,6 @@ public class EmailService implements IEmailService {
         mail.setSubject(subject);
         mail.setText(message);
 
-        // mail.setText("To confirm your account, please click here : "
-        // + "https://dev.scandela.com:2000/redirect?email=" + receiver);
-
         emailSender.send(mail);
 
     }

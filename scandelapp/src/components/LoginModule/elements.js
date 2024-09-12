@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { DarkYellow } from '../../colors';
+import { DarkYellow, Yellow } from '../../colors';
 
 /** Login container who contains the signup and signin container */
 export const LoginContainer = styled.div`
@@ -66,7 +66,7 @@ export const Input = styled.input`
 `;
 
 /** Button complete to validate sign in up */
-export const Button = styled.button`
+export const Button = styled.div`
     border: none;
     border-radius: 20px;
     background-color: ${DarkYellow};
@@ -101,6 +101,11 @@ export const Anchor = styled.a`
     font-size: 14px;
     text-decoration: underline;
     margin-top: 15px;
+
+    &:hover {
+        color: ${Yellow};
+        cursor: pointer;
+    }
 `;
 
 export const ErrorMessage = styled.span`

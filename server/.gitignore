@@ -35,3 +35,6 @@ build/
 ### logs ###
 /src/main/resources/logs/*
 audit.*
+
+ReparationLampadaire
+OptiServeur

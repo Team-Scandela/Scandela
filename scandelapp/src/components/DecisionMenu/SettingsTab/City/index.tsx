@@ -1,5 +1,11 @@
 import { useRef } from 'react';
-import { ImportButton, DescriptionText, TooltipTitle, RestartTutoButtonContainer, TutorielTitle } from './elements';
+import {
+    ImportButton,
+    DescriptionText,
+    TooltipTitle,
+    RestartTutoButtonContainer,
+    TutorielTitle,
+} from './elements';
 import { useTranslation } from 'react-i18next';
 import RadioButton from '../../../RadioButton';
 
@@ -147,7 +153,7 @@ const City: React.FC<CityProps> = ({
                 trigger={tooltipPreference}
                 setTrigger={toggleTooltipPreference}
             />
-            <RestartTutoButtonContainer 
+            <RestartTutoButtonContainer
                 isDark={isDark}
                 onClick={() => setShowTutoriel(true)}
             >

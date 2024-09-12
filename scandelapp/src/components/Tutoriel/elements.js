@@ -46,10 +46,10 @@ export const CustomContainerInfoPopup = styled.div`
     justify-content: center;
     flex-direction: column;
     gap: 10px;
-    top: ${(props) => (props.top)};
-    left: ${(props) => (props.left)};
-    height: ${(props) => (props.height)};
-    width: ${(props) => (props.width)};
+    top: ${(props) => props.top};
+    left: ${(props) => props.left};
+    height: ${(props) => props.height};
+    width: ${(props) => props.width};
     padding-left: 15px;
     padding-right: 10px;
     background-color: ${(props) => (props.isDark ? DarkGrey : Black)};
@@ -62,15 +62,15 @@ export const CustomContainerInfoPopup = styled.div`
 export const Arrow = styled.div`
     position: absolute;
     display: flex;
-    top: ${(props) => (props.top)};
-    left: ${(props) => (props.left)};
+    top: ${(props) => props.top};
+    left: ${(props) => props.left};
     width: 30px;
     height: 30px;
     transform: rotate(45deg);
     background-color: ${(props) => (props.isDark ? DarkGrey : Black)};
 `;
 
-export const TitleText= styled.div`
+export const TitleText = styled.div`
     font-size: 20px;
     user-select: none;
     font-weight: 400;
@@ -83,4 +83,3 @@ export const DefaultText = styled.div`
     font-weight: 400;
     font-family: 'SyneRegular';
 `;
-

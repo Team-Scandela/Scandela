@@ -1,8 +1,7 @@
 export const getDecisions = async () => {
     const username = process.env.REACT_APP_REQUEST_USER;
     const password = process.env.REACT_APP_REQUEST_PASSWORD;
-    const urlRequest =
-        process.env.REACT_APP_BACKEND_URL + 'decisions?pageNumber=0';
+    const urlRequest = process.env.REACT_APP_BACKEND_URL + 'decisions';
 
     try {
         const response = await fetch(urlRequest, {

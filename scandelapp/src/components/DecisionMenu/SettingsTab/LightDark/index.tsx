@@ -67,12 +67,12 @@ const LightDark: React.FC<LightDarkProps> = ({
             if (userId) {
                 await createNotification({
                     user: { id: userId },
-                    title: t('themeUpdate'),
+                    title: t('themeUpdates'),
                     description: t('theThemeHasBeenSuccessfullyUpdated'),
                     triggered: true,
                 });
             }
-            // addNotificationToList(t('themeUpdate'));
+            addNotificationToList(t('theThemeHasBeenSuccessfullyUpdated'));
         }
     };
 

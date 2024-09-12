@@ -36,6 +36,10 @@ public class Town implements Serializable {
 		// Private \\
 	private static final long serialVersionUID = 1L;
 
+	public Town(UUID id) {
+        this.id = id;
+    }
+
 	@JsonDeserialize(using = UUIDDeserializer.class)
 	@Id
 	@GenericGenerator(name = "UUIDGenerator", strategy = "uuid2")
@@ -44,7 +48,7 @@ public class Town implements Serializable {
 	private UUID id;
 
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-	@OneToMany(mappedBy = "town", cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "town", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<User> users;
 
 	@OneToMany(mappedBy = "town", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)

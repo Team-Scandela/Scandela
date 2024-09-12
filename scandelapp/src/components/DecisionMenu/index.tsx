@@ -280,6 +280,10 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
                                 setOptimisationTemplateData={
                                     setOptimisationTemplateData
                                 }
+                                addNotificationToList={addNotificationToList}
+                                notificationsPreference={
+                                    notificationsPreference
+                                }
                             />
                         )}
                         {/* {currentTab === Tabs.ModifEntity && (

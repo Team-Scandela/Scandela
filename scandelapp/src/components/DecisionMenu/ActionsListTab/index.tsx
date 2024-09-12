@@ -16,31 +16,52 @@ import {
     GaugesContainer,
     ValidateButton,
     PDFButton,
+    ToDoButton,
+    PUpToDoContainer,
+    PUpToDo,
+    PUpToDoClose,
+    PUpToDoTitle,
+    PUpToDoLinkIcon,
+    PUpToDoOpen,
+    PUpToDoLinkSubtitle,
+    PUpToDoOpenSubtitle,
 } from './elements';
 import { PersonnalizedGauge } from '../../Gauges';
 import { useTranslation } from 'react-i18next';
 import { getAllScores } from '../../../utils/gaugesUtils';
 import { generatePDFDocument } from './pdfGenerator';
+import { useNavigate } from 'react-router-dom';
+import { showToast } from '../../Toastr';
+import { createNotification } from '../../../utils/notificationUtils';
+
 
 /** Menu of the decision pannel
  * @param {boolean} isDark - If the map is in dark mode or not
  * @param {any} optimisationTemplateData - List of list about optimsiations template datas
  * @param {function} setOptimisationTemplateData - Setter function
+ * @param {function} addNotificationToList - Function to add a toastr notification to the toast history
+ * @param {any} notificationsPreference - Notifications preference data
  */
 interface ActionsListTabProps {
     isDark: boolean;
     optimisationTemplateData: any;
     setOptimisationTemplateData: (data: any) => void;
+    addNotificationToList: (description: string) => void;
+    notificationsPreference: any;
 }
 
 const ActionsListTab: React.FC<ActionsListTabProps> = ({
     isDark,
     optimisationTemplateData,
     setOptimisationTemplateData,
+    addNotificationToList,
+    notificationsPreference,
 }) => {
     const [levelElec, setLevelElec] = useState<number>(0);
     const [levelBio, setLevelBio] = useState<number>(0);
     const [levelLumi, setLevelLumi] = useState<number>(0);
+    const [displayPUpToDo, setDisplayPUpToDo] = useState<boolean>(false);
+    const navigate = useNavigate();
 
     function parseFloatSafe(input: string): number {
         const trimmedInput = input.trim();
@@ -117,32 +138,115 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
     };
 
     const handleValidateButtonClick = () => {
+        if (
+            optimisationTemplateData.filter((item: any) => item.selected)
+                .length === 0
+        ) {
+            alert('Nothing in the action list');
+            return;
+        }
+        const timestamp = getTimestamp();
         for (let i = 0; i < optimisationTemplateData.length; i++) {
             if (optimisationTemplateData[i].selected) {
-                updateValidateData(optimisationTemplateData[i]);
+                updateValidateData(optimisationTemplateData[i], timestamp);
                 optimisationTemplateData[i].saved = false;
             }
         }
         setOptimisationTemplateData(optimisationTemplateData);
     };
 
-    const handlePDFButtonClick = () => {
+    const handlePDFButtonClick =  async () => {
+        if (
+            optimisationTemplateData.filter((item: any) => item.selected)
+                .length === 0
+        ) {
+            alert('Nothing in the action list');
+            return;
+        }
+        const timestamp = getTimestamp();
         const validateData = optimisationTemplateData.filter(
             (item: any) => item.selected
         );
         for (let i = 0; i < optimisationTemplateData.length; i++) {
             if (optimisationTemplateData[i].selected) {
-                updateValidateData(optimisationTemplateData[i]);
+                updateValidateData(optimisationTemplateData[i], timestamp);
                 optimisationTemplateData[i].saved = false;
             }
         }
         generatePDFDocument(validateData, 'Auteur', 'Nantes');
         setOptimisationTemplateData(optimisationTemplateData);
+        if (
+            notificationsPreference.find(
+                (item: any) => item[0] === 'exportPdfUpdate'
+            )[1]
+        ) {
+            showToast(
+                'success',
+                t('actionsListSuccessfullyExported'),
+                'top-left',
+                5000,
+                false,
+                true,
+                false,
+                true
+            );
+
+            const userId = localStorage.getItem('userId');
+            if (userId) {
+                await createNotification({
+                    user: { id: userId },
+                    title: t('actionsListExportedUpdates'),
+                    description: t('actionsListSuccessfullyExported'),
+                    triggered: true,
+                });
+            }
+            addNotificationToList(t('actionsListSuccessfullyExported'));
+        }
     };
 
-    const updateValidateData = async (dataDecision: any) => {
-        const timestamp = new Date().toISOString();
+    const handleToDoButtonClick = () => {
+        if (
+            optimisationTemplateData.filter((item: any) => item.selected)
+                .length === 0
+        ) {
+            alert('Nothing in the action list');
+            return;
+        }
+        setDisplayPUpToDo(true);
+    };
 
+    const handleToDoButtonCopyClick = () => {
+        const timestamp = getTimestamp();
+        for (let i = 0; i < optimisationTemplateData.length; i++) {
+            if (optimisationTemplateData[i].selected) {
+                updateValidateData(optimisationTemplateData[i], timestamp);
+                optimisationTemplateData[i].saved = false;
+            }
+        }
+        setOptimisationTemplateData(optimisationTemplateData);
+        navigator.clipboard.writeText(
+            'https:/app.scandela.com/todo/' + timestamp
+        );
+    };
+
+    const handleToDoButtonOpenClick = () => {
+        const timestamp = getTimestamp();
+        for (let i = 0; i < optimisationTemplateData.length; i++) {
+            if (optimisationTemplateData[i].selected) {
+                updateValidateData(optimisationTemplateData[i], timestamp);
+                optimisationTemplateData[i].saved = false;
+            }
+        }
+        setOptimisationTemplateData(optimisationTemplateData);
+        navigate('/todo/' + timestamp);
+    };
+
+    const getTimestamp = () => {
+        const timestamp = new Date().toISOString();
+        return timestamp;
+    };
+
+    const updateValidateData = async (dataDecision: any, timestamp: string) => {
         const encodedCredentials = btoa(
             `${process.env.REACT_APP_REQUEST_USER}:${process.env.REACT_APP_REQUEST_PASSWORD}`
         );
@@ -173,6 +277,7 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
             }
 
             const data = response.json();
+            return timestamp;
         } catch (error) {
             console.error('Erreur', error);
         }
@@ -234,7 +339,7 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
                             10
                     }
                     oldLevel={levelElec}
-                    top={18}
+                    top={12}
                     left={6}
                 />
                 <PersonnalizedGauge
@@ -251,7 +356,7 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
                             20
                     }
                     oldLevel={levelBio}
-                    top={18}
+                    top={12}
                     left={36}
                 />
                 <PersonnalizedGauge
@@ -268,7 +373,7 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
                             20
                     }
                     oldLevel={levelLumi}
-                    top={18}
+                    top={12}
                     left={66}
                 />
             </GaugesContainer>
@@ -278,6 +383,27 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
             <PDFButton isDark={isDark} onClick={handlePDFButtonClick}>
                 {t('PDF')}
             </PDFButton>
+            <ToDoButton isDark={isDark} onClick={handleToDoButtonClick}>
+                {t('toDo')}
+            </ToDoButton>
+            {displayPUpToDo && (
+                <PUpToDoContainer>
+                    <PUpToDo>
+                        <PUpToDoClose
+                            onClick={() => setDisplayPUpToDo(false)}
+                        />
+                        <PUpToDoTitle>{t('toDoReady')}</PUpToDoTitle>
+                        <PUpToDoOpen onClick={handleToDoButtonOpenClick} />
+                        <PUpToDoLinkIcon onClick={handleToDoButtonCopyClick} />
+                        <PUpToDoLinkSubtitle>
+                            {t('toDoLink')}
+                        </PUpToDoLinkSubtitle>
+                        <PUpToDoOpenSubtitle>
+                            {t('toDoOpen')}
+                        </PUpToDoOpenSubtitle>
+                    </PUpToDo>
+                </PUpToDoContainer>
+            )}
         </div>
     );
 };

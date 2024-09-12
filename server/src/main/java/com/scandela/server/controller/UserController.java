@@ -58,6 +58,17 @@ public class UserController extends AbstractController<User> {
 		return super.get(id);
 	}
 
+		/**
+	 * Get user by mail
+	 * 
+	 * @param mail
+	 * @return user
+	 */
+	@GetMapping("/getByMail/{mail}")
+	public User getUser(@PathVariable String mail) {
+		return ((IUserService) service).getByMail(mail);
+	}
+
 	/**
 	 * Create new user
 	 * 
