@@ -77,7 +77,7 @@ public class StripeWebhookController {
             @RequestBody String payload, @RequestHeader("Stripe-Signature") String sigHeader)
             throws Exception {
 
-        String tmpSecretWebhook = "whsec_8f6138ca74e934b2251b4437775d316b3c92634cfd33f9b687ccdf28beefbd73"; // AJOUTER LA CLE DU WEBHOOK AVANT DE PR
+        String tmpSecretWebhook = webhookSecret;
 
         try {
             Event event = Webhook.constructEvent(payload, sigHeader, tmpSecretWebhook);
