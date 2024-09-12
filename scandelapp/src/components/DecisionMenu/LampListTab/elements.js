@@ -541,3 +541,15 @@ export const GlobalChangeTitle = styled.div`
     transform: translateX(-50%);
     font-family: 'SyneRegular';
 `;
+
+
+export const SpinnerContainer = styled.div`
+    position: absolute;
+    right: 160px;
+    top : 2.3%;
+    width: 6%;
+    height: auto;
+    display: flex;
+    align-items: center;
+    z-index: 1000;
+`;
