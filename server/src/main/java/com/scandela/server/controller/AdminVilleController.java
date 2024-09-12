@@ -1,5 +1,6 @@
 package com.scandela.server.controller;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.scandela.server.dao.UserDao;
+import com.scandela.server.entity.Subscription;
 import com.scandela.server.entity.Town;
 import com.scandela.server.entity.User;
 import com.scandela.server.entity.dto.UserDTO;
@@ -26,9 +29,14 @@ import com.scandela.server.util.AdminVilleAccess;
 public class AdminVilleController {
 
     @Autowired
-    IUserService userService;
+    private IUserService userService;
 
-    UserDao userdao;
+    private UserDao userdao;
+
+    @GetMapping
+    public List<User> getTownAdmins() {
+        return userService.getAllForAdminVille();
+    }
 
     @PostMapping("/affectUser/{adminid}/{userid}")
     public ResponseEntity<?> affectUser(@PathVariable UUID adminid, @PathVariable UUID userid) {

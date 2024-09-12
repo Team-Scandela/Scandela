@@ -19,6 +19,9 @@ public interface UserDao extends JpaRepository<User, UUID> {
 	public Optional<User> findByUsername(String username);
 	public List<User> findByNewsletter(boolean newsletter);
 
+    @Query("SELECT u FROM User u WHERE u.adminville = true")
+    public List<User> findByAdminville(boolean adminville);
+
 
 	@Query("SELECT u.town.id FROM User u WHERE u.id = :userId")
     UUID findTownIdByUserId(@Param("userId") UUID userId);
