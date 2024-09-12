@@ -243,7 +243,6 @@ const LampListTab: React.FC<LampListTabProps> = ({ isDark }) => {
     return (
         <div>
             <LampListCardInput placeholder="Search" />
-            <LampListOrderButton />
             <LampListFilterButton onClick={() => setOpenFilter(true)} />
             {openFilter && (
                 <PupFilterContainer>
