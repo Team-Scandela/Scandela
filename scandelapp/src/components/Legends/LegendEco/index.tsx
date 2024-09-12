@@ -24,8 +24,10 @@ const EcoPannel: React.FC = () => {
             {isModalOpen && (
                 <S.Backdrop onClick={closeModal}>
                     <S.ModalWrapper onClick={stopPropagation}>
-                        <S.h2 >Trâme noire informations</S.h2> 
-                        <S.p >Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam, natus voluptates. Tempora modi unde, iure quas quidem repellendus voluptatum asperiores error voluptates minus animi dicta vitae consectetur illo doloribus numquam!</S.p>
+                    <S.h2 >Légende du filtre sur la Trâme noire</S.h2> 
+                        <S.p >Le filtre de la trâme noire ce compose de:
+                            <br />- zones affichées pour comprendre les potentiels endroits sensible écologiquement.
+                        </S.p>
                         <S.CloseButton onClick={closeModal}>X</S.CloseButton>
                     </S.ModalWrapper>
                 </S.Backdrop>

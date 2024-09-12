@@ -1,35 +1,43 @@
 import React, { useState } from 'react';
-import { ImageContainer, ModalContent, ModalOverlay, legendHeatmapImage } from './elements';
+import * as S from './elements';
 
-interface LegendHeatmapProps {
-  imageSrc: string;
-  caption: string;
-  modalContent: React.ReactNode;
-}
+const HeatmapPannel: React.FC = () => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
-const LegendHeatmap: React.FC<LegendHeatmapProps> = ({ imageSrc, caption, modalContent }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+    const openModal = () => {
+        setIsModalOpen(true);
+    };
 
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
 
-  return (
-    <div>
-      <ImageContainer onClick={openModal}>
-        <img src={imageSrc} alt={caption} className="legendHeatmapImage" />
-        <div>{caption}</div>
-      </ImageContainer>
+    const stopPropagation = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        e.stopPropagation();
+    };
 
-      {isModalOpen && (
-        <ModalOverlay onClick={closeModal}>
-          <ModalContent onClick={(e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation()}>
-            <button onClick={closeModal} className="closeButton">Close</button>
-            {modalContent}
-          </ModalContent>
-        </ModalOverlay>
-      )}
-    </div>
-  );
+    return (
+        <div>
+            <S.Button onClick={openModal}>
+                <S.HeatmapIcon />
+            </S.Button>
+            {isModalOpen && (
+                <S.Backdrop onClick={closeModal}>
+                    <S.ModalWrapper onClick={stopPropagation}>
+                    <S.h2 >Légende du filtre Heatmap</S.h2> 
+                        <S.p >Le filtre Heatmap ce compose de:
+                            <br />- plusieurs zones de chaleur.
+                            <br />- rouge signifie zone à forte utilisation de lumière et un éclairage dense.
+                            <br />- orange/jaune signifie que la luminosité est moyennement dense.
+                            <br />- vert/bleu signigie que la luminosité est assez faible mais présente et non naturelle.
+                            <br />- Ce filtre permet de mieux comprendre l'impact de la pollution lumineuse dans sa ville.
+                        </S.p>
+                        <S.CloseButton onClick={closeModal}>X</S.CloseButton>
+                    </S.ModalWrapper>
+                </S.Backdrop>
+            )}
+        </div>
+    );
 };
 
-export default LegendHeatmap;
+export default HeatmapPannel;

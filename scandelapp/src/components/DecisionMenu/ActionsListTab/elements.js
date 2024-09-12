@@ -26,16 +26,13 @@ export const ScrollableOptimisationsContainer = styled.div`
 
     ::-webkit-scrollbar {
         width: 15px;
-        size: 5px;
         background-color: ${Black};
-        margin-right: 0px;
         border-radius: 5px;
     }
 
     ::-webkit-scrollbar-thumb {
         background-color: ${White};
         border-radius: 7px;
-        margin-right: 20px;
 
         &:hover {
             background-color: ${Yellow};
@@ -45,9 +42,27 @@ export const ScrollableOptimisationsContainer = styled.div`
     ::-webkit-scrollbar-track {
         background-color: ${Black};
         border-radius: 5px;
-        margin-right: 5px;
-        margin-top: 5px;
-        margin-bottom: 2px;
+    }
+
+    @media (max-width: 992px) {
+        left: 2%;
+        top: 3%;
+        width: 90%;
+        height: 45%;
+    }
+
+    @media (max-width: 768px) {
+        left: 1%;
+        top: 4%;
+        width: 85%;
+        height: 40%;
+    }
+
+    @media (max-width: 576px) {
+        left: 0;
+        top: 5%;
+        width: 100%;
+        height: 35%;
     }
 `;
 
@@ -65,6 +80,21 @@ export const OptimisationTemplateContainer = styled.div`
         props.isDark ? LightDarkGrey + 'FF' : LightDarkGrey + 'FF'};
     margin: 6px;
     border: 2px solid ${Black};
+
+    @media (max-width: 992px) {
+        width: 450px;
+        height: 90px;
+    }
+
+    @media (max-width: 768px) {
+        width: 400px;
+        height: 80px;
+    }
+
+    @media (max-width: 576px) {
+        width: 90%;
+        height: 70px;
+    }
 `;
 
 export const TextContainer = styled.div`
@@ -73,6 +103,18 @@ export const TextContainer = styled.div`
     padding-left: 17px;
     gap: 3px;
     max-width: 280px;
+
+    @media (max-width: 992px) {
+        max-width: 240px;
+    }
+
+    @media (max-width: 768px) {
+        max-width: 200px;
+    }
+
+    @media (max-width: 576px) {
+        max-width: 90%;
+    }
 `;
 
 /** Style of the scrollable optimisation type text */
@@ -83,6 +125,14 @@ export const TypeText = styled.p`
     font-weight: 500;
     overflow-wrap: break-word;
     font-family: 'SyneRegular';
+
+    @media (max-width: 768px) {
+        font-size: 12px;
+    }
+
+    @media (max-width: 576px) {
+        font-size: 10px;
+    }
 `;
 
 /** Style for the scrollable optimisation location text */
@@ -93,6 +143,14 @@ export const LocationText = styled.p`
     font-weight: 500;
     overflow-wrap: break-word;
     font-family: 'SyneRegular';
+
+    @media (max-width: 768px) {
+        font-size: 11px;
+    }
+
+    @media (max-width: 576px) {
+        font-size: 9px;
+    }
 `;
 
 /** Style for the scrollable optimisation description text */
@@ -104,6 +162,14 @@ export const DescriptionText = styled.p`
     font-style: italic;
     overflow-wrap: break-word;
     font-family: 'SyneRegular';
+
+    @media (max-width: 768px) {
+        font-size: 11px;
+    }
+
+    @media (max-width: 576px) {
+        font-size: 9px;
+    }
 `;
 
 /** Container for the solution text **/
@@ -118,6 +184,20 @@ export const SolutionTextContainer = styled.div`
     right: 45px;
     background-color: rgb(42, 43, 42);
     border-radius: 10px;
+
+    @media (max-width: 768px) {
+        width: 150px;
+        height: 75px;
+        right: 35px;
+        top: 3px;
+    }
+
+    @media (max-width: 576px) {
+        width: 120px;
+        height: 60px;
+        right: 25px;
+        top: 2px;
+    }
 `;
 
 /** Style for the scrollable optimisation solution text */
@@ -130,9 +210,19 @@ export const SolutionText = styled.p`
     padding: 8px;
     overflow-wrap: break-word;
     font-family: 'SyneRegular';
+
+    @media (max-width: 768px) {
+        font-size: 10px;
+        padding: 6px;
+    }
+
+    @media (max-width: 576px) {
+        font-size: 8px;
+        padding: 4px;
+    }
 `;
 
-/**  Trash Icon**/
+/** Trash Icon **/
 export const TrashIcon = styled(BsFillTrash3Fill)`
     position: absolute;
     right: 7px;
@@ -143,9 +233,21 @@ export const TrashIcon = styled(BsFillTrash3Fill)`
     &:hover {
         opacity: 0.7;
     }
+
+    @media (max-width: 768px) {
+        font-size: 20px;
+        right: 5px;
+        top: 8px;
+    }
+
+    @media (max-width: 576px) {
+        font-size: 18px;
+        right: 3px;
+        top: 6px;
+    }
 `;
 
-/**  GoTo Icon**/
+/** GoTo Icon **/
 export const GoToIcon = styled(AiOutlineSend)`
     position: absolute;
     right: 7px;
@@ -156,9 +258,21 @@ export const GoToIcon = styled(AiOutlineSend)`
     &:hover {
         opacity: 0.7;
     }
+
+    @media (max-width: 768px) {
+        font-size: 20px;
+        right: 5px;
+        bottom: 8px;
+    }
+
+    @media (max-width: 576px) {
+        font-size: 18px;
+        right: 3px;
+        bottom: 6px;
+    }
 `;
 
-/**  Time Icon**/
+/** Time Icon **/
 export const TimeIcon = styled(GiSandsOfTime)`
     display: flex;
     position: relative;
@@ -166,6 +280,18 @@ export const TimeIcon = styled(GiSandsOfTime)`
     left: 34%;
     top: 27%;
     color: ${(props) => (props.isDark ? Yellow : Yellow)};
+
+    @media (max-width: 768px) {
+        font-size: 24px;
+        left: 30%;
+        top: 25%;
+    }
+
+    @media (max-width: 576px) {
+        font-size: 20px;
+        left: 25%;
+        top: 20%;
+    }
 `;
 
 export const TotalContainer = styled.div`
@@ -179,6 +305,21 @@ export const TotalContainer = styled.div`
     border-radius: 5px;
     background-color: ${(props) =>
         props.isDark ? `${Black}FF` : `${Black}FF`};
+
+    @media (max-width: 992px) {
+        width: 240px;
+        height: 240px;
+    }
+
+    @media (max-width: 768px) {
+        width: 200px;
+        height: 200px;
+    }
+
+    @media (max-width: 576px) {
+        width: 90%;
+        height: 180px;
+    }
 `;
 
 /** Style of the total title text */
@@ -191,6 +332,16 @@ export const TotalTitleText = styled.p`
     color: ${Black};
     font-weight: bold;
     font-family: 'SyneRegular';
+
+    @media (max-width: 768px) {
+        font-size: 18px;
+        left: 10%;
+    }
+
+    @media (max-width: 576px) {
+        font-size: 16px;
+        left: 5%;
+    }
 `;
 
 /** Container of the gauges container */
@@ -205,6 +356,20 @@ export const GaugesContainer = styled.div`
     border-radius: 5px;
     background-color: ${(props) =>
         props.isDark ? `${Black}FF` : `${Black}FF`};
+
+    @media (max-width: 768px) {
+        width: 220px;
+        height: 150px;
+        right: 2%;
+        bottom: 15%;
+    }
+
+    @media (max-width: 576px) {
+        width: 90%;
+        height: 120px;
+        right: 0;
+        bottom: 10%;
+    }
 `;
 
 export const ValidateButton = styled.div`
@@ -231,6 +396,22 @@ export const ValidateButton = styled.div`
         background-color: ${(props) => (props.isDark ? Black : Black)};
         color: ${(props) => (props.isDark ? Yellow : Yellow)};
     }
+
+    @media (max-width: 768px) {
+        width: 200px;
+        height: 40px;
+        right: 2%;
+        bottom: 8%;
+        font-size: 14px;
+    }
+
+    @media (max-width: 576px) {
+        width: 90%;
+        height: 35px;
+        right: 0;
+        bottom: 6%;
+        font-size: 12px;
+    }
 `;
 
 export const PDFButton = styled.div`
@@ -256,5 +437,21 @@ export const PDFButton = styled.div`
     &:hover {
         background-color: ${(props) => (props.isDark ? Black : Black)};
         color: ${(props) => (props.isDark ? Yellow : Yellow)};
+    }
+
+    @media (max-width: 768px) {
+        width: 200px;
+        height: 40px;
+        right: 2%;
+        bottom: 1%;
+        font-size: 14px;
+    }
+
+    @media (max-width: 576px) {
+        width: 90%;
+        height: 35px;
+        right: 0;
+        bottom: 0;
+        font-size: 12px;
     }
 `;

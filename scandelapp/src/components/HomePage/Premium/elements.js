@@ -23,6 +23,21 @@ export const PremiumContainer = styled.div`
     top: 50%;
     left: 60%;
     transform: translate(-50%, -50%);
+
+    @media (max-width: 1200px) {
+        width: 70%;
+        height: 60%;
+    }
+
+    @media (max-width: 768px) {
+        width: 80%;
+        height: 70%;
+    }
+
+    @media (max-width: 480px) {
+        width: 90%;
+        height: 80%;
+    }
 `;
 
 export const PremiumRectangle = styled.div`
@@ -34,10 +49,14 @@ export const PremiumRectangle = styled.div`
     border-radius: 10px;
     width: 100%;
     height: 100%;
-    top: 0%;
-    left: 0%;
+    top: 0;
+    left: 0;
     flex-direction: column;
     gap: 10px;
+
+    @media (max-width: 768px) {
+        padding: 5px;
+    }
 `;
 
 export const CloseButton = styled(AiFillCloseCircle)`
@@ -55,6 +74,14 @@ export const CloseButton = styled(AiFillCloseCircle)`
         cursor: pointer;
         opacity: 0.8;
     }
+
+    @media (max-width: 768px) {
+        font-size: 30px;
+        width: 30px;
+        height: 30px;
+        right: 5px;
+        top: 5px;
+    }
 `;
 
 export const PremiumTitle = styled.div`
@@ -69,6 +96,18 @@ export const PremiumTitle = styled.div`
     font-family: 'SyneRegular';
     font-weight: bold;
     transform: translate(0%, -50%);
+
+    @media (max-width: 768px) {
+        font-size: 30px;
+        top: 5%;
+        left: 5%;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 20px;
+        top: 2.5%;
+        left: 10%;
+    }
 `;
 
 export const PremiumTextContainer = styled.div`
@@ -86,6 +125,20 @@ export const PremiumTextContainer = styled.div`
     resize: none;
     border: none;
     background-color: ${DarkGrey};
+
+    @media (max-width: 768px) {
+        top: 60px;
+        width: 90%;
+        height: auto;
+        padding: 8px;
+    }
+
+    @media (max-width: 480px) {
+        top: 40px;
+        width: 95%;
+        height: auto;
+        padding: 6px;
+    }
 `;
 
 export const MainTitle = styled.div`
@@ -94,6 +147,14 @@ export const MainTitle = styled.div`
     font-weight: 1000;
     text-align: center;
     font-family: 'SyneBold';
+
+    @media (max-width: 768px) {
+        font-size: 16px;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 14px;
+    }
 `;
 
 export const MainText = styled.div`
@@ -102,6 +163,14 @@ export const MainText = styled.div`
     font-weight: 700;
     margin: 8px 0;
     font-family: 'SyneRegular';
+
+    @media (max-width: 768px) {
+        font-size: 12px;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 10px;
+    }
 `;
 
 export const PremiumButtonOnOffStyle = styled.div`
@@ -127,6 +196,16 @@ export const PremiumButtonOnOffStyle = styled.div`
     &:active {
         opacity: 0.5;
     }
+
+    @media (max-width: 768px) {
+        width: 150px;
+        height: 35px;
+    }
+
+    @media (max-width: 480px) {
+        width: 120px;
+        height: 30px;
+    }
 `;
 
 export const PremiumButtonOnOffText = styled.div`
@@ -134,6 +213,14 @@ export const PremiumButtonOnOffText = styled.div`
     color: ${Black};
     font-weight: 700;
     font-family: 'SyneRegular';
+
+    @media (max-width: 768px) {
+        font-size: 12px;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 10px;
+    }
 `;
 
 export const SubmitButton = styled.button`
@@ -146,11 +233,21 @@ export const SubmitButton = styled.button`
     border-radius: 5px;
     left: 50%;
     transform: translate(-50%, 0);
+
     &:hover {
         cursor: pointer;
         opacity: 0.9;
     }
+
     font-family: 'SyneRegular';
+
+    @media (max-width: 768px) {
+        padding: 8px 16px;
+    }
+
+    @media (max-width: 480px) {
+        padding: 6px 12px;
+    }
 `;
 
 export const AdminButton = styled.button`
@@ -164,9 +261,25 @@ export const AdminButton = styled.button`
     margin-left: 8%;
     bottom: 50px;
     left: 24%;
+
     &:hover {
         cursor: pointer;
         opacity: 0.9;
     }
+
     font-family: 'SyneRegular';
+
+    @media (max-width: 768px) {
+        padding: 8px 16px;
+        margin-left: 5%;
+        bottom: 40px;
+        left: 20%;
+    }
+
+    @media (max-width: 480px) {
+        padding: 6px 12px;
+        margin-left: 2%;
+        bottom: 30px;
+        left: 15%;
+    }
 `;

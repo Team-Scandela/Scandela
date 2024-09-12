@@ -25,4 +25,31 @@ export const ButtonDeselectAllContainer = styled.div`
         background-color: ${(props) => (props.isDark ? Yellow : Yellow)};
         color: ${(props) => (props.isDark ? Black : Black)};
     }
+
+    @media (max-width: 992px) {
+        height: 25px;
+        width: 140px;
+        font-size: 14px;
+        padding: 0 8px;
+        right: 2%;
+        bottom: 3%;
+    }
+
+    @media (max-width: 768px) {
+        height: 20px;
+        width: 120px;
+        font-size: 12px;
+        padding: 0 6px;
+        right: 1%;
+        bottom: 4%;
+    }
+
+    @media (max-width: 576px) {
+        height: 18px;
+        width: 100px;
+        font-size: 10px;
+        padding: 0 4px;
+        right: 0.5%;
+        bottom: 5%;
+    }
 `;

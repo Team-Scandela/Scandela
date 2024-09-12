@@ -23,6 +23,22 @@ export const FAQContainer = styled.div`
     top: 50%;
     left: 60%;
     transform: translate(-50%, -50%);
+
+    @media (max-width: 1200px) {
+        width: 70%;
+        height: 60%;
+    }
+
+    @media (max-width: 768px) {
+        width: 80%;
+        height: 70%;
+    }
+
+    @media (max-width: 480px) {
+        width: 90%;
+        height: 80%;
+        top: 60%;
+    }
 `;
 
 export const FAQRectangle = styled.div`
@@ -69,6 +85,21 @@ export const FAQTitle = styled.div`
     font-weight: bold;
     transform: translate(0%, -50%);
     font-family: 'SyneRegular';
+
+    @media (max-width: 1200px) {
+        font-size: 35px;
+        top: 10%;
+    }
+
+    @media (max-width: 768px) {
+        font-size: 30px;
+        top: 12%;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 25px;
+        top: 15%;
+    }
 `;
 
 export const FAQLeftContainer = styled.div`
@@ -106,6 +137,23 @@ export const FAQLeftContainer = styled.div`
         border-radius: 0px 5px 5px 0px;
         margin-right: 5px;
     }
+
+    @media (max-width: 1200px) {
+        width: 45%;
+        top: 10%;
+    }
+
+    @media (max-width: 768px) {
+        width: 40%;
+        top: 5%;
+    }
+
+    @media (max-width: 480px) {
+        width: 90%;
+        height: 60%;
+        top: 20%;
+        left: 5%;
+    }
 `;
 
 export const FAQRightContainer = styled.div`
@@ -121,6 +169,25 @@ export const FAQRightContainer = styled.div`
     border-radius: 10px;
     background-color: ${DarkGrey};
     color: ${DarkYellow};
+
+    @media (max-width: 1200px) {
+        width: 45%;
+        top: 10%;
+        left: 50%;
+    }
+
+    @media (max-width: 768px) {
+        width: 40%;
+        top: 5%;
+        left: 50%;
+    }
+
+    @media (max-width: 480px) {
+        width: 90%;
+        height: 60%;
+        top: 20%;
+        left: 5%;
+    }
 `;
 
 export const QuestionTemplateContainer = styled.div`
@@ -144,6 +211,20 @@ export const QuestionTemplateContainer = styled.div`
         background-color: ${DarkYellow};
         color: ${Black};
     }
+
+    @media (max-width: 1200px) {
+        width: 350px;
+    }
+
+    @media (max-width: 768px) {
+        width: 300px;
+    }
+
+    @media (max-width: 480px) {
+        width: 250px;
+        font-size: 12px;
+        height: 50px;
+    }
 `;
 
 export const TitleText = styled.div`
@@ -155,6 +236,14 @@ export const TitleText = styled.div`
     font-weight: 700;
     margin-right: 20px;
     font-family: 'SyneRegular';
+
+    @media (max-width: 768px) {
+        font-size: 12px;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 10px;
+    }
 `;
 
 export const DescriptionTitleText = styled.div`
@@ -168,6 +257,14 @@ export const DescriptionTitleText = styled.div`
     margin-left: 20px;
     margin-right: 30px;
     font-family: 'SyneRegular';
+
+    @media (max-width: 768px) {
+        font-size: 15px;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 13px;
+    }
 `;
 
 export const DescriptionText = styled.div`
@@ -179,4 +276,13 @@ export const DescriptionText = styled.div`
     margin-right: 20px;
     line-height: 20px;
     font-family: 'SyneRegular';
+
+    @media (max-width: 768px) {
+        font-size: 10px;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 8px;
+        margin-top: 20px;
+    }
 `;

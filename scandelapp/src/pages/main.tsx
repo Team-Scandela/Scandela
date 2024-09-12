@@ -12,10 +12,16 @@ import FilterSearch from '../components/FilterSearch';
 import TrafficTime from '../components/TrafficTime';
 import ActionHistory from '../components/ActionHistory';
 import FilterLegend from '../components/FilterLegend';
-import LegendHeatmap from '../components/Legends/LegendHeatmap';
-import EcoPannel from '../components/EcoPannel';
+import EcoPannel from '../components/Legends/LegendEco';
+import CabinetPannel from '../components/Legends/LegendCabinet';
+import HeatmapPannel from '../components/Legends/LegendHeatmap';
+import ZonePannel from '../components/Legends/LegendZone';
+import TrafficPannel from '../components/Legends/LegendTraffic';
+import PinPannel from '../components/Legends/LegendPin';
+import ColorPannel from '../components/Legends/LegendPinColor';
 import LogoutButton from '../components/LogoutButton';
 import Tutoriel from '../components/Tutoriel';
+
 
 export enum Filters {
     pin = 'pin',
@@ -24,6 +30,7 @@ export enum Filters {
     filter = 'filter',
     traffic = 'traffic',
     cabinet = 'cabinet',
+    eco = 'eco',
     none = 'none',
 }
 
@@ -344,6 +351,7 @@ const Main: React.FC<MainProps> = ({
                             onClose={() => setShowFilterLegend(false)}
                         />
                     )}
+                    <TrafficPannel />
                 </>
             )}
             {filter === Filters.pinColor && (
@@ -359,11 +367,7 @@ const Main: React.FC<MainProps> = ({
                             onClose={() => setShowFilterLegend(false)}
                         />
                     )}
-                    <LegendHeatmap
-                        imageSrc="/home/mverain/delivery/SCANDELA/real_scand/Scandela/scandelapp/src/assets/logo-128x128-yellow.png"
-                        caption="Filtre Pin Color"
-                        modalContent={<div>Contenu supplémentaire sur le filtre</div>}
-                    />
+                    <ColorPannel />
                 </>
             )}
             {filter === Filters.zone && (
@@ -379,6 +383,7 @@ const Main: React.FC<MainProps> = ({
                             onClose={() => setShowFilterLegend(false)}
                         />
                     )}
+                    <ZonePannel />
                 </>
             )}
             {filter === Filters.cabinet && (
@@ -394,6 +399,7 @@ const Main: React.FC<MainProps> = ({
                             onClose={() => setShowFilterLegend(false)}
                         />
                     )}
+                    <CabinetPannel />
                 </>
             )}
             {filter === Filters.pin && (
@@ -409,7 +415,11 @@ const Main: React.FC<MainProps> = ({
                             onClose={() => setShowFilterLegend(false)}
                         />
                     )}
+                    <PinPannel />
                 </>
+            )}
+            {filter === Filters.eco && (
+                <EcoPannel />
             )}
             {localStorage.getItem('premium') === 'false' && (
                 <LogoutButton id={'logoutButton'} isDark={isDark} />
@@ -488,8 +498,6 @@ const Main: React.FC<MainProps> = ({
                         tooltipPreference={tooltipPreference}
                     />
                     <Toastr id={'toastrComponentId'} isDark={isDark} />
-                    <EcoPannel
-                    />
                 </>
             )}
         </div>

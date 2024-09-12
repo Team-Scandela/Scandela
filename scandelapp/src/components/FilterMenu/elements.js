@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Yellow, Black, White } from '../../colors';
 
-/** Button who allows to open the container of filters */
+/** Button that allows to open the container of filters */
 export const FilterMenuButton = styled.div`
     display: flex;
     justify-content: center;

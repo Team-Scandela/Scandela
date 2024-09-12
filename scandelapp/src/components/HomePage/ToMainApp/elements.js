@@ -15,6 +15,22 @@ export const ToMainAppContainer = styled.div`
     top: 50%;
     left: 60%;
     transform: translate(-50%, -50%);
+
+    @media (max-width: 1200px) {
+        width: 70%;
+        height: 60%;
+    }
+
+    @media (max-width: 768px) {
+        width: 80%;
+        height: 70%;
+    }
+
+    @media (max-width: 480px) {
+        width: 90%;
+        height: 80%;
+        top: 60%;
+    }
 `;
 
 export const ToMainAppRectangle = styled.div`
@@ -46,6 +62,18 @@ export const ToMainAppPart = styled.div`
     height: 80%;
     left: ${(props) => props.left};
     top: 15%;
+
+    @media (max-width: 1200px) {
+        font-size: 25px;
+    }
+
+    @media (max-width: 768px) {
+        font-size: 20px;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 16px;
+    }
 `;
 
 export const ToMainAppTextContainer = styled.div`
@@ -62,6 +90,18 @@ export const ToMainAppTextContainer = styled.div`
     height: 80%;
     left: ${(props) => props.left};
     top: 15%;
+
+    @media (max-width: 1200px) {
+        font-size: 25px;
+    }
+
+    @media (max-width: 768px) {
+        font-size: 20px;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 16px;
+    }
 `;
 
 export const ToMainAppButton = styled.div`
@@ -95,6 +135,21 @@ export const ToMainAppButton = styled.div`
         background-color: ${DarkGrey};
         color: ${Black};
     }
+
+    @media (max-width: 1200px) {
+        height: 12%;
+        font-size: 18px;
+    }
+
+    @media (max-width: 768px) {
+        height: 15%;
+        font-size: 16px;
+    }
+
+    @media (max-width: 480px) {
+        height: 18%;
+        font-size: 14px;
+    }
 `;
 
 export const CloseButton = styled(AiFillCloseCircle)`
@@ -112,6 +167,18 @@ export const CloseButton = styled(AiFillCloseCircle)`
         cursor: pointer;
         opacity: 0.8;
     }
+
+    @media (max-width: 1200px) {
+        font-size: 35px;
+    }
+
+    @media (max-width: 768px) {
+        font-size: 30px;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 25px;
+    }
 `;
 
 export const ToMainAppText = styled.div`
@@ -127,6 +194,18 @@ export const ToMainAppText = styled.div`
     font-family: 'SyneRegular';
     text-align: justify;
     hyphens: auto;
+
+    @media (max-width: 1200px) {
+        font-size: 16px;
+    }
+
+    @media (max-width: 768px) {
+        font-size: 14px;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 12px;
+    }
 `;
 
 export const ToMainAppImage = styled.img`
@@ -139,9 +218,22 @@ export const ToMainAppImage = styled.img`
     top: 50%;
     left: 50%;
     user-select: none;
-    align-items: center;
-    justify-content: center;
     transform: translate(-50%, -50%);
+
+    @media (max-width: 1200px) {
+        width: 90%;
+        height: 90%;
+    }
+
+    @media (max-width: 768px) {
+        width: 85%;
+        height: 85%;
+    }
+
+    @media (max-width: 480px) {
+        width: 80%;
+        height: 80%;
+    }
 `;
 
 export const ToMainAppTitle = styled.div`
@@ -156,4 +248,19 @@ export const ToMainAppTitle = styled.div`
     font-family: 'SyneRegular';
     font-weight: bold;
     transform: translate(0%, -50%);
+
+    @media (max-width: 1200px) {
+        font-size: 35px;
+        top: 10%;
+    }
+
+    @media (max-width: 768px) {
+        font-size: 30px;
+        top: 12%;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 25px;
+        top: 15%;
+    }
 `;

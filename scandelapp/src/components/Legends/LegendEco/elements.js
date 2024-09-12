@@ -5,15 +5,15 @@ export const Button = styled.button`
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     background-color: #333;
     border: none;
-    border-radius: 25px;
+    border-radius: 2px;
     cursor: pointer;
     position: fixed; /* Make sure it stays on top */
     bottom: 80px; /* Adjust as needed */
-    left: 25px; /* Adjust as needed */
+    left: 30px; /* Adjust as needed */
     z-index: 1000; /* Make sure it's on top of other elements */
 
     &:hover {

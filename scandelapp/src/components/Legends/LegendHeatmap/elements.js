@@ -1,45 +1,72 @@
 import styled from 'styled-components';
+import { FaFire } from 'react-icons/fa';
 
-export const ImageContainer = styled.div`
-  background-color: white;
-  border: 1px solid black;
-  display: inline-block;
-  cursor: pointer;
-  padding: 10px;
-  text-align: center;
-  position: relative;
-  z-index: 10000;
+export const Button = styled.button`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background-color: #333;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    position: fixed; /* Make sure it stays on top */
+    bottom: 80px; /* Adjust as needed */
+    left: 30px; /* Adjust as needed */
+    z-index: 1000; /* Make sure it's on top of other elements */
+
+    &:hover {
+        background-color: #444444;
+    }
 `;
 
-export const ModalOverlay = styled.div`
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10000;
+export const HeatmapIcon = styled(FaFire)`
+    color: #FF4500; /* Orange-red color representing heat */
+    font-size: 24px;
 `;
 
-export const ModalContent = styled.div`
-  background-color: white;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  width: 400px;
-  height: 300px;
-  position: relative;
+export const Backdrop = styled.div`
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 `;
 
-export const legendHeatmapImage = styled.div`
-  width: 100px;
-  height: 100px;
+export const ModalWrapper = styled.div`
+    background-color: #444444;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 500px;
+    width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
 `;
 
-export const closeButton = styled.div`
-  margin-bottom: 10px;
-  cursor: pointer;
+export const CloseButton = styled.button`
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: white;
+
+    &:hover {
+        color: yellow;
+    }
+`;
+
+export const p = styled.p`
+    color: #D5B60A;
+`;
+
+export const h2 = styled.h2`
+    color: white;
 `;

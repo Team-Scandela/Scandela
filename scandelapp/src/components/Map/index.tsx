@@ -9,10 +9,16 @@ import { LassoOverlay } from './elements';
 //import TimePicker from '../TimePicker';
 import React from 'react';
 import { allLamps } from '../../utils/lampUtils';
+import Popup from '../SimplePopUp'; // Importe le composant Popup
+import { FeatureCollection, Point } from 'geojson';
+
+
 
 // Load geographical data of Nantes from a local JSON file
 // let nantesData = allLamps;
 let nantesData = require('../../assets/nantesData.json');
+let zonesData = require('../../assets/trameNoire.json');
+let armoireData = require('../../assets/armoire.json');
 
 function getRandomColor() {
     const colors = ['#00FF00', '#FFA500', '#FF0000'];
@@ -62,6 +68,10 @@ const Map: React.FC<MapProps> = ({
 
     // Pour suivre l'ID du lampadaire sélectionné
     const [selectedLampId, setSelectedLampId] = useState<string | null>(null);
+
+    const [selectedFeature, setSelectedFeature] = useState(null); // pour pinColor
+
+    const [popupCoordinates, setPopupCoordinates] = useState([0, 0]);
 
     const [cursorStyle, setCursorStyle] = useState('auto');
 
@@ -114,6 +124,24 @@ const Map: React.FC<MapProps> = ({
         };
     }
 
+    interface armoiresGeoJSON {
+        type: string;
+        features: ArmoireFeature[];
+    }
+    
+    interface ArmoireFeature {
+        type: string;
+        geometry: {
+            type: string; // Type "Point" pour l'emplacement des armoires
+            coordinates: number[]; // Coordonnées [latitude, longitude] de l'armoire
+        };
+        properties: {
+            id: number; // Identifiant de l'armoire
+            name: string; // Nom ou numéro de l'armoire
+            lampCoordinates: number[][]; // Coordonnées des lampadaires associés à l'armoire [latitude, longitude]
+        };
+    }
+
     // Crée les données géoJSON à partir des données de Nantes
     /*const geojsonData = useMemo(() => {
         let geoJSON = {
@@ -140,6 +168,7 @@ const Map: React.FC<MapProps> = ({
         });
         return geoJSON;
     }, []);*/
+    
     const geojsonData = useMemo(() => {
         let geoJSON = {
             type: 'FeatureCollection',
@@ -166,6 +195,56 @@ const Map: React.FC<MapProps> = ({
         });
         return geoJSON;
     }, []);
+
+    const geojsonZone = useMemo(() => {
+        let zoneGeoJSON = {
+            type: 'FeatureCollection',
+            features: [] as any[],
+        };
+
+        zonesData.forEach((zone: any) => {
+            const feature: any = {
+                type: 'Feature',
+                geometry: {
+                    type: zone.geo_shape.geometry.type, // Utilise le type de géométrie de tes données
+                    coordinates: zone.geo_shape.geometry.coordinates.flat(1), // Aplatir si nécessaire
+                },
+                properties: {
+                    id: zone.id_zp,
+                    nomCommune: zone.nom_comm,
+                    codeINSEE: zone.code_insee,
+                    superficie: zone.superficie,
+                    longueurShape: zone.st_length_shape,
+                },
+            };
+            zoneGeoJSON.features.push(feature);
+        });
+        return zoneGeoJSON;
+    }, [zonesData]);
+
+    const armoiresGeoJSON: FeatureCollection<Point, { id: number; name: string; lampCoordinates: [number, number][] }> = useMemo(() => {
+        return {
+            type: 'FeatureCollection',
+            features: armoireData.map((armoire: { coordinates: any; id: any; name: any; lampCoordinates: any; }) => ({
+                type: 'Feature',
+                geometry: {
+                    type: 'Point',
+                    coordinates: armoire.coordinates,
+                },
+                properties: {
+                    id: armoire.id,
+                    name: armoire.name,
+                    lampCoordinates: armoire.lampCoordinates,
+                },
+            })),
+        };
+    }, [armoireData]);
+
+    
+    console.log('here');
+    console.log(zonesData);
+    console.log('here2');
+    console.log(armoireData);
 
     // const geoData = useMemo(() => {
     //     let jsonArmoire = {
@@ -234,6 +313,9 @@ const Map: React.FC<MapProps> = ({
             case 'cabinet':
                 setLayoutVisibilityCabinet('none');
                 break;
+            case 'eco':
+                setLayoutVisibilityEco('none');
+                break;
             default:
                 break;
         }
@@ -273,6 +355,11 @@ const Map: React.FC<MapProps> = ({
                     closeLastFilter();
                     setLayoutVisibilityCabinet('visible');
                     setLastFilterActivated('cabinet');
+                    break;
+                case 'eco':
+                    closeLastFilter();
+                    setLayoutVisibilityEco('visible');
+                    setLastFilterActivated('eco');
                     break;
                 case 'none':
                     closeLastFilter();
@@ -320,6 +407,10 @@ const Map: React.FC<MapProps> = ({
         map.current.setLayoutProperty('filter', 'visibility', visibility);
     };
 
+    const setLayoutVisibilityEco = (visibility: string) => {
+        map.current.setLayoutProperty('eco', 'visibility', visibility);
+    };
+
     const setLayoutVisibilityFilter = (visibility: string) => {
         map.current.setLayoutProperty(
             'cluster-textFilter',
@@ -345,7 +436,7 @@ const Map: React.FC<MapProps> = ({
     };
 
     // Initialise la carte
-    const initializeMap = (data: any) => {
+    const initializeMap = (data: any, zoneData: any, armoireData: any) => {
         if (!map.current) {
             cluster.current = new Supercluster({
                 radius: 100,
@@ -430,12 +521,44 @@ const Map: React.FC<MapProps> = ({
                 }
 
                 if (!map.current?.getSource('armoires')) {
-                    // pour les amoires elec uniquement
                     map.current.addSource('armoires', {
                         type: 'geojson',
-                        //data: data as jsonArmoire.FeatureCollection, chargement de ce jeu de données
+                        data: armoiresGeoJSON as GeoJSON.FeatureCollection,
                     });
                 }
+
+                // if (!map.current.getSource('eco-zone')) {
+                //     map.current.addSource('eco-zone', {
+                //         type: 'geojson',
+                //         data: zoneData as GeoJSON.FeatureCollection,
+                //     });
+                // }
+            
+                // // Ajout des couches
+                // if (!map.current.getLayer('eco')) {
+                //     map.current.addLayer({
+                //         id: 'eco',
+                //         type: 'fill',
+                //         source: 'eco-zone',
+                //         paint: {
+                //             'fill-color': '#088',
+                //             'fill-opacity': 0.6,
+                //         },
+                //     });
+                // }
+            
+                // if (!map.current.getLayer('eco')) {
+                //     map.current.addLayer({
+                //         id: 'eco',
+                //         type: 'line',
+                //         source: 'eco-zone',
+                //         paint: {
+                //             'line-color': '#088',
+                //             'line-width': 2,
+                //         },
+                //     });
+                // }
+  
 
                 // Définit les couleurs en format RGBA avec une opacité de 0.6
                 const greenRGBA = 'rgba(0, 128, 0, 0.6)';
@@ -600,7 +723,6 @@ const Map: React.FC<MapProps> = ({
                 );
 
                 //ColoredPin filter
-                console.log();
                 map.current.addLayer({
                     id: 'pinColor',
                     type: 'circle',
@@ -644,6 +766,27 @@ const Map: React.FC<MapProps> = ({
                     },
                 });
 
+                // Ajoute un gestionnaire de clic pour ouvrir la pop-up lorsqu'un cercle est sélectionné
+                map.current.on('click', 'pinColor', (e) => {
+                    const features = map.current.queryRenderedFeatures(e.point, {
+                    layers: ['pinColor'],
+                    });
+
+                    if (features && features.length > 0) {
+                    const selectedFeature = features[0];
+                    const { lamp } = selectedFeature.properties;
+
+                    // Définit les coordonnées pour afficher la pop-up près du point
+                    setPopupCoordinates(e.lngLat.toArray());
+
+                    // Affiche la pop-up avec les informations de la lampe
+                    setSelectedFeature({
+                        name: `Type de lampe: ${lamp}`,
+                        description: `Description supplémentaire`,
+                    });
+                    }
+                });
+
                 // // Filtre pour les points avec des halos de lumière sur les pins
                 map.current.addLayer({
                     id: 'filter',
@@ -682,111 +825,360 @@ const Map: React.FC<MapProps> = ({
                         'circle-stroke-width': 0,
                     },
                 });
+
                 map.current.loadImage(
                     'https://img.icons8.com/?size=256&id=UnYwluJUelEQ&format=png',
                     (error, image) => {
                         if (error) throw error;
-
-                        // image de l'éclair
                         map.current.addImage('lightning', image);
                     }
                 );
-
+                
                 map.current.loadImage(
                     'https://icones.pro/wp-content/uploads/2022/07/symbole-d-eclair-bleu.png',
                     (error, image) => {
                         if (error) throw error;
-
                         map.current.addImage('lightning2', image);
                     }
                 );
-
+                
+                // Ajout de la couche des éclairs
                 map.current.addLayer({
                     id: 'cabinet',
                     type: 'symbol',
                     source: 'points',
                     layout: {
                         'icon-image': 'lightning',
-                        'icon-size': 0.1, // Ajustement de la taille de l'image
+                        'icon-size': 0.1,
                         visibility: 'none',
                     },
                     paint: {
                         'icon-color': '#FFFF00',
                     },
                 });
-
+                
+                // Gestion des événements de la souris
                 map.current.on('mouseenter', 'cabinet', () => {
                     map.current.getCanvas().style.cursor = 'pointer';
                 });
-
+                
                 map.current.on('mouseleave', 'cabinet', () => {
                     map.current.getCanvas().style.cursor = '';
                 });
-
+                
+                // Gestion des clics sur les éclairs
                 const lightningState: Record<string, boolean> = {};
-
+                
                 map.current.on('click', 'cabinet', (event) => {
-                    const features = map.current.queryRenderedFeatures(
-                        event.point,
-                        {
-                            layers: ['cabinet'],
-                        }
-                    );
-
+                    const features = map.current.queryRenderedFeatures(event.point, {
+                        layers: ['cabinet'],
+                    });
+                
                     if (features.length > 0) {
                         const clickedFeature = features[0];
                         const clickedLightningID = clickedFeature.properties.id;
-
-                        // Inversement l'état de l'éclair cliqué
-                        lightningState[clickedLightningID] =
-                            !lightningState[clickedLightningID];
-
-                        // Changement de la couleur de l'icône de l'éclair cliqué en bleu ou jaune selon l'état
+                
+                        // Inverser l'état de l'éclair cliqué
+                        lightningState[clickedLightningID] = !lightningState[clickedLightningID];
+                
+                        // Changer la couleur et l'image de l'éclair cliqué
                         map.current.setPaintProperty('cabinet', 'icon-color', [
                             'case',
                             ['==', ['get', 'id'], clickedLightningID],
-                            lightningState[clickedLightningID]
-                                ? '#0000FF'
-                                : '#FFFF00', // Bleu ou Jaune
-                            '#FFFF00', // Jaune (pour les autres éclairs)
+                            lightningState[clickedLightningID] ? '#0000FF' : '#FFFF00',
+                            '#FFFF00',
                         ]);
-
+                
                         map.current.setLayoutProperty('cabinet', 'icon-image', [
                             'case',
                             ['==', ['get', 'id'], clickedLightningID],
-                            lightningState[clickedLightningID]
-                                ? 'lightning2'
-                                : 'lightning',
+                            lightningState[clickedLightningID] ? 'lightning2' : 'lightning',
                             'lightning',
                         ]);
-
+                
                         map.current.setLayoutProperty('cabinet', 'icon-size', [
                             'case',
                             ['==', ['get', 'id'], clickedLightningID],
-                            lightningState[clickedLightningID] ? 0.05 : 0.1, // Taille différente pour l'éclair sélectionné
-                            0.1, // Taille par défaut pour les autres éclairs
+                            lightningState[clickedLightningID] ? 0.05 : 0.1,
+                            0.1,
                         ]);
-
-                        const visibilityState = Object.keys(
-                            lightningState
-                        ).reduce(
-                            (acc, id) => {
-                                acc[id] = lightningState[id]
-                                    ? 'visible'
-                                    : 'none';
-                                return acc;
-                            },
-                            {} as Record<string, string>
-                        );
-
-                        map.current.setFilter('cabinet', [
-                            'in',
-                            ['get', 'id'],
-                            ...Object.keys(visibilityState),
-                        ]);
+                
+                        // Afficher les points autour de l'éclair cliqué
+                        const lampCoordinates = nantesData.filter((item: any) => item.fields.cabinet_id === clickedLightningID);
+                        const geojsonData = {
+                            type: 'FeatureCollection',
+                            features: lampCoordinates.map((item: any) => ({
+                                type: 'Feature',
+                                geometry: {
+                                    type: 'Point',
+                                    coordinates: item.geometry.coordinates,
+                                },
+                                properties: {},
+                            })),
+                        };
                     }
                 });
+                
+                
+                // map.current.on('load', () => {
+                //     // Charger les images personnalisées pour les électriques
+                //     map.current?.loadImage(
+                //         'https://img.icons8.com/?size=256&id=UnYwluJUelEQ&format=png',
+                //         (error, image) => {
+                //             if (error) throw error;
+                //             map.current?.addImage('lightning', image);
+                //         }
+                //     );
+        
+                //     map.current?.loadImage(
+                //         'https://icones.pro/wp-content/uploads/2022/07/symbole-d-eclair-bleu.png',
+                //         (error, image) => {
+                //             if (error) throw error;
+                //             map.current?.addImage('lightning2', image);
+                //         }
+                //     );
+        
+                //     // Ajouter la source et le calque pour les armoires électriques
+                //     map.current?.addSource('armoires', {
+                //         type: 'geojson',
+                //         data: armoiresGeoJSON,
+                //     });
+        
+                //     map.current?.addLayer({
+                //         id: 'cabinet',
+                //         type: 'symbol',
+                //         source: 'armoires',
+                //         layout: {
+                //             'icon-image': 'lightning',
+                //             'icon-size': 0.1,
+                //             visibility: 'visible',
+                //         },
+                //         paint: {
+                //             'icon-color': '#FFFF00',
+                //         },
+                //     });
+        
+                //     // Ajouter une source pour les lampes (initialement vide)
+                //     map.current?.addSource('lampes', {
+                //         type: 'geojson',
+                //         data: {
+                //             type: 'FeatureCollection',
+                //             features: [],
+                //         },
+                //     });
+        
+                //     // Ajouter un calque pour les lampes
+                //     map.current?.addLayer({
+                //         id: 'lampes',
+                //         type: 'circle',
+                //         source: 'lampes',
+                //         paint: {
+                //             'circle-color': '#FFFF00',
+                //             'circle-radius': 5,
+                //         },
+                //         layout: {
+                //             visibility: 'none',
+                //         },
+                //     });
+        
+                //     // Ajouter des événements pour la souris
+                //     map.current?.on('mouseenter', 'cabinet', () => {
+                //         const canvas = map.current?.getCanvas();
+                //         if (canvas) {
+                //             canvas.style.cursor = 'pointer';
+                //         }
+                //     });
+        
+                //     map.current?.on('mouseleave', 'cabinet', () => {
+                //         const canvas = map.current?.getCanvas();
+                //         if (canvas) {
+                //             canvas.style.cursor = '';
+                //         }
+                //     });
+        
+                //     const lightningState: Record<string, boolean> = {};
+        
+                //     map.current?.on('click', 'cabinet', (event) => {
+                //         const features = map.current?.queryRenderedFeatures(
+                //             event.point,
+                //             {
+                //                 layers: ['cabinet'],
+                //             }
+                //         );
+        
+                //         if (features?.length > 0) {
+                //             const clickedFeature = features[0];
+                //             const clickedLightningID = clickedFeature.properties.id;
+        
+                //             // Inverser l'état de l'éclair cliqué
+                //             lightningState[clickedLightningID] =
+                //                 !lightningState[clickedLightningID];
+        
+                //             // Changer la couleur et la taille de l'icône en fonction de l'état
+                //             map.current?.setPaintProperty('cabinet', 'icon-color', [
+                //                 'case',
+                //                 ['==', ['get', 'id'], clickedLightningID],
+                //                 lightningState[clickedLightningID]
+                //                     ? '#0000FF'
+                //                     : '#FFFF00',
+                //                 '#FFFF00',
+                //             ]);
+        
+                //             map.current?.setLayoutProperty('cabinet', 'icon-image', [
+                //                 'case',
+                //                 ['==', ['get', 'id'], clickedLightningID],
+                //                 lightningState[clickedLightningID]
+                //                     ? 'lightning2'
+                //                     : 'lightning',
+                //                 'lightning',
+                //             ]);
+        
+                //             map.current?.setLayoutProperty('cabinet', 'icon-size', [
+                //                 'case',
+                //                 ['==', ['get', 'id'], clickedLightningID],
+                //                 lightningState[clickedLightningID] ? 0.05 : 0.1,
+                //                 0.1,
+                //             ]);
+        
+                //             const lampCoordinates = clickedFeature.properties.lampCoordinates;
+        
+                //             // Mettre à jour la source des lampes avec les coordonnées des lampes cliquées
+                //             const source = map.current?.getSource('lampes') as mapboxgl.GeoJSONSource | undefined;
+                //             if (source) {
+                //                 source.setData({
+                //                     type: 'FeatureCollection',
+                //                     features: lampCoordinates.map((coord: [number, number]) => ({
+                //                         type: 'Feature',
+                //                         geometry: {
+                //                             type: 'Point',
+                //                             coordinates: coord,
+                //                         },
+                //                         properties: {},
+                //                     })),
+                //                 });
+                //             }
+        
+                //             // Afficher les lampes en mettant à jour la visibilité du calque
+                //             map.current?.setLayoutProperty('lampes', 'visibility', 'visible');
+                //         }
+                //     });
+        
+                //     // Masquer les lampes lorsque l'on clique en dehors
+                //     map.current?.on('click', (event) => {
+                //         if (!event.features?.length) {
+                //             map.current?.setLayoutProperty('lampes', 'visibility', 'none');
+                //         }
+                //     });
+                // });
+        
+                // return () => map.current?.remove();
             }
+            // map.current?.on('load', () => {
+            //     // Charger les images personnalisées pour les armoires électriques
+            //     map.current.loadImage(
+            //         'https://img.icons8.com/?size=256&id=UnYwluJUelEQ&format=png',
+            //         (error, image) => {
+            //             if (error) {
+            //                 console.error('Error loading image lightning:', error);
+            //                 return;
+            //             }
+            //             map.current.addImage('lightning', image);
+            //         }
+            //     );
+            
+            //     map.current.loadImage(
+            //         'https://icones.pro/wp-content/uploads/2022/07/symbole-d-eclair-bleu.png',
+            //         (error, image) => {
+            //             if (error) {
+            //                 console.error('Error loading image lightning2:', error);
+            //                 return;
+            //             }
+            //             map.current.addImage('lightning2', image);
+            //         }
+            //     );
+            
+            //     // Ajouter la source et le calque pour les armoires électriques
+            //     map.current.addSource('armoires', {
+            //         type: 'geojson',
+            //         data: armoiresGeoJSON, // Utilisation de `armoiresGeoJSON` directement
+            //     });
+            
+            //     map.current.addLayer({
+            //         id: 'cabinet',
+            //         type: 'symbol',
+            //         source: 'armoires',
+            //         layout: {
+            //             'icon-image': 'lightning',
+            //             'icon-size': 0.1, // Ajuster la taille de l'image
+            //             visibility: 'visible',
+            //         },
+            //         paint: {
+            //             'icon-color': '#FFFF00',
+            //         },
+            //     });
+            
+            //     // Ajouter des événements pour la souris
+            //     map.current.on('mouseenter', 'cabinet', () => {
+            //         map.current.getCanvas().style.cursor = 'pointer';
+            //     });
+            
+            //     map.current.on('mouseleave', 'cabinet', () => {
+            //         map.current.getCanvas().style.cursor = '';
+            //     });
+            
+            //     const lightningState: Record<string, boolean> = {};
+            
+            //     map.current.on('click', 'cabinet', (event) => {
+            //         const features = map.current.queryRenderedFeatures(
+            //             event.point,
+            //             {
+            //                 layers: ['cabinet'],
+            //             }
+            //         );
+            
+            //         if (features.length > 0) {
+            //             const clickedFeature = features[0];
+            //             const clickedLightningID = clickedFeature.properties.id;
+            
+            //             // Inverser l'état de l'éclair cliqué
+            //             lightningState[clickedLightningID] =
+            //                 !lightningState[clickedLightningID];
+            
+            //             // Changer la couleur et la taille de l'icône en fonction de l'état
+            //             map.current.setPaintProperty('cabinet', 'icon-color', [
+            //                 'case',
+            //                 ['==', ['get', 'id'], clickedLightningID],
+            //                 lightningState[clickedLightningID]
+            //                     ? '#0000FF' // Bleu pour sélectionné
+            //                     : '#FFFF00', // Jaune pour non sélectionné
+            //                 '#FFFF00', // Jaune pour les autres éclairs
+            //             ]);
+            
+            //             map.current.setLayoutProperty('cabinet', 'icon-image', [
+            //                 'case',
+            //                 ['==', ['get', 'id'], clickedLightningID],
+            //                 lightningState[clickedLightningID]
+            //                     ? 'lightning2' // Image bleue pour sélectionné
+            //                     : 'lightning', // Image jaune pour non sélectionné
+            //                 'lightning',
+            //             ]);
+            
+            //             map.current.setLayoutProperty('cabinet', 'icon-size', [
+            //                 'case',
+            //                 ['==', ['get', 'id'], clickedLightningID],
+            //                 lightningState[clickedLightningID] ? 0.05 : 0.1, // Taille différente pour l'éclair sélectionné
+            //                 0.1, // Taille par défaut pour les autres éclairs
+            //             ]);
+            
+            //             // Appliquer un filtre pour la visibilité des armoires sélectionnées
+            //             map.current.setFilter('cabinet', [
+            //                 'in',
+            //                 ['get', 'id'],
+            //                 ...Object.keys(lightningState).filter(id => lightningState[id]),
+            //             ]);
+            //         }
+            //     });
+            // });
 
             if (!map.current?.getSource('mapbox-traffic')) {
                 map.current.addSource('mapbox-traffic', {
@@ -1064,9 +1456,9 @@ const Map: React.FC<MapProps> = ({
     };
 
     // Initialize the map on the first render
-    useEffect(() => {
-        initializeMap(geojsonData);
-    }, [isDark, lng, lat, zoom]);
+    useEffect(() => {        
+        initializeMap(geojsonData, geojsonZone, armoiresGeoJSON);  // Assure-toi que `initializeMap` est bien configuré
+    }, [geojsonData, geojsonZone, armoiresGeoJSON, lng, lat, zoom, isDark]);
 
     // update the map with the filter filter
     useEffect(() => {
@@ -1408,6 +1800,17 @@ const Map: React.FC<MapProps> = ({
                     }}
                 />
             )}
+            {selectedFeature && (
+            <Popup
+                name={selectedFeature.name}
+                description={selectedFeature.description}
+                onClose={() => setSelectedFeature(null)}
+                style={{
+                    top: `${popupCoordinates[1]}px`, 
+                    left: `${popupCoordinates[0]}px`,
+                }}
+            />
+        )}
         </div>
     );
 };

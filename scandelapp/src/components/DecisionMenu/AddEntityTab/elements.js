@@ -1,58 +1,5 @@
 import styled from 'styled-components';
 import { Yellow, Black, White, DarkYellow, DarkGrey } from '../../../colors';
-<<<<<<< HEAD:scandelapp/src/components/TopRightButtonsPannel/ModifyEntityButton/elements.js
-import { MdChangeCircle } from 'react-icons/md';
-
-export const ModifyEntityButtonContainer = styled(MdChangeCircle)`
-    display: flex;
-    position: absolute;
-    width: 50px;
-    height: 40px;
-    top: 25px;
-    right: 355px;
-    user-select: none;
-    opacity: 0.9;
-    background-color: ${(props) =>
-        props.isOn
-            ? props.isDark
-                ? Yellow
-                : Black
-            : props.isDark
-              ? Black + 'CC'
-              : White + 'CC'};
-    color: ${(props) =>
-        props.isOn
-            ? props.isDark
-                ? Black
-                : White
-            : props.isDark
-              ? Yellow
-              : Black};
-    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
-    border-radius: 10px;
-    transition: all 0.2s ease-in-out;
-
-    &:hover {
-        opacity: 1;
-        cursor: pointer;
-    }
-`;
-
-export const ModifyEntityPannelContainer = styled.div`
-    display: flex;
-    position: fixed;
-    width: 600px;
-    height: 420px;
-    background-color: ${(props) => (props.isDark ? Yellow : White)};
-    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
-    top: 90px;
-    left: 500px;
-    border-radius: 10px;
-    transition: all 0.8s ease-in-out;
-    overflow: hidden;
-`;
-=======
->>>>>>> master:scandelapp/src/components/DecisionMenu/AddEntityTab/elements.js
 
 export const ButtonsMenuContainer = styled.div`
     display: flex;
@@ -66,6 +13,27 @@ export const ButtonsMenuContainer = styled.div`
     border-radius: 10px;
     transition: all 0.8s ease-in-out;
     overflow: hidden;
+
+    @media (max-width: 992px) {
+        width: 90px;
+        height: 80%;
+        top: 5%;
+        left: 1%;
+    }
+
+    @media (max-width: 768px) {
+        width: 70px;
+        height: 70%;
+        top: 7%;
+        left: 0.5%;
+    }
+
+    @media (max-width: 576px) {
+        width: 50px;
+        height: 60%;
+        top: 10%;
+        left: 0.5%;
+    }
 `;
 
 export const ContentContainer = styled.div`
@@ -81,6 +49,27 @@ export const ContentContainer = styled.div`
     border-radius: 10px;
     transition: all 0.8s ease-in-out;
     overflow: hidden;
+
+    @media (max-width: 992px) {
+        width: 350px;
+        height: 80%;
+        top: 5%;
+        right: 1%;
+    }
+
+    @media (max-width: 768px) {
+        width: 270px;
+        height: 70%;
+        top: 7%;
+        right: 0.5%;
+    }
+
+    @media (max-width: 576px) {
+        width: 200px;
+        height: 60%;
+        top: 10%;
+        right: 0.5%;
+    }
 `;
 
 export const BulbButton = styled.div`
@@ -103,6 +92,27 @@ export const BulbButton = styled.div`
         background-color: ${(props) => (props.isDark ? DarkGrey : Black)};
         color: ${(props) => (props.isDark ? DarkYellow : White)};
         cursor: pointer;
+    }
+
+    @media (max-width: 992px) {
+        width: 80px;
+        height: 60px;
+        top: 5px;
+        left: 5px;
+    }
+
+    @media (max-width: 768px) {
+        width: 70px;
+        height: 50px;
+        top: 5px;
+        left: 5px;
+    }
+
+    @media (max-width: 576px) {
+        width: 60px;
+        height: 40px;
+        top: 5px;
+        left: 5px;
     }
 `;
 
@@ -127,6 +137,27 @@ export const LampButton = styled.div`
         color: ${(props) => (props.isDark ? DarkYellow : White)};
         cursor: pointer;
     }
+
+    @media (max-width: 992px) {
+        width: 80px;
+        height: 60px;
+        top: 85px;
+        left: 5px;
+    }
+
+    @media (max-width: 768px) {
+        width: 70px;
+        height: 50px;
+        top: 85px;
+        left: 5px;
+    }
+
+    @media (max-width: 576px) {
+        width: 60px;
+        height: 40px;
+        top: 85px;
+        left: 5px;
+    }
 `;
 
 export const TitleText = styled.div`
@@ -137,4 +168,19 @@ export const TitleText = styled.div`
     color: ${(props) => (props.isDark ? Yellow : Black)};
     font-weight: 500;
     font-family: 'SyneRegular';
+
+    @media (max-width: 992px) {
+        font-size: 22px;
+        top: 4%;
+    }
+
+    @media (max-width: 768px) {
+        font-size: 18px;
+        top: 3%;
+    }
+
+    @media (max-width: 576px) {
+        font-size: 16px;
+        top: 2%;
+    }
 `;

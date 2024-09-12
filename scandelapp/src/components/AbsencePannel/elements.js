@@ -3,7 +3,7 @@ import { Yellow, Black, White, Grey } from '../../colors';
 import { GiSandsOfTime } from 'react-icons/gi';
 import { AiFillCloseCircle } from 'react-icons/ai';
 
-/** Container for the absence pannel button **/
+/** Container for the absence panel button **/
 export const AbsencePannelButtonContainer = styled.div`
     display: flex;
     position: absolute;
@@ -40,12 +40,20 @@ export const AbsencePannelButtonContainer = styled.div`
         cursor: pointer;
     }
 
+    @media (max-width: 992px) {
+        left: 400px;
+    }
+
     @media (max-width: 768px) {
-        left: 300px;
+        left: 250px;
+        width: 40px;
+        height: 35px;
     }
 
     @media (max-width: 576px) {
-        left: 200px;
+        left: 150px;
+        width: 35px;
+        height: 30px;
     }
 `;
 
@@ -90,6 +98,21 @@ export const PannelText = styled.div`
     font-weight: 550;
     user-select: none;
     font-family: 'SyneRegular';
+
+    @media (max-width: 992px) {
+        font-size: 35px;
+        top: 5%;
+    }
+
+    @media (max-width: 768px) {
+        font-size: 30px;
+        top: 7%;
+    }
+
+    @media (max-width: 576px) {
+        font-size: 25px;
+        top: 10%;
+    }
 `;
 
 export const CloseIcon = styled(AiFillCloseCircle)`
@@ -134,15 +157,12 @@ export const ListDetailContainer = styled.div`
 
     ::-webkit-scrollbar {
         width: 15px;
-        size: 5px;
         background-color: ${Black};
-        margin-right: 0px;
     }
 
     ::-webkit-scrollbar-thumb {
         background-color: ${Grey};
         border-radius: 7px;
-        margin-right: 20px;
 
         &:hover {
             background-color: ${White};
@@ -153,9 +173,24 @@ export const ListDetailContainer = styled.div`
         width: 10px;
         background-color: ${Black};
         border-radius: 5px;
-        margin-right: 5px;
-        margin-top: 5px;
-        margin-bottom: 2px;
+    }
+
+    @media (max-width: 992px) {
+        width: 500px;
+        height: 350px;
+        left: 2%;
+    }
+
+    @media (max-width: 768px) {
+        width: 400px;
+        height: 300px;
+        left: 1%;
+    }
+
+    @media (max-width: 576px) {
+        width: 280px;
+        height: 250px;
+        left: 0%;
     }
 `;
 
@@ -170,6 +205,14 @@ export const EventContainer = styled.div`
     overflow: hidden;
     margin: 8px;
     border: 2px solid ${Black};
+
+    @media (max-width: 768px) {
+        height: 130px;
+    }
+
+    @media (max-width: 576px) {
+        height: 100px;
+    }
 `;
 
 export const TextContainer = styled.div`
@@ -180,6 +223,15 @@ export const TextContainer = styled.div`
     padding-left: 3%;
     gap: 5px;
     max-width: 94%;
+
+    @media (max-width: 768px) {
+        padding-left: 2%;
+    }
+
+    @media (max-width: 576px) {
+        padding-left: 1%;
+        gap: 3px;
+    }
 `;
 
 export const EventTitle = styled.div`
@@ -189,6 +241,14 @@ export const EventTitle = styled.div`
     overflow-wrap: break-word;
     font-family: 'SyneRegular';
     color: ${(props) => (props.isDark ? Black : Grey)};
+
+    @media (max-width: 768px) {
+        font-size: 18px;
+    }
+
+    @media (max-width: 576px) {
+        font-size: 16px;
+    }
 `;
 
 export const EventLocation = styled.div`
@@ -198,6 +258,14 @@ export const EventLocation = styled.div`
     overflow-wrap: break-word;
     font-family: 'SyneRegular';
     color: ${(props) => (props.isDark ? Black : Grey)};
+
+    @media (max-width: 768px) {
+        font-size: 16px;
+    }
+
+    @media (max-width: 576px) {
+        font-size: 14px;
+    }
 `;
 
 export const EventDescription = styled.div`
@@ -207,6 +275,14 @@ export const EventDescription = styled.div`
     overflow-wrap: break-word;
     font-family: 'SyneRegular';
     color: ${(props) => (props.isDark ? Black : Grey)};
+
+    @media (max-width: 768px) {
+        font-size: 15px;
+    }
+
+    @media (max-width: 576px) {
+        font-size: 13px;
+    }
 `;
 
 export const EventDate = styled.div`
@@ -216,6 +292,14 @@ export const EventDate = styled.div`
     overflow-wrap: break-word;
     font-family: 'SyneRegular';
     color: ${(props) => (props.isDark ? Black : Grey)};
+
+    @media (max-width: 768px) {
+        font-size: 14px;
+    }
+
+    @media (max-width: 576px) {
+        font-size: 12px;
+    }
 `;
 
 /** Time Icon **/
