@@ -10,13 +10,14 @@ import {
     Red,
 } from '../../../colors';
 import { BiSortDown } from 'react-icons/bi';
-import { FaFilter, FaPen} from 'react-icons/fa';
+import { FaFilter, FaPen, FaTrashAlt} from 'react-icons/fa';
 import { AiFillCloseCircle } from 'react-icons/ai';
 import { MdSkipPrevious, MdSkipNext } from 'react-icons/md';
 import { GoLightBulb as Bulb } from 'react-icons/go';
 import { RiMapPin2Line } from 'react-icons/ri';
 import { GiStreetLight } from 'react-icons/gi';
 import { IoMdSend } from "react-icons/io";
+import { CgDanger } from "react-icons/cg";
 
 export const LampListContainer = styled.div`
     display: flex;
@@ -432,6 +433,20 @@ export const PupBulbButton = styled(FaPen)`
     }
 `;
 
+export const TrashBulbButton = styled(FaTrashAlt)`
+    position: absolute;
+    right: 1%;
+    top: 23%;
+    font-size: 20px;
+    color: ${Red};
+    opacity: 1;
+    transform: translateX(-50%);
+    &:hover {
+        cursor: pointer;
+        opacity: 0.8;
+    }
+`;
+
 export const PUpBulbInputName = styled.input`
     position: absolute;
     width: 80%;
@@ -498,4 +513,31 @@ export const PUpBulbInputIntens = styled.input`
     &:focus {
         outline: none;
     }
+`;
+
+export const ButtonGlobalChange = styled(CgDanger)`
+position: absolute;
+right: 30%;
+top: 95%;
+font-size: 25px;
+color: ${Red};
+opacity: 1;
+transform: translateX(-50%);
+&:hover {
+    cursor: pointer;
+    opacity: 0.8;
+}
+`;
+
+export const GlobalChangeTitle = styled.div`
+    display: flex;
+    position: absolute;
+    justify-content: center;
+    color: ${Yellow};
+    font-size: 25px;
+    top: 35%;
+    left: 55%;
+    width: 80%;
+    transform: translateX(-50%);
+    font-family: 'SyneRegular';
 `;
