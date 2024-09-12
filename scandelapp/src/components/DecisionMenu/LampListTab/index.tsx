@@ -40,10 +40,12 @@ import {
     ButtonGlobalChange,
     TrashBulbButton,
     GlobalChangeTitle,
+    SpinnerContainer,
 } from './elements';
 import { allLamps } from '../../../utils/lampUtils';
 import { getConsuptionScore } from '../../../utils/gaugesUtils';
 import {useGlobalChangeBoolean} from '../../../utils/globalChangeBoolean';
+import LoadingSpinner from '../../LoadingSpinner';
 
 interface LampListTabProps {
     isDark: boolean;
@@ -86,6 +88,8 @@ const LampListTab: React.FC<LampListTabProps> = ({ isDark }) => {
     const [isChangeGlobal, setGlobalBoolean] = useGlobalChangeBoolean();
     const [openPupGlobalChange, setOpenPupGlobalChange] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+
     const updateList = () => {
         let filterData = tempData;
 
@@ -121,12 +125,17 @@ const LampListTab: React.FC<LampListTabProps> = ({ isDark }) => {
 
     // Gérer les modifications dans la barre de recherche
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setIsLoading(true);
         setSearchTerm(e.target.value);
+        setTimeout(() => {
+            setIsLoading(false);
+        }, 1000);
     };
 
     const handleReferenceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setInputReference(e.target.value);
         setIsFailed(false);
+        setIsLoading(false);
     };
 
     const addBulbToLamp = async (idBulb: string) => {
@@ -294,7 +303,13 @@ const LampListTab: React.FC<LampListTabProps> = ({ isDark }) => {
     
     return (
         <div>
-            <LampListCardInput placeholder="Search" value={searchTerm} onChange={handleSearchChange}/>
+            { isLoading &&
+                <SpinnerContainer>
+                    <LoadingSpinner />
+                </SpinnerContainer>
+    }
+            <LampListCardInput placeholder="Search" value={searchTerm} onChange={handleSearchChange}>
+            </LampListCardInput>
             <LampListFilterButton onClick={() => setOpenFilter(true)} />
             {openFilter && (
                 <PupFilterContainer>
