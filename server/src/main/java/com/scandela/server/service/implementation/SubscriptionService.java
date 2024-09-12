@@ -197,8 +197,8 @@ public class SubscriptionService extends AbstractService<Subscription> implement
         return ((SubscriptionDao) dao).findByStripeId(stripeid).get();
     }
 
-    public Subscription getBySessionid(String sessionid) {
-        return ((SubscriptionDao) dao).findBySessionid(sessionid).get();
+    public Optional <Subscription> getBySessionid(String sessionid) {
+        return ((SubscriptionDao) dao).findBySessionid(sessionid);
     }
 
     public Map<String, String> createSubscription(Subscription subscription) throws StripeException {
@@ -212,7 +212,7 @@ public class SubscriptionService extends AbstractService<Subscription> implement
         SessionCreateParams params = SessionCreateParams.builder()
                 .addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)
                 .setMode(SessionCreateParams.Mode.SUBSCRIPTION)
-                .setSuccessUrl("https://api.scandela.com/stripe/handleSessionId")
+                .setSuccessUrl("https://api.scandela.com/stripe/handleSessionId/")
                 .setCancelUrl("https://example.com/cancel")
                 .addLineItem(SessionCreateParams.LineItem.builder()
                         .setQuantity(1L)
@@ -229,11 +229,14 @@ public class SubscriptionService extends AbstractService<Subscription> implement
 
         Session session = Session.create(params);
 
+        session.setSuccessUrl(session.getSuccessUrl() + session.getId());
+
         session.setCustomerCreation("always");
 
         Map<String, String> responseData = new HashMap<>();
         responseData.put("url", session.getUrl());
         responseData.put("customerId", session.getCustomer());
+        responseData.put("successRedirect", session.getSuccessUrl());
 
         System.out.println("Stripe id -> " + session.getCustomer());
 

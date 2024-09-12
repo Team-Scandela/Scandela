@@ -1,5 +1,7 @@
 package com.scandela.server.controller;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -43,9 +45,15 @@ public class StripeWebhookController {
     private ISubscriptionService subscriptionService;
 
 
-    @GetMapping("/webhook")
+    @GetMapping("/webhook/test")
     public void getSubscriptionsInfo() {
         System.out.println("Hey ! Stripe here.");
+        return;
+    }
+
+    @GetMapping("/handleSessionId/test")
+    public void getTestSecu() {
+        System.out.println("Hey ! Secu breached.");
         return;
     }
 
@@ -57,7 +65,13 @@ public class StripeWebhookController {
 
             String customerId = session.getCustomer();
 
-            Subscription subscription = subscriptionService.getBySessionid(sessionid);
+            Subscription subscription = null;
+
+            Optional<Subscription> maybeSubscription = subscriptionService.getBySessionid(sessionid);
+
+            if (maybeSubscription.isPresent()) {
+                subscription = maybeSubscription.get();
+            }
 
             if (subscription != null) {
                 subscription.setStripeId(customerId);
