@@ -141,7 +141,7 @@ export const getAllScores = async (): Promise<any> => {
             );
             showToast(
                 'success',
-                'La base de donnée à bien été mise à jour avec les nouvelles données ',
+                'La base de données à bien été mise à jour avec la dernière version qui date du 6 mai 2024 à 06:05',
                 'top-left',
                 5000,
                 false,
