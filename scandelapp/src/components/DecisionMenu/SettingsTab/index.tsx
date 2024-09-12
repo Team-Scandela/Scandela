@@ -154,6 +154,7 @@ const SettingsTab: React.FC<SettingsTabProps> = ({
                             setNotificationsPreference={
                                 setNotificationsPreference
                             }
+                            addNotificationToList={addNotificationToList}
                         />
                     </div>
                 )}

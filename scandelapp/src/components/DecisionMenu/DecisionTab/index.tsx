@@ -16,6 +16,7 @@ import logoDark from '../../../assets/logo-128x128-yellow.png';
 import OptimisationTemplate from '../../OptimisationTemplate';
 import { showToast } from '../../Toastr';
 import { useTranslation } from 'react-i18next';
+import { createNotification } from '../../../utils/notificationUtils';
 
 /**
  * @param {boolean} isDark - If the map is in dark mode or not
@@ -89,7 +90,7 @@ const DecisionTab: React.FC<DecisionTabProps> = ({
         handleToggleDropdownExpend();
     };
 
-    const handleActionsListButtonClick = () => {
+    const handleActionsListButtonClick = async () => {
         let itemsUpdated = 0;
         if (isOnCooldown) return;
         const updatedData = [...optimisationTemplateData];
@@ -108,7 +109,7 @@ const DecisionTab: React.FC<DecisionTabProps> = ({
             ) {
                 showToast(
                     'error',
-                    "Il n'y a rien à ajouter dans la liste d'action",
+                    t('nothingToAddToTheActionsList'),
                     'top-left',
                     5000,
                     false,
@@ -117,7 +118,16 @@ const DecisionTab: React.FC<DecisionTabProps> = ({
                     true
                 );
             }
-            addNotificationToList("Echec de modification de la liste d'action");
+            const userId = localStorage.getItem('userId');
+            if (userId) {
+                await createNotification({
+                    user: { id: userId },
+                    title: t('actionListUpdates'),
+                    description: t('nothingToAddToTheActionsList'),
+                    triggered: true,
+                });
+            }
+            addNotificationToList(t('nothingToAddToTheActionsList'));
         } else if (itemsUpdated > 0) {
             if (
                 notificationsPreference.find(
@@ -126,7 +136,7 @@ const DecisionTab: React.FC<DecisionTabProps> = ({
             ) {
                 showToast(
                     'success',
-                    'La liste des actions a bien été mise à jour',
+                    t('actionsListSuccessfullyUpdated'),
                     'top-left',
                     5000,
                     false,
@@ -135,7 +145,16 @@ const DecisionTab: React.FC<DecisionTabProps> = ({
                     true
                 );
             }
-            addNotificationToList("Mise à jour de la liste d'action");
+            const userId = localStorage.getItem('userId');
+            if (userId) {
+                await createNotification({
+                    user: { id: userId },
+                    title: t('actionListUpdates'),
+                    description: t('actionsListSuccessfullyUpdated'),
+                    triggered: true,
+                });
+            }
+            addNotificationToList(t('actionsListSuccessfullyUpdated'));
         }
         setIsOnCooldown(true);
         setTimeout(() => {

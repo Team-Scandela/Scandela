@@ -22,7 +22,7 @@ const Stats: React.FC<StatsProps> = ({ closeToMainApp }) => {
     const navigate = useNavigate();
 
     const handleStatsClick = () => {
-        navigate('/statistics');
+        navigate('/Laws');
     };
 
     const text =

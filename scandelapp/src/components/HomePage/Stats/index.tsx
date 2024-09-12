@@ -1,4 +1,4 @@
-import React from 'react'; // Import the 'React' module
+import React, { useEffect } from 'react'; // Import the 'React' module
 
 import {
     StatsRectangle,
@@ -24,6 +24,8 @@ const Stats: React.FC<StatsProps> = ({ closeToMainApp }) => {
     const handleStatsClick = () => {
         navigate('/statistics');
     };
+
+    
 
     const text =
         'Scandela vous permet de visualiser les statistiques de votre territoire. Vous pouvez consulter les données de votre territoire, les comparer avec d’autres territoires et suivre l’évolution de la situation.';

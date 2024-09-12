@@ -29,29 +29,49 @@ const Lasso: React.FC<LassoButtonProps> = ({
     const [tmpConsumptionScore, setTmpConsumptionScore] = useState(0);
     const [tmpLightScore, setTmpLightScore] = useState(0);
     const [tmpVegetalScore, setTmpVegetalScore] = useState(0);
+
+    const [ConsumptionScore, setConsumptionScore] = useState(0);
+    const [LightScore, setLightScore] = useState(0);
+    const [VegetalScore, setVegetalScore] = useState(0);
+
     const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect(() => {
         const interval = setInterval(() => {
-            const tmpConsumptionScore = localStorage.getItem(
-                'tmpConsumptionScore'
-            );
-            const tmpLightScore = localStorage.getItem('tmpLightScore');
-            const tmpVegetalScore = localStorage.getItem('tmpVegetalScore');
+            const ttmpConsumptionScore = localStorage.getItem('tmpConsumptionScore');
+            const ttmpLightScore = localStorage.getItem('tmpLightScore');
+            const ttmpVegetalScore = localStorage.getItem('tmpVegetalScore');
 
-            if (tmpConsumptionScore != 'false') {
-                setTmpConsumptionScore(parseFloat(tmpConsumptionScore));
+            const tConsumptionScore = localStorage.getItem('consumptionScore');
+            const tLightScore = localStorage.getItem('lightScore');
+            const tVegetalScore = localStorage.getItem('vegetalScore');
+
+            if (isLoaded) {
+                if (tConsumptionScore != 'false') {
+                    setConsumptionScore(parseFloat(tConsumptionScore));
+                }
+                if (tLightScore != 'false') {
+                    setLightScore(parseFloat(tLightScore));
+                }
+                if (tVegetalScore != 'false') {
+                    setVegetalScore(parseFloat(tVegetalScore));
+                }
+            }
+
+            if (ttmpConsumptionScore != 'false') {
+                setTmpConsumptionScore(parseFloat(ttmpConsumptionScore));
                 clearInterval(interval);
                 setIsLoaded(true);
             }
-            if (tmpLightScore != 'false') {
-                setTmpLightScore(parseFloat(tmpLightScore));
+            if (ttmpLightScore != 'false') {
+                setTmpLightScore(parseFloat(ttmpLightScore));
                 clearInterval(interval);
             }
-            if (tmpVegetalScore != 'false') {
-                setTmpVegetalScore(parseFloat(tmpVegetalScore));
+            if (ttmpVegetalScore != 'false') {
+                setTmpVegetalScore(parseFloat(ttmpVegetalScore));
                 clearInterval(interval);
             }
+
         }, 1000);
     });
 
@@ -115,11 +135,11 @@ const Lasso: React.FC<LassoButtonProps> = ({
                                         <br />
                                         <br />
                                         Consommation :{' '}
-                                        {tmpConsumptionScore.toFixed(2)} / 100
+                                        {tmpConsumptionScore.toFixed(2)}%
                                         <br />
                                         <br />
-                                        Végétal : {tmpVegetalScore.toFixed(2)} /
-                                        100
+                                        Végétal : {tmpVegetalScore.toFixed(2)}%
+
                                         {tmpVegetalScore == 0 && isLoaded && (
                                             <>
                                                 <br />
@@ -131,8 +151,7 @@ const Lasso: React.FC<LassoButtonProps> = ({
                                         )}
                                         <br />
                                         <br />
-                                        Lumière : {tmpLightScore.toFixed(2)} /
-                                        100
+                                        Lumière : {tmpLightScore.toFixed(2)} %
                                     </>
                                 )}
                                 {!isLoaded && (
@@ -149,7 +168,7 @@ const Lasso: React.FC<LassoButtonProps> = ({
                                 isBio={false}
                                 isLumi={false}
                                 level={tmpConsumptionScore}
-                                oldLevel={tmpConsumptionScore}
+                                oldLevel={ConsumptionScore}
                                 top={20}
                                 left={82}
                             />
@@ -160,8 +179,8 @@ const Lasso: React.FC<LassoButtonProps> = ({
                                 isBio={true}
                                 isLumi={false}
                                 level={tmpVegetalScore}
-                                oldLevel={tmpVegetalScore}
-                                top={40}
+                                oldLevel={VegetalScore}
+                                top={45}
                                 left={82}
                             />
                             <PersonnalizedGauge
@@ -171,8 +190,8 @@ const Lasso: React.FC<LassoButtonProps> = ({
                                 isBio={false}
                                 isLumi={true}
                                 level={tmpLightScore}
-                                oldLevel={tmpLightScore}
-                                top={60}
+                                oldLevel={LightScore}
+                                top={70}
                                 left={82}
                             />
                         </Modal>
