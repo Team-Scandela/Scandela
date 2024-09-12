@@ -18,6 +18,9 @@ import {
     UserCardDelete,
     UserCardUpgrade,
     LogoutButton,
+    ButtonAddAdmin,
+    InputName,
+    ButtonSendAddAdmin,
 } from './elements';
 import { getUser, putUser } from '../../../utils/userUtils';
 import { useTranslation } from 'react-i18next';
@@ -56,8 +59,15 @@ const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
     const [password, setPassword] = useState('');
     const [kwH, setKwH] = useState('600');
 
-    const navigate = useNavigate();
+    const [admins, setAdmins] = useState<any[]>([]);
+    const [isAddAdmin, setIsAddAdmin] = useState(false);
 
+    const username = process.env.REACT_APP_REQUEST_USER;
+    const passwordDb = process.env.REACT_APP_REQUEST_PASSWORD;
+    const [isWaiting, setIsWaiting] = useState(false);
+    const [nameInput, setNameInput] = useState('');
+
+    const navigate = useNavigate();
     const { t } = useTranslation();
     useEffect(() => {
         const fetchUserData = async () => {
@@ -69,6 +79,7 @@ const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
         };
 
         fetchUserData();
+        getAllAdministrator();
     }, []);
 
     const handleEditClick = (field: string) => {
@@ -163,6 +174,110 @@ const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
         localStorage.clear();
         navigate('/');
     };
+
+    const getAllAdministrator = async () => {
+        const urlLamp =
+        process.env.REACT_APP_BACKEND_URL + 'adminville';
+    try {
+        const response = await fetch(urlLamp, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Basic ${btoa(`${username}:${passwordDb}`)}`,
+            },
+        });
+
+        console.log('code de response = ' + response.status);
+        const lampData = await response.json();
+        console.log(lampData);
+        if (response.status === 200) {
+            setAdmins(lampData);
+            console.log('SUCCES TO GET administrator, status = ', response.status, " ADMIN[]= ", admins);
+        } else {
+            console.log('CANNOT GET administrator, status = ' + response.status);
+        }
+    } catch (error) {
+        console.log('CANNOT GET administrator, error message = ' + error);
+    }
+    }
+
+    const addAdministrator = async () => {
+        const urlmodification =
+        process.env.REACT_APP_BACKEND_URL + 'adminville/' + 'd3832413-2340-4942-b15a-6449d914b0f1/' + '4dcb1058-f221-40c2-8059-78c33d778e77';
+    try {
+        const response = await fetch(urlmodification, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Basic ${btoa(`${username}:${passwordDb}`)}`,
+            },
+            body: JSON.stringify({
+                name: name,
+            }),
+        });
+        const responsebody = await response.text();
+        console.log(responsebody);
+        if (response.status === 200) {
+            console.log(
+                'MODIFICATION APPLIED, status code: ' + response.status
+            );
+            setIsAddAdmin(false);
+        } else {
+            console.log(
+                'FAIL TO APPLY MODIFICATION, status code: ' +
+                    response.status
+            );
+            setIsWaiting(false);
+            setIsAddAdmin(false);
+        }
+    } catch (error) {
+        console.log(
+            'FAIL TO APPLY MODIFICATION, error message: ' + error.message
+        );
+        setIsWaiting(false);
+    }
+    }
+
+    const removeAdministrator = async () => {
+        const urlmodification =
+        process.env.REACT_APP_BACKEND_URL + 'adminville/' + 'd3832413-2340-4942-b15a-6449d914b0f1/' + '4dcb1058-f221-40c2-8059-78c33d778e77';
+    try {
+        const response = await fetch(urlmodification, {
+            method: 'Delete',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Basic ${btoa(`${username}:${passwordDb}`)}`,
+            },
+        });
+        const responsebody = await response.text();
+        console.log(responsebody);
+        if (response.status === 200) {
+            console.log(
+                'MODIFICATION APPLIED, status code: ' + response.status
+            );
+        } else {
+            console.log(
+                'FAIL TO APPLY MODIFICATION, status code: ' +
+                    response.status
+            );
+            setIsWaiting(false);
+        }
+    } catch (error) {
+        console.log(
+            'FAIL TO APPLY MODIFICATION, error message: ' + error.message
+        );
+        setIsWaiting(false);
+    }
+    }
+
+    const handleAddAdmin = () => {
+        setIsAddAdmin(true);
+        console.log("Unlock input");
+    }
+
+    const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setNameInput(e.target.value);
+    }
 
     return (
         <ProfilContainer>
@@ -260,22 +375,31 @@ const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
                 </ProfilPart>
                 <ProfilPart left={'75%'}>
                     <SuperUserTitle>Panneau d'administrateur</SuperUserTitle>
+                    <ButtonAddAdmin onClick={handleAddAdmin}/>
                     <UsersList>
-                        {users.map((user) => (
+                        {admins.map((user) => (
                             <UserCard>
-                                <UserCardTitle>{user.username}</UserCardTitle>
-                                <UserCardRights>
-                                    {'Droits : ' + user.right}
-                                </UserCardRights>
-                                <UserCardEmail>{user.email}</UserCardEmail>
-                                {user.right !== 'Administrateur' ? (
-                                    <UserCardDelete />
-                                ) : null}
-                                {user.right !== 'Administrateur' ? (
-                                    <UserCardUpgrade />
-                                ) : null}
+                                {user && (
+                                    <>
+                                        <UserCardTitle>{user.username}</UserCardTitle>
+                                        <UserCardRights>{'Droits : ' + user.right}</UserCardRights>
+                                        <UserCardEmail>{user.email}</UserCardEmail>
+                                        {user.right !== 'Administrateur' ? (
+                                            <UserCardDelete onClick={removeAdministrator}/>
+                                        ) : null}
+                                        {user.right !== 'Administrateur' ? (
+                                            <UserCardUpgrade />
+                                        ) : null}
+                                    </>
+                                )}
                             </UserCard>
                         ))}
+                        {isAddAdmin && (
+                            <>
+                                <InputName value={nameInput} placeholder={"name"} onChange={handleOnChange} />
+                                <ButtonSendAddAdmin onClick={addAdministrator}/>
+                            </>
+                        )}
                     </UsersList>
                 </ProfilPart>
             </ProfilRectangle>
