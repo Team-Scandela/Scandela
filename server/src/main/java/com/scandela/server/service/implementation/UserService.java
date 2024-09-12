@@ -220,6 +220,18 @@ public class UserService extends AbstractService<User> implements IUserService {
 
 	@Override
 	@Transactional(readOnly = true, rollbackFor = { Exception.class })
+	public List<User> getAllForAdminVille() {
+		List<User> users = ((UserDao) dao).findByAdminville(true);
+
+		if (users == null || users.isEmpty()) {
+			return new ArrayList<>();
+		}
+
+		return users;
+	}
+
+	@Override
+	@Transactional(readOnly = true, rollbackFor = { Exception.class })
 	public List<User> getAllForNewsletter() {
 		List<User> users = ((UserDao) dao).findByNewsletter(true);
 		

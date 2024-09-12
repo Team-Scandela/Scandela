@@ -46,7 +46,7 @@ public class User implements Serializable {
 	@Column(name = "uuid", updatable = false, nullable = false)
 	private UUID id;
 
-	@ManyToOne // (fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "uuidtown")
 	private Town town;
 
