@@ -7,12 +7,15 @@ import {
     White,
     Grey,
     LightDarkGrey,
+    Red,
 } from '../../../colors';
 import { AiFillCloseCircle } from 'react-icons/ai';
 import { FaEdit, FaCheck } from 'react-icons/fa';
 import { AiOutlineUserDelete } from 'react-icons/ai';
 import { MdOutlineUpgrade } from 'react-icons/md';
 import { BiExit } from 'react-icons/bi';
+import { IoPersonAdd} from "react-icons/io5";
+import { IoMdSend } from "react-icons/io";
 
 export const ProfilContainer = styled.div`
     position: absolute;
@@ -236,6 +239,52 @@ export const LogoutButton = styled(BiExit)`
     background-color: ${Yellow};
     border-radius: 10px;
 
+    &:hover {
+        cursor: pointer;
+        opacity: 0.8;
+    }
+`;
+
+export const ButtonAddAdmin = styled(IoPersonAdd)`
+    position: absolute;
+    top: 2.5%;
+    right: 2.5%;
+    user-select: none;
+    color: ${DarkYellow};
+    font-size: 30px;
+    font-family: 'SyneRegular';
+    &:hover {
+        cursor: pointer;
+        opacity: 0.8;
+    }
+`;
+
+export const InputName = styled.input`
+    position: absolute;
+    width: 80%;
+    height: 40px;
+    top: 25%;
+    left: 10%;
+    border-radius: 5px;
+    background-color: ${DarkGrey};
+    color: ${({ isFailed }) => (isFailed ? Red : White)};
+    user-select: none;
+    font-size: 20px;
+    padding-left: 10px;
+    cursor: pointer;
+    &:focus {
+        outline: none;
+    }
+`;
+
+export const ButtonSendAddAdmin = styled(IoMdSend)`
+    position: absolute;
+    right: 0%;
+    top: 29%;
+    font-size: 20px;
+    color: ${Yellow};
+    opacity: 1;
+    transform: translateX(-50%);
     &:hover {
         cursor: pointer;
         opacity: 0.8;
