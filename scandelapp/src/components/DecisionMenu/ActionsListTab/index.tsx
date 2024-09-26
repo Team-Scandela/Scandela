@@ -33,6 +33,7 @@ import { generatePDFDocument } from './pdfGenerator';
 import { useNavigate } from 'react-router-dom';
 import { showToast } from '../../Toastr';
 import { createNotification } from '../../../utils/notificationUtils';
+import { getLampPrice } from '../../../utils/actionsPriceUtils';
 
 
 /** Menu of the decision pannel
@@ -60,6 +61,8 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
     const [levelElec, setLevelElec] = useState<number>(0);
     const [levelBio, setLevelBio] = useState<number>(0);
     const [levelLumi, setLevelLumi] = useState<number>(0);
+    const [totalActionCost, setTotalActionCost] = useState<number>(0);
+    const [totalSavings, setTotalSavings] = useState<number>(0);
     const [displayPUpToDo, setDisplayPUpToDo] = useState<boolean>(false);
     const navigate = useNavigate();
 
@@ -215,6 +218,35 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
         setDisplayPUpToDo(true);
     };
 
+    useEffect(() => {
+        // function that add all item.saved price to get the totalActionCost
+        const totalActionCost = optimisationTemplateData
+            .filter((item: any) => item.saved)
+            .reduce((acc: number, item: any) => {
+                const price = parseFloat(item.price);
+                if (isNaN(price)) {
+                    return acc;
+                }
+                return acc + price; // ici le prix des actions total sur le moment, juste une addition de chaque coûts d'actions
+            }, 0);
+
+        localStorage.setItem('totalActionCost', totalActionCost.toString());
+        setTotalActionCost(totalActionCost);
+
+        const totalSavings = optimisationTemplateData
+            .filter((item: any) => item.saved)
+            .reduce((acc: number, item: any) => {
+                const price = parseFloat(item.price);
+                if (isNaN(price)) {
+                    return acc;
+                }
+                return 2000; // refaire le calcul sur l'année entière par rapport à une économie donnée
+            }, 0);
+
+        localStorage.setItem('totalSavings', totalSavings.toString());
+        setTotalSavings(totalSavings);
+    }, [optimisationTemplateData]);
+
     const handleToDoButtonCopyClick = () => {
         const timestamp = getTimestamp();
         for (let i = 0; i < optimisationTemplateData.length; i++) {
@@ -322,6 +354,28 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
                 <TotalTitleText isDark={isDark}>
                     {t('economicImpact')}
                 </TotalTitleText>
+                <div
+                    style={{
+                        fontSize: '0.7em',
+                        color: isDark ? '#FAC710' : '#000',
+                        marginLeft: '10px',
+                        textAlign: 'left',
+                        marginTop: '17px',
+                    }}
+                >
+                    Coûts des actions (en euro) : {totalActionCost ? `${totalActionCost} €` : 'N/A'}
+                </div>
+                <div
+                    style={{
+                        fontSize: '0.7em',
+                        color: isDark ? '#FAC710' : '#000',
+                        marginLeft: '10px',
+                        textAlign: 'left',
+                        marginTop: '14px',
+                    }}
+                >
+                    Économisé d'ici 1 an (en euro) : {totalSavings ? `${totalSavings} €` : 'N/A'}
+                </div>
             </TotalContainer>
             {/* Render personalized gauge components */}
             <GaugesContainer>
