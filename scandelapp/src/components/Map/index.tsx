@@ -16,7 +16,7 @@ import { FeatureCollection, Point } from 'geojson';
 // let nantesData = allLamps;
 let nantesData = require('../../assets/nantesData.json');
 let zonesData = require('../../assets/trameNoire.json');
-let armoireData = require('../../assets/armoire.json');
+let armoiresData = require('../../assets/armoire.json');
 
 // Set Mapbox access token
 Object.getOwnPropertyDescriptor(mapboxgl, 'accessToken').set(
@@ -212,42 +212,19 @@ const Map: React.FC<MapProps> = ({
         return zoneGeoJSON;
     }, []);
 
-    armoireData.forEach((obj: any) => {
-        let geoJSON = {
-            type: 'FeatureCollection',
-            features: [] as any[],
-        };
-        obj.lampCoordinates.forEach((coord: any) => {
-            const feature: any = {
-                type: 'Feature',
-                geometry: {
-                    type: 'Point',
-                    coordinates: [
-                        coord[0],
-                        coord[1],
-                    ],
-                },
-                properties: {
-                    id: armoireData[index].id,
-                },
-            };
-            geoJSON.features.push(feature);
-        })
-    })
-
     const armoiresGeoJSON = useMemo(() => {
         let armoiresGeoJSON = {
             type: 'FeatureCollection',
             features: [] as any[],
         };
-        armoireData.forEach((obj: any) => {
+        armoiresData.forEach((obj: any) => {
             const feature: any = {
                 type: 'Feature',
                 geometry: {
                     type: 'Point',
                     coordinates: [
-                        obj.geometry.coordinates[0],
-                        obj.geometry.coordinates[1],
+                        obj.coordinates[1],
+                        obj.coordinates[0],
                     ],
                 },
                 properties: {
@@ -258,55 +235,14 @@ const Map: React.FC<MapProps> = ({
             armoiresGeoJSON.features.push(feature);
         });
         return armoiresGeoJSON;
-        // return {
-        //     type: 'FeatureCollection',
-        //     features: armoireData.map((armoire: { coordinates: any; id: any; name: any; lampCoordinates: any; }) => ({
-        //         type: 'Feature',
-        //         geometry: {
-        //             type: 'Point',
-        //             coordinates: armoire.coordinates,
-        //         },
-        //         properties: {
-        //             id: armoire.id,
-        //             name: armoire.name,
-        //             lampCoordinates: armoire.lampCoordinates,
-        //         },
-        //     })),
-        // };
     }, []);
-
-    const linkedLampsArmoiresGeoJSON = useMemo(() => {
-        let geoJSON = {
-            type: 'FeatureCollection',
-            features: [] as any[],
-        };
-        nantesData.forEach((obj: any) => {
-            const feature: any = {
-                type: 'Feature',
-                geometry: {
-                    type: 'Point',
-                    coordinates: [
-                        obj.geometry.coordinates[0],
-                        obj.geometry.coordinates[1],
-                    ],
-                },
-                properties: {
-                    id: obj.recordid,
-                    name: obj.fields.numero,
-                    lamp: obj.fields.type_lampe,
-                    hat: obj.fields.type_foyer,
-                },
-            };
-            geoJSON.features.push(feature);
-        });
-        return geoJSON;
-    }, [])
 
     
     console.log('here');
     console.log(zonesData);
     console.log('here2');
-    console.log(armoireData);
+    console.log(armoiresData);
+    console.log(armoiresGeoJSON)
 
     // const geoData = useMemo(() => {
     //     let jsonArmoire = {
@@ -910,7 +846,7 @@ const Map: React.FC<MapProps> = ({
                 map.current.addLayer({
                     id: 'cabinet',
                     type: 'symbol',
-                    source: 'points',
+                    source: 'armoires',
                     layout: {
                         'icon-image': 'lightning',
                         'icon-size': 0.1,
@@ -920,6 +856,46 @@ const Map: React.FC<MapProps> = ({
                         'icon-color': '#FFFF00',
                     },
                 });
+
+                // armoiresData.forEach((obj: any) => {
+                //     let geoJSON = {
+                //         type: 'FeatureCollection',
+                //         features: [] as any[],
+                //     };
+                //     obj.lampCoordinates.forEach((coord: any) => {
+                //         const feature: any = {
+                //             type: 'Feature',
+                //             geometry: {
+                //                 type: 'Point',
+                //                 coordinates: [
+                //                     coord[0],
+                //                     coord[1],
+                //                 ],
+                //             },
+                //             properties: {
+                //                 id: obj.id,
+                //             },
+                //         };
+                //         geoJSON.features.push(feature);
+                //     })
+                //     map.current.addLayer({
+                //         id: obj.name,
+                //         type: 'circle',
+                //         source: {
+                //             type: 'geojson',
+                //             data: geoJSON as GeoJSON.FeatureCollection
+                //         },
+                //         // layout: {
+                //         //     visibility: 'none',
+                //         // },
+                //         paint: {
+                //             'circle-radius': 6,
+                //             'circle-color': '#FAC710',
+                //             'circle-stroke-color': '#F9F9F9',
+                //             'circle-stroke-width': 2,
+                //         },
+                //     });
+                // })
                 
                 // Gestion des événements de la souris
                 map.current.on('mouseenter', 'cabinet', () => {
