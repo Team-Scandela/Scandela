@@ -23,6 +23,7 @@ export enum Filters {
     filter = 'filter',
     traffic = 'traffic',
     cabinet = 'cabinet',
+    eco = 'eco',
     none = 'none',
 }
 
