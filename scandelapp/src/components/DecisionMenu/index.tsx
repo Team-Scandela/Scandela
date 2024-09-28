@@ -27,6 +27,7 @@ import { Black } from '../../colors';
 import SettingsTab from './SettingsTab';
 import { Tabs } from '../../pages/main';
 import LampListTab from './LampListTab';
+import NewLampListTab from './LampListTab/newLampListTab';
 
 /** Props of the decision pannel
  * @param {boolean} isDark - If the map is in dark mode or not
@@ -293,7 +294,8 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
                             <AddEntityTab isDark={isDark} />
                         )} */}
                         {currentTab === Tabs.LampList && (
-                            <LampListTab isDark={isDark} />
+                            /*<LampListTab isDark={isDark} />*/
+                            <NewLampListTab isDark={isDark} />
                         )}
                         {currentTab === Tabs.ElectricityPrice && (
                             <EletricityPriceTab isDark={isDark} />
