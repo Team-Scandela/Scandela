@@ -17,9 +17,8 @@ export interface Bulb {
  */
 export const fetchBulbById = async (id: string): Promise<Bulb> => {
     try {
-        console.log('ULR DE REQUETE= ', `${baseUrl}bulbs/${id}`);
-        console.log("PASSW et USER= ", process.env.REACT_APP_REQUEST_PASSWORD, process.env.REACT_APP_REQUEST_USER);
-        const response = await fetch(`${baseUrl}/bulbs/${id}`, {
+        const url = baseUrl + "bulbs/"+ id;
+        const response = await fetch(url, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

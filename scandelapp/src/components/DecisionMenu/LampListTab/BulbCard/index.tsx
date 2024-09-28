@@ -17,25 +17,26 @@ const BulbCard: React.FC<BulbCardProps> = ({isDark, lampItem, setOpenPupBulb}) =
     
     const [loading, setLoading] = useState<boolean>(true);
 
-    useEffect(() => {
-        console.log('LampItem = ', lampItem);
-        const getBulbById = async () => {
-            if (lampItem?.uuidbulb) {
-                try {
-                    setLoading(true);
-                    const bulbData = await fetchBulbById(lampItem.uuidbulb);
-                    setBulb(bulbData);
-                } catch (error) {
-                    console.error("Erreur lors de la récupération de l'ampoule:", error);
-                } finally {
-                    setLoading(false);
-                }
+    const getBulbById = async (id: string) => {
+        
+            try {
+                setLoading(true);
+                const bulbData = await fetchBulbById(lampItem.uuidbulb);
+                setBulb(bulbData);
+                console.log("BULDATA, BULB = ", bulbData, bulb);
+            } catch (error) {
+                console.error("Erreur lors de la récupération de l'ampoule:", error);
+            } finally {
+                setLoading(false);
             }
-        };
+    };
 
-        getBulbById();
+    useEffect(() => {
+        if (lampItem?.uuidbulb)
+            getBulbById(lampItem.uuidbulb);
 
     }, [lampItem.uuidbulb]);
+
     return (
         <BulbCardContainer>
             <BulbCardContent>
