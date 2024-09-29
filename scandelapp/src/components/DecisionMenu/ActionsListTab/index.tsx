@@ -233,6 +233,8 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
         localStorage.setItem('totalActionCost', totalActionCost.toString());
         setTotalActionCost(totalActionCost);
 
+            // ajouter différentes variable price en fonction des actions sur des longues périodes (changement de bulbe) et des actions one shot (ajouter un lampadaire)
+
         const totalSavings = optimisationTemplateData
             .filter((item: any) => item.saved)
             .reduce((acc: number, item: any) => {
@@ -240,7 +242,7 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
                 if (isNaN(price)) {
                     return acc;
                 }
-                return 2000; // refaire le calcul sur l'année entière par rapport à une économie donnée
+                return acc + (price * 365.25) ; // refaire le calcul sur l'année entière par rapport à une économie donnée (ajustement technique à faire ici)
             }, 0);
 
         localStorage.setItem('totalSavings', totalSavings.toString());
