@@ -47,9 +47,6 @@ import { getConsuptionScore } from '../../../utils/gaugesUtils';
 import {useGlobalChangeBoolean} from '../../../utils/globalChangeBoolean';
 import LoadingSpinner from '../../LoadingSpinner';
 
-import { useAtom } from 'jotai';
-import { lampsAtom } from '../../../atoms/lampsAtom';
-
 interface LampListTabProps {
     isDark: boolean;
 }
@@ -93,8 +90,6 @@ const LampListTab: React.FC<LampListTabProps> = ({ isDark }) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
-    const [lamps] = useAtom(lampsAtom);
-    console.log("LAMPS FROM JOTAI = ", lamps);
     const updateList = () => {
         let filterData = tempData;
 
