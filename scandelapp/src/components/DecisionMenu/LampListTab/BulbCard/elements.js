@@ -11,15 +11,18 @@ import {
     DarkYellow,
     LightDarkGrey,
     Red,
+    Green,
+    LightGreen,
 } from '../../../../colors';
 
 // Icone 
 import { AiFillCloseCircle } from 'react-icons/ai';
 import { GoLightBulb as Bulb } from 'react-icons/go';
 import { RiMapPin2Line } from 'react-icons/ri';
-import { GiStreetLight } from 'react-icons/gi';
-import { IoMdSend } from "react-icons/io";
+import { GiElectric } from 'react-icons/gi';
+import { IoMdSend, IoMdCheckmark } from "react-icons/io";
 import { FaPen, FaTrashAlt} from 'react-icons/fa';
+import { MdElectricalServices } from "react-icons/md";
 
 // STYLE
 
@@ -65,7 +68,7 @@ export const BulbCardTitle = styled.div`
 
 export const BulbCardName = styled.div`
     position: absolute;
-    top: 59%;
+    top: 25%;
     left: 25%;
     color: ${Yellow};
     font-size: 25px;
@@ -127,7 +130,20 @@ export const BulbCardClose = styled(AiFillCloseCircle)`
     }
 `;
 
-export const BulbCardValidateIcon = styled(IoMdSend)`
+export const BulbCardModification = styled(FaPen)`
+    position: absolute;
+    top: 18px;
+    right: 100px;
+    font-size: 20px;
+    color: ${Yellow};
+    opacity: 1;
+    &:hover {
+        cursor: pointer;
+        opacity: 0.8;
+    }
+`;
+
+export const BulbCardSendIcon = styled(IoMdSend)`
     position: absolute;
     right: 0%;
     top: 29%;
@@ -141,16 +157,30 @@ export const BulbCardValidateIcon = styled(IoMdSend)`
     }
 `;
 
-export const LampCardBulbIcon = styled(Bulb)`
+export const BulbCardValidateIcon = styled(IoMdCheckmark)`
     position: absolute;
-    top: 57.5%;
+    right: 22%;
+    top: 5%;
+    font-size: 30px;
+    color: ${Green};
+    opacity: 1;
+    transform: translateX(-50%);
+    &:hover {
+        cursor: pointer;
+        opacity: 0.8;
+    }
+`;
+
+export const BulbCardBulbIcon = styled(Bulb)`
+    position: absolute;
+    top: 25%;
     left: 10%;
     color: ${Yellow};
     font-size: 35px;
     user-select: none;
 `;
 
-export const LampCardTrashIcon = styled(FaTrashAlt)`
+export const BulbCardTrashIcon = styled(FaTrashAlt)`
     position: absolute;
     right: 1%;
     top: 23%;
@@ -163,3 +193,21 @@ export const LampCardTrashIcon = styled(FaTrashAlt)`
         opacity: 0.8;
     }
 `;
+
+export const BulbCardConsoIcon = styled(MdElectricalServices)`
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    color: ${Yellow};
+    font-size: 35px;
+    user-select: none;
+`
+
+export const BulbCardIntensityIcon = styled(GiElectric)`
+    position: absolute;
+    top: 75%;
+    left: 10%;
+    color: ${Yellow};
+    font-size: 35px;
+    user-select: none;
+`

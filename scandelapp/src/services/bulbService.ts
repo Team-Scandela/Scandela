@@ -4,6 +4,7 @@ const baseUrl = process.env.REACT_APP_BACKEND_URL;
 
 export interface Bulb {
     uuid: string,
+    id: string,
     reference: string,
     intensity: number,
     consommation: number,
@@ -26,11 +27,9 @@ export const fetchBulbById = async (id: string): Promise<Bulb> => {
             }
         });
 
-        console.log("RESPONSE = ", response);
         if (!response.ok) {
             throw new Error(`Error fetching bulb with ID: ${id}`);
         }
-        console.log()
         const data = await response.json();
         return data;
 
@@ -40,62 +39,32 @@ export const fetchBulbById = async (id: string): Promise<Bulb> => {
     }
 };
 
-// /**
-//  * Fetch lamp by name
-//  * @param {string} name - Lamp name
-//  * @returns {Promise<Lamp>}
-//  */
-// export const fetchLampByName = async (name: string): Promise<Bulb> => {
+/**
+ * Fetch Bulb by name
+ * @param {string} name - Bulb name
+ * @returns {Promise<Bulb>}
+ */
+export const fetchBulbByName = async (name: string): Promise<Bulb> => {
 
-//     try {
-//         const response = await fetch(`${baseUrl}/lamps/name/${name}`, {
-//             method: 'GET',
-//             headers: {
-//                 'Content-Type': 'application/json',
-//                 Authorization: 'Basic ' + btoa(`${username}:${password}`)
-//             }
-//         });
+    try {
+        const encodedName = encodeURIComponent(name);
+        const url = baseUrl + "bulbs?name=" + encodedName;
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Basic ${btoa(`${username}:${password}`)}`,
+            }
+        });
 
-//         if (!response.ok) {
-//             throw new Error(`Error fetching lamp with name: ${name}`);
-//         }
+        if (!response.ok) {
+            throw new Error(`Error fetching bulb with ID: ${name}`);
+        }
+        const data = await response.json();
+        return data[0];
 
-//         const data = await response.json();
-//         return data;
-
-//     } catch (error) {
-//         console.error(error.message);
-//         throw error;
-//     }
-// };
-
-// /**
-//  * Update lamp by ID
-//  * @param {string} id - Lamp ID
-//  * @param {Lamp} updateData - Updated lamp data
-//  * @returns {Promise<Lamp>}
-//  */
-// export const updateLamp = async (id: string, updateData: Bulb): Promise<Bulb> => {
-
-//     try {
-//         const response = await fetch(`${baseUrl}/lamps/${id}`, {
-//             method: 'PUT',
-//             headers: {
-//                 'Content-Type': 'application/json',
-//                 Authorization: 'Basic ' + btoa(`${username}:${password}`)
-//             },
-//             body: JSON.stringify(updateData),
-//         });
-
-//         if (!response.ok) {
-//             throw new Error(`Error updating lamp with ID: ${id}`);
-//         }
-
-//         const updatedLamp = await response.json();
-//         return updatedLamp;
-
-//     } catch (error) {
-//         console.error(error.message);
-//         throw error;
-//     }
-// };
+    } catch (error) {
+        console.error(error.message);
+        throw error;
+    }
+};
