@@ -3,13 +3,13 @@ const password = process.env.REACT_APP_REQUEST_PASSWORD;
 const baseUrl = process.env.REACT_APP_BACKEND_URL;
 
 export interface Bulb {
-    uuid: string,
-    id: string,
-    reference: string,
-    intensity: number,
-    consommation: number,
-    type: string,
-};
+    uuid: string;
+    id: string;
+    reference: string;
+    intensity: number;
+    consommation: number;
+    type: string;
+}
 
 /**
  * Fetch Bulb by ID
@@ -18,13 +18,13 @@ export interface Bulb {
  */
 export const fetchBulbById = async (id: string): Promise<Bulb> => {
     try {
-        const url = baseUrl + "bulbs/"+ id;
+        const url = baseUrl + 'bulbs/' + id;
         const response = await fetch(url, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Basic ${btoa(`${username}:${password}`)}`,
-            }
+            },
         });
 
         if (!response.ok) {
@@ -32,7 +32,6 @@ export const fetchBulbById = async (id: string): Promise<Bulb> => {
         }
         const data = await response.json();
         return data;
-
     } catch (error) {
         console.error(error.message);
         throw error;
@@ -45,16 +44,15 @@ export const fetchBulbById = async (id: string): Promise<Bulb> => {
  * @returns {Promise<Bulb>}
  */
 export const fetchBulbByName = async (name: string): Promise<Bulb> => {
-
     try {
         const encodedName = encodeURIComponent(name);
-        const url = baseUrl + "bulbs?name=" + encodedName;
+        const url = baseUrl + 'bulbs?name=' + encodedName;
         const response = await fetch(url, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Basic ${btoa(`${username}:${password}`)}`,
-            }
+            },
         });
 
         if (!response.ok) {
@@ -62,7 +60,6 @@ export const fetchBulbByName = async (name: string): Promise<Bulb> => {
         }
         const data = await response.json();
         return data[0];
-
     } catch (error) {
         console.error(error.message);
         throw error;
