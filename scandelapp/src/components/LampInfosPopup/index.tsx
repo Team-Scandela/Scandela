@@ -92,7 +92,7 @@ const LampInfosPopup: React.FC<LampInfosPopupProps> = ({
             case 'IC':
             case 'SBP':
                 return {
-                    text: 'Moyenne qualité d\'éclairage',
+                    text: "Moyenne qualité d'éclairage",
                 };
             case 'DIC':
             case 'HAL':
@@ -101,7 +101,7 @@ const LampInfosPopup: React.FC<LampInfosPopupProps> = ({
             case 'TF':
             case 'FC':
                 return {
-                    text: 'Très bonne qualité d\'éclairage',
+                    text: "Très bonne qualité d'éclairage",
                 };
             default:
                 return {
@@ -110,7 +110,9 @@ const LampInfosPopup: React.FC<LampInfosPopupProps> = ({
         }
     };
 
-    const { text: qualityText } = getQualityInfo(selectedLampData.fields.type_lampe);
+    const { text: qualityText } = getQualityInfo(
+        selectedLampData.fields.type_lampe
+    );
 
     return (
         <div id={id}>

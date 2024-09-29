@@ -11,7 +11,6 @@ import React from 'react';
 import { allLamps } from '../../utils/lampUtils';
 import { FeatureCollection, Point } from 'geojson';
 
-
 // Load geographical data of Nantes from a local JSON file
 // let nantesData = allLamps;
 let nantesData = require('../../assets/nantesData.json');
@@ -120,7 +119,7 @@ const Map: React.FC<MapProps> = ({
         type: string;
         features: ArmoireFeature[];
     }
-    
+
     interface ArmoireFeature {
         type: string;
         geometry: {
@@ -160,7 +159,7 @@ const Map: React.FC<MapProps> = ({
         });
         return geoJSON;
     }, []);*/
-    
+
     const geojsonData = useMemo(() => {
         let geoJSON = {
             type: 'FeatureCollection',
@@ -224,10 +223,7 @@ const Map: React.FC<MapProps> = ({
                 type: 'Feature',
                 geometry: {
                     type: 'Point',
-                    coordinates: [
-                        obj.coordinates[1],
-                        obj.coordinates[0],
-                    ],
+                    coordinates: [obj.coordinates[1], obj.coordinates[0]],
                 },
                 properties: {
                     id: obj.id,
@@ -240,12 +236,11 @@ const Map: React.FC<MapProps> = ({
         return armoiresGeoJSON;
     }, []);
 
-    
     console.log('here');
     console.log(zonesData);
     console.log('here2');
     console.log(armoiresData);
-    console.log(armoiresGeoJSON)
+    console.log(armoiresGeoJSON);
 
     // const geoData = useMemo(() => {
     //     let jsonArmoire = {
@@ -536,7 +531,7 @@ const Map: React.FC<MapProps> = ({
                     data: zoneData as GeoJSON.FeatureCollection,
                 });
             }
-        
+
             // Ajout des couches
             map.current.addLayer({
                 id: 'eco',
@@ -560,8 +555,8 @@ const Map: React.FC<MapProps> = ({
                 },
                 paint: {
                     'line-color': '#FFFFFF',
-                    'line-width': 3
-                }
+                    'line-width': 3,
+                },
             });
 
             // Définit les couleurs en format RGBA avec une opacité de 0.6
@@ -646,11 +641,7 @@ const Map: React.FC<MapProps> = ({
                 'visibility',
                 'none'
             );
-            map.current.setLayoutProperty(
-                'cluster-text',
-                'visibility',
-                'none'
-            );
+            map.current.setLayoutProperty('cluster-text', 'visibility', 'none');
             map.current.setLayoutProperty(
                 'cluster-border',
                 'visibility',
@@ -773,21 +764,21 @@ const Map: React.FC<MapProps> = ({
             // Ajoute un gestionnaire de clic pour ouvrir la pop-up lorsqu'un cercle est sélectionné
             map.current.on('click', 'pinColor', (e) => {
                 const features = map.current.queryRenderedFeatures(e.point, {
-                layers: ['pinColor'],
+                    layers: ['pinColor'],
                 });
 
                 if (features && features.length > 0) {
-                const selectedFeature = features[0];
-                const { lamp } = selectedFeature.properties;
+                    const selectedFeature = features[0];
+                    const { lamp } = selectedFeature.properties;
 
-                // Définit les coordonnées pour afficher la pop-up près du point
-                setPopupCoordinates(e.lngLat.toArray());
+                    // Définit les coordonnées pour afficher la pop-up près du point
+                    setPopupCoordinates(e.lngLat.toArray());
 
-                // Affiche la pop-up avec les informations de la lampe
-                setSelectedFeature({
-                    name: `Type de lampe: ${lamp}`,
-                    description: `Description supplémentaire`,
-                });
+                    // Affiche la pop-up avec les informations de la lampe
+                    setSelectedFeature({
+                        name: `Type de lampe: ${lamp}`,
+                        description: `Description supplémentaire`,
+                    });
                 }
             });
 
@@ -837,7 +828,7 @@ const Map: React.FC<MapProps> = ({
                     map.current.addImage('lightning', image);
                 }
             );
-            
+
             map.current.loadImage(
                 'https://icones.pro/wp-content/uploads/2022/07/symbole-d-eclair-bleu.png',
                 (error, image) => {
@@ -852,8 +843,8 @@ const Map: React.FC<MapProps> = ({
                     if (error) throw error;
                     map.current.addImage('lightning3', image);
                 }
-            )
-            
+            );
+
             // Ajout de la couche des éclairs
             map.current.addLayer({
                 id: 'cabinet',
@@ -868,87 +859,106 @@ const Map: React.FC<MapProps> = ({
                     'icon-color': '#FFFF00',
                 },
             });
-            
+
             // Gestion des événements de la souris
             map.current.on('mouseenter', 'cabinet', () => {
                 map.current.getCanvas().style.cursor = 'pointer';
             });
-            
+
             map.current.on('mouseleave', 'cabinet', () => {
                 map.current.getCanvas().style.cursor = '';
             });
-            
+
             // Gestion des clics sur les éclairs
             const lightningState: Record<string, boolean> = {};
-            
+
             map.current.on('click', 'cabinet', (event) => {
-                const features = map.current.queryRenderedFeatures(event.point, {
-                    layers: ['cabinet'],
-                });
-            
+                const features = map.current.queryRenderedFeatures(
+                    event.point,
+                    {
+                        layers: ['cabinet'],
+                    }
+                );
+
                 if (features.length > 0) {
                     const clickedFeature = features[0];
                     const clickedLightningID = clickedFeature.properties.id;
-                    const clickedLightningIndex = clickedFeature.properties.index;
+                    const clickedLightningIndex =
+                        clickedFeature.properties.index;
 
                     // Inverser l'état de l'éclair cliqué
-                    lightningState[clickedLightningID] = !lightningState[clickedLightningID];
-            
+                    lightningState[clickedLightningID] =
+                        !lightningState[clickedLightningID];
+
                     // Changer la couleur et l'image de l'éclair cliqué
                     map.current.setPaintProperty('cabinet', 'icon-color', [
                         'case',
                         ['==', ['get', 'id'], clickedLightningID],
-                        lightningState[clickedLightningID] ? '#0000FF' : '#FFFF00',
+                        lightningState[clickedLightningID]
+                            ? '#0000FF'
+                            : '#FFFF00',
                         '#FFFF00',
                     ]);
-            
+
                     map.current.setLayoutProperty('cabinet', 'icon-image', [
                         'case',
                         ['==', ['get', 'id'], clickedLightningID],
-                        lightningState[clickedLightningID] ? 'lightning2' : 'lightning',
+                        lightningState[clickedLightningID]
+                            ? 'lightning2'
+                            : 'lightning',
                         'lightning',
                     ]);
-            
+
                     map.current.setLayoutProperty('cabinet', 'icon-size', [
                         'case',
                         ['==', ['get', 'id'], clickedLightningID],
                         lightningState[clickedLightningID] ? 0.05 : 0.1,
                         0.1,
                     ]);
-            
+
                     // Afficher les points autour de l'éclair cliqué
                     let geoJSON = {
                         type: 'FeatureCollection',
                         features: [] as any[],
                     };
-                    armoiresData[clickedLightningIndex].lampCoordinates.forEach((coord: any) => {
-                        const feature: any = {
-                            type: 'Feature',
-                            geometry: {
-                                type: 'Point',
-                                coordinates: [
-                                    coord[1],
-                                    coord[0],
-                                ],
-                            },
-                            properties: {
-                                id: clickedLightningID,
-                            },
-                        };
-                        geoJSON.features.push(feature);
-                    })
-                    if (!map.current?.getSource(clickedLightningID.toString())) {
+                    armoiresData[clickedLightningIndex].lampCoordinates.forEach(
+                        (coord: any) => {
+                            const feature: any = {
+                                type: 'Feature',
+                                geometry: {
+                                    type: 'Point',
+                                    coordinates: [coord[1], coord[0]],
+                                },
+                                properties: {
+                                    id: clickedLightningID,
+                                },
+                            };
+                            geoJSON.features.push(feature);
+                        }
+                    );
+                    if (
+                        !map.current?.getSource(clickedLightningID.toString())
+                    ) {
                         map.current.addSource(clickedLightningID.toString(), {
                             type: 'geojson',
                             data: geoJSON as GeoJSON.FeatureCollection,
                         });
                     }
-                    if (lastClickedLightningID.current !== clickedLightningID.toString()) {
-                        if (map.current.getLayer(lastClickedLightningID.current))
-                            map.current.removeLayer(lastClickedLightningID.current)
+                    if (
+                        lastClickedLightningID.current !==
+                        clickedLightningID.toString()
+                    ) {
+                        if (
+                            map.current.getLayer(lastClickedLightningID.current)
+                        )
+                            map.current.removeLayer(
+                                lastClickedLightningID.current
+                            );
                     }
                     if (lightningState[clickedLightningID]) {
-                        if (!map.current.getLayer(clickedLightningID.toString())) {
+                        if (
+                            !map.current.getLayer(clickedLightningID.toString())
+                        ) {
                             map.current.addLayer({
                                 id: clickedLightningID.toString(),
                                 type: 'circle',
@@ -960,11 +970,16 @@ const Map: React.FC<MapProps> = ({
                                     'circle-stroke-width': 2,
                                 },
                             });
-                            lastClickedLightningID.current = clickedLightningID.toString()
+                            lastClickedLightningID.current =
+                                clickedLightningID.toString();
                         }
                     } else if (!lightningState[clickedLightningID]) {
-                        if (map.current.getLayer(lastClickedLightningID.current))
-                            map.current.removeLayer(lastClickedLightningID.current)
+                        if (
+                            map.current.getLayer(lastClickedLightningID.current)
+                        )
+                            map.current.removeLayer(
+                                lastClickedLightningID.current
+                            );
                     }
                 }
             });
@@ -1213,8 +1228,8 @@ const Map: React.FC<MapProps> = ({
     };
 
     // Initialize the map on the first render
-    useEffect(() => {        
-        initializeMap(geojsonData, geojsonZone, armoiresGeoJSON);  // Assure-toi que `initializeMap` est bien configuré
+    useEffect(() => {
+        initializeMap(geojsonData, geojsonZone, armoiresGeoJSON); // Assure-toi que `initializeMap` est bien configuré
     }, [geojsonData, geojsonZone, armoiresGeoJSON, lng, lat, zoom, isDark]);
 
     // update the map with the filter filter

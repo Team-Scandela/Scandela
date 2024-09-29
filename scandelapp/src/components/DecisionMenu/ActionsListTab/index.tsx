@@ -35,7 +35,6 @@ import { showToast } from '../../Toastr';
 import { createNotification } from '../../../utils/notificationUtils';
 import { getLampPrice } from '../../../utils/actionsPriceUtils';
 
-
 /** Menu of the decision pannel
  * @param {boolean} isDark - If the map is in dark mode or not
  * @param {any} optimisationTemplateData - List of list about optimsiations template datas
@@ -158,7 +157,7 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
         setOptimisationTemplateData(optimisationTemplateData);
     };
 
-    const handlePDFButtonClick =  async () => {
+    const handlePDFButtonClick = async () => {
         if (
             optimisationTemplateData.filter((item: any) => item.selected)
                 .length === 0
@@ -233,7 +232,7 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
         localStorage.setItem('totalActionCost', totalActionCost.toString());
         setTotalActionCost(totalActionCost);
 
-            // ajouter différentes variable price en fonction des actions sur des longues périodes (changement de bulbe) et des actions one shot (ajouter un lampadaire)
+        // ajouter différentes variable price en fonction des actions sur des longues périodes (changement de bulbe) et des actions one shot (ajouter un lampadaire)
 
         const totalSavings = optimisationTemplateData
             .filter((item: any) => item.saved)
@@ -242,7 +241,7 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
                 if (isNaN(price)) {
                     return acc;
                 }
-                return acc + (price * 365.25) ; // refaire le calcul sur l'année entière par rapport à une économie donnée (ajustement technique à faire ici)
+                return acc + price * 365.25; // refaire le calcul sur l'année entière par rapport à une économie donnée (ajustement technique à faire ici)
             }, 0);
 
         localStorage.setItem('totalSavings', totalSavings.toString());
@@ -355,7 +354,7 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
             <TotalContainer isDark={isDark}>
                 <TotalTitleText isDark={isDark}>
                     {t('economicImpact')}
-                </TotalTitleText> 
+                </TotalTitleText>
                 {/* ajouter des images en rapport avec les gains et les coûts ici et remplacer les div */}
                 <div
                     style={{
@@ -405,7 +404,6 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
                         {totalSavings ? `${totalSavings} €` : 'N/A'}
                     </div>
                 </div>
-
             </TotalContainer>
             {/* Render personalized gauge components */}
             <GaugesContainer>

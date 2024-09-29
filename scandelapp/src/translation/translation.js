@@ -33,15 +33,18 @@ const resources = {
             themeUpdates: 'Dark / Light mode updates',
             languageUpdates: 'Language updates',
             actionsListExportedUpdates: 'Actions list exported updates',
-            notificationsPreferencesUpdates: 'Notifications preferences updates',
+            notificationsPreferencesUpdates:
+                'Notifications preferences updates',
             actionsListSuccessfullyUpdated: 'Actions list successfully updated',
             nothingToAddToTheActionsList: 'Nothing to add to the actions list',
             theLanguageHasBeenSuccessfullyUpdated:
                 'The language has been successfully updated',
             theThemeHasBeenSuccessfullyUpdated:
                 'The theme has been successfully updated"',
-            actionsListSuccessfullyExported: 'The actions list has been successfully exported',
-            notificationsPreferencesSuccessfullyUpdated: 'The notifications preferences have been successfully updated',
+            actionsListSuccessfullyExported:
+                'The actions list has been successfully exported',
+            notificationsPreferencesSuccessfullyUpdated:
+                'The notifications preferences have been successfully updated',
             newsletterUpdates: 'Activate the newsletter',
             loadOfYourPreferences: 'Loading your preferences...',
             titleAddBulbPannel: 'Add bulb',
@@ -276,15 +279,19 @@ const resources = {
             themeUpdates: 'Mises à jour du mode sombre / clair',
             languageUpdates: 'Mises à jour de la langue',
             actionsListExportedUpdates: 'Export de la liste des actions',
-            notificationsPreferencesUpdates: 'Mise à jour des préférences de notifications',
-            actionsListSuccessfullyUpdated: 'La liste des actions à bien été mise à jour',
-            nothingToAddToTheActionsList: 'Rien à ajouter à la liste d\'actions',
+            notificationsPreferencesUpdates:
+                'Mise à jour des préférences de notifications',
+            actionsListSuccessfullyUpdated:
+                'La liste des actions à bien été mise à jour',
+            nothingToAddToTheActionsList: "Rien à ajouter à la liste d'actions",
             theLanguageHasBeenSuccessfullyUpdated:
                 'La langue a bien été mise à jour',
             theThemeHasBeenSuccessfullyUpdated:
                 'Le thème a bien été mis à jour',
-            actionsListSuccessfullyExported: 'La liste des actions à bien été exporté',
-            notificationsPreferencesSuccessfullyUpdated: 'Les préférences de notifications ont bien été mises à jour',
+            actionsListSuccessfullyExported:
+                'La liste des actions à bien été exporté',
+            notificationsPreferencesSuccessfullyUpdated:
+                'Les préférences de notifications ont bien été mises à jour',
             newsletterUpdates: 'Activer la newsletter',
             loadOfYourPreferences: 'Chargement de vos préférences...',
             titleAddBulbPannel: 'Ajouter une ampoule',

@@ -184,11 +184,11 @@ const FilterMenu: React.FC<FilterMenuProps> = ({
                     data-tooltip-content={t('filterCabinet')}
                 />
                 <MdEco
-                    style={chooseStyle(Filters.eco)}  // Utilise la logique d'opacité selon le filtre sélectionné
-                    onClick={() => handleIconClick(Filters.eco)}  // Active ou désactive le filtre eco
+                    style={chooseStyle(Filters.eco)} // Utilise la logique d'opacité selon le filtre sélectionné
+                    onClick={() => handleIconClick(Filters.eco)} // Active ou désactive le filtre eco
                     size={25}
                     data-tooltip-id="filterEco"
-                    data-tooltip-content={t('filterEco')}  // Texte de l'infobulle pour 'eco'
+                    data-tooltip-content={t('filterEco')} // Texte de l'infobulle pour 'eco'
                 />
             </FilterMenuContainer>
         </div>

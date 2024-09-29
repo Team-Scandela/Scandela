@@ -26,7 +26,7 @@ const Stats: React.FC<StatsProps> = ({ closeToMainApp }) => {
     };
 
     const text =
-        'Scandela vous apporte une aider sur les règlementations, loi et aide qui sont disponible dans votre région. Nous vous avons préparer un pdf que vous pouvez télécharger. Vous pouvez également vous rendre sur chacune de nos sources grace au différent lien. Nous sommes perpétuellement en train d\'ajouter des fonctionnalité sur cette page n\'hésitez pas à nous faire des retours'
+        "Scandela vous apporte une aider sur les règlementations, loi et aide qui sont disponible dans votre région. Nous vous avons préparer un pdf que vous pouvez télécharger. Vous pouvez également vous rendre sur chacune de nos sources grace au différent lien. Nous sommes perpétuellement en train d'ajouter des fonctionnalité sur cette page n'hésitez pas à nous faire des retours";
 
     return (
         <StatsContainer>

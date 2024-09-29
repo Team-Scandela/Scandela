@@ -38,7 +38,9 @@ const Lasso: React.FC<LassoButtonProps> = ({
 
     useEffect(() => {
         const interval = setInterval(() => {
-            const ttmpConsumptionScore = localStorage.getItem('tmpConsumptionScore');
+            const ttmpConsumptionScore = localStorage.getItem(
+                'tmpConsumptionScore'
+            );
             const ttmpLightScore = localStorage.getItem('tmpLightScore');
             const ttmpVegetalScore = localStorage.getItem('tmpVegetalScore');
 
@@ -71,7 +73,6 @@ const Lasso: React.FC<LassoButtonProps> = ({
                 setTmpVegetalScore(parseFloat(ttmpVegetalScore));
                 clearInterval(interval);
             }
-
         }, 1000);
     });
 
@@ -139,7 +140,6 @@ const Lasso: React.FC<LassoButtonProps> = ({
                                         <br />
                                         <br />
                                         Végétal : {tmpVegetalScore.toFixed(2)}%
-
                                         {tmpVegetalScore == 0 && isLoaded && (
                                             <>
                                                 <br />

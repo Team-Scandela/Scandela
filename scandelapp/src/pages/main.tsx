@@ -79,11 +79,9 @@ const Main: React.FC<MainProps> = ({
         try {
             getNotificationsAsync();
         } catch (error) {
-            console.log(
-                'ERROR GET NOTIFICATIONS = ' + error
-            );
+            console.log('ERROR GET NOTIFICATIONS = ' + error);
         }
-    }, [])
+    }, []);
 
     const [toastHistoryExtended, setToastHistoryExtended] = useState(false);
     const handleToastHistoryPannelButtonClicked = () => {
