@@ -1,5 +1,10 @@
 import { useState } from 'react';
 
+import { Lamp, suppLamp } from '../../../../services/lampsService';
+
+import { useAtom } from 'jotai';
+import { lampsAtom, isLoadingAtom } from '../../../../atoms/lampsAtom';
+
 import {
     LampCardContainer,
     LampCardContent,
@@ -17,8 +22,6 @@ import {
 
 } from './elements';
 
-import { Lamp } from '../../../../services/lampsService';
-
 interface LampCardProps {
     isDark: boolean,
     lampItem: Lamp,
@@ -28,7 +31,19 @@ interface LampCardProps {
 
 const Lampcard: React.FC<LampCardProps> = ({isDark, lampItem, setOpenPupLamp, setOpenPupBulb}) => {
 
-    console.log('LampItem = ', lampItem);
+    const [lamps, setLamps] = useAtom(lampsAtom);
+    const [isLoading, setIsLoading] = useAtom(isLoadingAtom);
+
+    const handleSuppLamp = async() => {
+        await suppLamp(
+            lampItem.id,
+            lamps,
+            setLamps,
+            setIsLoading,
+            setOpenPupLamp
+        );
+    }
+
     return (
             <LampCardContainer>
                 <LampCardContent>
@@ -39,8 +54,8 @@ const Lampcard: React.FC<LampCardProps> = ({isDark, lampItem, setOpenPupLamp, se
                     <LampCardGeoLoc>{lampItem.latitude}, {lampItem.longitude}</LampCardGeoLoc>
                     <LampCardIconBulb />
                     <LampCardBulb>{lampItem.lampType ? lampItem.lampType : 'unknow'}</LampCardBulb>
-                    <LampCardPupBulb onClick={() => setOpenPupBulb(true)} />
-                    <LampCardBulbTrash />
+                    <LampCardPupBulb onClick={() => setOpenPupBulb(true)} isBulb={lampItem.uuidbulb ? true : false}/>
+                    <LampCardBulbTrash onClick={handleSuppLamp}/>
                     <LampCardIconLamp />
                     <LampCardHeight>{lampItem.height ? lampItem.height : 'unknow'}</LampCardHeight>
                 </LampCardContent>

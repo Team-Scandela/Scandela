@@ -110,3 +110,33 @@ export const updateLamp = async (
         setIsLoading(false);
     }
 };
+
+export const suppLamp = async (
+    id: string,
+    lamps: Lamp[],
+    setLamps: (newLamps: Lamp[]) => void,
+    setIsLoading: (loading: boolean) => void,
+    setOpenPup: (open: boolean) => void
+) => {
+    setIsLoading(true); // Indique que le chargement est en cours
+    const url = baseUrl +"lamps/delete/" + id;
+    try {
+        const response = await fetch(url, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Basic ${btoa(`${username}:${password}`)}`,
+            },
+        });
+
+        if (response.status === 200) {
+            const updatedLamps = lamps.filter(lamp => lamp.id !== id);
+            setLamps(updatedLamps);
+            setOpenPup(false);
+        } 
+    } catch (error) {
+        console.log('ERROR DELETE NOTIFICATION = ' + error);
+    } finally {
+        setIsLoading(false); // Fin du chargement
+    }
+};

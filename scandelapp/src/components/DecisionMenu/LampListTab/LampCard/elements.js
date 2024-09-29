@@ -4,26 +4,18 @@ import styled from 'styled-components';
 
 import {
     Black,
-    DarkGrey,
     Yellow,
-    White,
-    Grey,
-    DarkYellow,
-    LightDarkGrey,
     Red,
 } from '../../../../colors';
 
 // Icon import 
 
-import { BiSortDown } from 'react-icons/bi';
-import { FaFilter, FaPen, FaTrashAlt} from 'react-icons/fa';
+import { FaPen, FaTrashAlt} from 'react-icons/fa';
 import { AiFillCloseCircle } from 'react-icons/ai';
-import { MdSkipPrevious, MdSkipNext } from 'react-icons/md';
 import { GoLightBulb as Bulb } from 'react-icons/go';
 import { RiMapPin2Line } from 'react-icons/ri';
 import { GiStreetLight } from 'react-icons/gi';
-import { IoMdSend } from "react-icons/io";
-import { CgDanger } from "react-icons/cg";
+
 
 // STYLE
 
