@@ -7,12 +7,14 @@ const BlockPremium = () => {
     const navigate = useNavigate();
 
     const redirectToHomepage = () => {
-        navigate('/homepage')
+        navigate('/homepage');
     };
 
     return (
         <BlockPremiumContainer>
-            <StyledTitle>Page réservée aux utilisateurs premium et/ou administateur</StyledTitle>
+            <StyledTitle>
+                Page réservée aux utilisateurs premium et/ou administateur
+            </StyledTitle>
             <BlockPremiumRedirectButton onClick={redirectToHomepage}>
                 Redirect to Homepage
             </BlockPremiumRedirectButton>

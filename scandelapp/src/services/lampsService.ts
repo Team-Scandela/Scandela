@@ -46,7 +46,7 @@ export interface Lamp {
     lastmodification: string;
 
     bulblifetime: number;
-};
+}
 
 export const updateLamp = async (
     id: string,
@@ -58,7 +58,7 @@ export const updateLamp = async (
     setIsLoading(true);
 
     try {
-        const url = baseUrl + "lamps/" + id;
+        const url = baseUrl + 'lamps/' + id;
 
         const response = await fetch(url, {
             method: 'PUT',
@@ -75,14 +75,13 @@ export const updateLamp = async (
 
         const updatedLamp: Lamp = await response.json();
 
-        const updatedLamps = lamps.map((lamp: Lamp): Lamp =>
-            lamp.uuid === id ? updatedLamp : lamp
+        const updatedLamps = lamps.map(
+            (lamp: Lamp): Lamp => (lamp.uuid === id ? updatedLamp : lamp)
         );
-        
+
         setLamps(updatedLamps);
 
         return updatedLamp;
-
     } catch (error) {
         console.error(error.message);
         throw error;
@@ -99,7 +98,7 @@ export const suppLamp = async (
     setOpenPup: (open: boolean) => void
 ) => {
     setIsLoading(true);
-    const url = baseUrl +"lamps/delete/" + id;
+    const url = baseUrl + 'lamps/delete/' + id;
     try {
         const response = await fetch(url, {
             method: 'DELETE',
@@ -110,10 +109,10 @@ export const suppLamp = async (
         });
 
         if (response.status === 200) {
-            const updatedLamps = lamps.filter(lamp => lamp.id !== id);
+            const updatedLamps = lamps.filter((lamp) => lamp.id !== id);
             setLamps(updatedLamps);
             setOpenPup(false);
-        } 
+        }
     } catch (error) {
         console.log('ERROR DELETE NOTIFICATION = ' + error);
     } finally {

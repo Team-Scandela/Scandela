@@ -10,14 +10,14 @@ import {
     Red,
 } from '../../../colors';
 import { BiSortDown } from 'react-icons/bi';
-import { FaFilter, FaPen, FaTrashAlt} from 'react-icons/fa';
+import { FaFilter, FaPen, FaTrashAlt } from 'react-icons/fa';
 import { AiFillCloseCircle } from 'react-icons/ai';
 import { MdSkipPrevious, MdSkipNext } from 'react-icons/md';
 import { GoLightBulb as Bulb } from 'react-icons/go';
 import { RiMapPin2Line } from 'react-icons/ri';
 import { GiStreetLight } from 'react-icons/gi';
-import { IoMdSend } from "react-icons/io";
-import { CgDanger } from "react-icons/cg";
+import { IoMdSend } from 'react-icons/io';
+import { CgDanger } from 'react-icons/cg';
 
 export const LampListContainer = styled.div`
     display: flex;
@@ -516,17 +516,17 @@ export const PUpBulbInputIntens = styled.input`
 `;
 
 export const ButtonGlobalChange = styled(CgDanger)`
-position: absolute;
-right: 30%;
-top: 95%;
-font-size: 25px;
-color: ${Red};
-opacity: 1;
-transform: translateX(-50%);
-&:hover {
-    cursor: pointer;
-    opacity: 0.8;
-}
+    position: absolute;
+    right: 30%;
+    top: 95%;
+    font-size: 25px;
+    color: ${Red};
+    opacity: 1;
+    transform: translateX(-50%);
+    &:hover {
+        cursor: pointer;
+        opacity: 0.8;
+    }
 `;
 
 export const GlobalChangeTitle = styled.div`
@@ -542,11 +542,10 @@ export const GlobalChangeTitle = styled.div`
     font-family: 'SyneRegular';
 `;
 
-
 export const SpinnerContainer = styled.div`
     position: absolute;
     right: 160px;
-    top : 2.3%;
+    top: 2.3%;
     width: 6%;
     height: auto;
     display: flex;

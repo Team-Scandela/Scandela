@@ -1,21 +1,16 @@
 import styled from 'styled-components';
 
-// COLOR 
+// COLOR
 
-import {
-    Black,
-    Yellow,
-    Red,
-} from '../../../../colors';
+import { Black, Yellow, Red } from '../../../../colors';
 
-// Icon import 
+// Icon import
 
-import { FaPen, FaTrashAlt} from 'react-icons/fa';
+import { FaPen, FaTrashAlt } from 'react-icons/fa';
 import { AiFillCloseCircle } from 'react-icons/ai';
 import { GoLightBulb as Bulb } from 'react-icons/go';
 import { RiMapPin2Line } from 'react-icons/ri';
 import { GiStreetLight } from 'react-icons/gi';
-
 
 // STYLE
 

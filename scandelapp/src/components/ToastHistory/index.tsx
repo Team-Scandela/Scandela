@@ -14,7 +14,7 @@ import {
 import { Tooltip } from 'react-tooltip';
 import { useTranslation } from 'react-i18next';
 import { Black } from '../../colors';
-import { deleteNotification } from '../../utils/notificationUtils'
+import { deleteNotification } from '../../utils/notificationUtils';
 
 /**
  * @param {boolean} isDark - If the map is in dark mode or not
@@ -44,8 +44,7 @@ const ToastHistory: React.FC<ToastHistoryProps> = ({
     const { t } = useTranslation();
 
     const formatDate = (time: any): string => {
-        if (!Array.isArray(time))
-            return time;
+        if (!Array.isArray(time)) return time;
         if (time.length < 6) {
             return 'Invalid Date';
         }
@@ -88,7 +87,9 @@ const ToastHistory: React.FC<ToastHistoryProps> = ({
                             <DescriptionText isDark={isDark}>
                                 {item.description}
                             </DescriptionText>
-                            <TimeText isDark={isDark}>{formatDate(item.time)}</TimeText>
+                            <TimeText isDark={isDark}>
+                                {formatDate(item.time)}
+                            </TimeText>
                         </NotificationTemplateContainer>
                     ))}
                 </NotificationsContainer>

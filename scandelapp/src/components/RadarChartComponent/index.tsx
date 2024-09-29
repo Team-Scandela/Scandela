@@ -1,5 +1,13 @@
 import React from 'react';
-import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Tooltip, Legend } from 'recharts';
+import {
+    Radar,
+    RadarChart,
+    PolarGrid,
+    PolarAngleAxis,
+    PolarRadiusAxis,
+    Tooltip,
+    Legend,
+} from 'recharts';
 import { RadarChartContainer } from './element';
 
 const data = [
@@ -15,13 +23,26 @@ const data = [
 const RadarChartComponent = () => {
     return (
         <RadarChartContainer>
-            <RadarChart cx="50%" cy="50%" outerRadius="80%" width={500} height={400} data={data}>
+            <RadarChart
+                cx="50%"
+                cy="50%"
+                outerRadius="80%"
+                width={500}
+                height={400}
+                data={data}
+            >
                 <PolarGrid />
                 <PolarAngleAxis dataKey="subject" />
                 <PolarRadiusAxis />
                 <Tooltip />
                 <Legend />
-                <Radar name="City Performance" dataKey="A" stroke="#D5B60A" fill="#FAC710" fillOpacity={0.6} />
+                <Radar
+                    name="City Performance"
+                    dataKey="A"
+                    stroke="#D5B60A"
+                    fill="#FAC710"
+                    fillOpacity={0.6}
+                />
             </RadarChart>
         </RadarChartContainer>
     );

@@ -62,9 +62,9 @@ const OptimisationTemplate: React.FC<OptimisationTemplateProps> = ({
                 <DescriptionText isDark={isDark}>
                     {optimisationTemplateData.description}
                 </DescriptionText>
-                {/* <PriceText isDark={isDark}>
-                    {optimisationTemplateData.price}
-                </PriceText> */}
+                <PriceText isDark={isDark}>
+                    {optimisationTemplateData.price}€
+                </PriceText>
             </TextContainer>
             <SolutionTextContainer isDark={isDark}>
                 <SolutionText isDark={isDark}>

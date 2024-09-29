@@ -39,16 +39,27 @@ const LoadingPage: React.FC = () => {
         if (!isLoadingLamps && !isLoadingScores && lamps.length > 0) {
             navigate('/homepage');
         }
-    }, [isLoadingLamps, isLoadingScores, lamps, navigate, setLamps, setIsLoadingLamps, setError]);
+    }, [
+        isLoadingLamps,
+        isLoadingScores,
+        lamps,
+        navigate,
+        setLamps,
+        setIsLoadingLamps,
+        setError,
+    ]);
 
     return (
-        <div id="loadingPage" style={{ backgroundColor: '#2A2B2A', height: '100vh' }}>
+        <div
+            id="loadingPage"
+            style={{ backgroundColor: '#2A2B2A', height: '100vh' }}
+        >
             {error || errorScores ? (
-                <div>
-                    Error: {error ?? errorScores}
-                </div>
+                <div>Error: {error ?? errorScores}</div>
             ) : (
-                <LoadingPageComponent isLoading={isLoadingLamps || isLoadingScores} />
+                <LoadingPageComponent
+                    isLoading={isLoadingLamps || isLoadingScores}
+                />
             )}
         </div>
     );

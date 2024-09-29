@@ -15,7 +15,12 @@ export const allLamps: any[] = [];
  * @param {string} town - The name of the town for which to fetch lamp data.
  * @returns {Promise<boolean>} A promise that resolves to true if the data fetch was successful.
  */
-export const getAllLamps = async (town: string, setLamps: any, setIsLoading: any, setError: any): Promise<boolean> => {
+export const getAllLamps = async (
+    town: string,
+    setLamps: any,
+    setIsLoading: any,
+    setError: any
+): Promise<boolean> => {
     console.debug('getAllLamps started for town:', town);
 
     const username = process.env.REACT_APP_REQUEST_USER;
@@ -37,10 +42,12 @@ export const getAllLamps = async (town: string, setLamps: any, setIsLoading: any
             setLamps(lampsData); // Stocker les données dans l'atome Jotai
             allLamps.push(lampsData);
             console.debug('getAllLamps successful for town:', town);
-            console.log("LAMPS = ", allLamps[0][0]);
+            console.log('LAMPS = ', allLamps[0][0]);
         } else {
             console.error('GET LAMP FAILED, status =', response.status);
-            setError(`Error: Failed to fetch lamps with status ${response.status}`);
+            setError(
+                `Error: Failed to fetch lamps with status ${response.status}`
+            );
         }
     } catch (error) {
         console.error('ERROR GET LAMP =', error);

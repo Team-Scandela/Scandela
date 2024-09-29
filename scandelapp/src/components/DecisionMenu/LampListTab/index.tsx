@@ -44,7 +44,7 @@ import {
 } from './elements';
 import { allLamps } from '../../../utils/lampUtils';
 import { getConsuptionScore } from '../../../utils/gaugesUtils';
-import {useGlobalChangeBoolean} from '../../../utils/globalChangeBoolean';
+import { useGlobalChangeBoolean } from '../../../utils/globalChangeBoolean';
 import LoadingSpinner from '../../LoadingSpinner';
 
 interface LampListTabProps {
@@ -108,7 +108,7 @@ const LampListTab: React.FC<LampListTabProps> = ({ isDark }) => {
             filterData = filterData.filter(
                 (lamp: Lamp) =>
                     lamp.name === searchTerm || lamp.address === searchTerm
-             );
+            );
         }
 
         // Pagination
@@ -159,23 +159,24 @@ const LampListTab: React.FC<LampListTabProps> = ({ isDark }) => {
                     lum: selectedLamp.lum,
                     name: selectedLamp.name,
                     uuidbulb: idBulb,
-
                 }),
             });
             const responsebody = await response.text();
-            setTempData(prevData => prevData.map(lamp => 
-                lamp.id === selectedLamp.id 
-                ? { ...lamp, uuidbulb: idBulb } 
-                : lamp
-              ));
+            setTempData((prevData) =>
+                prevData.map((lamp) =>
+                    lamp.id === selectedLamp.id
+                        ? { ...lamp, uuidbulb: idBulb }
+                        : lamp
+                )
+            );
             if (response.status === 200) {
                 console.log(
                     'MODIFICATION APPLIED, status code: ' + responsebody
                 );
-            setGlobalBoolean(true);
-            console.log("isChangeGlobal");
-            console.log(isChangeGlobal);
-            console.log("isChangeGlobal");
+                setGlobalBoolean(true);
+                console.log('isChangeGlobal');
+                console.log(isChangeGlobal);
+                console.log('isChangeGlobal');
             } else {
                 console.log(
                     'FAIL TO APPLY MODIFICATION, status code: ' +
@@ -187,7 +188,7 @@ const LampListTab: React.FC<LampListTabProps> = ({ isDark }) => {
                 'FAIL TO APPLY MODIFICATION, error message: ' + error.message
             );
         }
-    }
+    };
 
     const getLamp = async () => {
         const urlLamp =
@@ -229,14 +230,21 @@ const LampListTab: React.FC<LampListTabProps> = ({ isDark }) => {
                 addBulbToLamp(bulbData[0].id);
                 setConso(bulbData[0].consommation);
                 setIntensity(bulbData[0].intensity);
-                console.log("CONSO GET BULB= ", conso, " Intensity=", intensity, " bulb =", bulbData[0]);
+                console.log(
+                    'CONSO GET BULB= ',
+                    conso,
+                    ' Intensity=',
+                    intensity,
+                    ' bulb =',
+                    bulbData[0]
+                );
                 setIsBulb(true);
             } else {
-                console.log("PAS COOL");
+                console.log('PAS COOL');
                 setIsFailed(true);
                 setIsBulb(false);
                 setConso('');
-                setIntensity('')
+                setIntensity('');
             }
         } catch (error) {
             console.log('ERROR GET BULB = ' + error);
@@ -246,32 +254,36 @@ const LampListTab: React.FC<LampListTabProps> = ({ isDark }) => {
     };
 
     const chandleSuppLamp = async () => {
-        console.log("SUPPRESSION");
+        console.log('SUPPRESSION');
         const urlRequest = `${process.env.REACT_APP_BACKEND_URL}lamps/delete/${selectedLamp.id}`;
-    try {
-        const response = await fetch(urlRequest, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Basic ${btoa(`${username}:${password}`)}`,
-            },
-        });
-        if (response.status === 200) {
-            console.log('Lamp successfully deleted from the database');
+        try {
+            const response = await fetch(urlRequest, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Basic ${btoa(`${username}:${password}`)}`,
+                },
+            });
+            if (response.status === 200) {
+                console.log('Lamp successfully deleted from the database');
 
-            // Mise à jour de l'état pour enlever le lampadaire supprimé de tempData
-            setTempData(prevData => prevData.filter(lamp => lamp.id !== selectedLamp.id));
-            setCurrentLamps(prevData => prevData.filter(lamp => lamp.id !== selectedLamp.id));
+                // Mise à jour de l'état pour enlever le lampadaire supprimé de tempData
+                setTempData((prevData) =>
+                    prevData.filter((lamp) => lamp.id !== selectedLamp.id)
+                );
+                setCurrentLamps((prevData) =>
+                    prevData.filter((lamp) => lamp.id !== selectedLamp.id)
+                );
 
-            // Fermer la pop-up après suppression
-            setOpenPup(false);
-        } else {
-            console.log('Error deleting lamp, status = ' + response.status);
+                // Fermer la pop-up après suppression
+                setOpenPup(false);
+            } else {
+                console.log('Error deleting lamp, status = ' + response.status);
+            }
+        } catch (error) {
+            console.log('ERROR DELETE NOTIFICATION = ' + error);
         }
-    } catch (error) {
-        console.log('ERROR DELETE NOTIFICATION = ' + error);
-    }
-    }
+    };
     const getBulbInfo = async () => {
         const urlBulb =
             process.env.REACT_APP_BACKEND_URL + 'bulbs?name=' + inputReference;
@@ -288,11 +300,18 @@ const LampListTab: React.FC<LampListTabProps> = ({ isDark }) => {
             if (response.status === 200) {
                 setConso(bulbData[0].consommation);
                 setIntensity(bulbData[0].intensity);
-                console.log("CONSO GET BULB INFO= ", conso, " Intensity=", intensity, " bulb =", bulbData[0]);
+                console.log(
+                    'CONSO GET BULB INFO= ',
+                    conso,
+                    ' Intensity=',
+                    intensity,
+                    ' bulb =',
+                    bulbData[0]
+                );
                 setIsBulb(true);
             } else {
                 setConso('');
-                setIntensity('')
+                setIntensity('');
                 setIsBulb(false);
             }
         } catch (error) {
@@ -300,16 +319,19 @@ const LampListTab: React.FC<LampListTabProps> = ({ isDark }) => {
             setIsBulb(false);
         }
     };
-    
+
     return (
         <div>
-            { isLoading &&
+            {isLoading && (
                 <SpinnerContainer>
                     <LoadingSpinner />
                 </SpinnerContainer>
-    }
-            <LampListCardInput placeholder="Search" value={searchTerm} onChange={handleSearchChange}>
-            </LampListCardInput>
+            )}
+            <LampListCardInput
+                placeholder="Search"
+                value={searchTerm}
+                onChange={handleSearchChange}
+            ></LampListCardInput>
             <LampListFilterButton onClick={() => setOpenFilter(true)} />
             {openFilter && (
                 <PupFilterContainer>
@@ -354,7 +376,9 @@ const LampListTab: React.FC<LampListTabProps> = ({ isDark }) => {
                                 key={index}
                                 isDark={isDark}
                                 onClick={() => (
-                                    setOpenPup(true), setSelectedLamp(lamp), getBulbInfo()
+                                    setOpenPup(true),
+                                    setSelectedLamp(lamp),
+                                    getBulbInfo()
                                 )}
                             >
                                 <LampListCardTitle>
@@ -391,10 +415,13 @@ const LampListTab: React.FC<LampListTabProps> = ({ isDark }) => {
                         </LampPupGeoloc>
                         <LampPupIconBulb />
                         <LampPupBulb>{selectedLamp.lampType}</LampPupBulb>
-                        <PupBulbButton onClick={() => setOpenPupBulb(true)} isBulb={isBulb} />
+                        <PupBulbButton
+                            onClick={() => setOpenPupBulb(true)}
+                            isBulb={isBulb}
+                        />
                         <LampPupIconLamp />
                         <LampPupHeight>{selectedLamp.height} m</LampPupHeight>
-                        <TrashBulbButton onClick={chandleSuppLamp}/>
+                        <TrashBulbButton onClick={chandleSuppLamp} />
                     </LampPupContent>
                 </LampPupContainer>
             )}
@@ -402,24 +429,40 @@ const LampListTab: React.FC<LampListTabProps> = ({ isDark }) => {
                 <LampPupContainer>
                     <LampPupContent>
                         <LampPupClose onClick={() => setOpenPupBulb(false)} />
-                        <LampPupTitle>{"Ampoule"}</LampPupTitle>
+                        <LampPupTitle>{'Ampoule'}</LampPupTitle>
                         <PUpBulbInputName
-                            placeholder={selectedLamp.uuidbulb ? selectedLamp.uuidbulb : "reference"}
+                            placeholder={
+                                selectedLamp.uuidbulb
+                                    ? selectedLamp.uuidbulb
+                                    : 'reference'
+                            }
                             isFailed={isFailed}
                             value={inputReference}
                             onChange={handleReferenceChange}
                         />
-                        <PUpBulbInputConso placeholder="consomation" value={conso}/>
-                        <PUpBulbInputIntens placeholder="Intensity" value={intensity}/>
-                    <PUpBulbValidateButton onClick={getBulb}/>
+                        <PUpBulbInputConso
+                            placeholder="consomation"
+                            value={conso}
+                        />
+                        <PUpBulbInputIntens
+                            placeholder="Intensity"
+                            value={intensity}
+                        />
+                        <PUpBulbValidateButton onClick={getBulb} />
                     </LampPupContent>
                 </LampPupContainer>
             )}
             {openPupGlobalChange && (
                 <LampPupContainer>
                     <LampPupContent>
-                        <LampPupClose onClick={() => setOpenPupGlobalChange(false)} />
-                        <GlobalChangeTitle>{"Des changements majeurs ont été effectué, veuillez relancer l'application"}</GlobalChangeTitle>
+                        <LampPupClose
+                            onClick={() => setOpenPupGlobalChange(false)}
+                        />
+                        <GlobalChangeTitle>
+                            {
+                                "Des changements majeurs ont été effectué, veuillez relancer l'application"
+                            }
+                        </GlobalChangeTitle>
                     </LampPupContent>
                 </LampPupContainer>
             )}
