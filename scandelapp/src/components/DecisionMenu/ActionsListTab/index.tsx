@@ -355,17 +355,31 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
             <TotalContainer isDark={isDark}>
                 <TotalTitleText isDark={isDark}>
                     {t('economicImpact')}
-                </TotalTitleText>
+                </TotalTitleText> 
+                {/* ajouter des images en rapport avec les gains et les coûts ici et remplacer les div */}
                 <div
                     style={{
                         fontSize: '0.7em',
                         color: isDark ? '#FAC710' : '#000',
                         marginLeft: '10px',
                         textAlign: 'left',
-                        marginTop: '17px',
+                        marginTop: '25px',
                     }}
                 >
-                    Coûts des actions (en euro) : {totalActionCost ? `${totalActionCost} €` : 'N/A'}
+                    Coûts des actions (en euro):
+                    <div
+                        style={{
+                            backgroundColor: '#696969', // gris DA
+                            padding: '20px',
+                            marginTop: '5px',
+                            marginRight: '10px',
+                            borderRadius: '4px',
+                            textAlign: 'center',
+                            fontSize: '1.5em',
+                        }}
+                    >
+                        {totalActionCost ? `${totalActionCost} €` : 'N/A'}
+                    </div>
                 </div>
                 <div
                     style={{
@@ -373,11 +387,25 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
                         color: isDark ? '#FAC710' : '#000',
                         marginLeft: '10px',
                         textAlign: 'left',
-                        marginTop: '14px',
+                        marginTop: '20px',
                     }}
                 >
-                    Économisé d'ici 1 an (en euro) : {totalSavings ? `${totalSavings} €` : 'N/A'}
+                    Économisé d'ici 1 an (en euro):
+                    <div
+                        style={{
+                            backgroundColor: '#696969', // gris DA
+                            padding: '20px',
+                            marginTop: '5px',
+                            marginRight: '10px',
+                            borderRadius: '4px',
+                            textAlign: 'center',
+                            fontSize: '1.5em',
+                        }}
+                    >
+                        {totalSavings ? `${totalSavings} €` : 'N/A'}
+                    </div>
                 </div>
+
             </TotalContainer>
             {/* Render personalized gauge components */}
             <GaugesContainer>
