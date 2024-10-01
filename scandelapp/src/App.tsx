@@ -39,7 +39,32 @@ const App: React.FC = () => {
 
                 // Logique pour déterminer le prix en fonction de la solution
                 if (item.solution.includes('Changer')) {
-                    prix = '30';
+                    prix = '30'; // Prix par défaut                    
+                    if (item.solution.includes("'SHP'.")) {
+                        prix = '30';
+                    } else if (item.solution.includes("'IMC'.")) {
+                        prix = '2';
+                    } else if (item.solution.includes("'LED'.")) {
+                        prix = '5';
+                    } else if (item.solution.includes("'TF'.")) {
+                        prix = '3';
+                    } else if (item.solution.includes("'IM'.'")) {
+                        prix = '20';
+                    } else if (item.solution.includes("'MBF'.")) {
+                        prix = '10';
+                    } else if (item.solution.includes("'FC'.")) {
+                        prix = '10';
+                    } else if (item.solution.includes("'SBP'.")) {
+                        prix = '20';
+                    } else if (item.solution.includes("'HAL'.")) {
+                        prix = '3';
+                    } else if (item.solution.includes("'TL'.")) {
+                        prix = '5';
+                    } else if (item.solution.includes("'IC'.")) {
+                        prix = '2';
+                    } else if (item.solution.includes("'DIC'.")) {
+                        prix = '30';
+                    }
                 } else if (item.solution.includes('Allumer')) {
                     prix = await getLampPrice(item.lampDecision.lamp.lampType);
                     const price = parseFloat(prix) * 8;
@@ -52,9 +77,27 @@ const App: React.FC = () => {
                 ) {
                     prix = '1000';
                 } else if (item.solution.includes('Augmenter')) {
-                    prix = '150';
+                    prix = await getLampPrice(item.lampDecision.lamp.lampType);
+                    item.solution.split(' ').forEach((word: string) => {
+                        // on cherche le nombre avant le % dans la phrase pour appliquer le pourcentage au prix
+                        if (word.includes('%')) {
+                            const price = parseFloat(prix) * (parseFloat(word) / 100);
+                            prix = price.toString();
+                        }
+                    });
+                    const price = parseFloat(prix) * 8;
+                    prix = price.toString();
                 } else if (item.solution.includes('Réduire')) {
-                    prix = '-150';
+                    prix = await getLampPrice(item.lampDecision.lamp.lampType);
+                    item.solution.split(' ').forEach((word: string) => {
+                        // on cherche le nombre avant le % dans la phrase pour appliquer le pourcentage au prix
+                        if (word.includes('%')) {
+                            const price = parseFloat(prix) * (parseFloat(word) / 100);
+                            prix = price.toString();
+                        }
+                    });
+                    const price = parseFloat(prix) * (-8);
+                    prix = price.toString();
                 }
 
                 return {

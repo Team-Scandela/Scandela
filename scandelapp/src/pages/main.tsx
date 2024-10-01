@@ -15,6 +15,13 @@ import ActionHistory from '../components/ActionHistory';
 import LogoutButton from '../components/LogoutButton';
 import Tutoriel from '../components/Tutoriel';
 import { getNotifications } from '../utils/notificationUtils';
+import EcoPannel from '../components/Legends/LegendEco';
+import CabinetPannel from '../components/Legends/LegendCabinet';
+import HeatmapPannel from '../components/Legends/LegendHeatmap';
+import ZonePannel from '../components/Legends/LegendZone';
+import TrafficPannel from '../components/Legends/LegendTraffic';
+import PinPannel from '../components/Legends/LegendPin';
+import ColorPannel from '../components/Legends/LegendPinColor';
 
 export enum Filters {
     pin = 'pin',
@@ -199,15 +206,16 @@ const Main: React.FC<MainProps> = ({
             />
             {filter === Filters.filter && (
                 <>
-                    <FilterSearch
-                        id={'filterSearchComponentId'}
-                        isDark={isDark}
-                        selected={selected}
-                        setSelected={setSelected}
-                        search={search}
-                        setSearch={setSearch}
-                    />
-                </>
+                <FilterSearch
+                    id={'filterSearchComponentId'}
+                    isDark={isDark}
+                    selected={selected}
+                    setSelected={setSelected}
+                    search={search}
+                    setSearch={setSearch}
+                />
+                <PinPannel />
+            </>
             )}
             {filter === Filters.traffic && (
                 <>
@@ -217,7 +225,31 @@ const Main: React.FC<MainProps> = ({
                         trafficTime={trafficTimeValue}
                         setTrafficTime={setTrafficTimeValue}
                     />
+                    <TrafficPannel />
                 </>
+            )}
+            {filter === Filters.pinColor && (
+                <>
+                    <ColorPannel />
+                </>
+            )}
+            {filter === Filters.zone && (
+                <>
+                    <ZonePannel />
+                </>
+            )}
+            {filter === Filters.cabinet && (
+                <>
+                    <CabinetPannel />
+                </>
+            )}
+            {filter === Filters.pin && (
+                <>
+                    <PinPannel />
+                </>
+            )}
+            {filter === Filters.eco && (
+                <EcoPannel />
             )}
             {localStorage.getItem('premium') === 'false' && (
                 <LogoutButton id={'logoutButton'} isDark={isDark} />
