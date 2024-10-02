@@ -24,9 +24,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    &:active {
+        pointer-events: none;
+    }
 }
 
-.marker-notPremium.marker.small {
+.marker-notPremium.small {
     width: 75px;
     height: 75px;
 }
