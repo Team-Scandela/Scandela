@@ -1,68 +1,66 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-import { getAllScores } from '../utils/gaugesUtils';
+import { useAtom } from 'jotai';
 import { getAllLamps } from '../utils/lampUtils';
+import { getAllScores } from '../utils/gaugesUtils'; // Assuming this is the correct import
+import { lampsAtom, isLoadingAtom, errorAtom } from '../atoms/lampsAtom';
 import LoadingPageComponent from '../components/LoadingPage';
 
-/**
- * Props for the LoadingPage component.
- * @interface LoadingPageProps
- */
-interface LoadingPageProps {}
-
-// External variable to lock the data fetching process
-let isFetching = false;
-
-/**
- * LoadingPage component - displays a loading screen until all required data is fetched.
- *
- * @component
- * @param {LoadingPageProps} props - Props for LoadingPage component.
- * @returns {JSX.Element} The LoadingPage component.
- */
-const LoadingPage: React.FC<LoadingPageProps> = ({}) => {
-    const [isLoading, setIsLoading] = useState(true);
-    const [dataLoaded, setDataLoaded] = useState(false);
+const LoadingPage: React.FC = () => {
     const navigate = useNavigate();
 
-    useEffect(() => {
-        if (!dataLoaded && !isFetching) {
-            isFetching = true;
-            console.debug('useEffect triggered');
-            /**
-             * Fetches all required data (scores and lamps) and navigates to the landing page once done.
-             *
-             * @async
-             * @function fetchData
-             */
-            const fetchData = async () => {
-                try {
-                    console.debug('Fetching data started');
-                    await Promise.all([
-                        getAllScores(),
-                        getAllLamps('VILLE'), // Assuming "VILLE" is the correct parameter here
-                    ]);
-                    setIsLoading(false);
-                    setDataLoaded(true);
-                    console.debug('Fetching data completed');
-                    navigate('/homepage');
-                    console.debug('Navigation triggered');
-                } catch (error) {
-                    console.error('Error during data fetching:', error);
-                }
-            };
+    // Jotai atoms for lamps
+    const [lamps, setLamps] = useAtom(lampsAtom);
+    const [isLoadingLamps, setIsLoadingLamps] = useAtom(isLoadingAtom);
+    const [error, setError] = useAtom(errorAtom);
 
-            fetchData();
+    // Local state for scores loading
+    const [isLoadingScores, setIsLoadingScores] = useState(true);
+    const [errorScores, setErrorScores] = useState<string | null>(null);
+
+    useEffect(() => {
+        // Fetch lamps if they are not loaded yet
+        if (isLoadingLamps && lamps.length === 0) {
+            getAllLamps('VILLE', setLamps, setIsLoadingLamps, setError);
         }
-    }, [dataLoaded, navigate]);
+
+        // Fetch scores if they are not loaded yet
+        if (isLoadingScores) {
+            console.debug('Fetching scores data...');
+            getAllScores()
+                .then(() => {
+                    setIsLoadingScores(false);
+                })
+                .catch((error) => {
+                    setErrorScores(error.message);
+                });
+        }
+
+        if (!isLoadingLamps && !isLoadingScores && lamps.length > 0) {
+            navigate('/homepage');
+        }
+    }, [
+        isLoadingLamps,
+        isLoadingScores,
+        lamps,
+        navigate,
+        setLamps,
+        setIsLoadingLamps,
+        setError,
+    ]);
 
     return (
         <div
-            id={'loadingPage'}
+            id="loadingPage"
             style={{ backgroundColor: '#2A2B2A', height: '100vh' }}
         >
-            <LoadingPageComponent isLoading={isLoading} />
+            {error || errorScores ? (
+                <div>Error: {error ?? errorScores}</div>
+            ) : (
+                <LoadingPageComponent
+                    isLoading={isLoadingLamps || isLoadingScores}
+                />
+            )}
         </div>
     );
 };

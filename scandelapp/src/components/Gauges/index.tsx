@@ -64,7 +64,8 @@ export const Gauges: React.FC<GaugesProps> = ({
     const [showPupMiddle, setShowPupMiddle] = React.useState<boolean>(false);
     const [showPupRight, setShowPupRight] = React.useState<boolean>(false);
 
-    const [lenghtOptimisedData, setLenghtOptimisedData] = React.useState<number>(0);
+    const [lenghtOptimisedData, setLenghtOptimisedData] =
+        React.useState<number>(0);
 
     function parseFloatSafe(input: string): number {
         const trimmedInput = input.trim();
@@ -131,13 +132,18 @@ export const Gauges: React.FC<GaugesProps> = ({
 
     useEffect(() => {
         const interval = setInterval(() => {
-            console.log("interval");
+            console.log('interval');
             // get the length of the optimised data
-            setLenghtOptimisedData(localStorage.getItem('optimisationTemplateData') ? JSON.parse(localStorage.getItem('optimisationTemplateData')).length : 0);
+            setLenghtOptimisedData(
+                localStorage.getItem('optimisationTemplateData')
+                    ? JSON.parse(
+                          localStorage.getItem('optimisationTemplateData')
+                      ).length
+                    : 0
+            );
             clearInterval(lenghtOptimisedData);
         }, 100);
-    }
-    );
+    });
 
     const canBeDisplayed = () => {
         if (decisionPanelExtended && currentTab != Tabs.Scandela) return false;
@@ -166,7 +172,7 @@ export const Gauges: React.FC<GaugesProps> = ({
                         <GaugeOldLevel
                             color={diffLevelElec > 0 ? Red : Green}
                             level={levelElec}
-                            diffLevel={diffLevelElec - (lenghtOptimisedData/20)}
+                            diffLevel={diffLevelElec - lenghtOptimisedData / 20}
                         />
                         <GaugeLogo
                             src={isDark ? images.elec : images.elecLight}
@@ -201,7 +207,7 @@ export const Gauges: React.FC<GaugesProps> = ({
                         <GaugeOldLevel
                             color={diffLevelBio > 0 ? Red : Green}
                             level={levelBio}
-                            diffLevel={diffLevelBio- (lenghtOptimisedData/15)}
+                            diffLevel={diffLevelBio - lenghtOptimisedData / 15}
                         />
                         <GaugeLogo
                             src={isDark ? images.bio : images.bioLight}
@@ -235,7 +241,7 @@ export const Gauges: React.FC<GaugesProps> = ({
                         <GaugeOldLevel
                             color={diffLevelLumi > 0 ? Red : Green}
                             level={levelLumi}
-                            diffLevel={diffLevelLumi- (lenghtOptimisedData/10)}
+                            diffLevel={diffLevelLumi - lenghtOptimisedData / 10}
                         />
                         <GaugeLogo
                             src={isDark ? images.lumi : images.lumiLight}

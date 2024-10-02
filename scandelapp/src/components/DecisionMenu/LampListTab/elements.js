@@ -7,14 +7,17 @@ import {
     Grey,
     DarkYellow,
     LightDarkGrey,
+    Red,
 } from '../../../colors';
 import { BiSortDown } from 'react-icons/bi';
-import { FaFilter } from 'react-icons/fa';
+import { FaFilter, FaPen, FaTrashAlt } from 'react-icons/fa';
 import { AiFillCloseCircle } from 'react-icons/ai';
 import { MdSkipPrevious, MdSkipNext } from 'react-icons/md';
 import { GoLightBulb as Bulb } from 'react-icons/go';
 import { RiMapPin2Line } from 'react-icons/ri';
 import { GiStreetLight } from 'react-icons/gi';
+import { IoMdSend } from 'react-icons/io';
+import { CgDanger } from 'react-icons/cg';
 
 export const LampListContainer = styled.div`
     display: flex;
@@ -414,4 +417,138 @@ export const TotalLamp = styled.div`
     font-size: 20px;
     user-select: none;
     font-family: 'SyneRegular';
+`;
+
+export const PupBulbButton = styled(FaPen)`
+    position: absolute;
+    right: 50%;
+    top: 60%;
+    font-size: 20px;
+    color: ${({ isBulb }) => (isBulb ? Yellow : Red)};
+    opacity: 1;
+    transform: translateX(-50%);
+    &:hover {
+        cursor: pointer;
+        opacity: 0.8;
+    }
+`;
+
+export const TrashBulbButton = styled(FaTrashAlt)`
+    position: absolute;
+    right: 1%;
+    top: 23%;
+    font-size: 20px;
+    color: ${Red};
+    opacity: 1;
+    transform: translateX(-50%);
+    &:hover {
+        cursor: pointer;
+        opacity: 0.8;
+    }
+`;
+
+export const PUpBulbInputName = styled.input`
+    position: absolute;
+    width: 80%;
+    height: 40px;
+    top: 25%;
+    left: 10%;
+    border-radius: 5px;
+    background-color: ${DarkGrey};
+    color: ${({ isFailed }) => (isFailed ? Red : White)};
+    user-select: none;
+    font-size: 20px;
+    padding-left: 10px;
+    cursor: pointer;
+    &:focus {
+        outline: none;
+    }
+`;
+
+export const PUpBulbValidateButton = styled(IoMdSend)`
+    position: absolute;
+    right: 0%;
+    top: 29%;
+    font-size: 20px;
+    color: ${Yellow};
+    opacity: 1;
+    transform: translateX(-50%);
+    &:hover {
+        cursor: pointer;
+        opacity: 0.8;
+    }
+`;
+
+export const PUpBulbInputConso = styled.input`
+    position: absolute;
+    width: 80%;
+    height: 40px;
+    top: 45%;
+    left: 10%;
+    border-radius: 5px;
+    background-color: ${DarkGrey};
+    color: ${White};
+    user-select: none;
+    font-size: 20px;
+    padding-left: 10px;
+    cursor: pointer;
+    &:focus {
+        outline: none;
+    }
+`;
+
+export const PUpBulbInputIntens = styled.input`
+    position: absolute;
+    width: 80%;
+    height: 40px;
+    top: 65%;
+    left: 10%;
+    border-radius: 5px;
+    background-color: ${DarkGrey};
+    color: ${White};
+    user-select: none;
+    font-size: 20px;
+    padding-left: 10px;
+    cursor: pointer;
+    &:focus {
+        outline: none;
+    }
+`;
+
+export const ButtonGlobalChange = styled(CgDanger)`
+    position: absolute;
+    right: 30%;
+    top: 95%;
+    font-size: 25px;
+    color: ${Red};
+    opacity: 1;
+    transform: translateX(-50%);
+    &:hover {
+        cursor: pointer;
+        opacity: 0.8;
+    }
+`;
+
+export const GlobalChangeTitle = styled.div`
+    display: flex;
+    position: absolute;
+    justify-content: center;
+    color: ${Yellow};
+    font-size: 25px;
+    top: 35%;
+    left: 55%;
+    width: 80%;
+    transform: translateX(-50%);
+    font-family: 'SyneRegular';
+`;
+
+export const SpinnerContainer = styled.div`
+    position: absolute;
+    right: 160px;
+    top: 2.3%;
+    width: 6%;
+    height: auto;
+    display: flex;
+    align-items: center;
+    z-index: 1000;
 `;

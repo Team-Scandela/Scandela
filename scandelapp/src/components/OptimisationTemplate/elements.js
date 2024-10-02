@@ -107,4 +107,13 @@ export const SolutionText = styled.p`
     font-family: 'SyneRegular';
 `;
 
-export const PriceText = styled.div``;
+export const PriceText = styled.div`
+    display: flex;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    top: 75px;
+    right: 15px;
+    font-size: 10px;
+    z-index: 100000;
+`;

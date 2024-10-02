@@ -1,4 +1,4 @@
-import React from 'react'; // Import the 'React' module
+import React, { useEffect } from 'react'; // Import the 'React' module
 
 import {
     StatsRectangle,

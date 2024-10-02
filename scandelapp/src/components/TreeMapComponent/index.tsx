@@ -1,6 +1,11 @@
 import React from 'react';
 import { Treemap, ResponsiveContainer } from 'recharts';
-import { TreeMapContainer, getConsumptionColor, TreemapLabel, TreemapIndex } from './elements';
+import {
+    TreeMapContainer,
+    getConsumptionColor,
+    TreemapLabel,
+    TreemapIndex,
+} from './elements';
 
 const lampTypesData = [
     { name: 'Sodium Haute pression', size: 47535 },
@@ -27,7 +32,16 @@ const props = {
     size: 47535,
 };
 
-const CustomizedTreeMapContent = (props: { depth: any; x: any; y: any; width: any; height: any; index: any; name: any; size: any; }) => {
+const CustomizedTreeMapContent = (props: {
+    depth: any;
+    x: any;
+    y: any;
+    width: any;
+    height: any;
+    index: any;
+    name: any;
+    size: any;
+}) => {
     const { depth, x, y, width, height, index, name, size } = props;
     const color = getConsumptionColor(size);
     return (
@@ -48,7 +62,10 @@ const CustomizedTreeMapContent = (props: { depth: any; x: any; y: any; width: an
                 <>
                     {size >= 10000 && (
                         <>
-                            <TreemapLabel x={x + width / 2} y={y + height / 2 + 7}>
+                            <TreemapLabel
+                                x={x + width / 2}
+                                y={y + height / 2 + 7}
+                            >
                                 {name}
                             </TreemapLabel>
                         </>

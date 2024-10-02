@@ -23,6 +23,7 @@ export enum Filters {
     filter = 'filter',
     traffic = 'traffic',
     cabinet = 'cabinet',
+    eco = 'eco',
     none = 'none',
 }
 
@@ -78,11 +79,9 @@ const Main: React.FC<MainProps> = ({
         try {
             getNotificationsAsync();
         } catch (error) {
-            console.log(
-                'ERROR GET NOTIFICATIONS = ' + error
-            );
+            console.log('ERROR GET NOTIFICATIONS = ' + error);
         }
-    }, [])
+    }, []);
 
     const [toastHistoryExtended, setToastHistoryExtended] = useState(false);
     const handleToastHistoryPannelButtonClicked = () => {

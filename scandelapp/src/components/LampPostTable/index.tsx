@@ -1,5 +1,11 @@
 import React from 'react';
-import { TableContainer, StyledTable, TableHeader, TableRow, TableCell } from './elements';
+import {
+    TableContainer,
+    StyledTable,
+    TableHeader,
+    TableRow,
+    TableCell,
+} from './elements';
 
 const LampPostTable = ({ lampPosts }: { lampPosts: Array<any> }) => {
     return (
