@@ -34,10 +34,21 @@ import com.scandela.server.service.ILampService;
 public class LampController extends AbstractController<Lamp> {
 	
 	private List<Lamp> allLamps = service.getAll();
+    private List<Lamp> allOtherLamps;
+	private static final UUID MAIN_CITY_UUID = UUID.fromString("2dac2740-1d45-42d7-af5e-13b98cdf3af4");
 	
 	// Constructors \\
 	protected LampController(ILampService lampService) {
 		super(lampService);
+
+		List<Lamp> allLampsList = service.getAll(null);
+
+		this.allLamps = allLampsList.stream()
+            .filter(lamp -> MAIN_CITY_UUID.equals(lamp.getTown().getId()))
+            .collect(Collectors.toList());
+        this.allOtherLamps = allLampsList.stream()
+            .filter(lamp -> !MAIN_CITY_UUID.equals(lamp.getTown().getId()))
+            .collect(Collectors.toList());
 	}
 
 	// Methods \\
@@ -50,6 +61,11 @@ public class LampController extends AbstractController<Lamp> {
 	@GetMapping
 	public List<LampDto> getLamps() {
 		return allLamps.stream().map(lamp -> LampDto.from(lamp)).collect(Collectors.toList());
+	}
+
+	@GetMapping("/{townId}")
+	public List<LampDto> getLampsFromTown(@PathVariable UUID townId) {
+		return allLamps.stream().filter(lamp -> lamp.getTown().getId().equals(townId)).map(lamp -> LampDto.from(lamp)).collect(Collectors.toList());
 	}
 
 	/**
