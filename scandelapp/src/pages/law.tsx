@@ -14,6 +14,7 @@ import {
     SectionContent,
     ResourcesSection,
     SectionTitle,
+    RedirectButton,
 } from '../components/Law/elements';
 import { lawData } from '../components/Law/data/lawData';
 import { Grey, DarkGrey, Yellow, DarkYellow, Black } from '../colors';
@@ -21,6 +22,7 @@ import { Grey, DarkGrey, Yellow, DarkYellow, Black } from '../colors';
 import Graph1 from '../assets/law/impact.png';
 import Graph2 from '../assets/law/mesure-optiques.png';
 import Graph3 from '../assets/law/placement.png';
+import { useNavigate } from 'react-router-dom';
 import { White } from '../colors';
 
 const LawIndicator = () => {
@@ -53,6 +55,10 @@ const LawIndicator = () => {
             }}
         />
     );
+    const navigate = useNavigate();
+    const redirectToHomepage = () => {
+        navigate('/homepage');
+    };
 
     const [showModal1, setShowModal1] = useState(false);
     const [showModal2, setShowModal2] = useState(false);
@@ -151,6 +157,7 @@ const LawIndicator = () => {
                                 border: 'none',
                                 borderRadius: '5px',
                                 padding: '5px 10px',
+                                cursor: 'pointer',
                                 marginRight: '10px',
                             }}
                             onClick={openModal1}
@@ -195,6 +202,7 @@ const LawIndicator = () => {
                                 color: Yellow,
                                 border: 'none',
                                 borderRadius: '5px',
+                                cursor: 'pointer',
                                 padding: '5px 10px',
                                 marginRight: '10px',
                             }}
@@ -254,6 +262,7 @@ const LawIndicator = () => {
                                 color: Grey,
                                 border: 'none',
                                 borderRadius: '5px',
+                                cursor: 'pointer',
                                 padding: '5px 10px',
                             }}
                             onClick={openModal3}
@@ -285,6 +294,9 @@ const LawIndicator = () => {
                         )}
                     </SectionContent>
                 </ResourcesSection>
+                <RedirectButton onClick={redirectToHomepage}>
+                    Retourner à la page d'accueil
+                </RedirectButton>
             </ScrollableContainer>
         </StyledLawsPageContainer>
     );
