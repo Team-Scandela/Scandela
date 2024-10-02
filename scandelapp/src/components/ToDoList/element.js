@@ -167,3 +167,11 @@ export const ToDoListDropdownMenuItem3 = styled(ToDoListDropdownMenuItem)`
     background-color: ${Green};
     border-radius: 0px 0px 10px 10px;
 `;
+
+export const ErrorMessage = styled.div`
+    position: absolute;
+    font-size: 30px;
+    color: ${Red};
+    top: 10px;
+    font-family: 'SyneRegular';
+`;
