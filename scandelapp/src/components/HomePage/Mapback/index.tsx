@@ -21,6 +21,8 @@ const Mapback: React.FC<MapbackProps> = ({
     const accessToken =
         'pk.eyJ1IjoidGl0b3VhbnRkIiwiYSI6ImNsaDYyeHUybDAyNTkzcHV5NHlzY3drbHIifQ._eEX5CRcWxVrl9C8z4u3fQ';
     const mapContainerRef = useRef<HTMLDivElement | null>(null);
+    const isPremium = localStorage.getItem('premium') === 'true';
+    const isAdmin = localStorage.getItem('token') === 'true';
 
     useEffect(() => {
         mapboxgl.accessToken = accessToken;
@@ -54,9 +56,16 @@ const Mapback: React.FC<MapbackProps> = ({
                 markerContainer.className = 'marker-container';
 
                 const markerElement = document.createElement('div');
-                markerElement.className = marker.small
+                if (marker.needPremium && !(isPremium || isAdmin)) {
+                    markerElement.className = marker.small
+                    ? 'marker-notPremium small'
+                    : 'marker-notPremium';
+                } else {
+                    markerElement.className = marker.small
                     ? 'marker small'
                     : 'marker';
+                }
+
 
                 const markerContent = document.createElement('div');
                 markerContent.className = 'marker-content';
