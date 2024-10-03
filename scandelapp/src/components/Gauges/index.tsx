@@ -19,18 +19,19 @@ import {
 import * as images from './gaugesImports';
 import { Green, Red } from '../../colors';
 import { useTranslation } from 'react-i18next';
+import { Tabs } from '../../pages/main';
 
 /** Props of the gauges
  * @param {boolean} isDark - If the map is in dark mode or not
  * @param {boolean} decisionPanelExtended - Boolean to check if the decision panel is extended or not
- * @param {boolean} actionsListExtended -  Boolean to check if the actions list is extended or not
+ * @param {any} currentTab - Store the current tab displayed in the decision panel
  *
  */
 interface GaugesProps {
     id: string;
     isDark: boolean;
     decisionPanelExtended: boolean;
-    actionsListExtended: boolean;
+    currentTab: Tabs;
 }
 
 //* Gauges component */
@@ -38,7 +39,7 @@ export const Gauges: React.FC<GaugesProps> = ({
     id,
     isDark,
     decisionPanelExtended,
-    actionsListExtended,
+    currentTab,
 }) => {
     const [levelElec, setLevelElec] = React.useState<number>(0);
     const [levelBio, setLevelBio] = React.useState<number>(0);
@@ -62,6 +63,9 @@ export const Gauges: React.FC<GaugesProps> = ({
     const [showPupLeft, setShowPupLeft] = React.useState<boolean>(false);
     const [showPupMiddle, setShowPupMiddle] = React.useState<boolean>(false);
     const [showPupRight, setShowPupRight] = React.useState<boolean>(false);
+
+    const [lenghtOptimisedData, setLenghtOptimisedData] =
+        React.useState<number>(0);
 
     function parseFloatSafe(input: string): number {
         const trimmedInput = input.trim();
@@ -114,7 +118,6 @@ export const Gauges: React.FC<GaugesProps> = ({
             } else {
                 allScoresDefined = false;
             }
-
             return allScoresDefined;
         };
 
@@ -127,17 +130,39 @@ export const Gauges: React.FC<GaugesProps> = ({
         return () => clearInterval(intervalId);
     }, []);
 
+    useEffect(() => {
+        const interval = setInterval(() => {
+            console.log('interval');
+            // get the length of the optimised data
+            setLenghtOptimisedData(
+                localStorage.getItem('optimisationTemplateData')
+                    ? JSON.parse(
+                          localStorage.getItem('optimisationTemplateData')
+                      ).length
+                    : 0
+            );
+            clearInterval(lenghtOptimisedData);
+        }, 100);
+    });
+
+    const canBeDisplayed = () => {
+        if (decisionPanelExtended && currentTab != Tabs.Scandela) return false;
+        return true;
+    };
+
     return (
         <div id={id}>
-            {!actionsListExtended && (
+            {canBeDisplayed() && (
                 <div>
                     <GaugeContainerLeft
                         decisionPanelExtended={decisionPanelExtended}
                         decal={showPupMiddle || showPupRight}
                         onClick={() => {
-                            setShowPupLeft(!showPupLeft);
-                            setShowPupMiddle(false);
-                            setShowPupRight(false);
+                            if (!decisionPanelExtended) {
+                                setShowPupLeft(!showPupLeft);
+                                setShowPupMiddle(false);
+                                setShowPupRight(false);
+                            }
                         }}
                     >
                         <GaugeBackground
@@ -147,7 +172,7 @@ export const Gauges: React.FC<GaugesProps> = ({
                         <GaugeOldLevel
                             color={diffLevelElec > 0 ? Red : Green}
                             level={levelElec}
-                            diffLevel={diffLevelElec}
+                            diffLevel={diffLevelElec - lenghtOptimisedData / 20}
                         />
                         <GaugeLogo
                             src={isDark ? images.elec : images.elecLight}
@@ -168,9 +193,11 @@ export const Gauges: React.FC<GaugesProps> = ({
                         decisionPanelExtended={decisionPanelExtended}
                         decal={showPupRight}
                         onClick={() => {
-                            setShowPupLeft(false);
-                            setShowPupMiddle(!showPupMiddle);
-                            setShowPupRight(false);
+                            if (!decisionPanelExtended) {
+                                setShowPupLeft(false);
+                                setShowPupMiddle(!showPupMiddle);
+                                setShowPupRight(false);
+                            }
                         }}
                     >
                         <GaugeBackground
@@ -180,7 +207,7 @@ export const Gauges: React.FC<GaugesProps> = ({
                         <GaugeOldLevel
                             color={diffLevelBio > 0 ? Red : Green}
                             level={levelBio}
-                            diffLevel={diffLevelBio}
+                            diffLevel={diffLevelBio - lenghtOptimisedData / 15}
                         />
                         <GaugeLogo
                             src={isDark ? images.bio : images.bioLight}
@@ -200,9 +227,11 @@ export const Gauges: React.FC<GaugesProps> = ({
                         decisionPanelExtended={decisionPanelExtended}
                         decal={false}
                         onClick={() => {
-                            setShowPupLeft(false);
-                            setShowPupMiddle(false);
-                            setShowPupRight(!showPupRight);
+                            if (!decisionPanelExtended) {
+                                setShowPupLeft(false);
+                                setShowPupMiddle(false);
+                                setShowPupRight(!showPupRight);
+                            }
                         }}
                     >
                         <GaugeBackground
@@ -212,7 +241,7 @@ export const Gauges: React.FC<GaugesProps> = ({
                         <GaugeOldLevel
                             color={diffLevelLumi > 0 ? Red : Green}
                             level={levelLumi}
-                            diffLevel={diffLevelLumi}
+                            diffLevel={diffLevelLumi - lenghtOptimisedData / 10}
                         />
                         <GaugeLogo
                             src={isDark ? images.lumi : images.lumiLight}

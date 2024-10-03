@@ -9,7 +9,9 @@ import java.util.UUID;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.scandela.server.dao.BulbDao;
 import com.scandela.server.dao.SubscriptionDao;
 import com.scandela.server.dao.UserDao;
 import com.scandela.server.entity.Subscription;
@@ -25,6 +27,7 @@ import com.stripe.model.PaymentMethod;
 import com.stripe.model.Token;
 import com.stripe.model.checkout.Session;
 import com.stripe.param.PaymentMethodAttachParams;
+import com.stripe.param.PaymentLinkCreateParams.CustomerCreation;
 import com.stripe.param.checkout.SessionCreateParams;
 // import com.stripe.model.Subscription;
 import com.stripe.Stripe;
@@ -46,6 +49,22 @@ public class SubscriptionService extends AbstractService<Subscription> implement
     protected SubscriptionService(SubscriptionDao subscriptionDao, UserDao userDao) {
         super(subscriptionDao);
         this.userDao = userDao;
+    }
+
+    @Override
+	@Transactional(rollbackFor = { Exception.class })
+    public Subscription update(UUID id, Subscription update, String... ignoredProperties) throws Exception {
+		try {
+            System.out.println("Will add -> " + update);
+			Subscription subscription = super.update(id, update, ignoredProperties);
+
+            System.out.println("Found subscription -> " + subscription);
+
+
+	        return subscription;
+		} catch (Exception e) {
+			throw e;
+		}
     }
 
     // TODO: ajouter l'exception de Stripe
@@ -174,69 +193,86 @@ public class SubscriptionService extends AbstractService<Subscription> implement
         return null;
     }
 
+    public Subscription getByStripeId(String stripeid) {
+        return ((SubscriptionDao) dao).findByStripeId(stripeid).get();
+    }
+
+    public Optional <Subscription> getBySessionid(String sessionid) {
+        return ((SubscriptionDao) dao).findBySessionid(sessionid);
+    }
+
     public Map<String, String> createSubscription(Subscription subscription) throws StripeException {
 
         Stripe.apiKey = secretKey;
 
         String productId = "prod_PDoC5Ig8LbirCM";
 
+        System.out.println("Here is Subscription -> " + subscription);
+
         SessionCreateParams params = SessionCreateParams.builder()
                 .addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)
                 .setMode(SessionCreateParams.Mode.SUBSCRIPTION)
-                .setSuccessUrl("https://example.com/success")
+                .setSuccessUrl("https://api.scandela.com/stripe/handleSessionId/")
                 .setCancelUrl("https://example.com/cancel")
                 .addLineItem(SessionCreateParams.LineItem.builder()
-                .setQuantity(1L)
-                .setPriceData(SessionCreateParams.LineItem.PriceData.builder()
-                        .setProduct(productId)
-                        .setCurrency("eur")
-                        .setUnitAmount(1000L)
-                        .setRecurring(SessionCreateParams.LineItem.PriceData.Recurring.builder()
-                                .setInterval(SessionCreateParams.LineItem.PriceData.Recurring.Interval.MONTH)
-                                    .build())
-                            .build())
-                    .build())
-            .build();
+                        .setQuantity(1L)
+                        .setPriceData(SessionCreateParams.LineItem.PriceData.builder()
+                                .setProduct(productId)
+                                .setCurrency("eur")
+                                .setUnitAmount(1000L)
+                                .setRecurring(SessionCreateParams.LineItem.PriceData.Recurring.builder()
+                                        .setInterval(SessionCreateParams.LineItem.PriceData.Recurring.Interval.MONTH)
+                                        .build())
+                                .build())
+                        .build())
+                .build();
 
         Session session = Session.create(params);
+
+        session.setSuccessUrl(session.getSuccessUrl() + session.getId());
+
+        session.setCustomerCreation("always");
 
         Map<String, String> responseData = new HashMap<>();
         responseData.put("url", session.getUrl());
         responseData.put("customerId", session.getCustomer());
+        responseData.put("successRedirect", session.getSuccessUrl());
 
-        subscription.setStripeId(session.getCustomer());
+        System.out.println("Stripe id -> " + session.getCustomer());
 
-
+        subscription.setSessionid(session.getId());
 
         // Customer newCustomer = createCustomer(subscription);
 
         // subscription.setStripeId(newCustomer.getId());
 
         // try {
-        //     // String cardToken = createCard(subscription, newCustomer);
-        //     PaymentMethod paymentMethod = createPaymentMethod("tok_visa", newCustomer.getId());
+        // // String cardToken = createCard(subscription, newCustomer);
+        // PaymentMethod paymentMethod = createPaymentMethod("tok_visa",
+        // newCustomer.getId());
 
-        //     Map<String, Object> subscriptionParams = new HashMap<>();
-        //     subscriptionParams.put("customer", newCustomer.getId());
-        //     subscriptionParams.put("items", Collections.singletonList(Map.of("price", "price_1OPMaWA9IrH4mWMNF0InmSO8")));
-        //     subscriptionParams.put("default_payment_method", paymentMethod.getId());
+        // Map<String, Object> subscriptionParams = new HashMap<>();
+        // subscriptionParams.put("customer", newCustomer.getId());
+        // subscriptionParams.put("items", Collections.singletonList(Map.of("price",
+        // "price_1OPMaWA9IrH4mWMNF0InmSO8")));
+        // subscriptionParams.put("default_payment_method", paymentMethod.getId());
 
-        //     // createCharge(newCustomer);
-        //     // Map<String, Object> prodParams = new HashMap<String, Object>();
-        //     // prodParams.put("prod", "prod_PDoC5Ig8LbirCM");
+        // // createCharge(newCustomer);
+        // // Map<String, Object> prodParams = new HashMap<String, Object>();
+        // // prodParams.put("prod", "prod_PDoC5Ig8LbirCM");
 
-        //     // Map<String, Object> items = new HashMap<String, Object>();
-        //     // items.put("0", prodParams);
+        // // Map<String, Object> items = new HashMap<String, Object>();
+        // // items.put("0", prodParams);
 
-        //     // Map<String, Object> subscriptionParam = new HashMap<String, Object>();
-        //     // subscriptionParam.put("items", items);
-        //     // subscriptionParam.put("customer", newCustomer.getId());
+        // // Map<String, Object> subscriptionParam = new HashMap<String, Object>();
+        // // subscriptionParam.put("items", items);
+        // // subscriptionParam.put("customer", newCustomer.getId());
 
-        //     com.stripe.model.Subscription.create(subscriptionParams);
+        // com.stripe.model.Subscription.create(subscriptionParams);
 
         // } catch (StripeException e) {
-        //     // TODO Auto-generated catch block
-        //     e.printStackTrace();
+        // // TODO Auto-generated catch block
+        // e.printStackTrace();
         // }
 
         dao.save(subscription);

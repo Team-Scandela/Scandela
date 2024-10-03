@@ -2,7 +2,6 @@ import * as mapboxgl from 'mapbox-gl';
 import Supercluster from 'supercluster';
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { Filters } from '../../pages/main';
-import { Yellow } from '../../colors';
 import LampInfosPopup from '../LampInfosPopup';
 import Lasso from '../Lasso';
 import { LassoOverlay } from './elements';
@@ -10,17 +9,13 @@ import { LassoOverlay } from './elements';
 //import TimePicker from '../TimePicker';
 import React from 'react';
 import { allLamps } from '../../utils/lampUtils';
+import { FeatureCollection, Point } from 'geojson';
 
 // Load geographical data of Nantes from a local JSON file
-let nantesData = allLamps;
-
-function getRandomColor() {
-    const colors = ['#00FF00', '#FFA500', '#FF0000'];
-    const randomIndex = Math.floor(Math.random() * colors.length);
-    return colors[randomIndex];
-}
-
-//let nantesArmoires = require('../../assets/armoires_electriques_nantes.json'); // Chargement de ce jeu de données manquant
+// let nantesData = allLamps;
+let nantesData = require('../../assets/nantesData.json');
+let zonesData = require('../../assets/trameNoire.json');
+let armoiresData = require('../../assets/armoire.json');
 
 // Set Mapbox access token
 Object.getOwnPropertyDescriptor(mapboxgl, 'accessToken').set(
@@ -63,6 +58,10 @@ const Map: React.FC<MapProps> = ({
     // Pour suivre l'ID du lampadaire sélectionné
     const [selectedLampId, setSelectedLampId] = useState<string | null>(null);
 
+    const [selectedFeature, setSelectedFeature] = useState(null); // pour pinColor
+
+    const [popupCoordinates, setPopupCoordinates] = useState([0, 0]);
+
     const [cursorStyle, setCursorStyle] = useState('auto');
 
     const [clickedPoints, setClickedPoints] = useState<mapboxgl.LngLat[]>([]);
@@ -75,6 +74,8 @@ const Map: React.FC<MapProps> = ({
     const [lassoSelectedLamps, setLassoSelectedLamps] = useState([]);
 
     const [lastFilterActivated, setLastFilterActivated] = useState('');
+
+    const lastClickedLightningID = useRef<string>('');
 
     interface geojson {
         type: string;
@@ -114,8 +115,26 @@ const Map: React.FC<MapProps> = ({
         };
     }
 
+    interface ArmoiresGeoJSON {
+        type: string;
+        features: ArmoireFeature[];
+    }
+
+    interface ArmoireFeature {
+        type: string;
+        geometry: {
+            type: string; // Type "Point" pour l'emplacement des armoires
+            coordinates: number[]; // Coordonnées [latitude, longitude] de l'armoire
+        };
+        properties: {
+            id: number; // Identifiant de l'armoire
+            name: string; // Nom ou numéro de l'armoire
+            lampCoordinates: number[][]; // Coordonnées des lampadaires associés à l'armoire [latitude, longitude]
+        };
+    }
+
     // Crée les données géoJSON à partir des données de Nantes
-    const geojsonData = useMemo(() => {
+    /*const geojsonData = useMemo(() => {
         let geoJSON = {
             type: 'FeatureCollection',
             features: [] as any[],
@@ -139,7 +158,89 @@ const Map: React.FC<MapProps> = ({
             geoJSON.features.push(feature);
         });
         return geoJSON;
+    }, []);*/
+
+    const geojsonData = useMemo(() => {
+        let geoJSON = {
+            type: 'FeatureCollection',
+            features: [] as any[],
+        };
+        nantesData.forEach((obj: any) => {
+            const feature: any = {
+                type: 'Feature',
+                geometry: {
+                    type: obj.geometry.type,
+                    coordinates: [
+                        obj.geometry.coordinates[0],
+                        obj.geometry.coordinates[1],
+                    ],
+                },
+                properties: {
+                    id: obj.recordid,
+                    name: obj.fields.numero,
+                    lamp: obj.fields.type_lampe,
+                    hat: obj.fields.type_foyer,
+                },
+            };
+            geoJSON.features.push(feature);
+        });
+        return geoJSON;
     }, []);
+
+    const geojsonZone = useMemo(() => {
+        let zoneGeoJSON = {
+            type: 'FeatureCollection',
+            features: [] as any[],
+        };
+
+        zonesData.forEach((zone: any) => {
+            const feature: any = {
+                type: 'Feature',
+                geometry: {
+                    type: zone.geo_shape.geometry.type, // Utilise le type de géométrie de tes données
+                    coordinates: zone.geo_shape.geometry.coordinates, // Aplatir si nécessaire
+                },
+                properties: {
+                    id: zone.id_zp,
+                    nomCommune: zone.nom_comm,
+                    codeINSEE: zone.code_insee,
+                    superficie: zone.superficie,
+                    longueurShape: zone.st_length_shape,
+                },
+            };
+            zoneGeoJSON.features.push(feature);
+        });
+        return zoneGeoJSON;
+    }, []);
+
+    const armoiresGeoJSON = useMemo(() => {
+        let armoiresGeoJSON = {
+            type: 'FeatureCollection',
+            features: [] as any[],
+        };
+        armoiresData.forEach((obj: any, idx: number) => {
+            const feature: any = {
+                type: 'Feature',
+                geometry: {
+                    type: 'Point',
+                    coordinates: [obj.coordinates[1], obj.coordinates[0]],
+                },
+                properties: {
+                    id: obj.id,
+                    name: obj.name,
+                    index: idx,
+                },
+            };
+            armoiresGeoJSON.features.push(feature);
+        });
+        return armoiresGeoJSON;
+    }, []);
+
+    console.log('here');
+    console.log(zonesData);
+    console.log('here2');
+    console.log(armoiresData);
+    console.log(armoiresGeoJSON);
 
     // const geoData = useMemo(() => {
     //     let jsonArmoire = {
@@ -208,6 +309,9 @@ const Map: React.FC<MapProps> = ({
             case 'cabinet':
                 setLayoutVisibilityCabinet('none');
                 break;
+            case 'eco':
+                setLayoutVisibilityEco('none');
+                break;
             default:
                 break;
         }
@@ -247,6 +351,11 @@ const Map: React.FC<MapProps> = ({
                     closeLastFilter();
                     setLayoutVisibilityCabinet('visible');
                     setLastFilterActivated('cabinet');
+                    break;
+                case 'eco':
+                    closeLastFilter();
+                    setLayoutVisibilityEco('visible');
+                    setLastFilterActivated('eco');
                     break;
                 case 'none':
                     closeLastFilter();
@@ -294,6 +403,11 @@ const Map: React.FC<MapProps> = ({
         map.current.setLayoutProperty('filter', 'visibility', visibility);
     };
 
+    const setLayoutVisibilityEco = (visibility: string) => {
+        map.current.setLayoutProperty('eco', 'visibility', visibility);
+        map.current.setLayoutProperty('outline', 'visibility', visibility);
+    };
+
     const setLayoutVisibilityFilter = (visibility: string) => {
         map.current.setLayoutProperty(
             'cluster-textFilter',
@@ -319,7 +433,7 @@ const Map: React.FC<MapProps> = ({
     };
 
     // Initialise la carte
-    const initializeMap = (data: any) => {
+    const initializeMap = (data: any, zoneData: any, armoireData: any) => {
         if (!map.current) {
             cluster.current = new Supercluster({
                 radius: 100,
@@ -394,373 +508,481 @@ const Map: React.FC<MapProps> = ({
                     clusterRadius: 100,
                     clusterMaxZoom: 16,
                 });
+            }
 
-                if (!map.current?.getSource('points-unclustered')) {
-                    // à utiliser pour les filtres qui n'ont pas besoin de cluster
-                    map.current.addSource('points-unclustered', {
-                        type: 'geojson',
-                        data: data as GeoJSON.FeatureCollection,
-                    });
-                }
-
-                if (!map.current?.getSource('armoires')) {
-                    // pour les amoires elec uniquement
-                    map.current.addSource('armoires', {
-                        type: 'geojson',
-                        //data: data as jsonArmoire.FeatureCollection, chargement de ce jeu de données
-                    });
-                }
-
-                // Définit les couleurs en format RGBA avec une opacité de 0.6
-                const greenRGBA = 'rgba(0, 128, 0, 0.6)';
-                const yellowRGBA = 'rgba(255, 255, 0, 0.6)';
-                const orangeRGBA = 'rgba(255, 165, 0, 0.6)';
-
-                // Définit les couleurs de la bordure en format RGBA avec une opacité de 0.3
-                const greenBorderRGBA = 'rgba(0, 128, 0, 0.3)';
-                const yellowBorderRGBA = 'rgba(255, 255, 0, 0.3)';
-                const orangeBorderRGBA = 'rgba(255, 165, 0, 0.3)';
-
-                map.current.addLayer({
-                    id: 'clusters',
-                    type: 'circle',
-                    source: 'points',
-                    filter: ['has', 'point_count'],
-                    paint: {
-                        'circle-radius': 19,
-                        'circle-color': [
-                            'step',
-                            ['get', 'point_count'],
-                            greenRGBA, // Couleur verte
-                            19,
-                            yellowRGBA, // Couleur jaune
-                            100,
-                            orangeRGBA, // Couleur orange
-                        ],
-                    },
-                });
-
-                map.current.addLayer({
-                    id: 'cluster-border',
-                    type: 'circle',
-                    source: 'points',
-                    filter: ['has', 'point_count'],
-                    paint: {
-                        'circle-radius': 24,
-                        'circle-color': [
-                            'step',
-                            ['get', 'point_count'],
-                            greenBorderRGBA, // Couleur de bordure verte
-                            19,
-                            yellowBorderRGBA, // Couleur de bordure jaune
-                            100,
-                            orangeBorderRGBA, // Couleur de bordure orange
-                        ],
-                    },
-                });
-
-                map.current.addLayer({
-                    id: 'lamp',
-                    type: 'circle',
-                    source: 'points',
-                    filter: ['!', ['has', 'point_count']],
-                    paint: {
-                        'circle-radius': 6,
-                        'circle-color': '#FAC710',
-                        'circle-stroke-color': '#F9F9F9',
-                        'circle-stroke-width': 2,
-                    },
-                });
-
-                map.current.addLayer({
-                    id: 'cluster-text',
-                    type: 'symbol',
-                    source: 'points',
-                    filter: ['has', 'point_count'],
-                    layout: {
-                        'text-field': '{point_count}',
-                        'text-font': ['Open Sans Regular'],
-                        'text-size': 13,
-                    },
-                    paint: {
-                        'text-color': '#000000',
-                    },
-                });
-
-                map.current.setLayoutProperty('clusters', 'visibility', 'none');
-                map.current.setLayoutProperty(
-                    'cluster-markers',
-                    'visibility',
-                    'none'
-                );
-                map.current.setLayoutProperty(
-                    'cluster-text',
-                    'visibility',
-                    'none'
-                );
-                map.current.setLayoutProperty(
-                    'cluster-border',
-                    'visibility',
-                    'none'
-                );
-                map.current.setLayoutProperty('lamp', 'visibility', 'none');
-
-                // Heatmap Layer toujours optimisable
-                map.current.addLayer(
-                    {
-                        id: 'zone',
-                        type: 'heatmap',
-                        source: 'points-unclustered',
-                        layout: {
-                            visibility: 'none',
-                        },
-                        maxzoom: 23,
-                        paint: {
-                            'heatmap-weight': {
-                                property: 'hauteur_support',
-                                type: 'interval',
-                                stops: [
-                                    [1, 0.2], // Léger pour une hauteur entre 1 et 2
-                                    [2, 0.2],
-                                    [3, 0.5], // Moyen pour une hauteur entre 3 et 4
-                                    [4, 0.5],
-                                    [5, 0.8], // Assez fort pour une hauteur entre 4 et 5
-                                    [6, 1], // Très fort pour une hauteur supérieure à 5
-                                ],
-                            },
-                            'heatmap-intensity': {
-                                stops: [
-                                    [11, 1],
-                                    [15, 3],
-                                ],
-                            },
-                            'heatmap-color': [
-                                'interpolate',
-                                ['linear'],
-                                ['heatmap-density'],
-                                0,
-                                'rgba(236,222,239,0)',
-                                0.2,
-                                'rgb(3,2,230)',
-                                0.4,
-                                'rgb(3,230,2)',
-                                0.6,
-                                'rgb(178,123,130)',
-                                0.8,
-                                'rgb(234,1,3)',
-                            ],
-                            'heatmap-radius': {
-                                property: 'hauteur_support',
-                                type: 'interval',
-                                stops: [
-                                    [1, 10], // Petite taille pour une hauteur entre 1 et 2
-                                    [2, 10],
-                                    [3, 15], // Taille moyenne pour une hauteur entre 3 et 4
-                                    [4, 15],
-                                    [5, 20], // Grande taille pour une hauteur entre 4 et 5
-                                    [6, 25], // Très grande taille pour une hauteur supérieure à 5
-                                ],
-                            },
-                            'heatmap-opacity': {
-                                default: 0.6,
-                                stops: [
-                                    [14, 0.2],
-                                    [15, 0.2],
-                                ],
-                            },
-                        },
-                    },
-                    'waterway-label'
-                );
-
-                //ColoredPin filter
-                console.log();
-                map.current.addLayer({
-                    id: 'pinColor',
-                    type: 'circle',
-                    source: 'points',
-                    layout: {
-                        visibility: 'none',
-                    },
-                    paint: {
-                        'circle-color': [
-                            'match',
-                            ['get', 'Object.features.properties.lamp'], // Correction ici
-                            'SHP',
-                            '#FF0000', // Rouge pour SHP
-                            'MBF',
-                            '#FFA500', // Orange pour MBF
-                            'DIC',
-                            '#FFA500', // Vert pour DIC
-                            'IMC',
-                            '#FF0000', // Rouge pour IMC
-                            'IC',
-                            '#FFA500', // Orange pour IC
-                            'HAL',
-                            '#FFA500', // Vert pour HAL
-                            'IM',
-                            '#FF0000', // Rouge pour IM
-                            'SBP',
-                            '#FFA500', // Orange pour SBP
-                            'LED',
-                            '#00FF00', // Vert pour LED
-                            'TL',
-                            '#00FF00', // Vert pour TL
-                            'TF',
-                            '#00FF00', // Vert pour TF
-                            'FC',
-                            '#00FF00', // Vert pour FC
-                            '#00FF00', // Vert par défaut
-                        ],
-                        'circle-opacity': 0.7,
-                        'circle-stroke-color': '#FFFFFF',
-                        'circle-stroke-width': 2,
-                    },
-                });
-
-                // // Filtre pour les points avec des halos de lumière sur les pins
-                map.current.addLayer({
-                    id: 'filter',
-                    type: 'circle',
-                    source: 'points',
-                    layout: {
-                        visibility: 'none',
-                    },
-                    paint: {
-                        'circle-radius': [
-                            'case',
-                            ['<=', ['get', 'lum'], 1],
-                            8,
-                            ['<=', ['get', 'lum'], 2],
-                            9,
-                            ['<=', ['get', 'lum'], 3],
-                            10,
-                            ['<=', ['get', 'lum'], 4],
-                            12,
-                            14,
-                        ],
-                        'circle-color': '#FAC710',
-                        'circle-opacity': [
-                            'case',
-                            ['<=', ['get', 'lum'], 1],
-                            0.1,
-                            ['<=', ['get', 'lum'], 2],
-                            0.2,
-                            ['<=', ['get', 'lum'], 3],
-                            0.4,
-                            ['<=', ['get', 'lum'], 4],
-                            0.5,
-                            0.55,
-                        ],
-                        'circle-stroke-color': '#FAC710',
-                        'circle-stroke-width': 0,
-                    },
-                });
-                map.current.loadImage(
-                    'https://img.icons8.com/?size=256&id=UnYwluJUelEQ&format=png',
-                    (error, image) => {
-                        if (error) throw error;
-
-                        // image de l'éclair
-                        map.current.addImage('lightning', image);
-                    }
-                );
-
-                map.current.loadImage(
-                    'https://icones.pro/wp-content/uploads/2022/07/symbole-d-eclair-bleu.png',
-                    (error, image) => {
-                        if (error) throw error;
-
-                        map.current.addImage('lightning2', image);
-                    }
-                );
-
-                map.current.addLayer({
-                    id: 'cabinet',
-                    type: 'symbol',
-                    source: 'points',
-                    layout: {
-                        'icon-image': 'lightning',
-                        'icon-size': 0.1, // Ajustement de la taille de l'image
-                        visibility: 'none',
-                    },
-                    paint: {
-                        'icon-color': '#FFFF00',
-                    },
-                });
-
-                map.current.on('mouseenter', 'cabinet', () => {
-                    map.current.getCanvas().style.cursor = 'pointer';
-                });
-
-                map.current.on('mouseleave', 'cabinet', () => {
-                    map.current.getCanvas().style.cursor = '';
-                });
-
-                const lightningState: Record<string, boolean> = {};
-
-                map.current.on('click', 'cabinet', (event) => {
-                    const features = map.current.queryRenderedFeatures(
-                        event.point,
-                        {
-                            layers: ['cabinet'],
-                        }
-                    );
-
-                    if (features.length > 0) {
-                        const clickedFeature = features[0];
-                        const clickedLightningID = clickedFeature.properties.id;
-
-                        // Inversement l'état de l'éclair cliqué
-                        lightningState[clickedLightningID] =
-                            !lightningState[clickedLightningID];
-
-                        // Changement de la couleur de l'icône de l'éclair cliqué en bleu ou jaune selon l'état
-                        map.current.setPaintProperty('cabinet', 'icon-color', [
-                            'case',
-                            ['==', ['get', 'id'], clickedLightningID],
-                            lightningState[clickedLightningID]
-                                ? '#0000FF'
-                                : '#FFFF00', // Bleu ou Jaune
-                            '#FFFF00', // Jaune (pour les autres éclairs)
-                        ]);
-
-                        map.current.setLayoutProperty('cabinet', 'icon-image', [
-                            'case',
-                            ['==', ['get', 'id'], clickedLightningID],
-                            lightningState[clickedLightningID]
-                                ? 'lightning2'
-                                : 'lightning',
-                            'lightning',
-                        ]);
-
-                        map.current.setLayoutProperty('cabinet', 'icon-size', [
-                            'case',
-                            ['==', ['get', 'id'], clickedLightningID],
-                            lightningState[clickedLightningID] ? 0.05 : 0.1, // Taille différente pour l'éclair sélectionné
-                            0.1, // Taille par défaut pour les autres éclairs
-                        ]);
-
-                        const visibilityState = Object.keys(
-                            lightningState
-                        ).reduce(
-                            (acc, id) => {
-                                acc[id] = lightningState[id]
-                                    ? 'visible'
-                                    : 'none';
-                                return acc;
-                            },
-                            {} as Record<string, string>
-                        );
-
-                        map.current.setFilter('cabinet', [
-                            'in',
-                            ['get', 'id'],
-                            ...Object.keys(visibilityState),
-                        ]);
-                    }
+            if (!map.current?.getSource('points-unclustered')) {
+                // à utiliser pour les filtres qui n'ont pas besoin de cluster
+                map.current.addSource('points-unclustered', {
+                    type: 'geojson',
+                    data: data as GeoJSON.FeatureCollection,
                 });
             }
+
+            if (!map.current?.getSource('armoires')) {
+                map.current.addSource('armoires', {
+                    type: 'geojson',
+                    data: armoireData as GeoJSON.FeatureCollection,
+                });
+            }
+
+            if (!map.current.getSource('eco-zone')) {
+                map.current.addSource('eco-zone', {
+                    type: 'geojson',
+                    data: zoneData as GeoJSON.FeatureCollection,
+                });
+            }
+
+            // Ajout des couches
+            map.current.addLayer({
+                id: 'eco',
+                type: 'fill',
+                source: 'eco-zone',
+                layout: {
+                    visibility: 'none',
+                },
+                paint: {
+                    'fill-color': '#FAC710',
+                    'fill-opacity': 0.6,
+                },
+            });
+
+            map.current.addLayer({
+                id: 'outline',
+                type: 'line',
+                source: 'eco-zone',
+                layout: {
+                    visibility: 'none',
+                },
+                paint: {
+                    'line-color': '#FFFFFF',
+                    'line-width': 3,
+                },
+            });
+
+            // Définit les couleurs en format RGBA avec une opacité de 0.6
+            const greenRGBA = 'rgba(0, 128, 0, 0.6)';
+            const yellowRGBA = 'rgba(255, 255, 0, 0.6)';
+            const orangeRGBA = 'rgba(255, 165, 0, 0.6)';
+
+            // Définit les couleurs de la bordure en format RGBA avec une opacité de 0.3
+            const greenBorderRGBA = 'rgba(0, 128, 0, 0.3)';
+            const yellowBorderRGBA = 'rgba(255, 255, 0, 0.3)';
+            const orangeBorderRGBA = 'rgba(255, 165, 0, 0.3)';
+
+            map.current.addLayer({
+                id: 'clusters',
+                type: 'circle',
+                source: 'points',
+                filter: ['has', 'point_count'],
+                paint: {
+                    'circle-radius': 19,
+                    'circle-color': [
+                        'step',
+                        ['get', 'point_count'],
+                        greenRGBA, // Couleur verte
+                        19,
+                        yellowRGBA, // Couleur jaune
+                        100,
+                        orangeRGBA, // Couleur orange
+                    ],
+                },
+            });
+
+            map.current.addLayer({
+                id: 'cluster-border',
+                type: 'circle',
+                source: 'points',
+                filter: ['has', 'point_count'],
+                paint: {
+                    'circle-radius': 24,
+                    'circle-color': [
+                        'step',
+                        ['get', 'point_count'],
+                        greenBorderRGBA, // Couleur de bordure verte
+                        19,
+                        yellowBorderRGBA, // Couleur de bordure jaune
+                        100,
+                        orangeBorderRGBA, // Couleur de bordure orange
+                    ],
+                },
+            });
+
+            map.current.addLayer({
+                id: 'lamp',
+                type: 'circle',
+                source: 'points',
+                filter: ['!', ['has', 'point_count']],
+                paint: {
+                    'circle-radius': 6,
+                    'circle-color': '#FAC710',
+                    'circle-stroke-color': '#F9F9F9',
+                    'circle-stroke-width': 2,
+                },
+            });
+
+            map.current.addLayer({
+                id: 'cluster-text',
+                type: 'symbol',
+                source: 'points',
+                filter: ['has', 'point_count'],
+                layout: {
+                    'text-field': '{point_count}',
+                    'text-font': ['Open Sans Regular'],
+                    'text-size': 13,
+                },
+                paint: {
+                    'text-color': '#000000',
+                },
+            });
+
+            map.current.setLayoutProperty('clusters', 'visibility', 'none');
+            map.current.setLayoutProperty(
+                'cluster-markers',
+                'visibility',
+                'none'
+            );
+            map.current.setLayoutProperty('cluster-text', 'visibility', 'none');
+            map.current.setLayoutProperty(
+                'cluster-border',
+                'visibility',
+                'none'
+            );
+            map.current.setLayoutProperty('lamp', 'visibility', 'none');
+
+            // Heatmap Layer toujours optimisable
+            map.current.addLayer(
+                {
+                    id: 'zone',
+                    type: 'heatmap',
+                    source: 'points-unclustered',
+                    layout: {
+                        visibility: 'none',
+                    },
+                    maxzoom: 23,
+                    paint: {
+                        'heatmap-weight': {
+                            property: 'hauteur_support',
+                            type: 'interval',
+                            stops: [
+                                [1, 0.2], // Léger pour une hauteur entre 1 et 2
+                                [2, 0.2],
+                                [3, 0.5], // Moyen pour une hauteur entre 3 et 4
+                                [4, 0.5],
+                                [5, 0.8], // Assez fort pour une hauteur entre 4 et 5
+                                [6, 1], // Très fort pour une hauteur supérieure à 5
+                            ],
+                        },
+                        'heatmap-intensity': {
+                            stops: [
+                                [11, 1],
+                                [15, 3],
+                            ],
+                        },
+                        'heatmap-color': [
+                            'interpolate',
+                            ['linear'],
+                            ['heatmap-density'],
+                            0,
+                            'rgba(236,222,239,0)',
+                            0.2,
+                            'rgb(3,2,230)',
+                            0.4,
+                            'rgb(3,230,2)',
+                            0.6,
+                            'rgb(178,123,130)',
+                            0.8,
+                            'rgb(234,1,3)',
+                        ],
+                        'heatmap-radius': {
+                            property: 'hauteur_support',
+                            type: 'interval',
+                            stops: [
+                                [1, 10], // Petite taille pour une hauteur entre 1 et 2
+                                [2, 10],
+                                [3, 15], // Taille moyenne pour une hauteur entre 3 et 4
+                                [4, 15],
+                                [5, 20], // Grande taille pour une hauteur entre 4 et 5
+                                [6, 25], // Très grande taille pour une hauteur supérieure à 5
+                            ],
+                        },
+                        'heatmap-opacity': {
+                            default: 0.6,
+                            stops: [
+                                [14, 0.2],
+                                [15, 0.2],
+                            ],
+                        },
+                    },
+                },
+                'waterway-label'
+            );
+
+            //ColoredPin filter
+            map.current.addLayer({
+                id: 'pinColor',
+                type: 'circle',
+                source: 'points',
+                layout: {
+                    visibility: 'none',
+                },
+                paint: {
+                    'circle-color': [
+                        'match',
+                        ['get', 'lamp'], // Correction ici
+                        'SHP',
+                        '#FF0000', // Rouge pour SHP
+                        'MBF',
+                        '#FFA500', // Orange pour MBF
+                        'DIC',
+                        '#FFA500', // Vert pour DIC
+                        'IMC',
+                        '#FF0000', // Rouge pour IMC
+                        'IC',
+                        '#FFA500', // Orange pour IC
+                        'HAL',
+                        '#FFA500', // Vert pour HAL
+                        'IM',
+                        '#FF0000', // Rouge pour IM
+                        'SBP',
+                        '#FFA500', // Orange pour SBP
+                        'LED',
+                        '#00FF00', // Vert pour LED
+                        'TL',
+                        '#00FF00', // Vert pour TL
+                        'TF',
+                        '#00FF00', // Vert pour TF
+                        'FC',
+                        '#00FF00', // Vert pour FC
+                        '#00FF00', // Vert par défaut
+                    ],
+                    'circle-opacity': 0.7,
+                    'circle-stroke-color': '#FFFFFF',
+                    'circle-stroke-width': 2,
+                },
+            });
+
+            // Ajoute un gestionnaire de clic pour ouvrir la pop-up lorsqu'un cercle est sélectionné
+            map.current.on('click', 'pinColor', (e) => {
+                const features = map.current.queryRenderedFeatures(e.point, {
+                    layers: ['pinColor'],
+                });
+
+                if (features && features.length > 0) {
+                    const selectedFeature = features[0];
+                    const { lamp } = selectedFeature.properties;
+
+                    // Définit les coordonnées pour afficher la pop-up près du point
+                    setPopupCoordinates(e.lngLat.toArray());
+
+                    // Affiche la pop-up avec les informations de la lampe
+                    setSelectedFeature({
+                        name: `Type de lampe: ${lamp}`,
+                        description: `Description supplémentaire`,
+                    });
+                }
+            });
+
+            // // Filtre pour les points avec des halos de lumière sur les pins
+            map.current.addLayer({
+                id: 'filter',
+                type: 'circle',
+                source: 'points',
+                layout: {
+                    visibility: 'none',
+                },
+                paint: {
+                    'circle-radius': [
+                        'case',
+                        ['<=', ['get', 'lum'], 1],
+                        8,
+                        ['<=', ['get', 'lum'], 2],
+                        9,
+                        ['<=', ['get', 'lum'], 3],
+                        10,
+                        ['<=', ['get', 'lum'], 4],
+                        12,
+                        14,
+                    ],
+                    'circle-color': '#FAC710',
+                    'circle-opacity': [
+                        'case',
+                        ['<=', ['get', 'lum'], 1],
+                        0.1,
+                        ['<=', ['get', 'lum'], 2],
+                        0.2,
+                        ['<=', ['get', 'lum'], 3],
+                        0.4,
+                        ['<=', ['get', 'lum'], 4],
+                        0.5,
+                        0.55,
+                    ],
+                    'circle-stroke-color': '#FAC710',
+                    'circle-stroke-width': 0,
+                },
+            });
+
+            map.current.loadImage(
+                'https://img.icons8.com/?size=256&id=UnYwluJUelEQ&format=png',
+                (error, image) => {
+                    if (error) throw error;
+                    map.current.addImage('lightning', image);
+                }
+            );
+
+            map.current.loadImage(
+                'https://icones.pro/wp-content/uploads/2022/07/symbole-d-eclair-bleu.png',
+                (error, image) => {
+                    if (error) throw error;
+                    map.current.addImage('lightning2', image);
+                }
+            );
+
+            map.current.loadImage(
+                'https://icones.pro/wp-content/uploads/2022/07/symbole-d-eclair-rouge.png',
+                (error, image) => {
+                    if (error) throw error;
+                    map.current.addImage('lightning3', image);
+                }
+            );
+
+            // Ajout de la couche des éclairs
+            map.current.addLayer({
+                id: 'cabinet',
+                type: 'symbol',
+                source: 'armoires',
+                layout: {
+                    'icon-image': 'lightning',
+                    'icon-size': 0.1,
+                    visibility: 'none',
+                },
+                paint: {
+                    'icon-color': '#FFFF00',
+                },
+            });
+
+            // Gestion des événements de la souris
+            map.current.on('mouseenter', 'cabinet', () => {
+                map.current.getCanvas().style.cursor = 'pointer';
+            });
+
+            map.current.on('mouseleave', 'cabinet', () => {
+                map.current.getCanvas().style.cursor = '';
+            });
+
+            // Gestion des clics sur les éclairs
+            const lightningState: Record<string, boolean> = {};
+
+            map.current.on('click', 'cabinet', (event) => {
+                const features = map.current.queryRenderedFeatures(
+                    event.point,
+                    {
+                        layers: ['cabinet'],
+                    }
+                );
+
+                if (features.length > 0) {
+                    const clickedFeature = features[0];
+                    const clickedLightningID = clickedFeature.properties.id;
+                    const clickedLightningIndex =
+                        clickedFeature.properties.index;
+
+                    // Inverser l'état de l'éclair cliqué
+                    lightningState[clickedLightningID] =
+                        !lightningState[clickedLightningID];
+
+                    // Changer la couleur et l'image de l'éclair cliqué
+                    map.current.setPaintProperty('cabinet', 'icon-color', [
+                        'case',
+                        ['==', ['get', 'id'], clickedLightningID],
+                        lightningState[clickedLightningID]
+                            ? '#0000FF'
+                            : '#FFFF00',
+                        '#FFFF00',
+                    ]);
+
+                    map.current.setLayoutProperty('cabinet', 'icon-image', [
+                        'case',
+                        ['==', ['get', 'id'], clickedLightningID],
+                        lightningState[clickedLightningID]
+                            ? 'lightning2'
+                            : 'lightning',
+                        'lightning',
+                    ]);
+
+                    map.current.setLayoutProperty('cabinet', 'icon-size', [
+                        'case',
+                        ['==', ['get', 'id'], clickedLightningID],
+                        lightningState[clickedLightningID] ? 0.05 : 0.1,
+                        0.1,
+                    ]);
+
+                    // Afficher les points autour de l'éclair cliqué
+                    let geoJSON = {
+                        type: 'FeatureCollection',
+                        features: [] as any[],
+                    };
+                    armoiresData[clickedLightningIndex].lampCoordinates.forEach(
+                        (coord: any) => {
+                            const feature: any = {
+                                type: 'Feature',
+                                geometry: {
+                                    type: 'Point',
+                                    coordinates: [coord[1], coord[0]],
+                                },
+                                properties: {
+                                    id: clickedLightningID,
+                                },
+                            };
+                            geoJSON.features.push(feature);
+                        }
+                    );
+                    if (
+                        !map.current?.getSource(clickedLightningID.toString())
+                    ) {
+                        map.current.addSource(clickedLightningID.toString(), {
+                            type: 'geojson',
+                            data: geoJSON as GeoJSON.FeatureCollection,
+                        });
+                    }
+                    if (
+                        lastClickedLightningID.current !==
+                        clickedLightningID.toString()
+                    ) {
+                        if (
+                            map.current.getLayer(lastClickedLightningID.current)
+                        )
+                            map.current.removeLayer(
+                                lastClickedLightningID.current
+                            );
+                    }
+                    if (lightningState[clickedLightningID]) {
+                        if (
+                            !map.current.getLayer(clickedLightningID.toString())
+                        ) {
+                            map.current.addLayer({
+                                id: clickedLightningID.toString(),
+                                type: 'circle',
+                                source: clickedLightningID.toString(),
+                                paint: {
+                                    'circle-radius': 6,
+                                    'circle-color': '#0000FF',
+                                    'circle-stroke-color': '#F9F9F9',
+                                    'circle-stroke-width': 2,
+                                },
+                            });
+                            lastClickedLightningID.current =
+                                clickedLightningID.toString();
+                        }
+                    } else if (!lightningState[clickedLightningID]) {
+                        if (
+                            map.current.getLayer(lastClickedLightningID.current)
+                        )
+                            map.current.removeLayer(
+                                lastClickedLightningID.current
+                            );
+                    }
+                }
+            });
 
             if (!map.current?.getSource('mapbox-traffic')) {
                 map.current.addSource('mapbox-traffic', {
@@ -802,38 +1024,6 @@ const Map: React.FC<MapProps> = ({
             maxZoom: 17,
         });
         cluster.current.load(data.features);
-
-        // map.current.on('click', 'lampFilter', (e) => {
-        //     const features = map.current?.queryRenderedFeatures(e.point, {
-        //         layers: ['lampFilter'],
-        //     });
-
-        //     if (features && features.length > 0) {
-        //         const selectedFeature = features[0];
-        //         setSelectedLampId(selectedFeature.properties.id);
-
-        //         // Mettre à jour la couleur du lampadaire sélectionné en utilisant un filtre
-        //         map.current?.setPaintProperty('lampFilter', 'circle-color', [
-        //             'case',
-        //             ['==', ['get', 'id'], selectedFeature.properties.id],
-        //             '#000000',
-        //             '#FAC710',
-        //         ]);
-        //         map.current?.setPaintProperty(
-        //             'lampFilter',
-        //             'circle-stroke-color',
-        //             [
-        //                 'case',
-        //                 ['==', ['get', 'id'], selectedFeature.properties.id],
-        //                 '#FAC710',
-        //                 '#F9F9F9',
-        //             ]
-        //         );
-
-        //         // Conserver une référence au lampadaire sélectionné
-        //         setSelectedLampFeature(selectedFeature);
-        //     }
-        // });
 
         map.current.on('mouseenter', 'lampFilter', () => {
             if (map.current) {
@@ -1039,8 +1229,8 @@ const Map: React.FC<MapProps> = ({
 
     // Initialize the map on the first render
     useEffect(() => {
-        initializeMap(geojsonData);
-    }, [isDark, lng, lat, zoom]);
+        initializeMap(geojsonData, geojsonZone, armoiresGeoJSON); // Assure-toi que `initializeMap` est bien configuré
+    }, [geojsonData, geojsonZone, armoiresGeoJSON, lng, lat, zoom, isDark]);
 
     // update the map with the filter filter
     useEffect(() => {
@@ -1313,8 +1503,9 @@ const Map: React.FC<MapProps> = ({
 
     // Trouver l'objet correspondant au selectedLampId dans nantesData
     const selectedLampData = nantesData
-        .at(0)
-        .find((lamp: any) => lamp.id === selectedLampId);
+        // .at(0)
+        // .find((lamp: any) => lamp.id === selectedLampId);
+        .find((lamp: any) => lamp.recordid === selectedLampId);
 
     // Render the map component
     return (
@@ -1335,10 +1526,10 @@ const Map: React.FC<MapProps> = ({
             />
             <style>
                 {`.mapboxgl-ctrl-logo {
-                    display: none;
+                    display: none !important;
                 }
                 .mapboxgl-ctrl-attrib-inner {
-                display: none;
+                display: none !important;
                 }`}
             </style>
             {selectedLampId && (

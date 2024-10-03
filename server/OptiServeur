@@ -1,0 +1,26 @@
+(Optimisations côté serveur Spring Boot)
+
+Utilisation efficace des ressources
+- Gestion de la mémoire: surveiller l'utilisation de la mémoire et ajustez les paramètres de la JVM en conséquence. Assurez-vous que votre application n'alloue pas trop de mémoire sinon ralentissements.
+- Thread Pool Configuration: configurer correctement le pool de threads pour gérer les requêtes entrantes.
+							 Trop de threads peuvent entraîner une utilisation excessive de la mémoire, tandis que trop peu peuvent entraîner des temps d'attente pour les clients.
+
+Optimisation des requêtes
+- Utilisation de JPA: utiliser JPA pour simplifier l'accès à la base de données. (Déjà fait)
+- Cache de requêtes: mettre en cache les requêtes fréquemment utilisées pour réduire la charge sur la base de données.
+
+Gestion des exceptions: traiter correctement les exceptions pour éviter les temps d'arrêt inutiles. (Déjà fait)
+
+
+
+(Optimisations côté base de données PostgreSQL)
+
+Indexation
+- Indexation appropriée: créer des index sur les colonnes fréquemment utilisées dans les requêtes --> accélérer la recherche des données.
+- Analysez régulièrement: utiliser l'outil ANALYZE pour mettre à jour les statistiques de la base de données. --> optimiser les plans d'exécution.
+
+Optimisation des requêtes (côté db)
+- Expliquez les requêtes: utiliser l'outil EXPLAIN pour analyser les plans d'exécution des requêtes. Identifier les goulots d'étranglement et optimisez-les.
+- Réduisez les jointures: éviter les jointures excessives, car elles peuvent ralentir les requêtes.
+
+Maintenance régulière: nettoyer les données obsolètes pour maintenir les performances.

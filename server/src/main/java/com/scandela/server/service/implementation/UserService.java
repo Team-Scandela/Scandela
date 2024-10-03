@@ -9,8 +9,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -26,10 +26,13 @@ import com.scandela.server.entity.Subscription;
 import com.scandela.server.entity.Town;
 import com.scandela.server.entity.User;
 import com.scandela.server.entity.WhileAway;
+import com.scandela.server.entity.dto.UserDTO;
 import com.scandela.server.exception.UserException;
 import com.scandela.server.service.AbstractService;
 import com.scandela.server.service.IAuditService;
 import com.scandela.server.service.IUserService;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class UserService extends AbstractService<User> implements IUserService {
@@ -81,35 +84,78 @@ public class UserService extends AbstractService<User> implements IUserService {
 		}
 	}
 
+	@Override
+	@Transactional(rollbackFor = { Exception.class })
 	public User setUserRole(UUID userId, String role) {
-		System.out.println("b -> " + userId + " and " + role);
         User user = null;
 		try {
-			System.out.println("c");
 			user = ((UserDao) dao).findById(userId).orElseThrow(() -> new NotFoundException());
-			System.out.println("d ---> " + user.getEmail());
 			user.setRole(role);
-			System.out.println("e");
 			return dao.save(user);
 		} catch (NotFoundException e) {
 			e.printStackTrace();
 		}
-		System.out.println("f + ");
 		return null;
     }
+
+	@Transactional(rollbackFor = { Exception.class })
+	public UserDTO updateUserTown(UUID userId, UUID newTownId) throws Exception {
+		try {
+			User existingUser = dao.findById(userId)
+				.orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
+
+			UUID currentTownId = ((UserDao) dao).findTownIdByUserId(userId);
+
+			if (newTownId == null) {
+				if (currentTownId != null) {
+					((UserDao) dao).removeUserFromTown(userId, currentTownId);
+					existingUser.setTown(null);
+				}
+			} else if (!newTownId.equals(currentTownId)) {
+				if (currentTownId != null) {
+					((UserDao) dao).removeUserFromTown(userId, currentTownId);
+				}
+				((UserDao) dao).addUserToTown(userId, newTownId);
+				existingUser.setTown(new Town(newTownId));
+			}
+
+			User updatedUser = dao.save(existingUser);
+
+			UserDTO userDTO = new UserDTO(
+				updatedUser.getId(),
+				updatedUser.getUsername(),
+				updatedUser.getEmail(),
+				updatedUser.getTown() != null ? updatedUser.getTown().getId() : null
+			);
+
+			return userDTO;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception("Error updating user's town: " + e.getMessage(), e);
+		}
+	}
+
+// private String userToString(User user) {
+//     return "User{" +
+//            "id=" + user.getId() +
+//            ", username='" + user.getUsername() + '\'' +
+//            ", email='" + user.getEmail() + '\'' +
+//            ", townId=" + (user.getTown() != null ? user.getTown().getId() : "null") +
+//            '}';
+// }
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
     public User update(UUID id, User update, String... ignoredProperties) throws Exception {
 		try {
 			User user = super.update(id, update, IGNORED_PROPERTIES);
-	        
+
 	        return user;
 		} catch (Exception e) {
 			throw e;
 		}
     }
-	
+
 	@Override
 	@Transactional(readOnly = true, rollbackFor = { Exception.class })
 	public User signIn(String email, String password) throws UserException {
@@ -173,7 +219,21 @@ public class UserService extends AbstractService<User> implements IUserService {
                 }
 		return user.get();
 	}
-	
+
+	@Override
+	@Transactional(readOnly = true, rollbackFor = { Exception.class })
+	public List<User> getAllForAdminVille() {
+		List<User> users = ((UserDao) dao).findByAdminville(true);
+
+		if (users == null || users.isEmpty()) {
+			return new ArrayList<>();
+		}
+
+		return users;
+	}
+
+	@Override
+	@Transactional(readOnly = true, rollbackFor = { Exception.class })
 	public List<User> getAllForNewsletter() {
 		List<User> users = ((UserDao) dao).findByNewsletter(true);
 		
@@ -182,6 +242,21 @@ public class UserService extends AbstractService<User> implements IUserService {
 		}
 		
 		return users;
+	}
+
+	@Override
+	@Transactional(rollbackFor = { Exception.class })
+	public User changePassword(UUID id, String password) throws UserException {
+		Optional<User> user = dao.findById(id);
+		
+		if (user.isEmpty()) {
+			throw new UserException(UserException.INCOMPLETE_INFORMATIONS);
+		}
+		
+
+		user.get().setPassword(passwordEncoder.encode("scan" + password + "dela"));
+		
+		return user.get();
 	}
 
 	// Private \\
@@ -200,6 +275,18 @@ public class UserService extends AbstractService<User> implements IUserService {
 		newUser.setTown(town.orElseGet(() -> {
 			return null;
 		}));
+	}
+
+	@Override
+	@Transactional(readOnly = true, rollbackFor = { Exception.class })
+	public User getByMail(String mail) {
+		Optional<User> user = ((UserDao) dao).findByEmail(mail);
+
+		if (user.isEmpty()) {
+			return null;
+		}
+
+		return user.get();
 	}
 
 }

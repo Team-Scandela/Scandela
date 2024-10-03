@@ -17,14 +17,15 @@ import {
     GhostButton,
 } from './elements';
 import { useNavigate } from 'react-router-dom';
-import { setUserId, getUser, putUser } from '../../utils/userUtils';
 import {
-    getDecisionsSpecificAlgo,
-    getDecisions,
-} from '../../utils/decisionsUtils';
-import { optimisationTemplateDataBackup } from './backup_decisions';
-import { getAllScores } from '../../utils/gaugesUtils';
+    setUserId,
+    getUser,
+    putUser,
+    getUserByMail,
+} from '../../utils/userUtils';
+import { getDecisions } from '../../utils/decisionsUtils';
 import { signUp, signIn } from '../../utils/loginUtils';
+import sendEmail from './emailsender';
 
 interface LoginModuleProps {
     setOptimisationTemplateData: (data: any) => void;
@@ -45,6 +46,8 @@ const LoginModule: React.FC<LoginModuleProps> = ({
 
     const [emailSignIn, setEmailSignIn] = useState('');
     const [passwordSignIn, setPasswordSignIn] = useState('');
+    const [forgotPassword, setForgotPassword] = useState(false);
+    const [forgotPasswordEmail, setForgotPasswordEmail] = useState('');
     const navigate = useNavigate();
 
     const [error, setError] = useState('');
@@ -68,51 +71,28 @@ const LoginModule: React.FC<LoginModuleProps> = ({
     };
 
     const setUpDecisions = async () => {
-        // const [
-        //     dataChangementBulb,
-        //     dataReductionConsoHoraire,
-        //     dataAjouterLampadaire,
-        //     dataRetirerLampadaire,
-        //     dataReduireIntensiteLampadaire,
-        //     dataAugmenterIntensiteLampadaire,
-        // ] = await Promise.all([
-        //     getDecisionsSpecificAlgo('algoChangementBulb'),
-        //     getDecisionsSpecificAlgo('algoReductionConsoHoraire'),
-        //     getDecisionsSpecificAlgo('algoAjouterLampadaire'),
-        //     getDecisionsSpecificAlgo('algoRetirerLampadaire'),
-        //     getDecisionsSpecificAlgo('algoReduireIntensiteLampadaire'),
-        //     getDecisionsSpecificAlgo('algoAugmenterIntensiteLampadaire'),
-        // ]);
-        // const data = [].concat(
-        //     dataChangementBulb,
-        //     dataReductionConsoHoraire,
-        //     dataAjouterLampadaire,
-        //     dataRetirerLampadaire,
-        //     dataReduireIntensiteLampadaire,
-        //     dataAugmenterIntensiteLampadaire
-        // );
         const data = await getDecisions();
         addItemToOptimisationTemplate(data);
     };
 
     const initUserSetup = async (data: any) => {
         if (!data) {
-            console.log(data);
             console.error('data is null or undefined');
-            return;
         }
 
         localStorage.setItem('isDark', JSON.stringify(data.darkmode));
         localStorage.setItem('vegetalScore', JSON.stringify(false));
         localStorage.setItem('consumptionScore', JSON.stringify(false));
         localStorage.setItem('lightScore', JSON.stringify(false));
+        localStorage.setItem('tmpVegetalScore', JSON.stringify(false));
+        localStorage.setItem('tmpConsumptionScore', JSON.stringify(false));
+        localStorage.setItem('tmpLightScore', JSON.stringify(false));
+        localStorage.setItem('lassoActive', JSON.stringify(false));
         //getAllScores();
 
         if (data.rights === 2) {
             localStorage.setItem('token', JSON.stringify(true));
             setUpDecisions();
-            // localStorage.setItem('token', JSON.stringify(true));
-            // setOptimisationTemplateData(optimisationTemplateDataBackup);
         } else {
             localStorage.setItem('token', JSON.stringify(false));
             setUpDecisions();
@@ -129,8 +109,8 @@ const LoginModule: React.FC<LoginModuleProps> = ({
         setUserId(data.id);
         initUserSetup(data);
         updateUser();
+        navigate('/homepage');
         navigate('/loadingpage');
-        // navigate('/landingpage');
     };
 
     const handleSubmitSignIn = async (event: any) => {
@@ -154,6 +134,13 @@ const LoginModule: React.FC<LoginModuleProps> = ({
             );
             handleValidLogin(response);
         }
+    };
+
+    const getUserData = async () => {
+        console.log('getUserData');
+        const user = await getUserByMail(emailSignIn);
+        console.log(user);
+        return user;
     };
 
     return (
@@ -204,28 +191,80 @@ const LoginModule: React.FC<LoginModuleProps> = ({
             </SignUpContainer>
 
             <SignInContainer signInPage={signInPage}>
-                <Form>
-                    <Title>Sign In</Title>
-                    <Input
-                        type="text"
-                        placeholder="Email"
-                        value={emailSignIn}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                            setEmailSignIn(e.target.value)
-                        }
-                    />
-                    <Input
-                        type="password"
-                        placeholder="Password"
-                        value={passwordSignIn}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                            setPasswordSignIn(e.target.value)
-                        }
-                    />
-                    <Anchor href="#">Forgot your password?</Anchor>
-                    <Button onClick={handleSubmitSignIn}> Sign In </Button>
-                    {error && <ErrorMessage>{error}</ErrorMessage>}
-                </Form>
+                {!forgotPassword && (
+                    <Form>
+                        <Title>Sign In</Title>
+                        <Input
+                            type="text"
+                            placeholder="Email"
+                            value={emailSignIn}
+                            onChange={(
+                                e: React.ChangeEvent<HTMLInputElement>
+                            ) => setEmailSignIn(e.target.value)}
+                        />
+                        <Input
+                            type="password"
+                            placeholder="Password"
+                            value={passwordSignIn}
+                            onChange={(
+                                e: React.ChangeEvent<HTMLInputElement>
+                            ) => setPasswordSignIn(e.target.value)}
+                        />
+                        <Anchor
+                            onClick={() => {
+                                setForgotPassword(true);
+                            }}
+                        >
+                            Forgot your password?
+                        </Anchor>
+                        <Button onClick={handleSubmitSignIn}> Sign In </Button>
+                        {error && <ErrorMessage>{error}</ErrorMessage>}
+                    </Form>
+                )}
+                {forgotPassword && (
+                    <Form>
+                        <Title>Forgot your password?</Title>
+                        <Paragraph>
+                            Enter your email and we will send you a link to
+                            reset your password.
+                        </Paragraph>
+                        <Input
+                            type="text"
+                            placeholder="Email"
+                            value={forgotPasswordEmail}
+                            onChange={(
+                                e: React.ChangeEvent<HTMLInputElement>
+                            ) => setForgotPasswordEmail(e.target.value)}
+                        />
+                        <Button
+                            onClick={() => {
+                                const userData: any = getUserData();
+                                if (userData === null) {
+                                    return;
+                                }
+                                // get the result of the promise userData
+                                const result = userData.then((value: any) => {
+                                    console.log('value');
+                                    console.log(value);
+                                    setForgotPassword(false);
+                                    sendEmail(
+                                        value.username,
+                                        forgotPasswordEmail,
+                                        value.id
+                                    );
+                                    alert(
+                                        'An email has been sent to ' +
+                                            forgotPasswordEmail +
+                                            ' to reset your password.'
+                                    );
+                                });
+                            }}
+                        >
+                            {' '}
+                            Send{' '}
+                        </Button>
+                    </Form>
+                )}
             </SignInContainer>
 
             <OverlayContainer signinIn={signInPage}>
@@ -244,10 +283,14 @@ const LoginModule: React.FC<LoginModuleProps> = ({
                     <RightOverlayPanel signinIn={signInPage}>
                         <Title>Hello !</Title>
                         <Paragraph>
-                            Enter Your personal details and start the
-                            Scandelaventure
+                            Enter Your personal details and connect to Scandela
                         </Paragraph>
-                        <GhostButton onClick={() => setSignInPage(false)}>
+                        <GhostButton
+                            onClick={() => {
+                                setSignInPage(false);
+                                setForgotPassword(false);
+                            }}
+                        >
                             Sign In
                         </GhostButton>
                     </RightOverlayPanel>

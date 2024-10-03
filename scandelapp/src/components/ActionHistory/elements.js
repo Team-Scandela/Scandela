@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { Yellow, Black, White, Grey, DarkYellow, DarkGrey } from '../../colors';
-import { IoCheckmarkCircleOutline, IoCloseSharp } from 'react-icons/io5';
+import { IoCheckmarkCircleOutline } from 'react-icons/io5';
+import { AiFillCloseCircle } from 'react-icons/ai';
 
 /** Button who allows to open the action history pannel */
 export const ActionsHistoryButton = styled.div`
@@ -56,20 +57,13 @@ export const ActionsHistoryPannel = styled.div`
 /** Style of the Action title */
 export const ActionsTitle = styled.div`
     position: fixed;
-    top: 2px;
-    left: 40px;
+    top: 2%;
+    left: 30%;
     font-size: 25px;
     user-select: none;
     color: ${(props) => (props.isDark ? Yellow : Black)};
     font-weight: 700;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    transform: perspective(10px) rotateX(2deg);
-    letter-spacing: 2px;
-    padding: 10px;
-    background: linear-gradient(to right, ${Yellow}, #ffd700);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+    font-family: 'SyneRegular';
 `;
 
 /** Style of the Action container */
@@ -77,6 +71,7 @@ export const ActionContainer = styled.div`
     display: flex;
     flex-direction: column;
     position: relative;
+    overflow-y: auto;
     left: 10px;
     top: 50px;
     width: 190px;
@@ -84,6 +79,10 @@ export const ActionContainer = styled.div`
     border-radius: 5px;
     background-color: ${(props) =>
         props.isDark ? DarkGrey + 'FF' : Yellow + 'FF'};
+
+    ::-webkit-scrollbar {
+        width: 0px;
+    }
 `;
 
 /** Style of the Action template container */
@@ -91,7 +90,7 @@ export const ActionTemplateContainer = styled.div`
     display: flex;
     position: absolute;
     width: 178px;
-    height: 48px;
+    height: 68px;
     left: 0px;
     top: ${(props) => props.y}px;
     border-radius: 5px;
@@ -101,6 +100,7 @@ export const ActionTemplateContainer = styled.div`
     border: 2px solid ${Black};
     &:hover {
         cursor: pointer;
+        opacity: 0.8;
     }
 `;
 
@@ -114,17 +114,19 @@ export const DescriptionText = styled.p`
     color: ${(props) => (props.isDark ? Black : Black)};
     font-weight: 500;
     max-width: 170px;
+    font-family: 'SyneRegular';
 `;
 
 /** Style of the Action time text */
 export const TimeText = styled.p`
     position: absolute;
-    top: 27px;
-    left: 100px;
+    bottom: 7px;
+    left: 5px;
     font-size: 13px;
     user-select: none;
     color: ${(props) => (props.isDark ? Black : Black)};
     font-weight: 700;
+    font-family: 'SyneRegular';
 `;
 
 /** Style of the pop-up of the action selected */
@@ -144,52 +146,67 @@ export const PopUpContainer = styled.div`
 `;
 
 /** Style of the pop-up close icon */
-export const PopUpClose = styled(IoCloseSharp)`
+export const PopUpClose = styled(AiFillCloseCircle)`
     position: absolute;
-    right: 20px;
-    top: 20px;
+    top: 3%;
+    right: 3%;
     font-size: 50px;
     color: ${(props) => (props.isDark ? Yellow : Black)};
-    z-index: 9999;
+    transition: all 0.2s ease-in-out;
 
     &:hover {
         cursor: pointer;
-        opacity: 0.8;
+        opacity: 0.7;
     }
 `;
 
 /** Style of the pop-up title */
 export const PopUpTitle = styled.div`
     position: absolute;
-    top: 20px;
-    left: 20px;
+    top: 5%;
+    left: 85px;
     font-size: 32px;
     color: ${(props) => (props.isDark ? Yellow : Black)};
     font-weight: 550;
-    /* user-select: none; */
+    font-family: 'SyneRegular';
+    user-select: none;
+`;
+
+/** Style of the pop-up text for the time */
+export const PopUpSubtitle = styled.div`
+    position: absolute;
+    top: 90px;
+    left: 4%;
+    font-size: 25px;
+    color: ${(props) => (props.isDark ? White : Black)};
+    font-weight: 400;
+    font-family: 'SyneRegular';
+    user-select: none;
 `;
 
 /** Style of the pop-up text for the time */
 export const PopUpTime = styled.div`
     position: absolute;
-    top: 80px;
-    left: 20px;
+    top: 140px;
+    left: 4%;
     font-size: 25px;
-    color: ${(props) => (props.isDark ? Yellow : Black)};
+    color: ${(props) => (props.isDark ? White : Black)};
     font-weight: 400;
-    /* user-select: none; */
+    font-family: 'SyneRegular';
+    user-select: none;
 `;
 
 export const PopUpDescriptionContainer = styled.div`
     position: absolute;
-    top: 150px;
-    left: 20px;
-    width: 760px;
-    height: 330px;
+    top: 200px;
+    left: 4%;
+    width: 92%;
+    height: 70px;
     background-color: ${(props) =>
         props.isDark ? DarkGrey + 'FF' : DarkGrey + 'FF'};
     border-radius: 20px;
     box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+    user-select: none;
 `;
 
 export const PopUpDescriptionText = styled.p`
@@ -199,5 +216,68 @@ export const PopUpDescriptionText = styled.p`
     font-size: 25px;
     color: ${(props) => (props.isDark ? Yellow : Black)};
     font-weight: 400;
-    /* user-select: none; */
+    font-family: 'SyneRegular';
+    user-select: none;
+`;
+
+export const PopUpIcon = styled.div`
+    position: absolute;
+    top: 3%;
+    left: 3%;
+    font-size: 50px;
+    color: ${(props) => (props.isDark ? Yellow : Black)};
+    user-select: none;
+`;
+
+export const PopUpSolutionContainer = styled.div`
+    position: absolute;
+    top: 300px;
+    left: 4%;
+    width: 92%;
+    height: 100px;
+    background-color: ${(props) =>
+        props.isDark ? DarkGrey + 'FF' : DarkGrey + 'FF'};
+    border-radius: 20px;
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+`;
+
+export const PopUpUnvalideButton = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 420px;
+    right: 4%;
+    width: 60px;
+    height: 60px;
+    background-color: ${(props) =>
+        props.isDark ? Yellow + 'FF' : Yellow + 'FF'};
+    border-radius: 20%;
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+        background-color: ${(props) =>
+            props.isDark ? DarkGrey + 'FF' : DarkGrey + 'FF'};
+        cursor: pointer;
+    }
+`;
+
+export const PopUpToLampButton = styled.div`
+    position: absolute;
+    top: 70px;
+    right: 2.4%;
+    width: 60px;
+    height: 60px;
+    border-radius: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.2s ease-in-out;
+    color: ${Yellow};
+
+    &:hover {
+        color: ${DarkGrey};
+        cursor: pointer;
+    }
 `;
