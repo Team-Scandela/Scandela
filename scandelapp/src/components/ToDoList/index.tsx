@@ -12,7 +12,7 @@ import {
     ToDoListDropdownMenuItem2,
     ToDoListDropdownMenuItem3,
     ToDoListDropdownMenu,
-    ErrorMessage
+    ErrorMessage,
 } from './element.js';
 import { Red, Green, Yellow } from '../../colors.js';
 import { IoMdArrowDropdown } from 'react-icons/io';
@@ -139,11 +139,11 @@ const ToDoList: React.FC<ToDoListProps> = ({ keycode }) => {
         <ToDoListWrapper>
             <ToDoListMainTitle>To-Do List</ToDoListMainTitle>
             <ToDoListContainer>
-                {errorMessage && 
+                {errorMessage && (
                     <ErrorMessage>
                         To-Do list en chargement, veuillez patienter...
                     </ErrorMessage>
-                }
+                )}
 
                 {decisionsSpecific.map((element: any, index) => (
                     <ToDoListCard key={index}>
