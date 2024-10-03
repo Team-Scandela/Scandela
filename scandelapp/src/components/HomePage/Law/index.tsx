@@ -36,7 +36,7 @@ const Stats: React.FC<StatsProps> = ({ closeToMainApp }) => {
                 <StatsTextContainer left={'100%'} width={'100%'}>
                     <StatsText dangerouslySetInnerHTML={{ __html: text }} />
                     <StatsButton onClick={handleStatsClick}>
-                        Accéder au Loi et au aide !
+                        Accéder aux Lois et aux Aides !
                     </StatsButton>
                 </StatsTextContainer>
             </StatsRectangle>

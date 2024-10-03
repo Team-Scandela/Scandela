@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Yellow, DarkYellow, DarkGrey, Grey } from '../../colors';
+import { Yellow, DarkYellow, DarkGrey, Grey, Black } from '../../colors';
 
 export const ChartContainer = styled.div`
     height: 200px;
@@ -73,4 +73,19 @@ export const CardsAndRadarContainer = styled.div`
     width: 100%;
     justify-content: space-between;
     margin-bottom: 20px;
+`;
+
+export const RedirectButton = styled.button`
+    padding: 10px 20px;
+    background: ${Grey};
+    color: ${Black};
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+        background-color: ${(props) => (props.isDark ? DarkYellow : Yellow)};
+        cursor: pointer;
+    }
 `;
