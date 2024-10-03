@@ -22,7 +22,7 @@ export const Button = styled.button`
 `;
 
 export const CircleIcon = styled(FaRegCircle)`
-    color: #FFD700; /* Yellow color for the circle */
+    color: #ffd700; /* Yellow color for the circle */
     font-size: 24px;
 `;
 
@@ -64,7 +64,7 @@ export const CloseButton = styled.button`
 `;
 
 export const p = styled.p`
-    color: #D5B60A;
+    color: #d5b60a;
 `;
 
 export const h2 = styled.h2`

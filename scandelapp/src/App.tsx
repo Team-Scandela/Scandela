@@ -39,7 +39,7 @@ const App: React.FC = () => {
 
                 // Logique pour déterminer le prix en fonction de la solution
                 if (item.solution.includes('Changer')) {
-                    prix = '30'; // Prix par défaut                    
+                    prix = '30'; // Prix par défaut
                     if (item.solution.includes("'SHP'.")) {
                         prix = '30';
                     } else if (item.solution.includes("'IMC'.")) {
@@ -81,7 +81,8 @@ const App: React.FC = () => {
                     item.solution.split(' ').forEach((word: string) => {
                         // on cherche le nombre avant le % dans la phrase pour appliquer le pourcentage au prix
                         if (word.includes('%')) {
-                            const price = parseFloat(prix) * (parseFloat(word) / 100);
+                            const price =
+                                parseFloat(prix) * (parseFloat(word) / 100);
                             prix = price.toString();
                         }
                     });
@@ -92,11 +93,12 @@ const App: React.FC = () => {
                     item.solution.split(' ').forEach((word: string) => {
                         // on cherche le nombre avant le % dans la phrase pour appliquer le pourcentage au prix
                         if (word.includes('%')) {
-                            const price = parseFloat(prix) * (parseFloat(word) / 100);
+                            const price =
+                                parseFloat(prix) * (parseFloat(word) / 100);
                             prix = price.toString();
                         }
                     });
-                    const price = parseFloat(prix) * (-8);
+                    const price = parseFloat(prix) * -8;
                     prix = price.toString();
                 }
 

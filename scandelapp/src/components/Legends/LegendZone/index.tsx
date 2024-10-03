@@ -12,7 +12,9 @@ const ZonePannel: React.FC = () => {
         setIsModalOpen(false);
     };
 
-    const stopPropagation = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const stopPropagation = (
+        e: React.MouseEvent<HTMLDivElement, MouseEvent>
+    ) => {
         e.stopPropagation();
     };
 
@@ -24,11 +26,15 @@ const ZonePannel: React.FC = () => {
             {isModalOpen && (
                 <S.Backdrop onClick={closeModal}>
                     <S.ModalWrapper onClick={stopPropagation}>
-                    <S.h2 >Légende du filtre Heatmap</S.h2> 
-                        <S.p >Le filtre pollution lumineuse ce compose de:
+                        <S.h2>Légende du filtre Heatmap</S.h2>
+                        <S.p>
+                            Le filtre pollution lumineuse ce compose de:
                             <br />- plusieurs halo de lumière.
-                            <br />- plus le halo est grand plus cela signal que la Propagation est forte.
-                            <br />- Ce filtre permet de mieux comprendre l'impact de la pollution lumineuse dans sa ville sur une plus petite zone.
+                            <br />- plus le halo est grand plus cela signal que
+                            la Propagation est forte.
+                            <br />- Ce filtre permet de mieux comprendre
+                            l'impact de la pollution lumineuse dans sa ville sur
+                            une plus petite zone.
                         </S.p>
                         <S.CloseButton onClick={closeModal}>X</S.CloseButton>
                     </S.ModalWrapper>

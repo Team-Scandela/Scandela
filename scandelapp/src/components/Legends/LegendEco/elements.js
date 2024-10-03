@@ -22,7 +22,7 @@ export const Button = styled.button`
 `;
 
 export const LeafIcon = styled(FaLeaf)`
-    color: #FFD700;
+    color: #ffd700;
     font-size: 24px;
 `;
 
@@ -64,7 +64,7 @@ export const CloseButton = styled.button`
 `;
 
 export const p = styled.p`
-    color: #D5B60A;
+    color: #d5b60a;
 `;
 
 export const h2 = styled.h2`

@@ -12,7 +12,9 @@ const CabinetPannel: React.FC = () => {
         setIsModalOpen(false);
     };
 
-    const stopPropagation = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const stopPropagation = (
+        e: React.MouseEvent<HTMLDivElement, MouseEvent>
+    ) => {
         e.stopPropagation();
     };
 
@@ -24,11 +26,15 @@ const CabinetPannel: React.FC = () => {
             {isModalOpen && (
                 <S.Backdrop onClick={closeModal}>
                     <S.ModalWrapper onClick={stopPropagation}>
-                        <S.h2 >Légende du filtre Armoire Électrique</S.h2> 
-                        <S.p >Le filtre des armoires éléectrique ce compose de:
-                            <br />- Les armoires électrique noté d'un éclair jaune.
-                            <br />- sont cliquables et vous redirige vers le parc de l'armoire électrique.
-                            <br />- permettent de comprendre le parc de gestion d'une armoire éléectrique.
+                        <S.h2>Légende du filtre Armoire Électrique</S.h2>
+                        <S.p>
+                            Le filtre des armoires éléectrique ce compose de:
+                            <br />- Les armoires électrique noté d'un éclair
+                            jaune.
+                            <br />- sont cliquables et vous redirige vers le
+                            parc de l'armoire électrique.
+                            <br />- permettent de comprendre le parc de gestion
+                            d'une armoire éléectrique.
                         </S.p>
                         <S.CloseButton onClick={closeModal}>X</S.CloseButton>
                     </S.ModalWrapper>

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { FaBolt } from 'react-icons/fa';  // Import de l'icône éclair
+import { FaBolt } from 'react-icons/fa'; // Import de l'icône éclair
 
 export const Button = styled.button`
     display: flex;
@@ -21,8 +21,9 @@ export const Button = styled.button`
     }
 `;
 
-export const LeafIcon = styled(FaBolt)`  // Remplacement par l'icône d'éclair
-    color: #FFD700;
+export const LeafIcon = styled(FaBolt)`
+    // Remplacement par l'icône d'éclair
+    color: #ffd700;
     font-size: 24px;
 `;
 
@@ -64,7 +65,7 @@ export const CloseButton = styled.button`
 `;
 
 export const p = styled.p`
-    color: #D5B60A;
+    color: #d5b60a;
 `;
 
 export const h2 = styled.h2`

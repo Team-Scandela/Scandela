@@ -220,8 +220,13 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
     useEffect(() => {
         // function that add all item.saved price to get the totalActionCost
         const totalActionCost = optimisationTemplateData
-        .filter((item: any) => item.saved && (item.solution.includes('Changer') || item.solution.includes('Retirer')
-        || item.solution.includes('Ajouter')))
+            .filter(
+                (item: any) =>
+                    item.saved &&
+                    (item.solution.includes('Changer') ||
+                        item.solution.includes('Retirer') ||
+                        item.solution.includes('Ajouter'))
+            )
             .reduce((acc: number, item: any) => {
                 const price = parseFloat(item.price);
                 if (isNaN(price)) {
@@ -234,8 +239,15 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
         setTotalActionCost(totalActionCost);
 
         let dynamicSavings = optimisationTemplateData
-            .filter((item: any) => item.saved && (item.solution.includes('Allumer') || item.solution.includes('Éteindre') 
-                                || item.solution.includes('Augmenter') || item.solution.includes('Réduire'))).reduce((acc: number, item: any) => {
+            .filter(
+                (item: any) =>
+                    item.saved &&
+                    (item.solution.includes('Allumer') ||
+                        item.solution.includes('Éteindre') ||
+                        item.solution.includes('Augmenter') ||
+                        item.solution.includes('Réduire'))
+            )
+            .reduce((acc: number, item: any) => {
                 const price = parseFloat(item.price);
                 if (isNaN(price)) {
                     return acc;

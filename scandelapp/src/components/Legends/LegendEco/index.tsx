@@ -12,7 +12,9 @@ const EcoPannel: React.FC = () => {
         setIsModalOpen(false);
     };
 
-    const stopPropagation = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const stopPropagation = (
+        e: React.MouseEvent<HTMLDivElement, MouseEvent>
+    ) => {
         e.stopPropagation();
     };
 
@@ -24,9 +26,11 @@ const EcoPannel: React.FC = () => {
             {isModalOpen && (
                 <S.Backdrop onClick={closeModal}>
                     <S.ModalWrapper onClick={stopPropagation}>
-                    <S.h2 >Légende du filtre sur la Trâme noire</S.h2> 
-                        <S.p >Le filtre de la trâme noire ce compose de:
-                            <br />- zones affichées pour comprendre les potentiels endroits sensible écologiquement.
+                        <S.h2>Légende du filtre sur la Trâme noire</S.h2>
+                        <S.p>
+                            Le filtre de la trâme noire ce compose de:
+                            <br />- zones affichées pour comprendre les
+                            potentiels endroits sensible écologiquement.
                         </S.p>
                         <S.CloseButton onClick={closeModal}>X</S.CloseButton>
                     </S.ModalWrapper>

@@ -12,7 +12,9 @@ const ColorPannel: React.FC = () => {
         setIsModalOpen(false);
     };
 
-    const stopPropagation = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const stopPropagation = (
+        e: React.MouseEvent<HTMLDivElement, MouseEvent>
+    ) => {
         e.stopPropagation();
     };
 
@@ -24,13 +26,18 @@ const ColorPannel: React.FC = () => {
             {isModalOpen && (
                 <S.Backdrop onClick={closeModal}>
                     <S.ModalWrapper onClick={stopPropagation}>
-                    <S.h2 >Légende du filtre Heatmap</S.h2> 
-                        <S.p >Le filtre Qualité d'éclairage ce compose de:
+                        <S.h2>Légende du filtre Heatmap</S.h2>
+                        <S.p>
+                            Le filtre Qualité d'éclairage ce compose de:
                             <br />- plusieurs cercle de différentes couleurs.
-                            <br />- rouge signifie que la qualité de l'éclairage est mauvaise en fonction de certains critères.
-                            <br />- orange/jaune signifie que la qualité de l'éclairage est correct mais pas optimale.
-                            <br />- vert signifie que la qualité de l'éclairage est correct'.
-                            <br />- Ce filtre permet de mieux comprendre la qualité globale de son éclairage dans sa ville.
+                            <br />- rouge signifie que la qualité de l'éclairage
+                            est mauvaise en fonction de certains critères.
+                            <br />- orange/jaune signifie que la qualité de
+                            l'éclairage est correct mais pas optimale.
+                            <br />- vert signifie que la qualité de l'éclairage
+                            est correct'.
+                            <br />- Ce filtre permet de mieux comprendre la
+                            qualité globale de son éclairage dans sa ville.
                         </S.p>
                         <S.CloseButton onClick={closeModal}>X</S.CloseButton>
                     </S.ModalWrapper>

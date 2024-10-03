@@ -206,16 +206,16 @@ const Main: React.FC<MainProps> = ({
             />
             {filter === Filters.filter && (
                 <>
-                <FilterSearch
-                    id={'filterSearchComponentId'}
-                    isDark={isDark}
-                    selected={selected}
-                    setSelected={setSelected}
-                    search={search}
-                    setSearch={setSearch}
-                />
-                <PinPannel />
-            </>
+                    <FilterSearch
+                        id={'filterSearchComponentId'}
+                        isDark={isDark}
+                        selected={selected}
+                        setSelected={setSelected}
+                        search={search}
+                        setSearch={setSearch}
+                    />
+                    <PinPannel />
+                </>
             )}
             {filter === Filters.traffic && (
                 <>
@@ -248,9 +248,7 @@ const Main: React.FC<MainProps> = ({
                     <PinPannel />
                 </>
             )}
-            {filter === Filters.eco && (
-                <EcoPannel />
-            )}
+            {filter === Filters.eco && <EcoPannel />}
             {localStorage.getItem('premium') === 'false' && (
                 <LogoutButton id={'logoutButton'} isDark={isDark} />
             )}
