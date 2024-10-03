@@ -73,7 +73,7 @@ public class User implements Serializable {
 	@Column(name = "darkmode")
 	private boolean darkmode = false;
 
-	@Column(name = "lastconnexion", nullable = false)
+	@Column(name = "lastconnexion")
 	private LocalDateTime lastConnexion;
 
 	@Builder.Default
