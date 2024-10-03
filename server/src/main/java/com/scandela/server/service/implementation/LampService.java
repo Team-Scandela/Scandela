@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.PriorityQueue;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,7 @@ import com.scandela.server.dao.LampDao;
 import com.scandela.server.dao.LampShadeDao;
 import com.scandela.server.dao.StreetDao;
 import com.scandela.server.dao.TownDao;
+import com.scandela.server.dao.UserDao;
 import com.scandela.server.dao.WhileAwayDao;
 import com.scandela.server.entity.Bulb;
 import com.scandela.server.entity.Cabinet;
@@ -50,6 +52,7 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
 	private CabinetDao cabinetDao;
 	private LampShadeDao lampShadeDao;
     private WhileAwayDao whileAwayDao;
+	private static final UUID MAIN_CITY_UUID = UUID.fromString("2dac2740-1d45-42d7-af5e-13b98cdf3af4");
 
 	// Constructors \\
 	protected LampService(LampDao lampDao, TownDao townDao, StreetDao streetDao, BulbDao bulbDao, CabinetDao cabinetDao, LampShadeDao lampShadeDao, WhileAwayDao whileAwayDao) {
@@ -93,6 +96,21 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
 		
 		return ((LampDao) dao).findByName(name);
 	}
+
+
+    // @Override 
+    // @Transactional(readOnly = true, rollbackFor = { Exception.class }) 
+    // public List<Lamp> getAllMainLamps() { 
+    //     return ((LampDao) dao).findAllMainLamps();
+    // }
+
+    // @Override 
+    // @Transactional(readOnly = true, rollbackFor = { Exception.class })
+    // public List<Lamp> getAllOtherLamps() { 
+    //     return ((LampDao) dao).findAllOtherLamps();
+    // }
+
+
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
