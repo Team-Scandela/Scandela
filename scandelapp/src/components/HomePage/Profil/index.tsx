@@ -104,17 +104,33 @@ const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
     const handleSaveClick = (field: string) => {
         switch (field) {
             case 'name':
+                if (name.length === 0) {
+                    alert('Vous ne pouvez pas remplacer votre nom par un texte vide.');
+                    return;
+                }
                 updateUserName();
                 setIsEditingName(false);
                 break;
             case 'email':
+                if (email.length === 0) {
+                    alert('Vous ne pouvez pas remplacer votre email par un texte vide.');
+                    return;
+                }
                 updateUserEmail();
                 setIsEditingEmail(false);
                 break;
             case 'password':
+                if (password.length <= 8) {
+                    alert('Votre mot de passe doit contenir au moins 8 caractères.');
+                    return;
+                }
                 setIsEditingPassword(false);
                 break;
             case 'kwH':
+                if (kwH.length === 0) {
+                    alert('Vous ne pouvez pas remplacer votre consommation par un texte vide.');
+                    return;
+                }
                 setIsEditingKwH(false);
                 break;
             default:
