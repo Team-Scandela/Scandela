@@ -124,7 +124,8 @@ const LoginModule: React.FC<LoginModuleProps> = ({
     };
 
     const handleSubmitSignUp = async (event: any) => {
-        if (passwordSignUp !== '' && passwordSignUp === passwordConfirmSignUp) {
+        if (isIdPwdValid()) {
+            setError('');
             event.preventDefault();
 
             const response = await signUp(
@@ -134,6 +135,61 @@ const LoginModule: React.FC<LoginModuleProps> = ({
             );
             handleValidLogin(response);
         }
+    };
+
+    const isIdPwdValid = () => {
+        if (usernameSignUp == '') {
+            setError('Le nom d\'utilisateur ne peut pas être vide.');
+            return false;
+        }
+        if (!isEmailValid(emailSignUp)) {
+            return false;
+        }
+        if (emailSignUp == '') {
+            setError('L\'email ne peut pas être vide.');
+            return false;
+        }
+        if (passwordSignUp == '') {
+            setError('Le mot de passe ne peut pas être vide.');
+            return false;
+        }
+        if (passwordSignUp !== passwordConfirmSignUp) {
+            setError('Les mots de passe ne correspondent pas.');
+            return false;
+        }
+        if (!isPasswordValid(passwordSignUp)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    const isEmailValid = (email: string) => {
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            setError('L\'email n\'est pas valide.');
+            return false;
+        }
+        return true;
+    }
+
+    const isPasswordValid = (password: string) => {
+        if (password.length < 8) {
+            setError('Le mot de passe doit contenir au moins 8 caractères.');
+            return false;
+        }
+        if (!/[a-z]/.test(password)) {
+            setError('Le mot de passe doit contenir au moins une minuscule.');
+            return false;
+        }
+        if (!/[A-Z]/.test(password)) {
+            setError('Le mot de passe doit contenir au moins une majuscule.');
+            return false;
+        }
+        if (!/[0-9]/.test(password)) {
+            setError('Le mot de passe doit contenir au moins un chiffre.');
+            return false;
+        }
+        return true;
     };
 
     const getUserData = async () => {
@@ -183,6 +239,7 @@ const LoginModule: React.FC<LoginModuleProps> = ({
                             setPasswordConfirmSignUp(e.target.value)
                         }
                     />
+                    {error && <ErrorMessage>{error}</ErrorMessage>}
                     <Button id={'signUpButton'} onClick={handleSubmitSignUp}>
                         {' '}
                         Sign Up{' '}
