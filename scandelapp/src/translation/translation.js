@@ -249,7 +249,8 @@ const resources = {
             midQuality: 'normal lightning quality',
             goodQuality: 'good lightning quality',
             unknownQuality: 'unknown lightning quality',
-            quality: 'Quality'
+            quality: 'Quality',
+            noEvent : 'No new events since your last visit',
         },
     },
 
@@ -504,7 +505,8 @@ const resources = {
             midQuality: 'Éclairage sensiblement correct',
             goodQuality: 'Bonne qualité d\'éclairage',
             unknownQuality: 'Qualité d\'éclairage inconnue',
-            quality: 'Qualité'
+            quality: 'Qualité',
+            noEvent : 'Aucun nouvel événement depuis votre dernière visite',
         },
     },
 };

@@ -183,9 +183,23 @@ export const EventDate = styled.div`
 /**  Time Icon**/
 export const TimeIcon = styled(GiSandsOfTime)`
     display: flex;
-    position: relative;
+    position: absolute;
     align-items: center;
     left: 31%;
     top: 24%;
+    color: ${(props) => (props.isDark ? Black : Yellow)};
+`;
+
+export const NoEventText = styled.div`
+    display: flex;
+    position: absolute;
+    top: 80%;
+    left: 25%;
+    font-size: 20px;
+    font-weight: 500;
+    user-select: none;
+    font-family: 'SyneRegular';
+    width: 50%;
+    text-align: center;
     color: ${(props) => (props.isDark ? Black : Yellow)};
 `;
