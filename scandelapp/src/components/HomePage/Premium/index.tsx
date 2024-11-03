@@ -15,7 +15,6 @@ import {
     CancelButton,
     ActionText,
 } from './elements';
-import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { subscription, cancelSubscription } from '../../../utils/subscriptionUtils';
 import { getUser, putUser } from '../../../utils/userUtils';
@@ -28,7 +27,6 @@ interface PremiumProps {
 const Premium: React.FC<PremiumProps> = ({ closeToMainApp }) => {
     const [showForm, setShowForm] = useState(false);
     const [isPremium, setIsPremium] = useState(false);
-    const navigate = useNavigate();
     const { t } = useTranslation();
 
     useEffect(() => {
