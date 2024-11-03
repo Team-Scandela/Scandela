@@ -33,8 +33,9 @@ export const FilterSearchDropdownItem = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 33%;
-    top: ${(props) => props.index * 33}%;
+    margin-top: 2px;
+    height: 40%;
+    top: ${(props) => props.index * 49}%;
     width: 100%;
     cursor: pointer;
     transition: all 0.2s ease-in-out;

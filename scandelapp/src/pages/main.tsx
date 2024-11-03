@@ -11,6 +11,7 @@ import AbsencePannel from '../components/AbsencePannel';
 // import MapDB from '../components/MapDB';
 import FilterSearch from '../components/FilterSearch';
 import TrafficTime from '../components/TrafficTime';
+import TimePicker from '../components/TimePicker';
 import ActionHistory from '../components/ActionHistory';
 import LogoutButton from '../components/LogoutButton';
 import Tutoriel from '../components/Tutoriel';
@@ -60,6 +61,7 @@ const Main: React.FC<MainProps> = ({
     const [lat, setLat] = useState<number>(47.218371);
     const [lng, setLng] = useState<number>(-1.553621);
     const [zoom, setZoom] = useState(12);
+    const [time, setTime] = useState<number>(12);
 
     /** If the decision panel is open or closed */
     const [decisionPanelExtended, setDecisionPanelExtended] =
