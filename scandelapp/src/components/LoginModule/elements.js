@@ -57,7 +57,7 @@ export const Form = styled.form`
 /** Title of the container */
 export const Title = styled.h1`
     font-weight: bold;
-    margin: 0;
+    margin: 3px;
     font-family: 'SyneBold';
 `;
 
@@ -189,6 +189,6 @@ export const Paragraph = styled.p`
     font-weight: 100;
     line-height: 20px;
     letter-spacing: 0.5px;
-    margin: 20px 0 30px;
+    margin: 20px 10px 30px;
     font-family: 'SyneRegular';
 `;
