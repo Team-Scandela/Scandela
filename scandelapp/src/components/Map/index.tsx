@@ -209,12 +209,6 @@ const Map: React.FC<MapProps> = ({
         return armoiresGeoJSON;
     }, []);
 
-    // console.log('here');
-    // console.log(zonesData);
-    // console.log('here2');
-    // console.log(armoiresData);
-    // console.log(armoiresGeoJSON);
-
     // const geoData = useMemo(() => {
     //     let jsonArmoire = {
     //         type: 'FeatureCollection',

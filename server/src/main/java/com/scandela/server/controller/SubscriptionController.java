@@ -17,14 +17,22 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.stripe.exception.StripeException;
 import com.stripe.model.PaymentIntent;
+import com.scandela.server.dao.UserDao;
 import com.scandela.server.entity.Subscription;
+import com.scandela.server.entity.User;
 import com.scandela.server.service.ISubscriptionService;
+import com.scandela.server.service.IUserService;
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping(value = "/subscription")
 public class SubscriptionController {
     @Autowired
     private ISubscriptionService subscriptionService;
+
+    private UserDao userdao;
+
+    @Autowired
+    private IUserService userService;
 
 
     @GetMapping
@@ -50,6 +58,18 @@ public class SubscriptionController {
     @PutMapping("/{id}")
 	public Subscription updateSubscription(@PathVariable UUID id, @RequestBody Subscription update) throws Exception {
 		return subscriptionService.update(id, update);
+	}
+
+    @PutMapping("/cancel/{id}")
+	public void cancelSubscription(@PathVariable UUID id) throws Exception {
+        User maybeUser = userService.getUserById(id);
+
+        if (maybeUser != null) {
+            maybeUser.setPremium(false);
+            userService.update(id, maybeUser);
+            subscriptionService.delete(id);
+        }
+
 	}
 
     @DeleteMapping("/delete/{id}")

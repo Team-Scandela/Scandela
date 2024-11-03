@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
     PremiumRectangle,
     PremiumContainer,
@@ -6,32 +6,42 @@ import {
     CloseButton,
     MainTitle,
     MainText,
+    PremiumTextContainer,
     PremiumButtonOnOffStyle,
     PremiumButtonOnOffText,
-    SubmitButton,
-    AdminButton,
-    PremiumTextContainer,
-    NeedDecoText,
+    DescriptionPanel,
+    DescriptionPanelText,
+    BuyButton,
+    CancelButton,
+    ActionText,
 } from './elements';
-import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { subscription } from '../../../utils/subscriptionUtils';
+import { subscription, cancelSubscription } from '../../../utils/subscriptionUtils';
+import { getUser, putUser } from '../../../utils/userUtils';
+import { showToast } from '../../Toastr';
 
 interface PremiumProps {
     closeToMainApp: () => void;
 }
 
 const Premium: React.FC<PremiumProps> = ({ closeToMainApp }) => {
-    const navigate = useNavigate();
     const [showForm, setShowForm] = useState(false);
-
+    const [isPremium, setIsPremium] = useState(false);
     const { t } = useTranslation();
+
+    useEffect(() => {
+        const getUserInfoAsync = async () => {
+            const userInfos = await getUser();
+            setIsPremium(userInfos.premium);
+        };
+        getUserInfoAsync();
+    }, []);
 
     const handleToggleForm = () => {
         setShowForm(!showForm);
     };
 
-    const handleFormSubmit = async (event: any) => {
+    const handleBuyPremium = async (event: any) => {
         event.preventDefault();
 
         try {
@@ -40,15 +50,37 @@ const Premium: React.FC<PremiumProps> = ({ closeToMainApp }) => {
         } catch (error) {
             console.log(error);
         }
+        showToast(
+            'success',
+            t('buyPremiumValidation'),
+            'top-left',
+            5000,
+            false,
+            true,
+            false,
+            true
+        );
     };
 
-    const handleAdminPremium = () => {
-        if (localStorage.getItem('premium') === 'true')
-            localStorage.setItem('premium', 'false');
-        else if (localStorage.getItem('premium') === 'false')
-            localStorage.setItem('premium', 'true');
-        navigate('/scandela');
-    };
+    const handleCancelPremium = async (event: any) => {
+        event.preventDefault();
+
+        try {
+            await cancelSubscription();
+        } catch (error) {
+            console.log(error);
+        }
+        showToast(
+            'success',
+            t('cancelPremiumValidation'),
+            'top-left',
+            5000,
+            false,
+            true,
+            false,
+            true
+        );
+    }
 
     return (
         <PremiumContainer>
@@ -75,16 +107,26 @@ const Premium: React.FC<PremiumProps> = ({ closeToMainApp }) => {
                 )}
                 {showForm && (
                     <div style={{ display: 'flex', flexDirection: 'column' }}>
-                        <SubmitButton onClick={handleFormSubmit}>
-                            {t('buy')}
-                        </SubmitButton>
-                        <NeedDecoText>
-                            {t('needDeco')}
-                        </NeedDecoText>
-                        {localStorage.getItem('token') === 'true' && (
-                            <AdminButton onClick={handleAdminPremium}>
-                                {t('adminPremium')}
-                            </AdminButton>
+                        <DescriptionPanel>
+                            <DescriptionPanelText>
+                                {t('subscriptionDescription')}
+                                <br/>
+                                {t('needDeco')}
+                            </DescriptionPanelText>
+                        </DescriptionPanel>
+                        {!isPremium && (
+                            <BuyButton onClick={handleBuyPremium}>
+                                <ActionText>
+                                    {t('buyPremium')}
+                                </ActionText>
+                            </BuyButton>
+                        )}
+                        {isPremium && (
+                            <CancelButton onClick={handleCancelPremium}>
+                                <ActionText>
+                                    {t('cancelPremium')}
+                                </ActionText>
+                            </CancelButton>
                         )}
                     </div>
                 )}

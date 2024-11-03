@@ -88,7 +88,6 @@ const LoginModule: React.FC<LoginModuleProps> = ({
         localStorage.setItem('tmpConsumptionScore', JSON.stringify(false));
         localStorage.setItem('tmpLightScore', JSON.stringify(false));
         localStorage.setItem('lassoActive', JSON.stringify(false));
-        //getAllScores();
 
         if (data.rights === 2) {
             localStorage.setItem('token', JSON.stringify(true));
@@ -276,7 +275,7 @@ const LoginModule: React.FC<LoginModuleProps> = ({
                         </Anchor>
                         <Button onClick={handleSubmitSignIn}>
                             {' '}
-                            Se conncter{' '}
+                            Se connecter{' '}
                         </Button>
                         {error && <ErrorMessage>{error}</ErrorMessage>}
                     </Form>

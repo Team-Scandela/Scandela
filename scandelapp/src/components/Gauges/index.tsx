@@ -132,7 +132,6 @@ export const Gauges: React.FC<GaugesProps> = ({
 
     useEffect(() => {
         const interval = setInterval(() => {
-            console.log('interval');
             // get the length of the optimised data
             setLenghtOptimisedData(
                 localStorage.getItem('optimisationTemplateData')
