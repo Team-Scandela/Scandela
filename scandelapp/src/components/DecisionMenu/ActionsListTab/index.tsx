@@ -33,7 +33,7 @@ import { generatePDFDocument } from './pdfGenerator';
 import { useNavigate } from 'react-router-dom';
 import { showToast } from '../../Toastr';
 import { createNotification } from '../../../utils/notificationUtils';
-
+import { getLampPrice } from '../../../utils/actionsPriceUtils';
 
 /** Menu of the decision pannel
  * @param {boolean} isDark - If the map is in dark mode or not
@@ -60,6 +60,8 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
     const [levelElec, setLevelElec] = useState<number>(0);
     const [levelBio, setLevelBio] = useState<number>(0);
     const [levelLumi, setLevelLumi] = useState<number>(0);
+    const [totalActionCost, setTotalActionCost] = useState<number>(0);
+    const [totalSavings, setTotalSavings] = useState<number>(0);
     const [displayPUpToDo, setDisplayPUpToDo] = useState<boolean>(false);
     const navigate = useNavigate();
 
@@ -155,7 +157,7 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
         setOptimisationTemplateData(optimisationTemplateData);
     };
 
-    const handlePDFButtonClick =  async () => {
+    const handlePDFButtonClick = async () => {
         if (
             optimisationTemplateData.filter((item: any) => item.selected)
                 .length === 0
@@ -214,6 +216,51 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
         }
         setDisplayPUpToDo(true);
     };
+
+    useEffect(() => {
+        // function that add all item.saved price to get the totalActionCost
+        const totalActionCost = optimisationTemplateData
+            .filter(
+                (item: any) =>
+                    item.saved &&
+                    (item.solution.includes('Changer') ||
+                        item.solution.includes('Retirer') ||
+                        item.solution.includes('Ajouter'))
+            )
+            .reduce((acc: number, item: any) => {
+                const price = parseFloat(item.price);
+                if (isNaN(price)) {
+                    return acc;
+                }
+                return acc + price; // ici le prix des actions total sur le moment, juste une addition de chaque coûts d'actions
+            }, 0);
+
+        localStorage.setItem('totalActionCost', totalActionCost.toString());
+        setTotalActionCost(totalActionCost);
+
+        let dynamicSavings = optimisationTemplateData
+            .filter(
+                (item: any) =>
+                    item.saved &&
+                    (item.solution.includes('Allumer') ||
+                        item.solution.includes('Éteindre') ||
+                        item.solution.includes('Augmenter') ||
+                        item.solution.includes('Réduire'))
+            )
+            .reduce((acc: number, item: any) => {
+                const price = parseFloat(item.price);
+                if (isNaN(price)) {
+                    return acc;
+                }
+                return acc + price; // le calcul renvoie les économies réaliser sur l'année dû à des action sur du long terme (plage horaire) - le coût total des actions
+            }, 0);
+
+        dynamicSavings = dynamicSavings * 365.25 - totalActionCost;
+        dynamicSavings = Math.abs(Math.round(dynamicSavings * 100) / 100);
+
+        localStorage.setItem('totalSavings', dynamicSavings.toString());
+        setTotalSavings(dynamicSavings);
+    }, [optimisationTemplateData]);
 
     const handleToDoButtonCopyClick = () => {
         const timestamp = getTimestamp();
@@ -322,6 +369,55 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
                 <TotalTitleText isDark={isDark}>
                     {t('economicImpact')}
                 </TotalTitleText>
+                {/* ajouter des images en rapport avec les gains et les coûts ici et remplacer les div */}
+                <div
+                    style={{
+                        fontSize: '0.7em',
+                        color: isDark ? '#FAC710' : '#000',
+                        marginLeft: '10px',
+                        textAlign: 'left',
+                        marginTop: '25px',
+                    }}
+                >
+                    Coûts des actions (en euro):
+                    <div
+                        style={{
+                            backgroundColor: '#696969', // gris DA
+                            padding: '20px',
+                            marginTop: '5px',
+                            marginRight: '10px',
+                            borderRadius: '4px',
+                            textAlign: 'center',
+                            fontSize: '1.5em',
+                        }}
+                    >
+                        {totalActionCost ? `${totalActionCost} €` : 'N/A'}
+                    </div>
+                </div>
+                <div
+                    style={{
+                        fontSize: '0.7em',
+                        color: isDark ? '#FAC710' : '#000',
+                        marginLeft: '10px',
+                        textAlign: 'left',
+                        marginTop: '20px',
+                    }}
+                >
+                    Économisé d'ici 1 an (en euro):
+                    <div
+                        style={{
+                            backgroundColor: '#696969', // gris DA
+                            padding: '20px',
+                            marginTop: '5px',
+                            marginRight: '10px',
+                            borderRadius: '4px',
+                            textAlign: 'center',
+                            fontSize: '1.5em',
+                        }}
+                    >
+                        {totalSavings ? `${totalSavings} €` : 'N/A'}
+                    </div>
+                </div>
             </TotalContainer>
             {/* Render personalized gauge components */}
             <GaugesContainer>

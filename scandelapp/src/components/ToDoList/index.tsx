@@ -12,6 +12,7 @@ import {
     ToDoListDropdownMenuItem2,
     ToDoListDropdownMenuItem3,
     ToDoListDropdownMenu,
+    ErrorMessage,
 } from './element.js';
 import { Red, Green, Yellow } from '../../colors.js';
 import { IoMdArrowDropdown } from 'react-icons/io';
@@ -27,6 +28,7 @@ const ToDoList: React.FC<ToDoListProps> = ({ keycode }) => {
     const [decisionsSpecific, setDecisionsSpecific] = useState([]);
     const [states, setStates] = useState([]);
     const [dropdownShow, setDropdownShow] = useState([]);
+    const [errorMessage, setErrorMessage] = useState(true);
 
     const toggleDropdown = (index: any) => {
         setDropdownShow((prevState: any) => ({
@@ -95,6 +97,7 @@ const ToDoList: React.FC<ToDoListProps> = ({ keycode }) => {
         if (decisionsSpecific.length === 0) {
             getDecisions().then((data) => {
                 if (data != null) {
+                    setErrorMessage(false);
                     const newDecisionsSpecific: any[] = [];
                     const newStates: number[] = [];
                     const newDropdownShow: boolean[] = [];
@@ -136,6 +139,12 @@ const ToDoList: React.FC<ToDoListProps> = ({ keycode }) => {
         <ToDoListWrapper>
             <ToDoListMainTitle>To-Do List</ToDoListMainTitle>
             <ToDoListContainer>
+                {errorMessage && (
+                    <ErrorMessage>
+                        To-Do list en chargement, veuillez patienter...
+                    </ErrorMessage>
+                )}
+
                 {decisionsSpecific.map((element: any, index) => (
                     <ToDoListCard key={index}>
                         <ToDoListDropdown

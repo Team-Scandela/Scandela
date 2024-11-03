@@ -33,15 +33,18 @@ const resources = {
             themeUpdates: 'Dark / Light mode updates',
             languageUpdates: 'Language updates',
             actionsListExportedUpdates: 'Actions list exported updates',
-            notificationsPreferencesUpdates: 'Notifications preferences updates',
+            notificationsPreferencesUpdates:
+                'Notifications preferences updates',
             actionsListSuccessfullyUpdated: 'Actions list successfully updated',
             nothingToAddToTheActionsList: 'Nothing to add to the actions list',
             theLanguageHasBeenSuccessfullyUpdated:
                 'The language has been successfully updated',
             theThemeHasBeenSuccessfullyUpdated:
                 'The theme has been successfully updated"',
-            actionsListSuccessfullyExported: 'The actions list has been successfully exported',
-            notificationsPreferencesSuccessfullyUpdated: 'The notifications preferences have been successfully updated',
+            actionsListSuccessfullyExported:
+                'The actions list has been successfully exported',
+            notificationsPreferencesSuccessfullyUpdated:
+                'The notifications preferences have been successfully updated',
             newsletterUpdates: 'Activate the newsletter',
             loadOfYourPreferences: 'Loading your preferences...',
             titleAddBulbPannel: 'Add bulb',
@@ -226,7 +229,8 @@ const resources = {
             filterBulbQuality: 'Filter by bulb quality',
             filterComponent: 'Filtre by component',
             filterTraffic: 'Filter by traffic',
-            filterCabinet: 'Filtre by electrical cabinet',
+            filterCabinet: 'Filter by electrical cabinet',
+            filterEco: 'Filter by ecological zones',
             others: 'Others',
             titleLampListPannel: 'Lamp list',
             toDo: 'To-do list',
@@ -241,6 +245,11 @@ const resources = {
             noFilter: 'No filter',
             badBulb: 'Bulb with bad quality',
             lamps: 'lamps',
+            badQuality: 'Bad lightning quality',
+            midQuality: 'normal lightning quality',
+            goodQuality: 'good lightning quality',
+            unknownQuality: 'unknown lightning quality',
+            quality: 'Quality'
         },
     },
 
@@ -276,15 +285,19 @@ const resources = {
             themeUpdates: 'Mises à jour du mode sombre / clair',
             languageUpdates: 'Mises à jour de la langue',
             actionsListExportedUpdates: 'Export de la liste des actions',
-            notificationsPreferencesUpdates: 'Mise à jour des préférences de notifications',
-            actionsListSuccessfullyUpdated: 'La liste des actions à bien été mise à jour',
-            nothingToAddToTheActionsList: 'Rien à ajouter à la liste d\'actions',
+            notificationsPreferencesUpdates:
+                'Mise à jour des préférences de notifications',
+            actionsListSuccessfullyUpdated:
+                'La liste des actions à bien été mise à jour',
+            nothingToAddToTheActionsList: "Rien à ajouter à la liste d'actions",
             theLanguageHasBeenSuccessfullyUpdated:
                 'La langue a bien été mise à jour',
             theThemeHasBeenSuccessfullyUpdated:
                 'Le thème a bien été mis à jour',
-            actionsListSuccessfullyExported: 'La liste des actions à bien été exporté',
-            notificationsPreferencesSuccessfullyUpdated: 'Les préférences de notifications ont bien été mises à jour',
+            actionsListSuccessfullyExported:
+                'La liste des actions à bien été exporté',
+            notificationsPreferencesSuccessfullyUpdated:
+                'Les préférences de notifications ont bien été mises à jour',
             newsletterUpdates: 'Activer la newsletter',
             loadOfYourPreferences: 'Chargement de vos préférences...',
             titleAddBulbPannel: 'Ajouter une ampoule',
@@ -473,6 +486,7 @@ const resources = {
             filterComponent: 'Filtre par composant',
             filterTraffic: 'Filtre par traffic',
             filterCabinet: 'Filtre par armoire électrique',
+            filterEco: 'Filtre par zone écologiquement sensible',
             others: 'Autres',
             titleLampListPannel: 'Liste des lampadaires',
             toDo: 'To-do list',
@@ -486,6 +500,11 @@ const resources = {
             noFilter: 'Aucun filtre',
             badBulb: 'Ampoules de mauvaise qualité',
             lamps: 'lampadaires',
+            badQuality: 'Mauvaise qualité d\'éclairage',
+            midQuality: 'Éclairage sensiblement correct',
+            goodQuality: 'Bonne qualité d\'éclairage',
+            unknownQuality: 'Qualité d\'éclairage inconnue',
+            quality: 'Qualité'
         },
     },
 };

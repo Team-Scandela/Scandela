@@ -14,8 +14,8 @@ import { FaEdit, FaCheck } from 'react-icons/fa';
 import { AiOutlineUserDelete } from 'react-icons/ai';
 import { MdOutlineUpgrade } from 'react-icons/md';
 import { BiExit } from 'react-icons/bi';
-import { IoPersonAdd} from "react-icons/io5";
-import { IoMdSend } from "react-icons/io";
+import { IoPersonAdd } from 'react-icons/io5';
+import { IoMdSend } from 'react-icons/io';
 
 export const ProfilContainer = styled.div`
     position: absolute;

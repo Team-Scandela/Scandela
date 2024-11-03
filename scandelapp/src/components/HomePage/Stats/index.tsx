@@ -25,8 +25,6 @@ const Stats: React.FC<StatsProps> = ({ closeToMainApp }) => {
         navigate('/statistics');
     };
 
-    
-
     const text =
         'Scandela vous permet de visualiser les statistiques de votre territoire. Vous pouvez consulter les données de votre territoire, les comparer avec d’autres territoires et suivre l’évolution de la situation.';
 

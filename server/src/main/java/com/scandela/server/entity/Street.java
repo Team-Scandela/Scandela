@@ -51,6 +51,7 @@ public class Street implements Serializable {
 	@Column(name = "adress", nullable = false)
 	private List<String> address;
 
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@OneToMany(mappedBy = "street", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	private List<Lamp> lamps;
 }

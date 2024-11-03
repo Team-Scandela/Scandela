@@ -14,6 +14,7 @@ import ToDo from './pages/todo';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { getLampPrice } from './utils/actionsPriceUtils';
+import PrivateRoute from './components/PrivateRoute/privateRoute';
 
 /** Route page */
 const App: React.FC = () => {
@@ -38,7 +39,32 @@ const App: React.FC = () => {
 
                 // Logique pour déterminer le prix en fonction de la solution
                 if (item.solution.includes('Changer')) {
-                    prix = '30';
+                    prix = '30'; // Prix par défaut
+                    if (item.solution.includes("'SHP'.")) {
+                        prix = '30';
+                    } else if (item.solution.includes("'IMC'.")) {
+                        prix = '2';
+                    } else if (item.solution.includes("'LED'.")) {
+                        prix = '5';
+                    } else if (item.solution.includes("'TF'.")) {
+                        prix = '3';
+                    } else if (item.solution.includes("'IM'.'")) {
+                        prix = '20';
+                    } else if (item.solution.includes("'MBF'.")) {
+                        prix = '10';
+                    } else if (item.solution.includes("'FC'.")) {
+                        prix = '10';
+                    } else if (item.solution.includes("'SBP'.")) {
+                        prix = '20';
+                    } else if (item.solution.includes("'HAL'.")) {
+                        prix = '3';
+                    } else if (item.solution.includes("'TL'.")) {
+                        prix = '5';
+                    } else if (item.solution.includes("'IC'.")) {
+                        prix = '2';
+                    } else if (item.solution.includes("'DIC'.")) {
+                        prix = '30';
+                    }
                 } else if (item.solution.includes('Allumer')) {
                     prix = await getLampPrice(item.lampDecision.lamp.lampType);
                     const price = parseFloat(prix) * 8;
@@ -51,9 +77,29 @@ const App: React.FC = () => {
                 ) {
                     prix = '1000';
                 } else if (item.solution.includes('Augmenter')) {
-                    prix = '150';
+                    prix = await getLampPrice(item.lampDecision.lamp.lampType);
+                    item.solution.split(' ').forEach((word: string) => {
+                        // on cherche le nombre avant le % dans la phrase pour appliquer le pourcentage au prix
+                        if (word.includes('%')) {
+                            const price =
+                                parseFloat(prix) * (parseFloat(word) / 100);
+                            prix = price.toString();
+                        }
+                    });
+                    const price = parseFloat(prix) * 8;
+                    prix = price.toString();
                 } else if (item.solution.includes('Réduire')) {
-                    prix = '-150';
+                    prix = await getLampPrice(item.lampDecision.lamp.lampType);
+                    item.solution.split(' ').forEach((word: string) => {
+                        // on cherche le nombre avant le % dans la phrase pour appliquer le pourcentage au prix
+                        if (word.includes('%')) {
+                            const price =
+                                parseFloat(prix) * (parseFloat(word) / 100);
+                            prix = price.toString();
+                        }
+                    });
+                    const price = parseFloat(prix) * -8;
+                    prix = price.toString();
                 }
 
                 return {
@@ -98,6 +144,7 @@ const App: React.FC = () => {
             </Helmet>
             <BrowserRouter>
                 <Routes>
+                    {/* Route publique pour la page de login */}
                     <Route
                         path="/"
                         element={
@@ -111,27 +158,86 @@ const App: React.FC = () => {
                             />
                         }
                     />
-                    <Route path="/loadingpage" element={<LoadingPage />} />
-                    <Route path="/homepage" element={<HomePage />} />
+                    {/* Toutes les autres routes sont privées ici donc protégé tant que le token n'est pas dans le localstorage */}
+                    <Route
+                        path="/loadingpage"
+                        element={
+                            <PrivateRoute>
+                                <LoadingPage />
+                            </PrivateRoute>
+                        }
+                    />
+                    <Route
+                        path="/homepage"
+                        element={
+                            <PrivateRoute>
+                                <HomePage />
+                            </PrivateRoute>
+                        }
+                    />
                     <Route
                         path="/scandela"
                         element={
-                            <Main
-                                optimisationTemplateData={
-                                    optimisationTemplateData
-                                }
-                                setOptimisationTemplateData={
-                                    setOptimisationTemplateData
-                                }
-                            />
+                            <PrivateRoute>
+                                <Main
+                                    optimisationTemplateData={
+                                        optimisationTemplateData
+                                    }
+                                    setOptimisationTemplateData={
+                                        setOptimisationTemplateData
+                                    }
+                                />
+                            </PrivateRoute>
                         }
                     />
-                    <Route path="/redirect" element={<Redirect />} />
-                    <Route path="/admin" element={<Admin />} />
-                    <Route path="/laws" element={<LawPage />} />
-                    <Route path="/statistics" element={<Statistics />} />
-                    <Route path="/todo/:key" element={<ToDo />} />
-                    <Route path="/resetpwd/:uuid" element={<ResetPwd />} />
+                    <Route
+                        path="/redirect"
+                        element={
+                            <PrivateRoute>
+                                <Redirect />
+                            </PrivateRoute>
+                        }
+                    />
+                    <Route
+                        path="/admin"
+                        element={
+                            <PrivateRoute>
+                                <Admin />
+                            </PrivateRoute>
+                        }
+                    />
+                    <Route
+                        path="/laws"
+                        element={
+                            <PrivateRoute>
+                                <LawPage />
+                            </PrivateRoute>
+                        }
+                    />
+                    <Route
+                        path="/statistics"
+                        element={
+                            <PrivateRoute>
+                                <Statistics />
+                            </PrivateRoute>
+                        }
+                    />
+                    <Route
+                        path="/todo/:key"
+                        element={
+                            <PrivateRoute>
+                                <ToDo />
+                            </PrivateRoute>
+                        }
+                    />
+                    <Route
+                        path="/resetpwd/:uuid"
+                        element={
+                            <PrivateRoute>
+                                <ResetPwd />
+                            </PrivateRoute>
+                        }
+                    />
                 </Routes>
             </BrowserRouter>
         </div>

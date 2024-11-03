@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-// COLOR 
+// COLOR
 
 import {
     Black,
@@ -15,14 +15,14 @@ import {
     LightGreen,
 } from '../../../../colors';
 
-// Icone 
+// Icone
 import { AiFillCloseCircle } from 'react-icons/ai';
 import { GoLightBulb as Bulb } from 'react-icons/go';
 import { RiMapPin2Line } from 'react-icons/ri';
 import { GiElectric } from 'react-icons/gi';
-import { IoMdSend, IoMdCheckmark } from "react-icons/io";
-import { FaPen, FaTrashAlt} from 'react-icons/fa';
-import { MdElectricalServices } from "react-icons/md";
+import { IoMdSend, IoMdCheckmark } from 'react-icons/io';
+import { FaPen, FaTrashAlt } from 'react-icons/fa';
+import { MdElectricalServices } from 'react-icons/md';
 
 // STYLE
 
@@ -201,7 +201,7 @@ export const BulbCardConsoIcon = styled(MdElectricalServices)`
     color: ${Yellow};
     font-size: 35px;
     user-select: none;
-`
+`;
 
 export const BulbCardIntensityIcon = styled(GiElectric)`
     position: absolute;
@@ -210,4 +210,4 @@ export const BulbCardIntensityIcon = styled(GiElectric)`
     color: ${Yellow};
     font-size: 35px;
     user-select: none;
-`
+`;

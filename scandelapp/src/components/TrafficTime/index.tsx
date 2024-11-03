@@ -21,7 +21,7 @@ const TrafficTime: React.FC<TrafficTimeProps> = ({
                     isDark={isDark}
                     value={trafficTime}
                     onChange={(e: any) => setTrafficTime(e.currentTarget.value)}
-                    placeholder="00:00"
+                    placeholder="12:00"
                 />
             </TrafficTimeContainer>
         </>

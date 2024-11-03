@@ -28,46 +28,46 @@ public class Subscription implements Serializable {
     @Id
 	@GenericGenerator(name = "UUIDGenerator", strategy = "uuid2")
     @GeneratedValue(generator = "UUIDGenerator")
-	@Column(name = "id", updatable = false, nullable = false)
+	@Column(name = "id", nullable = false)
 	private UUID id;
 
-    @Column(name = "stripeId", updatable = false)
+    @Column(name = "stripeId")
     private String stripeId;
 
-    @Column(name = "sessionid", updatable = false)
+    @Column(name = "sessionid")
     private String sessionid;
 
-    @Column(name = "userid", updatable = false)
+    @Column(name = "userid")
     private String userid;
 
-    @Column(name = "username", updatable = false)
+    @Column(name = "username")
     private String username;
 
-    @Column(name = "email", updatable = false)
+    @Column(name = "email")
     private String email;
 
-    @Column(name = "fullName", updatable = false)
+    @Column(name = "fullName")
     private String fullName;
 
-    @Column(name = "startDate", updatable = false)
+    @Column(name = "startDate")
     private String startDate;
 
-    @Column(name = "expiryDate", updatable = false)
+    @Column(name = "expiryDate")
     private String expiryDate;
 
-    @Column(name = "subscriptionType", updatable = false)
+    @Column(name = "subscriptionType")
     private String subscriptionType;
 
-    @Column(name = "cardNumber", updatable = false)
+    @Column(name = "cardNumber")
     private String cardNumber;
 
-    @Column(name = "cardExpMonth", updatable = false)
+    @Column(name = "cardExpMonth")
     private String cardExpMonth;
 
-    @Column(name = "cardExpYear", updatable = false)
+    @Column(name = "cardExpYear")
     private String cardExpYear;
 
-    @Column(name = "cardCVC", updatable = false)
+    @Column(name = "cardCVC")
     private String cardCVC;
 }
 

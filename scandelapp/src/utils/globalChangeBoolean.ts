@@ -3,12 +3,12 @@ import { useState } from 'react';
 let myBoolean = false;
 
 export const useGlobalChangeBoolean = () => {
-  const [isChangeGlobal, setIsChangeGlobal] = useState(myBoolean);
+    const [isChangeGlobal, setIsChangeGlobal] = useState(myBoolean);
 
-  const setGlobalBoolean = (value: boolean) => {
-    myBoolean = value;
-    setIsChangeGlobal(value);
-  };
+    const setGlobalBoolean = (value: boolean) => {
+        myBoolean = value;
+        setIsChangeGlobal(value);
+    };
 
-  return [isChangeGlobal, setGlobalBoolean] as const;
+    return [isChangeGlobal, setGlobalBoolean] as const;
 };

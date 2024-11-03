@@ -7,6 +7,7 @@ import {
     MdFilterList,
     MdDirectionsCar,
     MdElectricMeter,
+    MdEco,
 } from 'react-icons/md';
 import { FaLightbulb } from 'react-icons/fa';
 import { Filters } from '../../pages/main';
@@ -126,6 +127,14 @@ const FilterMenu: React.FC<FilterMenuProps> = ({
                             userSelect: 'none',
                         }}
                     />
+                    <Tooltip
+                        id="filterEco"
+                        style={{
+                            backgroundColor: Black,
+                            borderRadius: '5px',
+                            userSelect: 'none',
+                        }}
+                    />
                 </div>
             )}
             <FilterMenuButton
@@ -173,6 +182,13 @@ const FilterMenu: React.FC<FilterMenuProps> = ({
                     onClick={() => handleIconClick(Filters.cabinet)}
                     data-tooltip-id="filterCabinet"
                     data-tooltip-content={t('filterCabinet')}
+                />
+                <MdEco
+                    style={chooseStyle(Filters.eco)} // Utilise la logique d'opacité selon le filtre sélectionné
+                    onClick={() => handleIconClick(Filters.eco)} // Active ou désactive le filtre eco
+                    size={25}
+                    data-tooltip-id="filterEco"
+                    data-tooltip-content={t('filterEco')} // Texte de l'infobulle pour 'eco'
                 />
             </FilterMenuContainer>
         </div>

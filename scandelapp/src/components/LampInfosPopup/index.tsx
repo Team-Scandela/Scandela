@@ -11,6 +11,7 @@ import {
     CloseIcon,
     ListDetailContainer,
 } from './elements';
+import { useTranslation } from 'react-i18next';
 
 import MissingLampPopup from '../MissingLampPopup/';
 
@@ -21,7 +22,6 @@ interface LampInfosPopupProps {
     id: string;
     selectedLampId: string | null;
     optimisationTemplateData: any;
-    selectedLampData: any;
     onClosePopup: () => void;
 }
 
@@ -30,9 +30,31 @@ const LampInfosPopup: React.FC<LampInfosPopupProps> = ({
     isDark,
     selectedLampId,
     optimisationTemplateData,
-    selectedLampData,
     onClosePopup,
 }) => {
+    const { t } = useTranslation();
+    const [lampData, setLampData] = useState(null);
+
+    useEffect(() => {
+        const getLampData = async () => {
+            const username = process.env.REACT_APP_REQUEST_USER;
+            const password = process.env.REACT_APP_REQUEST_PASSWORD;
+            const urlLamp =
+                process.env.REACT_APP_BACKEND_URL + `lamps/${selectedLampId}`;
+
+            const response = await fetch(urlLamp, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Basic ${btoa(`${username}:${password}`)}`,
+                },
+            });
+
+            setLampData(await response.json());
+        };
+        getLampData();
+    }, [selectedLampId]);
+
     const [isLampHavingDecision, setIsLampHavingDecision] = useState(
         !!optimisationTemplateData
     );
@@ -79,6 +101,41 @@ const LampInfosPopup: React.FC<LampInfosPopupProps> = ({
         };
     }, [isDragging, onDragging]);
 
+    // Fonction pour déterminer la qualité de l'éclairage
+    const GetQualityInfo = (type: string) => {
+        switch (type) {
+            case 'SHP':
+            case 'IMC':
+            case 'IM':
+                return {
+                    text: t('badQuality'),
+                };
+            case 'MBF':
+            case 'IC':
+            case 'SBP':
+                return {
+                    text: t('midQuality'),
+                };
+            case 'DIC':
+            case 'HAL':
+            case 'LED':
+            case 'TL':
+            case 'TF':
+            case 'FC':
+                return {
+                    text: t('goodQuality'),
+                };
+            default:
+                return {
+                    text: t('unknownQuality'),
+                };
+        }
+    };
+
+    const { text: qualityText } = GetQualityInfo(
+        lampData === null ? '' : lampData.lampType
+    );
+
     return (
         <div id={id}>
             <PannelContainer
@@ -90,64 +147,49 @@ const LampInfosPopup: React.FC<LampInfosPopupProps> = ({
             >
                 <CloseIcon isDark={isDark} onClick={closePopup}></CloseIcon>
                 <PopupTextLampName isDark={isDark}>
-                    Lampadaire {selectedLampData.name}
+                    Lampadaire {lampData === null ? '' : lampData.name}
                 </PopupTextLampName>
                 <PopupSubTextLampName isDark={isDark} top="70px">
-                    {' '}
-                    {selectedLampData.address}
+                    {lampData === null ? '' : lampData.address}
                 </PopupSubTextLampName>
 
                 <PopupTextInfoTitle isDark={isDark} top="120px">
-                    {' '}
                     Informations
                 </PopupTextInfoTitle>
                 <PopupTitle isDark={isDark} top="170px">
-                    {' '}
-                    Type Lampe{' '}
+                    {t('lamptype')}
                 </PopupTitle>
                 <PopupText isDark={isDark} top="170px">
-                    {selectedLampData.lampType}
+                    {lampData === null ? '' : lampData.lampType}
                 </PopupText>
                 <PopupTitle isDark={isDark} top="210px">
-                    {' '}
-                    Type Foyer{' '}
+                    {t('foyertype')}
                 </PopupTitle>
                 <PopupText isDark={isDark} top="210px">
-                    {selectedLampData.foyerType}
+                    {lampData === null ? '' : lampData.foyerType}
                 </PopupText>
+                <PopupTitle isDark={isDark} top="250px">
+                    {t('quality')}
+                </PopupTitle>
+                <PopupText isDark={isDark} top="250px" left="200px">
+                    {qualityText}
+                </PopupText>
+
                 {isLampHavingDecision && (
                     <div>
-                        <PopupTitle isDark={isDark} top="250px">
-                            {' '}
-                            Hauteur{' '}
+                        <PopupTitle isDark={isDark} top="300px">
+                            Hauteur
                         </PopupTitle>
-                        <PopupText isDark={isDark} top="250px">
+                        <PopupText isDark={isDark} top="300px">
                             {optimisationTemplateData.height} m
                         </PopupText>
                     </div>
                 )}
-                <PopupTextInfoTitle isDark={isDark} top="300px">
-                    {' '}
+                <PopupTextInfoTitle isDark={isDark} top="350px">
                     Consommation
                 </PopupTextInfoTitle>
                 <img
                     src={images.flash}
-                    alt="Flash"
-                    draggable="false"
-                    style={{
-                        position: 'absolute',
-                        top: '340px',
-                        left: '50px',
-                        width: '20px',
-                        userSelect: 'none',
-                    }}
-                />
-                <PopupText isDark={isDark} top="350px">
-                    {' '}
-                    50 kW/h{' '}
-                </PopupText>
-                <img
-                    src={images.leaf}
                     alt="Flash"
                     draggable="false"
                     style={{
@@ -158,25 +200,45 @@ const LampInfosPopup: React.FC<LampInfosPopupProps> = ({
                         userSelect: 'none',
                     }}
                 />
-                <PopupText isDark={isDark} top="390px">
-                    {' '}
-                    20g de CO/h{' '}
+                <PopupText isDark={isDark} top="400px">
+                    {lampData === null
+                        ? null
+                        : lampData.bulb === null
+                          ? 'Donnée inconnue'
+                          : lampData.bulb.consommation + ' kW/h'}
+                </PopupText>
+                <img
+                    src={images.leaf}
+                    alt="Leaf"
+                    draggable="false"
+                    style={{
+                        position: 'absolute',
+                        top: '440px',
+                        left: '50px',
+                        width: '20px',
+                        userSelect: 'none',
+                    }}
+                />
+                <PopupText isDark={isDark} top="440px">
+                    {lampData === null
+                        ? null
+                        : lampData.bulb === null
+                          ? 'Donnée inconnue'
+                          : lampData.bulb.consommation * 50 + 'g de CO²'}
                 </PopupText>
                 <MissingLampPopup isDark={isDark} />
                 {isLampHavingDecision && (
                     <div>
                         <ListDetailContainer isDark={isDark}>
                             <PopupTextActionsTitle isDark={isDark} top="10px">
-                                {' '}
                                 Action possible
                             </PopupTextActionsTitle>
                             <PopupTextActions isDark={isDark} top="50px">
-                                {' '}
                                 {optimisationTemplateData.solution}
                             </PopupTextActions>
                             <img
                                 src={images.switch_off}
-                                alt="Flash"
+                                alt="Switch Off"
                                 draggable="false"
                                 style={{
                                     position: 'absolute',
@@ -188,12 +250,11 @@ const LampInfosPopup: React.FC<LampInfosPopupProps> = ({
                             />
 
                             <PopupTextActionsTitle isDark={isDark} top="110px">
-                                {' '}
                                 Conséquences
                             </PopupTextActionsTitle>
                             <img
                                 src={images.descending_icon}
-                                alt="Flash"
+                                alt="Descending Icon"
                                 draggable="false"
                                 style={{
                                     position: 'absolute',
@@ -204,12 +265,10 @@ const LampInfosPopup: React.FC<LampInfosPopupProps> = ({
                                 }}
                             />
                             <PopupTextActions isDark={isDark} top="160px">
-                                {' '}
-                                250 kW/j{' '}
+                                250 kW/j
                             </PopupTextActions>
                             <PopupTextActions isDark={isDark} top="180px">
-                                {' '}
-                                100g de CO2/j{' '}
+                                100g de CO2/j
                             </PopupTextActions>
                         </ListDetailContainer>
                     </div>

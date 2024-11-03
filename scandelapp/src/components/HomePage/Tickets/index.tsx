@@ -63,9 +63,31 @@ const Tickets: React.FC<TicketsProps> = ({ closeToMainApp }) => {
         }
     };
 
+    const isAllField = () => {
+        let allField = true;
+
+        if (choosenItem === 'Catégorie') {
+            allField = false;
+        }
+        if (title === '') {
+            allField = false;
+        }
+
+        if (description === '') {
+            allField = false;
+        }
+        if (allField === false) {
+            alert('Veuillez remplir tous les champs');
+        }
+        return allField;
+    };
+
     const handleSendTicket = async () => {
-        await sendTicket();
-        closeToMainApp();
+        if (isAllField()) {
+            await sendTicket();
+            closeToMainApp();
+            alert('Le ticket a bien été envoyé');
+        }
     };
 
     return (

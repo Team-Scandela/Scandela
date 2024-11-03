@@ -10,7 +10,7 @@ import {
 } from '../../colors';
 
 export const BlockPremiumContainer = styled.div`
-display: flex;
+    display: flex;
     flex-direction: column;
     padding: 20px;
     width: auto;
