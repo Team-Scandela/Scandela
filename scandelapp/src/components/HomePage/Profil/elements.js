@@ -101,6 +101,7 @@ export const ProfileField = styled.div`
     user-select: none;
     color: ${DarkYellow};
     font-size: 20px;
+    width: 100%;
 `;
 
 export const EditButton = styled.div`

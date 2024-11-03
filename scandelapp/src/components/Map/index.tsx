@@ -12,8 +12,7 @@ import { allLamps } from '../../utils/lampUtils';
 import { FeatureCollection, Point } from 'geojson';
 
 // Load geographical data of Nantes from a local JSON file
-// let nantesData = allLamps;
-let nantesData = require('../../assets/nantesData.json');
+let nantesData = allLamps;
 let zonesData = require('../../assets/trameNoire.json');
 let armoiresData = require('../../assets/armoire.json');
 
@@ -134,7 +133,7 @@ const Map: React.FC<MapProps> = ({
     }
 
     // Crée les données géoJSON à partir des données de Nantes
-    /*const geojsonData = useMemo(() => {
+    const geojsonData = useMemo(() => {
         let geoJSON = {
             type: 'FeatureCollection',
             features: [] as any[],
@@ -155,33 +154,7 @@ const Map: React.FC<MapProps> = ({
                     height: obj.height,
                 },
             };
-            geoJSON.features.push(feature);
-        });
-        return geoJSON;
-    }, []);*/
 
-    const geojsonData = useMemo(() => {
-        let geoJSON = {
-            type: 'FeatureCollection',
-            features: [] as any[],
-        };
-        nantesData.forEach((obj: any) => {
-            const feature: any = {
-                type: 'Feature',
-                geometry: {
-                    type: obj.geometry.type,
-                    coordinates: [
-                        obj.geometry.coordinates[0],
-                        obj.geometry.coordinates[1],
-                    ],
-                },
-                properties: {
-                    id: obj.recordid,
-                    name: obj.fields.numero,
-                    lamp: obj.fields.type_lampe,
-                    hat: obj.fields.type_foyer,
-                },
-            };
             geoJSON.features.push(feature);
         });
         return geoJSON;
@@ -236,11 +209,11 @@ const Map: React.FC<MapProps> = ({
         return armoiresGeoJSON;
     }, []);
 
-    console.log('here');
-    console.log(zonesData);
-    console.log('here2');
-    console.log(armoiresData);
-    console.log(armoiresGeoJSON);
+    // console.log('here');
+    // console.log(zonesData);
+    // console.log('here2');
+    // console.log(armoiresData);
+    // console.log(armoiresGeoJSON);
 
     // const geoData = useMemo(() => {
     //     let jsonArmoire = {
@@ -557,6 +530,28 @@ const Map: React.FC<MapProps> = ({
                     'line-color': '#FFFFFF',
                     'line-width': 3,
                 },
+            });
+
+            map.current?.on('click', 'eco', (e) => {
+                const feature = e.features?.[0];
+                if (feature) {
+                    const { nomCommune, superficie, codeINSEE } =
+                        feature.properties;
+                    const coordinates = e.lngLat;
+
+                    new mapboxgl.Popup()
+                        .setLngLat(coordinates)
+                        .setHTML(
+                            `
+                    <div style="background-color: #FAC710; padding: 15px; font-size: 18px; color: black; border-radius: 1px; max-width: 300px;">
+                        <h3 style="font-size: 20px; margin: 0 0 10px 0;">${nomCommune}</h3>
+                        <p style="margin: 5px 0;">Superficie: ${superficie} m²</p>
+                        <p style="margin: 5px 0;">Code INSEE: ${codeINSEE}</p>
+                    </div>
+                    `
+                        )
+                        .addTo(map.current);
+                }
             });
 
             // Définit les couleurs en format RGBA avec une opacité de 0.6
@@ -1503,9 +1498,8 @@ const Map: React.FC<MapProps> = ({
 
     // Trouver l'objet correspondant au selectedLampId dans nantesData
     const selectedLampData = nantesData
-        // .at(0)
-        // .find((lamp: any) => lamp.id === selectedLampId);
-        .find((lamp: any) => lamp.recordid === selectedLampId);
+        .at(0)
+        .find((lamp: any) => lamp.id === selectedLampId);
 
     // Render the map component
     return (
@@ -1541,7 +1535,6 @@ const Map: React.FC<MapProps> = ({
                         (item: any) =>
                             item.name === selectedLampFeature.properties.name
                     )}
-                    selectedLampData={selectedLampData}
                     onClosePopup={() => {
                         setSelectedLampId(null);
 

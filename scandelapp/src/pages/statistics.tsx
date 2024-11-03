@@ -5,6 +5,7 @@ import {
     ScrollableContainer,
     ChartBanner,
     CardsAndRadarContainer,
+    RedirectButton,
 } from '../components/PerformanceChart/elements';
 import StatisticsCards from '../components/StatisticsCards';
 import RadarChartComponent from '../components/RadarChartComponent';
@@ -14,6 +15,7 @@ import TreeMapComponent from '../components/TreeMapComponent';
 import CityRankingRadarChart from '../components/CityRankingRadarChart';
 import StyledTitle from '../components/StyledTitle';
 import BlockPremium from '../components/BlockPremium';
+import { useNavigate } from 'react-router-dom';
 
 const StatisticsPage = () => {
     const [efficiencyData, setEfficiencyData] = useState<
@@ -236,6 +238,11 @@ const StatisticsPage = () => {
         fetchData();
     }, []);
 
+    const navigate = useNavigate();
+    const redirectToHomepage = () => {
+        navigate('/homepage');
+    };
+
     const isPremium = localStorage.getItem('premium') === 'true';
     const isAdmin = localStorage.getItem('token') === 'true';
 
@@ -278,6 +285,12 @@ const StatisticsPage = () => {
                 <LampPostTable lampPosts={lampPosts} />
                 <TreeMapComponent />
                 <CityRankingRadarChart />
+                <RedirectButton
+                    style={{ marginTop: '1rem' }}
+                    onClick={redirectToHomepage}
+                >
+                    Retourner à la page d'accueil
+                </RedirectButton>
             </ScrollableContainer>
         </StatisticsPageContainer>
     );

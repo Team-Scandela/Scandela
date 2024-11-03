@@ -11,6 +11,7 @@ import {
     SubmitButton,
     AdminButton,
     PremiumTextContainer,
+    NeedDecoText,
 } from './elements';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -73,10 +74,13 @@ const Premium: React.FC<PremiumProps> = ({ closeToMainApp }) => {
                     </div>
                 )}
                 {showForm && (
-                    <div>
+                    <div style={{ display: 'flex', flexDirection: 'column' }}>
                         <SubmitButton onClick={handleFormSubmit}>
                             {t('buy')}
                         </SubmitButton>
+                        <NeedDecoText>
+                            {t('needDeco')}
+                        </NeedDecoText>
                         {localStorage.getItem('token') === 'true' && (
                             <AdminButton onClick={handleAdminPremium}>
                                 {t('adminPremium')}

@@ -124,7 +124,8 @@ const LoginModule: React.FC<LoginModuleProps> = ({
     };
 
     const handleSubmitSignUp = async (event: any) => {
-        if (passwordSignUp !== '' && passwordSignUp === passwordConfirmSignUp) {
+        if (isIdPwdValid()) {
+            setError('');
             event.preventDefault();
 
             const response = await signUp(
@@ -134,6 +135,61 @@ const LoginModule: React.FC<LoginModuleProps> = ({
             );
             handleValidLogin(response);
         }
+    };
+
+    const isIdPwdValid = () => {
+        if (usernameSignUp == '') {
+            setError("Le nom d'utilisateur ne peut pas être vide.");
+            return false;
+        }
+        if (!isEmailValid(emailSignUp)) {
+            return false;
+        }
+        if (emailSignUp == '') {
+            setError("L'email ne peut pas être vide.");
+            return false;
+        }
+        if (passwordSignUp == '') {
+            setError('Le mot de passe ne peut pas être vide.');
+            return false;
+        }
+        if (passwordSignUp !== passwordConfirmSignUp) {
+            setError('Les mots de passe ne correspondent pas.');
+            return false;
+        }
+        if (!isPasswordValid(passwordSignUp)) {
+            return false;
+        }
+
+        return true;
+    };
+
+    const isEmailValid = (email: string) => {
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            setError("L'email n'est pas valide.");
+            return false;
+        }
+        return true;
+    };
+
+    const isPasswordValid = (password: string) => {
+        if (password.length < 8) {
+            setError('Le mot de passe doit contenir au moins 8 caractères.');
+            return false;
+        }
+        if (!/[a-z]/.test(password)) {
+            setError('Le mot de passe doit contenir au moins une minuscule.');
+            return false;
+        }
+        if (!/[A-Z]/.test(password)) {
+            setError('Le mot de passe doit contenir au moins une majuscule.');
+            return false;
+        }
+        if (!/[0-9]/.test(password)) {
+            setError('Le mot de passe doit contenir au moins un chiffre.');
+            return false;
+        }
+        return true;
     };
 
     const getUserData = async () => {
@@ -147,11 +203,11 @@ const LoginModule: React.FC<LoginModuleProps> = ({
         <LoginContainer>
             <SignUpContainer signInPage={signInPage}>
                 <Form id="signInForm">
-                    <Title>Create Account</Title>
+                    <Title>Créer un compte</Title>
                     <Input
                         id="nameInputBox"
                         type="text"
-                        placeholder="Name"
+                        placeholder="Nom"
                         value={usernameSignUp}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                             setUsernameSignUp(e.target.value)
@@ -169,7 +225,7 @@ const LoginModule: React.FC<LoginModuleProps> = ({
                     <Input
                         id="passwordInputBox"
                         type="password"
-                        placeholder="Password"
+                        placeholder="Mot de passe"
                         value={passwordSignUp}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                             setPasswordSignUp(e.target.value)
@@ -177,15 +233,16 @@ const LoginModule: React.FC<LoginModuleProps> = ({
                     />
                     <Input
                         type="password"
-                        placeholder="Confirm Password"
+                        placeholder="Confirmer le mot de passe"
                         value={passwordConfirmSignUp}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                             setPasswordConfirmSignUp(e.target.value)
                         }
                     />
+                    {error && <ErrorMessage>{error}</ErrorMessage>}
                     <Button id={'signUpButton'} onClick={handleSubmitSignUp}>
                         {' '}
-                        Sign Up{' '}
+                        Créer le compte{' '}
                     </Button>
                 </Form>
             </SignUpContainer>
@@ -193,7 +250,7 @@ const LoginModule: React.FC<LoginModuleProps> = ({
             <SignInContainer signInPage={signInPage}>
                 {!forgotPassword && (
                     <Form>
-                        <Title>Sign In</Title>
+                        <Title>Se connecter</Title>
                         <Input
                             type="text"
                             placeholder="Email"
@@ -204,7 +261,7 @@ const LoginModule: React.FC<LoginModuleProps> = ({
                         />
                         <Input
                             type="password"
-                            placeholder="Password"
+                            placeholder="Mot de passe"
                             value={passwordSignIn}
                             onChange={(
                                 e: React.ChangeEvent<HTMLInputElement>
@@ -215,18 +272,21 @@ const LoginModule: React.FC<LoginModuleProps> = ({
                                 setForgotPassword(true);
                             }}
                         >
-                            Forgot your password?
+                            Mot de passe oublié ?
                         </Anchor>
-                        <Button onClick={handleSubmitSignIn}> Sign In </Button>
+                        <Button onClick={handleSubmitSignIn}>
+                            {' '}
+                            Se conncter{' '}
+                        </Button>
                         {error && <ErrorMessage>{error}</ErrorMessage>}
                     </Form>
                 )}
                 {forgotPassword && (
                     <Form>
-                        <Title>Forgot your password?</Title>
+                        <Title>Mot de passe oublié ?</Title>
                         <Paragraph>
-                            Enter your email and we will send you a link to
-                            reset your password.
+                            Veuillez entrer votre adresse email pour
+                            réinitialiser votre mot de passe
                         </Paragraph>
                         <Input
                             type="text"
@@ -253,15 +313,15 @@ const LoginModule: React.FC<LoginModuleProps> = ({
                                         value.id
                                     );
                                     alert(
-                                        'An email has been sent to ' +
+                                        'Un email a été envoyé à ' +
                                             forgotPasswordEmail +
-                                            ' to reset your password.'
+                                            ' pour réinitialiser votre mot de passe.'
                                     );
                                 });
                             }}
                         >
                             {' '}
-                            Send{' '}
+                            Envoyer{' '}
                         </Button>
                     </Form>
                 )}
@@ -270,10 +330,11 @@ const LoginModule: React.FC<LoginModuleProps> = ({
             <OverlayContainer signinIn={signInPage}>
                 <Overlay signinIn={signInPage}>
                     <LeftOverlayPanel signinIn={signInPage}>
-                        <Title>Welcome Back!</Title>
+                        <Title>Bienvenue à nouveau !</Title>
                         <Paragraph>
                             {' '}
-                            To keep connected with us please login
+                            Pour accéder à Scandela, veuillez vous connecter
+                            avec vos informations personnelles{' '}
                         </Paragraph>
                         <GhostButton onClick={() => setSignInPage(true)}>
                             Sign Up
@@ -281,9 +342,10 @@ const LoginModule: React.FC<LoginModuleProps> = ({
                     </LeftOverlayPanel>
 
                     <RightOverlayPanel signinIn={signInPage}>
-                        <Title>Hello !</Title>
+                        <Title>Bonjour !</Title>
                         <Paragraph>
-                            Enter Your personal details and connect to Scandela
+                            Entrez vos informations personnelles et créer votre
+                            compte Scandela
                         </Paragraph>
                         <GhostButton
                             onClick={() => {

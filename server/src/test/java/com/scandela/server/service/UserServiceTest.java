@@ -281,7 +281,7 @@ public class UserServiceTest {
 				.password(password2)
 				.rights(rights2)
 				.moreInformations(new ArrayList<>())
-				.darkmode(false)
+				.darkmode(true)
 				.lastConnexion(LocalDateTime.now().minusDays(1))
 				.build();
 		

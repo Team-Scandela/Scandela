@@ -16,7 +16,7 @@ const BlockPremium = () => {
                 Page réservée aux utilisateurs premium et/ou administateur
             </StyledTitle>
             <BlockPremiumRedirectButton onClick={redirectToHomepage}>
-                Redirect to Homepage
+                Retourner à la page d'accueil
             </BlockPremiumRedirectButton>
         </BlockPremiumContainer>
     );

@@ -170,3 +170,17 @@ export const AdminButton = styled.button`
     }
     font-family: 'SyneRegular';
 `;
+
+export const NeedDecoText = styled.div`
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    top : 80%;
+    left: 15%;
+    font-size: 16px;
+    color: ${Yellow};
+    font-weight: 700;
+    margin: 8px 0;
+    font-family: 'SyneRegular';
+    text-align: center;
+`;

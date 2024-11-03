@@ -104,17 +104,41 @@ const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
     const handleSaveClick = (field: string) => {
         switch (field) {
             case 'name':
+                if (name.length === 0) {
+                    alert(
+                        'Vous ne pouvez pas remplacer votre nom par un texte vide.'
+                    );
+                    return;
+                }
                 updateUserName();
                 setIsEditingName(false);
                 break;
             case 'email':
+                if (email.length === 0) {
+                    alert(
+                        'Vous ne pouvez pas remplacer votre email par un texte vide.'
+                    );
+                    return;
+                }
                 updateUserEmail();
                 setIsEditingEmail(false);
                 break;
             case 'password':
+                if (password.length <= 8) {
+                    alert(
+                        'Votre mot de passe doit contenir au moins 8 caractères.'
+                    );
+                    return;
+                }
                 setIsEditingPassword(false);
                 break;
             case 'kwH':
+                if (kwH.length === 0) {
+                    alert(
+                        'Vous ne pouvez pas remplacer votre consommation par un texte vide.'
+                    );
+                    return;
+                }
                 setIsEditingKwH(false);
                 break;
             default:
@@ -306,6 +330,7 @@ const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
                                 type="text"
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
+                                style={{ width: '70%' }}
                             />
                         ) : (
                             name
@@ -327,6 +352,7 @@ const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
                                 type="text"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
+                                style={{ width: '70%' }}
                             />
                         ) : (
                             email
@@ -361,7 +387,7 @@ const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
                             </EditButton>
                         )}
                     </ProfileField>
-                    <ProfileField top={'35%'} left={'2.5%'}>
+                    {/* <ProfileField top={'35%'} left={'2.5%'}>
                         {t('KWhOfTheCity')} :{' '}
                         {isEditingKwH ? (
                             <input
@@ -382,7 +408,7 @@ const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
                                 <EditIcon></EditIcon>
                             </EditButton>
                         )}
-                    </ProfileField>
+                    </ProfileField> */}
                     <LogoutButton onClick={handleLogout} />
                 </ProfilPart>
                 <ProfilPart left={'75%'}>
