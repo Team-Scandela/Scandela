@@ -249,7 +249,9 @@ const resources = {
             midQuality: 'normal lightning quality',
             goodQuality: 'good lightning quality',
             unknownQuality: 'unknown lightning quality',
-            quality: 'Quality'
+            quality: 'Quality',
+            noEvent: 'No new events since your last visit',
+            needDeco: 'After buying the premium version, you will need to log out and log back in to activate the premium features.',
         },
     },
 
@@ -500,11 +502,13 @@ const resources = {
             noFilter: 'Aucun filtre',
             badBulb: 'Ampoules de mauvaise qualité',
             lamps: 'lampadaires',
-            badQuality: 'Mauvaise qualité d\'éclairage',
+            badQuality: "Mauvaise qualité d'éclairage",
             midQuality: 'Éclairage sensiblement correct',
-            goodQuality: 'Bonne qualité d\'éclairage',
-            unknownQuality: 'Qualité d\'éclairage inconnue',
-            quality: 'Qualité'
+            goodQuality: "Bonne qualité d'éclairage",
+            unknownQuality: "Qualité d'éclairage inconnue",
+            quality: 'Qualité',
+            noEvent: 'Aucun nouvel événement depuis votre dernière visite',
+            needDeco : 'Après avoir acheté la version premium, vous devez vous reconnecter pour que les changements prennent effet.',
         },
     },
 };
