@@ -11,6 +11,7 @@ import {
     CloseIcon,
     ListDetailContainer,
 } from './elements';
+import { useTranslation } from 'react-i18next';
 
 import MissingLampPopup from '../MissingLampPopup/';
 
@@ -31,6 +32,7 @@ const LampInfosPopup: React.FC<LampInfosPopupProps> = ({
     optimisationTemplateData,
     onClosePopup,
 }) => {
+    const { t } = useTranslation();
     const [lampData, setLampData] = useState(null);
 
     useEffect(() => {
@@ -100,19 +102,19 @@ const LampInfosPopup: React.FC<LampInfosPopupProps> = ({
     }, [isDragging, onDragging]);
 
     // Fonction pour déterminer la qualité de l'éclairage
-    const getQualityInfo = (type: string) => {
+    const GetQualityInfo = (type: string) => {
         switch (type) {
             case 'SHP':
             case 'IMC':
             case 'IM':
                 return {
-                    text: 'Très mauvaise qualité',
+                    text: t('badQuality'),
                 };
             case 'MBF':
             case 'IC':
             case 'SBP':
                 return {
-                    text: "Moyenne qualité d'éclairage",
+                    text: t('midQuality'),
                 };
             case 'DIC':
             case 'HAL':
@@ -121,16 +123,16 @@ const LampInfosPopup: React.FC<LampInfosPopupProps> = ({
             case 'TF':
             case 'FC':
                 return {
-                    text: "Très bonne qualité d'éclairage",
+                    text: t('goodQuality'),
                 };
             default:
                 return {
-                    text: 'Qualité inconnue',
+                    text: t('unknownQuality'),
                 };
         }
     };
 
-    const { text: qualityText } = getQualityInfo(
+    const { text: qualityText } = GetQualityInfo(
         lampData === null ? '' : lampData.lampType
     );
 
@@ -155,19 +157,19 @@ const LampInfosPopup: React.FC<LampInfosPopupProps> = ({
                     Informations
                 </PopupTextInfoTitle>
                 <PopupTitle isDark={isDark} top="170px">
-                    Type Lampe
+                    {t('lamptype')}
                 </PopupTitle>
                 <PopupText isDark={isDark} top="170px">
                     {lampData === null ? '' : lampData.lampType}
                 </PopupText>
                 <PopupTitle isDark={isDark} top="210px">
-                    Type Foyer
+                    {t('foyertype')}
                 </PopupTitle>
                 <PopupText isDark={isDark} top="210px">
                     {lampData === null ? '' : lampData.foyerType}
                 </PopupText>
                 <PopupTitle isDark={isDark} top="250px">
-                    Qualité:
+                    {t('quality')}
                 </PopupTitle>
                 <PopupText isDark={isDark} top="250px" left="200px">
                     {qualityText}
