@@ -11,7 +11,6 @@ const Login: React.FC<LoginProps> = ({
     setOptimisationTemplateData,
     addItemToOptimisationTemplate,
 }) => {
-
     // on efface le localstorage sur le login pour empecher le bypass par sauvegarde du token
     useEffect(() => {
         localStorage.clear();

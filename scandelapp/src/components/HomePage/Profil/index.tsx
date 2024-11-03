@@ -105,7 +105,9 @@ const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
         switch (field) {
             case 'name':
                 if (name.length === 0) {
-                    alert('Vous ne pouvez pas remplacer votre nom par un texte vide.');
+                    alert(
+                        'Vous ne pouvez pas remplacer votre nom par un texte vide.'
+                    );
                     return;
                 }
                 updateUserName();
@@ -113,7 +115,9 @@ const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
                 break;
             case 'email':
                 if (email.length === 0) {
-                    alert('Vous ne pouvez pas remplacer votre email par un texte vide.');
+                    alert(
+                        'Vous ne pouvez pas remplacer votre email par un texte vide.'
+                    );
                     return;
                 }
                 updateUserEmail();
@@ -121,14 +125,18 @@ const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
                 break;
             case 'password':
                 if (password.length <= 8) {
-                    alert('Votre mot de passe doit contenir au moins 8 caractères.');
+                    alert(
+                        'Votre mot de passe doit contenir au moins 8 caractères.'
+                    );
                     return;
                 }
                 setIsEditingPassword(false);
                 break;
             case 'kwH':
                 if (kwH.length === 0) {
-                    alert('Vous ne pouvez pas remplacer votre consommation par un texte vide.');
+                    alert(
+                        'Vous ne pouvez pas remplacer votre consommation par un texte vide.'
+                    );
                     return;
                 }
                 setIsEditingKwH(false);

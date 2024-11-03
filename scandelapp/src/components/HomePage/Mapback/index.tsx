@@ -58,14 +58,13 @@ const Mapback: React.FC<MapbackProps> = ({
                 const markerElement = document.createElement('div');
                 if (marker.needPremium && !(isPremium || isAdmin)) {
                     markerElement.className = marker.small
-                    ? 'marker-notPremium noEvents small'
-                    : 'marker-notPremium noEvents';
+                        ? 'marker-notPremium noEvents small'
+                        : 'marker-notPremium noEvents';
                 } else {
                     markerElement.className = marker.small
-                    ? 'marker small'
-                    : 'marker';
+                        ? 'marker small'
+                        : 'marker';
                 }
-
 
                 const markerContent = document.createElement('div');
                 markerContent.className = 'marker-content';

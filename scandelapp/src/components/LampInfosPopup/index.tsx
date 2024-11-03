@@ -37,7 +37,8 @@ const LampInfosPopup: React.FC<LampInfosPopupProps> = ({
         const getLampData = async () => {
             const username = process.env.REACT_APP_REQUEST_USER;
             const password = process.env.REACT_APP_REQUEST_PASSWORD;
-            const urlLamp = process.env.REACT_APP_BACKEND_URL + `lamps/${selectedLampId}`;
+            const urlLamp =
+                process.env.REACT_APP_BACKEND_URL + `lamps/${selectedLampId}`;
 
             const response = await fetch(urlLamp, {
                 method: 'GET',
@@ -130,7 +131,7 @@ const LampInfosPopup: React.FC<LampInfosPopupProps> = ({
     };
 
     const { text: qualityText } = getQualityInfo(
-        lampData === null ? "" : lampData.lampType
+        lampData === null ? '' : lampData.lampType
     );
 
     return (
@@ -144,10 +145,10 @@ const LampInfosPopup: React.FC<LampInfosPopupProps> = ({
             >
                 <CloseIcon isDark={isDark} onClick={closePopup}></CloseIcon>
                 <PopupTextLampName isDark={isDark}>
-                    Lampadaire {lampData === null ? "" : lampData.name}
+                    Lampadaire {lampData === null ? '' : lampData.name}
                 </PopupTextLampName>
                 <PopupSubTextLampName isDark={isDark} top="70px">
-                    {lampData === null ? "" : lampData.address}
+                    {lampData === null ? '' : lampData.address}
                 </PopupSubTextLampName>
 
                 <PopupTextInfoTitle isDark={isDark} top="120px">
@@ -157,13 +158,13 @@ const LampInfosPopup: React.FC<LampInfosPopupProps> = ({
                     Type Lampe
                 </PopupTitle>
                 <PopupText isDark={isDark} top="170px">
-                    {lampData === null ? "" : lampData.lampType}
+                    {lampData === null ? '' : lampData.lampType}
                 </PopupText>
                 <PopupTitle isDark={isDark} top="210px">
                     Type Foyer
                 </PopupTitle>
                 <PopupText isDark={isDark} top="210px">
-                    {lampData === null ? "" : lampData.foyerType}
+                    {lampData === null ? '' : lampData.foyerType}
                 </PopupText>
                 <PopupTitle isDark={isDark} top="250px">
                     Qualité:
@@ -198,8 +199,11 @@ const LampInfosPopup: React.FC<LampInfosPopupProps> = ({
                     }}
                 />
                 <PopupText isDark={isDark} top="400px">
-                    {lampData === null ? null :
-                     lampData.bulb === null ? "Donnée inconnue" : lampData.bulb.consommation + " kW/h"}
+                    {lampData === null
+                        ? null
+                        : lampData.bulb === null
+                          ? 'Donnée inconnue'
+                          : lampData.bulb.consommation + ' kW/h'}
                 </PopupText>
                 <img
                     src={images.leaf}
@@ -214,8 +218,11 @@ const LampInfosPopup: React.FC<LampInfosPopupProps> = ({
                     }}
                 />
                 <PopupText isDark={isDark} top="440px">
-                    {lampData === null ? null :
-                     lampData.bulb === null ? "Donnée inconnue" : (lampData.bulb.consommation * 50) + "g de CO²"}
+                    {lampData === null
+                        ? null
+                        : lampData.bulb === null
+                          ? 'Donnée inconnue'
+                          : lampData.bulb.consommation * 50 + 'g de CO²'}
                 </PopupText>
                 <MissingLampPopup isDark={isDark} />
                 {isLampHavingDecision && (
