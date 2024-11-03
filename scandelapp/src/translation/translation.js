@@ -251,6 +251,7 @@ const resources = {
             unknownQuality: 'unknown lightning quality',
             quality: 'Quality',
             noEvent: 'No new events since your last visit',
+            needDeco: 'After buying the premium version, you will need to log out and log back in to activate the premium features.',
         },
     },
 
@@ -507,6 +508,7 @@ const resources = {
             unknownQuality: "Qualité d'éclairage inconnue",
             quality: 'Qualité',
             noEvent: 'Aucun nouvel événement depuis votre dernière visite',
+            needDeco : 'Après avoir acheté la version premium, vous devez vous reconnecter pour que les changements prennent effet.',
         },
     },
 };
