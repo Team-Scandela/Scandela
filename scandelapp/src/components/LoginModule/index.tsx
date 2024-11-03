@@ -139,14 +139,14 @@ const LoginModule: React.FC<LoginModuleProps> = ({
 
     const isIdPwdValid = () => {
         if (usernameSignUp == '') {
-            setError('Le nom d\'utilisateur ne peut pas être vide.');
+            setError("Le nom d'utilisateur ne peut pas être vide.");
             return false;
         }
         if (!isEmailValid(emailSignUp)) {
             return false;
         }
         if (emailSignUp == '') {
-            setError('L\'email ne peut pas être vide.');
+            setError("L'email ne peut pas être vide.");
             return false;
         }
         if (passwordSignUp == '') {
@@ -162,15 +162,15 @@ const LoginModule: React.FC<LoginModuleProps> = ({
         }
 
         return true;
-    }
+    };
 
     const isEmailValid = (email: string) => {
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-            setError('L\'email n\'est pas valide.');
+            setError("L'email n'est pas valide.");
             return false;
         }
         return true;
-    }
+    };
 
     const isPasswordValid = (password: string) => {
         if (password.length < 8) {
@@ -274,7 +274,10 @@ const LoginModule: React.FC<LoginModuleProps> = ({
                         >
                             Mot de passe oublié ?
                         </Anchor>
-                        <Button onClick={handleSubmitSignIn}> Se conncter </Button>
+                        <Button onClick={handleSubmitSignIn}>
+                            {' '}
+                            Se conncter{' '}
+                        </Button>
                         {error && <ErrorMessage>{error}</ErrorMessage>}
                     </Form>
                 )}
@@ -282,8 +285,8 @@ const LoginModule: React.FC<LoginModuleProps> = ({
                     <Form>
                         <Title>Mot de passe oublié ?</Title>
                         <Paragraph>
-                            Veuillez entrer votre adresse email pour réinitialiser
-                            votre mot de passe
+                            Veuillez entrer votre adresse email pour
+                            réinitialiser votre mot de passe
                         </Paragraph>
                         <Input
                             type="text"
@@ -330,7 +333,8 @@ const LoginModule: React.FC<LoginModuleProps> = ({
                         <Title>Bienvenue à nouveau !</Title>
                         <Paragraph>
                             {' '}
-                            Pour accéder à Scandela, veuillez vous connecter avec vos informations personnelles{' '}
+                            Pour accéder à Scandela, veuillez vous connecter
+                            avec vos informations personnelles{' '}
                         </Paragraph>
                         <GhostButton onClick={() => setSignInPage(true)}>
                             Sign Up
@@ -340,7 +344,8 @@ const LoginModule: React.FC<LoginModuleProps> = ({
                     <RightOverlayPanel signinIn={signInPage}>
                         <Title>Bonjour !</Title>
                         <Paragraph>
-                            Entrez vos informations personnelles et créer votre compte Scandela
+                            Entrez vos informations personnelles et créer votre
+                            compte Scandela
                         </Paragraph>
                         <GhostButton
                             onClick={() => {

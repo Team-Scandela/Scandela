@@ -330,7 +330,7 @@ const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
                                 type="text"
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
-                                style = {{width: '70%'}}
+                                style={{ width: '70%' }}
                             />
                         ) : (
                             name
@@ -352,7 +352,7 @@ const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
                                 type="text"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                style = {{width: '70%'}}
+                                style={{ width: '70%' }}
                             />
                         ) : (
                             email
