@@ -36,6 +36,7 @@ export const Backdrop = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 10000000000;
 `;
 
 export const ModalWrapper = styled.div`
