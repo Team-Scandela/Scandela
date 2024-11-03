@@ -1,4 +1,5 @@
 import LoginModule from '../components/LoginModule';
+import React, { useEffect } from 'react';
 
 interface LoginProps {
     setOptimisationTemplateData: (data: any) => void;
@@ -10,6 +11,12 @@ const Login: React.FC<LoginProps> = ({
     setOptimisationTemplateData,
     addItemToOptimisationTemplate,
 }) => {
+
+    // on efface le localstorage sur le login pour empecher le bypass par sauvegarde du token
+    useEffect(() => {
+        localStorage.clear();
+    }, []);
+
     return (
         <div
             id={'loginPage'}
