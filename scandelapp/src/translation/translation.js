@@ -229,7 +229,8 @@ const resources = {
             filterBulbQuality: 'Filter by bulb quality',
             filterComponent: 'Filtre by component',
             filterTraffic: 'Filter by traffic',
-            filterCabinet: 'Filtre by electrical cabinet',
+            filterCabinet: 'Filter by electrical cabinet',
+            filterEco: 'Filter by ecological zones',
             others: 'Others',
             titleLampListPannel: 'Lamp list',
             toDo: 'To-do list',
@@ -244,6 +245,11 @@ const resources = {
             noFilter: 'No filter',
             badBulb: 'Bulb with bad quality',
             lamps: 'lamps',
+            badQuality: 'Bad lightning quality',
+            midQuality: 'normal lightning quality',
+            goodQuality: 'good lightning quality',
+            unknownQuality: 'unknown lightning quality',
+            quality: 'Quality'
         },
     },
 
@@ -480,6 +486,7 @@ const resources = {
             filterComponent: 'Filtre par composant',
             filterTraffic: 'Filtre par traffic',
             filterCabinet: 'Filtre par armoire électrique',
+            filterEco: 'Filtre par zone écologiquement sensible',
             others: 'Autres',
             titleLampListPannel: 'Liste des lampadaires',
             toDo: 'To-do list',
@@ -493,6 +500,11 @@ const resources = {
             noFilter: 'Aucun filtre',
             badBulb: 'Ampoules de mauvaise qualité',
             lamps: 'lampadaires',
+            badQuality: 'Mauvaise qualité d\'éclairage',
+            midQuality: 'Éclairage sensiblement correct',
+            goodQuality: 'Bonne qualité d\'éclairage',
+            unknownQuality: 'Qualité d\'éclairage inconnue',
+            quality: 'Qualité'
         },
     },
 };

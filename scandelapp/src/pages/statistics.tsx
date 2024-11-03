@@ -5,7 +5,7 @@ import {
     ScrollableContainer,
     ChartBanner,
     CardsAndRadarContainer,
-    RedirectButton
+    RedirectButton,
 } from '../components/PerformanceChart/elements';
 import StatisticsCards from '../components/StatisticsCards';
 import RadarChartComponent from '../components/RadarChartComponent';
@@ -285,7 +285,10 @@ const StatisticsPage = () => {
                 <LampPostTable lampPosts={lampPosts} />
                 <TreeMapComponent />
                 <CityRankingRadarChart />
-                <RedirectButton style={{ marginTop: '1rem' }} onClick={redirectToHomepage}>
+                <RedirectButton
+                    style={{ marginTop: '1rem' }}
+                    onClick={redirectToHomepage}
+                >
                     Retourner à la page d'accueil
                 </RedirectButton>
             </ScrollableContainer>
