@@ -265,15 +265,16 @@ export const InputName = styled.input`
     height: 40px;
     top: 25%;
     left: 10%;
+    border: 1px solid ${({ isError }) => (isError ? 'red' : 'black')};
     border-radius: 5px;
     background-color: ${DarkGrey};
-    color: ${({ isFailed }) => (isFailed ? Red : White)};
     user-select: none;
     font-size: 20px;
     padding-left: 10px;
     cursor: pointer;
     &:focus {
         outline: none;
+        border-color: ${({ isError }) => (isError ? 'darkred' : '#blue')};
     }
 `;
 
