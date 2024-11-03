@@ -179,9 +179,9 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
 
         const dataUser = await getUser();
         const author = dataUser.username;
+        const city = dataUser.town.name;
 
-
-        generatePDFDocument(validateData, author, 'Nantes');
+        generatePDFDocument(validateData, author, city);
         setOptimisationTemplateData(optimisationTemplateData);
         if (
             notificationsPreference.find(
