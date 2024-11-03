@@ -17,6 +17,7 @@ import Premium from '../components/HomePage/Premium';
 import FAQ from '../components/HomePage/FAQ';
 import Stats from '../components/HomePage/Stats';
 import Law from '../components/HomePage/Law';
+import Toastr from '../components/Toastr';
 
 export interface MarkerData {
     id: string;
@@ -164,6 +165,7 @@ const HomePage: React.FC<HomePageProps> = () => {
                     {whatToRender(toRender)}
                 </div>
             </CSSTransition>
+            <Toastr id={'toastrComponentId'} isDark={true}/>
         </div>
     );
 };

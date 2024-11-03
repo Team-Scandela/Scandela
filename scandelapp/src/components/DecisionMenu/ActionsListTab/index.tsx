@@ -34,6 +34,7 @@ import { useNavigate } from 'react-router-dom';
 import { showToast } from '../../Toastr';
 import { createNotification } from '../../../utils/notificationUtils';
 import { getLampPrice } from '../../../utils/actionsPriceUtils';
+import { getUser } from '../../../utils/userUtils';
 
 /** Menu of the decision pannel
  * @param {boolean} isDark - If the map is in dark mode or not
@@ -175,7 +176,12 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
                 optimisationTemplateData[i].saved = false;
             }
         }
-        generatePDFDocument(validateData, 'Auteur', 'Nantes');
+
+        const dataUser = await getUser();
+        const author = dataUser.username;
+        const city = dataUser.town.name;
+
+        generatePDFDocument(validateData, author, city);
         setOptimisationTemplateData(optimisationTemplateData);
         if (
             notificationsPreference.find(

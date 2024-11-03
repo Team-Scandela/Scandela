@@ -88,7 +88,6 @@ const LoginModule: React.FC<LoginModuleProps> = ({
         localStorage.setItem('tmpConsumptionScore', JSON.stringify(false));
         localStorage.setItem('tmpLightScore', JSON.stringify(false));
         localStorage.setItem('lassoActive', JSON.stringify(false));
-        //getAllScores();
 
         if (data.rights === 2) {
             localStorage.setItem('token', JSON.stringify(true));
@@ -139,14 +138,14 @@ const LoginModule: React.FC<LoginModuleProps> = ({
 
     const isIdPwdValid = () => {
         if (usernameSignUp == '') {
-            setError('Le nom d\'utilisateur ne peut pas être vide.');
+            setError("Le nom d'utilisateur ne peut pas être vide.");
             return false;
         }
         if (!isEmailValid(emailSignUp)) {
             return false;
         }
         if (emailSignUp == '') {
-            setError('L\'email ne peut pas être vide.');
+            setError("L'email ne peut pas être vide.");
             return false;
         }
         if (passwordSignUp == '') {
@@ -162,15 +161,15 @@ const LoginModule: React.FC<LoginModuleProps> = ({
         }
 
         return true;
-    }
+    };
 
     const isEmailValid = (email: string) => {
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-            setError('L\'email n\'est pas valide.');
+            setError("L'email n'est pas valide.");
             return false;
         }
         return true;
-    }
+    };
 
     const isPasswordValid = (password: string) => {
         if (password.length < 8) {
@@ -203,11 +202,11 @@ const LoginModule: React.FC<LoginModuleProps> = ({
         <LoginContainer>
             <SignUpContainer signInPage={signInPage}>
                 <Form id="signInForm">
-                    <Title>Create Account</Title>
+                    <Title>Créer un compte</Title>
                     <Input
                         id="nameInputBox"
                         type="text"
-                        placeholder="Name"
+                        placeholder="Nom"
                         value={usernameSignUp}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                             setUsernameSignUp(e.target.value)
@@ -225,7 +224,7 @@ const LoginModule: React.FC<LoginModuleProps> = ({
                     <Input
                         id="passwordInputBox"
                         type="password"
-                        placeholder="Password"
+                        placeholder="Mot de passe"
                         value={passwordSignUp}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                             setPasswordSignUp(e.target.value)
@@ -233,7 +232,7 @@ const LoginModule: React.FC<LoginModuleProps> = ({
                     />
                     <Input
                         type="password"
-                        placeholder="Confirm Password"
+                        placeholder="Confirmer le mot de passe"
                         value={passwordConfirmSignUp}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                             setPasswordConfirmSignUp(e.target.value)
@@ -242,7 +241,7 @@ const LoginModule: React.FC<LoginModuleProps> = ({
                     {error && <ErrorMessage>{error}</ErrorMessage>}
                     <Button id={'signUpButton'} onClick={handleSubmitSignUp}>
                         {' '}
-                        Sign Up{' '}
+                        Créer le compte{' '}
                     </Button>
                 </Form>
             </SignUpContainer>
@@ -250,7 +249,7 @@ const LoginModule: React.FC<LoginModuleProps> = ({
             <SignInContainer signInPage={signInPage}>
                 {!forgotPassword && (
                     <Form>
-                        <Title>Sign In</Title>
+                        <Title>Se connecter</Title>
                         <Input
                             type="text"
                             placeholder="Email"
@@ -261,7 +260,7 @@ const LoginModule: React.FC<LoginModuleProps> = ({
                         />
                         <Input
                             type="password"
-                            placeholder="Password"
+                            placeholder="Mot de passe"
                             value={passwordSignIn}
                             onChange={(
                                 e: React.ChangeEvent<HTMLInputElement>
@@ -272,18 +271,21 @@ const LoginModule: React.FC<LoginModuleProps> = ({
                                 setForgotPassword(true);
                             }}
                         >
-                            Forgot your password?
+                            Mot de passe oublié ?
                         </Anchor>
-                        <Button onClick={handleSubmitSignIn}> Sign In </Button>
+                        <Button onClick={handleSubmitSignIn}>
+                            {' '}
+                            Se connecter{' '}
+                        </Button>
                         {error && <ErrorMessage>{error}</ErrorMessage>}
                     </Form>
                 )}
                 {forgotPassword && (
                     <Form>
-                        <Title>Forgot your password?</Title>
+                        <Title>Mot de passe oublié ?</Title>
                         <Paragraph>
-                            Enter your email and we will send you a link to
-                            reset your password.
+                            Veuillez entrer votre adresse email pour
+                            réinitialiser votre mot de passe
                         </Paragraph>
                         <Input
                             type="text"
@@ -310,15 +312,15 @@ const LoginModule: React.FC<LoginModuleProps> = ({
                                         value.id
                                     );
                                     alert(
-                                        'An email has been sent to ' +
+                                        'Un email a été envoyé à ' +
                                             forgotPasswordEmail +
-                                            ' to reset your password.'
+                                            ' pour réinitialiser votre mot de passe.'
                                     );
                                 });
                             }}
                         >
                             {' '}
-                            Send{' '}
+                            Envoyer{' '}
                         </Button>
                     </Form>
                 )}
@@ -327,10 +329,11 @@ const LoginModule: React.FC<LoginModuleProps> = ({
             <OverlayContainer signinIn={signInPage}>
                 <Overlay signinIn={signInPage}>
                     <LeftOverlayPanel signinIn={signInPage}>
-                        <Title>Welcome Back!</Title>
+                        <Title>Bienvenue à nouveau !</Title>
                         <Paragraph>
                             {' '}
-                            To keep connected with us please login
+                            Pour accéder à Scandela, veuillez vous connecter
+                            avec vos informations personnelles{' '}
                         </Paragraph>
                         <GhostButton onClick={() => setSignInPage(true)}>
                             Sign Up
@@ -338,9 +341,10 @@ const LoginModule: React.FC<LoginModuleProps> = ({
                     </LeftOverlayPanel>
 
                     <RightOverlayPanel signinIn={signInPage}>
-                        <Title>Hello !</Title>
+                        <Title>Bonjour !</Title>
                         <Paragraph>
-                            Enter Your personal details and connect to Scandela
+                            Entrez vos informations personnelles et créer votre
+                            compte Scandela
                         </Paragraph>
                         <GhostButton
                             onClick={() => {

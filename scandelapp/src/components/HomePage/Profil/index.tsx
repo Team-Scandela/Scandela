@@ -309,6 +309,7 @@ const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
                                 type="text"
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
+                                style={{ width: '70%' }}
                             />
                         ) : (
                             name
@@ -330,6 +331,7 @@ const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
                                 type="text"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
+                                style={{ width: '70%' }}
                             />
                         ) : (
                             email
@@ -364,7 +366,7 @@ const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
                             </EditButton>
                         )}
                     </ProfileField>
-                    <ProfileField top={'35%'} left={'2.5%'}>
+                    {/* <ProfileField top={'35%'} left={'2.5%'}>
                         {t('KWhOfTheCity')} :{' '}
                         {isEditingKwH ? (
                             <input
@@ -385,7 +387,7 @@ const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
                                 <EditIcon></EditIcon>
                             </EditButton>
                         )}
-                    </ProfileField>
+                    </ProfileField> */}
                     <LogoutButton onClick={handleLogout} />
                 </ProfilPart>
                 <ProfilPart left={'75%'}>
