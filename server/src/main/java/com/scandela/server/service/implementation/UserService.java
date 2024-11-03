@@ -57,6 +57,8 @@ public class UserService extends AbstractService<User> implements IUserService {
 		this.subscriptionDao = subscriptionDao;
 	}
 
+	
+
 	// Methods \\
 	// Public \\
 	@Override
@@ -275,6 +277,18 @@ public class UserService extends AbstractService<User> implements IUserService {
 		newUser.setTown(town.orElseGet(() -> {
 			return null;
 		}));
+	}
+
+	@Override
+	@Transactional(rollbackFor = { Exception.class })
+	public User getUserById(UUID id) {
+		Optional<User> maybeUser = ((UserDao) dao).findById(id);
+
+		if (maybeUser.isPresent()) {
+			return maybeUser.get();
+		} else {
+			return null;
+		}
 	}
 
 	@Override
