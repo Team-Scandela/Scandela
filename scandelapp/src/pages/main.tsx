@@ -214,7 +214,7 @@ const Main: React.FC<MainProps> = ({
                         search={search}
                         setSearch={setSearch}
                     />
-                    <PinPannel />
+                    <ZonePannel />
                 </>
             )}
             {filter === Filters.traffic && (
@@ -235,7 +235,7 @@ const Main: React.FC<MainProps> = ({
             )}
             {filter === Filters.zone && (
                 <>
-                    <ZonePannel />
+                    <HeatmapPannel />
                 </>
             )}
             {filter === Filters.cabinet && (
