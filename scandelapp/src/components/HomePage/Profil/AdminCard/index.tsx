@@ -25,9 +25,10 @@ interface Admin {
 
 interface AdminCardProps {
     admin: Admin,
+    setAdmins: React.Dispatch<React.SetStateAction<Admin[]>>;
 };
 
-const AdminCard: React.FC<AdminCardProps> = ({ admin }) => {
+const AdminCard: React.FC<AdminCardProps> = ({ admin, setAdmins}) => {
     const username = process.env.REACT_APP_REQUEST_USER;
     const passwordDb = process.env.REACT_APP_REQUEST_PASSWORD;
 
@@ -72,32 +73,10 @@ const AdminCard: React.FC<AdminCardProps> = ({ admin }) => {
                     body: JSON.stringify(updatedUserData),
                 });
                 console.log("RESPONSE = ", response);
+                setAdmins((prevAdmins) => prevAdmins.filter((admin) => admin.id !== admin.id));
             }
         } catch (error) {
             console.log("Error remove administrator: ", error.message);
-        }
-    };
-
-    const addAdministrator = async () => {
-        try {
-            const userData = await getUserByMail(admin.email)
-            const updatedUserData = {
-                id: userData.id,
-                town: userData.town,
-                email: userData,
-                username: userData.username,
-                password: userData.password,
-                rights: userData.rights,
-                moreInformations: userData.moreInformations,
-                darkmode: userData.darkmode,
-                lastConnexion: userData.lastConnexion,
-                newsletter: userData.newsletter,
-                premium: userData.premium,
-                adminville: true,
-            };
-            const response = await putUserWithId(admin.id, updatedUserData);
-        } catch (error) {
-            console.log("Error add administrator: ", error.message);
         }
     };
 

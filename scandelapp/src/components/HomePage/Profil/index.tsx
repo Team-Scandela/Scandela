@@ -270,7 +270,8 @@ const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
                     body: JSON.stringify(updatedUserData),
                 });
                 console.log("RESPONSE = ", response);
-                getAllAdministrator();
+                //getAllAdministrator();
+                setAdmins((prevAdmins) => [...prevAdmins, updatedUserData]);
                 setIsAddAdmin(false);
             } else {
                 setIsUserNotFound(true);
@@ -398,24 +399,7 @@ const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
                             <UserCard>
                                 {user && !isAddAdmin && (
                                     <>
-                                        <AdminCard admin={user}/>
-                                        {/* <UserCardTitle>
-                                            {user.username}
-                                        </UserCardTitle>
-                                        <UserCardRights>
-                                            {'Droits : ' + 'Adminnistrateur'}
-                                        </UserCardRights>
-                                        <UserCardEmail>
-                                            {user.email}
-                                        </UserCardEmail>
-                                        {user.right !== 'Administrateur' ? (
-                                            <UserCardDelete
-                                                onClick={removeAdministrator(user.id)}
-                                            />
-                                        ) : null}
-                                        {/* {user.right !== 'Administrateur' ? (
-                                            <UserCardUpgrade />
-                                        ) : null} */}
+                                        <AdminCard admin={user} setAdmins={setAdmins}/>
                                     </>
                                 )}
                             </UserCard>
