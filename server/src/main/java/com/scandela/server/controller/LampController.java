@@ -34,6 +34,7 @@ import com.scandela.server.service.ILampService;
 public class LampController extends AbstractController<Lamp> {
 	
 	private List<Lamp> allLamps = service.getAll();
+//	private List<Lamp> allLamps = new ArrayList<>();
 	
 	// Constructors \\
 	protected LampController(ILampService lampService) {
