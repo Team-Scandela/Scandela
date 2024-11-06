@@ -17,6 +17,7 @@ import Premium from '../components/HomePage/Premium';
 import FAQ from '../components/HomePage/FAQ';
 import Stats from '../components/HomePage/Stats';
 import Law from '../components/HomePage/Law';
+import Toastr from '../components/Toastr';
 
 export interface MarkerData {
     id: string;
@@ -25,6 +26,7 @@ export interface MarkerData {
     icon: string;
     title: string;
     small: boolean;
+    needPremium: boolean;
 }
 
 const dataMarker: MarkerData[] = [
@@ -35,6 +37,7 @@ const dataMarker: MarkerData[] = [
         icon: logo,
         title: 'Dashboard',
         small: false,
+        needPremium: false,
     },
     {
         id: 'tickets',
@@ -43,6 +46,7 @@ const dataMarker: MarkerData[] = [
         icon: tickets,
         title: 'Tickets',
         small: true,
+        needPremium: true,
     },
     {
         id: 'premium',
@@ -51,6 +55,7 @@ const dataMarker: MarkerData[] = [
         icon: premium,
         title: 'Premium',
         small: true,
+        needPremium: false,
     },
     {
         id: 'profil',
@@ -59,6 +64,7 @@ const dataMarker: MarkerData[] = [
         icon: profil,
         title: 'Profil',
         small: true,
+        needPremium: false,
     },
     {
         id: 'faq',
@@ -67,6 +73,7 @@ const dataMarker: MarkerData[] = [
         icon: faq,
         title: 'FAQ',
         small: true,
+        needPremium: false,
     },
     {
         id: 'stats',
@@ -75,6 +82,7 @@ const dataMarker: MarkerData[] = [
         icon: stats,
         title: 'Statistiques',
         small: true,
+        needPremium: true,
     },
     {
         id: 'law',
@@ -83,6 +91,7 @@ const dataMarker: MarkerData[] = [
         icon: law,
         title: 'Loi & Aide',
         small: true,
+        needPremium: false,
     },
 ];
 
@@ -156,6 +165,7 @@ const HomePage: React.FC<HomePageProps> = () => {
                     {whatToRender(toRender)}
                 </div>
             </CSSTransition>
+            <Toastr id={'toastrComponentId'} isDark={true}/>
         </div>
     );
 };

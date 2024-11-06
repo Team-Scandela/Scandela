@@ -34,6 +34,7 @@ import { useNavigate } from 'react-router-dom';
 import { showToast } from '../../Toastr';
 import { createNotification } from '../../../utils/notificationUtils';
 import { getLampPrice } from '../../../utils/actionsPriceUtils';
+import { getUser } from '../../../utils/userUtils';
 
 /** Menu of the decision pannel
  * @param {boolean} isDark - If the map is in dark mode or not
@@ -175,7 +176,12 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
                 optimisationTemplateData[i].saved = false;
             }
         }
-        generatePDFDocument(validateData, 'Auteur', 'Nantes');
+
+        const dataUser = await getUser();
+        const author = dataUser.username;
+        const city = dataUser.town.name;
+
+        generatePDFDocument(validateData, author, city);
         setOptimisationTemplateData(optimisationTemplateData);
         if (
             notificationsPreference.find(
@@ -220,7 +226,13 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
     useEffect(() => {
         // function that add all item.saved price to get the totalActionCost
         const totalActionCost = optimisationTemplateData
-            .filter((item: any) => item.saved)
+            .filter(
+                (item: any) =>
+                    item.saved &&
+                    (item.solution.includes('Changer') ||
+                        item.solution.includes('Retirer') ||
+                        item.solution.includes('Ajouter'))
+            )
             .reduce((acc: number, item: any) => {
                 const price = parseFloat(item.price);
                 if (isNaN(price)) {
@@ -232,20 +244,28 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
         localStorage.setItem('totalActionCost', totalActionCost.toString());
         setTotalActionCost(totalActionCost);
 
-        // ajouter différentes variable price en fonction des actions sur des longues périodes (changement de bulbe) et des actions one shot (ajouter un lampadaire)
-
-        const totalSavings = optimisationTemplateData
-            .filter((item: any) => item.saved)
+        let dynamicSavings = optimisationTemplateData
+            .filter(
+                (item: any) =>
+                    item.saved &&
+                    (item.solution.includes('Allumer') ||
+                        item.solution.includes('Éteindre') ||
+                        item.solution.includes('Augmenter') ||
+                        item.solution.includes('Réduire'))
+            )
             .reduce((acc: number, item: any) => {
                 const price = parseFloat(item.price);
                 if (isNaN(price)) {
                     return acc;
                 }
-                return acc + price * 365.25; // refaire le calcul sur l'année entière par rapport à une économie donnée (ajustement technique à faire ici)
+                return acc + price; // le calcul renvoie les économies réaliser sur l'année dû à des action sur du long terme (plage horaire) - le coût total des actions
             }, 0);
 
-        localStorage.setItem('totalSavings', totalSavings.toString());
-        setTotalSavings(totalSavings);
+        dynamicSavings = dynamicSavings * 365.25 - totalActionCost;
+        dynamicSavings = Math.abs(Math.round(dynamicSavings * 100) / 100);
+
+        localStorage.setItem('totalSavings', dynamicSavings.toString());
+        setTotalSavings(dynamicSavings);
     }, [optimisationTemplateData]);
 
     const handleToDoButtonCopyClick = () => {

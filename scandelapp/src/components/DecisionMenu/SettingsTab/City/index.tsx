@@ -132,7 +132,7 @@ const City: React.FC<CityProps> = ({
 
     return (
         <div>
-            <ImportButton
+            {/* <ImportButton
                 isDark={isDark}
                 onClick={() => openFilePicker()}
             ></ImportButton>
@@ -144,11 +144,11 @@ const City: React.FC<CityProps> = ({
             />
             <DescriptionText isDark={isDark}>
                 {t('loadDataDescription')}
-            </DescriptionText>
+            </DescriptionText> */}
             <TooltipTitle isDark={isDark}>{t('activateTooltip')}</TooltipTitle>
             <RadioButton
                 isDark={isDark}
-                top={'430px'}
+                top={'110px'}
                 left={'340px'}
                 trigger={tooltipPreference}
                 setTrigger={toggleTooltipPreference}

@@ -129,26 +129,28 @@ export const getAllScores = async (): Promise<any> => {
             localStorage.setItem('vegetalScore', vegetalScore);
             localStorage.setItem('consumptionScore', consumptionScore);
             localStorage.setItem('lightScore', lightScore);
-            showToast(
-                'success',
-                'Les jauges ont bien été mises à jour',
-                'top-left',
-                5000,
-                false,
-                true,
-                false,
-                true
-            );
-            showToast(
-                'success',
-                'La base de données à bien été mise à jour avec la dernière version qui date du 6 mai 2024 à 06:05',
-                'top-left',
-                5000,
-                false,
-                true,
-                false,
-                true
-            );
+            if (JSON.parse(localStorage.getItem('premium'))) {
+                showToast(
+                    'success',
+                    'Les jauges ont bien été mises à jour',
+                    'top-left',
+                    5000,
+                    false,
+                    true,
+                    false,
+                    true
+                );
+                showToast(
+                    'success',
+                    'La base de données à bien été mise à jour avec la dernière version qui date du 6 mai 2024 à 06:05',
+                    'top-left',
+                    5000,
+                    false,
+                    true,
+                    false,
+                    true
+                );
+            }
             console.debug('getAllScores successful');
         }
 

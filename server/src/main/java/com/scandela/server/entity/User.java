@@ -70,15 +70,21 @@ public class User implements Serializable {
 	private List<String> moreInformations;
 
 	@Builder.Default
-	@Column(name = "darkmode", nullable = false)
-	private boolean darkmode = false;
+	@Column(name = "darkmode")
+	private boolean darkmode = true;
 
-	@Column(name = "lastconnexion", nullable = false)
+	@Column(name = "lastconnexion")
 	private LocalDateTime lastConnexion;
 
 	@Builder.Default
 	@Column(name = "newsletter")
 	private boolean newsletter = false;
+
+	@Column(name = "prefnotifenabled")
+	private Boolean prefnotifenabled;
+
+	@Column(name = "frenchlanguage")
+	private Boolean frenchlanguage;
 
 	@Builder.Default
 	@Column(name = "adminville")
@@ -88,6 +94,6 @@ public class User implements Serializable {
 	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
 	private List<Notification> notifications;
 	@Builder.Default
-	@Column(name = "premium", nullable = false)
+	@Column(name = "premium")
 	private boolean premium = false;
 }

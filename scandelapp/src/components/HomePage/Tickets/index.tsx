@@ -80,7 +80,7 @@ const Tickets: React.FC<TicketsProps> = ({ closeToMainApp }) => {
             alert('Veuillez remplir tous les champs');
         }
         return allField;
-    }
+    };
 
     const handleSendTicket = async () => {
         if (isAllField()) {

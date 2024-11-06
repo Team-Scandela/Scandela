@@ -22,9 +22,10 @@ import {
     InputName,
     ButtonSendAddAdmin,
 } from './elements';
-import { getUser, putUser } from '../../../utils/userUtils';
+import { getUser, getUserByMail, putUser } from '../../../utils/userUtils';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import AdminCard  from './AdminCard';
 
 interface ProfilProps {
     closeToMainApp: () => void;
@@ -67,6 +68,8 @@ const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
     const [isWaiting, setIsWaiting] = useState(false);
     const [nameInput, setNameInput] = useState('');
 
+    const [isUserNotFound, setIsUserNotFound] = useState(false);
+
     const navigate = useNavigate();
     const { t } = useTranslation();
     useEffect(() => {
@@ -104,17 +107,41 @@ const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
     const handleSaveClick = (field: string) => {
         switch (field) {
             case 'name':
+                if (name.length === 0) {
+                    alert(
+                        'Vous ne pouvez pas remplacer votre nom par un texte vide.'
+                    );
+                    return;
+                }
                 updateUserName();
                 setIsEditingName(false);
                 break;
             case 'email':
+                if (email.length === 0) {
+                    alert(
+                        'Vous ne pouvez pas remplacer votre email par un texte vide.'
+                    );
+                    return;
+                }
                 updateUserEmail();
                 setIsEditingEmail(false);
                 break;
             case 'password':
+                if (password.length <= 8) {
+                    alert(
+                        'Votre mot de passe doit contenir au moins 8 caractères.'
+                    );
+                    return;
+                }
                 setIsEditingPassword(false);
                 break;
             case 'kwH':
+                if (kwH.length === 0) {
+                    alert(
+                        'Vous ne pouvez pas remplacer votre consommation par un texte vide.'
+                    );
+                    return;
+                }
                 setIsEditingKwH(false);
                 break;
             default:
@@ -153,6 +180,11 @@ const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
         putUser(updatedUserData);
     };
 
+    const updateUserAdminVille = async () => {
+        if (admins.length <= 2)
+            addAdministrator();
+    };
+
     const updateUserEmail = async () => {
         const user = await getUser();
         const updatedUserData = {
@@ -176,119 +208,91 @@ const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
     };
 
     const getAllAdministrator = async () => {
-        const urlLamp = process.env.REACT_APP_BACKEND_URL + 'adminville';
+        const urlLamp =
+        process.env.REACT_APP_BACKEND_URL + 'users';
+    try {
+        const response = await fetch(urlLamp, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Basic ${btoa(`${username}:${passwordDb}`)}`,
+            },
+        });
+
+        const lampData = await response.json();
+        if (response.status === 200) {
+            const admins = lampData.filter((user: any) => user.adminville === true);
+            setAdmins(admins);
+        }
+    } catch (error) {
+        console.log('CANNOT GET administrator, error message = ' + error);
+    }
+    };
+
+    const addAdministrator = async () => {
         try {
-            const response = await fetch(urlLamp, {
+
+            const urlRequest =
+                process.env.REACT_APP_BACKEND_URL + `users/getByMail/${nameInput}`;
+            const responseUser = await fetch(urlRequest, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Basic ${btoa(`${username}:${passwordDb}`)}`,
                 },
             });
-
-            console.log('code de response = ' + response.status);
-            const lampData = await response.json();
-            console.log(lampData);
-            if (response.status === 200) {
-                setAdmins(lampData);
-                console.log(
-                    'SUCCES TO GET administrator, status = ',
-                    response.status,
-                    ' ADMIN[]= ',
-                    admins
-                );
-            } else {
-                console.log(
-                    'CANNOT GET administrator, status = ' + response.status
-                );
-            }
-        } catch (error) {
-            console.log('CANNOT GET administrator, error message = ' + error);
-        }
-    };
-
-    const addAdministrator = async () => {
-        const urlmodification =
-            process.env.REACT_APP_BACKEND_URL +
-            'adminville/' +
-            'd3832413-2340-4942-b15a-6449d914b0f1/' +
-            '4dcb1058-f221-40c2-8059-78c33d778e77';
-        try {
-            const response = await fetch(urlmodification, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Basic ${btoa(`${username}:${passwordDb}`)}`,
-                },
-                body: JSON.stringify({
-                    name: name,
-                }),
-            });
-            const responsebody = await response.text();
-            console.log(responsebody);
-            if (response.status === 200) {
-                console.log(
-                    'MODIFICATION APPLIED, status code: ' + response.status
-                );
+            const userData = await responseUser.json();
+            console.log("USERS By EMAIL = ", userData);
+            if (userData) {
+                const updatedUserData = {
+                    id: userData.id,
+                    town: userData.town,
+                    email: userData.email,
+                    username: userData.username,
+                    password: userData.password,
+                    rights: userData.rights,
+                    moreInformations: userData.moreInformations,
+                    darkmode: userData.darkmode,
+                    lastConnexion: userData.lastConnexion,
+                    newsletter: userData.newsletter,
+                    premium: userData.premium,
+                    adminville: true,
+                };
+                console.log("UPDATED UserData = ", updatedUserData);
+                const urlRequest =
+                    process.env.REACT_APP_BACKEND_URL + 'users/' + userData.id;
+                const response = await fetch(urlRequest, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Basic ${btoa(`${username}:${passwordDb}`)}`,
+                    },
+                    body: JSON.stringify(updatedUserData),
+                });
+                console.log("RESPONSE = ", response);
+                //getAllAdministrator();
+                setAdmins((prevAdmins) => [...prevAdmins, updatedUserData]);
                 setIsAddAdmin(false);
             } else {
-                console.log(
-                    'FAIL TO APPLY MODIFICATION, status code: ' +
-                        response.status
-                );
-                setIsWaiting(false);
-                setIsAddAdmin(false);
+                setIsUserNotFound(true);
             }
         } catch (error) {
-            console.log(
-                'FAIL TO APPLY MODIFICATION, error message: ' + error.message
-            );
-            setIsWaiting(false);
+            setIsUserNotFound(true);
+            console.log("Error remove administrator: ", error.message);
         }
     };
 
-    const removeAdministrator = async () => {
-        const urlmodification =
-            process.env.REACT_APP_BACKEND_URL +
-            'adminville/' +
-            'd3832413-2340-4942-b15a-6449d914b0f1/' +
-            '4dcb1058-f221-40c2-8059-78c33d778e77';
-        try {
-            const response = await fetch(urlmodification, {
-                method: 'Delete',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Basic ${btoa(`${username}:${passwordDb}`)}`,
-                },
-            });
-            const responsebody = await response.text();
-            console.log(responsebody);
-            if (response.status === 200) {
-                console.log(
-                    'MODIFICATION APPLIED, status code: ' + response.status
-                );
-            } else {
-                console.log(
-                    'FAIL TO APPLY MODIFICATION, status code: ' +
-                        response.status
-                );
-                setIsWaiting(false);
-            }
-        } catch (error) {
-            console.log(
-                'FAIL TO APPLY MODIFICATION, error message: ' + error.message
-            );
-            setIsWaiting(false);
-        }
-    };
 
     const handleAddAdmin = () => {
-        setIsAddAdmin(true);
-        console.log('Unlock input');
+        if (isAddAdmin == true)
+            setIsAddAdmin(false);
+        else
+            setIsAddAdmin(true);
     };
 
     const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setNameInput(e.target.value);
+        setIsUserNotFound(false);
     };
 
     return (
@@ -306,6 +310,7 @@ const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
                                 type="text"
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
+                                style={{ width: '70%' }}
                             />
                         ) : (
                             name
@@ -327,6 +332,7 @@ const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
                                 type="text"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
+                                style={{ width: '70%' }}
                             />
                         ) : (
                             email
@@ -361,7 +367,7 @@ const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
                             </EditButton>
                         )}
                     </ProfileField>
-                    <ProfileField top={'35%'} left={'2.5%'}>
+                    {/* <ProfileField top={'35%'} left={'2.5%'}>
                         {t('KWhOfTheCity')} :{' '}
                         {isEditingKwH ? (
                             <input
@@ -382,34 +388,18 @@ const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
                                 <EditIcon></EditIcon>
                             </EditButton>
                         )}
-                    </ProfileField>
+                    </ProfileField> */}
                     <LogoutButton onClick={handleLogout} />
                 </ProfilPart>
                 <ProfilPart left={'75%'}>
                     <SuperUserTitle>Panneau d'administrateur</SuperUserTitle>
                     <ButtonAddAdmin onClick={handleAddAdmin} />
                     <UsersList>
-                        {admins.map((user) => (
+                        {!isAddAdmin && admins.map((user) => (
                             <UserCard>
-                                {user && (
+                                {user && !isAddAdmin && (
                                     <>
-                                        <UserCardTitle>
-                                            {user.username}
-                                        </UserCardTitle>
-                                        <UserCardRights>
-                                            {'Droits : ' + user.right}
-                                        </UserCardRights>
-                                        <UserCardEmail>
-                                            {user.email}
-                                        </UserCardEmail>
-                                        {user.right !== 'Administrateur' ? (
-                                            <UserCardDelete
-                                                onClick={removeAdministrator}
-                                            />
-                                        ) : null}
-                                        {user.right !== 'Administrateur' ? (
-                                            <UserCardUpgrade />
-                                        ) : null}
+                                        <AdminCard admin={user} setAdmins={setAdmins}/>
                                     </>
                                 )}
                             </UserCard>
@@ -420,9 +410,10 @@ const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
                                     value={nameInput}
                                     placeholder={'name'}
                                     onChange={handleOnChange}
+                                    isError={isUserNotFound}
                                 />
                                 <ButtonSendAddAdmin
-                                    onClick={addAdministrator}
+                                    onClick={updateUserAdminVille}
                                 />
                             </>
                         )}

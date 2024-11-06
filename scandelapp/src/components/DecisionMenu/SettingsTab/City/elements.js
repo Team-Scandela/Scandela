@@ -38,7 +38,7 @@ export const TooltipTitle = styled.div`
     position: absolute;
     align-items: center;
     justify-content: center;
-    top: 76%;
+    top: 20%;
     left: 18%;
     font-size: 20px;
     user-select: none;
@@ -53,7 +53,7 @@ export const RestartTutoButtonContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    top: 86%;
+    top: 32%;
     left: 17%;
     height: 45px;
     width: 200px;

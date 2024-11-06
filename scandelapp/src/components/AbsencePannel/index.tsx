@@ -12,6 +12,7 @@ import {
     EventTitle,
     EventLocation,
     TimeIcon,
+    NoEventText,
 } from './elements';
 import { PersonnalizedGauge } from '../Gauges';
 import { GoInfo } from 'react-icons/go';
@@ -204,7 +205,12 @@ const AbsencePannel: React.FC<AbsencePannelProps> = ({
                     </PannelText>
                     <ListDetailContainer isDark={isDark}>
                         {absenceData.length === 0 && (
-                            <TimeIcon isDark={isDark} size={200} />
+                            <div>
+                                <TimeIcon isDark={isDark} size={200} />
+                                <NoEventText isDark={isDark}>
+                                    {t('noEvent')}
+                                </NoEventText>
+                            </div>
                         )}
                         {absenceData.map((item: any, i: number) => (
                             <EventContainer key={i} isDark={isDark} y={155 * i}>

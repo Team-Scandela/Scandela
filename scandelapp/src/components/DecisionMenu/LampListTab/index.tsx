@@ -240,7 +240,6 @@ const LampListTab: React.FC<LampListTabProps> = ({ isDark }) => {
                 );
                 setIsBulb(true);
             } else {
-                console.log('PAS COOL');
                 setIsFailed(true);
                 setIsBulb(false);
                 setConso('');

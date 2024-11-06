@@ -12,6 +12,7 @@ export const LoginContainer = styled.div`
     min-height: 400px;
     left: 50%;
     transform: translate(-50%, 50%);
+    font-family: 'SyneRegular';
 `;
 
 /** Sign up container, contains sign up infos */
@@ -24,6 +25,7 @@ export const SignUpContainer = styled.div`
     transition: all 0.5s ease-in-out;
     opacity: 1;
     z-index: 1;
+    font-family: 'SyneRegular';
 `;
 
 /** Sign in container, contains sign in infos */
@@ -36,6 +38,7 @@ export const SignInContainer = styled.div`
     transition: all 0.5s ease-in-out;
     opacity: 1;
     z-index: 1;
+    font-family: 'SyneRegular';
 `;
 
 /** Form for SignIn / Sign Out */
@@ -48,12 +51,14 @@ export const Form = styled.form`
     height: 100%;
     padding: 0 50px;
     text-align: center;
+    font-family: 'SyneRegular';
 `;
 
 /** Title of the container */
 export const Title = styled.h1`
     font-weight: bold;
-    margin: 0;
+    margin: 3px;
+    font-family: 'SyneBold';
 `;
 
 /** Input for username, password ... */
@@ -63,6 +68,7 @@ export const Input = styled.input`
     padding: 12px 15px;
     margin: 8px 0;
     width: 100%;
+    font-family: 'SyneRegular';
 `;
 
 /** Button complete to validate sign in up */
@@ -78,6 +84,7 @@ export const Button = styled.div`
     text-transform: uppercase;
     transition: transform 80ms ease-in;
     margin-top: 20px;
+    font-family: 'SyneRegular';
 
     &:hover {
         cursor: pointer;
@@ -93,6 +100,7 @@ export const Button = styled.div`
 export const GhostButton = styled(Button)`
     border: 1px solid #fff;
     margin-top: 10px;
+    font-family: 'SyneRegular';
 `;
 
 /** Anchor for forgotten password */
@@ -101,6 +109,7 @@ export const Anchor = styled.a`
     font-size: 14px;
     text-decoration: underline;
     margin-top: 15px;
+    font-family: 'SyneRegular';
 
     &:hover {
         color: ${Yellow};
@@ -112,6 +121,7 @@ export const ErrorMessage = styled.span`
     color: #f00020;
     font-size: 16px;
     margin: 15px 0;
+    font-family: 'SyneRegular';
 `;
 
 /** Container for the overlay who covers the unused side */
@@ -124,6 +134,7 @@ export const OverlayContainer = styled.div`
     overflow: hidden;
     transition: transform 0.6s ease-in-out;
     z-index: 999;
+    font-family: 'SyneRegular';
     ${(props) =>
         props.signinIn !== true ? `transform: translateX(-100%);` : null}
 `;
@@ -138,6 +149,7 @@ export const Overlay = styled.div`
     width: 200%;
     transform: translateX(0);
     transition: transform 0.6s ease-in-out;
+    font-family: 'SyneRegular';
     ${(props) =>
         props.signinIn !== true ? `transform: translateX(50%);` : null}
 `;
@@ -154,6 +166,7 @@ export const OverlayPanel = styled.div`
     width: 50%;
     transform: translateX(0);
     transition: transform 0.6s ease-in-out;
+    font-family: 'SyneRegular';
 `;
 
 /** Move the text during animation to the left */
@@ -176,5 +189,6 @@ export const Paragraph = styled.p`
     font-weight: 100;
     line-height: 20px;
     letter-spacing: 0.5px;
-    margin: 20px 0 30px;
+    margin: 20px 10px 30px;
+    font-family: 'SyneRegular';
 `;

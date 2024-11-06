@@ -1,6 +1,6 @@
 // components/lawElements.js
 import styled from 'styled-components';
-import { Grey, DarkGrey, Yellow, DarkYellow, Black } from '../../colors';
+import { Grey, DarkGrey, Yellow, DarkYellow, Black, White } from '../../colors';
 
 export const LawsPageContainer = styled.div`
     display: flex;
@@ -78,6 +78,7 @@ export const LawCard = styled.a`
 
     &:hover {
         transform: scale(1.05);
+        cursor: pointer;
     }
 `;
 
@@ -247,3 +248,18 @@ export const buttonStyle = {
 export const buttonHoverStyle = {
     backgroundColor: '#0056b3',
 };
+
+export const RedirectButton = styled.button`
+    padding: 10px 20px;
+    background: ${Grey};
+    color: ${Black};
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+        background-color: ${(props) => (props.isDark ? DarkYellow : Yellow)};
+        cursor: pointer;
+    }
+`;

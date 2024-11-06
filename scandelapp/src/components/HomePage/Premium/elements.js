@@ -4,9 +4,8 @@ import {
     Black,
     DarkGrey,
     DarkYellow,
-    White,
-    Grey,
-    LightDarkGrey,
+    Green,
+    Red,
 } from '../../../colors';
 import { AiFillCloseCircle } from 'react-icons/ai';
 
@@ -136,37 +135,93 @@ export const PremiumButtonOnOffText = styled.div`
     font-family: 'SyneRegular';
 `;
 
-export const SubmitButton = styled.button`
+export const DescriptionPanel = styled.button`
     display: flex;
     position: absolute;
+    height: 75%;
+    width: 45%;
     background-color: ${Yellow};
     color: ${Black};
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
-    left: 50%;
+    top: 20%;
+    left: 25%;
     transform: translate(-50%, 0);
-    &:hover {
-        cursor: pointer;
-        opacity: 0.9;
-    }
+    opacity: 0.9;
+    transition: all 0.1s ease-in-out;
     font-family: 'SyneRegular';
 `;
 
-export const AdminButton = styled.button`
+export const DescriptionPanelText = styled.div`
+    font-size: 18px;
+    color: ${Black};
+    margin: 20px;
+    font-family: 'SyneRegular';
+`;
+
+export const BuyButton = styled.button`
     display: flex;
     position: absolute;
+    justify-content: center;
+    align-items: center;
+    height: 75%;
+    width: 45%;
     background-color: ${Yellow};
     color: ${Black};
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
-    margin-left: 8%;
-    bottom: 50px;
-    left: 24%;
+    top: 20%;
+    left: 75%;
+    transform: translate(-50%, 0);
+    opacity: 0.9;
     &:hover {
         cursor: pointer;
-        opacity: 0.9;
+        opacity: 1;
+        height: 76%;
+        width: 46%;
+        top: 19.5%;
+        left: 74.5%;
+        border-radius: 5px;
+        background-color: ${Green};
     }
+    transition: all 0.1s ease-in-out;
     font-family: 'SyneRegular';
+`;
+
+export const CancelButton = styled.button`
+    display: flex;
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    height: 75%;
+    width: 45%;
+    background-color: ${Yellow};
+    color: ${Black};
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    top: 20%;
+    left: 75%;
+    transform: translate(-50%, 0);
+    opacity: 0.9;
+    &:hover {
+        cursor: pointer;
+        opacity: 1;
+        height: 76%;
+        width: 46%;
+        top: 19.5%;
+        left: 74.5%;
+        border-radius: 5px;
+        background-color: ${Red};
+    }
+    transition: all 0.1s ease-in-out;
+    font-family: 'SyneRegular';
+`;
+
+export const ActionText = styled.div`
+    font-size: 30px;
+    color: ${Black};
+    font-family: 'SyneBold';
 `;
