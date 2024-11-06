@@ -11,6 +11,7 @@ import java.io.IOException;
 
 import com.opencsv.exceptions.CsvValidationException;
 import com.scandela.server.entity.Lamp;
+import com.scandela.server.entity.dto.LampImportDTO;
 import com.scandela.server.exception.LampException;
 
 public interface ILampService extends IService<Lamp> {
@@ -22,4 +23,5 @@ public interface ILampService extends IService<Lamp> {
     public double computeGlobalLightIndicator(List<Lamp> lamps);
     public double computeGlobalEnergyConsumption(List<Lamp> lamps);
 	public double computeGlobalDistanceVegetalZone(List<Lamp> lamps) throws IOException, CsvValidationException;
+    public Lamp createLampFromDTO(LampImportDTO dto);
 }
