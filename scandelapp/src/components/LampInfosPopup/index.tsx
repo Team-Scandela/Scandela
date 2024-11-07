@@ -203,9 +203,9 @@ const LampInfosPopup: React.FC<LampInfosPopupProps> = ({
                 <PopupText isDark={isDark} top="400px">
                     {lampData === null
                         ? null
-                        : lampData.bulb === null
-                          ? 'Donnée inconnue'
-                          : lampData.bulb.consommation + ' kW/h'}
+                        : lampData.bulb === null || lampData.bulb?.consommation === undefined
+                            ? 'Donnée inconnue'
+                            : lampData.bulb.consommation + ' kW/h'}
                 </PopupText>
                 <img
                     src={images.leaf}
@@ -222,9 +222,9 @@ const LampInfosPopup: React.FC<LampInfosPopupProps> = ({
                 <PopupText isDark={isDark} top="440px">
                     {lampData === null
                         ? null
-                        : lampData.bulb === null
-                          ? 'Donnée inconnue'
-                          : lampData.bulb.consommation * 50 + 'g de CO²'}
+                        : lampData.bulb === null || lampData.bulb?.consommation === undefined
+                            ? 'Donnée inconnue'
+                            : lampData.bulb.consommation * 50 + 'g de CO²'}
                 </PopupText>
                 <MissingLampPopup isDark={isDark} />
                 {isLampHavingDecision && (
