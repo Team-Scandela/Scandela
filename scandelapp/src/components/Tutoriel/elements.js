@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Yellow, Black, DarkGrey } from '../../colors';
+import { Yellow, Black, DarkGrey, White } from '../../colors';
 
 export const TutorielBackground = styled.div`
     position: fixed;
@@ -38,37 +38,52 @@ export const SkipTutoButtonContainer = styled.div`
     }
 `;
 
+/** Conteneur parent **/
+export const PopupContainer = styled.div`
+    position: absolute;
+    display: flex;
+    top: ${(props) => props.top};
+    left: ${(props) => props.left};
+    bottom: ${(props) => props.bottom};
+    right: ${(props) => props.right};
+    width: 500px;
+    height: 300px;
+    // background-color: ${White};
+`;
+
 /** Custom container for info popup **/
 export const CustomContainerInfoPopup = styled.div`
-    position: absolute;
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
     gap: 10px;
-    top: ${(props) => props.top};
-    left: ${(props) => props.left};
-    height: ${(props) => props.height};
-    width: ${(props) => props.width};
-    padding-left: 15px;
-    padding-right: 10px;
+    top: 12%;
+    left: 50%;
+    height: ${(props) => props.height || 'auto'};
+    width: ${(props) => props.width || 'auto'};
+    padding: 10px 15px;
     background-color: ${(props) => (props.isDark ? DarkGrey : Black)};
     color: ${(props) => (props.isDark ? Yellow : Yellow)};
     cursor: pointer;
     transition: all 0.1s ease-in-out;
     border-radius: 5px;
+    transform: translateX(-50%);
 `;
 
+/** Flèche **/
 export const Arrow = styled.div`
-    position: absolute;
-    display: flex;
-    top: ${(props) => props.top};
-    left: ${(props) => props.left};
-    width: 30px;
-    height: 30px;
+    position: relative;
+    width: 40px;
+    height: 40px;
     transform: rotate(45deg);
     background-color: ${(props) => (props.isDark ? DarkGrey : Black)};
+    top: ${(props) => props.top};
+    left: ${(props) => props.left};
+    transform: translateX(-50%) rotate(45deg);
 `;
+
 
 export const TitleText = styled.div`
     font-size: 20px;
@@ -78,7 +93,7 @@ export const TitleText = styled.div`
 `;
 
 export const DefaultText = styled.div`
-    font-size: 18px;
+    font-size: auto;
     user-select: none;
     font-weight: 400;
     font-family: 'SyneRegular';

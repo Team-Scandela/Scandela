@@ -52,6 +52,17 @@ public class SubscriptionController {
 
     @PostMapping
     public Map<String, String> subscribeToPremium(@RequestBody Subscription subscription) throws StripeException {
+        User maybeUser = userService.getUserById(UUID.fromString(subscription.getUserid()));
+
+        if (maybeUser != null) {
+            maybeUser.setPremium(true);
+            try {
+                userService.update(maybeUser.getId(), maybeUser);
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
         return subscriptionService.createSubscription(subscription);
     }
 
