@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import TicketList from '../components/TicketList';
-
+import { useRedirectOnRefresh } from '../hooks/useRedirectOnRefresh';
 // css style for the admin page title
 const titleStyle = {
     fontSize: '30px',
@@ -19,6 +19,7 @@ interface Ticket {
 
 /** Admin page of the app */
 const Admin: React.FC = () => {
+    useRedirectOnRefresh();
     const [tickets, setTickets] = useState<Ticket[]>([]);
 
     const getTicket = async () => {

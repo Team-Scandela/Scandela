@@ -19,6 +19,7 @@ import {
     PopUpTime,
     PopUpUnvalideButton,
     PopUpToLampButton,
+    NoEventText
 } from './elements';
 import { Tooltip } from 'react-tooltip';
 import { Black } from '../../colors';
@@ -77,7 +78,9 @@ const ActionHistory: React.FC<ActionHistoryProps> = ({
 
     const parseDecisions = (decisions: any) => {
         const actionHistoryData: any = [];
-        if (decisions === null) return;
+        if (decisions === null || decisions.length === 0) {
+            return;
+        }
         if (Array.isArray(decisions)) {
             decisions.forEach((decision: any) => {
                 if (decision.validate !== null) {
@@ -95,7 +98,7 @@ const ActionHistory: React.FC<ActionHistoryProps> = ({
                     actionHistoryData.push(action);
                 }
             });
-            setActionHistoryData(actionHistoryData);
+            // setActionHistoryData(actionHistoryData);
             return;
         }
     };
@@ -184,21 +187,28 @@ const ActionHistory: React.FC<ActionHistoryProps> = ({
             <ActionsHistoryPannel isDark={isDark} show={actionHistoryExtended}>
                 <ActionsTitle isDark={isDark}>Actions</ActionsTitle>
                 <ActionContainer isDark={isDark}>
-                    {actionHistoryData.map((item: any, i: number) => (
-                        <ActionTemplateContainer
-                            isDark={isDark}
-                            y={73 * i}
-                            onClick={() => {
-                                setShowPopUp(true);
-                                setSelectedAction(item);
-                            }}
-                        >
-                            <DescriptionText isDark={isDark}>
-                                {item.name + ' - ' + item.type}
-                            </DescriptionText>
-                            <TimeText isDark={isDark}>{item.time}</TimeText>
-                        </ActionTemplateContainer>
-                    ))}
+                    {actionHistoryData.length === 0 ? (
+                        <NoEventText isDark={isDark}>
+                            {t('noActionAdded')}
+                        </NoEventText>
+                    ) : (
+                        actionHistoryData.map((item: any, i: number) => (
+                            <ActionTemplateContainer
+                                key={i}
+                                isDark={isDark}
+                                y={73 * i}
+                                onClick={() => {
+                                    setShowPopUp(true);
+                                    setSelectedAction(item);
+                                }}
+                            >
+                                <DescriptionText isDark={isDark}>
+                                    {item.name + ' - ' + item.type}
+                                </DescriptionText>
+                                <TimeText isDark={isDark}>{item.time}</TimeText>
+                            </ActionTemplateContainer>
+                        ))
+                    )}
                 </ActionContainer>
             </ActionsHistoryPannel>
 

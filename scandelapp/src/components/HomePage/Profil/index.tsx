@@ -21,11 +21,12 @@ import {
     ButtonAddAdmin,
     InputName,
     ButtonSendAddAdmin,
+    HelpText
 } from './elements';
 import { getUser, getUserByMail, putUser } from '../../../utils/userUtils';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import AdminCard  from './AdminCard';
+import AdminCard from './AdminCard';
 
 interface ProfilProps {
     closeToMainApp: () => void;
@@ -209,24 +210,24 @@ const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
 
     const getAllAdministrator = async () => {
         const urlLamp =
-        process.env.REACT_APP_BACKEND_URL + 'users';
-    try {
-        const response = await fetch(urlLamp, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Basic ${btoa(`${username}:${passwordDb}`)}`,
-            },
-        });
+            process.env.REACT_APP_BACKEND_URL + 'users';
+        try {
+            const response = await fetch(urlLamp, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Basic ${btoa(`${username}:${passwordDb}`)}`,
+                },
+            });
 
-        const lampData = await response.json();
-        if (response.status === 200) {
-            const admins = lampData.filter((user: any) => user.adminville === true);
-            setAdmins(admins);
+            const lampData = await response.json();
+            if (response.status === 200) {
+                const admins = lampData.filter((user: any) => user.adminville === true);
+                setAdmins(admins);
+            }
+        } catch (error) {
+            console.log('CANNOT GET administrator, error message = ' + error);
         }
-    } catch (error) {
-        console.log('CANNOT GET administrator, error message = ' + error);
-    }
     };
 
     const addAdministrator = async () => {
@@ -395,11 +396,16 @@ const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
                     <SuperUserTitle>Panneau d'administrateur</SuperUserTitle>
                     <ButtonAddAdmin onClick={handleAddAdmin} />
                     <UsersList>
+                        {!isAddAdmin && admins.length === 0 &&
+                            <HelpText>
+                                Cette fonctionnalité permet aux administrateurs de gérer l'accès des utilisateurs dans leur ville. Elle offre une interface complète pour visualiser, ajouter, et supprimer des utilisateurs tout en assurant des notifications et des confirmations pour chaque action.
+                            </HelpText>
+                        }
                         {!isAddAdmin && admins.map((user) => (
-                            <UserCard>
+                            <UserCard key={user.id}>
                                 {user && !isAddAdmin && (
                                     <>
-                                        <AdminCard admin={user} setAdmins={setAdmins}/>
+                                        <AdminCard admin={user} setAdmins={setAdmins} />
                                     </>
                                 )}
                             </UserCard>
