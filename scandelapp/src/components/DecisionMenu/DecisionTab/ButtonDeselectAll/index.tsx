@@ -1,5 +1,7 @@
 import { ButtonDeselectAllContainer } from './elements';
 import { useTranslation } from 'react-i18next';
+import { showToast } from '../../../Toastr';
+
 
 /** Button to DeselectAll of the Decison Help Menu
  * This Button allow the user to deselect all optimisations
@@ -21,7 +23,20 @@ const ButtonDeselectAll: React.FC<ButtonDeselectAllProps> = ({
         <div>
             <ButtonDeselectAllContainer
                 isDark={isDark}
-                onClick={() => handleButtonDeselectAllClick()}
+                onClick={() => {
+                    handleButtonDeselectAllClick();
+                    // Add notification toast here
+                    showToast(
+                        'success',
+                        t('actionsListSuccessfullyUpdated'),
+                        'top-left',
+                        5000,
+                        false,
+                        true,
+                        false,
+                        true
+                    );
+                }}
             >
                 {t('deselectAll')}
             </ButtonDeselectAllContainer>

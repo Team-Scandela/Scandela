@@ -138,6 +138,9 @@ const Map: React.FC<MapProps> = ({
             type: 'FeatureCollection',
             features: [] as any[],
         };
+        if (nantesData.length === 0) {
+            return geoJSON;
+        }
         nantesData.at(0).forEach((obj: any) => {
             const feature: any = {
                 type: 'Feature',
@@ -925,6 +928,7 @@ const Map: React.FC<MapProps> = ({
                             geoJSON.features.push(feature);
                         }
                     );
+
                     if (
                         !map.current?.getSource(clickedLightningID.toString())
                     ) {
@@ -1257,6 +1261,7 @@ const Map: React.FC<MapProps> = ({
 
     const [lastFilteredData, setLastFilteredData] = useState([]);
     useEffect(() => {
+        if (!map.current) return;
         if (!optimisationTemplateData) return;
         let filteredData: geojson = {
             type: 'FeatureCollection',
@@ -1275,7 +1280,7 @@ const Map: React.FC<MapProps> = ({
                     newItem.geometry.coordinates[0],
                     newItem.geometry.coordinates[1],
                 ]);
-                map.current.setZoom(13);
+                // map.current.setZoom(13);
             }
         }
         setLastFilteredData(filteredData.features);
@@ -1352,24 +1357,27 @@ const Map: React.FC<MapProps> = ({
                         ]);
                     }
                 });
-            } else {
-                // Activer le zoom et le déplacement
-                map.current.scrollZoom.enable();
-                map.current.dragPan.enable();
-                setCursorStyle('auto');
-
-                // Effacer les points et le calque quand le lasso n'est pas actif
-                if (map.current.getSource('clickedPoints')) {
-                    map.current.removeLayer('clickedPointsLayer');
-                    if (map.current.getLayer('clickedPolygonLayer'))
-                        map.current.removeLayer('clickedPolygonLayer');
-                    map.current.removeSource('clickedPolygon');
-                    map.current.removeSource('clickedPoints');
-                    setClickedPoints([]);
-                }
             }
+            //     else {
+
+            //         // Activer le zoom et le déplacement
+            //         map.current.scrollZoom.enable();
+            //         map.current.dragPan.enable();
+            //         setCursorStyle('auto');
+
+            //         // Effacer les points et le calque quand le lasso n'est pas actif
+            //         if (map.current.getSource('clickedPoints')) {
+            //             map.current.removeLayer('clickedPointsLayer');
+            //             if (map.current.getLayer('clickedPolygonLayer'))
+            //                 map.current.removeLayer('clickedPolygonLayer');
+            //             map.current.removeSource('clickedPolygon');
+            //             map.current.removeSource('clickedPoints');
+            //             setClickedPoints([]);
+            //         }
+            //     }
         }
-    }, [isLassoActive]);
+    }
+        , [isLassoActive]);
 
     useEffect(() => {
         if (map.current) {
@@ -1462,11 +1470,6 @@ const Map: React.FC<MapProps> = ({
     // Function to filter data based on the filter type
     useEffect(() => {
         if (map.current) {
-            map.current.setStyle(
-                isDark
-                    ? 'mapbox://styles/titouantd/cljwv2coy025k01pk785839a1'
-                    : 'mapbox://styles/titouantd/cljwui6ss00ij01pj1oin6oa5'
-            );
             map.current.flyTo({
                 center: [lng, lat],
                 zoom: zoom,
@@ -1483,7 +1486,19 @@ const Map: React.FC<MapProps> = ({
                 zoom: zoom,
             });
         }
-    }, [isDark, lng, lat, zoom, geojsonData]);
+    }, [lng, lat, zoom, geojsonData]);
+
+    useEffect(() => {
+        //todo : add the logic to renitialize the map
+        // if (map.current) {
+        //     map.current.setStyle(
+        //         isDark
+        //             ? 'mapbox://styles/titouantd/cljwv2coy025k01pk785839a1'
+        //             : 'mapbox://styles/titouantd/cljwui6ss00ij01pj1oin6oa5'
+        //     );
+        // }
+    }
+    , [isDark]);
 
     const styleMap = {
         height: '100vh',
@@ -1491,9 +1506,11 @@ const Map: React.FC<MapProps> = ({
     };
 
     // Trouver l'objet correspondant au selectedLampId dans nantesData
-    const selectedLampData = nantesData
-        .at(0)
-        .find((lamp: any) => lamp.id === selectedLampId);
+    if (nantesData.length > 0 && selectedLampId) {
+        const selectedLampData = nantesData
+            .at(0)
+            .find((lamp: any) => lamp.id === selectedLampId);
+    }
 
     // Render the map component
     return (

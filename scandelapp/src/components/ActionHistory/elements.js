@@ -117,6 +117,18 @@ export const DescriptionText = styled.p`
     font-family: 'SyneRegular';
 `;
 
+export const NoEventText = styled.p`
+    position: relative;
+    top: 7px;
+    left: 5px;
+    font-size: 13px;
+    user-select: none;
+    color: ${(props) => (props.isDark ? DarkYellow : DarkYellow)};
+    font-weight: 500;
+    max-width: 170px;
+    font-family: 'SyneRegular';
+`;
+
 /** Style of the Action time text */
 export const TimeText = styled.p`
     position: absolute;

@@ -50,19 +50,18 @@ export const StatsPart = styled.div`
 
 export const StatsTextContainer = styled.div`
     position: absolute;
-    top: 80px;
-    left: 50%;
-    transform: translate(-50%, 0);
-    width: 80%;
-    height: 65%;
-    padding: 10px;
-    border-radius: 5px;
-    color: ${Yellow};
-    font-size: 16px;
-    font-weight: 500;
-    resize: none;
-    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-color: ${DarkGrey};
+    color: ${Black};
+    font-size: 30px;
+    padding: 10px;
+    border-radius: 10px;
+    width: ${(props) => props.width};
+    height: 80%;
+    left: ${(props) => props.left};
+    top: 15%;
 `;
 
 export const StatsButton = styled.div`
