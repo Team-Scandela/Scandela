@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Grey, Black, White, DarkGrey } from '../../colors';
+import { Grey, Black } from '../../colors';
 
 export const InfoSectionContainer = styled.div`
     width: 100%;

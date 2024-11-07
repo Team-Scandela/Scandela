@@ -40,11 +40,8 @@ export const cancelSubscription = async () => {
     const urlRequest = `${process.env.REACT_APP_BACKEND_URL}subscription/cancel/${userId}`;
     try {
         const response = await fetch(urlRequest, {
-            method: 'POST',
+            method: 'PUT',
             headers: headers,
-            body: JSON.stringify({
-                userid: userId,
-            }),
         });
 
         if (!response.ok) {
