@@ -23,6 +23,7 @@ import ZonePannel from '../components/Legends/LegendZone';
 import TrafficPannel from '../components/Legends/LegendTraffic';
 import PinPannel from '../components/Legends/LegendPin';
 import ColorPannel from '../components/Legends/LegendPinColor';
+import { useRedirectOnRefresh } from '../hooks/useRedirectOnRefresh';
 
 export enum Filters {
     pin = 'pin',
@@ -78,7 +79,8 @@ const Main: React.FC<MainProps> = ({
     const [trafficTimeValue, setTrafficTimeValue] = useState<string>('00:00');
 
     const [toastHistoryData, setToastHistoryData] = useState([]);
-
+    
+    useRedirectOnRefresh();
     useEffect(() => {
         const getNotificationsAsync = async () => {
             const userId = localStorage.getItem('userId');
