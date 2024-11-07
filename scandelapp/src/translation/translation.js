@@ -256,6 +256,9 @@ const resources = {
             quality: 'Quality',
             noEvent: 'No new events since your last visit',
             needDeco: 'After buying the premium version, you will need to log out and log back in to activate the premium features.',
+            noActionSelected: 'No action selected',
+            actionsListSuccessfullyValidated: 'The actions list has been successfully validated',
+            noActionAdded: 'No action has been validated, please select one in the decision support panel.'
         },
     },
 
@@ -517,6 +520,9 @@ const resources = {
             quality: 'Qualité',
             noEvent: 'Aucun nouvel événement depuis votre dernière visite',
             needDeco : 'Après avoir acheté la version premium, vous devez vous reconnecter pour que les changements prennent effet.',
+            noActionSelected: 'Aucune action sélectionnée',
+            actionsListSuccessfullyValidated: 'La liste des actions a bien été validée',
+            noActionAdded: 'Aucune action n\'a été validé, veuillez en sélectionner une dans le panneau d\'aide à la décision',
         },
     },
 };

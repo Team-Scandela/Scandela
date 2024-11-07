@@ -142,10 +142,18 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
 
     const handleValidateButtonClick = () => {
         if (
-            optimisationTemplateData.filter((item: any) => item.selected)
-                .length === 0
+            optimisationTemplateData.filter((item: any) => item.saved).length === 0
         ) {
-            alert('Nothing in the action list');
+            showToast(
+                'error',
+                t('noActionSelected'),
+                'top-left',
+                5000,
+                false,
+                true,
+                false,
+                true
+            );
             return;
         }
         const timestamp = getTimestamp();
@@ -156,6 +164,16 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
             }
         }
         setOptimisationTemplateData(optimisationTemplateData);
+        showToast(
+            'success',
+            t('actionsListSuccessfullyValidated'),
+            'top-left',
+            5000,
+            false,
+            true,
+            false,
+            true
+        );
     };
 
     const handlePDFButtonClick = async () => {
@@ -480,7 +498,7 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
                 />
             </GaugesContainer>
             <ValidateButton isDark={isDark} onClick={handleValidateButtonClick}>
-                {t('Valider')}
+                {t('validate')}
             </ValidateButton>
             <PDFButton isDark={isDark} onClick={handlePDFButtonClick}>
                 {t('PDF')}
