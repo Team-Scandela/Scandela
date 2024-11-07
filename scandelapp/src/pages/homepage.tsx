@@ -19,6 +19,7 @@ import Stats from '../components/HomePage/Stats';
 import Law from '../components/HomePage/Law';
 import Toastr from '../components/Toastr';
 import HelpPannel from '../components/HelpPannel';
+import { useRedirectOnRefresh } from '../hooks/useRedirectOnRefresh';
 
 export interface MarkerData {
     id: string;
@@ -103,7 +104,7 @@ const HomePage: React.FC<HomePageProps> = () => {
     const mapRef = useRef<mapboxgl.Map | null>(null);
     const [toRender, setToRender] = useState<string | null>(null);
     const [title, setTitle] = useState<string>('Scandela');
-
+    useRedirectOnRefresh();
     const handleBackClick = () => {
         if (mapRef.current) {
             mapRef.current.flyTo({
