@@ -1,4 +1,3 @@
-import React from 'react';
 import { InfoSectionContainer, InfoParagraph } from './elements';
 
 const InfoSection = () => {
