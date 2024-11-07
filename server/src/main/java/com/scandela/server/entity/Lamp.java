@@ -2,12 +2,14 @@ package com.scandela.server.entity;
 
 import java.io.Serializable;
 import java.time.LocalTime;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -22,6 +24,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -124,5 +128,10 @@ public class Lamp implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@OneToMany(mappedBy = "lamp", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	private List<LampReparation> lampReparations;
+
+	@Column(name = "lastmodified")
+    @Temporal(TemporalType.TIMESTAMP)
+    @LastModifiedDate
+    private Date lastmodified;
 	
 }

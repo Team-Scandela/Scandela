@@ -10,6 +10,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,17 +29,47 @@ import com.scandela.server.entity.dto.LampDto;
 import com.scandela.server.exception.LampException;
 import com.scandela.server.service.ILampService;
 
+import jakarta.annotation.PostConstruct;
+
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping(value = "/lamps")
 public class LampController extends AbstractController<Lamp> {
 	
-	private List<Lamp> allLamps = service.getAll();
-	
-	// Constructors \\
-	protected LampController(ILampService lampService) {
+	private List<Lamp> allLampsList;
+    private List<LampDto> allLamps;
+    private List<LampDto> allOtherLamps;
+    private static final UUID MAIN_CITY_UUID = UUID.fromString("2dac2740-1d45-42d7-af5e-13b98cdf3af4");
+
+    @Autowired
+    public LampController(ILampService lampService) {
 		super(lampService);
-	}
+        this.service = lampService;
+        // initializeLamps();
+    }
+
+    @PostConstruct
+    private void initializeLamps() {
+        this.allLampsList = service.getAll();
+        System.out.println("Nombre total de lampadaires : " + allLampsList.size());
+
+        List<LampDto> allLampDtos = allLampsList.stream()
+            .map(LampDto::from)
+            .collect(Collectors.toList());
+        System.out.println("Nombre de LampDto créés : " + allLampDtos.size());
+
+        this.allLamps = allLampDtos.stream()
+            .filter(lamp -> MAIN_CITY_UUID.toString().equals(lamp.getUuidtown()))
+            .collect(Collectors.toList());
+        System.out.println("Nombre de lampadaires de la ville principale : " + this.allLamps.size());
+
+        this.allOtherLamps = allLampDtos.stream()
+            .filter(lamp -> !MAIN_CITY_UUID.toString().equals(lamp.getUuidtown()))
+            .collect(Collectors.toList());
+        System.out.println("Nombre de lampadaires des autres villes : " + this.allOtherLamps.size());
+    }
+
+
 
 	// Methods \\
 		// Public \\
@@ -47,9 +78,36 @@ public class LampController extends AbstractController<Lamp> {
 	 * 
 	 * @return allLamps
 	 */
-	@GetMapping
-	public List<LampDto> getLamps() {
-		return allLamps.stream().map(lamp -> LampDto.from(lamp)).collect(Collectors.toList());
+	@GetMapping("/all")
+    public List<LampDto> getAllLamps() {
+        return allLampsList.stream()
+            .map(LampDto::from)
+            .collect(Collectors.toList());
+    }
+
+    @GetMapping
+    public List<LampDto> getMainLamps() {
+        return new ArrayList<>(allLamps);
+    }
+
+    @GetMapping("/others")
+    public List<LampDto> getOtherLamps() {
+        return new ArrayList<>(allOtherLamps);
+    }
+
+	@GetMapping("/{townId}")
+	public List<LampDto> getLampsFromTown(@PathVariable UUID townId) {
+		System.out.println("Given townId == -> " + townId);
+
+		System.out.println("Current MAIN_CITY_UUID -> " + MAIN_CITY_UUID.toString());
+
+		if (townId.equals(MAIN_CITY_UUID)) {
+			System.out.println("a");
+			return allOtherLamps;
+		} else {
+			System.out.println("b");
+			return allLamps;
+		}
 	}
 
 	/**
@@ -173,17 +231,17 @@ public class LampController extends AbstractController<Lamp> {
 
 	@GetMapping("/consuptionScore")
 	public double computeGlobalEnergyConsumption() {
-		return ((ILampService) service).computeGlobalEnergyConsumption(allLamps);
+		return ((ILampService) service).computeGlobalEnergyConsumption(allLampsList);
 	}
 	
 	@GetMapping("/vegetalScore")
 	public double computeGlobalDistanceVegetalZone() throws IOException, CsvValidationException {
-		return ((ILampService) service).computeGlobalDistanceVegetalZone(allLamps);
+		return ((ILampService) service).computeGlobalDistanceVegetalZone(allLampsList);
 	}
 
 	@GetMapping("/lightScore")
 	public double computeGlobalLightIndicator() {
-		return ((ILampService) service).computeGlobalLightIndicator(allLamps);
+		return ((ILampService) service).computeGlobalLightIndicator(allLampsList);
 	}
 
 	@GetMapping("/allScores") 
@@ -199,15 +257,15 @@ public class LampController extends AbstractController<Lamp> {
 	public Map<String, Double> computeAllIndicator() {
     
 		// Lancer les trois appels de manière asynchrone
-		CompletableFuture<Double> consumptionScoreFuture = CompletableFuture.supplyAsync(() -> ((ILampService) service).computeGlobalEnergyConsumption(allLamps));
+		CompletableFuture<Double> consumptionScoreFuture = CompletableFuture.supplyAsync(() -> ((ILampService) service).computeGlobalEnergyConsumption(allLampsList));
 		CompletableFuture<Double> vegetalScoreFuture = CompletableFuture.supplyAsync(() -> {
 			try {
-				return ((ILampService) service).computeGlobalDistanceVegetalZone(allLamps);
+				return ((ILampService) service).computeGlobalDistanceVegetalZone(allLampsList);
 			} catch (IOException | CsvValidationException e) {
 				throw new RuntimeException("Error calculating vegetal score", e);
 			}
 		});
-		CompletableFuture<Double> lightScoreFuture = CompletableFuture.supplyAsync(() -> ((ILampService) service).computeGlobalLightIndicator(allLamps));
+		CompletableFuture<Double> lightScoreFuture = CompletableFuture.supplyAsync(() -> ((ILampService) service).computeGlobalLightIndicator(allLampsList));
     
 		// Attendre la fin de tous les appels et stocker les résultats dans une Map
 		Map<String, Double> allScores = new HashMap<>();

@@ -9,7 +9,7 @@ export const GaugeContainer = styled.div`
 `;
 
 export const GaugeContainerLeft = styled(GaugeContainer)`
-    bottom: ${(props) => (props.decisionPanelExtended ? 33 : 30)}px;
+    bottom: ${(props) => (props.decisionPanelExtended ? 56 : 30)}px;
     right: ${(props) =>
         props.decisionPanelExtended ? 375 : props.decal ? 385 : 175}px;
     transition: all 0.5s ease-in-out;
@@ -18,7 +18,7 @@ export const GaugeContainerLeft = styled(GaugeContainer)`
 `;
 
 export const GaugeContainerMiddle = styled(GaugeContainer)`
-    bottom: ${(props) => (props.decisionPanelExtended ? 33 : 30)}px;
+    bottom: ${(props) => (props.decisionPanelExtended ? 56 : 30)}px;
     right: ${(props) =>
         props.decisionPanelExtended ? 270 : props.decal ? 310 : 100}px;
     transition: all 0.5s ease-in-out;
@@ -27,7 +27,7 @@ export const GaugeContainerMiddle = styled(GaugeContainer)`
 `;
 
 export const GaugeContainerRight = styled(GaugeContainer)`
-    bottom: ${(props) => (props.decisionPanelExtended ? 33 : 30)}px;
+    bottom: ${(props) => (props.decisionPanelExtended ? 56 : 30)}px;
     right: ${(props) => (props.decisionPanelExtended ? 165 : 25)}px;
     transition: all 0.5s ease-in-out;
     z-index: 2;

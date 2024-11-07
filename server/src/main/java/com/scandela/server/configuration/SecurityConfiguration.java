@@ -55,23 +55,7 @@ public class SecurityConfiguration {
                     corsConfiguration.addAllowedHeader("*");
                     configurer.configurationSource(request -> corsConfiguration);
                 })
-                .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/stripe/webhook").permitAll()
-                        .requestMatchers("/stripe/handleSessionId/**").permitAll()
-                        .requestMatchers("/admin/**").hasAuthority("ADMIN")
-                        .requestMatchers("/**").hasAuthority("USER")
-                        .anyRequest().authenticated())
-                .httpBasic(basic -> basic.authenticationEntryPoint((request, response, authException) -> {
-                    logger.info("Requête reçue pour l'URL : " + request.getRequestURI());
-                    if (!request.getRequestURI().equals("/stripe/webhook") && !request.getRequestURI().equals("/stripe/handleSessionId")) {
-                        logger.info("Appliquant l'authentification Basic pour : " + request.getRequestURI());
-                        response.addHeader("WWW-Authenticate", "Basic realm=\"Realm\"");
-                        response.sendError(HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED.getReasonPhrase());
-                    } else {
-                        logger.info("Autorisant l'accès sans auth pour /stripe/webhook");
-                        response.setStatus(HttpStatus.OK.value());
-                    }
-                }));
+                .authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll());
 
         return http.build();
     }
