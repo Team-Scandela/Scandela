@@ -56,5 +56,5 @@ export const Text = styled.div`
     font-weight: 550;
     user-select: none;
     font-family: 'SyneRegular';
-    color: ${DarkYellow}
+    color: ${DarkYellow};
 `;

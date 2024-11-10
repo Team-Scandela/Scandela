@@ -108,7 +108,7 @@ export const LightBeamFunnel = styled.div`
     width: 0;
     height: 0;
     border-style: solid;
-    border-width: 0 300px 800px 300px; /* Ajustez ces valeurs pour contrôler la largeur de l'entonnoir */
+    border-width: 0 300px 800px 300px;
     border-color: transparent transparent rgba(255, 255, 102, 0.5) transparent;
     opacity: 0.8;
     transform: translate(-50%, -50%);

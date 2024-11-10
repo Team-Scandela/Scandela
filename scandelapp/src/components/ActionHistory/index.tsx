@@ -19,7 +19,7 @@ import {
     PopUpTime,
     PopUpUnvalideButton,
     PopUpToLampButton,
-    NoEventText
+    NoEventText,
 } from './elements';
 import { Tooltip } from 'react-tooltip';
 import { Black } from '../../colors';

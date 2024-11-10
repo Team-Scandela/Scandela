@@ -9,34 +9,34 @@ import {
 } from './elements';
 
 interface Admin {
-    id: string,
-    town: string,
-    email: string,
-    username: string,
-    password: string,
-    rights: number,
-    moreInformations: string,
-    darkmode: boolean,
-    lastConnexion: string,
-    newsletter: boolean,
-    premium: boolean,
-    adminville: boolean,
-};
+    id: string;
+    town: string;
+    email: string;
+    username: string;
+    password: string;
+    rights: number;
+    moreInformations: string;
+    darkmode: boolean;
+    lastConnexion: string;
+    newsletter: boolean;
+    premium: boolean;
+    adminville: boolean;
+}
 
 interface AdminCardProps {
-    admin: Admin,
+    admin: Admin;
     setAdmins: React.Dispatch<React.SetStateAction<Admin[]>>;
-};
+}
 
-const AdminCard: React.FC<AdminCardProps> = ({ admin, setAdmins}) => {
+const AdminCard: React.FC<AdminCardProps> = ({ admin, setAdmins }) => {
     const username = process.env.REACT_APP_REQUEST_USER;
     const passwordDb = process.env.REACT_APP_REQUEST_PASSWORD;
 
     const removeAdministrator = async () => {
         try {
-
             const urlRequest =
-                process.env.REACT_APP_BACKEND_URL + `users/getByMail/${admin.email}`;
+                process.env.REACT_APP_BACKEND_URL +
+                `users/getByMail/${admin.email}`;
             const responseUser = await fetch(urlRequest, {
                 method: 'GET',
                 headers: {
@@ -45,7 +45,7 @@ const AdminCard: React.FC<AdminCardProps> = ({ admin, setAdmins}) => {
                 },
             });
             const userData = await responseUser.json();
-            console.log("USERS By EMAIL = ", userData);
+            console.log('USERS By EMAIL = ', userData);
             if (userData) {
                 const updatedUserData = {
                     id: userData.id,
@@ -61,7 +61,7 @@ const AdminCard: React.FC<AdminCardProps> = ({ admin, setAdmins}) => {
                     premium: userData.premium,
                     adminville: false,
                 };
-                console.log("UPDATED UserData = ", updatedUserData);
+                console.log('UPDATED UserData = ', updatedUserData);
                 const urlRequest =
                     process.env.REACT_APP_BACKEND_URL + 'users/' + admin.id;
                 const response = await fetch(urlRequest, {
@@ -72,31 +72,24 @@ const AdminCard: React.FC<AdminCardProps> = ({ admin, setAdmins}) => {
                     },
                     body: JSON.stringify(updatedUserData),
                 });
-                console.log("RESPONSE = ", response);
-                setAdmins((prevAdmins) => prevAdmins.filter((admin) => admin.id !== admin.id));
+                console.log('RESPONSE = ', response);
+                setAdmins((prevAdmins) =>
+                    prevAdmins.filter((admin) => admin.id !== admin.id)
+                );
             }
         } catch (error) {
-            console.log("Error remove administrator: ", error.message);
+            console.log('Error remove administrator: ', error.message);
         }
     };
 
-    useEffect(() => {
-    }, []);
+    useEffect(() => {}, []);
 
     return (
         <>
-            <UserCardTitle>
-                {admin.username}
-            </UserCardTitle>
-            <UserCardRights>
-                {'Droits : ' + 'Adminnistrateur'}
-            </UserCardRights>
-            <UserCardEmail>
-                {admin.email}
-            </UserCardEmail>
-            <UserCardDelete
-                onClick={removeAdministrator}
-            />
+            <UserCardTitle>{admin.username}</UserCardTitle>
+            <UserCardRights>{'Droits : ' + 'Adminnistrateur'}</UserCardRights>
+            <UserCardEmail>{admin.email}</UserCardEmail>
+            <UserCardDelete onClick={removeAdministrator} />
         </>
     );
 };

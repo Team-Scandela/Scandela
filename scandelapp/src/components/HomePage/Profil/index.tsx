@@ -21,7 +21,7 @@ import {
     ButtonAddAdmin,
     InputName,
     ButtonSendAddAdmin,
-    HelpText
+    HelpText,
 } from './elements';
 import { getUser, getUserByMail, putUser } from '../../../utils/userUtils';
 import { useTranslation } from 'react-i18next';
@@ -182,8 +182,7 @@ const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
     };
 
     const updateUserAdminVille = async () => {
-        if (admins.length <= 2)
-            addAdministrator();
+        if (admins.length <= 2) addAdministrator();
     };
 
     const updateUserEmail = async () => {
@@ -209,8 +208,7 @@ const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
     };
 
     const getAllAdministrator = async () => {
-        const urlLamp =
-            process.env.REACT_APP_BACKEND_URL + 'users';
+        const urlLamp = process.env.REACT_APP_BACKEND_URL + 'users';
         try {
             const response = await fetch(urlLamp, {
                 method: 'GET',
@@ -222,7 +220,9 @@ const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
 
             const lampData = await response.json();
             if (response.status === 200) {
-                const admins = lampData.filter((user: any) => user.adminville === true);
+                const admins = lampData.filter(
+                    (user: any) => user.adminville === true
+                );
                 setAdmins(admins);
             }
         } catch (error) {
@@ -232,9 +232,9 @@ const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
 
     const addAdministrator = async () => {
         try {
-
             const urlRequest =
-                process.env.REACT_APP_BACKEND_URL + `users/getByMail/${nameInput}`;
+                process.env.REACT_APP_BACKEND_URL +
+                `users/getByMail/${nameInput}`;
             const responseUser = await fetch(urlRequest, {
                 method: 'GET',
                 headers: {
@@ -243,7 +243,7 @@ const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
                 },
             });
             const userData = await responseUser.json();
-            console.log("USERS By EMAIL = ", userData);
+            console.log('USERS By EMAIL = ', userData);
             if (userData) {
                 const updatedUserData = {
                     id: userData.id,
@@ -259,7 +259,7 @@ const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
                     premium: userData.premium,
                     adminville: true,
                 };
-                console.log("UPDATED UserData = ", updatedUserData);
+                console.log('UPDATED UserData = ', updatedUserData);
                 const urlRequest =
                     process.env.REACT_APP_BACKEND_URL + 'users/' + userData.id;
                 const response = await fetch(urlRequest, {
@@ -270,7 +270,7 @@ const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
                     },
                     body: JSON.stringify(updatedUserData),
                 });
-                console.log("RESPONSE = ", response);
+                console.log('RESPONSE = ', response);
                 //getAllAdministrator();
                 setAdmins((prevAdmins) => [...prevAdmins, updatedUserData]);
                 setIsAddAdmin(false);
@@ -279,16 +279,13 @@ const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
             }
         } catch (error) {
             setIsUserNotFound(true);
-            console.log("Error remove administrator: ", error.message);
+            console.log('Error remove administrator: ', error.message);
         }
     };
 
-
     const handleAddAdmin = () => {
-        if (isAddAdmin == true)
-            setIsAddAdmin(false);
-        else
-            setIsAddAdmin(true);
+        if (isAddAdmin == true) setIsAddAdmin(false);
+        else setIsAddAdmin(true);
     };
 
     const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -396,20 +393,29 @@ const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
                     <SuperUserTitle>Panneau d'administrateur</SuperUserTitle>
                     <ButtonAddAdmin onClick={handleAddAdmin} />
                     <UsersList>
-                        {!isAddAdmin && admins.length === 0 &&
+                        {!isAddAdmin && admins.length === 0 && (
                             <HelpText>
-                                Cette fonctionnalité permet aux administrateurs de gérer l'accès des utilisateurs dans leur ville. Elle offre une interface complète pour visualiser, ajouter, et supprimer des utilisateurs tout en assurant des notifications et des confirmations pour chaque action.
+                                Cette fonctionnalité permet aux administrateurs
+                                de gérer l'accès des utilisateurs dans leur
+                                ville. Elle offre une interface complète pour
+                                visualiser, ajouter, et supprimer des
+                                utilisateurs tout en assurant des notifications
+                                et des confirmations pour chaque action.
                             </HelpText>
-                        }
-                        {!isAddAdmin && admins.map((user) => (
-                            <UserCard key={user.id}>
-                                {user && !isAddAdmin && (
-                                    <>
-                                        <AdminCard admin={user} setAdmins={setAdmins} />
-                                    </>
-                                )}
-                            </UserCard>
-                        ))}
+                        )}
+                        {!isAddAdmin &&
+                            admins.map((user) => (
+                                <UserCard key={user.id}>
+                                    {user && !isAddAdmin && (
+                                        <>
+                                            <AdminCard
+                                                admin={user}
+                                                setAdmins={setAdmins}
+                                            />
+                                        </>
+                                    )}
+                                </UserCard>
+                            ))}
                         {isAddAdmin && (
                             <>
                                 <InputName

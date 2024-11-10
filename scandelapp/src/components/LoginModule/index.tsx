@@ -211,7 +211,9 @@ const LoginModule: React.FC<LoginModuleProps> = ({
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                             setUsernameSignUp(e.target.value)
                         }
-                        onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                        onKeyDown={(
+                            e: React.KeyboardEvent<HTMLInputElement>
+                        ) => {
                             if (e.key === 'Enter') {
                                 handleSubmitSignIn(e);
                             }
@@ -225,7 +227,9 @@ const LoginModule: React.FC<LoginModuleProps> = ({
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                             setEmailSignUp(e.target.value)
                         }
-                        onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                        onKeyDown={(
+                            e: React.KeyboardEvent<HTMLInputElement>
+                        ) => {
                             if (e.key === 'Enter') {
                                 handleSubmitSignIn(e);
                             }
@@ -239,7 +243,9 @@ const LoginModule: React.FC<LoginModuleProps> = ({
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                             setPasswordSignUp(e.target.value)
                         }
-                        onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                        onKeyDown={(
+                            e: React.KeyboardEvent<HTMLInputElement>
+                        ) => {
                             if (e.key === 'Enter') {
                                 handleSubmitSignIn(e);
                             }
@@ -252,7 +258,9 @@ const LoginModule: React.FC<LoginModuleProps> = ({
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                             setPasswordConfirmSignUp(e.target.value)
                         }
-                        onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                        onKeyDown={(
+                            e: React.KeyboardEvent<HTMLInputElement>
+                        ) => {
                             if (e.key === 'Enter') {
                                 handleSubmitSignIn(e);
                             }
@@ -277,7 +285,9 @@ const LoginModule: React.FC<LoginModuleProps> = ({
                             onChange={(
                                 e: React.ChangeEvent<HTMLInputElement>
                             ) => setEmailSignIn(e.target.value)}
-                            onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                            onKeyDown={(
+                                e: React.KeyboardEvent<HTMLInputElement>
+                            ) => {
                                 if (e.key === 'Enter') {
                                     handleSubmitSignIn(e);
                                 }
@@ -290,7 +300,9 @@ const LoginModule: React.FC<LoginModuleProps> = ({
                             onChange={(
                                 e: React.ChangeEvent<HTMLInputElement>
                             ) => setPasswordSignIn(e.target.value)}
-                            onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                            onKeyDown={(
+                                e: React.KeyboardEvent<HTMLInputElement>
+                            ) => {
                                 if (e.key === 'Enter') {
                                     handleSubmitSignIn(e);
                                 }

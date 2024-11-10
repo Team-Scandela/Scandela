@@ -79,7 +79,7 @@ const Main: React.FC<MainProps> = ({
     const [trafficTimeValue, setTrafficTimeValue] = useState<string>('00:00');
 
     const [toastHistoryData, setToastHistoryData] = useState([]);
-    
+
     useRedirectOnRefresh();
     useEffect(() => {
         const getNotificationsAsync = async () => {

@@ -1376,8 +1376,7 @@ const Map: React.FC<MapProps> = ({
             //         }
             //     }
         }
-    }
-        , [isLassoActive]);
+    }, [isLassoActive]);
 
     useEffect(() => {
         if (map.current) {
@@ -1497,8 +1496,7 @@ const Map: React.FC<MapProps> = ({
         //             : 'mapbox://styles/titouantd/cljwui6ss00ij01pj1oin6oa5'
         //     );
         // }
-    }
-    , [isDark]);
+    }, [isDark]);
 
     const styleMap = {
         height: '100vh',
