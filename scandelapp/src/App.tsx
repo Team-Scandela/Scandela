@@ -15,6 +15,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { getLampPrice } from './utils/actionsPriceUtils';
 import PrivateRoute from './components/PrivateRoute/privateRoute';
+import ErrorPage from './components/PrivateRoute/errorPage'; // Assurez-vous d'avoir créé ce composant
 
 /** Route page */
 const App: React.FC = () => {
@@ -238,6 +239,7 @@ const App: React.FC = () => {
                             </PrivateRoute>
                         }
                     />
+                    <Route path="*" element={<ErrorPage />} />
                 </Routes>
             </BrowserRouter>
         </div>
