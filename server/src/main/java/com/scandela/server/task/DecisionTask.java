@@ -22,6 +22,7 @@ public class DecisionTask {
 	
 	@Scheduled(fixedRate = 7205000)
 	public void taskGetWeather() throws Exception {
+		//TODO faire un deleteAllFromType dans decisionService et decisionDao qui prend un decisionTypeLibelle ou title et supprimer les decisions de ce type
 		//TODO delete toutes les decisions existantes du weather et faire en sorte que la génération s'applique sur tous les lampadaires pas seulement sur un page -> verifier que ca bloque pas le reste
 		decisionService.algoReductionConsoHoraireWeather();
 		
