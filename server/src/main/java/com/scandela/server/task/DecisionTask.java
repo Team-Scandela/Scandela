@@ -2,6 +2,7 @@ package com.scandela.server.task;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,10 +21,10 @@ public class DecisionTask {
 		this.decisionService = decisionService;
 	}
 	
-	@Scheduled(fixedRate = 7205000)
+	// Every 2 hours
+	@Scheduled(timeUnit = TimeUnit.MINUTES, fixedRate = 121)
 	public void taskGetWeather() throws Exception {
-		//TODO faire un deleteAllFromType dans decisionService et decisionDao qui prend un decisionTypeLibelle ou title et supprimer les decisions de ce type
-		//TODO delete toutes les decisions existantes du weather et faire en sorte que la génération s'applique sur tous les lampadaires pas seulement sur un page -> verifier que ca bloque pas le reste
+		decisionService.deleteAllByDescriptionContaining("Temps actuel ");
 		decisionService.algoReductionConsoHoraireWeather();
 		
 		Logger log = LoggerFactory.getLogger(DecisionTask.class);
@@ -31,4 +32,7 @@ public class DecisionTask {
 		
 		log.info("Weather get at time {}", dateFormat.format(new Date()));
 	}
+	
+	// Every day at 10
+//	public void task
 }

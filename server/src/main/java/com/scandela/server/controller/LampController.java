@@ -33,8 +33,8 @@ import com.scandela.server.service.ILampService;
 @RequestMapping(value = "/lamps")
 public class LampController extends AbstractController<Lamp> {
 	
-	private List<Lamp> allLamps = service.getAll();
-//	private List<Lamp> allLamps = new ArrayList<>();
+//	private List<Lamp> allLamps = service.getAll();
+	private List<Lamp> allLamps = new ArrayList<>();
 	
 	// Constructors \\
 	protected LampController(ILampService lampService) {

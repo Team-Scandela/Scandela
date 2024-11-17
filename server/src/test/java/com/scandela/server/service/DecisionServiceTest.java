@@ -582,8 +582,7 @@ public class DecisionServiceTest {
 		when(decisionTypeDaoMock.findByTitleContains("Allumer lampadaire")).thenReturn(Optional.of(decisionType));
 		when(weatherDaoMock.findByLatitudeAndLongitude(Mockito.anyDouble(), Mockito.anyDouble())).thenReturn(Optional.empty());
 		when(restTemplateMock.getForEntity(Mockito.anyString(), Mockito.eq(String.class))).thenReturn(new ResponseEntity<String>(response, HttpStatus.OK));
-		when(lampDaoMock.count()).thenReturn(1l);
-		when(lampDaoMock.findAll(Mockito.any(PageRequest.class))).thenReturn(new PageImpl<>(Arrays.asList(lamp)));
+		when(lampDaoMock.findAll()).thenReturn(Arrays.asList(lamp));
 		
 		List<Decision> result = testedObject.algoReductionConsoHoraireWeather();
 
@@ -592,8 +591,7 @@ public class DecisionServiceTest {
 		verify(decisionDaoMock, never()).deleteByDescriptionContaining(Mockito.anyString());
 		verify(restTemplateMock, times(1)).getForEntity(Mockito.anyString(), Mockito.eq(String.class));
 		verify(weatherDaoMock, times(1)).save(Mockito.any());
-		verify(lampDaoMock, times(1)).count();
-		verify(lampDaoMock, times(1)).findAll(Mockito.any(PageRequest.class));
+		verify(lampDaoMock, times(1)).findAll();
 		verify(decisionDaoMock, times(1)).saveAll(Mockito.any());
 		verify(lampDecisionDaoMock, times(1)).saveAll(Mockito.any());
 		assertThat(result).hasSize(1);
@@ -615,8 +613,7 @@ public class DecisionServiceTest {
 		verify(decisionDaoMock, never()).deleteByDescriptionContaining(Mockito.anyString());
 		verify(restTemplateMock, never()).getForEntity(Mockito.anyString(), Mockito.eq(String.class));
 		verify(weatherDaoMock, never()).save(Mockito.any());
-		verify(lampDaoMock, never()).count();
-		verify(lampDaoMock, never()).findAll(Mockito.any(PageRequest.class));
+		verify(lampDaoMock, never()).findAll();
 		verify(decisionDaoMock, never()).saveAll(Mockito.any());
 		verify(lampDecisionDaoMock, never()).saveAll(Mockito.any());
 		assertThat(result.getMessage()).isEqualTo(DecisionException.DECISIONTYPE_LOADING);
@@ -639,8 +636,7 @@ public class DecisionServiceTest {
 		verify(decisionDaoMock, never()).deleteByDescriptionContaining(Mockito.anyString());
 		verify(restTemplateMock, times(1)).getForEntity(Mockito.anyString(), Mockito.eq(String.class));
 		verify(weatherDaoMock, never()).save(Mockito.any());
-		verify(lampDaoMock, never()).count();
-		verify(lampDaoMock, never()).findAll(Mockito.any(PageRequest.class));
+		verify(lampDaoMock, never()).findAll();
 		verify(decisionDaoMock, never()).saveAll(Mockito.any());
 		verify(lampDecisionDaoMock, never()).saveAll(Mockito.any());
 		assertThat(result.getMessage()).isEqualTo(DecisionException.GET_WEATHER);
@@ -663,8 +659,7 @@ public class DecisionServiceTest {
 		verify(decisionDaoMock, never()).deleteByDescriptionContaining(Mockito.anyString());
 		verify(restTemplateMock, never()).getForEntity(Mockito.anyString(), Mockito.eq(String.class));
 		verify(weatherDaoMock, never()).save(Mockito.any());
-		verify(lampDaoMock, never()).count();
-		verify(lampDaoMock, never()).findAll(Mockito.any(PageRequest.class));
+		verify(lampDaoMock, never()).findAll();
 		verify(decisionDaoMock, never()).saveAll(Mockito.any());
 		verify(lampDecisionDaoMock, never()).saveAll(Mockito.any());
 		assertThat(result).hasSize(0);
@@ -686,8 +681,7 @@ public class DecisionServiceTest {
 		when(decisionTypeDaoMock.findByTitleContains("Allumer lampadaire")).thenReturn(Optional.of(decisionType));
 		when(weatherDaoMock.findByLatitudeAndLongitude(Mockito.anyDouble(), Mockito.anyDouble())).thenReturn(Optional.ofNullable(weather));
 		when(restTemplateMock.getForEntity(Mockito.anyString(), Mockito.eq(String.class))).thenReturn(new ResponseEntity<String>(response, HttpStatus.OK));
-		when(lampDaoMock.count()).thenReturn(1l);
-		when(lampDaoMock.findAll(Mockito.any(PageRequest.class))).thenReturn(new PageImpl<>(Arrays.asList(lamp)));
+		when(lampDaoMock.findAll()).thenReturn(Arrays.asList(lamp));
 		
 		List<Decision> result = testedObject.algoReductionConsoHoraireWeather();
 
@@ -696,8 +690,7 @@ public class DecisionServiceTest {
 		verify(decisionDaoMock, times(1)).deleteByDescriptionContaining(Mockito.anyString());
 		verify(restTemplateMock, times(1)).getForEntity(Mockito.anyString(), Mockito.eq(String.class));
 		verify(weatherDaoMock, times(1)).save(Mockito.any());
-		verify(lampDaoMock, times(1)).count();
-		verify(lampDaoMock, times(1)).findAll(Mockito.any(PageRequest.class));
+		verify(lampDaoMock, times(1)).findAll();
 		verify(decisionDaoMock, times(1)).saveAll(Mockito.any());
 		verify(lampDecisionDaoMock, times(1)).saveAll(Mockito.any());
 		assertThat(result).hasSize(1);
@@ -724,8 +717,7 @@ public class DecisionServiceTest {
 		when(decisionTypeDaoMock.findByTitleContains("Allumer lampadaire")).thenReturn(Optional.of(decisionType));
 		when(weatherDaoMock.findByLatitudeAndLongitude(Mockito.anyDouble(), Mockito.anyDouble())).thenReturn(Optional.ofNullable(weather));
 		when(restTemplateMock.getForEntity(Mockito.anyString(), Mockito.eq(String.class))).thenReturn(new ResponseEntity<String>(response, HttpStatus.OK));
-		when(lampDaoMock.count()).thenReturn(36l);
-		when(lampDaoMock.findAll(Mockito.any(PageRequest.class))).thenReturn(new PageImpl<>(Arrays.asList(lamp)));
+		when(lampDaoMock.findAll()).thenReturn(Arrays.asList(lamp));
 		
 		List<Decision> result = testedObject.algoReductionConsoHoraireWeather();
 
@@ -734,8 +726,7 @@ public class DecisionServiceTest {
 		verify(decisionDaoMock, times(1)).deleteByDescriptionContaining(Mockito.anyString());
 		verify(restTemplateMock, times(1)).getForEntity(Mockito.anyString(), Mockito.eq(String.class));
 		verify(weatherDaoMock, times(1)).save(Mockito.any());
-		verify(lampDaoMock, times(1)).count();
-		verify(lampDaoMock, times(1)).findAll(Mockito.any(PageRequest.class));
+		verify(lampDaoMock, times(1)).findAll();
 		verify(decisionDaoMock, times(1)).saveAll(Mockito.any());
 		verify(lampDecisionDaoMock, times(1)).saveAll(Mockito.any());
 		assertThat(result).hasSize(0);

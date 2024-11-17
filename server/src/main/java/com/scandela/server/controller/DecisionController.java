@@ -106,11 +106,6 @@ public class DecisionController extends AbstractController<Decision> {
 		
 		return getAllByDecisionTypes(decisions);
 	}
-	
-	@PostMapping("/algoReductionConsoHoraireWeather")
-	public List<Decision> algoReductionConsoHoraireWeather() throws Exception {
-		return ((IDecisionService) service).algoReductionConsoHoraireWeather();
-	}
 
 	@PostMapping("/algoAjouterLampadaire")
 	public List<Decision> algoAjouterLampadaire() throws Exception {

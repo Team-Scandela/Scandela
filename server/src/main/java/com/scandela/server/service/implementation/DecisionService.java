@@ -256,11 +256,7 @@ public class DecisionService extends AbstractService<Decision> implements IDecis
 		List<LampDecision> lampDecisions = new ArrayList<>();
 		
 		if (weather.get().getVis() < 7.5) {// Pourquoi 7.5 ? (7.39 + marge) -> https://link.springer.com/article/10.1007/s11457-023-09385-0
-			Random rand = new Random();
-			long lampCount = lampDao.count();
-			int pageNumbers = lampCount > 20 ?  Math.toIntExact(lampCount / 20) + 1 : 1;
-			Page<Lamp> lampsPage = lampDao.findAll(PageRequest.of(rand.nextInt(pageNumbers), 20));
-			List<Lamp> lamps = lampsPage.getContent();
+			List<Lamp> lamps = lampDao.findAll();
 
 			lamps.forEach(lamp -> {
 				if (lamp.getLampDecisions() == null ||
@@ -569,6 +565,12 @@ public class DecisionService extends AbstractService<Decision> implements IDecis
 		lampDecisionDao.saveAll(lampDecisions);
 		
 		return decisions;
+	}
+
+	@Override
+	@Transactional(rollbackFor = { Exception.class })
+	public void deleteAllByDescriptionContaining(String description) {
+		((DecisionDao) dao).deleteByDescriptionContaining(description);
 	}
 
 		// Private \\
