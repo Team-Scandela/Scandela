@@ -571,6 +571,30 @@ public class DecisionService extends AbstractService<Decision> implements IDecis
 		return decisions;
 	}
 
+	@Override
+	@Transactional(readOnly = true, rollbackFor = { Exception.class })
+	public String getState(UUID idDecision) throws Exception {
+		Optional<Decision> decision = dao.findById(idDecision);
+		
+		if (decision.isEmpty()) {
+			throw new DecisionException(DecisionException.DECISION_LOADING);
+		}
+		
+		return decision.get().getState();
+	}
+
+	@Override
+	@Transactional(rollbackFor = { Exception.class })
+	public void setState(UUID idDecision, String state) throws Exception {
+		Optional<Decision> decision = dao.findById(idDecision);
+		
+		if (decision.isEmpty()) {
+			throw new DecisionException(DecisionException.DECISION_LOADING);
+		}
+		
+		decision.get().setState(state);
+	}
+
 		// Private \\
 	private void loadDecisionType(Decision newDecision) throws DecisionException {
 		if (newDecision.getType() == null) {
