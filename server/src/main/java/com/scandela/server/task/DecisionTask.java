@@ -16,6 +16,7 @@ public class DecisionTask {
 	
 	private IDecisionService decisionService;
 	
+	
 	// Constructors \\
 	protected DecisionTask(IDecisionService decisionService) {
 		this.decisionService = decisionService;
@@ -23,16 +24,47 @@ public class DecisionTask {
 	
 	// Every 2 hours
 	@Scheduled(timeUnit = TimeUnit.MINUTES, fixedRate = 121)
-	public void taskGetWeather() throws Exception {
+	public void taskGetWeatherDecision() throws Exception {
 		decisionService.deleteAllByDescriptionContaining("Temps actuel ");
 		decisionService.algoReductionConsoHoraireWeather();
 		
-		Logger log = LoggerFactory.getLogger(DecisionTask.class);
-		SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-		
-		log.info("Weather get at time {}", dateFormat.format(new Date()));
+		writeLog("taskGetWeatherDecision");
 	}
 	
 	// Every day at 10
-//	public void task
+	@Scheduled(cron = "0 10 * * *")
+	public void taskGetAllumerEteindreDecision() throws Exception {
+		decisionService.deleteAllByDescriptionContaining("Coucher du soleil à ");
+		decisionService.deleteAllByDescriptionContaining("Lever du soleil à ");
+		decisionService.algoReductionConsoHoraire();
+
+		writeLog("taskGetAllumerEteindreDecision");
+	}
+	
+	// Every Sunday at 0
+	@Scheduled(cron = "0 0 * * 0")
+	public void taskGetWeekDecision() throws Exception {
+		decisionService.algoChangementBulb();
+
+		decisionService.deleteAllByDescriptionContaining("La distance entre 2 lampadaire n'est pas respectée.");
+		decisionService.algoAjouterLampadaire();
+
+		decisionService.deleteAllByDescriptionContaining("La distance entre les lampadaires n'est pas optimale.");
+		decisionService.algoRetirerLampadaire();
+
+		decisionService.deleteAllBySolutionContaining("Augmenter l'intensité du lampadaire de ");
+		decisionService.algoAugmenterIntensiteLampadaire();
+
+		decisionService.deleteAllBySolutionContaining("Réduire l'intensité du lampadaire de ");
+		decisionService.algoReduireIntensiteLampadaire();
+
+		writeLog("taskGetWeekDecision");
+	}
+	
+	private void writeLog(String taskName) {
+		Logger log = LoggerFactory.getLogger(DecisionTask.class);
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy at HH:mm:ss");
+		
+		log.info("{} at date {}", taskName, dateFormat.format(new Date()));
+	}
 }

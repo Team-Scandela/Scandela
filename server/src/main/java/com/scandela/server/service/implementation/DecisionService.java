@@ -7,12 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Random;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -110,15 +107,8 @@ public class DecisionService extends AbstractService<Decision> implements IDecis
 			throw new DecisionException(DecisionException.DECISIONTYPE_LOADING);
 		}
 
-		Random rand = new Random();
-		long lampCount = lampDao.count();
-		int pageNumbers = lampCount > 20 ?  Math.toIntExact(lampCount / 20) + 1 : 1;
-		
-		Page<Lamp> lampsPage = lampDao.findByLampTypeIsNot("LED", PageRequest.of(rand.nextInt(pageNumbers), 20));
-		List<Lamp> lampsNotLed = lampsPage.getContent();
-		
-		lampsPage = lampDao.findLampsWithBulbLifetimeGreaterThanOrEqualToEstimated(PageRequest.of(0, 20));
-		List<Lamp> lampsTooOld = lampsPage.getContent();
+		List<Lamp> lampsNotLed = lampDao.findByLampTypeIsNot("LED");
+		List<Lamp> lampsTooOld = lampDao.findLampsWithBulbLifetimeGreaterThanOrEqualToEstimated();
 		
 		List<Decision> decisions = new ArrayList<>();
 		List<LampDecision> lampDecisions = new ArrayList<>();
@@ -181,13 +171,8 @@ public class DecisionService extends AbstractService<Decision> implements IDecis
 		LocalTime sunrise = TimeHelper.getSunriseTime(47.2173, -1.5534);//lighOff1 avec coord de nantes
 		LocalTime sunset = TimeHelper.getSunsetTime(47.2173, -1.5534);//LightOn2 avec coord de nantes
 
-		Random rand = new Random();
-		long lampCount = lampDao.count();
-		int pageNumbers = lampCount > 20 ?  Math.toIntExact(lampCount / 20) + 1 : 1;
-		Page<Lamp> lampsPageAllumer = lampDao.findByLightOn2IsNullOrLightOn2After(sunset, PageRequest.of(rand.nextInt(pageNumbers), 20));
-		Page<Lamp> lampsPageEteindre = lampDao.findByLightOffIsNullOrLightOffBefore(sunrise, PageRequest.of(rand.nextInt(pageNumbers), 20));
-		List<Lamp> lampsEteindre = lampsPageEteindre.getContent();
-		List<Lamp> lampsAllumer = lampsPageAllumer.getContent();
+		List<Lamp> lampsAllumer = lampDao.findByLightOn2IsNullOrLightOn2After(sunset);
+		List<Lamp> lampsEteindre = lampDao.findByLightOffIsNullOrLightOffBefore(sunrise);
 		List<Decision> decisions = new ArrayList<>();
 		List<LampDecision> lampDecisions = new ArrayList<>();
 
@@ -367,11 +352,7 @@ public class DecisionService extends AbstractService<Decision> implements IDecis
 			throw new DecisionException(DecisionException.DECISIONTYPE_LOADING);
 		}
 		
-		Random rand = new Random();
-		long lampCount = lampDao.count();
-		int pageNumbers = lampCount > 20 ?  Math.toIntExact(lampCount / 20) + 1 : 1;
-		Page<Lamp> lampPage = lampDao.findAll(PageRequest.of(rand.nextInt(pageNumbers), 20));
-		List<Lamp> lamps = lampPage.getContent();
+		List<Lamp> lamps = lampDao.findAll();
 		List<Decision> decisions = new ArrayList<>();
 		List<LampDecision> lampDecisions = new ArrayList<>();
 		
@@ -419,11 +400,7 @@ public class DecisionService extends AbstractService<Decision> implements IDecis
 			throw new DecisionException(DecisionException.DECISIONTYPE_LOADING);
 		}
 		
-		Random rand = new Random();
-		long lampCount = lampDao.count();
-		int pageNumbers = lampCount > 20 ?  Math.toIntExact(lampCount / 20) + 1 : 1;
-		Page<Lamp> lampPage = lampDao.findAll(PageRequest.of(rand.nextInt(pageNumbers), 20));
-		List<Lamp> lamps = lampPage.getContent();
+		List<Lamp> lamps = lampDao.findAll();
 		List<Decision> decisions = new ArrayList<>();
 		List<LampDecision> lampDecisions = new ArrayList<>();
 		
@@ -474,11 +451,7 @@ public class DecisionService extends AbstractService<Decision> implements IDecis
 			throw new DecisionException(DecisionException.DECISIONTYPE_LOADING);
 		}
 		
-		Random rand = new Random();
-		long lampCount = lampDao.count();
-		int pageNumbers = lampCount > 20 ?  Math.toIntExact(lampCount / 20) + 1 : 1;
-		Page<Lamp> lampPage = lampDao.findAll(PageRequest.of(rand.nextInt(pageNumbers), 20));
-		List<Lamp> lamps = lampPage.getContent();
+		List<Lamp> lamps = lampDao.findAll();
 		List<Decision> decisions = new ArrayList<>();
 		List<LampDecision> lampDecisions = new ArrayList<>();
 		
@@ -525,11 +498,7 @@ public class DecisionService extends AbstractService<Decision> implements IDecis
 			throw new DecisionException(DecisionException.DECISIONTYPE_LOADING);
 		}
 		
-		Random rand = new Random();
-		long lampCount = lampDao.count();
-		int pageNumbers = lampCount > 20 ?  Math.toIntExact(lampCount / 20) + 1 : 1;
-		Page<Lamp> lampPage = lampDao.findAll(PageRequest.of(rand.nextInt(pageNumbers), 20));
-		List<Lamp> lamps = lampPage.getContent();
+		List<Lamp> lamps = lampDao.findAll();
 		List<Decision> decisions = new ArrayList<>();
 		List<LampDecision> lampDecisions = new ArrayList<>();
 		
@@ -546,7 +515,7 @@ public class DecisionService extends AbstractService<Decision> implements IDecis
 					Decision decision = Decision.builder()
 							.type(decisionType.get())
 							.location(lamp.getAddress())
-							.description("Le lampdaire est entouré par " + results.size() + " dans un rayon de " + lamp.getHeight() * 3 + "m.")
+							.description("Le lampdaire est entouré par " + results.size() + " lampadaire(s) dans un rayon de " + lamp.getHeight() * 3 + "m.")
 							.solution("Augmenter l'intensité du lampadaire de " + (5 * (4 - results.size())) + "% afin d'assurer la sécurité.")
 							.build();
 					LampDecision lampDecision = LampDecision.builder()
@@ -571,6 +540,12 @@ public class DecisionService extends AbstractService<Decision> implements IDecis
 	@Transactional(rollbackFor = { Exception.class })
 	public void deleteAllByDescriptionContaining(String description) {
 		((DecisionDao) dao).deleteByDescriptionContaining(description);
+	}
+
+	@Override
+	@Transactional(rollbackFor = { Exception.class })
+	public void deleteAllBySolutionContaining(String solution) {
+		((DecisionDao) dao).deleteBySolutionContaining(solution);
 	}
 
 		// Private \\

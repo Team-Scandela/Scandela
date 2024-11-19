@@ -15,4 +15,5 @@ public interface IDecisionService extends IService<Decision> {
 	public List<Decision> algoReduireIntensiteLampadaire() throws Exception;
 	public List<Decision> algoAugmenterIntensiteLampadaire() throws Exception;
 	public void deleteAllByDescriptionContaining(String description);
+	public void deleteAllBySolutionContaining(String solution);
 }

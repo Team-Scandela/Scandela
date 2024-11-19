@@ -14,16 +14,16 @@ import com.scandela.server.entity.Lamp;
 
 @Repository
 public interface LampDao extends JpaRepository<Lamp, UUID> {
-	public Page<Lamp> findByLampTypeIsNot(String lampType, Pageable pageable);
+	public List<Lamp> findByLampTypeIsNot(String lampType);
 	
-	public Page<Lamp> findByLightOffIsNullOrLightOffBefore(LocalTime lightOff, Pageable pageable);
+	public List<Lamp> findByLightOffIsNullOrLightOffBefore(LocalTime lightOff);
 	
-	public Page<Lamp> findByLightOn2IsNullOrLightOn2After(LocalTime lightOn2, Pageable pageable);
+	public List<Lamp> findByLightOn2IsNullOrLightOn2After(LocalTime lightOn2);
 	
 	public List<Lamp> findByLatitudeBetweenAndLongitudeBetween(double latitudeMin, double latitudeMax, double longitudeMin, double longitudeMax);
 	
 	public List<Lamp> findByName(String name);
 	
 	@Query("SELECT l FROM Lamp l WHERE l.bulbLifetime IS NOT NULL AND l.bulb.estimatedLifetime IS NOT NULL AND l.bulbLifetime >= l.bulb.estimatedLifetime")
-    public Page<Lamp> findLampsWithBulbLifetimeGreaterThanOrEqualToEstimated(Pageable pageable);
+    public List<Lamp> findLampsWithBulbLifetimeGreaterThanOrEqualToEstimated();
 }

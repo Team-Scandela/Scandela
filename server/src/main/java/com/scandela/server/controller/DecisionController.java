@@ -93,34 +93,6 @@ public class DecisionController extends AbstractController<Decision> {
 		super.delete(id);
 	}
 	
-	@PostMapping("/algoChangementBulb")
-	public List<Decision> algoChangementBulb() throws Exception {
-		List<Decision> decisions = ((IDecisionService) service).algoChangementBulb();
-		
-		return getAllByDecisionTypes(decisions);
-	}
-	
-	@PostMapping("/algoReductionConsoHoraire")
-	public List<Decision> algoReductionConsoHoraire() throws Exception {
-		List<Decision> decisions = ((IDecisionService) service).algoReductionConsoHoraire();
-		
-		return getAllByDecisionTypes(decisions);
-	}
-
-	@PostMapping("/algoAjouterLampadaire")
-	public List<Decision> algoAjouterLampadaire() throws Exception {
-		List<Decision> decisions = ((IDecisionService) service).algoAjouterLampadaire();
-		
-		return getAllByDecisionTypes(decisions);
-	}
-	
-	@PostMapping("/algoRetirerLampadaire")
-	public List<Decision> algoRetirerLampadaire() throws Exception {
-		List<Decision> decisions = ((IDecisionService) service).algoRetirerLampadaire();
-		
-		return getAllByDecisionTypes(decisions);
-	}
-	
 	@PostMapping("/algoReduireIntensiteLampadaire")
 	public List<Decision> algoReduireIntensiteLampadaire() throws Exception {
 		List<Decision> decisions = ((IDecisionService) service).algoReduireIntensiteLampadaire();
