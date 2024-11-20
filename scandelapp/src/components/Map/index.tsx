@@ -296,26 +296,31 @@ const Map: React.FC<MapProps> = ({
                     setLayoutVisibility('visible');
                     setLayoutVisibilityFilter('visible');
                     setLastFilterActivated('pin');
+                    defaultLayers();
                     break;
                 case 'zone':
                     closeLastFilter();
                     setLayoutVisibilityHeat('visible');
                     setLastFilterActivated('zone');
+                    defaultLayers();
                     break;
                 case 'filter':
                     closeLastFilter();
                     setLayoutVisibilityFilters('visible');
                     setLastFilterActivated('filter');
+                    defaultLayers();
                     break;
                 case 'pinColor':
                     closeLastFilter();
                     setLayoutVisibilityPinColor('visible');
                     setLastFilterActivated('pinColor');
+                    defaultLayers();
                     break;
                 case 'traffic':
                     closeLastFilter();
                     setLayoutVisibilityTraffic('visible');
                     setLastFilterActivated('traffic');
+                    defaultLayers();
                     break;
                 case 'cabinet':
                     closeLastFilter();
@@ -326,15 +331,26 @@ const Map: React.FC<MapProps> = ({
                     closeLastFilter();
                     setLayoutVisibilityEco('visible');
                     setLastFilterActivated('eco');
+                    defaultLayers();
                     break;
                 case 'none':
                     closeLastFilter();
                     setLastFilterActivated('');
+                    defaultLayers();
                     break;
                 default:
                     break;
             }
         }
+    };
+
+    const defaultLayers = () => {
+        if (
+            map.current.getLayer(lastClickedLightningID.current)
+        )
+        map.current.removeLayer(
+            lastClickedLightningID.current
+        );
     };
 
     const setLayoutVisibility = (visibility: string) => {
@@ -944,9 +960,9 @@ const Map: React.FC<MapProps> = ({
                         if (
                             map.current.getLayer(lastClickedLightningID.current)
                         )
-                            map.current.removeLayer(
-                                lastClickedLightningID.current
-                            );
+                        map.current.removeLayer(
+                            lastClickedLightningID.current
+                        );
                     }
                     if (lightningState[clickedLightningID]) {
                         if (
@@ -970,9 +986,9 @@ const Map: React.FC<MapProps> = ({
                         if (
                             map.current.getLayer(lastClickedLightningID.current)
                         )
-                            map.current.removeLayer(
-                                lastClickedLightningID.current
-                            );
+                        map.current.removeLayer(
+                            lastClickedLightningID.current
+                        );
                     }
                 }
             });
