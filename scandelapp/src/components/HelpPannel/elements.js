@@ -38,7 +38,7 @@ export const PannelContainer = styled.div`
     gap: 20px;
     width: 220px;
     height: 150px;
-    top: -19%;
+    top: -150px;
     left: 83%;
     background-color: ${Black + 'FF'};
     padding: 30px 0px 30px 0px;

@@ -8,6 +8,8 @@ import {
     PriceLimitValidationButton,
     PriceLimitDeleteButton,
     DescriptionText,
+    SourceButtonContainer,
+    LinkIcon,
 } from './elements';
 import {
     getElectricityPrice,
@@ -84,6 +86,10 @@ const EletricityPriceTab: React.FC<EletricityPriceTabProps> = ({ isDark }) => {
         setTripleState(1);
     };
 
+    const handleSourceButtonClick = () => {
+        window.open("https://www.rte-france.com/eco2mix/les-donnees-de-marche", "_blank");
+    };
+
     return (
         <div>
             <ContentContainer isDark={isDark}>
@@ -133,6 +139,9 @@ const EletricityPriceTab: React.FC<EletricityPriceTabProps> = ({ isDark }) => {
                     </div>
                 )}
                 <DescriptionText>{t('priceLimitDescription')}</DescriptionText>
+                <SourceButtonContainer isDark={isDark} onClick={() => handleSourceButtonClick()}>
+                    <LinkIcon isDark={isDark} size={30}/>
+                </SourceButtonContainer>
             </ContentContainer>
         </div>
     );
