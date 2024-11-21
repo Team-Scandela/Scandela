@@ -32,24 +32,6 @@ interface ProfilProps {
     closeToMainApp: () => void;
 }
 
-const users = [
-    {
-        username: 'John Doe',
-        email: 'john.doe@nantesmairie.fr',
-        right: 'Administrateur',
-    },
-    {
-        username: 'Patrick Dupont',
-        email: 'patrick.dupont@nantesmairie.fr',
-        right: 'Utilisateur',
-    },
-    {
-        username: 'Jeanne Martin',
-        email: 'jeanne.martin@bouayemairie.fr',
-        right: 'Utilisateur',
-    },
-];
-
 const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
     const [isEditingName, setIsEditingName] = useState(false);
     const [isEditingEmail, setIsEditingEmail] = useState(false);
@@ -414,7 +396,7 @@ const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
                             <>
                                 <InputName
                                     value={nameInput}
-                                    placeholder={'name'}
+                                    placeholder={'email'}
                                     onChange={handleOnChange}
                                     isError={isUserNotFound}
                                 />
