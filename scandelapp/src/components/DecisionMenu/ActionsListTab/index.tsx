@@ -142,7 +142,8 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
 
     const handleValidateButtonClick = () => {
         if (
-            optimisationTemplateData.filter((item: any) => item.saved).length === 0
+            optimisationTemplateData.filter((item: any) => item.saved)
+                .length === 0
         ) {
             showToast(
                 'error',

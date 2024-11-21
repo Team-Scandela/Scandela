@@ -84,7 +84,6 @@ export const Arrow = styled.div`
     transform: translateX(-50%) rotate(45deg);
 `;
 
-
 export const TitleText = styled.div`
     font-size: 20px;
     user-select: none;

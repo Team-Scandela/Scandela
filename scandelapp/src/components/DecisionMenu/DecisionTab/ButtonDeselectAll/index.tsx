@@ -2,7 +2,6 @@ import { ButtonDeselectAllContainer } from './elements';
 import { useTranslation } from 'react-i18next';
 import { showToast } from '../../../Toastr';
 
-
 /** Button to DeselectAll of the Decison Help Menu
  * This Button allow the user to deselect all optimisations
  * @param {boolean} isDark - If the mode is dark or not
