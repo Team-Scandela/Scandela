@@ -144,6 +144,13 @@ const Main: React.FC<MainProps> = ({
     const handleSearch = (value: string) => {
         handleSearchUtils(value, lat, setLat, lng, setLng, zoom, setZoom);
     };
+    const handleZoomByCoord = (longitude: number, latitude: number) => {
+        if (latitude && longitude) {
+            setLat(latitude);
+            setLng(longitude);
+            setZoom(19);
+        }
+    };
 
     const handleToggleDecisionPanelExtend = () => {
         setDecisionPanelExtended((prevState) => !prevState);
@@ -197,6 +204,7 @@ const Main: React.FC<MainProps> = ({
                 id={'searchBarComponentId'}
                 isDark={isDark}
                 onSubmit={handleSearch}
+                onSubmitCoord={handleZoomByCoord}
                 tooltipPreference={tooltipPreference}
             />
             <FilterMenu
