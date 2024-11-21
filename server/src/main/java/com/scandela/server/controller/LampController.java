@@ -44,8 +44,6 @@ public class LampController extends AbstractController<Lamp> {
     @Autowired
     public LampController(ILampService lampService) {
 		super(lampService);
-        this.service = lampService;
-        // initializeLamps();
     }
 
     @PostConstruct

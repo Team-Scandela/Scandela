@@ -145,4 +145,14 @@ public class DecisionController extends AbstractController<Decision> {
 		
 		return ((IDecisionService) service).getAllByDecisionTypes(decisionTypes);
 	}
+	
+	@GetMapping("/{idDecision}/state")
+	public String getState(@PathVariable UUID idDecision) throws Exception {
+		return ((IDecisionService) service).getState(idDecision);
+	}
+	
+	@PostMapping("/{idDecision}/state")
+	public void setState(@PathVariable UUID idDecision, @RequestBody String state) throws Exception {
+		((IDecisionService) service).setState(idDecision, state);
+	}
 }

@@ -19,7 +19,7 @@ public abstract class AbstractController<T> {
 	// Attributes \\
 		// Protected \\
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
-	protected IService<T> service;
+	protected final IService<T> service;
 
 	// Constructors \\
 	protected AbstractController(IService<T> service) {
