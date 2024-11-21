@@ -67,9 +67,9 @@ export const OptimisationTemplateContainer = styled.div`
 
 export const TextContainer = styled.div`
     display: flex;
-    padding-left: 6px;
     flex-direction: column;
     padding-left: 17px;
+    padding-top: 9px;
     gap: 3px;
     max-width: 280px;
 `;

@@ -60,17 +60,18 @@ const DecisionTab: React.FC<DecisionTabProps> = ({
 }) => {
     const [items, setItems] = useState([]);
     const [isOnCooldown, setIsOnCooldown] = useState(false);
+    const [onlyNotValidatedOptimisationData, setOnlyNotValidatedOptimisationData] = useState(optimisationTemplateData.filter((item: any) => item.validate === null))
     const { t } = useTranslation();
 
     const handleChildCheckboxChange = (id: number, isChecked: boolean) => {
-        const updatedData = [...optimisationTemplateData];
+        const updatedData = [...onlyNotValidatedOptimisationData];
         updatedData[id].selected = isChecked;
         setOptimisationTemplateData(updatedData);
     };
 
-    // Fill the items array with one of each types from the optimisationTemplateData
+    // Fill the items array with one of each types from the onlyNotValidatedOptimisationData
     const handleToggleDropdownExpend = () => {
-        const uniqueTypes = optimisationTemplateData.reduce(
+        const uniqueTypes = onlyNotValidatedOptimisationData.reduce(
             (types: any, item: any) => {
                 if (!types.has(item.type)) {
                     types.add(item.type);
@@ -93,7 +94,7 @@ const DecisionTab: React.FC<DecisionTabProps> = ({
     const handleActionsListButtonClick = async () => {
         let itemsUpdated = 0;
         if (isOnCooldown) return;
-        const updatedData = [...optimisationTemplateData];
+        const updatedData = [...onlyNotValidatedOptimisationData];
         updatedData.forEach((item: any) => {
             if (item.selected) {
                 if (!item.saved) itemsUpdated++;
@@ -194,7 +195,7 @@ const DecisionTab: React.FC<DecisionTabProps> = ({
             {currentSelected !== 'Choisissez une action' && (
                 <ScrollableOptimisationsContainer isDark={isDark}>
                     {currentSelected === 'Toutes les optimisations'
-                        ? optimisationTemplateData.map(
+                        ? onlyNotValidatedOptimisationData.map(
                               (item: any, i: number) => (
                                   <OptimisationTemplate
                                       key={i}
@@ -210,7 +211,7 @@ const DecisionTab: React.FC<DecisionTabProps> = ({
                                   />
                               )
                           )
-                        : optimisationTemplateData
+                        : onlyNotValidatedOptimisationData
                               .filter(
                                   (item: any) => item.type === currentSelected
                               )

@@ -357,7 +357,10 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
     return (
         <div>
             <ScrollableOptimisationsContainer isDark={isDark}>
-                <TimeIcon isDark={isDark} size={150} />
+                {optimisationTemplateData
+                    .filter((item: any) => item.saved).length === 0 && (
+                    <TimeIcon isDark={isDark} size={150} />
+                )}
                 {optimisationTemplateData
                     .filter((item: any) => item.saved)
                     .map((item: any, i: number) => (

@@ -6,7 +6,9 @@ import {
     DarkGrey,
     Red,
     Green,
+    Yellow
 } from '../../../colors';
+import { FaLink } from "react-icons/fa";
 
 export const ContentContainer = styled.div`
     display: flex;
@@ -170,4 +172,35 @@ export const DescriptionText = styled.div`
     margin-left: 10px;
     margin-right: 40px;
     font-family: 'SyneRegular';
+`;
+
+export const SourceButtonContainer = styled.div`
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    bottom: 2%;
+    right: 2%;
+    height: 55px;
+    width: 55px;
+    padding: 0 10px;
+    background-color: ${(props) => (props.isDark ? DarkGrey : Black)};
+    color: ${(props) => (props.isDark ? Yellow : Black)};
+    cursor: pointer;
+    transition: all 0.1s ease-in-out;
+    border-radius: 5px;
+    box-shadow: 0px 4px 4px -3px rgba(0, 0, 0, 0.75);
+
+    &:hover {
+        background-color: ${(props) => (props.isDark ? Yellow : Yellow)};
+        color: ${(props) => (props.isDark ? Black : Black)};
+    }
+`;
+
+export const LinkIcon = styled(FaLink)`
+    display: flex;
+    position: absolute;
+    align-items: center;
+    left: 24%;
+    top: 22%;
 `;
