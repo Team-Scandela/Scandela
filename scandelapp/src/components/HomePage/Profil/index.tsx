@@ -27,6 +27,7 @@ import { getUser, getUserByMail, putUser } from '../../../utils/userUtils';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import AdminCard from './AdminCard';
+import { changePassword } from '../../../utils/userUtils';
 
 interface ProfilProps {
     closeToMainApp: () => void;
@@ -50,6 +51,7 @@ const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
     const passwordDb = process.env.REACT_APP_REQUEST_PASSWORD;
     const [isWaiting, setIsWaiting] = useState(false);
     const [nameInput, setNameInput] = useState('');
+    const [error, setError] = useState('');
 
     const [isUserNotFound, setIsUserNotFound] = useState(false);
 
@@ -110,13 +112,10 @@ const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
                 setIsEditingEmail(false);
                 break;
             case 'password':
-                if (password.length <= 8) {
-                    alert(
-                        'Votre mot de passe doit contenir au moins 8 caractères.'
-                    );
-                    return;
+                if (isPasswordValid()) {
+                    updateUserPassword();
+                    setIsEditingPassword(false);
                 }
-                setIsEditingPassword(false);
                 break;
             case 'kwH':
                 if (kwH.length === 0) {
@@ -184,6 +183,32 @@ const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
         };
         putUser(updatedUserData);
     };
+
+    const isPasswordValid = () => {
+        if (password.length < 8) {
+            alert('Le mot de passe doit contenir au moins 8 caractères.');
+            return false;
+        }
+        if (!/[a-z]/.test(password)) {
+            alert('Le mot de passe doit contenir au moins une minuscule.');
+            return false;
+        }
+        if (!/[A-Z]/.test(password)) {
+            alert('Le mot de passe doit contenir au moins une majuscule.');
+            return false;
+        }
+        if (!/[0-9]/.test(password)) {
+            alert('Le mot de passe doit contenir au moins un chiffre.');
+            return false;
+        }
+        return true;
+    };
+
+    const updateUserPassword = async () => {
+            console.log(password);
+            let uuid = localStorage.getItem("userId")
+            await changePassword(uuid, password);
+    }
 
     const handleLogout = () => {
         localStorage.clear();
@@ -350,28 +375,7 @@ const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
                             </EditButton>
                         )}
                     </ProfileField>
-                    {/* <ProfileField top={'35%'} left={'2.5%'}>
-                        {t('KWhOfTheCity')} :{' '}
-                        {isEditingKwH ? (
-                            <input
-                                type="text"
-                                value={kwH}
-                                onChange={(e) => setKwH(e.target.value)}
-                            />
-                        ) : (
-                            kwH
-                        )}{' '}
-                        kwH
-                        {isEditingKwH ? (
-                            <EditButton onClick={() => handleSaveClick('kwH')}>
-                                <ValidateIcon></ValidateIcon>
-                            </EditButton>
-                        ) : (
-                            <EditButton onClick={() => handleEditClick('kwH')}>
-                                <EditIcon></EditIcon>
-                            </EditButton>
-                        )}
-                    </ProfileField> */}
+                    <p>{error}</p>
                     <LogoutButton onClick={handleLogout} />
                 </ProfilPart>
                 <ProfilPart left={'75%'}>
