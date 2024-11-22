@@ -323,6 +323,7 @@ const Main: React.FC<MainProps> = ({
                         currentTab={currentTab}
                         setCurrentTab={setCurrentTab}
                         setShowTutoriel={setShowTutoriel}
+                        handleZoomByCoord={handleZoomByCoord}
                     />
                     <Gauges
                         id={'gaugesComponentId'}
