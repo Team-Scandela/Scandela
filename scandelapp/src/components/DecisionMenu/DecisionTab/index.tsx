@@ -17,6 +17,8 @@ import OptimisationTemplate from '../../OptimisationTemplate';
 import { showToast } from '../../Toastr';
 import { useTranslation } from 'react-i18next';
 import { createNotification } from '../../../utils/notificationUtils';
+import { allLamps } from '../../../utils/lampUtils';
+let nantesData = allLamps;
 
 /**
  * @param {boolean} isDark - If the map is in dark mode or not
@@ -30,6 +32,7 @@ import { createNotification } from '../../../utils/notificationUtils';
  * @param {any} notificationsPreference - Notifications preference data
  * @param {any} dropdownExpended - Boolean to check if the dropdown is open or closed
  * @param {function} setDropdownExpended - Setter for the dropdownExtended boolean
+ * @param {function} handleZoomByCoord - Function to zoom to a lamp
  */
 interface DecisionTabProps {
     isDark: boolean;
@@ -43,6 +46,7 @@ interface DecisionTabProps {
     notificationsPreference: any;
     dropdownExpended: boolean;
     setDropdownExpended: (value: boolean) => void;
+    handleZoomByCoord: (longitude: number, latitude: number) => void;
 }
 
 const DecisionTab: React.FC<DecisionTabProps> = ({
@@ -57,21 +61,25 @@ const DecisionTab: React.FC<DecisionTabProps> = ({
     notificationsPreference,
     dropdownExpended,
     setDropdownExpended,
+    handleZoomByCoord,
 }) => {
     const [items, setItems] = useState([]);
     const [isOnCooldown, setIsOnCooldown] = useState(false);
-    const [onlyNotValidatedOptimisationData, setOnlyNotValidatedOptimisationData] = useState(optimisationTemplateData.filter((item: any) => item.validate === null))
     const { t } = useTranslation();
 
     const handleChildCheckboxChange = (id: number, isChecked: boolean) => {
-        const updatedData = [...onlyNotValidatedOptimisationData];
+        const updatedData = [...optimisationTemplateData];
         updatedData[id].selected = isChecked;
+        if (isChecked === true) {
+            let foundLamp = nantesData[0].find((lamp: any) => lamp.name === updatedData[id].name);
+            handleZoomByCoord(foundLamp.longitude, foundLamp.latitude);
+        }
         setOptimisationTemplateData(updatedData);
     };
 
-    // Fill the items array with one of each types from the onlyNotValidatedOptimisationData
+    // Fill the items array with one of each types from the optimisationTemplateData
     const handleToggleDropdownExpend = () => {
-        const uniqueTypes = onlyNotValidatedOptimisationData.reduce(
+        const uniqueTypes = optimisationTemplateData.reduce(
             (types: any, item: any) => {
                 if (!types.has(item.type)) {
                     types.add(item.type);
@@ -94,7 +102,7 @@ const DecisionTab: React.FC<DecisionTabProps> = ({
     const handleActionsListButtonClick = async () => {
         let itemsUpdated = 0;
         if (isOnCooldown) return;
-        const updatedData = [...onlyNotValidatedOptimisationData];
+        const updatedData = [...optimisationTemplateData];
         updatedData.forEach((item: any) => {
             if (item.selected) {
                 if (!item.saved) itemsUpdated++;
@@ -195,7 +203,7 @@ const DecisionTab: React.FC<DecisionTabProps> = ({
             {currentSelected !== 'Choisissez une action' && (
                 <ScrollableOptimisationsContainer isDark={isDark}>
                     {currentSelected === 'Toutes les optimisations'
-                        ? onlyNotValidatedOptimisationData.map(
+                        ? optimisationTemplateData.map(
                               (item: any, i: number) => (
                                   <OptimisationTemplate
                                       key={i}
@@ -211,7 +219,7 @@ const DecisionTab: React.FC<DecisionTabProps> = ({
                                   />
                               )
                           )
-                        : onlyNotValidatedOptimisationData
+                        : optimisationTemplateData
                               .filter(
                                   (item: any) => item.type === currentSelected
                               )
