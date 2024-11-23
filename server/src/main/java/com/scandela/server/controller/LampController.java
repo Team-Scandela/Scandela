@@ -93,7 +93,7 @@ public class LampController extends AbstractController<Lamp> {
         return new ArrayList<>(allOtherLamps);
     }
 
-	@GetMapping("/{townId}")
+	@GetMapping("/fromtown/{townId}")
 	public List<LampDto> getLampsFromTown(@PathVariable UUID townId) {
 		System.out.println("Given townId == -> " + townId);
 
