@@ -201,6 +201,17 @@ public class SubscriptionService extends AbstractService<Subscription> implement
         return ((SubscriptionDao) dao).findBySessionid(sessionid);
     }
 
+    public Subscription saveSubscriptionToDB(String sessionId, String userId) {
+        Subscription newSubscription = new Subscription();
+
+        newSubscription.setSessionid(sessionId);
+        newSubscription.setUserid(userId);
+
+        ((SubscriptionDao) dao).save(newSubscription);
+
+        return newSubscription;
+    }
+
     public Map<String, String> createSubscription(Subscription subscription) throws StripeException {
 
         Stripe.apiKey = secretKey;
@@ -237,6 +248,8 @@ public class SubscriptionService extends AbstractService<Subscription> implement
         responseData.put("url", session.getUrl());
         responseData.put("customerId", session.getCustomer());
         responseData.put("successRedirect", session.getSuccessUrl());
+
+        // session.
 
         System.out.println("Stripe id -> " + session.getCustomer());
 
@@ -275,7 +288,7 @@ public class SubscriptionService extends AbstractService<Subscription> implement
         // e.printStackTrace();
         // }
 
-        dao.save(subscription);
+        // dao.save(subscription);
         // }
 
         return responseData;
