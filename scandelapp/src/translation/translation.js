@@ -271,6 +271,7 @@ const resources = {
             premiumVersion: 'Premium version',
             adminAccount: 'Administrator account',
             userAccount: 'User account',
+            needPremium: 'You need the premium version to access this feature',
         },
     },
 
@@ -547,6 +548,7 @@ const resources = {
             premiumVersion: 'Version premium',
             adminAccount: 'Compte administrateur',
             userAccount: 'Compte utilisateur',
+            needPremium: 'Pour accéder à cette fonctionnalité, vous devez acheter la version premium.',
         },
     },
 };
