@@ -1244,11 +1244,11 @@ const Map: React.FC<MapProps> = ({
     // update the map with the filter filter
     useEffect(() => {
         if (searchFilter == '') {
-            closeLastFilter();
-            setLayoutVisibility('none');
-            setLayoutVisibilityFilter('none');
-            setLastFilterActivated('');
-            defaultLayers();
+            // closeLastFilter();
+            // setLayoutVisibility('none');
+            // setLayoutVisibilityFilter('none');
+            // setLastFilterActivated('');
+            // defaultLayers();
             return;
         }
         let sortedData: geojson = {
