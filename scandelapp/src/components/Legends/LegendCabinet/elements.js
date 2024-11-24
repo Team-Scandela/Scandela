@@ -44,20 +44,73 @@ export const ModalWrapper = styled.div`
     background-color: #444444;
     padding: 20px;
     border-radius: 10px;
-    max-width: 500px;
+    height: 530px;
+    max-width: 800px;
     width: 100%;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     position: relative;
+    outline: 1px solid red;
 `;
 
+export const LegendWrapper = styled.div`
+    position: relative;
+    padding: 20px;
+    background-color: #666666;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    max-width: 500px;
+    width: 100%;
+    outline: 1px solid red;
+`;
+
+export const ExampleWrapper = styled.div`
+    position: relative;
+    padding: 20px;
+    top: 20px;
+    background-color: #666666;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    max-width: 500px;
+    width: 100%;
+    height: 250px;
+    outline: 1px solid red;
+`;
+
+export const IconsExplanationsWrapper = styled.div`
+    position: relative;
+    padding: 20px;
+    left: 520px;
+    bottom: 399px;
+    background-color: #666666;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    max-width: 250px;
+    width: 100%;
+    height: 420px;
+    outline: 1px solid red;
+`;
+
+export const CloseWrapper = styled.div`
+    position relative;
+    padding: 15px;
+    background color: #666666;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    left: 730px;
+    top: 2px;
+    width: 10px;
+    height: 10px;
+    outline: 1px solid red;
+`
+
 export const CloseButton = styled.button`
+    position: relative;
     background: none;
     border: none;
     font-size: 16px;
     cursor: pointer;
-    position: absolute;
-    top: 10px;
-    right: 10px;
+    right: 6px;
+    bottom: 6px;
     color: white;
 
     &:hover {
@@ -70,5 +123,11 @@ export const p = styled.p`
 `;
 
 export const h2 = styled.h2`
+    position: relative;
     color: white;
+    padding-bottom: 5px;
+    bottom: 30px;
+    right: 5px;
+    outline: 1px solid red;
+    width: 60%;
 `;

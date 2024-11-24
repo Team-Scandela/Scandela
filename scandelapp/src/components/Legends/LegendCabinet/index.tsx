@@ -26,17 +26,27 @@ const CabinetPannel: React.FC = () => {
             {isModalOpen && (
                 <S.Backdrop onClick={closeModal}>
                     <S.ModalWrapper onClick={stopPropagation}>
+                        <S.CloseWrapper>
+                            <S.CloseButton onClick={closeModal}>X</S.CloseButton>
+                        </S.CloseWrapper>
                         <S.h2>Légende du filtre Armoire Électrique</S.h2>
-                        <S.p>
-                            Le filtre des armoires éléectrique ce compose de:
-                            <br />- Les armoires électrique noté d'un éclair
-                            jaune.
-                            <br />- sont cliquables et vous redirige vers le
-                            parc de l'armoire électrique.
-                            <br />- permettent de comprendre le parc de gestion
-                            d'une armoire éléectrique.
-                        </S.p>
-                        <S.CloseButton onClick={closeModal}>X</S.CloseButton>
+                        <S.LegendWrapper>
+                            <S.p>
+                                Le filtre des armoires éléctrique ce compose de:
+                                <br />- Les armoires électrique noté d'un éclair
+                                jaune.
+                                <br />- sont cliquables et vous redirige vers le
+                                parc de l'armoire électrique.
+                                <br />- permettent de comprendre le parc de gestion
+                                d'une armoire éléectrique.
+                            </S.p>
+                        </S.LegendWrapper>
+                        <S.ExampleWrapper>
+
+                        </S.ExampleWrapper>
+                        <S.IconsExplanationsWrapper>
+
+                        </S.IconsExplanationsWrapper>
                     </S.ModalWrapper>
                 </S.Backdrop>
             )}
