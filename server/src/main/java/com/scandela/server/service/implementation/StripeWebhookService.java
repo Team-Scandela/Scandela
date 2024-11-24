@@ -1,10 +1,16 @@
 package com.scandela.server.service.implementation;
 
+import java.util.Map;
 import java.util.UUID;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.scandela.server.entity.Subscription;
 import com.scandela.server.entity.User;
 import com.scandela.server.service.IEmailService;
@@ -74,27 +80,25 @@ public class StripeWebhookService implements IStripeWebhookService {
     }
 
     public void activatePremium(Event event) {
-    System.out.println("Starting activatePremium");
-    EventDataObjectDeserializer dataObjectDeserializer = event.getDataObjectDeserializer();
+        System.out.println("Starting activatePremium");
 
-    if (!dataObjectDeserializer.getObject().isPresent()) {
-        System.out.println("Failed to deserialize event object");
-        throw new IllegalStateException("Failed to deserialize event object");
-    }
+        System.out.println("Raw Payload: " + event.getData().toJson());
 
-    try {
-        StripeObject stripeObject = dataObjectDeserializer.getObject().get();
-        System.out.println("Stripe object class: " + stripeObject.getClass().getName());
+        String jsonPayloadString = event.getData().toJson();
 
-        if (stripeObject instanceof com.stripe.model.Subscription) {
-            com.stripe.model.Subscription stripeSubscription = (com.stripe.model.Subscription) stripeObject;
-            System.out.println("Metadata: " + stripeSubscription.getMetadata());
-            String userId = stripeSubscription.getMetadata().get("userId");
-            System.out.println("Found user_id in metadata: " + userId);
+        JSONObject jsonObject = new JSONObject(jsonPayloadString);
 
-            if (userId == null) {
-                throw new IllegalStateException("No user_id found in subscription metadata");
-            }
+        JSONObject metadata = jsonObject
+            .getJSONObject("object")
+            .getJSONObject("metadata");
+
+        if (metadata.isEmpty() || !metadata.has("userId")) {
+            System.out.println("Metadata is empty..");
+        } else {
+            System.out.println("Metadata: " + metadata.toString());
+
+            String userId = metadata.get("userId").toString();
+            System.out.println("Found userId in metadata: " + userId);
 
             User maybeUser = userService.getUserById(UUID.fromString(userId));
 
@@ -104,13 +108,8 @@ public class StripeWebhookService implements IStripeWebhookService {
             } else {
                 System.out.println("User not found for ID: " + userId);
             }
-        } else {
-            throw new IllegalArgumentException("Expected Subscription object but got: " + stripeObject.getClass().getName());
+
+            return;
         }
-    } catch (Exception e) {
-        System.out.println("Error in activatePremium: " + e.getMessage());
-        e.printStackTrace();
-        throw e;
     }
-}
 }
