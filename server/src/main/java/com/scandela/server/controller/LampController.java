@@ -96,8 +96,12 @@ public class LampController extends AbstractController<Lamp> {
 			.orElse(-1);
 		
 		if (lampIndex != -1) {
+			Lamp test1 = allLamps.get(lampIndex);
+			
 			allLamps.set(lampIndex, updated);
 		}
+		
+		Lamp test2 = allLamps.get(lampIndex);
     	
         return updated;
     }
@@ -113,14 +117,7 @@ public class LampController extends AbstractController<Lamp> {
 	public Lamp createLamp(@RequestBody Lamp newLamp) throws Exception {
 		Lamp lamp = super.create(newLamp);
 
-		int lampIndex = IntStream.range(0, allLamps.size())
-			.filter(i -> allLamps.get(i).getId().equals(lamp.getId()))
-			.findFirst()
-			.orElse(-1);
-
-		if (lampIndex != -1) {
-			allLamps.add(lamp);
-		}
+		allLamps.add(lamp);
 
 		return newLamp;
 	}

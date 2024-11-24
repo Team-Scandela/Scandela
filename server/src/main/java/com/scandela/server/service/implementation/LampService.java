@@ -48,7 +48,7 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
 
 	// Attributes \\
 		// Private \\
-	private final String[] IGNORED_PROPERTIES = { "id", "cabinet", "lampShade", "bulb", "town", "street", "lampDecisions", "lampIncidents" };
+	private final String[] IGNORED_PROPERTIES = { "id", "cabinet", "lampShade", "bulb", "town", "street", "lampDecisions", "lampIncidents", "lampReparations" };
 	private TownDao townDao;
 	private StreetDao streetDao;
 	private BulbDao bulbDao;
@@ -158,8 +158,8 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
 	@Transactional(rollbackFor = { Exception.class })
     public Lamp update(UUID id, Lamp update, String... ignoredProperties) throws Exception {
 		try {
-			Lamp lamp = super.update(id, update, IGNORED_PROPERTIES);
-
+			Lamp lamp = super.update(id, update, ignoredProperties);
+			
 	        WhileAway whileAway = new WhileAway();
 
 	        whileAway.setId(lamp.getId());
