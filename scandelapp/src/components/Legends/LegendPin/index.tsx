@@ -26,21 +26,25 @@ const PinPannel: React.FC = () => {
             {isModalOpen && (
                 <S.Backdrop onClick={closeModal}>
                     <S.ModalWrapper onClick={stopPropagation}>
-                        <S.h2>Légende du filtre Pin/Cluster</S.h2>
-                        <S.p>
-                            Le filtre Pin/Cluster ce compose de:
-                            <br />- Clusters qui affichent les différentes zones
-                            avec des éclairages.
-                            <br />- Cluster rouge signifie zone avec beaucoup
-                            d'éclairage
-                            <br />- Cluster orange/jaune signifie une
-                            concentration moyenne d'éclairage.
-                            <br />- Cluster vert signifie peu d'éclairage dans
-                            la zone.
-                            <br />- Ce filtre permet de mieux comprendre la
-                            répartition de l'éclairage dans sa ville.
-                        </S.p>
-                        <S.CloseButton onClick={closeModal}>X</S.CloseButton>
+                        <S.CloseWrapper>
+                            <S.CloseButton onClick={closeModal}>X</S.CloseButton>
+                        </S.CloseWrapper>
+                        <S.h2>Légende du filtre par lampadaires</S.h2>
+                        <S.LegendWrapper>
+                            <S.p>
+                                Le filtre par lampadaire ce compose de:
+                                <br />- Clusters qui affiche le nombre de lampadaire par zones en fonction du zoom.
+                                <br />- De points jaune pour chaque lampadaire à l'endroit exact.
+                                <br />- De points jaune cliquable pour chaque lampadaire.
+                                <br />- De pop-up qui affichent des informations sur les lampadaires.
+                            </S.p>
+                        </S.LegendWrapper>
+                        <S.ExampleWrapper>
+
+                        </S.ExampleWrapper>
+                        <S.IconsExplanationsWrapper>
+
+                        </S.IconsExplanationsWrapper>
                     </S.ModalWrapper>
                 </S.Backdrop>
             )}

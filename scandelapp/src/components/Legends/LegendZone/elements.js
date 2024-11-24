@@ -7,17 +7,22 @@ export const Button = styled.button`
     justify-content: center;
     width: 40px;
     height: 40px;
-    background-color: #333;
-    border: none;
-    border-radius: 2px;
-    cursor: pointer;
-    position: fixed; /* Make sure it stays on top */
-    bottom: 80px; /* Adjust as needed */
-    left: 30px; /* Adjust as needed */
-    z-index: 1000; /* Make sure it's on top of other elements */
+    border-radius: 10px;
+    transition: all 0.2s ease-in-out;
+    overflow: hidden;
+    opacity: 0.7;
+    z-index: 10000000;
+
+    background-color: #444444;
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+
+    position: fixed;
+    bottom: 75px;
+    left: 30px;
 
     &:hover {
-        background-color: #444444;
+        opacity: 1;
+        cursor: pointer;
     }
 `;
 
@@ -43,20 +48,73 @@ export const ModalWrapper = styled.div`
     background-color: #444444;
     padding: 20px;
     border-radius: 10px;
-    max-width: 500px;
+    height: 530px;
+    max-width: 800px;
     width: 100%;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     position: relative;
+     
 `;
 
+export const LegendWrapper = styled.div`
+    position: relative;
+    padding: 20px;
+    background-color: #666666;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    max-width: 500px;
+    width: 100%;
+     
+`;
+
+export const ExampleWrapper = styled.div`
+    position: relative;
+    padding: 20px;
+    top: 20px;
+    background-color: #666666;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    max-width: 500px;
+    width: 100%;
+    height: 200px;
+     
+`;
+
+export const IconsExplanationsWrapper = styled.div`
+    position: relative;
+    padding: 20px;
+    left: 520px;
+    bottom: 401px;
+    background-color: #666666;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    max-width: 250px;
+    width: 100%;
+    height: 420px;
+     
+`;
+
+export const CloseWrapper = styled.div`
+    position relative;
+    padding: 15px;
+    background color: #666666;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    left: 730px;
+    top: 2px;
+    width: 10px;
+    height: 10px;
+     
+`
+
 export const CloseButton = styled.button`
+    position: relative;
     background: none;
     border: none;
     font-size: 16px;
     cursor: pointer;
-    position: absolute;
-    top: 10px;
-    right: 10px;
+    right: 6px;
+    bottom: 6px;
     color: white;
 
     &:hover {
@@ -69,5 +127,11 @@ export const p = styled.p`
 `;
 
 export const h2 = styled.h2`
+    position: relative;
     color: white;
+    padding-bottom: 5px;
+    bottom: 30px;
+    right: 5px;
+     
+    width: 60%;
 `;
