@@ -71,7 +71,7 @@ export const ToDoListCheckBox = styled.input`
 
 export const ToDoListTitle = styled.div`
     position: absolute;
-    font-size: 40px;
+    font-size: 30px;
     color: ${Black};
     font-weight: bold;
     top: 25%;
@@ -81,7 +81,7 @@ export const ToDoListTitle = styled.div`
 
 export const ToDoListDescription = styled.div`
     position: absolute;
-    font-size: 30px;
+    font-size: 25px;
     color: ${Black};
     top: 50%;
     left: 300px;
@@ -90,7 +90,7 @@ export const ToDoListDescription = styled.div`
 
 export const ToDoListAdress = styled.div`
     position: absolute;
-    font-size: 30px;
+    font-size: 25px;
     color: ${Black};
     top: 75%;
     left: 300px;

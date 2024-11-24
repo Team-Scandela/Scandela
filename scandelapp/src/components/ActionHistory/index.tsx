@@ -271,9 +271,9 @@ const ActionHistory: React.FC<ActionHistoryProps> = ({
                         {' '}
                         <TbArrowBackUpDouble size={40} />
                     </PopUpUnvalideButton>
-                    <PopUpToLampButton>
+                    {/* <PopUpToLampButton>
                         <RiMapPin2Line size={45} />
-                    </PopUpToLampButton>
+                    </PopUpToLampButton> */}
                 </PopUpContainer>
             )}
         </div>

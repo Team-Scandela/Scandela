@@ -35,7 +35,7 @@ export const LassoButton = styled.div`
     box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
 
     position: fixed;
-    bottom: 100px;
+    bottom: 130px;
     left: 30px;
 
     &:hover {
@@ -61,7 +61,7 @@ export const ValidateButton = styled.div`
     box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
 
     position: fixed;
-    bottom: 160px;
+    bottom: 180px;
     left: 30px;
 
     &:hover {
