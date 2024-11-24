@@ -8,7 +8,7 @@ export const handleSearchUtils = async (
     setLng: React.Dispatch<React.SetStateAction<number>>,
     zoom: number,
     setZoom: React.Dispatch<React.SetStateAction<number>>
-): Promise<void> => {
+): Promise<{isError: boolean}> => {
     if (value !== '') {
         try {
             // request to get coordinate from the search
@@ -54,10 +54,12 @@ export const handleSearchUtils = async (
             } else {
                 // Handle error case
                 console.error('Geocoding API error:', data.status);
+                return {isError: true};
             }
         } catch (error) {
             // Handle fetch error
             console.error('Geocoding API request failed:', error);
+            return {isError: true};
         }
     } else {
         // default coordinate of the city
@@ -79,4 +81,5 @@ export const handleSearchUtils = async (
             setZoom(12);
         }
     }
+    return {isError: false};
 };

@@ -24,6 +24,8 @@ import TrafficPannel from '../components/Legends/LegendTraffic';
 import PinPannel from '../components/Legends/LegendPin';
 import ColorPannel from '../components/Legends/LegendPinColor';
 import { useRedirectOnRefresh } from '../hooks/useRedirectOnRefresh';
+import { useAtom } from 'jotai';
+import {errorHandler} from '../atoms/errorHandlerAtom';
 
 export enum Filters {
     pin = 'pin',
@@ -63,7 +65,8 @@ const Main: React.FC<MainProps> = ({
     const [lng, setLng] = useState<number>(-1.553621);
     const [zoom, setZoom] = useState(12);
     const [time, setTime] = useState<number>(12);
-
+    const [, setIsError] = useAtom(errorHandler);
+    
     /** If the decision panel is open or closed */
     const [decisionPanelExtended, setDecisionPanelExtended] =
         useState<boolean>(false);
@@ -142,7 +145,12 @@ const Main: React.FC<MainProps> = ({
     };
 
     const handleSearch = (value: string) => {
-        handleSearchUtils(value, lat, setLat, lng, setLng, zoom, setZoom);
+
+        const isError = handleSearchUtils(value, lat, setLat, lng, setLng, zoom, setZoom);
+        if (isError)
+            setIsError(true);
+        else
+            setIsError(false);
     };
     const handleZoomByCoord = (longitude: number, latitude: number) => {
         if (latitude && longitude) {
