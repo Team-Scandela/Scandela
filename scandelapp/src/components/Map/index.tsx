@@ -298,46 +298,54 @@ const Map: React.FC<MapProps> = ({
                     setLayoutVisibilityFilter('visible');
                     setLastFilterActivated('pin');
                     defaultLayers();
+                    eraseLayersFiltered();
                     break;
                 case 'zone':
                     closeLastFilter();
                     setLayoutVisibilityHeat('visible');
                     setLastFilterActivated('zone');
                     defaultLayers();
+                    eraseLayersFiltered();
                     break;
                 case 'filter':
                     closeLastFilter();
                     setLayoutVisibilityFilters('visible');
                     setLastFilterActivated('filter');
                     defaultLayers();
+                    eraseLayersFiltered();
                     break;
                 case 'pinColor':
                     closeLastFilter();
                     setLayoutVisibilityPinColor('visible');
                     setLastFilterActivated('pinColor');
                     defaultLayers();
+                    eraseLayersFiltered();
                     break;
                 case 'traffic':
                     closeLastFilter();
                     setLayoutVisibilityTraffic('visible');
                     setLastFilterActivated('traffic');
                     defaultLayers();
+                    eraseLayersFiltered();
                     break;
                 case 'cabinet':
                     closeLastFilter();
                     setLayoutVisibilityCabinet('visible');
                     setLastFilterActivated('cabinet');
+                    eraseLayersFiltered();
                     break;
                 case 'eco':
                     closeLastFilter();
                     setLayoutVisibilityEco('visible');
                     setLastFilterActivated('eco');
                     defaultLayers();
+                    eraseLayersFiltered();
                     break;
                 case 'none':
                     closeLastFilter();
                     setLastFilterActivated('');
                     defaultLayers();
+                    eraseLayersFiltered();
                     break;
                 default:
                     break;
@@ -350,6 +358,16 @@ const Map: React.FC<MapProps> = ({
             map.current.removeLayer(
                 lastClickedLightningID.current
             );
+    };
+
+    const eraseLayersFiltered =() => {
+        if (map.current?.getLayer('clustersFilter')) {
+            map.current.removeLayer('clustersFilter');
+            map.current.removeSource('pointsFilter');
+            map.current.removeLayer('cluster-borderFilter');
+            map.current.removeLayer('lampFilter');
+            map.current.removeLayer('cluster-textFilter');
+        }
     };
 
     const setLayoutVisibility = (visibility: string) => {
