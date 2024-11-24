@@ -8,4 +8,5 @@ public interface IStripeWebhookService {
     public void handleCustomerDeletion(Event event) throws Exception;
     public void handleChargeFailed(Event event) throws Exception;
     public void handleChargeSucceeded(Event event) throws Exception;
+    public void activatePremium(Event event);
 }

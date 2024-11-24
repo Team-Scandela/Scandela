@@ -13,4 +13,5 @@ public interface ISubscriptionService extends IService<Subscription> {
     public Optional<Subscription> getBySessionid(String sessionid);
     public PaymentIntent createPaymentIntent(Long price);
     public Map<String, String> createSubscription(Subscription subscription) throws StripeException;
+    public Subscription saveSubscriptionToDB(String sessionId, String userId);
 }
