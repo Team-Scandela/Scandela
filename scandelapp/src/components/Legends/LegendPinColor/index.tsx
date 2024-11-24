@@ -26,20 +26,26 @@ const ColorPannel: React.FC = () => {
             {isModalOpen && (
                 <S.Backdrop onClick={closeModal}>
                     <S.ModalWrapper onClick={stopPropagation}>
-                        <S.h2>Légende du filtre Heatmap</S.h2>
-                        <S.p>
-                            Le filtre Qualité d'éclairage ce compose de:
-                            <br />- plusieurs cercle de différentes couleurs.
-                            <br />- rouge signifie que la qualité de l'éclairage
-                            est mauvaise en fonction de certains critères.
-                            <br />- orange/jaune signifie que la qualité de
-                            l'éclairage est correct mais pas optimale.
-                            <br />- vert signifie que la qualité de l'éclairage
-                            est correct'.
-                            <br />- Ce filtre permet de mieux comprendre la
-                            qualité globale de son éclairage dans sa ville.
-                        </S.p>
-                        <S.CloseButton onClick={closeModal}>X</S.CloseButton>
+                        <S.CloseWrapper>
+                            <S.CloseButton onClick={closeModal}>X</S.CloseButton>
+                        </S.CloseWrapper>
+                        <S.h2>Légende du filtre Qualité de bulbe</S.h2>
+                        <S.LegendWrapper>
+                            <S.p>
+                                Le filtre qualité de bulbe ce compose de:
+                                <br />- Différents cercles de couleurs en fonction de la qualité du bulbe.
+                                <br />- Cercles vert pour une très bonne qualité d'éclairage.
+                                <br />- Cercles jaune pour une moyenne qualité d'éclairage.
+                                <br />- Cercles rouge pour une mauvaise qualité d'éclairage.
+                                <br />- Cercles vert par défaut pour les clusters.
+                            </S.p>
+                        </S.LegendWrapper>
+                        <S.ExampleWrapper>
+
+                        </S.ExampleWrapper>
+                        <S.IconsExplanationsWrapper>
+
+                        </S.IconsExplanationsWrapper>
                     </S.ModalWrapper>
                 </S.Backdrop>
             )}
