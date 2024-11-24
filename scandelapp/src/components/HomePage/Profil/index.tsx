@@ -163,7 +163,13 @@ const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
     };
 
     const updateUserAdminVille = async () => {
-        if (admins.length <= 2) addAdministrator();
+        const emailExists = admins.some(admin => admin.email === nameInput);
+
+        if (!emailExists) {
+            if (admins.length <= 2) addAdministrator();
+        } else {
+            setIsUserNotFound(true);
+        }
     };
 
     const updateUserEmail = async () => {
@@ -204,9 +210,9 @@ const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
     };
 
     const updateUserPassword = async () => {
-            console.log(password);
-            let uuid = localStorage.getItem("userId")
-            await changePassword(uuid, password);
+        console.log(password);
+        let uuid = localStorage.getItem("userId")
+        await changePassword(uuid, password);
     }
 
     const handleLogout = () => {
@@ -410,6 +416,7 @@ const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
                                     onChange={handleOnChange}
                                     isError={isUserNotFound}
                                 />
+
                                 <ButtonSendAddAdmin
                                     onClick={updateUserAdminVille}
                                 />
