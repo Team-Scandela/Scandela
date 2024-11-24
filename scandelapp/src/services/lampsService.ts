@@ -100,6 +100,7 @@ export const suppLamp = async (
     setIsLoading(true);
     const url = baseUrl + 'lamps/delete/' + id;
     try {
+
         const response = await fetch(url, {
             method: 'DELETE',
             headers: {
@@ -107,8 +108,10 @@ export const suppLamp = async (
                 Authorization: `Basic ${btoa(`${username}:${password}`)}`,
             },
         });
-
+        console.log("response.status = ", response.status);
+        console.log("response = ", response);
         if (response.status === 200) {
+
             const updatedLamps = lamps.filter((lamp) => lamp.id !== id);
             setLamps(updatedLamps);
             setOpenPup(false);

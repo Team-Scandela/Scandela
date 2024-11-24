@@ -35,6 +35,8 @@ import { showToast } from '../../Toastr';
 import { createNotification } from '../../../utils/notificationUtils';
 import { getLampPrice } from '../../../utils/actionsPriceUtils';
 import { getUser } from '../../../utils/userUtils';
+import { allLamps } from '../../../utils/lampUtils';
+let nantesData = allLamps;
 
 /** Menu of the decision pannel
  * @param {boolean} isDark - If the map is in dark mode or not
@@ -42,6 +44,7 @@ import { getUser } from '../../../utils/userUtils';
  * @param {function} setOptimisationTemplateData - Setter function
  * @param {function} addNotificationToList - Function to add a toastr notification to the toast history
  * @param {any} notificationsPreference - Notifications preference data
+ * @param {function} handleZoomByCoord - Function to zoom to a lamp
  */
 interface ActionsListTabProps {
     isDark: boolean;
@@ -49,6 +52,7 @@ interface ActionsListTabProps {
     setOptimisationTemplateData: (data: any) => void;
     addNotificationToList: (description: string) => void;
     notificationsPreference: any;
+    handleZoomByCoord: (longitude: number, latitude: number) => void;
 }
 
 const ActionsListTab: React.FC<ActionsListTabProps> = ({
@@ -57,6 +61,7 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
     setOptimisationTemplateData,
     addNotificationToList,
     notificationsPreference,
+    handleZoomByCoord,
 }) => {
     const [levelElec, setLevelElec] = useState<number>(0);
     const [levelBio, setLevelBio] = useState<number>(0);
@@ -64,6 +69,7 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
     const [totalActionCost, setTotalActionCost] = useState<number>(0);
     const [totalSavings, setTotalSavings] = useState<number>(0);
     const [displayPUpToDo, setDisplayPUpToDo] = useState<boolean>(false);
+    const [refreshKey, setRefreshKey] = useState(0);
     const navigate = useNavigate();
 
     function parseFloatSafe(input: string): number {
@@ -175,6 +181,7 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
             false,
             true
         );
+        setRefreshKey((prevKey) => prevKey + 1);
     };
 
     const handlePDFButtonClick = async () => {
@@ -313,6 +320,11 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
         navigate('/todo/' + timestamp);
     };
 
+    const handleGoToIconClick = (item: any) => {
+        let foundLamp = nantesData[0].find((lamp: any) => lamp.name === item.name);
+        handleZoomByCoord(foundLamp.longitude, foundLamp.latitude);
+    }
+
     const getTimestamp = () => {
         const timestamp = new Date().toISOString();
         return timestamp;
@@ -357,7 +369,7 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
 
     return (
         <div>
-            <ScrollableOptimisationsContainer isDark={isDark}>
+            <ScrollableOptimisationsContainer isDark={isDark} key={refreshKey}>
                 {optimisationTemplateData
                     .filter((item: any) => item.saved).length === 0 && (
                     <TimeIcon isDark={isDark} size={150} />
@@ -389,7 +401,11 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
                                 size={30}
                                 onClick={() => handleTrashIconClick(item.id)}
                             ></TrashIcon>
-                            <GoToIcon isDark={isDark} size={30}></GoToIcon>
+                            <GoToIcon
+                                isDark={isDark}
+                                size={30}
+                                onClick={() => handleGoToIconClick(item)}
+                            ></GoToIcon>
                         </OptimisationTemplateContainer>
                     ))}
             </ScrollableOptimisationsContainer>
