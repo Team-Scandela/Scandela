@@ -167,8 +167,8 @@ const HomePage: React.FC<HomePageProps> = () => {
                     {whatToRender(toRender)}
                 </div>
             </CSSTransition>
-            <Toastr id={'toastrComponentId'} isDark={true}/>
-            <HelpPannel/>
+            <Toastr id={'toastrComponentId'} isDark={true} />
+            <HelpPannel />
         </div>
     );
 };

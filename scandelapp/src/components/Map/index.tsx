@@ -1289,16 +1289,6 @@ const Map: React.FC<MapProps> = ({
                     feature.properties.name === item.name && item.selected
             )
         );
-        if (filteredData.features.length > 0) {
-            const newItem = getNewItemClicked(filteredData);
-            if (newItem) {
-                map.current.setCenter([
-                    newItem.geometry.coordinates[0],
-                    newItem.geometry.coordinates[1],
-                ]);
-                // map.current.setZoom(13);
-            }
-        }
         setLastFilteredData(filteredData.features);
         initializeMapLampsSelected(filteredData);
     }, [optimisationTemplateData, geojsonData]);
@@ -1392,8 +1382,7 @@ const Map: React.FC<MapProps> = ({
             //         }
             //     }
         }
-    }
-        , [isLassoActive]);
+    }, [isLassoActive]);
 
     useEffect(() => {
         if (map.current) {
@@ -1513,8 +1502,7 @@ const Map: React.FC<MapProps> = ({
         //             : 'mapbox://styles/titouantd/cljwui6ss00ij01pj1oin6oa5'
         //     );
         // }
-    }
-    , [isDark]);
+    }, [isDark]);
 
     const styleMap = {
         height: '100vh',

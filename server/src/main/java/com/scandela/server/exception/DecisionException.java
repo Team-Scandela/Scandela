@@ -6,6 +6,7 @@ public class DecisionException extends Exception {
 		// Public \\
 	public static final String INCOMPLETE_INFORMATIONS = "Incomplete informations.";
 	public static final String DECISIONTYPE_LOADING = "Impossibility to load given decision type.";
+	public static final String DECISION_LOADING = "Impossibility to load given decision.";
 	public static final String USER_LOADING = "Impossibility to load given user.";
 	public static final String GET_WEATHER = "Impossibility to get the weather.";
 

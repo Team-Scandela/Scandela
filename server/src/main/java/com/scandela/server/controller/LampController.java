@@ -9,6 +9,7 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
@@ -44,8 +45,6 @@ public class LampController extends AbstractController<Lamp> {
     @Autowired
     public LampController(ILampService lampService) {
 		super(lampService);
-        this.service = lampService;
-        // initializeLamps();
     }
 
     @PostConstruct
@@ -145,7 +144,18 @@ public class LampController extends AbstractController<Lamp> {
 	 */
     @PutMapping("/{id}")
     public Lamp updateLamp(@PathVariable UUID id, @RequestBody Lamp update) throws Exception {
-        return super.update(id, update);
+    	Lamp updated = super.update(id, update);
+    	
+		int lampIndex = IntStream.range(0, allLampsList.size())
+			.filter(i -> allLampsList.get(i).getId().equals(id))
+			.findFirst()
+			.orElse(-1);
+		
+		if (lampIndex != -1) {
+			allLampsList.set(lampIndex, updated);
+		}
+    	
+        return updated;
     }
 
 	/**
@@ -157,7 +167,18 @@ public class LampController extends AbstractController<Lamp> {
 	 */
 	@PostMapping("/create")
 	public Lamp createLamp(@RequestBody Lamp newLamp) throws Exception {
-		return super.create(newLamp);
+		Lamp lamp = super.create(newLamp);
+		
+		int lampIndex = IntStream.range(0, allLampsList.size())
+			.filter(i -> allLampsList.get(i).getId().equals(lamp.getId()))
+			.findFirst()
+			.orElse(-1);
+		
+		if (lampIndex != -1) {
+			allLampsList.add(lamp);
+		}
+		
+		return newLamp;
 	}
 
 	/**
@@ -168,6 +189,15 @@ public class LampController extends AbstractController<Lamp> {
 	@DeleteMapping("/delete/{id}")
 	public void deleteLamp(@PathVariable UUID id) {
 		super.delete(id);
+		
+		int lampIndex = IntStream.range(0, allLampsList.size())
+				.filter(i -> allLampsList.get(i).getId().equals(id))
+				.findFirst()
+				.orElse(-1);
+			
+		if (lampIndex != -1) {
+			allLampsList.remove(lampIndex);
+		}
 	}
 
 	@GetMapping("/coordinates")

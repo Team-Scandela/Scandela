@@ -76,10 +76,7 @@ const Tutoriel: React.FC<TutorielProps> = ({
                 </SkipTutoButtonContainer>
                 {currentStep === 0 && ( // Intro
                     <div>
-                        <PopupContainer
-                            top={'30%'}
-                            left={'35%'}
-                        >
+                        <PopupContainer top={'30%'} left={'35%'}>
                             <CustomContainerInfoPopup
                                 isDark={isDark}
                                 height={'240px'}
@@ -93,10 +90,7 @@ const Tutoriel: React.FC<TutorielProps> = ({
                 )}
                 {currentStep === 1 && ( // Absence panel
                     <div>
-                        <PopupContainer
-                            top={'8.5%'}
-                            left={'18.2%'}
-                        >
+                        <PopupContainer top={'8.5%'} left={'18.2%'}>
                             <Arrow
                                 isDark={isDark}
                                 top={'17px'}
@@ -114,10 +108,7 @@ const Tutoriel: React.FC<TutorielProps> = ({
                 )}
                 {currentStep === 2 && ( // Search bar
                     <div>
-                        <PopupContainer
-                            top={'8.5%'}
-                            left={'3.2%'}
-                        >
+                        <PopupContainer top={'8.5%'} left={'3.2%'}>
                             <Arrow
                                 isDark={isDark}
                                 top={'17px'}
@@ -135,10 +126,7 @@ const Tutoriel: React.FC<TutorielProps> = ({
                 )}
                 {currentStep === 3 && ( // Search bar option
                     <div>
-                        <PopupContainer
-                            top={'8.5%'}
-                            left={'11.3%'}
-                        >
+                        <PopupContainer top={'8.5%'} left={'11.3%'}>
                             <Arrow
                                 isDark={isDark}
                                 top={'17px'}
@@ -156,10 +144,7 @@ const Tutoriel: React.FC<TutorielProps> = ({
                 )}
                 {currentStep === 4 && ( // Notifications history
                     <div>
-                        <PopupContainer
-                            top={'4.5%'}
-                            left={'0%'}
-                        >
+                        <PopupContainer top={'4.5%'} left={'0%'}>
                             <Arrow
                                 isDark={isDark}
                                 top={'50px'}
@@ -177,10 +162,7 @@ const Tutoriel: React.FC<TutorielProps> = ({
                 )}
                 {currentStep === 5 && ( // Actions history
                     <div>
-                        <PopupContainer
-                            top={'10%'}
-                            left={'0%'}
-                        >
+                        <PopupContainer top={'10%'} left={'0%'}>
                             <Arrow
                                 isDark={isDark}
                                 top={'53px'}
@@ -198,10 +180,7 @@ const Tutoriel: React.FC<TutorielProps> = ({
                 )}
                 {currentStep === 6 && ( // Filters
                     <div>
-                        <PopupContainer
-                            bottom={'0%'}
-                            left={'-7%'}
-                        >
+                        <PopupContainer bottom={'0%'} left={'-7%'}>
                             <Arrow
                                 isDark={isDark}
                                 top={'152px'}
@@ -219,10 +198,7 @@ const Tutoriel: React.FC<TutorielProps> = ({
                 )}
                 {currentStep === 7 && ( // Filters 1
                     <div>
-                        <PopupContainer
-                            bottom={'0%'}
-                            left={'-3.5%'}
-                        >
+                        <PopupContainer bottom={'0%'} left={'-3.5%'}>
                             <Arrow
                                 isDark={isDark}
                                 top={'152px'}
@@ -240,10 +216,7 @@ const Tutoriel: React.FC<TutorielProps> = ({
                 )}
                 {currentStep === 8 && ( // Filters 2
                     <div>
-                        <PopupContainer
-                            bottom={'0%'}
-                            left={'-0.5%'}
-                        >
+                        <PopupContainer bottom={'0%'} left={'-0.5%'}>
                             <Arrow
                                 isDark={isDark}
                                 top={'152px'}
@@ -261,10 +234,7 @@ const Tutoriel: React.FC<TutorielProps> = ({
                 )}
                 {currentStep === 9 && ( // Filters 3
                     <div>
-                        <PopupContainer
-                            bottom={'0%'}
-                            left={'2.5%'}
-                        >
+                        <PopupContainer bottom={'0%'} left={'2.5%'}>
                             <Arrow
                                 isDark={isDark}
                                 top={'152px'}
@@ -282,10 +252,7 @@ const Tutoriel: React.FC<TutorielProps> = ({
                 )}
                 {currentStep === 10 && ( // Filters 4
                     <div>
-                        <PopupContainer
-                            bottom={'0%'}
-                            left={'5.5%'}
-                        >
+                        <PopupContainer bottom={'0%'} left={'5.5%'}>
                             <Arrow
                                 isDark={isDark}
                                 top={'152px'}
@@ -303,10 +270,7 @@ const Tutoriel: React.FC<TutorielProps> = ({
                 )}
                 {currentStep === 11 && ( // Filters 5
                     <div>
-                        <PopupContainer
-                            bottom={'0%'}
-                            left={'8.5%'}
-                        >
+                        <PopupContainer bottom={'0%'} left={'8.5%'}>
                             <Arrow
                                 isDark={isDark}
                                 top={'152px'}
@@ -324,10 +288,7 @@ const Tutoriel: React.FC<TutorielProps> = ({
                 )}
                 {currentStep === 12 && ( // Filters 6
                     <div>
-                        <PopupContainer
-                            bottom={'0%'}
-                            left={'11.5%'}
-                        >
+                        <PopupContainer bottom={'0%'} left={'11.5%'}>
                             <Arrow
                                 isDark={isDark}
                                 top={'152px'}
@@ -345,10 +306,7 @@ const Tutoriel: React.FC<TutorielProps> = ({
                 )}
                 {currentStep === 13 && ( // Filters 7
                     <div>
-                        <PopupContainer
-                            bottom={'0%'}
-                            left={'14.5%'}
-                        >
+                        <PopupContainer bottom={'0%'} left={'14.5%'}>
                             <Arrow
                                 isDark={isDark}
                                 top={'152px'}
@@ -366,10 +324,7 @@ const Tutoriel: React.FC<TutorielProps> = ({
                 )}
                 {currentStep === 14 && ( // Indicators
                     <div>
-                        <PopupContainer
-                            bottom={'8%'}
-                            left={'68%'}
-                        >
+                        <PopupContainer bottom={'8%'} left={'68%'}>
                             <Arrow
                                 isDark={isDark}
                                 top={'152px'}
@@ -387,10 +342,7 @@ const Tutoriel: React.FC<TutorielProps> = ({
                 )}
                 {currentStep === 15 && ( // Decision panel button
                     <div>
-                        <PopupContainer
-                            bottom={'25%'}
-                            right={'7%'}
-                        >
+                        <PopupContainer bottom={'25%'} right={'7%'}>
                             <Arrow
                                 isDark={isDark}
                                 top={'80px'}
@@ -408,10 +360,7 @@ const Tutoriel: React.FC<TutorielProps> = ({
                 )}
                 {currentStep === 16 && ( // Decision panel 1
                     <div>
-                        <PopupContainer
-                            bottom={'25%'}
-                            right={'45%'}
-                        >
+                        <PopupContainer bottom={'25%'} right={'45%'}>
                             <Arrow
                                 isDark={isDark}
                                 top={'80px'}
@@ -429,10 +378,7 @@ const Tutoriel: React.FC<TutorielProps> = ({
                 )}
                 {currentStep === 17 && ( // Decision panel 2
                     <div>
-                        <PopupContainer
-                            bottom={'25%'}
-                            right={'45%'}
-                        >
+                        <PopupContainer bottom={'25%'} right={'45%'}>
                             <Arrow
                                 isDark={isDark}
                                 top={'80px'}
@@ -458,10 +404,7 @@ const Tutoriel: React.FC<TutorielProps> = ({
                 )} */}
                 {currentStep === 18 && ( // Decision panel 4
                     <div>
-                        <PopupContainer
-                            bottom={'25%'}
-                            right={'45%'}
-                        >
+                        <PopupContainer bottom={'25%'} right={'45%'}>
                             <Arrow
                                 isDark={isDark}
                                 top={'80px'}
@@ -479,10 +422,7 @@ const Tutoriel: React.FC<TutorielProps> = ({
                 )}
                 {currentStep === 19 && ( // Decision panel 5
                     <div>
-                        <PopupContainer
-                            bottom={'25%'}
-                            right={'45%'}
-                        >
+                        <PopupContainer bottom={'25%'} right={'45%'}>
                             <Arrow
                                 isDark={isDark}
                                 top={'80px'}
@@ -500,10 +440,7 @@ const Tutoriel: React.FC<TutorielProps> = ({
                 )}
                 {currentStep === 20 && ( // Decision panel 6
                     <div>
-                        <PopupContainer
-                            bottom={'25%'}
-                            right={'45%'}
-                        >
+                        <PopupContainer bottom={'25%'} right={'45%'}>
                             <Arrow
                                 isDark={isDark}
                                 top={'80px'}
@@ -521,10 +458,7 @@ const Tutoriel: React.FC<TutorielProps> = ({
                 )}
                 {currentStep === 21 && ( // Outro
                     <div>
-                        <PopupContainer
-                            bottom={'30%'}
-                            right={'35%'}
-                        >
+                        <PopupContainer bottom={'30%'} right={'35%'}>
                             <CustomContainerInfoPopup
                                 isDark={isDark}
                                 height={'140px'}

@@ -16,7 +16,10 @@ import {
     ActionText,
 } from './elements';
 import { useTranslation } from 'react-i18next';
-import { subscription, cancelSubscription } from '../../../utils/subscriptionUtils';
+import {
+    subscription,
+    cancelSubscription,
+} from '../../../utils/subscriptionUtils';
 import { getUser, putUser } from '../../../utils/userUtils';
 import { showToast } from '../../Toastr';
 
@@ -80,7 +83,7 @@ const Premium: React.FC<PremiumProps> = ({ closeToMainApp }) => {
             false,
             true
         );
-    }
+    };
 
     return (
         <PremiumContainer>
@@ -110,22 +113,18 @@ const Premium: React.FC<PremiumProps> = ({ closeToMainApp }) => {
                         <DescriptionPanel>
                             <DescriptionPanelText>
                                 {t('subscriptionDescription')}
-                                <br/>
+                                <br />
                                 {t('needDeco')}
                             </DescriptionPanelText>
                         </DescriptionPanel>
                         {!isPremium && (
                             <BuyButton onClick={handleBuyPremium}>
-                                <ActionText>
-                                    {t('buyPremium')}
-                                </ActionText>
+                                <ActionText>{t('buyPremium')}</ActionText>
                             </BuyButton>
                         )}
                         {isPremium && (
                             <CancelButton onClick={handleCancelPremium}>
-                                <ActionText>
-                                    {t('cancelPremium')}
-                                </ActionText>
+                                <ActionText>{t('cancelPremium')}</ActionText>
                             </CancelButton>
                         )}
                     </div>

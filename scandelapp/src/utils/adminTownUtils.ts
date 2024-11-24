@@ -15,7 +15,7 @@ const getAllAdministrator = async () => {
         const data = await response.json();
         console.log(data);
         if (response.status === 200) {
-            return(data);
+            return data;
         } else {
             console.log(
                 'CANNOT GET administrator, status = ' + response.status
@@ -29,7 +29,9 @@ const getAllAdministrator = async () => {
 const addAdministrator = async (userId: string, adminIdToAdd: string) => {
     const urlmodification =
         process.env.REACT_APP_BACKEND_URL +
-        'adminville/affectUser/' + userId + adminIdToAdd;
+        'adminville/affectUser/' +
+        userId +
+        adminIdToAdd;
     try {
         const response = await fetch(urlmodification, {
             method: 'POST',
@@ -49,8 +51,7 @@ const addAdministrator = async (userId: string, adminIdToAdd: string) => {
             );
         } else {
             console.log(
-                'FAIL TO APPLY MODIFICATION, status code: ' +
-                    response.status
+                'FAIL TO APPLY MODIFICATION, status code: ' + response.status
             );
         }
     } catch (error) {
@@ -63,7 +64,9 @@ const addAdministrator = async (userId: string, adminIdToAdd: string) => {
 const removeAdministrator = async (userId: string, adminIdToDelete: string) => {
     const urlmodification =
         process.env.REACT_APP_BACKEND_URL +
-        'adminville/' + userId + adminIdToDelete;
+        'adminville/' +
+        userId +
+        adminIdToDelete;
     try {
         const response = await fetch(urlmodification, {
             method: 'Delete',
@@ -80,8 +83,7 @@ const removeAdministrator = async (userId: string, adminIdToDelete: string) => {
             );
         } else {
             console.log(
-                'FAIL TO APPLY MODIFICATION, status code: ' +
-                    response.status
+                'FAIL TO APPLY MODIFICATION, status code: ' + response.status
             );
         }
     } catch (error) {

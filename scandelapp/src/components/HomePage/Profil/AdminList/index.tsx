@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 interface AdminListProps {
-    isDark: boolean
+    isDark: boolean;
 }
 
 const AdminList: React.FC<AdminListProps> = ({ isDark }) => {
@@ -10,8 +10,7 @@ const AdminList: React.FC<AdminListProps> = ({ isDark }) => {
     const passwordDb = process.env.REACT_APP_REQUEST_PASSWORD;
 
     const getAllAdministrator = async () => {
-        const urlLamp =
-            process.env.REACT_APP_BACKEND_URL + 'users';
+        const urlLamp = process.env.REACT_APP_BACKEND_URL + 'users';
         try {
             const response = await fetch(urlLamp, {
                 method: 'GET',
@@ -23,7 +22,9 @@ const AdminList: React.FC<AdminListProps> = ({ isDark }) => {
 
             const lampData = await response.json();
             if (response.status === 200) {
-                const admins = lampData.filter((user: any) => user.adminville === true);
+                const admins = lampData.filter(
+                    (user: any) => user.adminville === true
+                );
                 setAdmins(admins);
             }
         } catch (error) {
@@ -31,20 +32,14 @@ const AdminList: React.FC<AdminListProps> = ({ isDark }) => {
         }
     };
 
-    const removeAdministrator = async() => {
+    const removeAdministrator = async () => {
         try {
-            
-        } catch {
-
-        }
+        } catch {}
     };
 
     useEffect(() => {
         getAllAdministrator();
     }, []);
 
-    return (
-        <>
-        </>
-    );
+    return <></>;
 };
