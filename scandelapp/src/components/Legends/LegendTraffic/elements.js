@@ -27,7 +27,7 @@ export const Button = styled.button`
 `;
 
 export const TrafficIcon = styled(FaCar)`
-    color: #00bfff; /* Bright blue color for traffic */
+    color: #FAC710;
     font-size: 24px;
 `;
 

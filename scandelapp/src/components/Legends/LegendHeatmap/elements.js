@@ -27,7 +27,7 @@ export const Button = styled.button`
 `;
 
 export const HeatmapIcon = styled(FaFire)`
-    color: #ff4500; /* Orange-red color representing heat */
+    color: #FAC710;
     font-size: 24px;
 `;
 
