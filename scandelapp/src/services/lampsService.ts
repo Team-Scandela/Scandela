@@ -101,18 +101,6 @@ export const suppLamp = async (
     const url = baseUrl + 'lamps/delete/' + id;
     try {
 
-        // DEDBUG 
-        const lampsBeforeResponse = await fetch(baseUrl + 'lamps', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Basic ${btoa(`${username}:${password}`)}`,
-            },
-        });
-        const lampsBefore = await lampsBeforeResponse.json();
-        console.log('Lampadaires avant suppression :', lampsBefore);
-        // FIN DEBUG
-
         const response = await fetch(url, {
             method: 'DELETE',
             headers: {
@@ -123,18 +111,6 @@ export const suppLamp = async (
         console.log("response.status = ", response.status);
         console.log("response = ", response);
         if (response.status === 200) {
-            
-            // DEBUG
-            const lampsAfterResponse = await fetch(baseUrl + 'lamps', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Basic ${btoa(`${username}:${password}`)}`,
-                },
-            });
-            const lampsAfter = await lampsAfterResponse.json();
-            console.log('Lampadaires après suppression :', lampsAfter);
-            // FIN DEBUG
 
             const updatedLamps = lamps.filter((lamp) => lamp.id !== id);
             setLamps(updatedLamps);
