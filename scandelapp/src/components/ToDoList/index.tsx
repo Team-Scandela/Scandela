@@ -18,6 +18,7 @@ import { Red, Green, Yellow } from '../../colors.js';
 import { IoMdArrowDropdown } from 'react-icons/io';
 
 import { getDecisions } from '../../utils/decisionsUtils';
+import { setState, getState } from '../../utils/decisionsUtils';
 
 interface ToDoListProps {
     keycode: string;
@@ -29,6 +30,7 @@ const ToDoList: React.FC<ToDoListProps> = ({ keycode }) => {
     const [states, setStates] = useState([]);
     const [dropdownShow, setDropdownShow] = useState([]);
     const [errorMessage, setErrorMessage] = useState(true);
+    const [fetchDone, setFetchDone] = useState(false);
 
     const toggleDropdown = (index: any) => {
         setDropdownShow((prevState: any) => ({
@@ -94,73 +96,75 @@ const ToDoList: React.FC<ToDoListProps> = ({ keycode }) => {
     }
 
     useEffect(() => {
-        if (decisionsSpecific.length === 0) {
-            getDecisions().then((data) => {
-                if (data != null) {
-                    setErrorMessage(false);
-                    const newDecisionsSpecific: any[] = [];
-                    const newStates: number[] = [];
-                    const newDropdownShow: boolean[] = [];
-                    data.forEach((element: any) => {
-                        if (element.validate != null) {
-                            const elementValidate = arrayToISOString(
-                                element.validate
-                            );
-                            console.log(elementValidate);
-                            if (elementValidate === keycode) {
-                                console.log(element);
-                                newDecisionsSpecific.push(element);
-                                newStates.push(1);
-                                newDropdownShow.push(false);
+        const fetchData = async () => {
+            setFetchDone(false);
+            if (decisionsSpecific.length === 0) {
+                try {
+                    const data = await getDecisions();
+                    if (data != null) {
+                        setErrorMessage(false);
+
+                        const newDecisionsSpecific: any[] = [];
+                        const newStates: string[] = [];
+                        const newDropdownShow: boolean[] = [];
+                        setFetchDone(false);
+
+                        for (const element of data) {
+                            if (element.validate != null) {
+                                const elementValidate = arrayToISOString(element.validate);
+                                setFetchDone(false);
+
+                                try {
+                                    const state: string = await getState(element.id);
+                                    if (elementValidate === keycode) {
+                                        setFetchDone(false);
+
+                                        newDecisionsSpecific.push(element);
+                                        newStates.push(state);
+                                        newDropdownShow.push(false);
+                                    }
+                                } catch (error) {
+                                    console.error("Erreur lors de la récupération de l'état :", error);
+                                }
                             }
+                            setFetchDone(false);
                         }
-                    });
-                    setDecisionsSpecific(newDecisionsSpecific);
-                    setStates(newStates);
-                    setDropdownShow(newDropdownShow);
+                        setFetchDone(true);
+                        setDecisionsSpecific(newDecisionsSpecific);
+                        setStates(newStates);
+                        setDropdownShow(newDropdownShow);
+                    }
+                } catch (error) {
+                    console.error("Erreur lors de la récupération des décisions :", error);
                 }
-            });
-        }
-    }, []);
+            }
+        };
 
-    useEffect(() => {
-        console.log('decisionsSpecific updated:', decisionsSpecific);
-    }, [decisionsSpecific]);
-
-    useEffect(() => {
-        console.log('states updated:', states);
-    }, [states]);
-
-    useEffect(() => {
-        console.log('dropdownShow updated:', dropdownShow);
-    }, [dropdownShow]);
+        fetchData(); // Appel de la fonction asynchrone
+    }, [keycode]);
 
     return (
         <ToDoListWrapper>
             <ToDoListMainTitle>To-Do List</ToDoListMainTitle>
             <ToDoListContainer>
-                {errorMessage && (
-                    <ErrorMessage>
-                        To-Do list en chargement, veuillez patienter...
-                    </ErrorMessage>
-                )}
 
-                {decisionsSpecific.map((element: any, index) => (
+
+                {fetchDone && decisionsSpecific.map((element: any, index) => (
                     <ToDoListCard key={index}>
                         <ToDoListDropdown
                             onClick={() => toggleDropdown(index)}
                             style={{
                                 backgroundColor:
-                                    states[index] === 2
+                                    states[index] === "inprogress"
                                         ? Yellow
-                                        : states[index] === 3
+                                        : states[index] === "done"
                                           ? Green
                                           : Red,
                             }}
                         >
-                            {states[index] === 2
+                            {states[index] === "inprogress"
                                 ? 'En cours'
-                                : states[index] === 3
+                                : states[index] === "done"
                                   ? 'Terminé'
                                   : 'A faire'}
                             <IoMdArrowDropdown />
@@ -170,7 +174,8 @@ const ToDoList: React.FC<ToDoListProps> = ({ keycode }) => {
                                 <ToDoListDropdownMenuItem1
                                     onClick={() => {
                                         toggleDropdown(index);
-                                        handleStateChange(index, 1);
+                                        handleStateChange(index, "todo");
+                                        setState(element.id, "todo")
                                     }}
                                 >
                                     A faire
@@ -178,7 +183,9 @@ const ToDoList: React.FC<ToDoListProps> = ({ keycode }) => {
                                 <ToDoListDropdownMenuItem2
                                     onClick={() => {
                                         toggleDropdown(index);
-                                        handleStateChange(index, 2);
+                                        handleStateChange(index, "inprogress");
+                                        setState(element.id, "inprogress")
+
                                     }}
                                 >
                                     En cours
@@ -186,7 +193,8 @@ const ToDoList: React.FC<ToDoListProps> = ({ keycode }) => {
                                 <ToDoListDropdownMenuItem3
                                     onClick={() => {
                                         toggleDropdown(index);
-                                        handleStateChange(index, 3);
+                                        handleStateChange(index, "done");
+                                        setState(element.id, "done")
                                     }}
                                 >
                                     Terminé
@@ -204,6 +212,11 @@ const ToDoList: React.FC<ToDoListProps> = ({ keycode }) => {
                         </ToDoListAdress>
                     </ToDoListCard>
                 ))}
+                {!fetchDone && (
+                    <ErrorMessage>
+                        To-Do list en chargement, veuillez patienter...
+                    </ErrorMessage>
+                )}
             </ToDoListContainer>
         </ToDoListWrapper>
     );

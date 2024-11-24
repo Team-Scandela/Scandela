@@ -250,7 +250,7 @@ export const Gauges: React.FC<GaugesProps> = ({
                             <GaugePupText>
                                 {t('lightingQuality')}
                                 <br />
-                                <b>{levelElec}%</b>{' '}
+                                <b>{levelLumi}%</b>{' '}
                                 {t('OfTheAreasHaveGoodLighting')}
                             </GaugePupText>
                         </GaugePupRight>
