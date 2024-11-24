@@ -19,6 +19,7 @@ import { IoMdArrowDropdown } from 'react-icons/io';
 
 import { getDecisions } from '../../utils/decisionsUtils';
 import { setState, getState } from '../../utils/decisionsUtils';
+import { useTranslation } from 'react-i18next';
 
 interface ToDoListProps {
     keycode: string;
@@ -31,6 +32,8 @@ const ToDoList: React.FC<ToDoListProps> = ({ keycode }) => {
     const [dropdownShow, setDropdownShow] = useState([]);
     const [errorMessage, setErrorMessage] = useState(true);
     const [fetchDone, setFetchDone] = useState(false);
+
+    const { t } = useTranslation();
 
     const toggleDropdown = (index: any) => {
         setDropdownShow((prevState: any) => ({
@@ -163,10 +166,10 @@ const ToDoList: React.FC<ToDoListProps> = ({ keycode }) => {
                             }}
                         >
                             {states[index] === "inprogress"
-                                ? 'En cours'
+                                ? t('inProgress')
                                 : states[index] === "done"
-                                  ? 'Terminé'
-                                  : 'A faire'}
+                                  ? t('done')
+                                  : t('toDo')}
                             <IoMdArrowDropdown />
                         </ToDoListDropdown>
                         {dropdownShow[index] ? (
@@ -214,7 +217,7 @@ const ToDoList: React.FC<ToDoListProps> = ({ keycode }) => {
                 ))}
                 {!fetchDone && (
                     <ErrorMessage>
-                        To-Do list en chargement, veuillez patienter...
+                        {t('toDoLoading')}
                     </ErrorMessage>
                 )}
             </ToDoListContainer>
