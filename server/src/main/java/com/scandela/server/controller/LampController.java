@@ -96,12 +96,8 @@ public class LampController extends AbstractController<Lamp> {
 			.orElse(-1);
 		
 		if (lampIndex != -1) {
-			Lamp test1 = allLamps.get(lampIndex);
-			
 			allLamps.set(lampIndex, updated);
 		}
-		
-		Lamp test2 = allLamps.get(lampIndex);
     	
         return updated;
     }
