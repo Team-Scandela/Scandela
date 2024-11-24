@@ -1,4 +1,5 @@
 import * as mapboxgl from 'mapbox-gl';
+import { GeoJSONSource } from 'mapbox-gl';
 import Supercluster from 'supercluster';
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { Filters } from '../../pages/main';
@@ -345,12 +346,10 @@ const Map: React.FC<MapProps> = ({
     };
 
     const defaultLayers = () => {
-        if (
-            map.current.getLayer(lastClickedLightningID.current)
-        )
-        map.current.removeLayer(
-            lastClickedLightningID.current
-        );
+        if (map.current.getLayer(lastClickedLightningID.current))
+            map.current.removeLayer(
+                lastClickedLightningID.current
+            );
     };
 
     const setLayoutVisibility = (visibility: string) => {
@@ -1028,6 +1027,23 @@ const Map: React.FC<MapProps> = ({
     };
 
     const initializeMapFilter = (data: any) => {
+        // Vérifier si la source 'pointsFilter' existe déjà
+        const source = map.current?.getSource('pointsFilter') as GeoJSONSource;
+
+        if (source) {
+            // Si la source existe, on met à jour les données avec setData()
+            source.setData(data as GeoJSON.FeatureCollection);
+        } else {
+            // Si la source n'existe pas, on l'ajoute
+            map.current?.addSource('pointsFilter', {
+                type: 'geojson',
+                data: data as GeoJSON.FeatureCollection,
+                cluster: true,
+                clusterRadius: 100,
+                clusterMaxZoom: 16,
+            });
+        }
+
         cluster.current = new Supercluster({
             radius: 100,
             maxZoom: 17,
@@ -1046,25 +1062,8 @@ const Map: React.FC<MapProps> = ({
             }
         });
 
-        if (!map.current?.getSource('pointsFilter')) {
-            map.current.addSource('pointsFilter', {
-                type: 'geojson',
-                data: data as GeoJSON.FeatureCollection,
-                cluster: true,
-                clusterRadius: 100,
-                clusterMaxZoom: 16,
-            });
-
-            // Définit les couleurs en format RGBA avec une opacité de 0.6
-            const greenRGBA = 'rgba(0, 128, 0, 0.6)';
-            const yellowRGBA = 'rgba(255, 255, 0, 0.6)';
-            const orangeRGBA = 'rgba(255, 165, 0, 0.6)';
-
-            // Définit les couleurs de la bordure en format RGBA avec une opacité de 0.3
-            const greenBorderRGBA = 'rgba(0, 128, 0, 0.3)';
-            const yellowBorderRGBA = 'rgba(255, 255, 0, 0.3)';
-            const orangeBorderRGBA = 'rgba(255, 165, 0, 0.3)';
-
+        // Ajouter les layers si ils n'existent pas
+        if (!map.current?.getLayer('clustersFilter')) {
             map.current.addLayer({
                 id: 'clustersFilter',
                 type: 'circle',
@@ -1075,15 +1074,17 @@ const Map: React.FC<MapProps> = ({
                     'circle-color': [
                         'step',
                         ['get', 'point_count'],
-                        greenRGBA, // Couleur verte
+                        'rgba(0, 128, 0, 0.6)', // Vert
                         19,
-                        yellowRGBA, // Couleur jaune
+                        'rgba(255, 255, 0, 0.6)', // Jaune
                         100,
-                        orangeRGBA, // Couleur orange
+                        'rgba(255, 165, 0, 0.6)', // Orange
                     ],
                 },
             });
+        }
 
+        if (!map.current?.getLayer('cluster-borderFilter')) {
             map.current.addLayer({
                 id: 'cluster-borderFilter',
                 type: 'circle',
@@ -1094,15 +1095,17 @@ const Map: React.FC<MapProps> = ({
                     'circle-color': [
                         'step',
                         ['get', 'point_count'],
-                        greenBorderRGBA, // Couleur de bordure verte
+                        'rgba(0, 128, 0, 0.3)', // Bordure verte
                         19,
-                        yellowBorderRGBA, // Couleur de bordure jaune
+                        'rgba(255, 255, 0, 0.3)', // Bordure jaune
                         100,
-                        orangeBorderRGBA, // Couleur de bordure orange
+                        'rgba(255, 165, 0, 0.3)', // Bordure orange
                     ],
                 },
             });
+        }
 
+        if (!map.current?.getLayer('lampFilter')) {
             map.current.addLayer({
                 id: 'lampFilter',
                 type: 'circle',
@@ -1115,7 +1118,9 @@ const Map: React.FC<MapProps> = ({
                     'circle-stroke-width': 2,
                 },
             });
+        }
 
+        if (!map.current?.getLayer('cluster-textFilter')) {
             map.current.addLayer({
                 id: 'cluster-textFilter',
                 type: 'symbol',
@@ -1241,40 +1246,47 @@ const Map: React.FC<MapProps> = ({
         initializeMap(geojsonData, geojsonZone, armoiresGeoJSON); // Assure-toi que `initializeMap` est bien configuré
     }, [geojsonData, geojsonZone, armoiresGeoJSON, lng, lat, zoom, isDark]);
 
-    const isActivated = useRef(false);
     useEffect(() => {
         const defaultSortedData: geojson = {
             type: 'FeatureCollection',
             features: [],
         };
     
-        if (!searchFilter && isActivated.current) {
-            closeLastFilter();
-            setLayoutVisibility('none');
-            setLayoutVisibilityFilter('none');
-            setLastFilterActivated('');
-            defaultLayers();
-            isActivated.current = false;
+        // Si le filtre est vide, ne rien faire
+        if (!searchFilter) {
+            if (map.current?.getLayer('clustersFilter')) {
+                map.current.removeLayer('clustersFilter');
+                map.current.removeSource('pointsFilter');
+            }
             return;
         }
     
         const sortedData: geojson = { ...defaultSortedData };
     
+        // Appliquez le filtre basé sur le type de filtre sélectionné
         if (searchFilter) {
             if (selectedFilter === 'Lamp') {
+                if (map.current?.getLayer('clustersFilter')) {
+                    map.current.removeLayer('clustersFilter');
+                    map.current.removeSource('pointsFilter');
+                }
                 sortedData.features = geojsonData.features.filter(
                     (feature: any) => feature.properties.lamp === searchFilter
                 );
             } else if (selectedFilter === 'Hat') {
+                if (map.current?.getLayer('clustersFilter')) {
+                    map.current.removeLayer('clustersFilter');
+                    map.current.removeSource('pointsFilter');
+                }
                 sortedData.features = geojsonData.features.filter(
                     (feature: any) => feature.properties.hat === searchFilter
                 );
             }
     
+            // Appeler la fonction d'initialisation avec les données filtrées
             initializeMapFilter(sortedData);
-            isActivated.current = true;
         }
-    }, [selectedFilter, searchFilter, geojsonData, closeLastFilter, defaultLayers, initializeMapFilter]);
+    }, [selectedFilter, searchFilter, geojsonData]);
 
 
     const getNewItemClicked = (filteredData: geojson) => {
