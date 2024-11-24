@@ -271,6 +271,10 @@ const resources = {
             premiumVersion: 'Premium version',
             adminAccount: 'Administrator account',
             userAccount: 'User account',
+            inProgress : 'In Progress',
+            toDo : 'To Do',
+            done : "Done",
+            toDoLoading : "To-Do list loading, please wait"
         },
     },
 
@@ -547,6 +551,10 @@ const resources = {
             premiumVersion: 'Version premium',
             adminAccount: 'Compte administrateur',
             userAccount: 'Compte utilisateur',
+            inProgress : 'En cours',
+            toDo : 'A Faire',
+            done : "Terminée",
+            toDoLoading : "To-Do list en chargement, veuillez patienter..."
         },
     },
 };
