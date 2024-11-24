@@ -141,6 +141,23 @@ const ActionHistory: React.FC<ActionHistoryProps> = ({
         }
     };
 
+    const updateLocalStorageValidation = (selectedAction: any) => {
+        const data = localStorage.getItem('optimisationTemplateData');
+        if (!data) return;
+
+        const decisions = JSON.parse(data);
+
+        const updatedDecisions = decisions.map((decision: any) => {
+            if (decision.uuid === selectedAction.uuid) {
+                return { ...decision, validate: null };
+            }
+            return decision;
+        });
+
+        localStorage.setItem('optimisationTemplateData', JSON.stringify(updatedDecisions));
+        parseDecisions(updatedDecisions)
+    };
+
     const [showPopUp, setShowPopUp] = useState(false);
     const [selectedAction, setSelectedAction] = useState({} as any);
 
@@ -246,6 +263,7 @@ const ActionHistory: React.FC<ActionHistoryProps> = ({
                             updateValidateData(selectedAction);
                             setShowPopUp(false);
                             setSelectedAction({} as any);
+                            updateLocalStorageValidation(selectedAction)
                         }}
                         data-tooltip-id="unvalidate"
                         data-tooltip-content={'Invalider la décision'}
