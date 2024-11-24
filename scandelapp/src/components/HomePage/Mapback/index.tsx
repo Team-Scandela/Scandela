@@ -60,6 +60,7 @@ const Mapback: React.FC<MapbackProps> = ({
                     markerElement.className = marker.small
                         ? 'marker-notPremium noEvents small'
                         : 'marker-notPremium noEvents';
+                        markerElement.title = "You need premium to access this marker";
                 } else {
                     markerElement.className = marker.small
                         ? 'marker small'
