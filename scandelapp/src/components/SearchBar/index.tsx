@@ -17,6 +17,7 @@ import { Black } from '../../colors';
 import { handleSearchUtils } from '../../utils/searchUtils';
 import { useAtom } from 'jotai';
 import { lampsAtom, isLoadingAtom } from '../../atoms/lampsAtom';
+import { errorHandler } from '../../atoms/errorHandlerAtom';
 
 /** SearchBar of the main page Scandela
  * This SearchBar allow the user to search a precise street or city in the Scandel'App
@@ -44,10 +45,13 @@ const SearchBar: React.FC<SearchBarProps> = ({
     const { t } = useTranslation();
 
     const [lamps, setLamps] = useAtom(lampsAtom);
+    const [isError, setIsError] = useAtom(errorHandler);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setTestIsLoading(true);
         setSearchValue(e.target.value);
+        if (isError)
+            setIsError(false);
         setTimeout(() => {
             setTestIsLoading(false);
         }, 3000);
@@ -67,9 +71,11 @@ const SearchBar: React.FC<SearchBarProps> = ({
         );
 
         if (lamp) {
+            console.log("LAMP FIND = ", lamp);
             if (lamp.latitude && lamp.longitude)
                 onSubmitCoord(lamp.longitude, lamp.latitude);
         } else {
+            console.log("LAMP not find = ", searchValue);
             onSubmit(searchValue, 0, 0);
         }
     };
@@ -96,7 +102,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
                     />
                 </div>
             )}
-            <SearchBarContainer id="searchbar-container" isdark={isDark}>
+            <SearchBarContainer id="searchbar-container" isdark={isDark} isError={isError}>
                 <LogoContainer src={isDark ? logoDark : logoLight} />
                 <InputWrapper
                     isdark={isDark}

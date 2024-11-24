@@ -100,6 +100,20 @@ public class UserService extends AbstractService<User> implements IUserService {
 		return null;
     }
 
+	@Override
+	@Transactional(rollbackFor = { Exception.class })
+	public User setUserPremium(UUID userId, boolean premium) {
+        User user = null;
+		try {
+			user = ((UserDao) dao).findById(userId).orElseThrow(() -> new NotFoundException());
+			user.setPremium(premium);
+			return dao.save(user);
+		} catch (NotFoundException e) {
+			e.printStackTrace();
+		}
+		return null;
+    }
+
 	@Transactional(rollbackFor = { Exception.class })
 	public UserDTO updateUserTown(UUID userId, UUID newTownId) throws Exception {
 		try {

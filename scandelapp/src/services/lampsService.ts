@@ -107,7 +107,8 @@ export const suppLamp = async (
                 Authorization: `Basic ${btoa(`${username}:${password}`)}`,
             },
         });
-
+        console.log("response.status = ", response.status);
+        console.log("response = ", response);
         if (response.status === 200) {
             const updatedLamps = lamps.filter((lamp) => lamp.id !== id);
             setLamps(updatedLamps);
