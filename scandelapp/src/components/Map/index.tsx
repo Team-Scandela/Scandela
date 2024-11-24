@@ -1241,33 +1241,41 @@ const Map: React.FC<MapProps> = ({
         initializeMap(geojsonData, geojsonZone, armoiresGeoJSON); // Assure-toi que `initializeMap` est bien configuré
     }, [geojsonData, geojsonZone, armoiresGeoJSON, lng, lat, zoom, isDark]);
 
-    // update the map with the filter filter
+    const isActivated = useRef(false);
     useEffect(() => {
-        if (searchFilter == '') {
+        const defaultSortedData: geojson = {
+            type: 'FeatureCollection',
+            features: [],
+        };
+    
+        if (!searchFilter && isActivated.current) {
             closeLastFilter();
             setLayoutVisibility('none');
             setLayoutVisibilityFilter('none');
             setLastFilterActivated('');
             defaultLayers();
+            isActivated.current = false;
             return;
         }
-        let sortedData: geojson = {
-            type: 'FeatureCollection',
-            features: [],
-        };
-        if (selectedFilter === 'Lamp') {
-            sortedData.features = geojsonData.features.filter(
-                (feature: any) => feature.properties.lamp === searchFilter
-            );
-        } else if (selectedFilter === 'Hat') {
-            sortedData.features = geojsonData.features.filter(
-                (feature: any) => feature.properties.hat === searchFilter
-            );
-        }
-        if (searchFilter != '') {
+    
+        const sortedData: geojson = { ...defaultSortedData };
+    
+        if (searchFilter) {
+            if (selectedFilter === 'Lamp') {
+                sortedData.features = geojsonData.features.filter(
+                    (feature: any) => feature.properties.lamp === searchFilter
+                );
+            } else if (selectedFilter === 'Hat') {
+                sortedData.features = geojsonData.features.filter(
+                    (feature: any) => feature.properties.hat === searchFilter
+                );
+            }
+    
             initializeMapFilter(sortedData);
+            isActivated.current = true;
         }
-    }, [selectedFilter, searchFilter]);
+    }, [selectedFilter, searchFilter, geojsonData, closeLastFilter, defaultLayers, initializeMapFilter]);
+
 
     const getNewItemClicked = (filteredData: geojson) => {
         const oldIds = new Set(
