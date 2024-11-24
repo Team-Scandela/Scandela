@@ -137,14 +137,14 @@ const BulbCard: React.FC<BulbCardProps> = ({
                 <BulbCardIntensityIcon />
                 {isModifBulb && (
                     <>
-                        <BulbCardValidateIcon
+                        {/* <BulbCardValidateIcon
                             onClick={() => handleApplyModification()}
-                        />
-                        <BulbCardSendIcon onClick={() => handleGetBulb()} />
+                        /> */}
+                        {/* <BulbCardSendIcon onClick={() => handleGetBulb()} /> */}
                         <BulbCardInputName
                             placeholder="Bulb name"
                             value={inputNameBulb}
-                            onChange={handleModifiyInputName}
+                            // onChange={handleModifiyInputName}
                         />
                         {isNewBulb && (
                             <>
@@ -164,9 +164,9 @@ const BulbCard: React.FC<BulbCardProps> = ({
                 )}
                 {!isModifBulb && (
                     <>
-                        <BulbCardModification
+                        {/* <BulbCardModification
                             onClick={() => setIsModifBulb(true)}
-                        />
+                        /> */}
                         <BulbCardName>
                             {bulb ? bulb.reference : 'Aucune donnée disponible'}
                         </BulbCardName>
