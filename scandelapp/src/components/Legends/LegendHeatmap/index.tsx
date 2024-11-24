@@ -26,20 +26,26 @@ const HeatmapPannel: React.FC = () => {
             {isModalOpen && (
                 <S.Backdrop onClick={closeModal}>
                     <S.ModalWrapper onClick={stopPropagation}>
+                        <S.CloseWrapper>
+                            <S.CloseButton onClick={closeModal}>X</S.CloseButton>
+                        </S.CloseWrapper>
                         <S.h2>Légende du filtre Heatmap</S.h2>
-                        <S.p>
-                            Le filtre Heatmap ce compose de:
-                            <br />- plusieurs zones de chaleur.
-                            <br />- rouge signifie zone à forte utilisation de
-                            lumière et un éclairage dense.
-                            <br />- orange/jaune signifie que la luminosité est
-                            moyennement dense.
-                            <br />- vert/bleu signigie que la luminosité est
-                            assez faible mais présente et non naturelle.
-                            <br />- Ce filtre permet de mieux comprendre
-                            l'impact de la pollution lumineuse dans sa ville.
-                        </S.p>
-                        <S.CloseButton onClick={closeModal}>X</S.CloseButton>
+                        <S.LegendWrapper>
+                            <S.p>
+                                Le filtre heatmap ce compose de:
+                                <br />- Différentes zones avec certains niveaux concentration de la lumière.
+                                <br />- En bleu quand la zone à un luminosité faible.
+                                <br />- En vert quand la zone à un luminosité moyenne.
+                                <br />- En rouge quand la zone à un luminosité forte.
+                                <br />- Ces informations permettent de voir l'état de la pollution lumineuse sur certaines zones.
+                            </S.p>
+                        </S.LegendWrapper>
+                        <S.ExampleWrapper>
+
+                        </S.ExampleWrapper>
+                        <S.IconsExplanationsWrapper>
+
+                        </S.IconsExplanationsWrapper>
                     </S.ModalWrapper>
                 </S.Backdrop>
             )}

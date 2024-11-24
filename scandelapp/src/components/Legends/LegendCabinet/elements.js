@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { FaBolt } from 'react-icons/fa'; // Import de l'icône éclair
+import { Yellow, Black, White } from '../../../colors';
 
 export const Button = styled.button`
     display: flex;
@@ -7,17 +8,22 @@ export const Button = styled.button`
     justify-content: center;
     width: 40px;
     height: 40px;
-    background-color: #333;
-    border: none;
-    border-radius: 2px;
-    cursor: pointer;
-    position: fixed; /* Make sure it stays on top */
-    bottom: 80px; /* Adjust as needed */
-    left: 30px; /* Adjust as needed */
-    z-index: 1000; /* Make sure it's on top of other elements */
+    border-radius: 10px;
+    transition: all 0.2s ease-in-out;
+    overflow: hidden;
+    opacity: 0.7;
+    z-index: 10000000;
+
+    background-color: #444444;
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+
+    position: fixed;
+    bottom: 75px;
+    left: 30px;
 
     &:hover {
-        background-color: #444444;
+        opacity: 1;
+        cursor: pointer;
     }
 `;
 
@@ -49,7 +55,7 @@ export const ModalWrapper = styled.div`
     width: 100%;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     position: relative;
-    outline: 1px solid red;
+     
 `;
 
 export const LegendWrapper = styled.div`
@@ -60,7 +66,7 @@ export const LegendWrapper = styled.div`
     border-radius: 10px;
     max-width: 500px;
     width: 100%;
-    outline: 1px solid red;
+     
 `;
 
 export const ExampleWrapper = styled.div`
@@ -73,7 +79,7 @@ export const ExampleWrapper = styled.div`
     max-width: 500px;
     width: 100%;
     height: 250px;
-    outline: 1px solid red;
+     
 `;
 
 export const IconsExplanationsWrapper = styled.div`
@@ -87,7 +93,7 @@ export const IconsExplanationsWrapper = styled.div`
     max-width: 250px;
     width: 100%;
     height: 420px;
-    outline: 1px solid red;
+     
 `;
 
 export const CloseWrapper = styled.div`
@@ -100,7 +106,7 @@ export const CloseWrapper = styled.div`
     top: 2px;
     width: 10px;
     height: 10px;
-    outline: 1px solid red;
+     
 `
 
 export const CloseButton = styled.button`
@@ -128,6 +134,6 @@ export const h2 = styled.h2`
     padding-bottom: 5px;
     bottom: 30px;
     right: 5px;
-    outline: 1px solid red;
+     
     width: 60%;
 `;

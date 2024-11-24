@@ -239,12 +239,6 @@ const Main: React.FC<MainProps> = ({
             )}
             {filter === Filters.traffic && (
                 <>
-                    <TrafficTime
-                        id={'trafficTimeComponentId'}
-                        isDark={isDark}
-                        trafficTime={trafficTimeValue}
-                        setTrafficTime={setTrafficTimeValue}
-                    />
                     <TrafficPannel />
                 </>
             )}
