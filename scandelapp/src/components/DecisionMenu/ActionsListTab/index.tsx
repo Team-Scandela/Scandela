@@ -69,6 +69,7 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
     const [totalActionCost, setTotalActionCost] = useState<number>(0);
     const [totalSavings, setTotalSavings] = useState<number>(0);
     const [displayPUpToDo, setDisplayPUpToDo] = useState<boolean>(false);
+    const [refreshKey, setRefreshKey] = useState(0);
     const navigate = useNavigate();
 
     function parseFloatSafe(input: string): number {
@@ -180,6 +181,7 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
             false,
             true
         );
+        setRefreshKey((prevKey) => prevKey + 1);
     };
 
     const handlePDFButtonClick = async () => {
@@ -367,7 +369,7 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
 
     return (
         <div>
-            <ScrollableOptimisationsContainer isDark={isDark}>
+            <ScrollableOptimisationsContainer isDark={isDark} key={refreshKey}>
                 {optimisationTemplateData
                     .filter((item: any) => item.saved).length === 0 && (
                     <TimeIcon isDark={isDark} size={150} />
