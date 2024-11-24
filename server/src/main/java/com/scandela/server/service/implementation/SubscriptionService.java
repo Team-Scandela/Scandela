@@ -225,6 +225,12 @@ public class SubscriptionService extends AbstractService<Subscription> implement
                 .setMode(SessionCreateParams.Mode.SUBSCRIPTION)
                 .setSuccessUrl("https://app.scandela.com/homepage")
                 .setCancelUrl("https://example.com/cancel")
+                .putMetadata("userId", subscription.getUserid())
+                .setSubscriptionData(
+                    SessionCreateParams.SubscriptionData.builder()
+                        .putMetadata("userId", subscription.getUserid())
+                        .build()
+                )
                 .addLineItem(SessionCreateParams.LineItem.builder()
                         .setQuantity(1L)
                         .setPriceData(SessionCreateParams.LineItem.PriceData.builder()

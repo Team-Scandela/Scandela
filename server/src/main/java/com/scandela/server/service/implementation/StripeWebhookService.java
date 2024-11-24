@@ -76,31 +76,31 @@ public class StripeWebhookService implements IStripeWebhookService {
     public void activatePremium(Event event) {
     System.out.println("Starting activatePremium");
     EventDataObjectDeserializer dataObjectDeserializer = event.getDataObjectDeserializer();
-    
+
     if (!dataObjectDeserializer.getObject().isPresent()) {
         System.out.println("Failed to deserialize event object");
         throw new IllegalStateException("Failed to deserialize event object");
     }
 
     try {
-        // Vérifier le type d'objet avant la conversion
         StripeObject stripeObject = dataObjectDeserializer.getObject().get();
         System.out.println("Stripe object class: " + stripeObject.getClass().getName());
 
         if (stripeObject instanceof com.stripe.model.Subscription) {
             com.stripe.model.Subscription stripeSubscription = (com.stripe.model.Subscription) stripeObject;
-            String userId = stripeSubscription.getMetadata().get("user_id");
+            System.out.println("Metadata: " + stripeSubscription.getMetadata());
+            String userId = stripeSubscription.getMetadata().get("userId");
             System.out.println("Found user_id in metadata: " + userId);
-            
+
             if (userId == null) {
                 throw new IllegalStateException("No user_id found in subscription metadata");
             }
 
             User maybeUser = userService.getUserById(UUID.fromString(userId));
-            
+
             if (maybeUser != null) {
                 userService.setUserPremium(UUID.fromString(userId), true);
-                // subscriptionService.saveSubscriptionToDB(subscription.getId(), userId);
+                subscriptionService.saveSubscriptionToDB(null, userId);
             } else {
                 System.out.println("User not found for ID: " + userId);
             }
