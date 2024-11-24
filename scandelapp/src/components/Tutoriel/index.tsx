@@ -318,12 +318,7 @@ const Tutoriel: React.FC<TutorielProps> = ({
                 )}
                 {currentStep === 14 && ( // Decision panel button
                     <div>
-                        <PopupContainer bottom={'210px'} right={'100px'}>
-                            <Arrow
-                                isDark={isDark}
-                                top={'80px'}
-                                left={'92%'}
-                            ></Arrow>
+                        <PopupContainer bottom={'30%'} right={'15%'}>
                             <CustomContainerInfoPopup
                                 isDark={isDark}
                                 height={'140px'}
@@ -336,12 +331,7 @@ const Tutoriel: React.FC<TutorielProps> = ({
                 )}
                 {currentStep === 15 && ( // Decision panel 1
                     <div>
-                        <PopupContainer bottom={'210px'} right={'700px'}>
-                            <Arrow
-                                isDark={isDark}
-                                top={'80px'}
-                                left={'92%'}
-                            ></Arrow>
+                        <PopupContainer bottom={'30%'} right={'45%'}>
                             <CustomContainerInfoPopup
                                 isDark={isDark}
                                 height={'140px'}
@@ -354,12 +344,7 @@ const Tutoriel: React.FC<TutorielProps> = ({
                 )}
                 {currentStep === 16 && ( // Decision panel 2
                     <div>
-                        <PopupContainer bottom={'210px'} right={'700px'}>
-                            <Arrow
-                                isDark={isDark}
-                                top={'80px'}
-                                left={'92%'}
-                            ></Arrow>
+                        <PopupContainer bottom={'30%'} right={'45%'}>
                             <CustomContainerInfoPopup
                                 isDark={isDark}
                                 height={'140px'}
@@ -372,12 +357,7 @@ const Tutoriel: React.FC<TutorielProps> = ({
                 )}
                 {currentStep === 17 && ( // Decision panel 4
                     <div>
-                        <PopupContainer bottom={'210px'} right={'700px'}>
-                            <Arrow
-                                isDark={isDark}
-                                top={'80px'}
-                                left={'92%'}
-                            ></Arrow>
+                        <PopupContainer bottom={'30%'} right={'45%'}>
                             <CustomContainerInfoPopup
                                 isDark={isDark}
                                 height={'140px'}
@@ -390,12 +370,7 @@ const Tutoriel: React.FC<TutorielProps> = ({
                 )}
                 {currentStep === 18 && ( // Decision panel 5
                     <div>
-                        <PopupContainer bottom={'210px'} right={'700px'}>
-                            <Arrow
-                                isDark={isDark}
-                                top={'80px'}
-                                left={'92%'}
-                            ></Arrow>
+                        <PopupContainer bottom={'30%'} right={'45%'}>
                             <CustomContainerInfoPopup
                                 isDark={isDark}
                                 height={'140px'}
@@ -408,12 +383,7 @@ const Tutoriel: React.FC<TutorielProps> = ({
                 )}
                 {currentStep === 19 && ( // Decision panel 6
                     <div>
-                        <PopupContainer bottom={'210px'} right={'700px'}>
-                            <Arrow
-                                isDark={isDark}
-                                top={'80px'}
-                                left={'92%'}
-                            ></Arrow>
+                        <PopupContainer bottom={'30%'} right={'45%'}>
                             <CustomContainerInfoPopup
                                 isDark={isDark}
                                 height={'140px'}
