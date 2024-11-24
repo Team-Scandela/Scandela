@@ -318,12 +318,7 @@ const Tutoriel: React.FC<TutorielProps> = ({
                 )}
                 {currentStep === 14 && ( // Decision panel button
                     <div>
-                        <PopupContainer bottom={'210px'} right={'100px'}>
-                            <Arrow
-                                isDark={isDark}
-                                top={'80px'}
-                                left={'92%'}
-                            ></Arrow>
+                        <PopupContainer bottom={'30%'} right={'15%'}>
                             <CustomContainerInfoPopup
                                 isDark={isDark}
                                 height={'140px'}
