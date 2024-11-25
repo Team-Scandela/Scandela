@@ -292,3 +292,18 @@ export const ButtonSendAddAdmin = styled(IoMdSend)`
         opacity: 0.8;
     }
 `;
+
+export const HelpText = styled.div`
+    position: absolute;
+    display: flex;
+    color: ${DarkYellow};
+    font-size: 18px;
+    padding: 10px;
+    width: 90%;
+    height: 80%;
+    top: 5%;
+    left: 5%;
+    font-family: 'SyneRegular';
+    text-align: justify;
+    hyphens: auto;
+`;

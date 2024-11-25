@@ -17,6 +17,8 @@ import OptimisationTemplate from '../../OptimisationTemplate';
 import { showToast } from '../../Toastr';
 import { useTranslation } from 'react-i18next';
 import { createNotification } from '../../../utils/notificationUtils';
+import { allLamps } from '../../../utils/lampUtils';
+let nantesData = allLamps;
 
 /**
  * @param {boolean} isDark - If the map is in dark mode or not
@@ -30,6 +32,7 @@ import { createNotification } from '../../../utils/notificationUtils';
  * @param {any} notificationsPreference - Notifications preference data
  * @param {any} dropdownExpended - Boolean to check if the dropdown is open or closed
  * @param {function} setDropdownExpended - Setter for the dropdownExtended boolean
+ * @param {function} handleZoomByCoord - Function to zoom to a lamp
  */
 interface DecisionTabProps {
     isDark: boolean;
@@ -43,6 +46,7 @@ interface DecisionTabProps {
     notificationsPreference: any;
     dropdownExpended: boolean;
     setDropdownExpended: (value: boolean) => void;
+    handleZoomByCoord: (longitude: number, latitude: number) => void;
 }
 
 const DecisionTab: React.FC<DecisionTabProps> = ({
@@ -57,6 +61,7 @@ const DecisionTab: React.FC<DecisionTabProps> = ({
     notificationsPreference,
     dropdownExpended,
     setDropdownExpended,
+    handleZoomByCoord,
 }) => {
     const [items, setItems] = useState([]);
     const [isOnCooldown, setIsOnCooldown] = useState(false);
@@ -65,6 +70,10 @@ const DecisionTab: React.FC<DecisionTabProps> = ({
     const handleChildCheckboxChange = (id: number, isChecked: boolean) => {
         const updatedData = [...optimisationTemplateData];
         updatedData[id].selected = isChecked;
+        if (isChecked === true) {
+            let foundLamp = nantesData[0].find((lamp: any) => lamp.name === updatedData[id].name);
+            handleZoomByCoord(foundLamp.longitude, foundLamp.latitude);
+        }
         setOptimisationTemplateData(updatedData);
     };
 

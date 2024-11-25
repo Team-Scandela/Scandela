@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.PriorityQueue;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,7 @@ import com.scandela.server.dao.LampDao;
 import com.scandela.server.dao.LampShadeDao;
 import com.scandela.server.dao.StreetDao;
 import com.scandela.server.dao.TownDao;
+import com.scandela.server.dao.UserDao;
 import com.scandela.server.dao.WhileAwayDao;
 import com.scandela.server.entity.Bulb;
 import com.scandela.server.entity.Cabinet;
@@ -34,9 +36,12 @@ import com.scandela.server.entity.LampShade;
 import com.scandela.server.entity.Street;
 import com.scandela.server.entity.Town;
 import com.scandela.server.entity.WhileAway;
+import com.scandela.server.entity.dto.LampImportDTO;
 import com.scandela.server.exception.LampException;
 import com.scandela.server.service.AbstractService;
 import com.scandela.server.service.ILampService;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class LampService extends AbstractService<Lamp> implements ILampService {
@@ -50,6 +55,7 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
 	private CabinetDao cabinetDao;
 	private LampShadeDao lampShadeDao;
     private WhileAwayDao whileAwayDao;
+	private static final UUID MAIN_CITY_UUID = UUID.fromString("2dac2740-1d45-42d7-af5e-13b98cdf3af4");
 
 	// Constructors \\
 	protected LampService(LampDao lampDao, TownDao townDao, StreetDao streetDao, BulbDao bulbDao, CabinetDao cabinetDao, LampShadeDao lampShadeDao, WhileAwayDao whileAwayDao) {
@@ -93,6 +99,21 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
 		
 		return ((LampDao) dao).findByName(name);
 	}
+
+
+    // @Override 
+    // @Transactional(readOnly = true, rollbackFor = { Exception.class }) 
+    // public List<Lamp> getAllMainLamps() { 
+    //     return ((LampDao) dao).findAllMainLamps();
+    // }
+
+    // @Override 
+    // @Transactional(readOnly = true, rollbackFor = { Exception.class })
+    // public List<Lamp> getAllOtherLamps() { 
+    //     return ((LampDao) dao).findAllOtherLamps();
+    // }
+
+
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
@@ -150,7 +171,27 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
 			throw e;
 		}
     }
-	
+
+	@Override
+	@Transactional(rollbackFor = { Exception.class })
+	public Lamp createLampFromDTO(LampImportDTO dto) {
+        Bulb bulb = this.bulbDao.findById(dto.getBulbId())
+            .orElseThrow(() -> new EntityNotFoundException("Bulb not found with id: " + dto.getBulbId()));
+
+        Lamp lamp = new Lamp();
+        lamp.setName(dto.getName());
+        lamp.setAddress(dto.getAddress());
+        lamp.setBulb(bulb);
+        lamp.setBulbLifetime(dto.getBulbLifetime());
+        lamp.setLatitude(dto.getLatitude());
+        lamp.setLongitude(dto.getLongitude());
+        lamp.setHeight(dto.getHeight());
+        lamp.setLampType(dto.getLampType());
+        lamp.setFoyerType(dto.getFoyerType());
+
+		return dao.save(lamp);
+    }
+
 	@Override
 	@Transactional(readOnly = true, rollbackFor = { Exception.class })
 	public List<Lamp> getAllByCoordinates(List<Pair<Double, Double>> coordinates) {

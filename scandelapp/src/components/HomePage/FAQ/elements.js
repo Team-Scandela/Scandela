@@ -150,8 +150,8 @@ export const TitleText = styled.div`
     position: absolute;
     display: flex;
     left: 2%;
-    font-size: 14px;
-    user-select: none;
+    font-size: 18px;
+    user-select: none;faqDescription
     font-weight: 700;
     margin-right: 20px;
     font-family: 'SyneRegular';
@@ -162,7 +162,7 @@ export const DescriptionTitleText = styled.div`
     display: flex;
     align-items: center;
     top: 15px;
-    font-size: 17px;
+    font-size: 22px;
     user-select: none;
     font-weight: 700;
     margin-left: 20px;
@@ -171,7 +171,7 @@ export const DescriptionTitleText = styled.div`
 `;
 
 export const DescriptionText = styled.div`
-    font-size: 12px;
+    font-size: 18px;
     user-select: none;
     font-weight: 700;
     margin-top: 40px;

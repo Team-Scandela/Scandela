@@ -12,6 +12,7 @@ public interface IUserService extends IService<User> {
 	public List<User> getAllForNewsletter();
 	public List<User> getAllForAdminVille();
 	public User setUserRole(UUID userId, String role);
+	public User setUserPremium(UUID userId, boolean premium);
 	public UserDTO updateUserTown(UUID userId, UUID newTownId) throws Exception;
 	public User changePassword(UUID id, String password) throws UserException;
 	public User getByMail(String mail);

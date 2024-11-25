@@ -12,7 +12,7 @@ import {
     StatsTitle,
 } from './elements';
 import { useNavigate } from 'react-router-dom';
-import scandelapp from '../../../assets/homepage/scandelapp.png';
+import scandelapp from '../../../assets/homepage/statsCover.png';
 
 interface StatsProps {
     closeToMainApp: () => void;
@@ -33,7 +33,10 @@ const Stats: React.FC<StatsProps> = ({ closeToMainApp }) => {
             <StatsRectangle>
                 <StatsTitle>Statistiques</StatsTitle>
                 <CloseButton onClick={closeToMainApp} />
-                <StatsTextContainer left={'100%'} width={'100%'}>
+                <StatsPart left={'2.5%'} width={'55%'}>
+                    <StatsImage src={scandelapp} />
+                </StatsPart>
+                <StatsTextContainer left={'60%'} width={'37.5%'}>
                     <StatsText dangerouslySetInnerHTML={{ __html: text }} />
                     <StatsButton onClick={handleStatsClick}>
                         Accéder au statistiques de votre territoire

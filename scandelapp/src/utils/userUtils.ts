@@ -1,4 +1,4 @@
-import { ID } from "country-flag-icons/react/3x2";
+import { ID } from 'country-flag-icons/react/3x2';
 
 export let userId = localStorage.getItem('userId') || 0;
 
@@ -34,8 +34,7 @@ export const getUserWithId = async (id: string) => {
     const password = process.env.REACT_APP_REQUEST_PASSWORD;
 
     try {
-        const urlRequest =
-            process.env.REACT_APP_BACKEND_URL + `users/${id}`;
+        const urlRequest = process.env.REACT_APP_BACKEND_URL + `users/${id}`;
         const responseUser = await fetch(urlRequest, {
             method: 'GET',
             headers: {
@@ -74,8 +73,7 @@ export const putUserWithId = async (id: string, updatedUserData: any) => {
     const username = process.env.REACT_APP_REQUEST_USER;
     const password = process.env.REACT_APP_REQUEST_PASSWORD;
     try {
-        const urlRequest =
-            process.env.REACT_APP_BACKEND_URL + `users/${id}`;
+        const urlRequest = process.env.REACT_APP_BACKEND_URL + `users/${id}`;
         const response = await fetch(urlRequest, {
             method: 'PUT',
             headers: {

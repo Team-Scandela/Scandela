@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Yellow, Black, White } from '../../colors';
+import { Yellow, Black, White, Red} from '../../colors';
 import { MdSearch } from 'react-icons/md';
 import { FaStreetView } from 'react-icons/fa';
 import { GiStreetLight } from 'react-icons/gi';
@@ -17,6 +17,8 @@ export const SearchBarContainer = styled.div`
         props.isdark ? Black + 'CC' : White + 'CC'};
     box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
     border-radius: 10px;
+    border: 2px solid
+        ${(props) => (props.isError ? Red : 'transparent')};
 `;
 
 /** Container that cointain the scandela logo **/

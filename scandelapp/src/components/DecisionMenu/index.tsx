@@ -46,6 +46,7 @@ import NewLampListTab from './LampListTab/newLampListTab';
  * @param {any} currentTab - Store the current tab displated
  * @param {function} setCurrentTab - Setter for the current tab var
  * @param {function} setShowTutoriel - Setter for the showTutoriel var
+ * @param {function} handleZoomByCoord - Function to zoom to a lamp
  */
 interface DecisionMenuProps {
     id: string;
@@ -67,6 +68,7 @@ interface DecisionMenuProps {
     currentTab: any;
     setCurrentTab: (value: Tabs) => void;
     setShowTutoriel: (value: boolean) => void;
+    handleZoomByCoord: (longitude: number, latitude: number) => void;
 }
 
 const DecisionMenu: React.FC<DecisionMenuProps> = ({
@@ -89,6 +91,7 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
     currentTab,
     setCurrentTab,
     setShowTutoriel,
+    handleZoomByCoord,
 }) => {
     const [dropdownExpended, setDropdownExpended] = useState(false);
     const { t } = useTranslation();
@@ -270,6 +273,7 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
                                 }
                                 dropdownExpended={dropdownExpended}
                                 setDropdownExpended={setDropdownExpended}
+                                handleZoomByCoord={handleZoomByCoord}
                             />
                         )}
                         {currentTab === Tabs.ActionsList && (
@@ -285,6 +289,7 @@ const DecisionMenu: React.FC<DecisionMenuProps> = ({
                                 notificationsPreference={
                                     notificationsPreference
                                 }
+                                handleZoomByCoord={handleZoomByCoord}
                             />
                         )}
                         {/* {currentTab === Tabs.ModifEntity && (

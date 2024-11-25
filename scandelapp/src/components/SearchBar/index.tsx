@@ -15,6 +15,9 @@ import LoadingSpinner from '../LoadingSpinner';
 import { Tooltip } from 'react-tooltip';
 import { Black } from '../../colors';
 import { handleSearchUtils } from '../../utils/searchUtils';
+import { useAtom } from 'jotai';
+import { lampsAtom, isLoadingAtom } from '../../atoms/lampsAtom';
+import { errorHandler } from '../../atoms/errorHandlerAtom';
 
 /** SearchBar of the main page Scandela
  * This SearchBar allow the user to search a precise street or city in the Scandel'App
@@ -25,6 +28,7 @@ interface SearchBarProps {
     id: string;
     isDark: boolean;
     onSubmit: (value: string, valueLng: number, valueLat: number) => void;
+    onSubmitCoord: (longitude: number, latitude: number) => void;
     tooltipPreference: boolean;
 }
 
@@ -32,20 +36,22 @@ const SearchBar: React.FC<SearchBarProps> = ({
     id,
     isDark,
     onSubmit,
+    onSubmitCoord,
     tooltipPreference,
 }) => {
     const [testIsLoading, setTestIsLoading] = useState<boolean>(false);
     const [searchValue, setSearchValue] = useState<string>('');
-    const [lat, setLat] = useState<number>(0);
-    const [long, setLong] = useState<number>(0);
-    const [isLamp, setIsLamp] = useState<Boolean>(true);
     const [isStreetSearch, setIsStreetSearch] = useState<boolean>(true);
     const { t } = useTranslation();
+
+    const [lamps, setLamps] = useAtom(lampsAtom);
+    const [isError, setIsError] = useAtom(errorHandler);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setTestIsLoading(true);
         setSearchValue(e.target.value);
-        setIsLamp(true);
+        if (isError)
+            setIsError(false);
         setTimeout(() => {
             setTestIsLoading(false);
         }, 3000);
@@ -58,46 +64,20 @@ const SearchBar: React.FC<SearchBarProps> = ({
     };
 
     const handleSearchBarAction = () => {
-        if (isStreetSearch === true) {
-            onSubmit(searchValue, 0, 0);
+
+        const lamp = lamps.find(
+            (lamp) => lamp.name &&
+            lamp.name.toLowerCase() === searchValue.toLowerCase()
+        );
+
+        if (lamp) {
+            console.log("LAMP FIND = ", lamp);
+            if (lamp.latitude && lamp.longitude)
+                onSubmitCoord(lamp.longitude, lamp.latitude);
         } else {
-            getLamp();
+            console.log("LAMP not find = ", searchValue);
+            onSubmit(searchValue, 0, 0);
         }
-    };
-
-    const getLamp = async () => {
-        const username = process.env.REACT_APP_REQUEST_USER;
-        const password = process.env.REACT_APP_REQUEST_PASSWORD;
-        const urlLamp =
-            process.env.REACT_APP_BACKEND_URL + 'lamps/name/' + searchValue;
-        try {
-            const response = await fetch(urlLamp, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Basic ${btoa(`${username}:${password}`)}`,
-                },
-            });
-
-            const lampData = await response.json();
-            if (response.status === 200) {
-                setLat(lampData.latitude);
-                setLong(lampData.longitude);
-                onSubmit('ZOOM ON LAMP', lampData.longitude, lampData.latitude);
-            } else {
-                console.log('GET LAMP FAILED, status = ' + response.status);
-                setIsLamp(false);
-            }
-        } catch (error) {
-            console.log('ERROR GET LAMP = ' + error);
-            setIsLamp(false);
-        }
-    };
-
-    const handleSwitchSearch = () => {
-        setIsStreetSearch(!isStreetSearch);
-        setLat(0);
-        setLong(0);
     };
 
     return (
@@ -122,23 +102,8 @@ const SearchBar: React.FC<SearchBarProps> = ({
                     />
                 </div>
             )}
-            <SearchBarContainer id="searchbar-container" isdark={isDark}>
+            <SearchBarContainer id="searchbar-container" isdark={isDark} isError={isError}>
                 <LogoContainer src={isDark ? logoDark : logoLight} />
-                {isStreetSearch ? (
-                    <SwitchSearchIcon
-                        isdark={isDark}
-                        onClick={handleSwitchSearch}
-                        data-tooltip-id="searchPlace"
-                        data-tooltip-content={t('searchBarPlace')}
-                    />
-                ) : (
-                    <SwitchSearchIconTwo
-                        isdark={isDark}
-                        onClick={handleSwitchSearch}
-                        data-tooltip-id="searchLamp"
-                        data-tooltip-content={t('searchBarLamp')}
-                    />
-                )}
                 <InputWrapper
                     isdark={isDark}
                     placeholder={t('searchBarMessage')} //"Rechercher dans Scandela"

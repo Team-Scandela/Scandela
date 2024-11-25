@@ -19,6 +19,7 @@ import {
     PopUpTime,
     PopUpUnvalideButton,
     PopUpToLampButton,
+    NoEventText,
 } from './elements';
 import { Tooltip } from 'react-tooltip';
 import { Black } from '../../colors';
@@ -50,25 +51,6 @@ const ActionHistory: React.FC<ActionHistoryProps> = ({
     const { t } = useTranslation();
 
     const getDecisions = async () => {
-        // const username = process.env.REACT_APP_REQUEST_USER;
-        // const password = process.env.REACT_APP_REQUEST_PASSWORD;
-        // const urlRequest =
-        //     process.env.REACT_APP_BACKEND_URL + 'decisions?pageNumber=0';
-
-        // try {
-        //     const response = await fetch(urlRequest, {
-        //         method: 'GET',
-        //         headers: {
-        //             'Content-Type': 'application/json',
-        //             Authorization: `Basic ${btoa(`${username}:${password}`)}`,
-        //         },
-        //     });
-        //     const data = await response.json();
-        //     setDataReceived(true);
-        //     parseDecisions(data);
-        // } catch (error) {
-        //     console.log('ERROR GET DECISIONS = ' + error);
-        // }
         const data = localStorage.getItem('optimisationTemplateData');
         if (data === null) return;
         setDataReceived(true);
@@ -77,7 +59,9 @@ const ActionHistory: React.FC<ActionHistoryProps> = ({
 
     const parseDecisions = (decisions: any) => {
         const actionHistoryData: any = [];
-        if (decisions === null) return;
+        if (decisions === null || decisions.length === 0) {
+            return;
+        }
         if (Array.isArray(decisions)) {
             decisions.forEach((decision: any) => {
                 if (decision.validate !== null) {
@@ -157,6 +141,23 @@ const ActionHistory: React.FC<ActionHistoryProps> = ({
         }
     };
 
+    const updateLocalStorageValidation = (selectedAction: any) => {
+        const data = localStorage.getItem('optimisationTemplateData');
+        if (!data) return;
+
+        const decisions = JSON.parse(data);
+
+        const updatedDecisions = decisions.map((decision: any) => {
+            if (decision.uuid === selectedAction.uuid) {
+                return { ...decision, validate: null };
+            }
+            return decision;
+        });
+
+        localStorage.setItem('optimisationTemplateData', JSON.stringify(updatedDecisions));
+        parseDecisions(updatedDecisions)
+    };
+
     const [showPopUp, setShowPopUp] = useState(false);
     const [selectedAction, setSelectedAction] = useState({} as any);
 
@@ -184,21 +185,28 @@ const ActionHistory: React.FC<ActionHistoryProps> = ({
             <ActionsHistoryPannel isDark={isDark} show={actionHistoryExtended}>
                 <ActionsTitle isDark={isDark}>Actions</ActionsTitle>
                 <ActionContainer isDark={isDark}>
-                    {actionHistoryData.map((item: any, i: number) => (
-                        <ActionTemplateContainer
-                            isDark={isDark}
-                            y={73 * i}
-                            onClick={() => {
-                                setShowPopUp(true);
-                                setSelectedAction(item);
-                            }}
-                        >
-                            <DescriptionText isDark={isDark}>
-                                {item.name + ' - ' + item.type}
-                            </DescriptionText>
-                            <TimeText isDark={isDark}>{item.time}</TimeText>
-                        </ActionTemplateContainer>
-                    ))}
+                    {actionHistoryData.length === 0 ? (
+                        <NoEventText isDark={isDark}>
+                            {t('noActionAdded')}
+                        </NoEventText>
+                    ) : (
+                        actionHistoryData.map((item: any, i: number) => (
+                            <ActionTemplateContainer
+                                key={i}
+                                isDark={isDark}
+                                y={73 * i}
+                                onClick={() => {
+                                    setShowPopUp(true);
+                                    setSelectedAction(item);
+                                }}
+                            >
+                                <DescriptionText isDark={isDark}>
+                                    {item.name + ' - ' + item.type}
+                                </DescriptionText>
+                                <TimeText isDark={isDark}>{item.time}</TimeText>
+                            </ActionTemplateContainer>
+                        ))
+                    )}
                 </ActionContainer>
             </ActionsHistoryPannel>
 
@@ -255,6 +263,7 @@ const ActionHistory: React.FC<ActionHistoryProps> = ({
                             updateValidateData(selectedAction);
                             setShowPopUp(false);
                             setSelectedAction({} as any);
+                            updateLocalStorageValidation(selectedAction)
                         }}
                         data-tooltip-id="unvalidate"
                         data-tooltip-content={'Invalider la décision'}
@@ -262,9 +271,9 @@ const ActionHistory: React.FC<ActionHistoryProps> = ({
                         {' '}
                         <TbArrowBackUpDouble size={40} />
                     </PopUpUnvalideButton>
-                    <PopUpToLampButton>
+                    {/* <PopUpToLampButton>
                         <RiMapPin2Line size={45} />
-                    </PopUpToLampButton>
+                    </PopUpToLampButton> */}
                 </PopUpContainer>
             )}
         </div>

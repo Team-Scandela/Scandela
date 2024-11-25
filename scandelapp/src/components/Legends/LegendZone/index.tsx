@@ -26,17 +26,26 @@ const ZonePannel: React.FC = () => {
             {isModalOpen && (
                 <S.Backdrop onClick={closeModal}>
                     <S.ModalWrapper onClick={stopPropagation}>
-                        <S.h2>Légende du filtre Heatmap</S.h2>
-                        <S.p>
-                            Le filtre pollution lumineuse ce compose de:
-                            <br />- plusieurs halo de lumière.
-                            <br />- plus le halo est grand plus cela signal que
-                            la Propagation est forte.
-                            <br />- Ce filtre permet de mieux comprendre
-                            l'impact de la pollution lumineuse dans sa ville sur
-                            une plus petite zone.
-                        </S.p>
-                        <S.CloseButton onClick={closeModal}>X</S.CloseButton>
+                        <S.CloseWrapper>
+                            <S.CloseButton onClick={closeModal}>X</S.CloseButton>
+                        </S.CloseWrapper>
+                        <S.h2>Légende du filtre par composant</S.h2>
+                        <S.LegendWrapper>
+                            <S.p>
+                                Le filtre par composant est composé de:
+                                <br />- Une recherche d'éclairages en particulier via certains critères.
+                                <br />- un affichage de la zone d'éclairage individuel de chaque lampadaire avec un halo de lumière.
+                                <br />- Des points jaune là ou les lampadaires sont trouvé en rapport avec les critères.
+                                <br />- En rouge quand la zone à un luminosité forte.
+                                <br />- Ces informations permettent de voir l'état de la pollution lumineuse sur certaines zones.
+                            </S.p>
+                        </S.LegendWrapper>
+                        <S.ExampleWrapper>
+
+                        </S.ExampleWrapper>
+                        <S.IconsExplanationsWrapper>
+
+                        </S.IconsExplanationsWrapper>
                     </S.ModalWrapper>
                 </S.Backdrop>
             )}

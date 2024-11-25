@@ -201,6 +201,17 @@ public class SubscriptionService extends AbstractService<Subscription> implement
         return ((SubscriptionDao) dao).findBySessionid(sessionid);
     }
 
+    public Subscription saveSubscriptionToDB(String sessionId, String userId) {
+        Subscription newSubscription = new Subscription();
+
+        newSubscription.setSessionid(sessionId);
+        newSubscription.setUserid(userId);
+
+        ((SubscriptionDao) dao).save(newSubscription);
+
+        return newSubscription;
+    }
+
     public Map<String, String> createSubscription(Subscription subscription) throws StripeException {
 
         Stripe.apiKey = secretKey;
@@ -212,8 +223,14 @@ public class SubscriptionService extends AbstractService<Subscription> implement
         SessionCreateParams params = SessionCreateParams.builder()
                 .addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)
                 .setMode(SessionCreateParams.Mode.SUBSCRIPTION)
-                .setSuccessUrl("https://api.scandela.com/stripe/handleSessionId/")
+                .setSuccessUrl("https://app.scandela.com/homepage")
                 .setCancelUrl("https://example.com/cancel")
+                .putMetadata("userId", subscription.getUserid())
+                .setSubscriptionData(
+                    SessionCreateParams.SubscriptionData.builder()
+                        .putMetadata("userId", subscription.getUserid())
+                        .build()
+                )
                 .addLineItem(SessionCreateParams.LineItem.builder()
                         .setQuantity(1L)
                         .setPriceData(SessionCreateParams.LineItem.PriceData.builder()
@@ -237,6 +254,8 @@ public class SubscriptionService extends AbstractService<Subscription> implement
         responseData.put("url", session.getUrl());
         responseData.put("customerId", session.getCustomer());
         responseData.put("successRedirect", session.getSuccessUrl());
+
+        // session.
 
         System.out.println("Stripe id -> " + session.getCustomer());
 
@@ -275,7 +294,7 @@ public class SubscriptionService extends AbstractService<Subscription> implement
         // e.printStackTrace();
         // }
 
-        dao.save(subscription);
+        // dao.save(subscription);
         // }
 
         return responseData;

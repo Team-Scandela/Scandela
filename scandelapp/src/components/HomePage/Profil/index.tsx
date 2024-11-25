@@ -21,33 +21,17 @@ import {
     ButtonAddAdmin,
     InputName,
     ButtonSendAddAdmin,
+    HelpText,
 } from './elements';
 import { getUser, getUserByMail, putUser } from '../../../utils/userUtils';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import AdminCard  from './AdminCard';
+import AdminCard from './AdminCard';
+import { changePassword } from '../../../utils/userUtils';
 
 interface ProfilProps {
     closeToMainApp: () => void;
 }
-
-const users = [
-    {
-        username: 'John Doe',
-        email: 'john.doe@nantesmairie.fr',
-        right: 'Administrateur',
-    },
-    {
-        username: 'Patrick Dupont',
-        email: 'patrick.dupont@nantesmairie.fr',
-        right: 'Utilisateur',
-    },
-    {
-        username: 'Jeanne Martin',
-        email: 'jeanne.martin@bouayemairie.fr',
-        right: 'Utilisateur',
-    },
-];
 
 const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
     const [isEditingName, setIsEditingName] = useState(false);
@@ -67,6 +51,7 @@ const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
     const passwordDb = process.env.REACT_APP_REQUEST_PASSWORD;
     const [isWaiting, setIsWaiting] = useState(false);
     const [nameInput, setNameInput] = useState('');
+    const [error, setError] = useState('');
 
     const [isUserNotFound, setIsUserNotFound] = useState(false);
 
@@ -127,13 +112,10 @@ const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
                 setIsEditingEmail(false);
                 break;
             case 'password':
-                if (password.length <= 8) {
-                    alert(
-                        'Votre mot de passe doit contenir au moins 8 caractères.'
-                    );
-                    return;
+                if (isPasswordValid()) {
+                    updateUserPassword();
+                    setIsEditingPassword(false);
                 }
-                setIsEditingPassword(false);
                 break;
             case 'kwH':
                 if (kwH.length === 0) {
@@ -181,8 +163,13 @@ const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
     };
 
     const updateUserAdminVille = async () => {
-        if (admins.length <= 2)
-            addAdministrator();
+        const emailExists = admins.some(admin => admin.email === nameInput);
+
+        if (!emailExists) {
+            if (admins.length <= 2) addAdministrator();
+        } else {
+            setIsUserNotFound(true);
+        }
     };
 
     const updateUserEmail = async () => {
@@ -202,38 +189,65 @@ const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
         putUser(updatedUserData);
     };
 
+    const isPasswordValid = () => {
+        if (password.length < 8) {
+            alert('Le mot de passe doit contenir au moins 8 caractères.');
+            return false;
+        }
+        if (!/[a-z]/.test(password)) {
+            alert('Le mot de passe doit contenir au moins une minuscule.');
+            return false;
+        }
+        if (!/[A-Z]/.test(password)) {
+            alert('Le mot de passe doit contenir au moins une majuscule.');
+            return false;
+        }
+        if (!/[0-9]/.test(password)) {
+            alert('Le mot de passe doit contenir au moins un chiffre.');
+            return false;
+        }
+        return true;
+    };
+
+    const updateUserPassword = async () => {
+        console.log(password);
+        let uuid = localStorage.getItem("userId")
+        await changePassword(uuid, password);
+    }
+
     const handleLogout = () => {
         localStorage.clear();
         navigate('/');
     };
 
     const getAllAdministrator = async () => {
-        const urlLamp =
-        process.env.REACT_APP_BACKEND_URL + 'users';
-    try {
-        const response = await fetch(urlLamp, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Basic ${btoa(`${username}:${passwordDb}`)}`,
-            },
-        });
+        const urlLamp = process.env.REACT_APP_BACKEND_URL + 'users';
+        try {
+            const response = await fetch(urlLamp, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Basic ${btoa(`${username}:${passwordDb}`)}`,
+                },
+            });
 
-        const lampData = await response.json();
-        if (response.status === 200) {
-            const admins = lampData.filter((user: any) => user.adminville === true);
-            setAdmins(admins);
+            const lampData = await response.json();
+            if (response.status === 200) {
+                const admins = lampData.filter(
+                    (user: any) => user.adminville === true
+                );
+                setAdmins(admins);
+            }
+        } catch (error) {
+            console.log('CANNOT GET administrator, error message = ' + error);
         }
-    } catch (error) {
-        console.log('CANNOT GET administrator, error message = ' + error);
-    }
     };
 
     const addAdministrator = async () => {
         try {
-
             const urlRequest =
-                process.env.REACT_APP_BACKEND_URL + `users/getByMail/${nameInput}`;
+                process.env.REACT_APP_BACKEND_URL +
+                `users/getByMail/${nameInput}`;
             const responseUser = await fetch(urlRequest, {
                 method: 'GET',
                 headers: {
@@ -242,7 +256,7 @@ const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
                 },
             });
             const userData = await responseUser.json();
-            console.log("USERS By EMAIL = ", userData);
+            console.log('USERS By EMAIL = ', userData);
             if (userData) {
                 const updatedUserData = {
                     id: userData.id,
@@ -258,7 +272,7 @@ const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
                     premium: userData.premium,
                     adminville: true,
                 };
-                console.log("UPDATED UserData = ", updatedUserData);
+                console.log('UPDATED UserData = ', updatedUserData);
                 const urlRequest =
                     process.env.REACT_APP_BACKEND_URL + 'users/' + userData.id;
                 const response = await fetch(urlRequest, {
@@ -269,7 +283,7 @@ const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
                     },
                     body: JSON.stringify(updatedUserData),
                 });
-                console.log("RESPONSE = ", response);
+                console.log('RESPONSE = ', response);
                 //getAllAdministrator();
                 setAdmins((prevAdmins) => [...prevAdmins, updatedUserData]);
                 setIsAddAdmin(false);
@@ -278,16 +292,13 @@ const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
             }
         } catch (error) {
             setIsUserNotFound(true);
-            console.log("Error remove administrator: ", error.message);
+            console.log('Error remove administrator: ', error.message);
         }
     };
 
-
     const handleAddAdmin = () => {
-        if (isAddAdmin == true)
-            setIsAddAdmin(false);
-        else
-            setIsAddAdmin(true);
+        if (isAddAdmin == true) setIsAddAdmin(false);
+        else setIsAddAdmin(true);
     };
 
     const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -367,51 +378,45 @@ const Profil: React.FC<ProfilProps> = ({ closeToMainApp }) => {
                             </EditButton>
                         )}
                     </ProfileField>
-                    {/* <ProfileField top={'35%'} left={'2.5%'}>
-                        {t('KWhOfTheCity')} :{' '}
-                        {isEditingKwH ? (
-                            <input
-                                type="text"
-                                value={kwH}
-                                onChange={(e) => setKwH(e.target.value)}
-                            />
-                        ) : (
-                            kwH
-                        )}{' '}
-                        kwH
-                        {isEditingKwH ? (
-                            <EditButton onClick={() => handleSaveClick('kwH')}>
-                                <ValidateIcon></ValidateIcon>
-                            </EditButton>
-                        ) : (
-                            <EditButton onClick={() => handleEditClick('kwH')}>
-                                <EditIcon></EditIcon>
-                            </EditButton>
-                        )}
-                    </ProfileField> */}
+                    <p>{error}</p>
                     <LogoutButton onClick={handleLogout} />
                 </ProfilPart>
                 <ProfilPart left={'75%'}>
                     <SuperUserTitle>Panneau d'administrateur</SuperUserTitle>
                     <ButtonAddAdmin onClick={handleAddAdmin} />
                     <UsersList>
-                        {!isAddAdmin && admins.map((user) => (
-                            <UserCard>
-                                {user && !isAddAdmin && (
-                                    <>
-                                        <AdminCard admin={user} setAdmins={setAdmins}/>
-                                    </>
-                                )}
-                            </UserCard>
-                        ))}
+                        {!isAddAdmin && admins.length === 0 && (
+                            <HelpText>
+                                Cette fonctionnalité permet aux administrateurs
+                                de gérer l'accès des utilisateurs dans leur
+                                ville. Elle offre une interface complète pour
+                                visualiser, ajouter, et supprimer des
+                                utilisateurs tout en assurant des notifications
+                                et des confirmations pour chaque action.
+                            </HelpText>
+                        )}
+                        {!isAddAdmin &&
+                            admins.map((user) => (
+                                <UserCard key={user.id}>
+                                    {user && !isAddAdmin && (
+                                        <>
+                                            <AdminCard
+                                                admin={user}
+                                                setAdmins={setAdmins}
+                                            />
+                                        </>
+                                    )}
+                                </UserCard>
+                            ))}
                         {isAddAdmin && (
                             <>
                                 <InputName
                                     value={nameInput}
-                                    placeholder={'name'}
+                                    placeholder={'email'}
                                     onChange={handleOnChange}
                                     isError={isUserNotFound}
                                 />
+
                                 <ButtonSendAddAdmin
                                     onClick={updateUserAdminVille}
                                 />

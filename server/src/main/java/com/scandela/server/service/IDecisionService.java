@@ -1,6 +1,7 @@
 package com.scandela.server.service;
 
 import java.util.List;
+import java.util.UUID;
 
 import com.scandela.server.entity.Decision;
 import com.scandela.server.entity.DecisionType;
@@ -16,4 +17,6 @@ public interface IDecisionService extends IService<Decision> {
 	public List<Decision> algoAugmenterIntensiteLampadaire() throws Exception;
 	public void deleteAllByDescriptionContaining(String description);
 	public void deleteAllBySolutionContaining(String solution);
+	public String getState(UUID idDecision) throws Exception;
+	public void setState(UUID idDecision, String state) throws Exception;
 }

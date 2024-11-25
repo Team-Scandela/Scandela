@@ -61,9 +61,10 @@ public class PriceLimitService extends AbstractService<PriceLimit> implements IP
 
 			if (con != null) {
 
+				con.setRequestMethod("GET");
+				con.setRequestProperty("Authorization", "Basic " + encodedKey);
+
 				if (con.getResponseCode() < 300) {
-					con.setRequestMethod("GET");
-					con.setRequestProperty("Authorization", "Basic " + encodedKey);
 
 					try (BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()))) {
 						StringBuilder response = new StringBuilder();

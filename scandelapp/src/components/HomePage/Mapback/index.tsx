@@ -3,6 +3,7 @@ import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { MarkerData } from '../../../pages/homepage';
 import './marker.css';
+import { useTranslation } from 'react-i18next';
 
 interface MapbackProps {
     mapRef: React.MutableRefObject<mapboxgl.Map | null>;
@@ -23,6 +24,7 @@ const Mapback: React.FC<MapbackProps> = ({
     const mapContainerRef = useRef<HTMLDivElement | null>(null);
     const isPremium = localStorage.getItem('premium') === 'true';
     const isAdmin = localStorage.getItem('token') === 'true';
+    const { t } = useTranslation();
 
     useEffect(() => {
         mapboxgl.accessToken = accessToken;
@@ -60,6 +62,7 @@ const Mapback: React.FC<MapbackProps> = ({
                     markerElement.className = marker.small
                         ? 'marker-notPremium noEvents small'
                         : 'marker-notPremium noEvents';
+                        markerElement.title = t('needPremium');
                 } else {
                     markerElement.className = marker.small
                         ? 'marker small'

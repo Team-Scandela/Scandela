@@ -73,11 +73,14 @@ const resources = {
             scandela: 'Scandela',
             tickets: 'Tickets',
             faq: 'FAQ',
-            subscriptionDescription: 'Easily subscribe to our Premium plan via Stripe for secure payment. Enjoy exclusive features with the flexibility to cancel anytime. Your Premium access will remain active until the end of the current billing period.',
+            subscriptionDescription:
+                'Easily subscribe to our Premium plan via Stripe for secure payment. Enjoy exclusive features with the flexibility to cancel anytime. Your Premium access will remain active until the end of the current billing period.',
             buyPremium: 'Buy the premium subscription.',
             cancelPremium: 'Cancel the premium subscription.',
-            buyPremiumValidation: 'Your subscription has been successfully purchased. Please log in again.',
-            cancelPremiumValidation: 'Your subscription has been successfully canceled. Please log in again.',
+            buyPremiumValidation:
+                'Your subscription has been successfully purchased. Please log in again.',
+            cancelPremiumValidation:
+                'Your subscription has been successfully canceled. Please log in again.',
             handleSubscription: 'Handle my subscription',
             titleBuyAdmin: 'Why choose the premium version?',
             title2BuyAdmin:
@@ -209,6 +212,8 @@ const resources = {
                 'This fifth filter allows you to visualize the traffic within your community, this can help you make better decisions based on which streets are more or less busy.',
             tuto120:
                 'This sixth filter allows you to view the electrical cabinets in your city, you can click on each of them to display the connected street lamps.',
+            tuto121:
+                'This filter highlights natural areas on the map. When the "Black Tram" filter is enabled, nature zones are clearly marked, allowing you to easily identify green spaces, forests, and other natural environments.',
             tuto130:
                 'These three indicators allow you to have an overview of your community, they are subjective to our calculations and the goal is to achieve a balance between them. You can click on each one for more information.',
             tuto140:
@@ -255,7 +260,22 @@ const resources = {
             unknownQuality: 'unknown lightning quality',
             quality: 'Quality',
             noEvent: 'No new events since your last visit',
-            needDeco: 'After buying the premium version, you will need to log out and log back in to activate the premium features.',
+            needDeco:
+                'After buying the premium version, you will need to log out and log back in to activate the premium features.',
+            noActionSelected: 'No action selected',
+            actionsListSuccessfullyValidated:
+                'The actions list has been successfully validated',
+            noActionAdded:
+                'No action has been validated, please select one in the decision support panel.',
+            demoVersion: 'Demo version',
+            premiumVersion: 'Premium version',
+            adminAccount: 'Administrator account',
+            userAccount: 'User account',
+            needPremium: 'You need the premium version to access this feature',
+            inProgress : 'In Progress',
+            toDo : 'To Do',
+            done : "Done",
+            toDoLoading : "To-Do list loading, please wait"
         },
     },
 
@@ -332,11 +352,14 @@ const resources = {
             scandela: 'Scandela',
             tickets: 'Tickets',
             faq: 'FAQ',
-            subscriptionDescription: 'Souscrivez facilement à notre abonnement Premium via Stripe pour un paiement sécurisé. Profitez des fonctionnalités exclusives, avec la liberté de résilier à tout moment : votre accès Premium reste actif jusqu’à la fin de la période en cours.',
-            buyPremium: 'Acheter l\'abonnement premium.',
-            cancelPremium: 'Annuler l\'abonnement premium.',
-            buyPremiumValidation: 'Votre abonnement a bien été acheté, veuillez vous reconnecter.',
-            cancelPremiumValidation: 'Votre abonnement a bien été annulé, veuillez vous reconnecter.',
+            subscriptionDescription:
+                'Souscrivez facilement à notre abonnement Premium via Stripe pour un paiement sécurisé. Profitez des fonctionnalités exclusives, avec la liberté de résilier à tout moment : votre accès Premium reste actif jusqu’à la fin de la période en cours.',
+            buyPremium: "Acheter l'abonnement premium.",
+            cancelPremium: "Annuler l'abonnement premium.",
+            buyPremiumValidation:
+                'Votre abonnement a bien été acheté, veuillez vous reconnecter.',
+            cancelPremiumValidation:
+                'Votre abonnement a bien été annulé, veuillez vous reconnecter.',
             handleSubscription: 'Gérer mon abonnement',
             titleBuyAdmin: 'Pourquoi choisir la version premium ?',
             title2BuyAdmin:
@@ -471,6 +494,8 @@ const resources = {
                 'Ce cinquième filtre vous permet de visualiser le traffic au sein de votre colléctivité, cela peut vous aider à prendre de meilleures décisions en fonctions des rues plus ou moins passantes.',
             tuto120:
                 "Ce sixième filtre vous permet de visualiser les armoires électriques de votre ville, vous pouvez cliquer sur chacune d'entre elles afin d'afficher les lampadaires reliés.",
+            tuto121:
+                'Ce filtre met en évidence les zones naturelles sur la carte. En activant le filtre "Trame Noir," les zones de nature sont distinctement colorées, ce qui vous permet d’identifier facilement les espaces verts, forêts, et autres environnements naturels.',
             tuto130:
                 "Ces trois indicateurs vous permettent d'avoir une vue d'ensemble sur votre colléctivité, ils sont subjectifs à nos calculs et le but est d'atteindre un équilbre entre eux. Vous pouvez cliquer sur chacun d'entre eux pour plus d'informations.",
             tuto140:
@@ -516,7 +541,22 @@ const resources = {
             unknownQuality: "Qualité d'éclairage inconnue",
             quality: 'Qualité',
             noEvent: 'Aucun nouvel événement depuis votre dernière visite',
-            needDeco : 'Après avoir acheté la version premium, vous devez vous reconnecter pour que les changements prennent effet.',
+            needDeco:
+                'Après avoir acheté la version premium, vous devez vous reconnecter pour que les changements prennent effet.',
+            noActionSelected: 'Aucune action sélectionnée',
+            actionsListSuccessfullyValidated:
+                'La liste des actions a bien été validée',
+            noActionAdded:
+                "Aucune action n'a été validé, veuillez en sélectionner une dans le panneau d'aide à la décision",
+            demoVersion: 'Version de démonstration',
+            premiumVersion: 'Version premium',
+            adminAccount: 'Compte administrateur',
+            userAccount: 'Compte utilisateur',
+            needPremium: 'Pour accéder à cette fonctionnalité, vous devez acheter la version premium.',
+            inProgress : 'En cours',
+            toDo : 'A Faire',
+            done : "Terminée",
+            toDoLoading : "To-Do list en chargement, veuillez patienter..."
         },
     },
 };

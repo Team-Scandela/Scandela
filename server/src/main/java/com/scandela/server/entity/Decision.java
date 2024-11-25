@@ -52,6 +52,10 @@ public class Decision implements Serializable {
 	
 	@Column(name = "solution", nullable = false)
 	private String solution;
+	
+	@Builder.Default
+	@Column(name = "state", nullable = false)
+	private String state = "todo";
 
 	@Column(name = "validate")
 	private LocalDateTime validate;

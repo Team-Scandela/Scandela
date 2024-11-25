@@ -23,6 +23,9 @@ import ZonePannel from '../components/Legends/LegendZone';
 import TrafficPannel from '../components/Legends/LegendTraffic';
 import PinPannel from '../components/Legends/LegendPin';
 import ColorPannel from '../components/Legends/LegendPinColor';
+import { useRedirectOnRefresh } from '../hooks/useRedirectOnRefresh';
+import { useAtom } from 'jotai';
+import {errorHandler} from '../atoms/errorHandlerAtom';
 
 export enum Filters {
     pin = 'pin',
@@ -62,7 +65,8 @@ const Main: React.FC<MainProps> = ({
     const [lng, setLng] = useState<number>(-1.553621);
     const [zoom, setZoom] = useState(12);
     const [time, setTime] = useState<number>(12);
-
+    const [, setIsError] = useAtom(errorHandler);
+    
     /** If the decision panel is open or closed */
     const [decisionPanelExtended, setDecisionPanelExtended] =
         useState<boolean>(false);
@@ -79,6 +83,7 @@ const Main: React.FC<MainProps> = ({
 
     const [toastHistoryData, setToastHistoryData] = useState([]);
 
+    useRedirectOnRefresh();
     useEffect(() => {
         const getNotificationsAsync = async () => {
             const userId = localStorage.getItem('userId');
@@ -140,7 +145,19 @@ const Main: React.FC<MainProps> = ({
     };
 
     const handleSearch = (value: string) => {
-        handleSearchUtils(value, lat, setLat, lng, setLng, zoom, setZoom);
+
+        const isError = handleSearchUtils(value, lat, setLat, lng, setLng, zoom, setZoom);
+        if (isError)
+            setIsError(true);
+        else
+            setIsError(false);
+    };
+    const handleZoomByCoord = (longitude: number, latitude: number) => {
+        if (latitude && longitude) {
+            setLat(latitude);
+            setLng(longitude);
+            setZoom(19);
+        }
     };
 
     const handleToggleDecisionPanelExtend = () => {
@@ -195,6 +212,7 @@ const Main: React.FC<MainProps> = ({
                 id={'searchBarComponentId'}
                 isDark={isDark}
                 onSubmit={handleSearch}
+                onSubmitCoord={handleZoomByCoord}
                 tooltipPreference={tooltipPreference}
             />
             <FilterMenu
@@ -221,12 +239,6 @@ const Main: React.FC<MainProps> = ({
             )}
             {filter === Filters.traffic && (
                 <>
-                    <TrafficTime
-                        id={'trafficTimeComponentId'}
-                        isDark={isDark}
-                        trafficTime={trafficTimeValue}
-                        setTrafficTime={setTrafficTimeValue}
-                    />
                     <TrafficPannel />
                 </>
             )}
@@ -313,6 +325,7 @@ const Main: React.FC<MainProps> = ({
                         currentTab={currentTab}
                         setCurrentTab={setCurrentTab}
                         setShowTutoriel={setShowTutoriel}
+                        handleZoomByCoord={handleZoomByCoord}
                     />
                     <Gauges
                         id={'gaugesComponentId'}

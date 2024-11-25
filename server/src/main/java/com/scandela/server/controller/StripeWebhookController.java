@@ -120,6 +120,8 @@ public class StripeWebhookController {
                     stripeWebhookService.handleChargeFailed(event);
 
                     break;
+                case "customer.subscription.created":
+                    stripeWebhookService.activatePremium(event);
                 default:
                     break;
             }
