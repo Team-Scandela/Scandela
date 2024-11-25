@@ -32,7 +32,7 @@ public class DecisionTask {
 	}
 	
 	// Every day at 10
-	@Scheduled(cron = "0 10 * * *")
+	@Scheduled(cron = "0 0 10 * * *")
 	public void taskGetAllumerEteindreDecision() throws Exception {
 		decisionService.deleteAllByDescriptionContaining("Coucher du soleil à ");
 		decisionService.deleteAllByDescriptionContaining("Lever du soleil à ");
@@ -42,7 +42,7 @@ public class DecisionTask {
 	}
 	
 	// Every Sunday at 0
-	@Scheduled(cron = "0 0 * * 0")
+	@Scheduled(cron = "0 0 0 * * 0")
 	public void taskGetWeekDecision() throws Exception {
 		decisionService.algoChangementBulb();
 
@@ -63,7 +63,7 @@ public class DecisionTask {
 	
 	private void writeLog(String taskName) {
 		Logger log = LoggerFactory.getLogger(DecisionTask.class);
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy at HH:mm:ss");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy HH:mm:ss");
 		
 		log.info("{} at date {}", taskName, dateFormat.format(new Date()));
 	}
