@@ -205,7 +205,7 @@ const LampInfosPopup: React.FC<LampInfosPopupProps> = ({
                         ? null
                         : lampData.bulb === null ||
                             lampData.bulb?.consommation === undefined
-                          ? 'Donnée inconnue'
+                          ? t('unknownData')
                           : lampData.bulb.consommation + ' kW/h'}
                 </PopupText>
                 <img

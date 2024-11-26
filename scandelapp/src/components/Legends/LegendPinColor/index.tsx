@@ -1,8 +1,14 @@
 import React, { useState } from 'react';
 import * as S from './elements';
+import exemple from '../../../assets/exemple_3rd.png';
+import pin_vert from '../../../assets/pin_vert.png';
+import pin_orange from '../../../assets/pin_orange.png';
+import pin_rouge from '../../../assets/pin_rouge.png';
+import { useTranslation, Trans } from 'react-i18next';
 
 const ColorPannel: React.FC = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const { t } = useTranslation();
 
     const openModal = () => {
         setIsModalOpen(true);
@@ -29,22 +35,30 @@ const ColorPannel: React.FC = () => {
                         <S.CloseWrapper>
                             <S.CloseButton onClick={closeModal}>X</S.CloseButton>
                         </S.CloseWrapper>
-                        <S.h2>Légende du filtre Qualité de bulbe</S.h2>
+                        <S.h2>{t('bulbQualityFilterLegendHeader')}</S.h2>
                         <S.LegendWrapper>
                             <S.p>
-                                Le filtre qualité de bulbe ce compose de:
-                                <br />- Différents cercles de couleurs en fonction de la qualité du bulbe.
-                                <br />- Cercles vert pour une très bonne qualité d'éclairage.
-                                <br />- Cercles jaune pour une moyenne qualité d'éclairage.
-                                <br />- Cercles rouge pour une mauvaise qualité d'éclairage.
-                                <br />- Cercles vert par défaut pour les clusters.
+                                <Trans i18nKey="bulbQualityFilterDescription">
+                                    <br />
+                                </Trans>
                             </S.p>
                         </S.LegendWrapper>
                         <S.ExampleWrapper>
-
+                            <img src={exemple} alt="exemple" width="455" height="210" />
                         </S.ExampleWrapper>
                         <S.IconsExplanationsWrapper>
-
+                            <div>
+                                <img src={pin_vert} alt="pin vert" />
+                                <span>{t('greenPinExplanation')}</span>
+                            </div>
+                            <div>
+                                <img src={pin_orange} alt="pin orange" />
+                                <span>{t('orangePinExplanation')}</span>
+                            </div>
+                            <div>
+                                <img src={pin_rouge} alt="pin rouge" />
+                                <span>{t('redPinExplanation')}</span>
+                            </div>
                         </S.IconsExplanationsWrapper>
                     </S.ModalWrapper>
                 </S.Backdrop>

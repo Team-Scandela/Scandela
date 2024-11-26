@@ -8,7 +8,7 @@ import {
     DescriptionText,
     SolutionTextContainer,
     SolutionText,
-    PriceText, // Ajoutez cette importation pour le PriceText
+    PriceText,
 } from './elements';
 
 /** Props of the optimisation template

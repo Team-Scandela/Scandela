@@ -1,8 +1,14 @@
 import React, { useState } from 'react';
 import * as S from './elements';
+import exemple from '../../../assets/exemple_4th.png';
+import pin_jaune from '../../../assets/pin_jaune.png';
+import selecteur from '../../../assets/selecteur.png';
+import halo from '../../../assets/halo.png';
+import { useTranslation, Trans } from 'react-i18next';
 
 const ZonePannel: React.FC = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const { t } = useTranslation();
 
     const openModal = () => {
         setIsModalOpen(true);
@@ -29,22 +35,30 @@ const ZonePannel: React.FC = () => {
                         <S.CloseWrapper>
                             <S.CloseButton onClick={closeModal}>X</S.CloseButton>
                         </S.CloseWrapper>
-                        <S.h2>Légende du filtre par composant</S.h2>
+                        <S.h2>{t('componentFilterLegendHeader')}</S.h2>
                         <S.LegendWrapper>
                             <S.p>
-                                Le filtre par composant est composé de:
-                                <br />- Une recherche d'éclairages en particulier via certains critères.
-                                <br />- un affichage de la zone d'éclairage individuel de chaque lampadaire avec un halo de lumière.
-                                <br />- Des points jaune là ou les lampadaires sont trouvé en rapport avec les critères.
-                                <br />- En rouge quand la zone à un luminosité forte.
-                                <br />- Ces informations permettent de voir l'état de la pollution lumineuse sur certaines zones.
+                                <Trans i18nKey="componentFilterDescription">
+                                    <br />
+                                </Trans>
                             </S.p>
                         </S.LegendWrapper>
                         <S.ExampleWrapper>
-
+                            <img src={exemple} alt="exemple" width="455" height="160" />
                         </S.ExampleWrapper>
                         <S.IconsExplanationsWrapper>
-
+                            <div>
+                                <img src={selecteur} alt="selecteur" />
+                                <span>{t('selectorExplanation')}</span>
+                            </div>
+                            <div>
+                                <img src={halo} alt="halo" />
+                                <span>{t('haloExplanation')}</span>
+                            </div>
+                            <div>
+                                <img src={pin_jaune} alt="pin jaune" />
+                                <span>{t('yellowPinExplanation')}</span>
+                            </div>
                         </S.IconsExplanationsWrapper>
                     </S.ModalWrapper>
                 </S.Backdrop>

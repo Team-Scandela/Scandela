@@ -80,18 +80,39 @@ export const ExampleWrapper = styled.div`
      
 `;
 
-export const IconsExplanationsWrapper = styled.div`
+ export const IconsExplanationsWrapper = styled.div`
     position: relative;
     padding: 20px;
     left: 520px;
-    bottom: 401px;
+    bottom: 399px;
     background-color: #666666;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
     max-width: 250px;
     width: 100%;
     height: 420px;
-     
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 15px;
+    text-align: center;
+
+    div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    img {
+        width: 40px;
+        height: auto;
+    }
+
+    span {
+        font-size: 14px;
+        color: #ffffff;
+    }
 `;
 
 export const CloseWrapper = styled.div`

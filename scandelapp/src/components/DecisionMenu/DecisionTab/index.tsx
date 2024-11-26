@@ -89,7 +89,7 @@ const DecisionTab: React.FC<DecisionTabProps> = ({
             new Set()
         );
         const uniqueArray = Array.from(uniqueTypes);
-        uniqueArray.unshift('Toutes les optimisations');
+        uniqueArray.unshift(t('AllOpti'));
         setItems(uniqueArray);
         setDropdownExpended(!dropdownExpended);
     };
@@ -200,9 +200,9 @@ const DecisionTab: React.FC<DecisionTabProps> = ({
                 </DropdownMenu>
             )}
             <LogoContainer src={logoDark} />
-            {currentSelected !== 'Choisissez une action' && (
+            {currentSelected !== t('selectActions') && (
                 <ScrollableOptimisationsContainer isDark={isDark}>
-                    {currentSelected === 'Toutes les optimisations'
+                    {currentSelected === t('AllOpti')
                         ? optimisationTemplateData.map(
                               (item: any, i: number) => (
                                   <OptimisationTemplate

@@ -91,7 +91,39 @@ export const IconsExplanationsWrapper = styled.div`
     max-width: 250px;
     width: 100%;
     height: 420px;
-     
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+
+    div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    }
+
+    .line {
+    width: 40px;
+    height: 5px;
+    border-radius: 2px;
+    }
+
+    .dark-blue {
+    background-color: #00008B;
+    }
+
+    .blue {
+    background-color: blue;
+    }
+
+    .pink {
+    background-color: pink;
+    }
+
+    span {
+    font-size: 14px; 
+    color: #ffffff; 
+    }
 `;
 
 export const CloseWrapper = styled.div`

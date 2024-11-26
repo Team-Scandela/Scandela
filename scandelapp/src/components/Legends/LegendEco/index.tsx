@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import * as S from './elements';
+import exemple from '../../../assets/exemple_7th.png';
+import pop_up2 from '../../../assets/pop_up2.png';
+import { useTranslation } from 'react-i18next';
 
 const EcoPannel: React.FC = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const { t } = useTranslation();
 
     const openModal = () => {
         setIsModalOpen(true);
@@ -29,19 +33,18 @@ const EcoPannel: React.FC = () => {
                         <S.CloseWrapper>
                             <S.CloseButton onClick={closeModal}>X</S.CloseButton>
                         </S.CloseWrapper>
-                        <S.h2>Légende du filtre Trâme noire</S.h2>
+                        <S.h2>{t('filterLegendHeader2')}</S.h2>
                         <S.LegendWrapper>
-                            <S.p>
-                                Le filtre de la trâme noire ce compose de:
-                                <br />- Différentes zones colorées qui ont une sensibilité en lien avec l'écologie.
-                                <br />- Les zones sont cliquables et permettent d'afficher des informations sur la zone.
-                            </S.p>
+                            <S.p dangerouslySetInnerHTML={{ __html: t('filterDescription') }} />
                         </S.LegendWrapper>
                         <S.ExampleWrapper>
-
+                            <img src={exemple} alt="exemple" width="455" height="210" />
                         </S.ExampleWrapper>
                         <S.IconsExplanationsWrapper>
-
+                            <div>
+                                <img src={pop_up2} alt="pop_up2" />
+                                <span>{t('popup2Description')}</span>
+                            </div>
                         </S.IconsExplanationsWrapper>
                     </S.ModalWrapper>
                 </S.Backdrop>

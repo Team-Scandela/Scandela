@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import * as S from './elements';
+import exemple from '../../../assets/exemple_7th.png';
+import pop_up2 from '../../../assets/pop_up2.png';
+import { useTranslation, Trans } from 'react-i18next';
 
-const CabinetPannel: React.FC = () => {
+const EcoPannel: React.FC = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const { t } = useTranslation();
 
     const openModal = () => {
         setIsModalOpen(true);
@@ -29,23 +33,22 @@ const CabinetPannel: React.FC = () => {
                         <S.CloseWrapper>
                             <S.CloseButton onClick={closeModal}>X</S.CloseButton>
                         </S.CloseWrapper>
-                        <S.h2>Légende du filtre Armoire Électrique</S.h2>
+                        <S.h2>{t('filter2LegendHeader')}</S.h2>
                         <S.LegendWrapper>
                             <S.p>
-                                Le filtre des armoires éléctrique ce compose de:
-                                <br />- Les armoires électrique noté d'un éclair
-                                jaune.
-                                <br />- sont cliquables et vous redirige vers le
-                                parc de l'armoire électrique.
-                                <br />- permettent de comprendre le parc de gestion
-                                d'une armoire éléectrique.
+                                <Trans i18nKey="filter2Description">
+                                    <br />
+                                </Trans>
                             </S.p>
                         </S.LegendWrapper>
                         <S.ExampleWrapper>
-
+                            <img src={exemple} alt="exemple" width="455" height="210" />
                         </S.ExampleWrapper>
                         <S.IconsExplanationsWrapper>
-
+                            <div>
+                                <img src={pop_up2} alt="pop_up2" />
+                                <span>{t('popup2Description')}</span>
+                            </div>
                         </S.IconsExplanationsWrapper>
                     </S.ModalWrapper>
                 </S.Backdrop>
@@ -54,4 +57,4 @@ const CabinetPannel: React.FC = () => {
     );
 };
 
-export default CabinetPannel;
+export default EcoPannel;
