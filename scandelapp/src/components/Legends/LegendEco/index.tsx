@@ -38,7 +38,7 @@ const EcoPannel: React.FC = () => {
                         </S.CloseWrapper>
                         <S.h2>{t('filter2LegendHeader')}</S.h2>
                         <S.LegendWrapper>
-                            <S.p dangerouslySetInnerHTML={{ __html: t('filterDescription') }} />
+                            <S.p dangerouslySetInnerHTML={{ __html: t('filter2Description') }} />
                         </S.LegendWrapper>
                         <S.ExampleWrapper>
                             <img src={exemple} alt="exemple" width="455" height="210" />
