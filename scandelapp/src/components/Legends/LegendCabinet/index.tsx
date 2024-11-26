@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import * as S from './elements';
-import exemple from '../../../assets/exemple_7th.png';
-import pop_up2 from '../../../assets/pop_up2.png';
 import { useTranslation, Trans } from 'react-i18next';
+import exemple from '../../../assets/exemple_6th.png'
+import { AiFillPushpin, AiFillThunderbolt, AiFillCloseCircle} from 'react-icons/ai';
 
 const EcoPannel: React.FC = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -31,12 +31,14 @@ const EcoPannel: React.FC = () => {
                 <S.Backdrop onClick={closeModal}>
                     <S.ModalWrapper onClick={stopPropagation}>
                         <S.CloseWrapper>
-                            <S.CloseButton onClick={closeModal}>X</S.CloseButton>
+                            <S.CloseButton onClick={closeModal}>
+                                <AiFillCloseCircle size={24} color="#FAC710" />
+                            </S.CloseButton>
                         </S.CloseWrapper>
-                        <S.h2>{t('filter2LegendHeader')}</S.h2>
+                        <S.h2>{t('filterLegendHeader')}</S.h2>
                         <S.LegendWrapper>
                             <S.p>
-                                <Trans i18nKey="filter2Description">
+                                <Trans i18nKey="filterDescription">
                                     <br />
                                 </Trans>
                             </S.p>
@@ -46,8 +48,16 @@ const EcoPannel: React.FC = () => {
                         </S.ExampleWrapper>
                         <S.IconsExplanationsWrapper>
                             <div>
-                                <img src={pop_up2} alt="pop_up2" />
-                                <span>{t('popup2Description')}</span>
+                                <AiFillPushpin size={48} color="blue" />
+                                <span>{t('bluePinExplanation')}</span>
+                            </div>
+                            <div>
+                                <AiFillThunderbolt size={48} color="blue" />
+                                <span>{t('blueLightningExplanation')}</span>
+                            </div>
+                            <div>
+                                <AiFillThunderbolt size={48} color="yellow" />
+                                <span>{t('yellowLightningExplanation')}</span>
                             </div>
                         </S.IconsExplanationsWrapper>
                     </S.ModalWrapper>

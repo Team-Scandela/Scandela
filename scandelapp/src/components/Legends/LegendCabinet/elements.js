@@ -101,19 +101,15 @@ export const ExampleWrapper = styled.div`
 
     div {
         display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-    }
-
-    img {
-        width: 40px;
-        height: auto;
+        align-items: center; /* Centre verticalement l'icône et le texte */
+        gap: 10px; /* Espace entre l'icône et le texte */
     }
 
     span {
         font-size: 14px;
-        color: #ffffff;
+        color: #ffffff; /* Couleur du texte */
+        text-align: left; /* Assure l'alignement à gauche */
+        flex: 1; /* Permet de gérer l'espace */
     }
 `;
 
@@ -136,8 +132,8 @@ export const CloseButton = styled.button`
     border: none;
     font-size: 16px;
     cursor: pointer;
-    right: 6px;
-    bottom: 6px;
+    right: 12px;
+    bottom: 10px;
     color: white;
 
     &:hover {

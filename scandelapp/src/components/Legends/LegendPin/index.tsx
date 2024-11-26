@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import * as S from './elements';
 import exemple from '../../../assets/exemple_1sr.png';
-import pin_jaune from '../../../assets/pin_jaune.png';
-import pop_up1 from '../../../assets/pop_up1.png';
-import cercle_jaune from '../../../assets/cercle_jaune.png';
-import cercle_vert from '../../../assets/cercle_vert.png';
-import cercle_rouge from '../../../assets/cercle_rouge_leg.png';
 import { useTranslation, Trans } from 'react-i18next';
+import { FaRegCircle } from 'react-icons/fa';
+import { AiFillPushpin, AiFillCloseCircle } from 'react-icons/ai';
+import { MdAddCircleOutline } from 'react-icons/md';
 
 const PinPannel: React.FC = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -34,8 +32,10 @@ const PinPannel: React.FC = () => {
             {isModalOpen && (
                 <S.Backdrop onClick={closeModal}>
                     <S.ModalWrapper onClick={stopPropagation}>
-                        <S.CloseWrapper>
-                            <S.CloseButton onClick={closeModal}>X</S.CloseButton>
+                    <S.CloseWrapper>
+                            <S.CloseButton onClick={closeModal}>
+                                <AiFillCloseCircle size={24} color="#FAC710" />
+                            </S.CloseButton>
                         </S.CloseWrapper>
                         <S.h2>{t('pinFilterLegendHeader')}</S.h2>
                         <S.LegendWrapper>
@@ -50,23 +50,23 @@ const PinPannel: React.FC = () => {
                         </S.ExampleWrapper>
                         <S.IconsExplanationsWrapper>
                             <div>
-                                <img src={cercle_vert} alt="cercle vert" />
+                                <FaRegCircle size={48} color="green" />
                                 <span>{t('greenCircleExplanation')}</span>
                             </div>
                             <div>
-                                <img src={cercle_jaune} alt="cercle jaune" />
+                                <FaRegCircle size={48} color="yellow" />
                                 <span>{t('yellowCircleExplanation')}</span>
                             </div>
                             <div>
-                                <img src={cercle_rouge} alt="cercle rouge" />
-                                <span>{t('redCircleExplanation')}</span>
+                                <FaRegCircle size={48} color="red" />
+                                <span>{t('RedCircleExplanation')}</span>
                             </div>
                             <div>
-                                <img src={pin_jaune} alt="pin jaune" />
+                                <AiFillPushpin size={48} color="yellow" />
                                 <span>{t('yellowPinExplanation')}</span>
                             </div>
                             <div>
-                                <img src={pop_up1} alt="pop_up1" />
+                                <MdAddCircleOutline size={48} color="#FAC710" />
                                 <span>{t('popupDescription')}</span>
                             </div>
                         </S.IconsExplanationsWrapper>

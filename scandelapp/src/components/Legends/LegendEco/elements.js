@@ -27,7 +27,7 @@ export const Button = styled.button`
 `;
 
 export const LeafIcon = styled(FaLeaf)`
-    color: #ffd700;
+    color: #FAC710;
     font-size: 24px;
 `;
 
@@ -134,8 +134,8 @@ export const CloseButton = styled.button`
     border: none;
     font-size: 16px;
     cursor: pointer;
-    right: 6px;
-    bottom: 6px;
+    right: 12px;
+    bottom: 10px;
     color: white;
 
     &:hover {

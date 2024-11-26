@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import * as S from './elements';
 import exemple from '../../../assets/exemple_5th.png';
 import { useTranslation, Trans } from 'react-i18next';
+import { AiFillCloseCircle } from 'react-icons/ai';
 
 const TrafficPannel: React.FC = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -29,8 +30,10 @@ const TrafficPannel: React.FC = () => {
             {isModalOpen && (
                 <S.Backdrop onClick={closeModal}>
                     <S.ModalWrapper onClick={stopPropagation}>
-                        <S.CloseWrapper>
-                            <S.CloseButton onClick={closeModal}>X</S.CloseButton>
+                    <S.CloseWrapper>
+                            <S.CloseButton onClick={closeModal}>
+                                <AiFillCloseCircle size={24} color="#FAC710" />
+                            </S.CloseButton>
                         </S.CloseWrapper>
                         <S.h2>{t('trafficFilterLegendHeader')}</S.h2>
                         <S.LegendWrapper>

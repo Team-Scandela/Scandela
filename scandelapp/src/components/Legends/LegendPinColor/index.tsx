@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import * as S from './elements';
 import exemple from '../../../assets/exemple_3rd.png';
-import pin_vert from '../../../assets/pin_vert.png';
-import pin_orange from '../../../assets/pin_orange.png';
-import pin_rouge from '../../../assets/pin_rouge.png';
 import { useTranslation, Trans } from 'react-i18next';
+import { AiFillPushpin, AiFillCloseCircle } from 'react-icons/ai';
 
 const ColorPannel: React.FC = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -33,7 +31,9 @@ const ColorPannel: React.FC = () => {
                 <S.Backdrop onClick={closeModal}>
                     <S.ModalWrapper onClick={stopPropagation}>
                         <S.CloseWrapper>
-                            <S.CloseButton onClick={closeModal}>X</S.CloseButton>
+                            <S.CloseButton onClick={closeModal}>
+                                <AiFillCloseCircle size={24} color="#FAC710" />
+                            </S.CloseButton>
                         </S.CloseWrapper>
                         <S.h2>{t('bulbQualityFilterLegendHeader')}</S.h2>
                         <S.LegendWrapper>
@@ -48,15 +48,15 @@ const ColorPannel: React.FC = () => {
                         </S.ExampleWrapper>
                         <S.IconsExplanationsWrapper>
                             <div>
-                                <img src={pin_vert} alt="pin vert" />
+                                <AiFillPushpin size={64} color="green" />
                                 <span>{t('greenPinExplanation')}</span>
                             </div>
                             <div>
-                                <img src={pin_orange} alt="pin orange" />
+                                <AiFillPushpin size={64} color="orange" />
                                 <span>{t('orangePinExplanation')}</span>
                             </div>
                             <div>
-                                <img src={pin_rouge} alt="pin rouge" />
+                                <AiFillPushpin size={64} color="red" />
                                 <span>{t('redPinExplanation')}</span>
                             </div>
                         </S.IconsExplanationsWrapper>

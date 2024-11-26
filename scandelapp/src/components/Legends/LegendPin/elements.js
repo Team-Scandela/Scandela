@@ -97,21 +97,17 @@ export const ExampleWrapper = styled.div`
     gap: 15px;
     text-align: center;
 
-    div {
+     div {
         display: flex;
         align-items: center;
-        justify-content: center;
         gap: 10px;
-    }
-
-    img {
-        width: 40px;
-        height: auto;
     }
 
     span {
         font-size: 14px;
         color: #ffffff;
+        text-align: left;
+    }
     }
 `;
 
@@ -134,8 +130,8 @@ export const CloseButton = styled.button`
     border: none;
     font-size: 16px;
     cursor: pointer;
-    right: 6px;
-    bottom: 6px;
+    right: 12px;
+    bottom: 10px;
     color: white;
 
     &:hover {
