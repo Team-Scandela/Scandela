@@ -207,9 +207,9 @@ public class UserService extends AbstractService<User> implements IUserService {
                     whileAwayDao.deleteAll();
 
                     /* Check for premium */
-					Optional<Subscription> subscription = subscriptionDao.findByUserid(user.get().getId().toString());
+					// Optional<Subscription> subscription = subscriptionDao.findByUserid(user.get().getId().toString());
 
-					user.get().setPremium(subscription.isPresent());
+					// user.get().setPremium(subscription.isPresent());
 
 					/* Entrée d'audit - Signin de l'user */
 					AuditEntry auditEntry = new AuditEntry();

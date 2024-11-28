@@ -223,7 +223,7 @@ public class SubscriptionService extends AbstractService<Subscription> implement
         SessionCreateParams params = SessionCreateParams.builder()
                 .addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)
                 .setMode(SessionCreateParams.Mode.SUBSCRIPTION)
-                .setSuccessUrl("https://app.scandela.com/homepage")
+                .setSuccessUrl("https://app.scandela.com/")
                 .setCancelUrl("https://example.com/cancel")
                 .putMetadata("userId", subscription.getUserid())
                 .setSubscriptionData(
