@@ -423,7 +423,7 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
                         marginTop: '25px',
                     }}
                 >
-                    Coûts des actions (en euro):
+                    {t('TotalCost')}
                     <div
                         style={{
                             backgroundColor: '#696969', // gris DA
@@ -447,7 +447,7 @@ const ActionsListTab: React.FC<ActionsListTabProps> = ({
                         marginTop: '20px',
                     }}
                 >
-                    Économisé d'ici 1 an (en euro):
+                    {t('TotalSaving')}
                     <div
                         style={{
                             backgroundColor: '#696969', // gris DA

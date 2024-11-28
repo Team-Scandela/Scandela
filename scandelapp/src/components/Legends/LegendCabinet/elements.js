@@ -82,7 +82,7 @@ export const ExampleWrapper = styled.div`
      
 `;
 
-export const IconsExplanationsWrapper = styled.div`
+ export const IconsExplanationsWrapper = styled.div`
     position: relative;
     padding: 20px;
     left: 520px;
@@ -93,7 +93,24 @@ export const IconsExplanationsWrapper = styled.div`
     max-width: 250px;
     width: 100%;
     height: 420px;
-     
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 15px;
+    text-align: center;
+
+    div {
+        display: flex;
+        align-items: center; /* Centre verticalement l'icône et le texte */
+        gap: 10px; /* Espace entre l'icône et le texte */
+    }
+
+    span {
+        font-size: 14px;
+        color: #ffffff; /* Couleur du texte */
+        text-align: left; /* Assure l'alignement à gauche */
+        flex: 1; /* Permet de gérer l'espace */
+    }
 `;
 
 export const CloseWrapper = styled.div`
@@ -115,8 +132,8 @@ export const CloseButton = styled.button`
     border: none;
     font-size: 16px;
     cursor: pointer;
-    right: 6px;
-    bottom: 6px;
+    right: 12px;
+    bottom: 10px;
     color: white;
 
     &:hover {

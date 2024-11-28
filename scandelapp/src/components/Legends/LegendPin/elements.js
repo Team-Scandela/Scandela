@@ -80,7 +80,7 @@ export const ExampleWrapper = styled.div`
      
 `;
 
-export const IconsExplanationsWrapper = styled.div`
+ export const IconsExplanationsWrapper = styled.div`
     position: relative;
     padding: 20px;
     left: 520px;
@@ -91,7 +91,24 @@ export const IconsExplanationsWrapper = styled.div`
     max-width: 250px;
     width: 100%;
     height: 420px;
-     
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 15px;
+    text-align: center;
+
+     div {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    span {
+        font-size: 14px;
+        color: #ffffff;
+        text-align: left;
+    }
+    }
 `;
 
 export const CloseWrapper = styled.div`
@@ -113,8 +130,8 @@ export const CloseButton = styled.button`
     border: none;
     font-size: 16px;
     cursor: pointer;
-    right: 6px;
-    bottom: 6px;
+    right: 12px;
+    bottom: 10px;
     color: white;
 
     &:hover {

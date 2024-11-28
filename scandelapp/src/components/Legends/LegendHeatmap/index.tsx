@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
 import * as S from './elements';
+import exemple from '../../../assets/exemple_2nd.png';
+import heatmapcircle from '../../../assets/heatmap_cercle.png';
+import { AiFillCloseCircle } from 'react-icons/ai';
+import { useTranslation, Trans } from 'react-i18next';
 
 const HeatmapPannel: React.FC = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const { t } = useTranslation();
 
     const openModal = () => {
         setIsModalOpen(true);
@@ -26,25 +31,27 @@ const HeatmapPannel: React.FC = () => {
             {isModalOpen && (
                 <S.Backdrop onClick={closeModal}>
                     <S.ModalWrapper onClick={stopPropagation}>
-                        <S.CloseWrapper>
-                            <S.CloseButton onClick={closeModal}>X</S.CloseButton>
+                    <S.CloseWrapper>
+                            <S.CloseButton onClick={closeModal}>
+                                <AiFillCloseCircle size={24} color="#FAC710" />
+                            </S.CloseButton>
                         </S.CloseWrapper>
-                        <S.h2>Légende du filtre Heatmap</S.h2>
+                        <S.h2>{t('heatmapLegendHeader')}</S.h2>
                         <S.LegendWrapper>
                             <S.p>
-                                Le filtre heatmap ce compose de:
-                                <br />- Différentes zones avec certains niveaux concentration de la lumière.
-                                <br />- En bleu quand la zone à un luminosité faible.
-                                <br />- En vert quand la zone à un luminosité moyenne.
-                                <br />- En rouge quand la zone à un luminosité forte.
-                                <br />- Ces informations permettent de voir l'état de la pollution lumineuse sur certaines zones.
+                                <Trans i18nKey="heatmapDescription">
+                                    <br />
+                                </Trans>
                             </S.p>
                         </S.LegendWrapper>
                         <S.ExampleWrapper>
-
+                            <img src={exemple} alt="exemple" width="455" height="180" />
                         </S.ExampleWrapper>
                         <S.IconsExplanationsWrapper>
-
+                            <div>
+                                <img src={heatmapcircle} alt="heatmapcircle" />
+                                <span>{t('heatmapCircleExplanation')}</span>
+                            </div>
                         </S.IconsExplanationsWrapper>
                     </S.ModalWrapper>
                 </S.Backdrop>
