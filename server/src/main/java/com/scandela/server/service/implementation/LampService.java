@@ -578,7 +578,7 @@ public class LampService extends AbstractService<Lamp> implements ILampService {
 
 	private static final double LAMP_RADIUS = 120000.0;
 
-	private boolean isValidCoordinate(double latitude, double longitude) {
+	public boolean isValidCoordinate(double latitude, double longitude) {
 		return latitude >= -90 && latitude <= 90 && longitude >= -180 && longitude <= 180;
 	}
 
