@@ -37,7 +37,7 @@ public abstract class AbstractService<T> implements IService<T> {
 	@Transactional(readOnly = true)
 	public List<T> getAll(Integer pageNumber) {
 		if (pageNumber == null) {
-			return getAll();
+			return dao.findAll();
 		}
 
 		Page<T> page = dao.findAll(PageRequest.of(pageNumber, 100));

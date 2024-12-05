@@ -21,8 +21,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
@@ -302,16 +300,14 @@ public class DecisionServiceTest {
 				.build();
 		
 		when(decisionTypeDaoMock.findByTitleContains("Changement")).thenReturn(Optional.of(decisionType));
-		when(lampDaoMock.count()).thenReturn(1l);
-		when(lampDaoMock.findByLampTypeIsNot(Mockito.any(), Mockito.any())).thenReturn(new PageImpl<>(Arrays.asList(lamp)));
-		when(lampDaoMock.findLampsWithBulbLifetimeGreaterThanOrEqualToEstimated(Mockito.any())).thenReturn(new PageImpl<>(Arrays.asList(lamp)));
+		when(lampDaoMock.findByLampTypeIsNot(Mockito.any())).thenReturn(Arrays.asList(lamp));
+		when(lampDaoMock.findLampsWithBulbLifetimeGreaterThanOrEqualToEstimated()).thenReturn(Arrays.asList(lamp));
 		
 		List<Decision> result = testedObject.algoChangementBulb();
 
 		verify(decisionTypeDaoMock, times(1)).findByTitleContains("Changement");
-		verify(lampDaoMock, times(1)).count();
-		verify(lampDaoMock, times(1)).findByLampTypeIsNot(Mockito.any(), Mockito.any());
-		verify(lampDaoMock, times(1)).findLampsWithBulbLifetimeGreaterThanOrEqualToEstimated(Mockito.any());
+		verify(lampDaoMock, times(1)).findByLampTypeIsNot(Mockito.any());
+		verify(lampDaoMock, times(1)).findLampsWithBulbLifetimeGreaterThanOrEqualToEstimated();
 		verify(decisionDaoMock, times(1)).saveAll(Mockito.any());
 		verify(lampDecisionDaoMock, times(1)).saveAll(Mockito.any());
 		assertThat(result).hasSize(2);
@@ -337,16 +333,14 @@ public class DecisionServiceTest {
 				.build();
 		
 		when(decisionTypeDaoMock.findByTitleContains("Changement")).thenReturn(Optional.of(decisionType));
-		when(lampDaoMock.count()).thenReturn(51l);
-		when(lampDaoMock.findByLampTypeIsNot(Mockito.any(), Mockito.any())).thenReturn(new PageImpl<>(Arrays.asList(lamp)));
-		when(lampDaoMock.findLampsWithBulbLifetimeGreaterThanOrEqualToEstimated(Mockito.any())).thenReturn(new PageImpl<>(Arrays.asList(lamp)));
+		when(lampDaoMock.findByLampTypeIsNot(Mockito.any())).thenReturn(Arrays.asList(lamp));
+		when(lampDaoMock.findLampsWithBulbLifetimeGreaterThanOrEqualToEstimated()).thenReturn(Arrays.asList(lamp));
 		
 		List<Decision> result = testedObject.algoChangementBulb();
 
 		verify(decisionTypeDaoMock, times(1)).findByTitleContains("Changement");
-		verify(lampDaoMock, times(1)).count();
-		verify(lampDaoMock, times(1)).findByLampTypeIsNot(Mockito.any(), Mockito.any());
-		verify(lampDaoMock, times(1)).findLampsWithBulbLifetimeGreaterThanOrEqualToEstimated(Mockito.any());
+		verify(lampDaoMock, times(1)).findByLampTypeIsNot(Mockito.any());
+		verify(lampDaoMock, times(1)).findLampsWithBulbLifetimeGreaterThanOrEqualToEstimated();
 		verify(decisionDaoMock, times(1)).saveAll(Mockito.any());
 		verify(lampDecisionDaoMock, times(1)).saveAll(Mockito.any());
 		assertThat(result).hasSize(2);
@@ -372,16 +366,14 @@ public class DecisionServiceTest {
 				.build();
 		
 		when(decisionTypeDaoMock.findByTitleContains("Changement")).thenReturn(Optional.of(decisionType));
-		when(lampDaoMock.count()).thenReturn(1l);
-		when(lampDaoMock.findByLampTypeIsNot(Mockito.any(), Mockito.any())).thenReturn(new PageImpl<>(Arrays.asList(lamp)));
-		when(lampDaoMock.findLampsWithBulbLifetimeGreaterThanOrEqualToEstimated(Mockito.any())).thenReturn(new PageImpl<>(Arrays.asList(lamp)));
+		when(lampDaoMock.findByLampTypeIsNot(Mockito.any())).thenReturn(Arrays.asList(lamp));
+		when(lampDaoMock.findLampsWithBulbLifetimeGreaterThanOrEqualToEstimated()).thenReturn(Arrays.asList(lamp));
 		
 		List<Decision> result = testedObject.algoChangementBulb();
 
 		verify(decisionTypeDaoMock, times(1)).findByTitleContains("Changement");
-		verify(lampDaoMock, times(1)).count();
-		verify(lampDaoMock, times(1)).findByLampTypeIsNot(Mockito.any(), Mockito.any());
-		verify(lampDaoMock, times(1)).findLampsWithBulbLifetimeGreaterThanOrEqualToEstimated(Mockito.any());
+		verify(lampDaoMock, times(1)).findByLampTypeIsNot(Mockito.any());
+		verify(lampDaoMock, times(1)).findLampsWithBulbLifetimeGreaterThanOrEqualToEstimated();
 		verify(decisionDaoMock, times(1)).saveAll(Mockito.any());
 		verify(lampDecisionDaoMock, times(1)).saveAll(Mockito.any());
 		assertThat(result).isEmpty();
@@ -394,8 +386,7 @@ public class DecisionServiceTest {
 		DecisionException result = assertThrows(DecisionException.class, () -> testedObject.algoChangementBulb());
 
 		verify(decisionTypeDaoMock, times(1)).findByTitleContains("Changement");
-		verify(lampDaoMock, never()).count();
-		verify(lampDaoMock, never()).findByLampTypeIsNot(Mockito.any(), Mockito.any());
+		verify(lampDaoMock, never()).findByLampTypeIsNot(Mockito.any());
 		verify(decisionDaoMock, never()).saveAll(Mockito.any());
 		verify(lampDecisionDaoMock, never()).saveAll(Mockito.any());
 		assertThat(result.getMessage()).isEqualTo(DecisionException.DECISIONTYPE_LOADING);
@@ -420,17 +411,15 @@ public class DecisionServiceTest {
 
 		when(decisionTypeDaoMock.findByTitleContains("Allumer lampadaire")).thenReturn(Optional.of(decisionTypeAllumer));
 		when(decisionTypeDaoMock.findByTitleContains("Éteindre lampadaire")).thenReturn(Optional.of(decisionTypeEteindre));
-		when(lampDaoMock.count()).thenReturn(1l);
-		when(lampDaoMock.findByLightOn2IsNullOrLightOn2After(Mockito.any(), Mockito.any())).thenReturn(new PageImpl<>(Arrays.asList(lamp1)));
-		when(lampDaoMock.findByLightOffIsNullOrLightOffBefore(Mockito.any(), Mockito.any())).thenReturn(new PageImpl<>(Arrays.asList(lamp2)));
+		when(lampDaoMock.findByLightOn2IsNullOrLightOn2After(Mockito.any())).thenReturn(Arrays.asList(lamp1));
+		when(lampDaoMock.findByLightOffIsNullOrLightOffBefore(Mockito.any())).thenReturn(Arrays.asList(lamp2));
 		
 		List<Decision> result = testedObject.algoReductionConsoHoraire();
 
 		verify(decisionTypeDaoMock, times(1)).findByTitleContains("Allumer lampadaire");
 		verify(decisionTypeDaoMock, times(1)).findByTitleContains("Éteindre lampadaire");
-		verify(lampDaoMock, times(1)).count();
-		verify(lampDaoMock, times(1)).findByLightOn2IsNullOrLightOn2After(Mockito.any(), Mockito.any());
-		verify(lampDaoMock, times(1)).findByLightOffIsNullOrLightOffBefore(Mockito.any(), Mockito.any());
+		verify(lampDaoMock, times(1)).findByLightOn2IsNullOrLightOn2After(Mockito.any());
+		verify(lampDaoMock, times(1)).findByLightOffIsNullOrLightOffBefore(Mockito.any());
 		verify(decisionDaoMock, times(1)).saveAll(Mockito.any());
 		verify(lampDecisionDaoMock, times(1)).saveAll(Mockito.any());
 		assertThat(result).hasSize(2);
@@ -465,17 +454,15 @@ public class DecisionServiceTest {
 
 		when(decisionTypeDaoMock.findByTitleContains("Allumer lampadaire")).thenReturn(Optional.of(decisionTypeAllumer));
 		when(decisionTypeDaoMock.findByTitleContains("Éteindre lampadaire")).thenReturn(Optional.of(decisionTypeEteindre));
-		when(lampDaoMock.count()).thenReturn(51l);
-		when(lampDaoMock.findByLightOn2IsNullOrLightOn2After(Mockito.any(), Mockito.any())).thenReturn(new PageImpl<>(Arrays.asList(lamp1)));
-		when(lampDaoMock.findByLightOffIsNullOrLightOffBefore(Mockito.any(), Mockito.any())).thenReturn(new PageImpl<>(Arrays.asList(lamp2)));
+		when(lampDaoMock.findByLightOn2IsNullOrLightOn2After(Mockito.any())).thenReturn(Arrays.asList(lamp1));
+		when(lampDaoMock.findByLightOffIsNullOrLightOffBefore(Mockito.any())).thenReturn(Arrays.asList(lamp2));
 		
 		List<Decision> result = testedObject.algoReductionConsoHoraire();
 
 		verify(decisionTypeDaoMock, times(1)).findByTitleContains("Allumer lampadaire");
 		verify(decisionTypeDaoMock, times(1)).findByTitleContains("Éteindre lampadaire");
-		verify(lampDaoMock, times(1)).count();
-		verify(lampDaoMock, times(1)).findByLightOn2IsNullOrLightOn2After(Mockito.any(), Mockito.any());
-		verify(lampDaoMock, times(1)).findByLightOffIsNullOrLightOffBefore(Mockito.any(), Mockito.any());
+		verify(lampDaoMock, times(1)).findByLightOn2IsNullOrLightOn2After(Mockito.any());
+		verify(lampDaoMock, times(1)).findByLightOffIsNullOrLightOffBefore(Mockito.any());
 		verify(decisionDaoMock, times(1)).saveAll(Mockito.any());
 		verify(lampDecisionDaoMock, times(1)).saveAll(Mockito.any());
 		assertThat(result).hasSize(2);
@@ -510,17 +497,15 @@ public class DecisionServiceTest {
 
 		when(decisionTypeDaoMock.findByTitleContains("Allumer lampadaire")).thenReturn(Optional.of(decisionTypeAllumer));
 		when(decisionTypeDaoMock.findByTitleContains("Éteindre lampadaire")).thenReturn(Optional.of(decisionTypeEteindre));
-		when(lampDaoMock.count()).thenReturn(5l);
-		when(lampDaoMock.findByLightOn2IsNullOrLightOn2After(Mockito.any(), Mockito.any())).thenReturn(new PageImpl<>(Arrays.asList(lamp1)));
-		when(lampDaoMock.findByLightOffIsNullOrLightOffBefore(Mockito.any(), Mockito.any())).thenReturn(new PageImpl<>(Arrays.asList(lamp2)));
+		when(lampDaoMock.findByLightOn2IsNullOrLightOn2After(Mockito.any())).thenReturn(Arrays.asList(lamp1));
+		when(lampDaoMock.findByLightOffIsNullOrLightOffBefore(Mockito.any())).thenReturn(Arrays.asList(lamp2));
 		
 		List<Decision> result = testedObject.algoReductionConsoHoraire();
 
 		verify(decisionTypeDaoMock, times(1)).findByTitleContains("Allumer lampadaire");
 		verify(decisionTypeDaoMock, times(1)).findByTitleContains("Éteindre lampadaire");
-		verify(lampDaoMock, times(1)).count();
-		verify(lampDaoMock, times(1)).findByLightOn2IsNullOrLightOn2After(Mockito.any(), Mockito.any());
-		verify(lampDaoMock, times(1)).findByLightOffIsNullOrLightOffBefore(Mockito.any(), Mockito.any());
+		verify(lampDaoMock, times(1)).findByLightOn2IsNullOrLightOn2After(Mockito.any());
+		verify(lampDaoMock, times(1)).findByLightOffIsNullOrLightOffBefore(Mockito.any());
 		verify(decisionDaoMock, times(1)).saveAll(Mockito.any());
 		verify(lampDecisionDaoMock, times(1)).saveAll(Mockito.any());
 		assertThat(result).isEmpty();
@@ -539,9 +524,8 @@ public class DecisionServiceTest {
 
 		verify(decisionTypeDaoMock, times(1)).findByTitleContains("Allumer lampadaire");
 		verify(decisionTypeDaoMock, times(1)).findByTitleContains("Éteindre lampadaire");
-		verify(lampDaoMock, never()).count();
-		verify(lampDaoMock, never()).findByLightOn2IsNullOrLightOn2After(Mockito.any(), Mockito.any());
-		verify(lampDaoMock, never()).findByLightOffIsNullOrLightOffBefore(Mockito.any(), Mockito.any());
+		verify(lampDaoMock, never()).findByLightOn2IsNullOrLightOn2After(Mockito.any());
+		verify(lampDaoMock, never()).findByLightOffIsNullOrLightOffBefore(Mockito.any());
 		verify(decisionDaoMock, never()).saveAll(Mockito.any());
 		verify(lampDecisionDaoMock, never()).saveAll(Mockito.any());
 		assertThat(result.getMessage()).isEqualTo(DecisionException.DECISIONTYPE_LOADING);
@@ -560,9 +544,8 @@ public class DecisionServiceTest {
 
 		verify(decisionTypeDaoMock, times(1)).findByTitleContains("Allumer lampadaire");
 		verify(decisionTypeDaoMock, times(1)).findByTitleContains("Éteindre lampadaire");
-		verify(lampDaoMock, never()).count();
-		verify(lampDaoMock, never()).findByLightOn2IsNullOrLightOn2After(Mockito.any(), Mockito.any());
-		verify(lampDaoMock, never()).findByLightOffIsNullOrLightOffBefore(Mockito.any(), Mockito.any());
+		verify(lampDaoMock, never()).findByLightOn2IsNullOrLightOn2After(Mockito.any());
+		verify(lampDaoMock, never()).findByLightOffIsNullOrLightOffBefore(Mockito.any());
 		verify(decisionDaoMock, never()).saveAll(Mockito.any());
 		verify(lampDecisionDaoMock, never()).saveAll(Mockito.any());
 		assertThat(result.getMessage()).isEqualTo(DecisionException.DECISIONTYPE_LOADING);
@@ -582,8 +565,7 @@ public class DecisionServiceTest {
 		when(decisionTypeDaoMock.findByTitleContains("Allumer lampadaire")).thenReturn(Optional.of(decisionType));
 		when(weatherDaoMock.findByLatitudeAndLongitude(Mockito.anyDouble(), Mockito.anyDouble())).thenReturn(Optional.empty());
 		when(restTemplateMock.getForEntity(Mockito.anyString(), Mockito.eq(String.class))).thenReturn(new ResponseEntity<String>(response, HttpStatus.OK));
-		when(lampDaoMock.count()).thenReturn(1l);
-		when(lampDaoMock.findAll(Mockito.any(PageRequest.class))).thenReturn(new PageImpl<>(Arrays.asList(lamp)));
+		when(lampDaoMock.findAll()).thenReturn(Arrays.asList(lamp));
 		
 		List<Decision> result = testedObject.algoReductionConsoHoraireWeather();
 
@@ -592,8 +574,7 @@ public class DecisionServiceTest {
 		verify(decisionDaoMock, never()).deleteByDescriptionContaining(Mockito.anyString());
 		verify(restTemplateMock, times(1)).getForEntity(Mockito.anyString(), Mockito.eq(String.class));
 		verify(weatherDaoMock, times(1)).save(Mockito.any());
-		verify(lampDaoMock, times(1)).count();
-		verify(lampDaoMock, times(1)).findAll(Mockito.any(PageRequest.class));
+		verify(lampDaoMock, times(1)).findAll();
 		verify(decisionDaoMock, times(1)).saveAll(Mockito.any());
 		verify(lampDecisionDaoMock, times(1)).saveAll(Mockito.any());
 		assertThat(result).hasSize(1);
@@ -615,8 +596,7 @@ public class DecisionServiceTest {
 		verify(decisionDaoMock, never()).deleteByDescriptionContaining(Mockito.anyString());
 		verify(restTemplateMock, never()).getForEntity(Mockito.anyString(), Mockito.eq(String.class));
 		verify(weatherDaoMock, never()).save(Mockito.any());
-		verify(lampDaoMock, never()).count();
-		verify(lampDaoMock, never()).findAll(Mockito.any(PageRequest.class));
+		verify(lampDaoMock, never()).findAll();
 		verify(decisionDaoMock, never()).saveAll(Mockito.any());
 		verify(lampDecisionDaoMock, never()).saveAll(Mockito.any());
 		assertThat(result.getMessage()).isEqualTo(DecisionException.DECISIONTYPE_LOADING);
@@ -639,8 +619,7 @@ public class DecisionServiceTest {
 		verify(decisionDaoMock, never()).deleteByDescriptionContaining(Mockito.anyString());
 		verify(restTemplateMock, times(1)).getForEntity(Mockito.anyString(), Mockito.eq(String.class));
 		verify(weatherDaoMock, never()).save(Mockito.any());
-		verify(lampDaoMock, never()).count();
-		verify(lampDaoMock, never()).findAll(Mockito.any(PageRequest.class));
+		verify(lampDaoMock, never()).findAll();
 		verify(decisionDaoMock, never()).saveAll(Mockito.any());
 		verify(lampDecisionDaoMock, never()).saveAll(Mockito.any());
 		assertThat(result.getMessage()).isEqualTo(DecisionException.GET_WEATHER);
@@ -663,8 +642,7 @@ public class DecisionServiceTest {
 		verify(decisionDaoMock, never()).deleteByDescriptionContaining(Mockito.anyString());
 		verify(restTemplateMock, never()).getForEntity(Mockito.anyString(), Mockito.eq(String.class));
 		verify(weatherDaoMock, never()).save(Mockito.any());
-		verify(lampDaoMock, never()).count();
-		verify(lampDaoMock, never()).findAll(Mockito.any(PageRequest.class));
+		verify(lampDaoMock, never()).findAll();
 		verify(decisionDaoMock, never()).saveAll(Mockito.any());
 		verify(lampDecisionDaoMock, never()).saveAll(Mockito.any());
 		assertThat(result).hasSize(0);
@@ -686,8 +664,7 @@ public class DecisionServiceTest {
 		when(decisionTypeDaoMock.findByTitleContains("Allumer lampadaire")).thenReturn(Optional.of(decisionType));
 		when(weatherDaoMock.findByLatitudeAndLongitude(Mockito.anyDouble(), Mockito.anyDouble())).thenReturn(Optional.ofNullable(weather));
 		when(restTemplateMock.getForEntity(Mockito.anyString(), Mockito.eq(String.class))).thenReturn(new ResponseEntity<String>(response, HttpStatus.OK));
-		when(lampDaoMock.count()).thenReturn(1l);
-		when(lampDaoMock.findAll(Mockito.any(PageRequest.class))).thenReturn(new PageImpl<>(Arrays.asList(lamp)));
+		when(lampDaoMock.findAll()).thenReturn(Arrays.asList(lamp));
 		
 		List<Decision> result = testedObject.algoReductionConsoHoraireWeather();
 
@@ -696,8 +673,7 @@ public class DecisionServiceTest {
 		verify(decisionDaoMock, times(1)).deleteByDescriptionContaining(Mockito.anyString());
 		verify(restTemplateMock, times(1)).getForEntity(Mockito.anyString(), Mockito.eq(String.class));
 		verify(weatherDaoMock, times(1)).save(Mockito.any());
-		verify(lampDaoMock, times(1)).count();
-		verify(lampDaoMock, times(1)).findAll(Mockito.any(PageRequest.class));
+		verify(lampDaoMock, times(1)).findAll();
 		verify(decisionDaoMock, times(1)).saveAll(Mockito.any());
 		verify(lampDecisionDaoMock, times(1)).saveAll(Mockito.any());
 		assertThat(result).hasSize(1);
@@ -724,8 +700,7 @@ public class DecisionServiceTest {
 		when(decisionTypeDaoMock.findByTitleContains("Allumer lampadaire")).thenReturn(Optional.of(decisionType));
 		when(weatherDaoMock.findByLatitudeAndLongitude(Mockito.anyDouble(), Mockito.anyDouble())).thenReturn(Optional.ofNullable(weather));
 		when(restTemplateMock.getForEntity(Mockito.anyString(), Mockito.eq(String.class))).thenReturn(new ResponseEntity<String>(response, HttpStatus.OK));
-		when(lampDaoMock.count()).thenReturn(36l);
-		when(lampDaoMock.findAll(Mockito.any(PageRequest.class))).thenReturn(new PageImpl<>(Arrays.asList(lamp)));
+		when(lampDaoMock.findAll()).thenReturn(Arrays.asList(lamp));
 		
 		List<Decision> result = testedObject.algoReductionConsoHoraireWeather();
 
@@ -734,8 +709,7 @@ public class DecisionServiceTest {
 		verify(decisionDaoMock, times(1)).deleteByDescriptionContaining(Mockito.anyString());
 		verify(restTemplateMock, times(1)).getForEntity(Mockito.anyString(), Mockito.eq(String.class));
 		verify(weatherDaoMock, times(1)).save(Mockito.any());
-		verify(lampDaoMock, times(1)).count();
-		verify(lampDaoMock, times(1)).findAll(Mockito.any(PageRequest.class));
+		verify(lampDaoMock, times(1)).findAll();
 		verify(decisionDaoMock, times(1)).saveAll(Mockito.any());
 		verify(lampDecisionDaoMock, times(1)).saveAll(Mockito.any());
 		assertThat(result).hasSize(0);
@@ -763,15 +737,13 @@ public class DecisionServiceTest {
 				.build();
 
 		when(decisionTypeDaoMock.findByTitleContains("Retirer lampadaire")).thenReturn(Optional.of(decisionType));
-		when(lampDaoMock.count()).thenReturn(1l);
-		when(lampDaoMock.findAll(Mockito.any(PageRequest.class))).thenReturn(new PageImpl<>(Arrays.asList(lamp)));
+		when(lampDaoMock.findAll()).thenReturn(Arrays.asList(lamp));
 		when(lampDaoMock.findByLatitudeBetweenAndLongitudeBetween(Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble())).thenReturn(Arrays.asList(lamp1, lamp2));
 		
 		List<Decision> result = testedObject.algoRetirerLampadaire();
 
 		verify(decisionTypeDaoMock, times(1)).findByTitleContains("Retirer lampadaire");
-		verify(lampDaoMock, times(1)).count();
-		verify(lampDaoMock, times(1)).findAll(Mockito.any(PageRequest.class));
+		verify(lampDaoMock, times(1)).findAll();
 		verify(lampDaoMock, times(1)).findByLatitudeBetweenAndLongitudeBetween(Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble());
 		verify(decisionDaoMock, times(1)).saveAll(Mockito.any());
 		verify(lampDecisionDaoMock, times(1)).saveAll(Mockito.any());
@@ -807,15 +779,13 @@ public class DecisionServiceTest {
 				.build();
 
 		when(decisionTypeDaoMock.findByTitleContains("Retirer lampadaire")).thenReturn(Optional.of(decisionType));
-		when(lampDaoMock.count()).thenReturn(51l);
-		when(lampDaoMock.findAll(Mockito.any(PageRequest.class))).thenReturn(new PageImpl<>(Arrays.asList(lamp)));
+		when(lampDaoMock.findAll()).thenReturn(Arrays.asList(lamp));
 		when(lampDaoMock.findByLatitudeBetweenAndLongitudeBetween(Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble())).thenReturn(Arrays.asList(lamp1, lamp2));
 		
 		List<Decision> result = testedObject.algoRetirerLampadaire();
 
 		verify(decisionTypeDaoMock, times(1)).findByTitleContains("Retirer lampadaire");
-		verify(lampDaoMock, times(1)).count();
-		verify(lampDaoMock, times(1)).findAll(Mockito.any(PageRequest.class));
+		verify(lampDaoMock, times(1)).findAll();
 		verify(lampDaoMock, times(1)).findByLatitudeBetweenAndLongitudeBetween(Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble());
 		verify(decisionDaoMock, times(1)).saveAll(Mockito.any());
 		verify(lampDecisionDaoMock, times(1)).saveAll(Mockito.any());
@@ -846,15 +816,13 @@ public class DecisionServiceTest {
 				.build();
 
 		when(decisionTypeDaoMock.findByTitleContains("Retirer lampadaire")).thenReturn(Optional.of(decisionType));
-		when(lampDaoMock.count()).thenReturn(1l);
-		when(lampDaoMock.findAll(Mockito.any(PageRequest.class))).thenReturn(new PageImpl<>(Arrays.asList(lamp)));
+		when(lampDaoMock.findAll()).thenReturn(Arrays.asList(lamp));
 		when(lampDaoMock.findByLatitudeBetweenAndLongitudeBetween(Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble())).thenReturn(Arrays.asList(lamp1));
 		
 		List<Decision> result = testedObject.algoRetirerLampadaire();
 
 		verify(decisionTypeDaoMock, times(1)).findByTitleContains("Retirer lampadaire");
-		verify(lampDaoMock, times(1)).count();
-		verify(lampDaoMock, times(1)).findAll(Mockito.any(PageRequest.class));
+		verify(lampDaoMock, times(1)).findAll();
 		verify(lampDaoMock, times(1)).findByLatitudeBetweenAndLongitudeBetween(Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble());
 		verify(decisionDaoMock, times(1)).saveAll(Mockito.any());
 		verify(lampDecisionDaoMock, times(1)).saveAll(Mockito.any());
@@ -884,15 +852,13 @@ public class DecisionServiceTest {
 				.build();
 
 		when(decisionTypeDaoMock.findByTitleContains("Retirer lampadaire")).thenReturn(Optional.of(decisionType));
-		when(lampDaoMock.count()).thenReturn(1l);
-		when(lampDaoMock.findAll(Mockito.any(PageRequest.class))).thenReturn(new PageImpl<>(Arrays.asList(lamp)));
+		when(lampDaoMock.findAll()).thenReturn(Arrays.asList(lamp));
 		when(lampDaoMock.findByLatitudeBetweenAndLongitudeBetween(Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble())).thenReturn(Arrays.asList(lamp1, lamp2));
 		
 		List<Decision> result = testedObject.algoRetirerLampadaire();
 
 		verify(decisionTypeDaoMock, times(1)).findByTitleContains("Retirer lampadaire");
-		verify(lampDaoMock, times(1)).count();
-		verify(lampDaoMock, times(1)).findAll(Mockito.any(PageRequest.class));
+		verify(lampDaoMock, times(1)).findAll();
 		verify(lampDaoMock, times(1)).findByLatitudeBetweenAndLongitudeBetween(Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble());
 		verify(decisionDaoMock, times(1)).saveAll(Mockito.any());
 		verify(lampDecisionDaoMock, times(1)).saveAll(Mockito.any());
@@ -912,14 +878,12 @@ public class DecisionServiceTest {
 				.build();
 
 		when(decisionTypeDaoMock.findByTitleContains("Retirer lampadaire")).thenReturn(Optional.of(decisionType));
-		when(lampDaoMock.count()).thenReturn(1l);
-		when(lampDaoMock.findAll(Mockito.any(PageRequest.class))).thenReturn(new PageImpl<>(Arrays.asList(lamp)));
+		when(lampDaoMock.findAll()).thenReturn(Arrays.asList(lamp));
 		
 		List<Decision> result = testedObject.algoRetirerLampadaire();
 
 		verify(decisionTypeDaoMock, times(1)).findByTitleContains("Retirer lampadaire");
-		verify(lampDaoMock, times(1)).count();
-		verify(lampDaoMock, times(1)).findAll(Mockito.any(PageRequest.class));
+		verify(lampDaoMock, times(1)).findAll();
 		verify(lampDaoMock, never()).findByLatitudeBetweenAndLongitudeBetween(Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble());
 		verify(decisionDaoMock, times(1)).saveAll(Mockito.any());
 		verify(lampDecisionDaoMock, times(1)).saveAll(Mockito.any());
@@ -933,8 +897,7 @@ public class DecisionServiceTest {
 		DecisionException result = assertThrows(DecisionException.class, () -> testedObject.algoRetirerLampadaire());
 		
 		verify(decisionTypeDaoMock, times(1)).findByTitleContains("Retirer lampadaire");
-		verify(lampDaoMock, never()).count();
-		verify(lampDaoMock, never()).findAll(Mockito.any(PageRequest.class));
+		verify(lampDaoMock, never()).findAll();
 		verify(lampDaoMock, never()).findByLatitudeBetweenAndLongitudeBetween(Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble());
 		verify(decisionDaoMock, never()).saveAll(Mockito.any());
 		verify(lampDecisionDaoMock, never()).saveAll(Mockito.any());
@@ -959,15 +922,13 @@ public class DecisionServiceTest {
 				.build();
 
 		when(decisionTypeDaoMock.findByTitleContains("Ajouter lampadaire")).thenReturn(Optional.of(decisionType));
-		when(lampDaoMock.count()).thenReturn(1l);
-		when(lampDaoMock.findAll(Mockito.any(PageRequest.class))).thenReturn(new PageImpl<>(Arrays.asList(lamp)));
+		when(lampDaoMock.findAll()).thenReturn(Arrays.asList(lamp));
 		when(lampDaoMock.findByLatitudeBetweenAndLongitudeBetween(Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble())).thenReturn(Arrays.asList(lamp1));
 		
 		List<Decision> result = testedObject.algoAjouterLampadaire();
 
 		verify(decisionTypeDaoMock, times(1)).findByTitleContains("Ajouter lampadaire");
-		verify(lampDaoMock, times(1)).count();
-		verify(lampDaoMock, times(1)).findAll(Mockito.any(PageRequest.class));
+		verify(lampDaoMock, times(1)).findAll();
 		verify(lampDaoMock, times(1)).findByLatitudeBetweenAndLongitudeBetween(Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble());
 		verify(decisionDaoMock, times(1)).saveAll(Mockito.any());
 		verify(lampDecisionDaoMock, times(1)).saveAll(Mockito.any());
@@ -1000,15 +961,13 @@ public class DecisionServiceTest {
 				.build();
 
 		when(decisionTypeDaoMock.findByTitleContains("Ajouter lampadaire")).thenReturn(Optional.of(decisionType));
-		when(lampDaoMock.count()).thenReturn(51l);
-		when(lampDaoMock.findAll(Mockito.any(PageRequest.class))).thenReturn(new PageImpl<>(Arrays.asList(lamp)));
+		when(lampDaoMock.findAll()).thenReturn(Arrays.asList(lamp));
 		when(lampDaoMock.findByLatitudeBetweenAndLongitudeBetween(Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble())).thenReturn(Arrays.asList(lamp1));
 		
 		List<Decision> result = testedObject.algoAjouterLampadaire();
 
 		verify(decisionTypeDaoMock, times(1)).findByTitleContains("Ajouter lampadaire");
-		verify(lampDaoMock, times(1)).count();
-		verify(lampDaoMock, times(1)).findAll(Mockito.any(PageRequest.class));
+		verify(lampDaoMock, times(1)).findAll();
 		verify(lampDaoMock, times(1)).findByLatitudeBetweenAndLongitudeBetween(Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble());
 		verify(decisionDaoMock, times(1)).saveAll(Mockito.any());
 		verify(lampDecisionDaoMock, times(1)).saveAll(Mockito.any());
@@ -1044,15 +1003,13 @@ public class DecisionServiceTest {
 				.build();
 
 		when(decisionTypeDaoMock.findByTitleContains("Ajouter lampadaire")).thenReturn(Optional.of(decisionType));
-		when(lampDaoMock.count()).thenReturn(1l);
-		when(lampDaoMock.findAll(Mockito.any(PageRequest.class))).thenReturn(new PageImpl<>(Arrays.asList(lamp)));
+		when(lampDaoMock.findAll()).thenReturn(Arrays.asList(lamp));
 		when(lampDaoMock.findByLatitudeBetweenAndLongitudeBetween(Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble())).thenReturn(Arrays.asList(lamp1, lamp2));
 		
 		List<Decision> result = testedObject.algoAjouterLampadaire();
 
 		verify(decisionTypeDaoMock, times(1)).findByTitleContains("Ajouter lampadaire");
-		verify(lampDaoMock, times(1)).count();
-		verify(lampDaoMock, times(1)).findAll(Mockito.any(PageRequest.class));
+		verify(lampDaoMock, times(1)).findAll();
 		verify(lampDaoMock, times(1)).findByLatitudeBetweenAndLongitudeBetween(Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble());
 		verify(decisionDaoMock, times(1)).saveAll(Mockito.any());
 		verify(lampDecisionDaoMock, times(1)).saveAll(Mockito.any());
@@ -1078,15 +1035,13 @@ public class DecisionServiceTest {
 				.build();
 
 		when(decisionTypeDaoMock.findByTitleContains("Ajouter lampadaire")).thenReturn(Optional.of(decisionType));
-		when(lampDaoMock.count()).thenReturn(1l);
-		when(lampDaoMock.findAll(Mockito.any(PageRequest.class))).thenReturn(new PageImpl<>(Arrays.asList(lamp)));
+		when(lampDaoMock.findAll()).thenReturn(Arrays.asList(lamp));
 		when(lampDaoMock.findByLatitudeBetweenAndLongitudeBetween(Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble())).thenReturn(Arrays.asList(lamp1));
 		
 		List<Decision> result = testedObject.algoAjouterLampadaire();
 
 		verify(decisionTypeDaoMock, times(1)).findByTitleContains("Ajouter lampadaire");
-		verify(lampDaoMock, times(1)).count();
-		verify(lampDaoMock, times(1)).findAll(Mockito.any(PageRequest.class));
+		verify(lampDaoMock, times(1)).findAll();
 		verify(lampDaoMock, times(1)).findByLatitudeBetweenAndLongitudeBetween(Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble());
 		verify(decisionDaoMock, times(1)).saveAll(Mockito.any());
 		verify(lampDecisionDaoMock, times(1)).saveAll(Mockito.any());
@@ -1106,14 +1061,12 @@ public class DecisionServiceTest {
 				.build();
 
 		when(decisionTypeDaoMock.findByTitleContains("Ajouter lampadaire")).thenReturn(Optional.of(decisionType));
-		when(lampDaoMock.count()).thenReturn(1l);
-		when(lampDaoMock.findAll(Mockito.any(PageRequest.class))).thenReturn(new PageImpl<>(Arrays.asList(lamp)));
+		when(lampDaoMock.findAll()).thenReturn(Arrays.asList(lamp));
 		
 		List<Decision> result = testedObject.algoAjouterLampadaire();
 
 		verify(decisionTypeDaoMock, times(1)).findByTitleContains("Ajouter lampadaire");
-		verify(lampDaoMock, times(1)).count();
-		verify(lampDaoMock, times(1)).findAll(Mockito.any(PageRequest.class));
+		verify(lampDaoMock, times(1)).findAll();
 		verify(lampDaoMock, never()).findByLatitudeBetweenAndLongitudeBetween(Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble());
 		verify(decisionDaoMock, times(1)).saveAll(Mockito.any());
 		verify(lampDecisionDaoMock, times(1)).saveAll(Mockito.any());
@@ -1127,8 +1080,7 @@ public class DecisionServiceTest {
 		DecisionException result = assertThrows(DecisionException.class, () -> testedObject.algoAjouterLampadaire());
 		
 		verify(decisionTypeDaoMock, times(1)).findByTitleContains("Ajouter lampadaire");
-		verify(lampDaoMock, never()).count();
-		verify(lampDaoMock, never()).findAll(Mockito.any(PageRequest.class));
+		verify(lampDaoMock, never()).findAll();
 		verify(lampDaoMock, never()).findByLatitudeBetweenAndLongitudeBetween(Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble());
 		verify(decisionDaoMock, never()).saveAll(Mockito.any());
 		verify(lampDecisionDaoMock, never()).saveAll(Mockito.any());
@@ -1153,15 +1105,13 @@ public class DecisionServiceTest {
 				.build();
 
 		when(decisionTypeDaoMock.findByTitleContains("Réduire intensité lampadaire")).thenReturn(Optional.of(decisionType));
-		when(lampDaoMock.count()).thenReturn(1l);
-		when(lampDaoMock.findAll(Mockito.any(PageRequest.class))).thenReturn(new PageImpl<>(Arrays.asList(lamp)));
+		when(lampDaoMock.findAll()).thenReturn(Arrays.asList(lamp));
 		when(lampDaoMock.findByLatitudeBetweenAndLongitudeBetween(Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble())).thenReturn(Arrays.asList(lamp1));
 		
 		List<Decision> result = testedObject.algoReduireIntensiteLampadaire();
 
 		verify(decisionTypeDaoMock, times(1)).findByTitleContains("Réduire intensité lampadaire");
-		verify(lampDaoMock, times(1)).count();
-		verify(lampDaoMock, times(1)).findAll(Mockito.any(PageRequest.class));
+		verify(lampDaoMock, times(1)).findAll();
 		verify(lampDaoMock, times(1)).findByLatitudeBetweenAndLongitudeBetween(Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble());
 		verify(decisionDaoMock, times(1)).saveAll(Mockito.any());
 		verify(lampDecisionDaoMock, times(1)).saveAll(Mockito.any());
@@ -1208,15 +1158,13 @@ public class DecisionServiceTest {
 				.build();
 
 		when(decisionTypeDaoMock.findByTitleContains("Réduire intensité lampadaire")).thenReturn(Optional.of(decisionType));
-		when(lampDaoMock.count()).thenReturn(51l);
-		when(lampDaoMock.findAll(Mockito.any(PageRequest.class))).thenReturn(new PageImpl<>(Arrays.asList(lamp)));
+		when(lampDaoMock.findAll()).thenReturn(Arrays.asList(lamp));
 		when(lampDaoMock.findByLatitudeBetweenAndLongitudeBetween(Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble())).thenReturn(Arrays.asList(lamp1, lamp2, lamp3, lamp4, lamp5));
 		
 		List<Decision> result = testedObject.algoReduireIntensiteLampadaire();
 
 		verify(decisionTypeDaoMock, times(1)).findByTitleContains("Réduire intensité lampadaire");
-		verify(lampDaoMock, times(1)).count();
-		verify(lampDaoMock, times(1)).findAll(Mockito.any(PageRequest.class));
+		verify(lampDaoMock, times(1)).findAll();
 		verify(lampDaoMock, times(1)).findByLatitudeBetweenAndLongitudeBetween(Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble());
 		verify(decisionDaoMock, times(1)).saveAll(Mockito.any());
 		verify(lampDecisionDaoMock, times(1)).saveAll(Mockito.any());
@@ -1242,15 +1190,13 @@ public class DecisionServiceTest {
 				.build();
 
 		when(decisionTypeDaoMock.findByTitleContains("Réduire intensité lampadaire")).thenReturn(Optional.of(decisionType));
-		when(lampDaoMock.count()).thenReturn(1l);
-		when(lampDaoMock.findAll(Mockito.any(PageRequest.class))).thenReturn(new PageImpl<>(Arrays.asList(lamp)));
+		when(lampDaoMock.findAll()).thenReturn(Arrays.asList(lamp));
 		when(lampDaoMock.findByLatitudeBetweenAndLongitudeBetween(Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble())).thenReturn(new ArrayList<>());
 		
 		List<Decision> result = testedObject.algoReduireIntensiteLampadaire();
 
 		verify(decisionTypeDaoMock, times(1)).findByTitleContains("Réduire intensité lampadaire");
-		verify(lampDaoMock, times(1)).count();
-		verify(lampDaoMock, times(1)).findAll(Mockito.any(PageRequest.class));
+		verify(lampDaoMock, times(1)).findAll();
 		verify(lampDaoMock, times(1)).findByLatitudeBetweenAndLongitudeBetween(Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble());
 		verify(decisionDaoMock, times(1)).saveAll(Mockito.any());
 		verify(lampDecisionDaoMock, times(1)).saveAll(Mockito.any());
@@ -1276,15 +1222,13 @@ public class DecisionServiceTest {
 				.build();
 
 		when(decisionTypeDaoMock.findByTitleContains("Réduire intensité lampadaire")).thenReturn(Optional.of(decisionType));
-		when(lampDaoMock.count()).thenReturn(1l);
-		when(lampDaoMock.findAll(Mockito.any(PageRequest.class))).thenReturn(new PageImpl<>(Arrays.asList(lamp)));
+		when(lampDaoMock.findAll()).thenReturn(Arrays.asList(lamp));
 		when(lampDaoMock.findByLatitudeBetweenAndLongitudeBetween(Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble())).thenReturn(Arrays.asList(lamp1));
 		
 		List<Decision> result = testedObject.algoReduireIntensiteLampadaire();
 
 		verify(decisionTypeDaoMock, times(1)).findByTitleContains("Réduire intensité lampadaire");
-		verify(lampDaoMock, times(1)).count();
-		verify(lampDaoMock, times(1)).findAll(Mockito.any(PageRequest.class));
+		verify(lampDaoMock, times(1)).findAll();
 		verify(lampDaoMock, times(1)).findByLatitudeBetweenAndLongitudeBetween(Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble());
 		verify(decisionDaoMock, times(1)).saveAll(Mockito.any());
 		verify(lampDecisionDaoMock, times(1)).saveAll(Mockito.any());
@@ -1304,14 +1248,12 @@ public class DecisionServiceTest {
 				.build();
 
 		when(decisionTypeDaoMock.findByTitleContains("Réduire intensité lampadaire")).thenReturn(Optional.of(decisionType));
-		when(lampDaoMock.count()).thenReturn(1l);
-		when(lampDaoMock.findAll(Mockito.any(PageRequest.class))).thenReturn(new PageImpl<>(Arrays.asList(lamp)));
+		when(lampDaoMock.findAll()).thenReturn(Arrays.asList(lamp));
 		
 		List<Decision> result = testedObject.algoReduireIntensiteLampadaire();
 
 		verify(decisionTypeDaoMock, times(1)).findByTitleContains("Réduire intensité lampadaire");
-		verify(lampDaoMock, times(1)).count();
-		verify(lampDaoMock, times(1)).findAll(Mockito.any(PageRequest.class));
+		verify(lampDaoMock, times(1)).findAll();
 		verify(lampDaoMock, never()).findByLatitudeBetweenAndLongitudeBetween(Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble());
 		verify(decisionDaoMock, times(1)).saveAll(Mockito.any());
 		verify(lampDecisionDaoMock, times(1)).saveAll(Mockito.any());
@@ -1325,8 +1267,7 @@ public class DecisionServiceTest {
 		DecisionException result = assertThrows(DecisionException.class, () -> testedObject.algoReduireIntensiteLampadaire());
 		
 		verify(decisionTypeDaoMock, times(1)).findByTitleContains("Réduire intensité lampadaire");
-		verify(lampDaoMock, never()).count();
-		verify(lampDaoMock, never()).findAll(Mockito.any(PageRequest.class));
+		verify(lampDaoMock, never()).findAll();
 		verify(lampDaoMock, never()).findByLatitudeBetweenAndLongitudeBetween(Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble());
 		verify(decisionDaoMock, never()).saveAll(Mockito.any());
 		verify(lampDecisionDaoMock, never()).saveAll(Mockito.any());
@@ -1351,15 +1292,13 @@ public class DecisionServiceTest {
 				.build();
 
 		when(decisionTypeDaoMock.findByTitleContains("Augmenter intensité lampadaire")).thenReturn(Optional.of(decisionType));
-		when(lampDaoMock.count()).thenReturn(1l);
-		when(lampDaoMock.findAll(Mockito.any(PageRequest.class))).thenReturn(new PageImpl<>(Arrays.asList(lamp)));
+		when(lampDaoMock.findAll()).thenReturn(Arrays.asList(lamp));
 		when(lampDaoMock.findByLatitudeBetweenAndLongitudeBetween(Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble())).thenReturn(Arrays.asList(lamp1));
 		
 		List<Decision> result = testedObject.algoAugmenterIntensiteLampadaire();
 
 		verify(decisionTypeDaoMock, times(1)).findByTitleContains("Augmenter intensité lampadaire");
-		verify(lampDaoMock, times(1)).count();
-		verify(lampDaoMock, times(1)).findAll(Mockito.any(PageRequest.class));
+		verify(lampDaoMock, times(1)).findAll();
 		verify(lampDaoMock, times(1)).findByLatitudeBetweenAndLongitudeBetween(Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble());
 		verify(decisionDaoMock, times(1)).saveAll(Mockito.any());
 		verify(lampDecisionDaoMock, times(1)).saveAll(Mockito.any());
@@ -1398,15 +1337,13 @@ public class DecisionServiceTest {
 				.build();
 
 		when(decisionTypeDaoMock.findByTitleContains("Augmenter intensité lampadaire")).thenReturn(Optional.of(decisionType));
-		when(lampDaoMock.count()).thenReturn(51l);
-		when(lampDaoMock.findAll(Mockito.any(PageRequest.class))).thenReturn(new PageImpl<>(Arrays.asList(lamp)));
+		when(lampDaoMock.findAll()).thenReturn(Arrays.asList(lamp));
 		when(lampDaoMock.findByLatitudeBetweenAndLongitudeBetween(Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble())).thenReturn(Arrays.asList(lamp1, lamp2, lamp3));
 		
 		List<Decision> result = testedObject.algoAugmenterIntensiteLampadaire();
 
 		verify(decisionTypeDaoMock, times(1)).findByTitleContains("Augmenter intensité lampadaire");
-		verify(lampDaoMock, times(1)).count();
-		verify(lampDaoMock, times(1)).findAll(Mockito.any(PageRequest.class));
+		verify(lampDaoMock, times(1)).findAll();
 		verify(lampDaoMock, times(1)).findByLatitudeBetweenAndLongitudeBetween(Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble());
 		verify(decisionDaoMock, times(1)).saveAll(Mockito.any());
 		verify(lampDecisionDaoMock, times(1)).saveAll(Mockito.any());
@@ -1448,15 +1385,13 @@ public class DecisionServiceTest {
 				.build();
 
 		when(decisionTypeDaoMock.findByTitleContains("Augmenter intensité lampadaire")).thenReturn(Optional.of(decisionType));
-		when(lampDaoMock.count()).thenReturn(1l);
-		when(lampDaoMock.findAll(Mockito.any(PageRequest.class))).thenReturn(new PageImpl<>(Arrays.asList(lamp)));
+		when(lampDaoMock.findAll()).thenReturn(Arrays.asList(lamp));
 		when(lampDaoMock.findByLatitudeBetweenAndLongitudeBetween(Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble())).thenReturn(Arrays.asList(lamp1, lamp2, lamp3, lamp4));
 		
 		List<Decision> result = testedObject.algoAugmenterIntensiteLampadaire();
 
 		verify(decisionTypeDaoMock, times(1)).findByTitleContains("Augmenter intensité lampadaire");
-		verify(lampDaoMock, times(1)).count();
-		verify(lampDaoMock, times(1)).findAll(Mockito.any(PageRequest.class));
+		verify(lampDaoMock, times(1)).findAll();
 		verify(lampDaoMock, times(1)).findByLatitudeBetweenAndLongitudeBetween(Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble());
 		verify(decisionDaoMock, times(1)).saveAll(Mockito.any());
 		verify(lampDecisionDaoMock, times(1)).saveAll(Mockito.any());
@@ -1482,15 +1417,13 @@ public class DecisionServiceTest {
 				.build();
 
 		when(decisionTypeDaoMock.findByTitleContains("Augmenter intensité lampadaire")).thenReturn(Optional.of(decisionType));
-		when(lampDaoMock.count()).thenReturn(1l);
-		when(lampDaoMock.findAll(Mockito.any(PageRequest.class))).thenReturn(new PageImpl<>(Arrays.asList(lamp)));
+		when(lampDaoMock.findAll()).thenReturn(Arrays.asList(lamp));
 		when(lampDaoMock.findByLatitudeBetweenAndLongitudeBetween(Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble())).thenReturn(Arrays.asList(lamp1));
 		
 		List<Decision> result = testedObject.algoAugmenterIntensiteLampadaire();
 
 		verify(decisionTypeDaoMock, times(1)).findByTitleContains("Augmenter intensité lampadaire");
-		verify(lampDaoMock, times(1)).count();
-		verify(lampDaoMock, times(1)).findAll(Mockito.any(PageRequest.class));
+		verify(lampDaoMock, times(1)).findAll();
 		verify(lampDaoMock, times(1)).findByLatitudeBetweenAndLongitudeBetween(Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble());
 		verify(decisionDaoMock, times(1)).saveAll(Mockito.any());
 		verify(lampDecisionDaoMock, times(1)).saveAll(Mockito.any());
@@ -1510,14 +1443,12 @@ public class DecisionServiceTest {
 				.build();
 
 		when(decisionTypeDaoMock.findByTitleContains("Augmenter intensité lampadaire")).thenReturn(Optional.of(decisionType));
-		when(lampDaoMock.count()).thenReturn(1l);
-		when(lampDaoMock.findAll(Mockito.any(PageRequest.class))).thenReturn(new PageImpl<>(Arrays.asList(lamp)));
+		when(lampDaoMock.findAll()).thenReturn(Arrays.asList(lamp));
 		
 		List<Decision> result = testedObject.algoAugmenterIntensiteLampadaire();
 
 		verify(decisionTypeDaoMock, times(1)).findByTitleContains("Augmenter intensité lampadaire");
-		verify(lampDaoMock, times(1)).count();
-		verify(lampDaoMock, times(1)).findAll(Mockito.any(PageRequest.class));
+		verify(lampDaoMock, times(1)).findAll();
 		verify(lampDaoMock, never()).findByLatitudeBetweenAndLongitudeBetween(Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble());
 		verify(decisionDaoMock, times(1)).saveAll(Mockito.any());
 		verify(lampDecisionDaoMock, times(1)).saveAll(Mockito.any());
@@ -1531,8 +1462,7 @@ public class DecisionServiceTest {
 		DecisionException result = assertThrows(DecisionException.class, () -> testedObject.algoAugmenterIntensiteLampadaire());
 		
 		verify(decisionTypeDaoMock, times(1)).findByTitleContains("Augmenter intensité lampadaire");
-		verify(lampDaoMock, never()).count();
-		verify(lampDaoMock, never()).findAll(Mockito.any(PageRequest.class));
+		verify(lampDaoMock, never()).findAll();
 		verify(lampDaoMock, never()).findByLatitudeBetweenAndLongitudeBetween(Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble(), Mockito.anyDouble());
 		verify(decisionDaoMock, never()).saveAll(Mockito.any());
 		verify(lampDecisionDaoMock, never()).saveAll(Mockito.any());

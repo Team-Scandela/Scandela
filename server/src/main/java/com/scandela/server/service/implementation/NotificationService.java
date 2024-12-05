@@ -42,6 +42,10 @@ public class NotificationService extends AbstractService<Notification> implement
 		if (user.isEmpty()) {
 			return new ArrayList<>();
 		}
+		
+		if (user.get().getPrefnotifenabled() == null || user.get().getPrefnotifenabled() == false) {
+			return new ArrayList<>();
+		}
 
 		return ((NotificationDao) dao).findTop10ByUserOrderByTimeDesc(user.get());
 	}

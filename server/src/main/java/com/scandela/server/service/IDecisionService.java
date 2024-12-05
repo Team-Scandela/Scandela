@@ -15,6 +15,8 @@ public interface IDecisionService extends IService<Decision> {
 	public List<Decision> algoAjouterLampadaire() throws Exception;
 	public List<Decision> algoReduireIntensiteLampadaire() throws Exception;
 	public List<Decision> algoAugmenterIntensiteLampadaire() throws Exception;
+	public void deleteAllByDescriptionContaining(String description);
+	public void deleteAllBySolutionContaining(String solution);
 	public String getState(UUID idDecision) throws Exception;
 	public void setState(UUID idDecision, String state) throws Exception;
 }

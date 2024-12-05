@@ -113,14 +113,7 @@ public class LampController extends AbstractController<Lamp> {
 	public Lamp createLamp(@RequestBody Lamp newLamp) throws Exception {
 		Lamp lamp = super.create(newLamp);
 
-		int lampIndex = IntStream.range(0, allLamps.size())
-			.filter(i -> allLamps.get(i).getId().equals(lamp.getId()))
-			.findFirst()
-			.orElse(-1);
-
-		if (lampIndex != -1) {
-			allLamps.add(lamp);
-		}
+		allLamps.add(lamp);
 
 		return newLamp;
 	}
@@ -133,6 +126,15 @@ public class LampController extends AbstractController<Lamp> {
 	@DeleteMapping("/delete/{id}")
 	public void deleteLamp(@PathVariable UUID id) {
 		super.delete(id);
+    	
+		int lampIndex = IntStream.range(0, allLamps.size())
+			.filter(i -> allLamps.get(i).getId().equals(id))
+			.findFirst()
+			.orElse(-1);
+		
+		if (lampIndex != -1) {
+			allLamps.remove(lampIndex);
+		}
 	}
 
 	@GetMapping("/coordinates")
